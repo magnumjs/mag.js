@@ -14,6 +14,7 @@
  *
  */
  
+'use strict';
 ;(function( $, namespace, undefined ){
     // public method
     namespace.getName = function(obj){
@@ -28,7 +29,7 @@
 
 mag.options=function(options){
   var a=[],modelsArray=[];
-  for(k in options){
+  for(var k in options){
     if(typeof options[k] == 'function'){
       a[0]=options[k];
     }else{
@@ -45,10 +46,10 @@ mag.instance=function(name){
 
 }
 mag.tape=function(name,options){
-  a=mag.options(options);
+  var a=mag.options(options);
   mag.instance(name);
   var $scope = mag.getScope(name);
-  args = a[1] || [];
+  var args = a[1] || [];
   args.splice(0, 0, $scope);
  
   $(document).trigger('mag-preload',[name]);
