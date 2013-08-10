@@ -1,32 +1,42 @@
-var mag = {};
-mag.funName=function(fun){
-var ret = fun.toString();
-  ret= ret.substr('function '.length)
-  ret =ret.substr(0, ret.indexOf('('));
-  return ret;
-};
-mag.instance=function(fun){
-  name=mag.funName(fun);
-  this.controls = this.controls || {};
-    this.controls[name] = this.controls[name] || {};
-  return name;
+;(function( namespace, undefined ){
+    // public method
+    namespace.getName = function(obj){
+      for(key in this){
+      if(obj === this[key]) return key; 
+      }
+    }
+    namespace.getScope = function(name){
+      return this.controls[name]||{};
+    }
+})( window.mag = window.mag || {});
+
+mag.options=function(options){
+  var a=[],modelsArray=[];
+  for(k in options){
+    if(typeof options[k] == 'function'){
+      a[0]=options[k];
+    }else{
+      modelsArray.push(options[k]);
+    }
+  }
+  a[1]=modelsArray;
+  return a;
 }
-mag.tape=function(modelsArray,fun){
-
- name=mag.instance(fun);
-   var $scope = this.controls[name];
-   args = modelsArray || [];
-    args.splice(0, 0, $scope);
-  
-  //$(document).trigger('preLoad-');
-  fun.apply(this,args);
-console.log($scope);
-};
-
-var t=function TodosWidget($scope){
-
-  $scope.test=1;
+mag.instance=function(name){
  
-};
+  this.controls = this.controls || {};
+  this.controls[name] = this.controls[name] || {};
 
-mag.tape(['item','anothjer'],t);
+}
+mag.tape=function(name,options){
+  a=mag.options(options);
+  mag.instance(name);
+  var $scope = mag.getScope(name);
+  args = a[1] || [];
+  args.splice(0, 0, $scope);
+ 
+  $(document).trigger('mag-preload',[name]);
+  a[0].apply(this,args);
+  $(document).trigger('mag-postload',[name]);
+  return name;
+};
