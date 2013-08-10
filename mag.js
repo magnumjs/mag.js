@@ -1,4 +1,20 @@
-;(function( namespace, undefined ){
+'use strict';
+
+//////////////////////////////////
+//MagJS
+//////////////////////////////////
+
+/**
+ * @ngdoc function
+ * @name mag.glue
+ * @function
+ *
+ * @description
+ * Maintains scope values within a name callback feature with pushed array arguments
+ *
+ */
+ 
+;(function( $, namespace, undefined ){
     // public method
     namespace.getName = function(obj){
       for(key in this){
@@ -8,7 +24,7 @@
     namespace.getScope = function(name){
       return this.controls[name]||{};
     }
-})( window.mag = window.mag || {});
+})( jQuery, window.mag = window.mag || {});
 
 mag.options=function(options){
   var a=[],modelsArray=[];
