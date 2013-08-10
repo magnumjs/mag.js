@@ -2,14 +2,18 @@
 //MagJS
 //////////////////////////////////
 
-/**
- * @ngdoc function
- * @name mag.glue
- * @function
+/*!
+ * MagnumJS - Core Control Factory v0.11.1
+ * https://github.com/magnumjs
  *
- * @description
- * Maintains scope values within a name callback feature with pushed array arguments
+ * Includes Staples.js & Glue.JS
+ * https://github.com/magnumjs/mag.js
  *
+ * Copyright 2013 Michael GLazer 
+ * Released under the MIT license
+ * https://github.com/magnumjs/mag.js/blob/master/LICENSE
+ *
+ * Date: 2013-08-10T13:48Z
  */
  
 'use strict';
