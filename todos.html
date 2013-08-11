@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+ <title>MagnumJS 101 Todo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+   <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <h1>MagnumJS Todo!</h1>
+    
+    
+      <div id="todosControl">
+
+<span>[[remaining]] of [[size]] remaining</span>
+      [ <a href="" ng-click="archive()">archive</a> ]
+<ul class="unstyled">
+     <li class="todos">
+       <input type="checkbox" value=""/>
+<span class="task-[[done]]">[[text]]</span>
+</li>
+    </ul>
+    
+    <form ng-submit="addTodo()">
+        <input type="text" ng-model="todoText"  size="30"
+               placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+      </form>
+  </div>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+   
+     <!-- Latest compiled and minified JavaScript -->
+ <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+    <script src="mag.js"></script>
+    <script src="staples.js"></script>
+    <script src="glue.js"></script>
+  <script src="app.js"></script>
+  </body>
+</html>
