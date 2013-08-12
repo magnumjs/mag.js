@@ -49,17 +49,17 @@ mag.observe = function () {
         if (!this.observers[eventName]) this.observers[eventName] = [];
         this.observers[eventName].push(listener);
     };
-    this.fire = function (eventName) {
+    this.fire = function (eventName, args) {
         if (this.observers[eventName]) {
             for (var i = 0; i < this.observers[eventName].length; i++) {
-                this.observers[eventName][i](this);
+                this.observers[eventName][i].apply(this, args);
             }
         }
     };
     this.make = function (ObjectName) {
         ObjectName.prototype.fire = this.fire;
-        ObjectName.prototype.fire = this.on;
-        ObjectName.prototype.fire = this.observers = {};
+        ObjectName.prototype.on = this.on;
+        ObjectName.prototype.observers = {};
     };
     return this;
 };
@@ -81,4 +81,56 @@ mag.tape = function (name, options) {
     a[0].apply(this, args);
     $(document).trigger('mag-postload', [name]);
     return name;
+};
+
+
+//Got this great piece of code from https://gist.github.com/384583
+Object.defineProperty(Object.prototype, "__watch", {
+    enumerable: false,
+    configurable: true,
+    writable: false,
+    value: function (prop, handler) {
+        var val = this[prop],
+            getter = function () {
+                return val;
+            },
+            setter = function (newval) {
+                val = newval;
+                handler.call(this, prop, newval);
+                return newval;
+            };
+
+        if (delete this[prop]) { // can't watch constants
+            Object.defineProperty(this, prop, {
+                get: getter,
+                set: setter,
+                enumerable: true,
+                configurable: true
+            });
+        }
+    }
+});
+
+mag.watch = function () {
+    //The property is changed whenever the dom element changes value
+    //TODO add a callback ?
+    this._bind = function (DOMelement, propertyName) {
+        //The next line is commented because priority is given to the model
+        //this[propertyName] = $(DOMelement).val();
+        var _ctrl = this;
+        $(DOMelement).on("change input click propertyChange", function (e) {
+            // e.preventDefault();
+            _ctrl[propertyName] = DOMelement.val();
+            return true;
+        });
+
+    }
+
+    //The dom element changes values when the propertyName is setted
+    this._watch = function (DOMelement, propertyName) {
+        //__watch triggers when the property changes
+        this.__watch(propertyName, function (property, value) {
+            $(DOMelement).text(value);
+        });
+    };
 };
