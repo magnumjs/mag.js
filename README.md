@@ -2,6 +2,10 @@ mag.js
 ======
 
 MagnumJS - core code library
+MAG = ModularApplicationGlue-> requires jQuery
+
+
+Simple two way binding for jQuery
 
 <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
 
