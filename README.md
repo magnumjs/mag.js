@@ -5,7 +5,7 @@ MagnumJS - core code library
 MAG = ModularApplicationGlue-> requires jQuery
 
 
-Simple two way binding for jQuery
+Simple stateful two way binding service factory
 
 <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
 
