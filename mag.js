@@ -15,8 +15,9 @@
  *
  * Date: 2013-08-10T13:48Z
  */
- 'use strict';
-;(function ($, namespace, undefined) {
+ 
+ 'use strict';;
+(function ($, namespace, undefined) {
     // public method
     namespace.getName = function (obj) {
         for (key in this) {
@@ -64,7 +65,10 @@ mag.observe = function () {
         ObjectName.prototype.observers = {};
     };
     return {
-      on:this.on,fire:this.fire,make:this.make,observers:this.observers
+        on: this.on,
+        fire: this.fire,
+        make: this.make,
+        observers: this.observers
     };
 };
 // factory cache of named instances
@@ -74,27 +78,27 @@ mag.instance = function (name) {
     this.controls[name] = this.controls[name] || {};
 
 }
-mag.services=function(names){
+mag.services = function (names) {
     this.services = this.services || {};
-    var servicesArray=[];
-    for(var i=0;i<names.length;i++){
-      this.services[names[i]] = this.services[name[i]] || {};
-      servicesArray.push(this.services[names[i]]);
+    var servicesArray = [];
+    for (var i = 0; i < names.length; i++) {
+        this.services[names[i]] = this.services[name[i]] || {};
+        servicesArray.push(this.services[names[i]]);
     }
     return servicesArray;
 }
 // tape together controller of arguments, scope and instances
 mag.tape = function (name, options) {
-  // insert options, besides callback function into it
+    // insert options, besides callback function into it
     var a = mag.options(options);
-    var fun=a[0];
+    var fun = a[0];
     a.splice(0, 1);
     mag.instance(name);
     var $scope = mag.getScope(name);
     var args = a[0] || [];
-    
+
     // check if any are services existing
-    var sargs=mag.services(args);
+    var sargs = mag.services(args);
     sargs.splice(0, 0, $scope);
 
     this.fire('mag-preload', [name]);
@@ -150,7 +154,7 @@ mag.watch = function () {
     this._watch = function (DOMelement, propertyName) {
         //__watch triggers when the property changes
         this.__watch(propertyName, function (property, value) {
-          mag.observe().fire('propertyChanged',[property,value]);
+            mag.observe().fire('propertyChanged', [property, value]);
             $(DOMelement).text(value);
         });
     };
