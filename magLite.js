@@ -2,7 +2,7 @@
 * @name magLite.js
 * @description lite refactor of MagnumJS core code library
 * @author Michael Glazer 
-* @link https://github.com/magnumjs
+* @link https://github.com/magnumjs - http://jsbin.com/EsuYEYe/10/edit
 */
 
 mag={};
