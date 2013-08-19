@@ -1,14 +1,17 @@
 /**
-* @name magLite.js
+* @name magLite.js - Copyright (c) 2013 Michael Glazer
 * @description lite refactor of MagnumJS core code library
+* @requires - jQuery http://www.jquery.com
 * @author Michael Glazer 
+* @date August 18, 2013
+* @version 0.1 - Alpha
+* @license MIT GPL
 * @link https://github.com/magnumjs - http://jsbin.com/EsuYEYe/10/edit
 */
 
 ;'use strict';
 (function ($, namespace, undefined) {
-    // public method
-    
+
   
 })(jQuery, window.mag = window.mag || {});
 
