@@ -5,7 +5,14 @@
 * @link https://github.com/magnumjs - http://jsbin.com/EsuYEYe/10/edit
 */
 
-mag={};
+;'use strict';
+(function ($, namespace, undefined) {
+    // public method
+    
+  
+})(jQuery, window.mag = window.mag || {});
+
+
 
 mag.aspect={
   injectors:[],
