@@ -13,133 +13,140 @@
 * @link https://github.com/magnumjs
 */
 
-;'use strict';
+;
+'use strict';
 (function ($, namespace, undefined) {
 
-  
+
 })(jQuery, window.mag = window.mag || {});
 
 
 
-mag.aspect={
-  injectors:[],
-  namespace:null,
-  add: function(type,name,fun){
-    mag.aspect.injectors.push({type:type,name:name,fun:fun});
-  },
-  attach:function(){
-    for(var i in mag.aspect.injectors){
-      var inject=mag.aspect.injectors[i];
-      if( mag.aspect[inject.type]){
-        mag.aspect[inject.type](inject.name,inject.fun); 
-      }
-    }
-  },
-  around: function(pointcut, advice) {
-
- var ns = mag.aspect.namespace;    
-    for(var member in mag.aspect.namespace) {
-
-        if(typeof ns[member] == 'function' && member.match(pointcut)) {
-         
-          (function(fn, fnName, ns) {
-  
-             ns[fnName] = function() {
-               return advice.call(ns, { fn: fn,
-                                          fnName: fnName,
-                                          arguments: arguments });
-             };
-           })(ns[member], member, ns);
-        }
-      }
-    
-  },
-  before : function(pointcut, advice) {
-  mag.aspect.around(pointcut,
-             function(f) {
-               advice.apply(this.namespace, f.arguments);
-               return mag.aspect.next(f)
-             });
-},
-  after:function(pointcut,advice) {
-  mag.aspect.around(pointcut,
-             function(f) {
-               var ret = mag.aspect.next(f);
-               advice.apply(this.namespace, f.arguments);
-               return ret;
-             });
-},
-  next: function(f) {
-    return f.fn.apply(this.namespace, f.arguments);
-  }
-};
-
-mag.inject=function(ns){
-  mag.aspect.namespace=ns;
-  mag.aspect.attach();
-}
-mag.module=function(name){  
- var Injector = {
-    
-    dependencies: {},
-    
-    process: function(target) {
-        var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
-        var FN_ARG_SPLIT = /,/;
-        var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
-        var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-        var text = target.toString();
-        var args = text.match(FN_ARGS)[1].split(',');
-        
-        target.apply(target, this.getDependencies(args));
+mag.aspect = {
+    injectors: [],
+    namespace: null,
+    add: function (type, name, fun) {
+        mag.aspect.injectors.push({
+            type: type,
+            name: name,
+            fun: fun
+        });
     },
-    
-    getDependencies: function(arr) {
-        var self = this;
-        return arr.map(function(value) {
-            
-            return self.dependencies[value];
-        });            
-    },
-    
-    register: function(name, dependency) {
-        this.dependencies[name] = dependency;
-    }
-
-};
-  return new function(){
- 
-  this.name=name;
-  this.service=function(name,fun){
-    this.services=this.services||{};
-    this.services[name]=new fun();
-     Injector.register(name,this.services[name]);
-  }
-  this.control=function(name,fun){
-    this.controls=this.controls||{};
-    Injector.register('Scope',this.getScope());
-    this.fire('mag-preload', [name]);
-    Injector.process(fun);
-    this.fire('mag-postload', [name]);
-  }
-  this.getScope=function(name){
-    return    this.controls[name] = this.controls[name] || {};
-  }
-  this.observers={};
-  this.on = function (eventName, listener) {
-    if (!this.observers[eventName]) this.observers[eventName] = [];
-    this.observers[eventName].push(listener);
-  }
-  this.fire = function (eventName, args) {
-     if (this.observers[eventName]) {
-            for (var i = 0; i < this.observers[eventName].length; i++) {
-                this.observers[eventName][i].apply(this, args);
+    attach: function () {
+        for (var i in mag.aspect.injectors) {
+            var inject = mag.aspect.injectors[i];
+            if (mag.aspect[inject.type]) {
+                mag.aspect[inject.type](inject.name, inject.fun);
             }
         }
+    },
+    around: function (pointcut, advice) {
+
+        var ns = mag.aspect.namespace;
+        for (var member in mag.aspect.namespace) {
+
+            if (typeof ns[member] == 'function' && member.match(pointcut)) {
+
+                (function (fn, fnName, ns) {
+
+                    ns[fnName] = function () {
+                        return advice.call(ns, {
+                            fn: fn,
+                            fnName: fnName,
+                            arguments: arguments
+                        });
+                    };
+                })(ns[member], member, ns);
+            }
+        }
+
+    },
+    before: function (pointcut, advice) {
+        mag.aspect.around(pointcut,
+            function (f) {
+                advice.apply(this.namespace, f.arguments);
+                return mag.aspect.next(f)
+            });
+    },
+    after: function (pointcut, advice) {
+        mag.aspect.around(pointcut,
+            function (f) {
+                var ret = mag.aspect.next(f);
+                advice.apply(this.namespace, f.arguments);
+                return ret;
+            });
+    },
+    next: function (f) {
+        return f.fn.apply(this.namespace, f.arguments);
     }
-     mag.inject(this);
-  }
-  
+};
+
+mag.inject = function (ns) {
+    mag.aspect.namespace = ns;
+    mag.aspect.attach();
+}
+mag.module = function (name) {
+    var Injector = {
+
+        dependencies: {},
+
+        process: function (target) {
+            var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
+            var FN_ARG_SPLIT = /,/;
+            var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
+            var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+            var text = target.toString();
+            var args = text.match(FN_ARGS)[1].split(',');
+
+            target.apply(target, this.getDependencies(args));
+        },
+
+        getDependencies: function (arr) {
+            var self = this;
+            return arr.map(function (value) {
+
+                return self.dependencies[value];
+            });
+        },
+
+        register: function (name, dependency) {
+            this.dependencies[name] = dependency;
+        }
+
+    };
+    return new function () {
+
+        this.name = name;
+        this.service = function (name, fun) {
+            this.services = this.services || {};
+            this.services[name] = new fun();
+            Injector.register(name, this.services[name]);
+        }
+        this.control = function (name, fun) {
+            this.controls = this.controls || {};
+            Injector.register('Scope', this.getScope());
+            this.fire('mag-preload', [name]);
+            Injector.process(fun);
+            this.fire('mag-postload', [name]);
+        }
+        this.getScope = function (name) {
+            return this.controls[name] = this.controls[name] || {};
+        }
+        this.observers = {};
+        this.on = function (eventName, listener) {
+            if (!this.observers[eventName]) this.observers[eventName] = [];
+            this.observers[eventName].push(listener);
+        }
+        this.fire = function (eventName, args) {
+            if (this.observers[eventName]) {
+                for (var i = 0; i < this.observers[eventName].length; i++) {
+                    this.observers[eventName][i].apply(this, args);
+                }
+            }
+        }
+        mag.inject(this);
+    }
+
 }
 
 /*
