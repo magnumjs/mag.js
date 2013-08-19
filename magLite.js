@@ -1,12 +1,16 @@
-/**
-* @name magLite.js - Copyright (c) 2013 Michael Glazer
-* @description lite refactor of MagnumJS core code library
+//////////////////////////////////
+//MagJS
+//////////////////////////////////
+
+/**!
+* @name mag.js - Copyright (c) 2013 Michael Glazer
+* @description MagnumJS core code library
 * @requires - jQuery http://www.jquery.com
 * @author Michael Glazer 
 * @date August 18, 2013
 * @version 0.1 - Alpha
-* @license MIT GPL
-* @link https://github.com/magnumjs - http://jsbin.com/EsuYEYe/10/edit
+* @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
+* @link https://github.com/magnumjs
 */
 
 ;'use strict';
