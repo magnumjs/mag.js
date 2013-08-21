@@ -64,7 +64,7 @@ mag.aspect = {
     before: function (pointcut, advice) {
         mag.aspect.around(pointcut,
             function (f) {
-                advice.apply(this.namespace, f.arguments);
+                advice.apply(mag.aspect.namespace, f.arguments);
                 return mag.aspect.next(f)
             });
     },
@@ -72,12 +72,12 @@ mag.aspect = {
         mag.aspect.around(pointcut,
             function (f) {
                 var ret = mag.aspect.next(f);
-                advice.apply(this.namespace, f.arguments);
+                advice.apply(mag.aspect.namespace, f.arguments);
                 return ret;
             });
     },
     next: function (f) {
-        return f.fn.apply(this.namespace, f.arguments);
+        return f.fn.apply(mag.aspect.namespace, f.arguments);
     }
 };
 
