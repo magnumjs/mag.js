@@ -124,7 +124,7 @@ mag.module = function (name) {
         }
         this.control = function (name, fun) {
             this.controls = this.controls || {};
-            Injector.register('Scope', this.getScope());
+            Injector.register('Scope', this.getScope(name));
             this.fire('mag-preload', [name]);
             Injector.process(fun);
             this.fire('mag-postload', [name]);
