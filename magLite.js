@@ -124,7 +124,7 @@ mag.module = function (name) {
         }
         this.factory = function (name, fun) {
             this.factories = this.factories || {};
-            this.factories[name] =this.factories[name]|| new fun();
+            this.factories[name] =this.factories[name]|| fun();
             Injector.register(name, this.factories[name]);
         }
         this.control = function (name, fun) {
