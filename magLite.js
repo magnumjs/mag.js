@@ -111,6 +111,9 @@ mag.module = function (name) {
 
         register: function (name, dependency) {
             this.dependencies[name] = dependency;
+        },
+        unregister: function (name) {
+            delete this.dependencies[name];
         }
 
     };
@@ -121,6 +124,9 @@ mag.module = function (name) {
             this.services = this.services || {};
             this.services[name] = new fun();
             Injector.register(name, this.services[name]);
+            this.on('mag-postload',function(name){
+                Injector.unregister(name);
+            });
         }
         this.factory = function (name, fun) {
             this.factories = this.factories || {};
