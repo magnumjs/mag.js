@@ -88,7 +88,7 @@ mag.module = function (name) {
 
         dependencies: {},
 
-        process: function (target) {
+        process: function (target, sargs) {
             var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
             var FN_ARG_SPLIT = /,/;
             var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
@@ -96,42 +96,53 @@ mag.module = function (name) {
             var text = target.toString();
             var args = text.match(FN_ARGS)[1].split(',');
 
-            target.apply(target, this.getDependencies(args));
+            target.apply(target, this.getDependencies(sargs || args));
         },
 
         getDependencies: function (arr) {
             var self = this;
             return arr.map(function (value) {
-                if (self.dependencies[value]['instance']) {
-                    return new self.dependencies[value];
-                }
+
                 return self.dependencies[value];
             });
         },
 
-        register: function (name, dependency, instance) {
+        register: function (name, dependency) {
             this.dependencies[name] = dependency;
-            this.dependencies[name]['instance'] = instance;
+        },
+        unregister: function (name) {
+            delete this.dependencies[name];
         }
+
     };
     return new function () {
 
         this.name = name;
         this.service = function (name, fun) {
             this.services = this.services || {};
-            this.services[name] = this.services[name] || fun;
-            Injector.register(name, fun, 1);
+            this.services[name] = new fun();
+            Injector.register(name, this.services[name]);
+
         }
         this.factory = function (name, fun) {
             this.factories = this.factories || {};
-            this.factories[name] = this.factories[name] || fun;
-            Injector.register(name, this.factories[name]());
+            this.factories[name] = this.factories[name] || {};
+            Injector.register(name, fun.call(this.factories[name]));
         }
         this.control = function (name, fun) {
             this.controls = this.controls || {};
             Injector.register('Scope', this.getScope(name));
+            var args = null;
+            if (typeof fun != 'function') {
+                args = fun;
+                mfun = args.pop();
+                var fs = mfun.toString();
+                var nf = fs.substring(fs.indexOf("{") + 1, fs.lastIndexOf("}"));
+
+                fun = new Function(args, nf);
+            }
             this.fire('mag-preload', [name]);
-            Injector.process(fun);
+            Injector.process(fun, args);
             this.fire('mag-postload', [name]);
         }
         this.getScope = function (name) {
@@ -155,10 +166,11 @@ mag.module = function (name) {
 }
 
 /*
+  
 
 var app = mag.module('myApp');
 
-// unique object instance "new"
+// singleton object instance "new"
 app.service('Api',function(){
   this.getProjects = function(){  
     return new Object({first:'Mike',last:'Glazer'});
