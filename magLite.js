@@ -98,36 +98,33 @@ mag.module = function (name) {
 
             target.apply(target, this.getDependencies(sargs || args));
         },
-
         getDependencies: function (arr) {
             var self = this;
             return arr.map(function (value) {
-
+                if (self.dependencies[value]['instance']) {
+                    return new self.dependencies[value];
+                }
                 return self.dependencies[value];
             });
         },
 
-        register: function (name, dependency) {
+        register: function (name, dependency, instance) {
             this.dependencies[name] = dependency;
-        },
-        unregister: function (name) {
-            delete this.dependencies[name];
+            this.dependencies[name]['instance'] = instance;
         }
-
     };
     return new function () {
 
         this.name = name;
         this.service = function (name, fun) {
             this.services = this.services || {};
-            this.services[name] = new fun();
-            Injector.register(name, this.services[name]);
-
+            this.services[name] = this.services[name] || fun;
+            Injector.register(name, fun, 1);
         }
         this.factory = function (name, fun) {
             this.factories = this.factories || {};
-            this.factories[name] = this.factories[name] || {};
-            Injector.register(name, fun.call(this.factories[name]));
+            this.factories[name] = this.factories[name] || fun;
+            Injector.register(name, this.factories[name]());
         }
         this.control = function (name, fun) {
             this.controls = this.controls || {};
@@ -139,7 +136,7 @@ mag.module = function (name) {
                 var fs = mfun.toString();
                 var nf = fs.substring(fs.indexOf("{") + 1, fs.lastIndexOf("}"));
 
-                fun = new Function(args, nf);
+                fun = new Function(args.join(), nf);
             }
             this.fire('mag-preload', [name]);
             Injector.process(fun, args);
@@ -167,7 +164,6 @@ mag.module = function (name) {
 
 /*
   
-
 var app = mag.module('myApp');
 
 // singleton object instance "new"
