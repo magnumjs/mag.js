@@ -1,18 +1,16 @@
 //////////////////////////////////
 //MagJS
 //////////////////////////////////
-
 /**!
-* @name mag.js - Copyright (c) 2013 Michael Glazer
-* @description MagnumJS core code library
-* @requires - jQuery http://www.jquery.com
-* @author Michael Glazer 
-* @date August 18, 2013
-* @version 0.1 - Alpha
-* @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
-* @link https://github.com/magnumjs
-*/
-
+ * @name mag.js - Copyright (c) 2013 Michael Glazer
+ * @description MagnumJS core code library
+ * @requires - jQuery http://www.jquery.com
+ * @author Michael Glazer
+ * @date August 18, 2013
+ * @version 0.1 - Alpha
+ * @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
+ * @link https://github.com/magnumjs
+ */
 ;
 'use strict';
 (function ($, namespace, undefined) {
@@ -104,34 +102,30 @@ mag.module = function (name) {
         getDependencies: function (arr) {
             var self = this;
             return arr.map(function (value) {
-
+                if (self.dependencies[value]['instance']) {
+                    return new self.dependencies[value];
+                }
                 return self.dependencies[value];
             });
         },
 
-        register: function (name, dependency) {
+        register: function (name, dependency, instance) {
             this.dependencies[name] = dependency;
-        },
-        unregister: function (name) {
-            delete this.dependencies[name];
+            this.dependencies[name]['instance'] = instance;
         }
-
     };
     return new function () {
 
         this.name = name;
         this.service = function (name, fun) {
             this.services = this.services || {};
-            this.services[name] = new fun();
-            Injector.register(name, this.services[name]);
-            this.on('mag-postload',function(name){
-                Injector.unregister(name);
-            });
+            this.services[name] = this.services[name] || fun;
+            Injector.register(name, fun, 1);
         }
         this.factory = function (name, fun) {
             this.factories = this.factories || {};
-            this.factories[name] =this.factories[name]|| {};
-            Injector.register(name, fun.call(this.factories[name]));
+            this.factories[name] = this.factories[name] || fun;
+            Injector.register(name, this.factories[name]());
         }
         this.control = function (name, fun) {
             this.controls = this.controls || {};
@@ -161,19 +155,10 @@ mag.module = function (name) {
 }
 
 /*
-  
-mag.template=function(f) {
- console.log('[before ' + f.fnName + ']');
- mag.aspect.next(f);
- console.log('[after ' + f.fnName + ']');
- }; 
-
-
-mag.aspect.add('around','control',mag.template);
 
 var app = mag.module('myApp');
 
-// singleton object instance "new"
+// unique object instance "new"
 app.service('Api',function(){
   this.getProjects = function(){  
     return new Object({first:'Mike',last:'Glazer'});
