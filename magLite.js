@@ -146,9 +146,12 @@ mag.module = function (name) {
             return this.controls[name] = this.controls[name] || {};
         }
         this.observers = {};
-        this.on = function (eventName, listener) {
-            if (!this.observers[eventName]) this.observers[eventName] = [];
-            this.observers[eventName].push(listener);
+        this.on = function (eventNames, listener) {
+            eventNames = eventNames.split(/\s+/);
+            while (eventName = eventNames.shift()) {
+                if (!this.observers[eventName]) this.observers[eventName] = [];
+                this.observers[eventName].push(listener);
+            }
         }
         this.fire = function (eventName, args) {
             if (this.observers[eventName]) {
