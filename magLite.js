@@ -85,18 +85,43 @@ mag.inject = function (ns) {
 }
 mag.module = function (name) {
     var Injector = {
-
         dependencies: {},
-
+        waiting: [],
         process: function (target, sargs) {
+
             var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
             var FN_ARG_SPLIT = /,/;
             var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
             var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-            var text = target.toString();
-            var args = text.match(FN_ARGS)[1].split(',');
+            var text = target.toString().replace(STRIP_COMMENTS, '');
+            var argDecl = text.match(FN_ARGS);
+            var args = argDecl[1].split(FN_ARG_SPLIT).map(
+                function (arg) {
+                    return arg.trim()
+                });
 
-            target.apply(target, this.getDependencies(sargs || args));
+            var these = sargs || args;
+            if (this.isRegistered(these)) {
+                target.apply(target, this.getDependencies(these));
+            } else {
+                //wait for notice
+                var waiter = {
+                    target: target,
+                    args: these
+                };
+                this.waiting.push(waiter);
+            }
+        },
+        isRegistered: function (args) {
+            var registered = true;
+            for (var i in args) {
+                var name = args[i];
+                if (!this.dependencies[name]) {
+                    registered = false;
+                    break;
+                }
+            }
+            return registered;
         },
         getDependencies: function (arr) {
             var self = this;
@@ -107,10 +132,19 @@ mag.module = function (name) {
                 return self.dependencies[value];
             });
         },
-
         register: function (name, dependency, instance) {
             this.dependencies[name] = dependency;
             this.dependencies[name]['instance'] = instance;
+            this.service();
+        },
+        service: function () {
+            for (var i in this.waiting) {
+                var waiter = this.waiting[i];
+                if (this.isRegistered(waiter.args)) {
+                    waiter.target.apply(waiter.target, this.getDependencies(waiter.args));
+                    delete this.waiting[i];
+                }
+            }
         }
     };
     return new function () {
