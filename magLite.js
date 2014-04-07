@@ -134,7 +134,7 @@ mag.module = function (name) {
         },
         register: function (name, dependency, instance) {
             this.dependencies[name] = dependency;
-            this.dependencies[name]['__instance'] = instance;
+           if(instance) this.dependencies[name]['__instance'] = instance;
             this.service();
         },
         service: function () {
