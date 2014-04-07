@@ -178,7 +178,7 @@ mag.module = function (name) {
         }
         this.getScope = function (name) {
             delete this.controls[name]['__instance'];
-            return this.controls[name] = this.controls[name]. || {};
+            return this.controls[name] = this.controls[name] || {};
         }
         this.observers = {};
         this.on = function (eventNames, listener) {
