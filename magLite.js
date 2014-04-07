@@ -126,7 +126,7 @@ mag.module = function (name) {
         getDependencies: function (arr) {
             var self = this;
             return arr.map(function (value) {
-                if (self.dependencies[value]['instance']) {
+                if (self.dependencies[value]['__instance']) {
                     return new self.dependencies[value];
                 }
                 return self.dependencies[value];
@@ -134,7 +134,7 @@ mag.module = function (name) {
         },
         register: function (name, dependency, instance) {
             this.dependencies[name] = dependency;
-            this.dependencies[name]['instance'] = instance;
+            this.dependencies[name]['__instance'] = instance;
             this.service();
         },
         service: function () {
