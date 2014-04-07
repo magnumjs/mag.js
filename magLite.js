@@ -177,7 +177,7 @@ mag.module = function (name) {
             this.fire('mag-postload', [name]);
         }
         this.getScope = function (name) {
-            delete this.controls[name]['__instance'];
+            if(this.controls[name]['__instance']) delete this.controls[name]['__instance'];
             return this.controls[name] = this.controls[name] || {};
         }
         this.observers = {};
