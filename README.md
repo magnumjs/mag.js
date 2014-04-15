@@ -10,7 +10,7 @@ MagJS
 Include the script into your page:
 #### HTML Script TAG
 ```html
-<script type="text/javascript" src="//rawgithub.com/magnumjs/mag.js/master/dist/mag.full-0.2.min.js"></script>
+<script type="text/javascript" src="//rawgit.com/magnumjs/mag.js/master/dist/mag.full-0.2.min.js"></script>
 ```
 
 # Examples
@@ -64,7 +64,7 @@ They relay data to the view via the 'Scope' first argument
         });
       });
 ```
-[Try it out] (http://jsbin.com/hopokibi/1/edit)
+[Try it out] (http://jsbin.com/hopokibi/edit)
 
 <!-- <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
 -->
