@@ -36,6 +36,29 @@ describe("MagJS Template", function() {
       var app = mag.module('app');
       app.control('test', function(Scope) {});
     });
+    it("overwrites children a factory", function() {
+      $html = affix('#ctrl .id button[data-event="add"]');
+
+      var event = mag.module('click1');
+      event.control('ctrl', function(Scope) {
+        Scope.id = 'test';
+      });
+
+      expect($html.html()).toEqual('<div class="id">test</div>');
+    });
+    it("uiEvents module", function() {
+      $html = affix('#ctrl .id button[data-event="add"]+.test');
+      $html.find('.test').text('[[other]]');
+      var event = mag.module('click');
+      event.control('ctrl', function(Scope) {
+        Scope.other = 'test';
+        Scope.add = function() {
+          Scope.other = this.other;
+        };
+      });
+      $('button').click();
+      expect($html.find('.test')).toHaveText('test');
+    });
     it("fires on control", function() {
       var app = mag.module('myTApp');
       expect(app).toBeDefined();
@@ -74,8 +97,10 @@ describe("MagJS Template", function() {
       expect($html).toContainText('YoYo!');
       expect($html.find('.message')).toHaveLength(3);
       expect($html.find('.message').eq(0)).toHaveClass('completed-true');
+      expect($html.find('.message').eq(1)).toHaveClass('completed-false');
       expect($html.find('.todos')).toHaveLength(3);
       expect($html).toContainHtml('<div id="todosControl"');
     });
   });
+});;
 });
