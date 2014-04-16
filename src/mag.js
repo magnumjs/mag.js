@@ -6,8 +6,8 @@
  * @description MagnumJS core code library
  * @requires - jQuery http://www.jquery.com
  * @author Michael Glazer
- * @date 8/18/13, 4/9/14
- * @version 0.1 - Alpha - 0.2
+ * @date 4/16/2014
+ * @version Alpha - 0.2.15
  * @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
  * @link https://github.com/magnumjs
  */
@@ -111,8 +111,8 @@
           return this.instances[this.namespace][instance];
         }
       },
-      setInstance:function(instance, object){
-          this.instances[this.namespace][instance] = object;
+      setInstance: function(instance, object) {
+        this.instances[this.namespace][instance] = object;
       },
       process: function(target, sargs, instance) {
         var args = this.findArgs(target);
@@ -150,7 +150,7 @@
         for (var i in args) {
           var name = args[i];
           if (!this.getDependencies()[name]) {
-            log('warn', 'Dependency not registered when called:', name);
+            log('info', 'Dependency not registered when called:', name);
             registered = false;
             break;
           }
