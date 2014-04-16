@@ -1,20 +1,33 @@
-;
+/**
+ * @name mag-template.js two way ui binding for mag.js
+ * @link https://github.com/magnumjs/mag.js
+ * @license MIT
+ * @owner copyright (c) 2013, 2014 Michael Glazer
+ */
 'use strict';
 (function(magnum, undefined) {
   var _toString = Object.prototype.toString;
 
   mag.template.serve = function(f) {
-    mag.aspect.next(f);
+    // pre parse it
+    // get Controller's scopeContextContainer 'name'
+    // get it's element, nested controller? parent context?
     var name = f.arguments[0];
+
+    mag.template.preParser(this, name);
+
+    mag.aspect.next(f);
     var scope = this.getScope(name);
     var that = this;
+
     this.on('propertyChanged', function() {
       mag.template.parse(that, name, scope);
     });
+
     mag.template.parse(that, name, scope);
   };
 
-  mag.template.parse = function(that, name, $scope) {
+  mag.template.preParser = function(that, name) {
     log('info', 'template parse start' + name);
 
     var docFragRoot = document.getElementById(name);
@@ -25,10 +38,26 @@
     this.template = this.templates[name];
     var docFragRoot = this.template;
 
-    if (!docFragRoot || this.template == '') return;
+    if (!docFragRoot || this.template == '') return false;
 
     var parent = docFragRoot.parentNode;
     docFragRoot.parentNode.removeChild(docFragRoot);
+
+    this.node = docFragRoot;
+    this.parent = parent;
+
+    return {
+      node: docFragRoot,
+      parent: parent
+    };
+  };
+
+  mag.template.parse = function(that, name, $scope) {
+    if (!this.node) return;
+
+    var docFragRoot = this.node;
+    var parent = this.parent;
+
     var ignoreMap = mag.reserved;
     this.applyVar = function(frag, key, vars) {
       if (!frag.nodeType) return;
@@ -42,18 +71,23 @@
       }
     };
     this.setVar = function(frag, key, vars, items, i) {
-      var val = (typeof vars[key] == 'function') ? vars[key].call(this) : vars[key];
+      //don't call function unless match found
+      //function context?
+      function getVal(vars, key, context) {
+        var val = (typeof vars[key] == 'function') ? vars[key].call(context || this) : vars[key];
+        return val;
+      }
       this.pattern = this.pattern || new RegExp('\\[\\[(.*?)\\]\\]', 'g');
       frag.innerHTML = frag.innerHTML.replace(this.pattern, function(out, inn, pos) {
-        if (val && key == inn && ignoreMap.indexOf(key) === -1) {
-          return val;
+        if (key == inn && ignoreMap.indexOf(key) === -1) {
+          return getVal(vars, key);
         } else {
           return out;
         }
       });
       //USE CASE?
-      if (val && items && ignoreMap.indexOf(key) === -1 && items[i].innerText == '') {
-        items[i].innerText = val;
+      if (items && ignoreMap.indexOf(key) === -1 && items[i].innerText == '') {
+        items[i].innerText = getVal(vars, key, this);
       }
     };
     this.applyVars = function(frag, vars) {
@@ -84,6 +118,7 @@
     };
     this.parser(docFragRoot, $scope);
     that.fire('mag.template.end', [name]);
+
     parent.appendChild(docFragRoot);
   };
   mag.aspect.add('around', 'control', mag.template.serve);
