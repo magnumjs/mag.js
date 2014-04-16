@@ -1,5 +1,7 @@
 /**
- * @name watch.js two way ui binding for mag.js
+ * @name mag-watch.js two way ui binding for mag.js
+ * @link https://github.com/magnumjs/mag.js
+ * @license MIT
  * @owner copyright (c) 2013, 2014 Michael Glazer
  */
 
