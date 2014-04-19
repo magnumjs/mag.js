@@ -1,5 +1,5 @@
 /**
- * @name mag-template.js two way ui binding for mag.js
+ * @name mag-render.js two way ui binding for mag.js
  * @link https://github.com/magnumjs/mag.js
  * @license MIT
  * @owner copyright (c) 2013, 2014 Michael Glazer
@@ -8,30 +8,52 @@
 (function(magnum, undefined) {
   var _toString = Object.prototype.toString;
 
-  mag.template.serve = function(f) {
+  mag.render.serve = function(f) {
     // pre parse it
     // get Controller's scopeContextContainer 'name'
     // get it's element, nested controller? parent context?
     var name = f.arguments[0];
 
-    mag.template.preParser(this, name);
+    var found = mag.render.preParser(this, name);
+
+    // don't go to next 'controller' if the container doesn't exist
+    // put back into loop for rechecking ?
+    if (!found) return;
 
     mag.aspect.next(f);
     var scope = this.getScope(name);
     var that = this;
 
-    this.on('propertyChanged', function() {
-      mag.template.parse(that, name, scope);
-    });
+    this.on('propertyChanged',
+      mag.watch.throttle(
+        function() {
+          this.count = this.count + 1 || 0;
+          //   console.log('parser'+this.count);
+          mag.render.parse(that, name, scope);
+          // mag.watch.throttle( mag.render.parse(that, name, scope));
+        }
+      )
+    );
 
-    mag.template.parse(that, name, scope);
+    this.on('propertyAccessed',
+      mag.watch.throttle(
+        function() {
+          this.count = this.count + 1 || 0;
+          //console.log('rendere'+this.count);
+          mag.render.parse(that, name, scope);
+          //mag.watch.throttle( mag.render.parse(that, name, scope));
+        }
+      )
+    );
+
+    mag.render.parse(that, name, scope);
   };
 
-  mag.template.preParser = function(that, name) {
+  mag.render.preParser = function(that, name) {
     log('info', 'template parse start' + name);
 
     var docFragRoot = document.getElementById(name);
-    that.fire('mag.template.begin', [name]);
+    that.fire('mag.render.begin', [name]);
 
     this.templates = this.templates || {};
     this.templates[name] = this.templates[name] || docFragRoot ? docFragRoot : 0;
@@ -52,7 +74,7 @@
     };
   };
 
-  mag.template.parse = function(that, name, $scope) {
+  mag.render.parse = function(that, name, $scope) {
     if (!this.node) return;
 
     var docFragRoot = this.node;
@@ -117,9 +139,9 @@
       }
     };
     this.parser(docFragRoot, $scope);
-    that.fire('mag.template.end', [name]);
+    that.fire('mag.render.end', [name]);
 
     parent.appendChild(docFragRoot);
   };
-  mag.aspect.add('around', 'control', mag.template.serve);
-})(window.mag = window.mag || {}, mag.template = {});
+  mag.aspect.add('around', 'control', mag.render.serve);
+})(window.mag = window.mag || {}, mag.render = {});
