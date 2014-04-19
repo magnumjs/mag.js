@@ -11,19 +11,16 @@ if (!Object.prototype.watch) {
     enumerable: false,
     configurable: true,
     writable: false,
-    value: function(prop, handler) {
+    value: function(prop, sethandler, gethandler) {
       var
       oldval = this[prop],
         newval = oldval,
         getter = function() {
-          var that = this;
-          //   handler.call(that, prop, oldval);
+          newval = gethandler.call(this, prop, newval);
           return newval;
         }, setter = function(val) {
-          oldval = newval;
-          var that = this;
-          handler.call(that, prop, oldval, val);
-          return newval;
+          sethandler.call(this, prop, oldval, val);
+          return val;
         };
 
       if (delete this[prop]) { // can't watch constants
@@ -39,10 +36,10 @@ if (!Object.prototype.watch) {
       }
     }
   });
-};
+}
 
 'use strict';
-(function(magnum, undefined) {
+(function(mag, watch, undefined) {
 
   mag.watch.throttle = function(fn, threshhold, scope) {
     threshhold || (threshhold = 250);
@@ -71,15 +68,74 @@ if (!Object.prototype.watch) {
     var rootScope = this;
     this.getScope(name);
     var ignoreKey = '__requires'; //defined in mag.reserved
-    this.controls.__watch(name, mag.watch.throttle(function(property, oldValue, newValue) {
+
+    function isIgnored(oldValue, newValue, ignoreKey) {
+      if (newValue === {} ||
+        (JSON.stringify(oldValue) === JSON.stringify({})) || (JSON.stringify(oldValue) === JSON.stringify({
+          ignoreKey: undefined
+        }))) return true;
+      return false;
+    }
+
+    var sethandler =
+    //mag.watch.throttle(
+    function(property, oldValue, newValue) {
+      log('info', 'set' + property, oldValue, newValue);
       // if empty or only ignoreKey present
       //TODO: don't check for value of keys, might be populated or diff.
-      if ((JSON.stringify(oldValue) === JSON.stringify({})) || (JSON.stringify(oldValue) === JSON.stringify({
-        ignoreKey: undefined
-      }))) return;
+      if (isIgnored(oldValue, newValue, ignoreKey)) return;
+      //console.log(oldValue);
+
+      log('info', property, oldValue, newValue);
 
       rootScope.fire('propertyChanged', [property, oldValue, newValue]);
-    }, 250, rootScope));
+      return;
+    }
+    //);
+
+    var gethandler =
+    //mag.watch.throttle(
+    function(prop, newval) {
+      //console.log(prop, newval);
+      log('info', 'get' + prop, newval);
+      rootScope.fire('propertyAccessed', arguments);
+
+      // check if newValue is a promise
+      // if (typeof newValue.done === 'function') {
+      // convert to wrapper
+      // newValue.then(function(data) {
+      //       Scope[property]  = data;
+      // }
+
+      // function isPromise(value) {
+      //   if (typeof value.then !== "function") {
+      //     return false;
+      //   }
+      //   var promiseThenSrc = String($.Deferred().then);
+      //   var valueThenSrc = String(value.then);
+      //   return promiseThenSrc === valueThenSrc;
+      // }  
+      return newval;
+    }
+    //);
+
+    this.controls.__watch(name, sethandler, gethandler);
+    // watch dom changes
+    // look in scope container
+    // user input changes
+
+    // this.controls[name]._bind($('#' + k), k);
+    // this.controls[name]._watch($('.' + k), k);
+
+    this._bind = function(DOMelement, propertyName) {
+      //The next line is commented because priority is given to the model
+      //this[propertyName] = $(DOMelement).val();
+      var _ctrl = this;
+      $(DOMelement).on("change input click propertyChange", function(e) {
+        _ctrl[propertyName] = DOMelement.val();
+        return true;
+      });
+    }
   };
 
   mag.aspect.add('before', 'control', mag.watch.serve);
