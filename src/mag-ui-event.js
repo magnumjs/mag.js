@@ -7,11 +7,13 @@
 'use strict';
 (function(mag, uiEvent, undefined) {
 
-  uiEvent.server = function(scope) {
+  uiEvent.server = function(scope, name) {
 
     // check for data events to add via scope keys
     var ele = mag.domElement(mag.render.template);
     ele.getSelectorDataKey('event');
+
+    var that = this;
 
     for (var key in scope) {
 
@@ -21,11 +23,26 @@
         var elements = ele.findElementsByKey(key);
         // loop through elements
         if (elements[0]) {
+
           var eventType = elements[0].getAttribute('mag-event');
           if (eventType) {
             // don't add exact one twice
             if (elements[0]['on' + eventType] != val) {
-              elements[0].addEventListener(eventType, val.bind(scope), false);
+
+              var call = function() {
+                if (typeof val == 'function') {
+
+                  // what if theres a delayed response - async??
+                  var promise = val.bind(scope).call(this);
+                  // if async this will fire prematurely
+                  // allow for a promise return 
+                  // promise.resolve(function(){});
+                  (that.controls[name]);
+                }
+              }.bind(this);
+
+              elements[0].addEventListener(eventType,
+                call, false);
             }
           }
         }
@@ -36,11 +53,12 @@
   uiEvent.serve = function(name) {
     var rootScope = this;
     var scope = this.getScope(name);
+    var that = this;
     this.on('mag.render.end', function() {
-      mag.uiEvent.server(scope);
+      mag.uiEvent.server.call(this, scope, name);
     });
   };
 
-  mag.aspect.add('before', 'control', uiEvent.serve);
+  mag.aspect.add('after', 'control', uiEvent.serve);
 
 })(window.mag = window.mag || {}, mag.uiEvent = {});
