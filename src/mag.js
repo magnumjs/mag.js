@@ -6,12 +6,11 @@
  * @description MagnumJS core code library
  * @requires - jQuery http://www.jquery.com
  * @author Michael Glazer
- * @date 4/16/2014
- * @version Alpha - 0.2.15
+ * @date 4/19/2014
+ * @version Alpha - 0.2.25
  * @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
  * @link https://github.com/magnumjs
  */
-;
 'use strict';
 (function(mag, undefined) {
   var LOG_LEVEL = 'warn'; //info|warn|error|debug|log
@@ -223,7 +222,7 @@
       var args;
       if (typeof fun != 'function') {
         args = fun;
-        mfun = args.pop();
+        var mfun = args.pop();
         var fs = mfun.toString();
         var nf = fs.substring(fs.indexOf("{") + 1, fs.lastIndexOf("}"));
         fun = new Function(args.join(), nf);
@@ -260,6 +259,7 @@
       this.observers = {};
       this.on = function(eventNames, listener) {
         eventNames = eventNames.split(/\s+/);
+        var eventName;
         while (eventName = eventNames.shift()) {
           if (!this.observers[eventName]) this.observers[eventName] = [];
           this.observers[eventName].push(listener);
