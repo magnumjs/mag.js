@@ -15,8 +15,13 @@
 
     var that = this;
 
+    this.done = this.done || {};
+    this.done[name] = this.done[name] || {};
+
     for (var key in scope) {
 
+      if (this.done[name][key]) continue;
+      this.done[name][key] = 1;
       var val = scope[key];
       if (typeof val == 'function') {
 
@@ -28,7 +33,6 @@
           if (eventType) {
             // don't add exact one twice
             if (elements[0]['on' + eventType] != val) {
-
               var call = function() {
                 if (typeof val == 'function') {
 
