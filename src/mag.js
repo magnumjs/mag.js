@@ -4,12 +4,11 @@
 /**!
  * @name mag.js - Copyright (c) 2013, 2014 Michael Glazer
  * @description MagnumJS core code library
- * @requires - jQuery http://www.jquery.com
  * @author Michael Glazer
- * @date 4/19/2014
- * @version Alpha - 0.2.25
+ * @date 4/20/2014
+ * @version Alpha - 0.2.29
  * @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
- * @link https://github.com/magnumjs
+ * @link https://github.com/magnumjs/mag.js
  */
 'use strict';
 (function(mag, undefined) {
@@ -82,7 +81,8 @@
     this.modules = this.modules || {};
     var instance = this.modules[name];
     //TODO: create new instance if second parameter is empty array
-    if (instance && (!dependentModules || (dependentModules && dependentModules.length == 0))) {
+    // USE CASES; 1. module exists && no dependencies
+    if (instance && ((!dependentModules) || (dependentModules && dependentModules.length != 0))) {
       return instance;
     }
     var Injector = {
@@ -113,7 +113,7 @@
       setInstance: function(instance, object) {
         this.instances[this.namespace][instance] = object;
       },
-      process: function(target, sargs, instance) {
+      process: function(target, sargs, instance, context, name) {
         var args = this.findArgs(target);
         var these = sargs || args;
 
@@ -133,7 +133,14 @@
           return object;
         }
         if (this.isRegistered(these)) {
-          target.apply(target, this.getArrayDependencies(these));
+          var promise = target.apply(context, this.getArrayDependencies(these));
+
+          if (promise && promise.done) {
+            promise.done(function() {
+              (context.controls[name]);
+            })
+          };
+
         } else {
           //wait for notice
           var waiter = {
@@ -249,7 +256,7 @@
         Injector.register('Scope', this.getScope(name));
         var ret = processArgs(fun);
         this.fire('mag.control.process.begin', [name]);
-        Injector.process(ret[0], ret[1]);
+        Injector.process(ret[0], ret[1], 0, this, name);
         this.fire('mag.control.process.end', [name]);
       }
       this.getScope = function(name) {
