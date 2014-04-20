@@ -80,7 +80,7 @@ if (!Object.prototype.watch) {
     var sethandler =
     //mag.watch.throttle(
     function(property, oldValue, newValue) {
-      log('info', 'set' + property, oldValue, newValue);
+      log('info', 'set-' + property, oldValue, newValue);
       // if empty or only ignoreKey present
       //TODO: don't check for value of keys, might be populated or diff.
       if (isIgnored(oldValue, newValue, ignoreKey)) return;
