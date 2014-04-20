@@ -42,7 +42,7 @@ if (!Object.prototype.watch) {
 (function(mag, watch, undefined) {
 
   mag.watch.throttle = function(fn, threshhold, scope) {
-    threshhold || (threshhold = 250);
+    threshhold || (threshhold = 50);
     var last,
       deferTimer;
     return function() {
