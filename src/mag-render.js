@@ -89,6 +89,7 @@
         this.setVar(frag, key, vars);
       }
       while (i--) {
+
         this.setVar(frag, key, vars, items, i);
       }
     };
@@ -119,6 +120,7 @@
     };
     this.parser = function(docFragRoot, vars) {
       for (var key in vars) {
+
         if (_toString.call(vars[key]) === '[object Array]') {
           var sdocFragRoot = docFragRoot.getElementsByClassName(key);
           if (!sdocFragRoot[0]) return;
@@ -144,4 +146,5 @@
     parent.appendChild(docFragRoot);
   };
   mag.aspect.add('around', 'control', mag.render.serve);
+  
 })(window.mag = window.mag || {}, mag.render = {});
