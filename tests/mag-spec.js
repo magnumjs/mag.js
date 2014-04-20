@@ -3,6 +3,20 @@ describe("MagJS", function() {
   it("is defined", function() {
     expect(mag).toBeDefined();
   });
+  describe("control", function() {
+    var app, $html;
+    beforeEach(function() {
+      app = mag.module('app');
+      $html = affix('#test span');
+      $html.find('span').text('[[hello]]');
+    });
+    it("alters html", function() {
+      app.control('test', function(Scope) {
+        Scope.hello = 'Hi!';
+      });
+      expect($html.find('span')).toHaveText('Hi!');
+    });
+  });
   describe("factory and service", function() {
     it("has dependencies with dependecies", function() {
       var app = mag.module('app8');
@@ -68,15 +82,15 @@ describe("MagJS", function() {
         };
       });
       githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
-        GithubUserService.getById('magnumjs').done(function(data) {
+        return GithubUserService.getById('magnumjs').done(function(data) {
           Scope.id = data.id;
-          setTimeout(function() {
-            console.log($html.html());
-            expect($html.find('.id')).toHaveText('5196767 things5196767');
-            done();
-          }, 250);
         });
       });
+      setTimeout(function() {
+        //console.log($('.id').html());
+        expect($html.find('.id').text()).toEqual('5196767 things5196767');
+        done();
+      }, 250);
     });
   });
   describe("create a module", function() {
@@ -107,34 +121,78 @@ describe("MagJS", function() {
         expect(test.sayHello()).toEqual('Hello, Mike!');
       });
     });
-    it("uiEvents module click", function() {
-      $html = affix('#ctrl .id button[data-event="add"]+.test');
-      $html.find('.test').text('[[other]]');
+    it("uiEvents module click1", function() {
+      //$html = affix('#myCtrl .id button[data-event-click="add"]+.test');
+
+      $html = $('body').append(' <div id="myCtrl">[[greet]] [[first]]  [[last]]!    <button data-event-click="add">Click</button>  </div>');
+
+      $html.find('.test').text('[[othery]]');
+      var app = mag.module('myApp');
+
+
+      app.control('myCtrl', function(Scope, Api) {
+        Scope.first = Api.getProjects().first;
+        Scope.last = Api.getProjects().last;
+      });
+      app.service('Api', function() {
+        this.getProjects = function() {
+          return new Object({
+            first: 'Mike',
+            last: 'Glazer'
+          });
+        };
+      });
+      app.control('myCtrl', function(Scope) {
+        Scope.greet = 'Hello';
+        Scope.add = function() {
+          this.clicks = this.clicks + 1 || 1;
+          console.log('click' + this.clicks);
+        };
+      });
+      //console.log(1);
+      //$('button').click();
+      expect($html.find('#myCtrl').text()).toEqual('Hello Mike  Glazer!    Click  ');
+      //done();
+      //console.log(2);
+
+      // $('button').click();
+      // $('button').click();
+
+      $('body').find('#myCtrl').remove();
+    });
+    it("uiEvents module click", function(done) {
+      $html = affix('#ctrl .id button[data-event-click="add"]+.test');
+      $html.find('.test').text('[[othery]]');
       var event = mag.module('click');
+      event.control('ctrl', function(Scope) {
+        Scope.dude = 'test';
+
+      });
       event.control('ctrl', function(Scope) {
         Scope.other = 'test';
         Scope.add = function() {
-          Scope.other = this.other;
+          Scope.othery = this.other;
+          //alert('t');
+          //console.log('inside', Scope);
+          Scope.id = 'erer';
         };
       });
       $('button').click();
-      expect($html.find('.test')).toHaveText('test');
+      expect($html.find('.test').text()).toEqual('test');
+      done();
+
     });
     it("uiEvents module", function() {
       $html = affix('#ctrl .id button[data-event="add2"]');
 
       //$('body').append('<div id="ctrl"><button data-event="add2"/></div>');
-      var event = mag.module('click', ['magUiEvent']);
+      var event = mag.module('click');
       event.control('ctrl', function(Scope, Event) {
         Scope.add2 = function() {
           alert('t');
         };
-        Event.add(Scope);
-        $('button').trigger('click');
-
       });
       $('button').trigger('click');
-
     });
     it("inject module in another module", function() {
       var app1 = mag.module('app3');
@@ -165,7 +223,7 @@ describe("MagJS", function() {
     });
     it("with no arguments", function() {
       var $html = affix('#myCtrl .test');
-      var app = mag.module('myApp');
+      var app = mag.module('myApp', []);
       expect(app).toBeDefined();
       app.service('Api', function() {
         this.getProjects = function() {
@@ -183,7 +241,7 @@ describe("MagJS", function() {
           expect(Scope.test).toEqual('Yo');
         }
       ]);
-      expect($html.find('.test')).toHaveText('Yo');
+      expect($html.find('.test').text()).toEqual('Yo');
     });
   });
 });
