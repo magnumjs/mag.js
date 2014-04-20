@@ -1,7 +1,7 @@
 /**
  * @name dom-element.js selector finder for mag.js
  * @owner copyright (c) 2014 Michael Glazer
- * @link https://github.com/magnumjs
+ * @link https://github.com/magnumjs/mag.js
  */
 ;
 'use strict';
@@ -96,7 +96,7 @@
           var custom = element.attributes[i].nodeName.indexOf(attrKey);
           var partial = attributes[i].nodeName.substr(attrKey.length + 1);
           // should be returned or added to memory not added to dom
-          element.setAttribute('mag-event', partial);
+          element.setAttribute('mg-event', partial);
           return true;
         }
       };
