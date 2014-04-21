@@ -30,6 +30,9 @@
             var call = function(e) {
               if (typeof val == 'function') {
 
+                if (e.stopPropagation) e.stopPropagation();
+                if (e.cancelBubble!=null) e.cancelBubble = true;
+
                 // what if theres a delayed response - async??
                 var promise = val.bind(scope).call(this, e);
                 // if async this will fire prematurely
