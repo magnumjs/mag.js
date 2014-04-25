@@ -1,5 +1,5 @@
 /**
- * @name dom-element.js selector finder for mag.js
+ * @name mag-dom-element.js selector finder for mag.js
  * @license MIT
  * @owner copyright (c) 2013, 2014 Michael Glazer
  * @link https://github.com/magnumjs/mag.js
