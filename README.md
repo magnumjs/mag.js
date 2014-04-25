@@ -17,31 +17,63 @@ Include the script into your page:
 
 # Examples
 
-## Create a Module:
+## Create Event Control
+
+```javascript
+var app = mag.module('myApp');
+
+app.control('myCtrl', function(Scope, Api) {
+  Scope.first = Api.getProjects().first;
+  Scope.last = Api.getProjects().last;
+});
+
+app.service('Api', function() {
+  this.getProjects = function() {
+    return new Object({
+      first: 'Michael',
+      last: 'Glazer'
+    });
+  };
+});
+
+app.control('myCtrl', function(Scope) {
+  Scope.greet = 'Hello';
+  
+  Scope.add = function(Event) {
+    this.clicks = this.clicks + 1 || 1;
+    alert(Event.type + this.clicks  + this.greet);
+  };
+});
+```
+
+[Try it out] (http://jsbin.com/hopokibi/edit)
+
+
+## Create a JSON Module:
 
 Factory, Service, Control
 #### Define a Module
 they are inheritable and reusable
 ```javascript
-     var githubUser = mag.module('githubUserApp');
+var githubUser = mag.module('githubUserApp');
 ```
 #### Define a factory
 They do maintain state, they are instantiated with a 'new'
 ```javascript
-      githubUser.factory('GithubUser', function() {
-        var GithubUser = function(data) {
-          $.extend(this, {
-            id: null,
-            collection: [],
-            status: 'NEW',
-            isNew: function() {
-              return (this.status == 'NEW' || this.id == null);
-            }
-          });
-          $.extend(this, data);
-        };
-        return GithubUser;
-      });
+githubUser.factory('GithubUser', function() {
+  var GithubUser = function(data) {
+    $.extend(this, {
+      id: null,
+      collection: [],
+      status: 'NEW',
+      isNew: function() {
+        return (this.status == 'NEW' || this.id == null);
+      }
+    });
+    $.extend(this, data);
+  };
+  return GithubUser;
+});
 ```
 
 #### Define a service
@@ -60,14 +92,13 @@ They can be injected with factories. Use the [] style arguments when minifying
 They can be injected with services or factories.
 They relay data to the view via the 'Scope' first argument
 ```javascript
-      githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
-        GithubUserService.getById('magnumjs').done(function(data) {
-          Scope.id = data.id;
-        });
-      });
+githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
+  GithubUserService.getById('magnumjs').done(function(data) {
+    Scope.id = data.id;
+  });
+});
 ```
-[Try it out] (http://jsbin.com/hopokibi/edit)
-
+[Try it out] (http://jsbin.com/kubilate/edit)
 
 ## State persistence
 ```javascript
