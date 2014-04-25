@@ -79,7 +79,7 @@ describe("MagJS", function() {
       });
       githubUser.service('GithubUserService', function(GithubUser) {
         this.getById = function(userId) {
-          return $.get('github.json?id=' + userId).then(
+          return $.get('specs/github.json?id=' + userId).then(
             function(response) {
               return new GithubUser(response);
             });
