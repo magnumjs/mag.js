@@ -7,12 +7,16 @@ describe("MagJS", function() {
     var app, $html;
     beforeEach(function() {
       app = mag.module('app');
-      $html = affix('#test span');
+      $html = affix('#test div ul span');
       $html.find('span').text('[[hello]]');
     });
     it("alters html", function() {
       app.control('test', function(Scope) {
         Scope.hello = 'Hi!';
+        Scope.todo = [];
+        Scope.add = function() {
+
+        };
       });
       expect($html.find('span')).toHaveText('Hi!');
     });
@@ -55,8 +59,8 @@ describe("MagJS", function() {
       });
     });
     it("inherits", function(done) {
-      $html = affix('#gitUserInfo .id');
-      $html.find('.id').text('[[id]] things[[id]]');
+      $html = affix('#gitUserInfo .ided');
+      $html.find('.ided').text('[[id]] things[[id]]');
       var githubUser = mag.module('githubUserApp');
       githubUser.factory('GithubUser', function() {
         var GithubUser = function(data) {
@@ -87,8 +91,7 @@ describe("MagJS", function() {
         });
       });
       setTimeout(function() {
-        //console.log($('.id').html());
-        expect($html.find('.id').text()).toEqual('5196767 things5196767');
+        expect($html.find('.ided').text()).toEqual('5196767 things5196767');
         done();
       }, 250);
     });
@@ -124,11 +127,10 @@ describe("MagJS", function() {
     it("uiEvents module click1", function() {
       //$html = affix('#myCtrl .id button[data-event-click="add"]+.test');
 
-      $html = $('body').append(' <div id="myCtrl">[[greet]] [[first]]  [[last]]!    <button data-event-click="add">Click</button>  </div>');
+      $html = $('body').append('<div id="myCtrl"><span>[[greet]] [[first]]  [[last]]!</span>    <button data-event-click="add">Click</button>  </div>');
 
       $html.find('.test').text('[[othery]]');
       var app = mag.module('myApp');
-
 
       app.control('myCtrl', function(Scope, Api) {
         Scope.first = Api.getProjects().first;
@@ -149,9 +151,10 @@ describe("MagJS", function() {
           console.log('click' + this.clicks);
         };
       });
+
       //console.log(1);
       //$('button').click();
-      expect($html.find('#myCtrl').text()).toEqual('Hello Mike  Glazer!    Click  ');
+      expect($html.find('#myCtrl span').text()).toEqual('Hello Mike  Glazer!');
       //done();
       //console.log(2);
 
@@ -166,7 +169,6 @@ describe("MagJS", function() {
       var event = mag.module('click');
       event.control('ctrl', function(Scope) {
         Scope.dude = 'test';
-
       });
       event.control('ctrl', function(Scope) {
         Scope.other = 'test';
@@ -174,13 +176,12 @@ describe("MagJS", function() {
           Scope.othery = this.other;
           //alert('t');
           //console.log('inside', Scope);
-          Scope.id = 'erer';
+          //Scope.id = 'erer';
         };
       });
       $('button').click();
       expect($html.find('.test').text()).toEqual('test');
       done();
-
     });
     it("uiEvents module", function() {
       $html = affix('#ctrl .id button[data-event="add2"]');
