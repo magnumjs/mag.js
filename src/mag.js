@@ -5,8 +5,8 @@
  * @name mag.js - Copyright (c) 2013, 2014 Michael Glazer
  * @description MagnumJS core code library
  * @author Michael Glazer
- * @date 4/20/2014
- * @version Alpha - 0.2.29
+ * @date 4/25/2014
+ * @version Alpha - 0.2.32
  * @license MIT https://github.com/magnumjs/mag.js/blob/master/LICENSE
  * @link https://github.com/magnumjs/mag.js
  */
@@ -19,63 +19,7 @@
     if (level == LOG_LEVEL && console) console[LOG_LEVEL](args.join(','));
   };
   mag.reserved = ['__requires', '__instance'];
-  mag.aspect = {
-    injectors: [],
-    namespace: null,
-    add: function(type, name, fun) {
-      mag.aspect.injectors.push({
-        type: type,
-        name: name,
-        fun: fun
-      });
-    },
-    attach: function() {
-      for (var i in mag.aspect.injectors) {
-        var inject = mag.aspect.injectors[i];
-        if (mag.aspect[inject.type]) {
-          mag.aspect[inject.type](inject.name, inject.fun);
-        }
-      }
-    },
-    around: function(pointcut, advice) {
-      var ns = mag.aspect.namespace;
-      for (var member in mag.aspect.namespace) {
-        if (typeof ns[member] == 'function' && member.match(pointcut)) {
-          (function(fn, fnName, ns) {
-            ns[fnName] = function() {
-              return advice.call(ns, {
-                fn: fn,
-                fnName: fnName,
-                arguments: arguments
-              });
-            };
-          })(ns[member], member, ns);
-        }
-      }
-    },
-    before: function(pointcut, advice) {
-      mag.aspect.around(pointcut,
-        function(f) {
-          advice.apply(mag.aspect.namespace, f.arguments);
-          return mag.aspect.next(f)
-        });
-    },
-    after: function(pointcut, advice) {
-      mag.aspect.around(pointcut,
-        function(f) {
-          var ret = mag.aspect.next(f);
-          advice.apply(mag.aspect.namespace, f.arguments);
-          return ret;
-        });
-    },
-    next: function(f) {
-      return f.fn.apply(mag.aspect.namespace, f.arguments);
-    }
-  };
-  mag.inject = function(ns) {
-    mag.aspect.namespace = ns;
-    mag.aspect.attach();
-  };
+
   mag.module = function(name, /* [] = create new override existing 'name' */ dependentModules) {
     log('info', 'module name:' + name);
     this.modules = this.modules || {};
@@ -85,124 +29,8 @@
     if (instance && ((!dependentModules) || (dependentModules && dependentModules.length != 0))) {
       return instance;
     }
-    var Injector = {
-      namespace: undefined,
-      dependencies: {},
-      waiting: [],
-      findArgs: function(target) {
-        if (typeof target !== 'function') return;
-        var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
-        var FN_ARG_SPLIT = /,/;
-        var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
-        var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-        var text = target.toString().replace(STRIP_COMMENTS, '');
-        var argDecl = text.match(FN_ARGS);
-        var args = argDecl[1].split(FN_ARG_SPLIT).map(
-          function(arg) {
-            return arg.trim()
-          });
-        return args;
-      },
-      getInstance: function(instance) {
-        this.instances = this.instances || {};
-        this.instances[this.namespace] = this.instances[this.namespace] || {};
-        if (this.instances[this.namespace][instance]) {
-          return this.instances[this.namespace][instance];
-        }
-      },
-      setInstance: function(instance, object) {
-        this.instances[this.namespace][instance] = object;
-      },
-      process: function(target, sargs, instance, context, name) {
-        var args = this.findArgs(target);
-        var these = sargs || args;
-
-        function construct(constructor, args, context) {
-          function F() {
-            return constructor.apply(context || this, args);
-          }
-          F.prototype = constructor.prototype;
-          return new F();
-        }
-        if (instance) {
-          //TODO: cache to maintain state for services, good idea?
-          var object = this.getInstance(instance);
-          if (object) return object;
-          object = construct(target, this.getArrayDependencies(these));
-          this.setInstance(instance, object);
-          return object;
-        }
-        if (this.isRegistered(these)) {
-          var promise = target.apply(context, this.getArrayDependencies(these));
-
-          if (promise && promise.done) {
-            promise.done(function() {
-              (context.controls[name]);
-            })
-          };
-
-        } else {
-          //wait for notice
-          var waiter = {
-            target: target,
-            args: these
-          };
-          this.waiting.push(waiter);
-        }
-      },
-      isRegistered: function(args) {
-        var registered = true;
-        log('info', 'isRegistered args:', args);
-        for (var i in args) {
-          var name = args[i];
-          if (!this.getDependencies()[name]) {
-            log('info', 'Dependency not registered when called:', name);
-            registered = false;
-            break;
-          }
-        }
-        return registered;
-      },
-      getArrayDependencies: function(arr) {
-        var depends = this.getDependencies();
-        // make sure dependencies requires are loaded
-        var that = this;
-        return arr.map(function(value) {
-          // need to return promise/deferred objects
-          if (depends[value] && depends[value]['__requires']) {
-            log('info', 'this dependency has dependencies: ' + value);
-            log('info', 'requires: ' + depends[value]['__requires']);
-          }
-          if (depends[value] && depends[value]['__instance']) {
-            return that.process(depends[value], null, value);
-            //return new depends[value];
-          }
-          return depends[value];
-        });
-      },
-      getDependencies: function(namespace) {
-        return this.dependencies[namespace || this.namespace] || {};
-      },
-      register: function(name, dependency, instance) {
-        var depends = this.findArgs(dependency);
-        log('info', name + ' requires ' + depends);
-        this.getDependencies()[name] = dependency;
-        if (instance) this.getDependencies()[name]['__instance'] = instance;
-        this.getDependencies()[name]['__requires'] = depends;
-        this.service();
-      },
-      service: function() {
-        for (var i in this.waiting) {
-          var waiter = this.waiting[i];
-          if (this.isRegistered(waiter.args)) {
-            waiter.target.apply(waiter.target, this.getArrayDependencies(waiter.args));
-            delete this.waiting[i];
-          }
-        }
-      }
-    };
-    Injector.namespace = name;
-    Injector.dependencies[name] = {};
+    mag.inject.namespace = name;
+    mag.inject.dependencies[name] = {};
     // load dependency modules first
     if (dependentModules) {
       var loadDependencies = function(dependentModules) {
@@ -214,10 +42,10 @@
             depends.push(depend);
             //if dependency not yet defined give it to the waiter
             for (var skey in depend.services) {
-              Injector.register(skey, depend.services[skey], 1);
+              mag.inject.register(skey, depend.services[skey], 1);
             }
             for (var fkey in depend.factories) {
-              Injector.register(fkey, depend.factories[fkey]());
+              mag.inject.register(fkey, depend.factories[fkey]());
             }
           }
         }
@@ -238,25 +66,34 @@
     }
     return this.modules[name] = new function() {
       this.name = name;
+      this.directive = function(name, fun) {
+        // https://docs.angularjs.org/guide/directive
+        // register to the renderer?
+        //       .directive('myCustomer', function() {
+        //   return {
+        //     template: 'Name: {{customer.name}} Address: {{customer.address}}'
+        //   };
+        // });
+      };
       this.config = function(fun) {
-        Injector.process(fun);
+        mag.inject.process(fun);
       };
       this.service = function(name, fun) {
         this.services = this.services || {};
         this.services[name] = this.services[name] || fun;
-        Injector.register(name, fun, 1);
+        mag.inject.register(name, fun, 1);
       };
       this.factory = function(name, fun) {
         this.factories = this.factories || {};
         this.factories[name] = this.factories[name] || fun;
-        Injector.register(name, this.factories[name]());
+        mag.inject.register(name, this.factories[name]());
       }
       this.control = function(name, fun) {
         this.controls = this.controls || {};
-        Injector.register('Scope', this.getScope(name));
+        mag.inject.register('Scope', this.getScope(name));
         var ret = processArgs(fun);
         this.fire('mag.control.process.begin', [name]);
-        Injector.process(ret[0], ret[1], 0, this, name);
+        mag.inject.process(ret[0], ret[1], 0, this, name);
         this.fire('mag.control.process.end', [name]);
       }
       this.getScope = function(name) {
@@ -279,7 +116,7 @@
           }
         }
       }
-      mag.inject(this);
+      mag.injection(this);
     }
   }
 })(window.mag = {});
