@@ -92,9 +92,5 @@ myApp.control('myCtrl',function(Scope,ListService){
 ```
 
 [Try it out] (http://jsbin.com/uGugOKo/edit)
-
-<!-- <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
--->
-<!--
-<a class="jsbin-embed" href="http://jsbin.com/esovum/1/embed?live">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
--->
+## Todo Application
+[Todos Example] (http://jsbin.com/temid/edit)
