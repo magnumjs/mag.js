@@ -1,11 +1,11 @@
 /**
- * @name mag-render.js two way ui binding for mag.js
+ * @name mag-render.js dom var rendering for mag.js
  * @link https://github.com/magnumjs/mag.js
  * @license MIT
  * @owner copyright (c) 2013, 2014 Michael Glazer
  */
 'use strict';
-(function(magnum, undefined) {
+(function(mag, undefined) {
   var _toString = Object.prototype.toString;
 
   mag.render.serve = function(f) {
@@ -49,6 +49,12 @@
     mag.render.parse(that, name, scope);
   };
 
+  function setTextContent(element, text) {
+    while (element.firstChild !== null)
+      element.removeChild(element.firstChild); // remove all existing content
+    element.appendChild(document.createTextNode(text));
+  }
+
   mag.render.preParser = function(that, name) {
     log('info', 'template parse start' + name);
 
@@ -58,9 +64,9 @@
     this.templates = this.templates || {};
     this.templates[name] = this.templates[name] || docFragRoot ? docFragRoot : 0;
     this.template = this.templates[name];
-    var docFragRoot = this.template;
+    docFragRoot = this.template;
 
-    if (!docFragRoot || this.template == '') return false;
+    if (!docFragRoot || this.template === '') return false;
 
     var parent = docFragRoot.parentNode;
     docFragRoot.parentNode.removeChild(docFragRoot);
@@ -75,7 +81,16 @@
   };
 
   mag.render.parse = function(that, name, $scope) {
+
+    this.captureCalls = function(name) {
+      this.calls = this.calls || {};
+      this.calls[name] = this.calls[name] || {};
+      this.calls[name].times = this.calls[name].times + 1 || 1;
+      return this.calls[name].times;
+    };
     if (!this.node) return;
+    // capture amount of times render is called per name
+    log('info', name + '-render called: ' + this.captureCalls(name));
 
     var docFragRoot = this.node;
     var parent = this.parent;
@@ -89,7 +104,6 @@
         this.setVar(frag, key, vars);
       }
       while (i--) {
-
         this.setVar(frag, key, vars, items, i);
       }
     };
@@ -101,16 +115,60 @@
         return val;
       }
       this.pattern = this.pattern || new RegExp('\\[\\[(.*?)\\]\\]', 'g');
-      frag.innerHTML = frag.innerHTML.replace(this.pattern, function(out, inn, pos) {
-        if (key == inn && ignoreMap.indexOf(key) === -1) {
-          return getVal(vars, key);
+      recur(frag, this.pattern, key);
+
+      function recur(frag, pattern, key) {
+        if (frag.hasChildNodes()) {
+          var list = frag.children;
+          for (var i = 0, len = list.length; i < len; i++) {
+            if (!list[i].firstChild) {
+              continue;
+            } else if (!list[i].firstChild.nodeValue) {
+              recur(list[i], pattern, key);
+            } else {
+              replaceAttribute(pattern, list[i], key);
+              replaceValue(pattern, list[i], key);
+            }
+          }
         } else {
-          return out;
+          replaceAttribute(pattern, frag, key);
+          replaceValue(pattern, frag, key);
         }
-      });
-      //USE CASE?
-      if (items && ignoreMap.indexOf(key) === -1 && items[i].innerText == '') {
-        items[i].innerText = getVal(vars, key, this);
+      }
+      function replaceAttribute(pattern, el, key) {
+        for (var i = 0, attrs = el.attributes, l = attrs.length; i < l; i++) {
+          var attr = attrs.item(i);
+          replace(attr, pattern, key);
+        }
+        function replace(attr, pattern, key) {
+          attr.nodeValue = attr.nodeValue.replace(pattern, function(out, inn, pos) {
+            if (key == inn && ignoreMap.indexOf(key) === -1) {
+              return getVal(vars, key);
+            } else {
+              return out;
+            }
+          });
+        }
+      }
+
+      function replaceValue(pattern, ele, key) {
+        ele.firstChild.nodeValue = ele.firstChild.nodeValue.replace(pattern, function(out, inn, pos) {
+          if (key == inn && ignoreMap.indexOf(key) === -1) {
+            return getVal(vars, key);
+          } else {
+            return out;
+          }
+        });
+      }
+
+      if (items && ignoreMap.indexOf(key) === -1 && ["INPUT", "TEXTAREA", 'SELECT'].indexOf(items[i].tagName) !== -1) {
+        var val = getVal(vars, key, this);
+        items[i].value = val;
+      } else //USE CASE?
+      // check for class match to key to replace all content, includes html??
+      if (items && ignoreMap.indexOf(key) === -1) {
+        //items[i].innerText = getVal(vars, key, this);
+        setTextContent(items[i], getVal(vars, key, this));
       }
     };
     this.applyVars = function(frag, vars) {
@@ -146,5 +204,5 @@
     parent.appendChild(docFragRoot);
   };
   mag.aspect.add('around', 'control', mag.render.serve);
-  
+
 })(window.mag = window.mag || {}, mag.render = {});
