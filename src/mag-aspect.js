@@ -1,5 +1,5 @@
 /**
- * @name dom-aspect.js AOP cross-cutting advice for mag.js
+ * @name mag-aspect.js AOP cross-cutting advice for mag.js
  * @link https://github.com/magnumjs/mag.js
  * @license MIT
  * @owner copyright (c) 2013, 2014 Michael Glazer
