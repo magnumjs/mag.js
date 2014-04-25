@@ -27,15 +27,15 @@ describe("domElement", function() {
       $html.find('input.name').attr('data-event-click', 'add');
       ele.getSelectorDataKey('event');
       var eles = ele.findElementsByKey('add');
-      expect($html.find('input.name').prop('outerHTML')).toEqual('<input class="name" data-event-click="add" mag-event="click">');
+      expect($html.find('input.name').prop('outerHTML')).toEqual('<input class="name" data-event-click="add" mg-event="click">');
       expect(eles[0].nodeName).toEqual('INPUT');
       expect(eles[0].getAttribute('data-event-click')).toEqual('add');
-      expect(eles[0].getAttribute('mag-event')).toEqual('click');
+      expect(eles[0].getAttribute('mg-event')).toEqual('click');
       expect(eles).toHaveLength(1);
     });
     it("by one key", function() {
       var eles = ele.findElementsByKey('container');
-      console.log(eles.length);
+      //console.log(eles.length);
       expect(eles).toHaveLength(1);
     });
     it("by data key", function() {
@@ -46,7 +46,7 @@ describe("domElement", function() {
     it("by multiple data key", function() {
       data.textarea = 'test';
       var eles = ele.findElementsByKeys(data);
-      console.log(eles);
+      //console.log(eles);
       expect(eles[0].key).toEqual('name');
       expect(eles[0].elements.length).toEqual(2);
       expect(eles[1].elements.length).toEqual(1);
@@ -57,19 +57,19 @@ describe("domElement", function() {
       data.textarea = 'test';
       $html.find('select').affix('textarea#other');
       var eles = ele.findElementsByKeys(data);
-      console.log(eles);
+      //console.log(eles);
       expect(eles[0].key).toEqual('name');
       expect(eles[0].elements.length).toEqual(2);
       expect(eles[1].elements.length).toEqual(2);
       //TODO: verify corerct parent Nodes
-      console.log(eles[1].elements[1].parentNode);
+      //console.log(eles[1].elements[1].parentNode);
       expect(eles[1].key).toEqual('textarea');
       expect(eles).toHaveLength(2);
     });
     it("with non matching data key", function() {
       data.textarea2 = 'test';
       var eles = ele.findElementsByKeys(data);
-      console.log(eles);
+      //console.log(eles);
       expect(eles[0].key).toEqual('name');
       expect(eles[0].elements.length).toEqual(2);
       expect(eles[1].key).toEqual('textarea');
