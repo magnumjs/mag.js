@@ -5,7 +5,9 @@ MagJS
 
 ###MAG = Modular Application Glue
 
-####Simple dependency injection module service factory
+####Simple dependency injection module, service, factory, control, config, directives - DOM modeling
+
+[Jasmine Specs] (https://rawgit.com/magnumjs/mag.js/master/index.html)
 
 Include the script into your page:
 #### HTML Script TAG
@@ -65,6 +67,7 @@ They relay data to the view via the 'Scope' first argument
       });
 ```
 [Try it out] (http://jsbin.com/hopokibi/edit)
+[Jasmine Specs] (https://rawgit.com/magnumjs/mag.js/master/index.html)
 
 <!-- <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
 -->
