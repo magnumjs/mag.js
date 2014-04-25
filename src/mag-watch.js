@@ -42,7 +42,7 @@ if (!Object.prototype.watch) {
 (function(mag, watch, undefined) {
 
   mag.watch.throttle = function(fn, threshhold, scope) {
-    threshhold || (threshhold = 50);
+    threshhold || (threshhold = 200);
     var last,
       deferTimer;
     return function() {
@@ -66,7 +66,7 @@ if (!Object.prototype.watch) {
 
   mag.watch.serve = function(name) {
     var rootScope = this;
-    this.getScope(name);
+    var scope = this.getScope(name);
     var ignoreKey = '__requires'; //defined in mag.reserved
 
     function isIgnored(oldValue, newValue, ignoreKey) {
@@ -124,17 +124,50 @@ if (!Object.prototype.watch) {
     // look in scope container
     // user input changes
 
-    // this.controls[name]._bind($('#' + k), k);
-    // this.controls[name]._watch($('.' + k), k);
+    this.on('mag.render.end', function(name) {
+      mag.watch.apply.call(this, scope, name);
+    });
+  };
 
-    this._bind = function(DOMelement, propertyName) {
-      //The next line is commented because priority is given to the model
-      //this[propertyName] = $(DOMelement).val();
-      var _ctrl = this;
-      $(DOMelement).on("change input click propertyChange", function(e) {
-        _ctrl[propertyName] = DOMelement.val();
-        return true;
-      });
+  mag.watch.apply = function(scope, name) {
+
+    var that = this;
+    var ele = mag.domElement(mag.render.template);
+
+    for (var key in scope) {
+      var elements = ele.findElementsByKey(key);
+      
+      if (!elements) continue;
+      
+      for (var i = 0; i < elements.length; i++) {
+        if (["INPUT", "TEXTAREA", 'SELECT'].indexOf(elements[i].tagName) !== -1) {
+          var DOMelement = elements[i];
+        }
+      }
+      if (!DOMelement) continue;
+
+      var item = key;
+      var call = function(e) {
+        var val = e.srcElement.value;
+        if (e.stopPropagation) e.stopPropagation();
+        // support IE necessary?
+        if (e.cancelBubble != null) e.cancelBubble = true;
+
+        (function(item, val, context) {
+          //console.log(item, val);
+          context.controls[name][item] = val;
+          context.fire('propertyChanged', [key, val, val]);
+        }(item, val, that));
+
+      }.bind(this);
+
+      DOMelement._events = DOMelement._events || [];
+      if (DOMelement._events.indexOf('bind-change') === -1) {
+        DOMelement.addEventListener('change', mag.watch.throttle(call, 50), false);
+        DOMelement.addEventListener('input', mag.watch.throttle(call, 50), false);
+        DOMelement.addEventListener('propertyChange', mag.watch.throttle(call, 50), false);
+        DOMelement._events.push('bind-change');
+      }
     }
   };
 
