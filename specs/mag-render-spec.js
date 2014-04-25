@@ -58,7 +58,7 @@ describe("MagJS Template", function() {
     it("uiEvents module 1", function() {
       $html = affix('#ctrl .id button[data-event-click="add"]+.test');
       $html.find('.test').text('[[othery]]');
-      var event = mag.module('click');
+      var event = mag.module('click',[]);
       event.control('ctrl', function(Scope) {
         Scope.other = 'test';
         Scope.add = function() {
@@ -83,7 +83,7 @@ describe("MagJS Template", function() {
       expect($html.find('.test')).toHaveText('test');
     });
     it("fires on control", function() {
-      var app = mag.module('myTApp');
+      var app = mag.module('myTApp',[]);
       expect(app).toBeDefined();
       app.control('todosControl', function(Scope) {
 
@@ -108,7 +108,9 @@ describe("MagJS Template", function() {
       //   }
       // ]);
       //console.log($html.html());
-      expect($html.find('.test')).toHaveText('Yo! 1');
+      expect($html.find('.test').text()).toEqual('Yo!');
+      expect($html.find('li:eq(0) .remaining').text()).toEqual('1');
+      expect($html.find('li:eq(0) .message').attr('class')).toEqual('message completed-true');
     });
     it("change scope in reusable module", function() {
       expect($html).toContainHtml('[[test]]');
@@ -117,7 +119,7 @@ describe("MagJS Template", function() {
         function(Scope) {
           Scope.test = 'YoYo!';
         });
-      expect($html.find('.test').text()).toEqual('YoYo! 1');
+      expect($html.find('.test').text()).toEqual('YoYo!');
 
     });
     it("parses control id node with Scope data", function() {
@@ -130,12 +132,12 @@ describe("MagJS Template", function() {
           };
           Scope.test = 'YoYo!';
         });
-      expect($html.find('.test').text()).toEqual('YoYo! 1');
-      // expect($html.find('.message')).toHaveLength(3);
+      expect($html.find('.test').text()).toEqual('YoYo!');
+      //expect($html.find('.message')).toHaveLength(3);
       // expect($html.find('.message').eq(0)).toHaveClass('completed-true');
       // expect($html.find('.message').eq(1)).toHaveClass('completed-false');
       // expect($html.find('.todos')).toHaveLength(3);
-      // expect($html).toContainHtml('<div id="todosControl"');
+      expect($html).toContainHtml('<div id="todosControl"');
     });
   });
 });
