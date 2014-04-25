@@ -67,17 +67,34 @@ They relay data to the view via the 'Scope' first argument
       });
 ```
 [Try it out] (http://jsbin.com/hopokibi/edit)
-[Jasmine Specs] (https://rawgit.com/magnumjs/mag.js/master/index.html)
+
+
+## State persistence
+```javascript
+myApp.factory('ListService', function() {
+  var ListService = {};
+  var list = [];
+  ListService.getItem = function(index) { return list[index]; }
+  ListService.addItem = function(item) { list.push(item); }
+  ListService.removeItem = function(item) { list.splice(list.indexOf(item), 1) }
+  ListService.size = function() { return list.length; }
+  return ListService;
+});
+  
+myApp.control('myCtrl',function(Scope,ListService){
+  Scope.test='Who ';
+  ListService.addItem({me:'me'});
+});
+  
+myApp.control('myCtrl',function(Scope,ListService){
+  Scope.test=Scope.test+ListService.getItem(0).me;
+});
+```
+
+[Try it out] (http://jsbin.com/uGugOKo/edit)
 
 <!-- <a href="http://plnkr.co/edit/zNI2IPbnd1P9omp9LcP6?p=preview">Plunker</a>
 -->
 <!--
 <a class="jsbin-embed" href="http://jsbin.com/esovum/1/embed?live">JS Bin</a><script src="http://static.jsbin.com/js/embed.js"></script>
-
-
-https://rawgithub.com/magnumjs/mag.js/master/index.html
-
-PlayBox
-------------------------
-http://jsbin.com/uGugOKo/17/edit
 -->
