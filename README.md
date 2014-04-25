@@ -20,7 +20,7 @@ Include the script into your page:
 ## Create Event Control
 
 #### Define a Module
-they are inheritable and reusable
+They are inheritable and reusable
 ```javascript
 var app = mag.module('myApp');
 ```
