@@ -36,7 +36,7 @@ app.control('myCtrl', function(Scope, Api) {
 ```
 
 #### Define a service
-Use the [] style arguments when minifying
+Use the [] style arguments when minifying.
 ```javascript
 app.service('Api', function() {
   this.getProjects = function() {
@@ -49,7 +49,7 @@ app.service('Api', function() {
 ```
 
 #### Define a control
-The order doesn't matter
+The order doesn't matter.
 ```javascript
 app.control('myCtrl', function(Scope) {
   Scope.greet = 'Hello';
