@@ -19,14 +19,25 @@ Include the script into your page:
 
 ## Create Event Control
 
+#### Define a Module
+they are inheritable and reusable
 ```javascript
 var app = mag.module('myApp');
+```
 
+#### Define a control
+They can be injected with services or factories.
+They relay data to the view via the 'Scope' first argument
+```javascript
 app.control('myCtrl', function(Scope, Api) {
   Scope.first = Api.getProjects().first;
   Scope.last = Api.getProjects().last;
 });
+```
 
+#### Define a service
+Use the [] style arguments when minifying
+```javascript
 app.service('Api', function() {
   this.getProjects = function() {
     return new Object({
@@ -35,7 +46,11 @@ app.service('Api', function() {
     });
   };
 });
+```
 
+#### Define a control
+The order doesn't matter
+```javascript
 app.control('myCtrl', function(Scope) {
   Scope.greet = 'Hello';
   
@@ -53,10 +68,10 @@ app.control('myCtrl', function(Scope) {
 
 Factory, Service, Control
 #### Define a Module
-they are inheritable and reusable
 ```javascript
 var githubUser = mag.module('githubUserApp');
 ```
+
 #### Define a factory
 They do maintain state, they are instantiated with a 'new'
 ```javascript
@@ -77,20 +92,19 @@ githubUser.factory('GithubUser', function() {
 ```
 
 #### Define a service
-They can be injected with factories. Use the [] style arguments when minifying
+They can be injected with factories.
 ```javascript
       githubUser.service('GithubUserService', function(GithubUser) {
         this.getById = function(userId) {
-          return $.get('github.json?id=' + userId).then(
+          return $.get('https://api.github.com/users/' + userId).then(
             function(response) {
               return new GithubUser(response);
             });
         };
       });
 ```
+
 #### Define a control
-They can be injected with services or factories.
-They relay data to the view via the 'Scope' first argument
 ```javascript
 githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
   GithubUserService.getById('magnumjs').done(function(data) {
