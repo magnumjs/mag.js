@@ -20,8 +20,11 @@
       var val = scope[key];
       if (typeof val == 'function') {
         var elements = ele.findElementsByKey(key);
-        // loop through elements
-        if (elements[0] && !elements[0]._hasevent) {
+        //TODO: loop through elements
+
+        if (!elements[0]) continue;
+        elements[0]._events = elements[0]._events || [];
+        if (elements[0] && elements[0]._events.indexOf(key) === -1) {
 
           var eventType = elements[0].getAttribute('mg-event');
           if (eventType) {
@@ -31,20 +34,24 @@
               if (typeof val == 'function') {
 
                 if (e.stopPropagation) e.stopPropagation();
-                if (e.cancelBubble!=null) e.cancelBubble = true;
+                // support IE necessary?
+                if (e.cancelBubble != null) e.cancelBubble = true;
 
-                // what if theres a delayed response - async??
-                var promise = val.bind(scope).call(this, e);
-                // if async this will fire prematurely
-                // allow for a promise return 
-                // promise.resolve(function(){});
-                (that.controls[name]);
+                var promise = (function(val, context, scope, that, e) {
+                  // what if theres a delayed response - async??
+                  var promise = val.bind(scope).call(context, e);
+                  // if async this will fire prematurely
+                  // allow for a promise return 
+                  // promise.resolve(function(){});
+                  (that.controls[name]);
+                  return promise;
+                })(val, this, scope, that, e);
               }
             }.bind(this);
 
-            if (!elements[0].parentNode._hasevent) {
-              elements[0].parentNode.addEventListener(eventType, call, false);
-              elements[0].parentNode._hasevent = true;
+            if (elements[0]._events.indexOf(key + eventType) === -1) {
+              elements[0].addEventListener(eventType, call, false);
+              elements[0]._events.push(key + eventType);
             }
           }
         }
