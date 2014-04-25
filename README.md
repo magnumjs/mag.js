@@ -5,7 +5,7 @@ MagJS
 
 ###MAG = Modular Application Glue
 
-####Simple dependency injection module, service, factory, control, config, directives - DOM modeling
+####Simple dependency injection - module, service, factory, control, config, directives - DOM modeling
 
 [Jasmine Specs] (https://rawgit.com/magnumjs/mag.js/master/index.html)
 
