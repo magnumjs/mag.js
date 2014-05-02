@@ -11,29 +11,38 @@ if (!Object.prototype.watch) {
     enumerable: false,
     configurable: true,
     writable: false,
-    value: function(prop, sethandler, gethandler) {
+    value: function (prop, sethandler, gethandler) {
       var
-      oldval = this[prop],
+        oldval = this[prop],
         newval = oldval,
-        getter = function() {
+        getter = function () {
           newval = gethandler.call(this, prop, newval);
           return newval;
-        }, setter = function(val) {
+        }, setter = function (val) {
           sethandler.call(this, prop, oldval, val);
           return val;
         };
+      if (Object.defineProperty) // ECMAScript 5
+        Object.defineProperty(this, prop, {
+          get: getter,
+          set: setter
+        });
+      else if (Object.prototype.__defineGetter__ && Object.prototype.__defineSetter__) { // legacy
+        Object.prototype.__defineGetter__.call(this, prop, getter);
+        Object.prototype.__defineSetter__.call(this, prop, setter);
+      }
     }
   });
 }
 
 'use strict';
-(function(mag, watch, undefined) {
+(function (mag, watch, undefined) {
 
-  mag.watch.throttle = function(fn, threshhold, scope) {
+  mag.watch.throttle = function (fn, threshhold, scope) {
     threshhold || (threshhold = 200);
     var last,
       deferTimer;
-    return function() {
+    return function () {
       var context = scope || this;
 
       var now = +new Date,
@@ -41,7 +50,7 @@ if (!Object.prototype.watch) {
       if (last && now < last + threshhold) {
         // hold on to it
         clearTimeout(deferTimer);
-        deferTimer = setTimeout(function() {
+        deferTimer = setTimeout(function () {
           last = now;
           fn.apply(context, args);
         }, threshhold);
@@ -52,7 +61,7 @@ if (!Object.prototype.watch) {
     };
   };
 
-  mag.watch.serve = function(name) {
+  mag.watch.serve = function (name) {
     var rootScope = this;
     var scope = this.getScope(name);
     var ignoreKey = '__requires'; //defined in mag.reserved
@@ -60,51 +69,51 @@ if (!Object.prototype.watch) {
     function isIgnored(oldValue, newValue, ignoreKey) {
       if (newValue === {} ||
         (JSON.stringify(oldValue) === JSON.stringify({})) || (JSON.stringify(oldValue) === JSON.stringify({
-          ignoreKey: undefined
-        }))) return true;
+        ignoreKey: undefined
+      }))) return true;
       return false;
     }
 
     var sethandler =
-    //mag.watch.throttle(
-    function(property, oldValue, newValue) {
-      log('info', 'set-' + property, oldValue, newValue);
-      // if empty or only ignoreKey present
-      //TODO: don't check for value of keys, might be populated or diff.
-      if (isIgnored(oldValue, newValue, ignoreKey)) return;
-      //console.log(oldValue);
+      //mag.watch.throttle(
+      function (property, oldValue, newValue) {
+        log('info', 'set-' + property, oldValue, newValue);
+        // if empty or only ignoreKey present
+        //TODO: don't check for value of keys, might be populated or diff.
+        if (isIgnored(oldValue, newValue, ignoreKey)) return;
+        //console.log(oldValue);
 
-      log('info', property, oldValue, newValue);
+        log('info', property, oldValue, newValue);
 
-      rootScope.fire('propertyChanged', [property, oldValue, newValue]);
-      return;
-    }
+        rootScope.fire('propertyChanged', [property, oldValue, newValue]);
+        return;
+      }
     //);
 
     var gethandler =
-    //mag.watch.throttle(
-    function(prop, newval) {
-      //console.log(prop, newval);
-      log('info', 'get' + prop, newval);
-      rootScope.fire('propertyAccessed', arguments);
+      //mag.watch.throttle(
+      function (prop, newval) {
+        //console.log(prop, newval);
+        log('info', 'get' + prop, newval);
+        rootScope.fire('propertyAccessed', arguments);
 
-      // check if newValue is a promise
-      // if (typeof newValue.done === 'function') {
-      // convert to wrapper
-      // newValue.then(function(data) {
-      //       Scope[property]  = data;
-      // }
+        // check if newValue is a promise
+        // if (typeof newValue.done === 'function') {
+        // convert to wrapper
+        // newValue.then(function(data) {
+        //       Scope[property]  = data;
+        // }
 
-      // function isPromise(value) {
-      //   if (typeof value.then !== "function") {
-      //     return false;
-      //   }
-      //   var promiseThenSrc = String($.Deferred().then);
-      //   var valueThenSrc = String(value.then);
-      //   return promiseThenSrc === valueThenSrc;
-      // }  
-      return newval;
-    }
+        // function isPromise(value) {
+        //   if (typeof value.then !== "function") {
+        //     return false;
+        //   }
+        //   var promiseThenSrc = String($.Deferred().then);
+        //   var valueThenSrc = String(value.then);
+        //   return promiseThenSrc === valueThenSrc;
+        // }
+        return newval;
+      }
     //);
 
     this.controls.__watch(name, sethandler, gethandler);
@@ -112,21 +121,21 @@ if (!Object.prototype.watch) {
     // look in scope container
     // user input changes
 
-    this.on('mag.render.end', function(name) {
+    this.on('mag.render.end', function (name) {
       mag.watch.apply.call(this, scope, name);
     });
   };
 
-  mag.watch.apply = function(scope, name) {
+  mag.watch.apply = function (scope, name) {
 
     var that = this;
     var ele = mag.domElement(mag.render.template);
 
     for (var key in scope) {
       var elements = ele.findElementsByKey(key);
-      
+
       if (!elements) continue;
-      
+
       for (var i = 0; i < elements.length; i++) {
         if (["INPUT", "TEXTAREA", 'SELECT'].indexOf(elements[i].tagName) !== -1) {
           var DOMelement = elements[i];
@@ -135,13 +144,13 @@ if (!Object.prototype.watch) {
       if (!DOMelement) continue;
 
       var item = key;
-      var call = function(e) {
+      var call = function (e) {
         var val = e.srcElement.value;
         if (e.stopPropagation) e.stopPropagation();
         // support IE necessary?
         if (e.cancelBubble != null) e.cancelBubble = true;
 
-        (function(item, val, context) {
+        (function (item, val, context) {
           //console.log(item, val);
           context.controls[name][item] = val;
           context.fire('propertyChanged', [key, val, val]);
