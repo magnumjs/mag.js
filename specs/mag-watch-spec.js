@@ -50,7 +50,7 @@ describe("mag-watch", function () {
     setTimeout(function () {
       expect($('#gitUserInfo .id').text()).toEqual('5196767');
       done();
-    }, 300);
+    }, 400);
 
   });
   xit("watches changes to an object", function () {

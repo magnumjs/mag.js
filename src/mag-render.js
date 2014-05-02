@@ -98,8 +98,9 @@
 
     var ignoreMap = mag.reserved;
     this.applyVar = function (frag, key, vars) {
-      // TODO: if key in vars get parent frag and recurse
+      if (!frag || !frag.nodeType) return;
 
+      // TODO: if key in vars get parent frag and recurse
       for (var k in vars) {
         if (key === k && typeof vars[k] === 'object') {
 
@@ -109,15 +110,13 @@
         }
       }
 
-      if (frag && frag.nodeType) {
-        var items = frag.getElementsByClassName(key);
-        var i = items.length;
-        if (i < 1) {
-          this.setVar(frag, key, vars);
-        }
-        while (i--) {
-          this.setVar(frag, key, vars, items, i);
-        }
+      var items = frag.getElementsByClassName(key);
+      var i = items.length;
+      if (i < 1) {
+        this.setVar(frag, key, vars);
+      }
+      while (i--) {
+        this.setVar(frag, key, vars, items, i);
       }
     };
     this.setVar = function (frag, key, vars, items, i) {
