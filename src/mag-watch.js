@@ -60,7 +60,11 @@ if (!Object.prototype.watch) {
       }
     };
   };
-
+  function inQueue(obj) {
+    this.q = this.q || [];
+    if (this.q.indexOf(obj) !== -1) return true;
+    else this.q.push(obj);
+  }
   mag.watch.serve = function (name) {
     var rootScope = this;
     var scope = this.getScope(name);
@@ -78,14 +82,27 @@ if (!Object.prototype.watch) {
       //mag.watch.throttle(
       function (property, oldValue, newValue) {
         log('info', 'set-' + property, oldValue, newValue);
+
         // if empty or only ignoreKey present
         //TODO: don't check for value of keys, might be populated or diff.
         if (isIgnored(oldValue, newValue, ignoreKey)) return;
         //console.log(oldValue);
 
         log('info', property, oldValue, newValue);
+        var promise = null;
 
-        rootScope.fire('propertyChanged', [property, oldValue, newValue]);
+        for (var k in newValue) {
+          promise = newValue[k];
+          if (promise && promise.done && !inQueue(promise)) {
+            promise.done(function (d) {
+              rootScope.controls[name][k] = d;
+              rootScope.fire('propertyChanged', [property, oldValue, newValue]);
+            });
+          }
+        }
+        if (!promise) {
+          rootScope.fire('propertyChanged', [property, oldValue, newValue]);
+        }
         return;
       }
     //);

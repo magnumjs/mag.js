@@ -5,14 +5,15 @@
  * @owner copyright (c) 2013, 2014 Michael Glazer
  */
 'use strict';
-(function(mag, undefined) {
+(function (mag, undefined) {
   var _toString = Object.prototype.toString;
 
-  mag.render.serve = function(f) {
+  mag.render.serve = function (f) {
     // pre parse it
     // get Controller's scopeContextContainer 'name'
     // get it's element, nested controller? parent context?
-    var name = f.arguments[0];
+    var args = f.arguments;
+    var name = args[0];
 
     var found = mag.render.preParser(this, name);
 
@@ -26,7 +27,7 @@
 
     this.on('propertyChanged',
       mag.watch.throttle(
-        function() {
+        function () {
           this.count = this.count + 1 || 0;
           //   console.log('parser'+this.count);
           mag.render.parse(that, name, scope);
@@ -37,7 +38,7 @@
 
     this.on('propertyAccessed',
       mag.watch.throttle(
-        function() {
+        function () {
           this.count = this.count + 1 || 0;
           //console.log('rendere'+this.count);
           mag.render.parse(that, name, scope);
@@ -55,7 +56,7 @@
     element.appendChild(document.createTextNode(text));
   }
 
-  mag.render.preParser = function(that, name) {
+  mag.render.preParser = function (that, name) {
     log('info', 'template parse start' + name);
 
     var docFragRoot = document.getElementById(name);
@@ -80,9 +81,9 @@
     };
   };
 
-  mag.render.parse = function(that, name, $scope) {
+  mag.render.parse = function (that, name, $scope) {
 
-    this.captureCalls = function(name) {
+    this.captureCalls = function (name) {
       this.calls = this.calls || {};
       this.calls[name] = this.calls[name] || {};
       this.calls[name].times = this.calls[name].times + 1 || 1;
@@ -96,7 +97,18 @@
     var parent = this.parent;
 
     var ignoreMap = mag.reserved;
-    this.applyVar = function(frag, key, vars) {
+    this.applyVar = function (frag, key, vars) {
+      // TODO: if key in vars get parent frag and recurse
+
+      for (var k in vars) {
+        if (key === k && typeof vars[k] === 'object') {
+
+          frag = frag.getElementsByClassName(key);
+
+          return this.applyVars(frag[0], vars[k]);
+        }
+      }
+
       if (!frag.nodeType) return;
       var items = frag.getElementsByClassName(key);
       var i = items.length;
@@ -107,13 +119,14 @@
         this.setVar(frag, key, vars, items, i);
       }
     };
-    this.setVar = function(frag, key, vars, items, i) {
+    this.setVar = function (frag, key, vars, items, i) {
       //don't call function unless match found
       //function context?
       function getVal(vars, key, context) {
         var val = (typeof vars[key] == 'function') ? vars[key].call(context || this) : vars[key];
         return val;
       }
+
       this.pattern = this.pattern || new RegExp('\\[\\[(.*?)\\]\\]', 'g');
       recur(frag, this.pattern, key);
 
@@ -135,13 +148,14 @@
           replaceValue(pattern, frag, key);
         }
       }
+
       function replaceAttribute(pattern, el, key) {
         for (var i = 0, attrs = el.attributes, l = attrs.length; i < l; i++) {
           var attr = attrs.item(i);
           replace(attr, pattern, key);
         }
         function replace(attr, pattern, key) {
-          attr.nodeValue = attr.nodeValue.replace(pattern, function(out, inn, pos) {
+          attr.nodeValue = attr.nodeValue.replace(pattern, function (out, inn, pos) {
             if (key == inn && ignoreMap.indexOf(key) === -1) {
               return getVal(vars, key);
             } else {
@@ -152,7 +166,7 @@
       }
 
       function replaceValue(pattern, ele, key) {
-        ele.firstChild.nodeValue = ele.firstChild.nodeValue.replace(pattern, function(out, inn, pos) {
+        ele.firstChild.nodeValue = ele.firstChild.nodeValue.replace(pattern, function (out, inn, pos) {
           if (key == inn && ignoreMap.indexOf(key) === -1) {
             return getVal(vars, key);
           } else {
@@ -171,12 +185,12 @@
         setTextContent(items[i], getVal(vars, key, this));
       }
     };
-    this.applyVars = function(frag, vars) {
+    this.applyVars = function (frag, vars) {
       for (var key in vars) {
         this.applyVar(frag, key, vars);
       }
     };
-    this.parser = function(docFragRoot, vars) {
+    this.parser = function (docFragRoot, vars) {
       for (var key in vars) {
 
         if (_toString.call(vars[key]) === '[object Array]') {

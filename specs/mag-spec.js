@@ -86,7 +86,7 @@ describe("MagJS", function() {
         };
       });
       githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
-        return GithubUserService.getById('magnumjs').done(function(data) {
+        return GithubUserService.getById('magnumjs').then(function(data) {
           Scope.id = data.id;
         });
       });

@@ -59,8 +59,8 @@ mag.inject = {
       if (promise && promise.done) {
         promise.done(function() {
           (context.controls[name]);
-        })
-      };
+        });
+      }
 
     } else {
       //wait for notice

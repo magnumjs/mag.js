@@ -1,17 +1,18 @@
 var app;
-mag.watch.getScope = function() {};
-describe("mag-watch", function() {
-  it("is defined", function() {
+mag.watch.getScope = function () {
+};
+describe("mag-watch", function () {
+  it("is defined", function () {
     expect(mag.watch).toBeDefined();
   });
-  it("captures dom changes", function() {
+  it("captures dom changes", function () {
     $html = affix('#test34 span.test34+p.test34+input.test34');
     var app = mag.module('apper');
-    app.control('test34', function(Scope) {
-      
+    app.control('test34', function (Scope) {
+
       Scope.test34 = 'Hi!';
-       Scope.asd ='';
-      
+      Scope.asd = '';
+
     });
 
     expect($html.find('input')[0].value).toEqual('Hi!');
@@ -28,7 +29,29 @@ describe("mag-watch", function() {
     expect($html.find('span').text()).toEqual('assad');
     expect($html.find('p').text()).toEqual('assad');
   });
-  xit("watches changes to an object", function() {
+  it("handles promises", function (done) {
+    $html = affix('#gitUserInfo .data .id');
+
+    var githubUser = mag.module('app', []);
+
+    githubUser.service('GithubUserService', function () {
+      this.getById = function (userId) {
+        return $.get('specs/github.json?id=' + userId).then(
+          function (response) {
+            return response;
+          });
+      };
+    });
+    githubUser.control('gitUserInfo', function (Scope, GithubUserService) {
+      Scope.data = GithubUserService.getById('magnumjs');
+    });
+    setTimeout(function () {
+      expect($('#gitUserInfo .id').text()).toEqual('5196767');
+      done();
+    }, 100);
+
+  });
+  xit("watches changes to an object", function () {
     // test with mocks or real module?
     var spy = spyOn(mag.watch, 'getScope');
     spy.and.returnValue({
