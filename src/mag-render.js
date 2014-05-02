@@ -100,12 +100,10 @@
     this.applyVar = function (frag, key, vars) {
       if (!frag || !frag.nodeType) return;
 
-      // TODO: if key in vars get parent frag and recurse
+      // TODO: enable staples [[parm]] by calling setVar for each
       for (var k in vars) {
         if (key === k && typeof vars[k] === 'object') {
-
           frag = frag.getElementsByClassName(key);
-
           return this.applyVars(frag[0], vars[k]);
         }
       }

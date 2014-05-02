@@ -104,13 +104,15 @@ They can be injected with factories.
       });
 ```
 
-#### Define a control
+#### Define a control with Promises
 ```javascript
 githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
-  GithubUserService.getById('magnumjs').done(function(data) {
+ Scope.data = GithubUserService.getById('magnumjs');
+});
+OR
+return GithubUserService.getById('magnumjs').done(function(data) {
     Scope.id = data.id;
   });
-});
 ```
 [Try it out] (http://jsbin.com/kubilate/edit)
 
