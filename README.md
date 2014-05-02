@@ -108,11 +108,11 @@ They can be injected with factories.
 ```javascript
 githubUser.control('gitUserInfo', function(Scope, GithubUserService) {
  Scope.data = GithubUserService.getById('magnumjs');
+//OR
+ return GithubUserService.getById('magnumjs').done(function(data) {
+   Scope.id = data.id;
+ });
 });
-OR
-return GithubUserService.getById('magnumjs').done(function(data) {
-    Scope.id = data.id;
-  });
 ```
 [Try it out] (http://jsbin.com/kubilate/edit)
 
