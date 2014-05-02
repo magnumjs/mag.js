@@ -60,16 +60,17 @@ if (!Object.prototype.watch) {
       }
     };
   };
-
+  var queue = {};
+  queue.inQueue=function (obj) {
+    this.q = this.q || [];
+    if (this.q.indexOf(obj) !== -1) return true;
+    else this.q.push(obj);
+  }
   mag.watch.serve = function (name) {
     var rootScope = this;
     var scope = this.getScope(name);
     var ignoreKey = '__requires'; //defined in mag.reserved
-    function inQueue(obj) {
-      this.q = this.q || [];
-      if (this.q.indexOf(obj) !== -1) return true;
-      else this.q.push(obj);
-    }
+
     function isIgnored(oldValue, newValue, ignoreKey) {
       if (newValue === {} ||
         (JSON.stringify(oldValue) === JSON.stringify({})) || (JSON.stringify(oldValue) === JSON.stringify({
@@ -93,7 +94,7 @@ if (!Object.prototype.watch) {
 
         for (var k in newValue) {
           promise = newValue[k];
-          if (promise && promise.done && !inQueue(promise)) {
+          if (promise && promise.done && !inQueue.inQueue(promise)) {
             promise.done(function (d) {
               rootScope.controls[name][k] = d;
               rootScope.fire('propertyChanged', [property, oldValue, newValue]);
