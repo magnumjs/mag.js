@@ -43,20 +43,23 @@ mag.aspect = {
   before: function(pointcut, advice) {
     mag.aspect.around(pointcut,
       function(f) {
-        advice.apply(mag.aspect.namespace, f.arguments);
+        var args= f.arguments;
+        advice.apply(mag.aspect.namespace, args);
         return mag.aspect.next(f)
       });
   },
   after: function(pointcut, advice) {
     mag.aspect.around(pointcut,
       function(f) {
+        var args= f.arguments;
         var ret = mag.aspect.next(f);
-        advice.apply(mag.aspect.namespace, f.arguments);
+        advice.apply(mag.aspect.namespace, args);
         return ret;
       });
   },
   next: function(f) {
-    return f.fn.apply(mag.aspect.namespace, f.arguments);
+    var args= f.arguments;
+    return f.fn.apply(mag.aspect.namespace, args);
   }
 };
 mag.injection = function(ns) {

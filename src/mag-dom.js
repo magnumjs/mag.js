@@ -51,7 +51,7 @@
     var matches = []
     var keyName = key
 
-    for (i = 0; i < elements.length; i += 1) {
+    for (var i = 0; i < elements.length; i += 1) {
       if (elementMatcher(elements[i], keyName, this.getSelectorDataKey())) {
         matches.push(elements[i]);
       }
@@ -78,7 +78,7 @@
     var children = node.childNodes
     var elements = []
 
-    for (i = 0; i < children.length; i += 1) {
+    for (var i = 0; i < children.length; i += 1) {
       if (children[i].nodeType === ELEMENT_NODE) {
         elements.push(children[i]);
       }
