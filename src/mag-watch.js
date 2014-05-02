@@ -94,7 +94,7 @@ if (!Object.prototype.watch) {
 
         for (var k in newValue) {
           promise = newValue[k];
-          if (promise && promise.done && !inQueue.inQueue(promise)) {
+          if (promise && promise.done && !queue.inQueue(promise)) {
             promise.done(function (d) {
               rootScope.controls[name][k] = d;
               rootScope.fire('propertyChanged', [property, oldValue, newValue]);
