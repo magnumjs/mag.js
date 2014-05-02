@@ -115,9 +115,9 @@ mag.inject = {
   service: function() {
     for (var i in this.waiting) {
       var waiter = this.waiting[i];
-      if (this.isRegistered(waiter.args)) {
+      if (waiter&&this.isRegistered(waiter.args)) {
         waiter.target.apply(waiter.target, this.getArrayDependencies(waiter.args));
-        delete this.waiting[i];
+        this.waiting[i]=undefined;
       }
     }
   }
