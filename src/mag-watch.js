@@ -60,16 +60,16 @@ if (!Object.prototype.watch) {
       }
     };
   };
-  function inQueue(obj) {
-    this.q = this.q || [];
-    if (this.q.indexOf(obj) !== -1) return true;
-    else this.q.push(obj);
-  }
+
   mag.watch.serve = function (name) {
     var rootScope = this;
     var scope = this.getScope(name);
     var ignoreKey = '__requires'; //defined in mag.reserved
-
+    function inQueue(obj) {
+      this.q = this.q || [];
+      if (this.q.indexOf(obj) !== -1) return true;
+      else this.q.push(obj);
+    }
     function isIgnored(oldValue, newValue, ignoreKey) {
       if (newValue === {} ||
         (JSON.stringify(oldValue) === JSON.stringify({})) || (JSON.stringify(oldValue) === JSON.stringify({

@@ -32,6 +32,8 @@ describe("mag-watch", function () {
   it("handles promises", function (done) {
     $html = affix('#gitUserInfo .data .id');
 
+    //$html.find('.data').text('[[id]]');
+
     var githubUser = mag.module('app', []);
 
     githubUser.service('GithubUserService', function () {
