@@ -109,14 +109,15 @@
         }
       }
 
-      if (!frag.nodeType) return;
-      var items = frag.getElementsByClassName(key);
-      var i = items.length;
-      if (i < 1) {
-        this.setVar(frag, key, vars);
-      }
-      while (i--) {
-        this.setVar(frag, key, vars, items, i);
+      if (frag && frag.nodeType) {
+        var items = frag.getElementsByClassName(key);
+        var i = items.length;
+        if (i < 1) {
+          this.setVar(frag, key, vars);
+        }
+        while (i--) {
+          this.setVar(frag, key, vars, items, i);
+        }
       }
     };
     this.setVar = function (frag, key, vars, items, i) {
