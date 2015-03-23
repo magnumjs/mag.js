@@ -26,18 +26,7 @@ var mag = (function(self, module, render, document, undefined) {
     return prop
   }
 
-  privates.h = function(attrs, stringOrChildrenArray) {
-    // attrs are html element attributes
-    // string is the text to set or an array of children
-    // h({onchange:function(){}, value:'test'},'content')
-    var h = function() {
-      return {
-        attrs: attrs
-      }
-    }
-    h._type = 'vdom'
-    return h
-  }
+
   privates.module = function(domElementId, moduleObject, props) {
     console.time("MagnumJS")
 
@@ -82,7 +71,6 @@ var mag = (function(self, module, render, document, undefined) {
   var api = interfaces('init')
 
   api['module'] = interfaces('module')
-  api['h'] = interfaces('h')
   api['prop'] = interfaces('prop')
 
   return api
