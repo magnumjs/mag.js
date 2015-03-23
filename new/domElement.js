@@ -28,9 +28,8 @@ domElement.setAttrs = function(doc, key, attrs) {
   }
 }
 
-domElement.event = function(doc, key, vdom) {
+domElement.event = function(doc, key, attrs) {
   var eles = domElement.findByKey(doc, key)
-  var attrs = vdom().attrs
   for (var event in attrs) {
     if (event.indexOf('on') == 0) {
       for (var i = 0; i < eles.length; i++) {
