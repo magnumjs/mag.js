@@ -10,6 +10,10 @@ var mag = (function(self, module, render, document, undefined) {
     console.log('mag init')
   }
 
+  privates.redraw=function(){
+    render.redraw( module || render.module || {})
+  }
+
   privates.prop = function(store) {
     var prop = function() {
       if (arguments.length) {
@@ -72,6 +76,7 @@ var mag = (function(self, module, render, document, undefined) {
 
   api['module'] = interfaces('module')
   api['prop'] = interfaces('prop')
+  api['redraw'] = interfaces('redraw')
 
   return api
 })(mag = mag || {}, mod, render, document);
