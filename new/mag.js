@@ -1,27 +1,35 @@
-var mag = (function(self, module, render, document, undefined) {
+var mag = (function(self, document, undefined) {
 
   'use strict'
 
-  var privates = {}
+  var privates = {},
+    module = self.mod,
+    render = self.render,
+    fill = self.fill,
+    watch = mag.watch
 
-  privates.init = function(container, data) {
-    if (!(this instanceof privates.init)) return new privates.init(container, data);
-    var instance = this;
-    console.log('mag init')
-  }
+    // REMOVE THIS? why is this here?
+    privates.init = function(container, data) {
 
-  privates.redraw=function(){
-    render.redraw( module || render.module || {})
+      // if (!(this instanceof privates.init)) return new privates.init(container, data)
+      // var instance = this
+      // console.log('mag init')
+    }
+
+  privates.redraw = function() {
+    render.redraw(module || render.module || {}, fill, watch)
   }
 
   privates.prop = function(store) {
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
-        render.redraw(module)
+        privates.redraw()
       }
       return store
     }
+
+    prop.type = 'fun'
 
     prop.toJSON = function() {
       // return a copy
@@ -30,7 +38,6 @@ var mag = (function(self, module, render, document, undefined) {
 
     return prop
   }
-
 
   privates.module = function(domElementId, moduleObject, props) {
     console.time("MagnumJS:init")
@@ -41,6 +48,7 @@ var mag = (function(self, module, render, document, undefined) {
     //DOM
     var element = document.getElementById(domElementId)
     if (!element) throw new Error('invalid node')
+
     var parentElement = element.parentNode
     var elementClone = element.cloneNode(true)
 
@@ -57,7 +65,7 @@ var mag = (function(self, module, render, document, undefined) {
     module.modules[index] = mod
     module.elements[index] = elementClone
     //INTERPOLATIONS
-    render.redraw(module)
+    privates.redraw()
 
     //DOM
     parentElement.replaceChild(elementClone, tempEle)
@@ -79,4 +87,5 @@ var mag = (function(self, module, render, document, undefined) {
   api['redraw'] = interfaces('redraw')
 
   return api
-})(mag = mag || {}, mod, render, document);
+
+}(window.mag || {}, document))
