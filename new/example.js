@@ -22,9 +22,6 @@ todos.controller = function(props) {
         render.redraw()
       }.bind(this, this.todoItem.length),
       text: text,
-      _config: function(element, isNew) {
-        console.log(arguments)
-      },
       _completed: false
     }
     this.todoItem.push(item)
@@ -90,24 +87,17 @@ todos.view = function(element, props, state) {
   }
 }
 
-todos.controller.onload = function() {
-  console.log('test')
-}
-
 mag.module("todos", todos)
 
 var app = {}
 
 app.controller = function(props) {
-  // console.log('ctrl call')
-
   this.show = mag.prop(true)
   this.name = '?'
   this.onload = utils.onload
 }
 
 app.view = function(element, props, state) {
-  //console.log('view call')
   state.test = {
     _class: 'test ' + (state.show() ? 'show' : 'hide'),
     _html: 'Hello'
