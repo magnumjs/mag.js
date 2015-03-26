@@ -9,4 +9,4 @@
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 
 Example: 
-http://jsbin.com/xuvaguyili/edit?js,output
+http://jsbin.com/rimawetuso/edit?js,output
