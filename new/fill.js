@@ -57,7 +57,7 @@ domElement.replaceWithin = function(frag, key, val) {
   }
 }
 */
-(function(configs) {
+mag = (function(mag, configs, undefined) {
 
   var ELEMENT_NODE = 1
   var cached = []
@@ -217,11 +217,11 @@ domElement.replaceWithin = function(frag, key, val) {
           elements = matchingElements(node, key);
 
           // function 
-          // if (typeof value === 'function' && key[key.length - 1] == '_') {
-          //   try {
-          //     value = value()
-          //   } catch (e) {}
-          // }
+          if (typeof value === 'function' && value.type == 'fun') {
+            try {
+              value = value()
+            } catch (e) {}
+          }
 
 
           // check for key replacement within the element
@@ -278,8 +278,10 @@ domElement.replaceWithin = function(frag, key, val) {
         // events
         if (attrName.indexOf('on') == 0) {
           if (node._events.indexOf(attrName) !== -1) continue
+
           node.addEventListener(attrName.substr(2), attributes[attrName])
           node._events.push(attrName)
+
         } else {
           if (attrName == 'fun') {
 
@@ -440,7 +442,12 @@ domElement.replaceWithin = function(frag, key, val) {
 
 
   // attach fill to current context (in the browser this will be window.fill)
-  this.fill = fill;
-  this.configs = configs
-
-}).call(this, []);
+  // this.fill = fill;
+  // this.configs = configs
+ 
+  mag.fill = {
+    fill: fill,
+    configs: configs
+  }
+  return mag
+}(window.mag || {}, []))
