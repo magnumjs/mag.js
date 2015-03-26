@@ -1,3 +1,4 @@
+/*
 var domElement = {}
 
 domElement.replaceWithin = function(frag, key, val) {
@@ -54,8 +55,8 @@ domElement.replaceWithin = function(frag, key, val) {
       }
     });
   }
-};
-
+}
+*/
 (function(configs) {
 
   var ELEMENT_NODE = 1
@@ -119,13 +120,13 @@ domElement.replaceWithin = function(frag, key, val) {
         parent = elements[0].parentNode
         var docfrag = document.createDocumentFragment();
 
-        if (!templates[key + index]) {
-          templates[key + index] = {
-            node: elements[0].cloneNode(true).outerHTML,
-            parent: parent
-          }
-          //remove from dom
-        }
+        // if (!templates[key + index]) {
+        //   templates[key + index] = {
+        //     node: elements[0].cloneNode(true).outerHTML,
+        //     parent: parent
+        //   }
+        //   //remove from dom
+        // }
 
         elements[0].setAttribute('data-clone', key + index)
 
@@ -224,7 +225,7 @@ domElement.replaceWithin = function(frag, key, val) {
 
 
           // check for key replacement within the element
-          domElement.replaceWithin(node, key, value)
+          //domElement.replaceWithin(node, key, value)
 
           fill(elements, value, key, index);
 
