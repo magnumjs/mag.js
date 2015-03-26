@@ -1,6 +1,11 @@
- var mod = {modules:[],controllers:[], elements:[]}
+ var mod = {
+   modules: [],
+   controllers: [],
+   elements: []
+ }
 
  mod.submodule = function(module, args) {
+
    var controller = function(args) {
      return (module.controller || function() {}).apply(this, args)
    }.bind({}, args)
@@ -26,5 +31,5 @@
 
  mod.getArgs = function(i) {
    var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
-return args
+   return args
  }
