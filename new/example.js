@@ -9,17 +9,13 @@ todos.controller = function(props) {
 
   this.todoItem = []
 
-  this.size_ = function() {
-    return this.todoItem.length
-  }.bind(this)
-
   this.onload = utils.onload
 
   this.add = function(text) {
     var item = {
       _onclick: function(index, e) {
         this.todoItem[index]._completed = e.target.checked
-        render.redraw()
+        mag.redraw()
       }.bind(this, this.todoItem.length),
       text: text,
       _completed: false
@@ -87,17 +83,24 @@ todos.view = function(element, props, state) {
   }
 }
 
+todos.controller.onload = function() {
+  console.log('test')
+}
+
 mag.module("todos", todos)
 
 var app = {}
 
 app.controller = function(props) {
+  // console.log('ctrl call')
+
   this.show = mag.prop(true)
   this.name = '?'
   this.onload = utils.onload
 }
 
 app.view = function(element, props, state) {
+  //console.log('view call')
   state.test = {
     _class: 'test ' + (state.show() ? 'show' : 'hide'),
     _html: 'Hello'
