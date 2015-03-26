@@ -20,7 +20,8 @@ var mag = (function(self, module, render, document, undefined) {
     }
 
     prop.toJSON = function() {
-      return store
+      // return a copy
+      return JSON.parse(JSON.stringify(store))
     }
 
     return prop
@@ -28,14 +29,14 @@ var mag = (function(self, module, render, document, undefined) {
 
 
   privates.module = function(domElementId, moduleObject, props) {
-    console.time("MagnumJS")
+    console.time("MagnumJS:init")
 
     var index = render.roots.indexOf(domElementId);
     if (index < 0) index = render.roots.length;
 
     //DOM
     var element = document.getElementById(domElementId)
-
+    if (!element) throw new Error('invalid node')
     var parentElement = element.parentNode
     var elementClone = element.cloneNode(true)
 
@@ -58,8 +59,7 @@ var mag = (function(self, module, render, document, undefined) {
     parentElement.replaceChild(elementClone, tempEle)
 
     // call onload if present in controller
-    if (controller.onload) controller.onload.call()
-    console.timeEnd("MagnumJS")
+    if (controller.onload) controller.onload.call(null, elementClone)
   }
 
   var interfaces = function(method) {
