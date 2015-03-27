@@ -33,11 +33,11 @@ todos.controller = function(props) {
 
 todos.view = function(element, props, state) {
 
-  var todo = '',
+  var todo = mag.prop(''),
     doAdd = function(e) {
-      if (todo == '') return
-      state.add(todo)
-      todo = ''
+      if (todo() == '') return
+      state.add(todo())
+      todo('')
       e.target.value = ''
     }
 
@@ -64,13 +64,11 @@ todos.view = function(element, props, state) {
   }
 
   state.input = {
-    _onfocus: function(e) {
-      e.target.value = ''
+    _onfocus: function() {
+      this.value = ''
     },
-    _value: todo,
-    _onchange: function() {
-      todo = this.value
-    },
+    _value: todo(),
+    _onchange: mag.withProp('value', todo),
     _onkeyup: function(e) {
       if (e.which == 13) {
         doAdd(e)
@@ -89,6 +87,29 @@ todos.controller.onload = function() {
 
 mag.module("todos", todos)
 
+
+var build = {}
+build.view = function(element, props, state) {
+  var link = function() {
+    var scripts = document.querySelectorAll('head script')
+    var string = ''
+    for (var k in scripts) {
+      var url = scripts[k].src
+      if (!url) continue
+
+      string += 'file=' + url + '&'
+    }
+    return 'http://reducisaurus.appspot.com/js?' + string
+  }()
+
+  state.a = {
+    _target: 'blank',
+    _href: link
+  }
+}
+
+
+
 var app = {}
 
 app.controller = function(props) {
@@ -103,9 +124,10 @@ app.view = function(element, props, state) {
   //console.log('view call')
   state.test = {
     _class: 'test ' + (state.show() ? 'show' : 'hide'),
-    _html: 'Hello'
+    _html: 'Hello',
   }
 
+  state.b = mag.module('build',build)
   state.button = {
     _onclick: function() {
       state.show(!state.show())
