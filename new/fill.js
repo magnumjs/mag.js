@@ -102,6 +102,13 @@ var mag = (function(mag, configs, document, undefined) {
       // match the number of nodes to the number of data elements
       if (dataIsArray) {
 
+        if (templates[key + index] && elements.length === 0) {
+
+          templates[key + index].parent.insertAdjacentHTML("beforeend", templates[key + index].node);
+          elements = nodeListToArray(templates[key + index].parent.children)
+
+        }
+
         if (elements.length === 0) {
 
           //=====================================================================
@@ -120,26 +127,29 @@ var mag = (function(mag, configs, document, undefined) {
         parent = elements[0].parentNode
         var docfrag = document.createDocumentFragment();
 
-        // if (!templates[key + index]) {
-        //   templates[key + index] = {
-        //     node: elements[0].cloneNode(true).outerHTML,
-        //     parent: parent
-        //   }
-        //   //remove from dom
-        // }
+        if (!templates[key + index]) {
+          templates[key + index] = {
+            node: elements[0].cloneNode(true).outerHTML,
+            parent: parent
+          }
+          //remove from dom
+          parent.removeChild(elements[0])
+        }
 
-        elements[0].setAttribute('data-clone', key + index)
-
-        while (elements.length - 1 < data.length) {
-          node = elements[0].cloneNode(true)
-          node.removeAttribute('data-clone')
+        while (elements.length < data.length) {
+          if (templates[key + index]) {
+            parent.insertAdjacentHTML("beforeend", templates[key + index].node)
+            node = parent.lastChild
+          } else {
+            node = elements[0].cloneNode(true)
+          }
 
           elements.push(node)
           if (parent) docfrag.appendChild(node)
         }
 
         // remove the last node until the number of nodes matches the data
-        while (elements.length > data.length + 1) {
+        while (elements.length > data.length) {
           node = elements.pop()
           parent = node.parentNode
           if (parent) docfrag.removeChild(node)
@@ -151,31 +161,32 @@ var mag = (function(mag, configs, document, undefined) {
       // now fill each node with the data
       for (var i = 0; i < elements.length; i++) {
         if (dataIsArray) {
-          if (elements[i + 1]) {
-            fill(elements[i + 1], data[i])
+          if (elements[i]) {
+            fill(elements[i], data[i])
           }
         } else {
           fillNode(elements[i], data)
         }
       }
-
       return nodeList
     }
 
     function fillNode(node, data) {
       var attributes,
-       attrValue,
-       element,
-       elements
+        attrValue,
+        element,
+        elements
 
 
-      // ignore functions
+        // ignore functions
       if (typeof data === 'function') {
         // get result and recurse
         if (data._type == '__mag__.fun') {
-          return fillNode(node, data())
+          try {
+            return fillNode(node, data())
+          } catch (e) {}
         }
-        return 
+        return
       }
 
       if (typeof data === 'object' && data._type == '__mag__.module') {
@@ -184,7 +195,6 @@ var mag = (function(mag, configs, document, undefined) {
         })
 
       }
-
 
       // if the value is a simple property wrap it in the attributes hash
       if (typeof data !== 'object') return fillNode(node, {
