@@ -1,0 +1,13 @@
+[data-clone] {
+  display: none;
+}
+.hide {
+  display: none;
+}
+.show {
+  display: inline-block;
+}
+[completed="true"] {
+  text-decoration: line-through;
+  color: grey;
+}
