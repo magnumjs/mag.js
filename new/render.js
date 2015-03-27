@@ -1,11 +1,11 @@
-mag = (function(mag) {
-  
+var mag = (function(mag) {
+
   var render = {
     roots: [],
     templates: {},
     cache: {}
   }
-  
+
   var unloaders = [],
     cached = [],
     pendingRequests = 0
@@ -29,40 +29,58 @@ mag = (function(mag) {
   render.callConfigs = function(configs) {
     //for (var i = 0, len = configs.length; i < len; i++) configs[i]()
   }
+  var cache = []
   render.redraw = function(module, fill, WatchJS) {
     module = module || render.module || {}
-    console.time('Mag.JS:render')
     this.fun || (this.fun = debounce(function() {
+      var redrawing = false
+
+      if (redrawing) return
+      redrawing = true
       var prev
+      var marker = '__' + new Date + '__'
+
       for (var i = 0, root; root = render.roots[i]; i++) {
         if (module.controllers[i]) {
           var elementClone = module.elements[i]
+          console.time('Mag.JS:render:' + elementClone.id)
 
-          callView(elementClone, module, i)
+          // prevent infinite recursion
+          if (marker in elementClone) return
+
           var args = module.getArgs(i)
 
-          WatchJS.watch(args[0], debounce(function(ele, i, module, prop, type, newVal, oldVal) {
-            console.time('Mag.JS:re-render')
+          if (cache[i] && cache[i]===JSON.stringify(args[0])) {
+            continue
+          }
+          callView(elementClone, module, i)
+
+          WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
+            console.time('Mag.JS:re-render:' + ele.id)
             var args = module.getArgs(i)
 
             // check if data changed
-            if (prev !== JSON.stringify(args[0])) {
+            if (cache[i] !== JSON.stringify(args[0])) {
               callView(ele, module, i)
               fill.fill(ele, args[0])
               WatchJS.noMore = true
               render.callConfigs(fill.configs)
               prev = JSON.stringify(args[0])
             }
-            console.timeEnd('Mag.JS:re-render')
+            
+            redrawing = false
+            console.timeEnd('Mag.JS:re-render:' + ele.id)
           }.bind(null, elementClone, i, module)))
 
           fill.fill(elementClone, args[0])
           render.callConfigs(fill.configs)
-          prev = JSON.stringify(args[0])
+          cache[i] = JSON.stringify(args[0])
+          redrawing = false
+          elementClone[marker] = true
+          console.timeEnd('Mag.JS:render:' + elementClone.id)
         }
       }
       console.timeEnd("MagnumJS:init")
-      console.timeEnd('Mag.JS:render')
     }))
     this.fun()
   }
@@ -92,5 +110,5 @@ mag = (function(mag) {
 
   mag.render = render
   return mag
-  
+
 }(window.mag || {}))
