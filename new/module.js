@@ -1,4 +1,4 @@
-mag = (function(mag) {
+var mag = (function(mag) {
 
   var mod = {
     modules: [],
