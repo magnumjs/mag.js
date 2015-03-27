@@ -56,7 +56,7 @@ var mag = (function(self, document, undefined) {
 
     //DOM
     var element = document.getElementById(domElementId)
-    if (!element) throw new Error('invalid node')
+    if (!element) return new Error('invalid node')
 
     var parentElement = element.parentNode
     var elementClone = element.cloneNode(true)
@@ -65,7 +65,7 @@ var mag = (function(self, document, undefined) {
     parentElement.replaceChild(tempEle, element)
 
     //MODULE
-    if (!moduleObject.view) throw new Error('view is required')
+    if (!moduleObject.view) return
     var mod = module.submodule(moduleObject, [props])
 
 
