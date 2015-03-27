@@ -57,7 +57,7 @@ domElement.replaceWithin = function(frag, key, val) {
   }
 }
 */
-mag = (function(mag, configs, undefined) {
+var mag = (function(mag, configs, document, undefined) {
 
   var ELEMENT_NODE = 1
   var cached = []
@@ -163,19 +163,28 @@ mag = (function(mag, configs, undefined) {
     }
 
     function fillNode(node, data) {
-      var attributes;
-      var attrValue;
-
-      var element;
-      var elements;
-
+      var attributes,
+       attrValue,
+       element,
+       elements
 
 
       // ignore functions
       if (typeof data === 'function') {
         // get result and recurse
-        return
+        if (data._type == '__mag__.fun') {
+          return fillNode(node, data())
+        }
+        return 
       }
+
+      if (typeof data === 'object' && data._type == '__mag__.module') {
+        return fillNode(node, {
+          _html: document.getElementById(data._ele).innerHTML
+        })
+
+      }
+
 
       // if the value is a simple property wrap it in the attributes hash
       if (typeof data !== 'object') return fillNode(node, {
@@ -444,10 +453,10 @@ mag = (function(mag, configs, undefined) {
   // attach fill to current context (in the browser this will be window.fill)
   // this.fill = fill;
   // this.configs = configs
- 
+
   mag.fill = {
     fill: fill,
     configs: configs
   }
   return mag
-}(window.mag || {}, []))
+}(window.mag || {}, [], document))
