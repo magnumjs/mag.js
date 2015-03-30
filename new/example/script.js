@@ -1,8 +1,4 @@
-var utils = {}
-utils.onload = function(element) {
-  element.classList.remove("hide")
-}
-
+// descriptive todos example - no shortcuts
 var todos = {}
 
 todos.controller = function(props) {
@@ -12,15 +8,15 @@ todos.controller = function(props) {
 
   this.add = function(text) {
     var item = {
-      _config: function(node) {
-        node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
-      },
+      text: text,
+      _completed: false,
       _onclick: function(index, e) {
         this.todoItem()[index]._completed = !this.todoItem()[index]._completed
-        this.todoItem(this.todoItem())
+        this.todoItem(this.todoItem()) // starts a redraw
       }.bind(this, this.todoItem().length),
-      text: text,
-      _completed: false
+      _config: function(node) {
+        node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
+      }
     }
     this.todoItem().push(item)
   }.bind(this)
@@ -31,6 +27,13 @@ todos.controller = function(props) {
     }).length
   }.bind(this)
 
+  this.archive = function() {
+    this.todoItem(this.todoItem().filter(function(item, index) {
+      if (!item._completed) {
+        return item
+      }
+    }))
+  }.bind(this)
 }
 
 todos.view = function(element, props, state) {
@@ -39,20 +42,11 @@ todos.view = function(element, props, state) {
     doAdd = function(e) {
       if (todo() == '') return
       state.add(todo())
-      todo('')
-      e.target.value = ''
+      e.target.value = todo('')
     }
 
   state.remaining = state.remains()
   state.size = state.todoItem().length + ' remaining'
-
-  state.archive = function() {
-    state.todoItem(state.todoItem().filter(function(item, index) {
-      if (!item._completed) {
-        return item
-      }
-    }))
-  }
 
   state.total = {
     a: {
@@ -60,7 +54,6 @@ todos.view = function(element, props, state) {
     },
     _class: "total " + (state.todoItem().length > 0 ? 'show' : 'hide'),
   }
-
 
   if (state.remains() == 0 && state.todoItem().length > 0) {
     state.total._text = 'Done!'
@@ -95,11 +88,15 @@ todos.view = function(element, props, state) {
   }
 }
 
-todos.controller.onload = function() {
-  console.log('test')
+var utils = {}
+utils.onload = function(element) {
+  element.classList.remove("hide")
 }
 
+mag.logger(console) // comment to turn on/off
 mag.module("todos", todos)
+
+// simple nested/reuse module examples
 
 var passFail = {}
 
@@ -107,7 +104,7 @@ passFail.view = function(element, props, state) {
 
   state.message = props.pass() ? props.message.pass : props.fail() ? props.message.fail : ""
 
-  state._class = props.pass() ? 'success' : 'error'
+  state._class = props.pass() ? 'success' : props.fail() ? 'error' : ''
 
   state.messaging = state.message
 }
@@ -136,7 +133,6 @@ build.view = function(element, props, state) {
 var app = {}
 
 app.controller = function(props) {
-  // console.log('ctrl call')
 
   this.show = mag.prop(true)
   this.name = '?'
@@ -151,7 +147,6 @@ app.controller = function(props) {
 }
 
 app.view = function(element, props, state) {
-  //console.log('view call')
   state.test = {
     _class: 'test ' + (state.show() ? 'show' : 'hide'),
     _html: 'Hello'
@@ -166,7 +161,7 @@ app.view = function(element, props, state) {
       pass: "yay!",
       fail: "boo!"
     }
-  }, element.id)
+  })
 
   state.button = {
     _onclick: state.change
