@@ -1,62 +1,3 @@
-/*
-var domElement = {}
-
-domElement.replaceWithin = function(frag, key, val) {
-  this.pattern = this.pattern || {}
-  this.pattern[key] = this.pattern[key] || new RegExp('\\{' + key + '\\}', 'gi');
-
-  recur(frag, this.pattern[key], key);
-
-  function recur(frag, pattern, key) {
-    if (frag.hasChildNodes()) {
-      var list = frag.children;
-      for (var i = 0, len = list.length; i < len; i++) {
-        if (!list[i].firstChild) {
-          continue;
-        } else if (!list[i].firstChild.nodeValue) {
-          recur(list[i], pattern, key);
-        } else {
-          replaceAttribute(pattern, list[i], key);
-          replaceValue(pattern, list[i], key);
-        }
-      }
-    } else {
-      replaceAttribute(pattern, frag, key);
-      replaceValue(pattern, frag, key);
-    }
-  }
-
-  function replaceAttribute(pattern, el, key) {
-
-
-    for (var i = 0, attrs = el.attributes, l = attrs.length; i < l; i++) {
-      var attr = attrs.item(i);
-      replace(attr, pattern, key);
-    }
-
-    function replace(attr, pattern, key) {
-      if (typeof val == 'object') return
-      attr.nodeValue = attr.nodeValue.replace(pattern, function(out, inn, pos) {
-        if (inn != -1) {
-          return val
-        } else {
-          return out;
-        }
-      });
-    }
-  }
-
-  function replaceValue(pattern, ele, key) {
-    ele.firstChild.nodeValue = ele.firstChild.nodeValue.replace(pattern, function(out, inn, pos) {
-      if (inn != -1) {
-        return val
-      } else {
-        return out;
-      }
-    });
-  }
-}
-*/
 var mag = (function(mag, configs, document, undefined) {
 
   var ELEMENT_NODE = 1
@@ -125,7 +66,6 @@ var mag = (function(mag, configs, document, undefined) {
 
         // clone the first node if more nodes are needed
         parent = elements[0].parentNode
-        var docfrag = document.createDocumentFragment();
 
         if (!templates[key + index]) {
           templates[key + index] = {
@@ -145,17 +85,15 @@ var mag = (function(mag, configs, document, undefined) {
           }
 
           elements.push(node)
-          if (parent) docfrag.appendChild(node)
+          if (parent) parent.appendChild(node)
         }
 
         // remove the last node until the number of nodes matches the data
         while (elements.length > data.length) {
           node = elements.pop()
           parent = node.parentNode
-          if (parent) docfrag.removeChild(node)
+          if (parent) parent.removeChild(node)
         }
-
-        if (parent) parent.appendChild(docfrag)
       }
 
       // now fill each node with the data
@@ -180,20 +118,8 @@ var mag = (function(mag, configs, document, undefined) {
 
         // ignore functions
       if (typeof data === 'function') {
-        // get result and recurse
-        if (data._type == '__mag__.fun') {
-          try {
-            return fillNode(node, data())
-          } catch (e) {}
-        }
+
         return
-      }
-
-      if (typeof data === 'object' && data._type == '__mag__.module') {
-        return fillNode(node, {
-          _html: document.getElementById(data._ele).innerHTML
-        })
-
       }
 
       // if the value is a simple property wrap it in the attributes hash
@@ -302,14 +228,12 @@ var mag = (function(mag, configs, document, undefined) {
           node._events.push(attrName)
 
         } else {
-          if (attrName == 'fun') {
 
-          }
 
           if (attrName == 'config') {
 
             // have we been here before?
-            //does the element already exist in cache
+            // does the element already exist in cache
             // useful to know if this is newly added
             var isNew = true
 
