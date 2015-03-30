@@ -35,23 +35,16 @@ var mag = (function(mag) {
     this.fun || (this.fun = debounce(function() {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
-      
+
       //for (var i = 0, root; root = render.roots[i]; i++) {
       for (var i in render.roots) {
         var root = render.roots[i]
 
         if (module.controllers[i]) {
-          var marker = '__' + new Date + '__'
 
           var elementClone = module.elements[i]
 
-          // prevent infinite recursion
-          if (marker in elementClone) {
-            //console.log(elementClone.id, 'already running')
-            continue
-          }
-          //elementClone[marker] = true
-          console.time('Mag.JS:render:' + elementClone.id)
+          fill.log('time')('Mag.JS:render:' + elementClone.id)
 
           var args = module.getArgs(i)
 
@@ -62,7 +55,7 @@ var mag = (function(mag) {
           callView(elementClone, module, i)
 
           WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
-            console.time('Mag.JS:re-render:' + ele.id)
+            fill.log('time')('Mag.JS:re-render:' + ele.id)
             var args = module.getArgs(i)
 
             // check if data changed
@@ -73,15 +66,13 @@ var mag = (function(mag) {
               render.callConfigs(fill.configs)
             }
 
-            //delete ele[marker]
-            console.timeEnd('Mag.JS:re-render:' + ele.id)
+            fill.log('timeEnd')('Mag.JS:re-render:' + ele.id)
           }.bind(null, elementClone, i, module)))
 
           fill.fill(elementClone, args[0])
           render.callConfigs(fill.configs)
           cache[i] = JSON.stringify(args[0])
-          delete elementClone[marker]
-          console.timeEnd('Mag.JS:render:' + elementClone.id)
+          fill.log('timeEnd')('Mag.JS:render:' + elementClone.id)
         }
       }
     }))
