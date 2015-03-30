@@ -9,10 +9,7 @@ var mag = (function(mag, configs, document, undefined) {
     }
 
 
-    // the user can inject a logger function to get some feedback from fill
-    function log(msg) {
-      if (typeof fill.logger === 'function') fill.logger(msg)
-    }
+
 
   var templates = {}
 
@@ -388,8 +385,18 @@ var mag = (function(mag, configs, document, undefined) {
   // this.fill = fill;
   // this.configs = configs
 
+  // the user can inject a logger function to get some feedback from fill
+  function log(methodName) {
+    return function() {
+      if (typeof mag.logger === 'object') {
+        mag.logger[methodName || 'log'].apply(mag.logger, arguments)
+      }
+    }
+  } 
+
   mag.fill = {
     fill: fill,
+    log: log,
     configs: configs
   }
   return mag
