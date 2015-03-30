@@ -16,9 +16,15 @@ var mag = (function(self, document, undefined) {
     // var instance = this
     // console.log('mag init')
   }
-
+  var redrawing = false
   privates.redraw = function() {
+    if (redrawing) {
+      console.log('test')
+      return
+    }
+    redrawing = true
     render.redraw(module || render.module || {}, fill, watch)
+    redrawing = false
   }
 
   privates.withProp = function(prop, withAttrCallback) {
@@ -48,13 +54,25 @@ var mag = (function(self, document, undefined) {
     return prop
   }
 
-  privates.module = function(domElementId, moduleObject, props) {
+
+  var templates = [],
+    called = [],
+    guid = 0;
+
+  privates.module = function(domElementId, moduleObject, props, reuse) {
     console.time("MagnumJS:init")
 
-    var index = render.roots.indexOf(domElementId);
+    var index = render.roots.indexOf(domElementId)
+
+    if (reuse && index !== -1) {
+
+    }
+
+    // create new index on roots
     if (index < 0) index = render.roots.length;
 
     //DOM
+
     var element = document.getElementById(domElementId)
     if (!element) return new Error('invalid node')
 
@@ -66,43 +84,50 @@ var mag = (function(self, document, undefined) {
 
     //MODULE
     if (!moduleObject.view) return
+
     var mod = module.submodule(moduleObject, [props])
 
 
-    render.roots[index] = domElementId
-    var controller = new mod.controller
+    render.roots[index] = elementClone.id
 
-    module.controllers[index] = controller
-    module.modules[index] = mod
-    module.elements[index] = elementClone
+
+    var currentModule = topModule = mod = mod || {};
+    var constructor = mod.controller || function() {}
+    var controller = new constructor;
+
+
+    //controllers may call m.module recursively (via m.route redirects, for example)
+    //this conditional ensures only the last recursive m.module call is applied
+    if (currentModule === topModule) {
+
+      //console.log('test', index, render.roots[index])
+      module.controllers[index] = controller;
+      module.modules[index] = mod
+      module.elements[index] = elementClone
+
+    }
+
     //INTERPOLATIONS
     privates.redraw()
 
     //DOM
     parentElement.replaceChild(elementClone, tempEle)
-  
+
     // call controller unloaders ?
 
 
     // call onload if present in controller
     if (controller.onload) controller.onload.call(null, elementClone)
 
-    // var currentModule = topModule = mod = mod || {};
-    // var constructor = mod.controller || function() {}
-    // var controller = new constructor;
-    // // controller._type='__mag__.module'
-    // // controller._ele = domElementId
-    // //controllers may call m.module recursively (via m.route redirects, for example)
-    // //this conditional ensures only the last recursive m.module call is applied
-    // if (currentModule === topModule) {
-    //   module.controllers[index] = controller;
-    //   module.modules[index] = mod
-    // }
-    
-    return {_type:'__mag__.module', _ele : domElementId}
+    console.timeEnd("MagnumJS:init")
+
+    return {
+      _html: elementClone.innerHTML
+    }
   }
 
   var interfaces = function(method) {
+
     return function() {
       return privates[method].apply(this, arguments)
     }
