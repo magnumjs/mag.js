@@ -70,7 +70,7 @@ var mag = (function(mag, configs, document, undefined) {
             parent: parent
           }
           //remove from dom
-          parent.removeChild(elements[0])
+          //parent.removeChild(elements[0])
         }
 
         while (elements.length < data.length) {
