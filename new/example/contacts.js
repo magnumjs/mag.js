@@ -1,125 +1,115 @@
-var mag = (function(mag) {
+var Contact = function(data) {
+  data = data || {}
+  this.id = mag.prop(data.id)
+  this.name = mag.prop(data.name)
+  this.email = mag.prop(data.email)
+}
 
-  var render = {
-    roots: [],
-    templates: {},
-    cache: {}
+var a = [],
+  called = false;
+
+Contact.list = function(cb) {
+  //async results
+
+  if (!called) {
+    setTimeout(function() {
+
+      // a = [{
+      //   id: 1,
+      //   name: 'test'
+      // }, {
+      //   id: 2,
+      //   name: 'test2'
+      // }]
+
+      a = JSON.parse(localStorage['contacts'] || '[]')
+      called = true
+      cb()
+    }, 1000)
   }
+  return a
+}
 
-  var unloaders = [],
-    cached = [],
-    pendingRequests = 0
+Contact.save = function(data, cb) {
 
-    function callView(elementClone, module, i) {
-      var args = module.getArgs(i)
+  var contacts = JSON.parse(localStorage['contacts'] || '[]')
 
-      var mod = module.modules[i]
-      var controller = module.controllers[i]
+  contacts.push({
+    id: 1,
+    name: data.name(),
+    email: data.email()
+  })
 
-      // var controllerConstructor = mod.controller.$original || mod.controller
-      // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
+  // save in localStorage
+  // add to current
+  setTimeout(function() {
+    
+    localStorage['contacts'] = JSON.stringify(contacts)
+    called = false
+    cb()
+  }, 100)
+  // return temp for faster re-render
+  return contacts
+}
 
-      mod.view(elementClone, controller)
+var ContactsWidget = {
+  controller: function update(props) {
 
-      // if (controller.onunload) unloaders.push({
-      //   controller: controller,
-      //   handler: controller.onunload
-      // })
+    this.contacts = Contact.list(update.bind(this))
+
+    this.save = function(contact) {
+      this.contacts = Contact.save(contact, update.bind(this))
+    }.bind(this)
+
+    this.onload = function(element) {
+      console.log('contacts onload')
+      localStorage.removeItem('contacts')
+      element.querySelector('#list').classList.remove('hide')
     }
 
-  render.callOnload = function(module) {
-    for (var i = 0, controller; controller = module.controllers[i]; i++) {
-      // call once
-      if (controller.onload && !controller.called) {
-        controller.onload.call(null, module.elements[i])
-        controller.called = 1
-      }
+  },
+  view: function(element, props, state) {
+
+    state.form = mag.module('form', ContactForm, {
+      onsave: state.save
+    })
+
+    state.ul = mag.module('list', ContactList, {
+      contacts: state.contacts
+    })
+
+  }
+}
+
+
+var ContactForm = {
+  controller: function(props) {
+    this.contact = mag.prop(props.contact || new Contact())
+  },
+  view: function(element, props, state) {
+    var contact = state.contact()
+
+    state.name = {
+      _oninput: mag.withProp("value", contact.name),
+      value: contact.name()
+    }
+
+    state.email = {
+      _oninput: mag.withProp("value", contact.email),
+      value: contact.email()
+    }
+    state.button = {
+      _onclick: props.onsave.bind(this, contact)
     }
   }
-  render.callConfigs = function(configs) {
-    for (var i = 0, len = configs.length; i < len; i++) configs[i]()
+}
+
+var ContactList = {
+  view: function(element, props, state) {
+    state.contact = props.contacts
   }
-  var cache = []
-  render.redraw = function(module, fill, WatchJS) {
-    module = module || render.module || {}
-    this.fun || (this.fun = debounce(function() {
-      // clear existing configs
-      fill.configs.splice(0, fill.configs.length)
+}
 
-      for (var i = 0, root; root = render.roots[i]; i++) {
-        mag.running = true
-
-        if (module.controllers[i]) {
-
-          var elementClone = module.elements[i]
-
-          fill.log('time')('Mag.JS:render:' + elementClone.id)
-
-          var args = module.getArgs(i)
-
-          if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-            continue
-          }
-          callView(elementClone, module, i)
-
-          WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
-            mag.running = true
-            fill.log('time')('Mag.JS:re-render:' + ele.id)
-            var args = module.getArgs(i)
-
-            // check if data changed
-            if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-              // turning this off will have this running constantly
-              WatchJS.noMore = false
-              return
-            }
-            callView(ele, module, i)
-            fill.fill(ele, args[0])
-            WatchJS.noMore = true
-            render.callConfigs(fill.configs)
-
-
-            // call onload if present in all controllers
-            render.callOnload(module)
-            cache[i] = JSON.stringify(args[0])
-
-            mag.running = false
-            fill.log('timeEnd')('Mag.JS:re-render:' + ele.id)
-          }.bind(null, elementClone, i, module)))
-
-          fill.fill(elementClone, args[0])
-          render.callConfigs(fill.configs)
-          cache[i] = JSON.stringify(args[0])
-          fill.log('timeEnd')('Mag.JS:render:' + elementClone.id)
-        }
-      }
-    }))
-    this.fun()
-  }
-
-  var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
-  var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
-
-  var debounce = function(fn, threshhold) {
-    var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
-      deferTimer
-    return function() {
-      if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
-        // hold on to it
-        if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
-
-        deferTimer = $requestAnimationFrame(function() {
-          lastRedrawCallTime = +new Date
-          fn.apply(this, arguments);
-        }, FRAME_BUDGET);
-      } else {
-        lastRedrawCallTime = +new Date
-        fn.apply(this, arguments);
-      }
-    }
-  }
-
-  mag.render = render
-  return mag
-
-}(window.mag || {}))
+document.body.querySelector('#contacts').classList.remove('hide')
+mag.logger(console)
+mag.module('contacts', ContactsWidget)
