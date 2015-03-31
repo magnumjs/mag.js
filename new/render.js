@@ -26,6 +26,16 @@ var mag = (function(mag) {
       //   handler: controller.onunload
       // })
     }
+
+  render.callOnload = function(module) {
+    for (var i = 0, controller; controller = module.controllers[i]; i++) {
+      // call once
+      if (controller.onload && !controller.called) {
+        controller.onload.call(null, module.elements[i])
+        controller.called = 1
+      }
+    }
+  }
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
   }
@@ -36,9 +46,8 @@ var mag = (function(mag) {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
 
-      //for (var i = 0, root; root = render.roots[i]; i++) {
-      for (var i in render.roots) {
-        var root = render.roots[i]
+      for (var i = 0, root; root = render.roots[i]; i++) {
+        mag.running = true
 
         if (module.controllers[i]) {
 
@@ -49,23 +58,32 @@ var mag = (function(mag) {
           var args = module.getArgs(i)
 
           if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-            // console.log(elementClone.id, 'no change')
             continue
           }
           callView(elementClone, module, i)
 
           WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
+            mag.running = true
             fill.log('time')('Mag.JS:re-render:' + ele.id)
             var args = module.getArgs(i)
 
             // check if data changed
-            if (cache[i] !== JSON.stringify(args[0])) {
-              callView(ele, module, i)
-              fill.fill(ele, args[0])
+            if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+              // turning this off will have this running constantly
               WatchJS.noMore = true
-              render.callConfigs(fill.configs)
+              return
             }
+            callView(ele, module, i)
+            fill.fill(ele, args[0])
+            WatchJS.noMore = false
+            render.callConfigs(fill.configs)
 
+
+            // call onload if present in all controllers
+            render.callOnload(module)
+            cache[i] = JSON.stringify(args[0])
+
+            mag.running = false
             fill.log('timeEnd')('Mag.JS:re-render:' + ele.id)
           }.bind(null, elementClone, i, module)))
 
@@ -85,7 +103,6 @@ var mag = (function(mag) {
   var debounce = function(fn, threshhold) {
     var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
-
     return function() {
       if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
         // hold on to it
