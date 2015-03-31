@@ -165,7 +165,6 @@ var mag = (function(mag, configs, document, undefined) {
             } catch (e) {}
           }
 
-
           // check for key replacement within the element
           //domElement.replaceWithin(node, key, value)
 
@@ -392,7 +391,7 @@ var mag = (function(mag, configs, document, undefined) {
         mag.logger[methodName || 'log'].apply(mag.logger, arguments)
       }
     }
-  } 
+  }
 
   mag.fill = {
     fill: fill,
