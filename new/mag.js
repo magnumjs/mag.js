@@ -9,6 +9,8 @@ var mag = (function(self, document, undefined) {
     topModule,
     watch = self.watch;
 
+
+  self.running = false
   // set logger
   self.logger = fill.logger || self.logger
 
@@ -50,14 +52,20 @@ var mag = (function(self, document, undefined) {
 
     prop.toJSON = function() {
       // return a copy
-      return JSON.parse(JSON.stringify(store))
+      try {
+        return JSON.parse(JSON.stringify(store))
+      } catch (e) {
+        throw new Error('JSON parse error' + e)
+      } finally {
+        return store
+      }
     }
 
     return prop
   }
 
 
-  privates.module = function(domElementId, moduleObject, props, reuse) {
+  privates.module = function(domElementId, moduleObject, props) {
     fill.log('time')("MagnumJS:init:" + domElementId)
 
     var index = render.roots.indexOf(domElementId)
@@ -70,7 +78,7 @@ var mag = (function(self, document, undefined) {
     if (!element) return Error('invalid node')
 
     var parentElement = element.parentNode
-    var elementClone = element.cloneNode(true)
+    var elementClone = element // clone to copy 
 
     var tempEle = document.createElement("span")
     parentElement.replaceChild(tempEle, element)
@@ -81,7 +89,7 @@ var mag = (function(self, document, undefined) {
     //MODULE
     if (!moduleObject.view) return Error('module requires a view')
 
-    var mod = module.submodule(moduleObject, [props])
+    var mod = module.submodule(moduleObject, [props || {}])
 
 
     var currentModule = topModule = mod = mod || {}
@@ -109,16 +117,18 @@ var mag = (function(self, document, undefined) {
     // add to fill.js
 
 
-    // call onload if present in controller
-    if (controller.onload) controller.onload.call(null, elementClone)
 
     fill.log('timeEnd')("MagnumJS:init:" + domElementId)
 
-    // return instance ?
-    // module.controllers[index]
+
+    // console.log(self.running)
+    // // call onload if present in controller
+    if (controller.onload && !self.running) render.callOnload(module)
     return {
       _html: elementClone.innerHTML
     }
+    // return instance ?
+    // module.controllers[index]
   }
 
   // set to 0/off to disable
