@@ -8,5 +8,9 @@
 
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 
-Example: 
+Todos Example: 
 http://jsbin.com/rimawetuso/edit?js,output
+
+
+Contacts Example:
+http://jsbin.com/yupitowomu/edit?js,output
