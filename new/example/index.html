@@ -7,17 +7,32 @@
 </head>
 
 <body>
-  <h1>Hello Mag.JS!</h1>
+
+  <div id="hello">
+    <h1>Hello Mag.JS!</h1>
+  </div>
 
   <div id="test" class="hide">
+    <button>click</button>
     <span class="test">default</span> 
-    <span class="name">
-      <button>click</button>
-    </span>
+    <span class="name"></span>
     <div id="passFail2" class="hide">
       <div class="messaging"></div>
     </div>
     <b></b>
+  </div>
+
+  <div id="contacts" class="hide">
+    <div id="form">
+      <input class="name" />
+      <input class="email" />
+      <button>Save</button>
+    </div>
+    <ul id="list" class="hide">
+      <li class="contact">
+        <span class="name"></span>
+      </li>
+    </ul>
   </div>
 
   <div id="todos" class="hide">
@@ -40,6 +55,19 @@
     <a href="">Nested - module - build</a> 
     <div class="more"></div>
   </div>
+  <script>
+    mag.module('hello', {
+      controller: function(props) {
+        this.onload = function(ele) {
+          console.log('hello onload')
+        }
+      },
+      view: function(element, props, state) {
+        state.h1 = 'Hello Mag.JS!'
+      }
+    })
+  </script>
+  <script src="contacts.js"></script>
   <script src="script.js"></script>
 </body>
 
