@@ -16,6 +16,7 @@ var mag = (function(mag) {
       if (arguments.length > 1) args = args.concat([].slice.call(arguments, 1))
       var template = module.view.apply(module, args ? [ctrl].concat(args) : [ctrl])
       if (args[0] && args[0].key != null) template.attrs.key = args[0].key
+      // There's no template return ??
       return template
     }
 
@@ -33,6 +34,7 @@ var mag = (function(mag) {
 
   mod.getArgs = function(i) {
     var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
+  // console.log(i,args[0])
     return args
   }
   mag.mod = mod
