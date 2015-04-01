@@ -8,6 +8,22 @@
 
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 
+```javascript
+<div id="hello">
+  <h1></h1>
+</div>
+  
+mag.module('hello', {
+  view: function(element, props, state) {
+    state.h1 = 'Hello Mag.JS!'
+  }
+})
+    
+<div id="hello">
+  <h1>Hello Mag.JS!</h1>
+</div>
+```
+
 Todos Example: 
 http://jsbin.com/rimawetuso/edit?js,output
 
