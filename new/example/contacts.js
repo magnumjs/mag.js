@@ -1,57 +1,3 @@
-var Contact = function(data) {
-  data = data || {}
-  this.id = mag.prop(data.id)
-  this.name = mag.prop(data.name)
-  this.email = mag.prop(data.email)
-}
-
-var a = [],
-  called = false;
-
-Contact.list = function(cb) {
-  //async results
-
-  if (!called) {
-    setTimeout(function() {
-
-      // a = [{
-      //   id: 1,
-      //   name: 'test'
-      // }, {
-      //   id: 2,
-      //   name: 'test2'
-      // }]
-
-      a = JSON.parse(localStorage['contacts'] || '[]')
-      called = true
-      cb()
-    }, 1000)
-  }
-  return a
-}
-
-Contact.save = function(data, cb) {
-
-  var contacts = JSON.parse(localStorage['contacts'] || '[]')
-
-  contacts.push({
-    id: 1,
-    name: data.name(),
-    email: data.email()
-  })
-
-  // save in localStorage
-  // add to current
-  setTimeout(function() {
-    
-    localStorage['contacts'] = JSON.stringify(contacts)
-    called = false
-    cb()
-  }, 100)
-  // return temp for faster re-render
-  return contacts
-}
-
 var ContactsWidget = {
   controller: function update(props) {
 
@@ -108,6 +54,47 @@ var ContactList = {
   view: function(element, props, state) {
     state.contact = props.contacts
   }
+}
+
+var Contact = function(data) {
+  data = data || {}
+  this.id = mag.prop(data.id)
+  this.name = mag.prop(data.name)
+  this.email = mag.prop(data.email)
+}
+
+var a = [],
+  called = false;
+
+Contact.list = function(cb) {
+  //async results
+  if (!called) {
+    setTimeout(function() {
+      a = JSON.parse(localStorage['contacts'] || '[]')
+      called = true
+      cb()
+    }, 1000)
+  }
+  return a
+}
+
+Contact.save = function(data, cb) {
+
+  var contacts = a = JSON.parse(localStorage['contacts'] || '[]')
+
+  contacts.push({
+    id: 1,
+    name: data.name(),
+    email: data.email()
+  })
+
+  setTimeout(function() {
+    localStorage['contacts'] = JSON.stringify(contacts)
+    called = false
+    cb()
+  }, 100)
+  // return temp for faster re-render
+  return contacts
 }
 
 document.body.querySelector('#contacts').classList.remove('hide')
