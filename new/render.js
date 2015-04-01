@@ -61,6 +61,7 @@ var mag = (function(mag) {
             continue
           }
           callView(elementClone, module, i)
+          cache[i] = JSON.stringify(args[0])
 
           WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
             mag.running = true
@@ -70,18 +71,20 @@ var mag = (function(mag) {
             // check if data changed
             if (cache[i] && cache[i] === JSON.stringify(args[0])) {
               // turning this off will have this running constantly
-              WatchJS.noMore = true
-              return
+              // WatchJS.noMore = false
+              return false
             }
             callView(ele, module, i)
+            cache[i] = JSON.stringify(args[0])
+
             fill.fill(ele, args[0])
-            WatchJS.noMore = false
+            //WatchJS.noMore = true
+
             render.callConfigs(fill.configs)
 
 
             // call onload if present in all controllers
             render.callOnload(module)
-            cache[i] = JSON.stringify(args[0])
 
             mag.running = false
             fill.log('timeEnd')('Mag.JS:re-render:' + ele.id)
@@ -89,7 +92,6 @@ var mag = (function(mag) {
 
           fill.fill(elementClone, args[0])
           render.callConfigs(fill.configs)
-          cache[i] = JSON.stringify(args[0])
           fill.log('timeEnd')('Mag.JS:render:' + elementClone.id)
         }
       }
