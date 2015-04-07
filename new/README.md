@@ -9,22 +9,28 @@
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 
 ```javascript
+Input:
 <div id="hello">
   <h1></h1>
 </div>
-  
+
+Module:
 mag.module('hello', {
   view: function(element, props, state) {
     state.h1 = 'Hello Mag.JS!'
   }
 })
-    
+
+Output:
 <div id="hello">
   <h1>Hello Mag.JS!</h1>
 </div>
 ```
 Hello world Example:
 http://jsbin.com/kevewiqani/edit?js,output
+
+Hello world example with passFail reusable component:
+http://jsbin.com/gicoyajuwa/edit?js,output
 
 Todos Example: 
 http://jsbin.com/rimawetuso/edit?js,output
