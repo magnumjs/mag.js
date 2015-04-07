@@ -32,6 +32,9 @@ http://jsbin.com/kevewiqani/edit?js,output
 Hello world example with passFail reusable component:
 http://jsbin.com/gicoyajuwa/edit?js,output
 
+List example: 
+http://jsbin.com/nimufuqojo/edit?js,output
+
 Tab component example:
 http://jsbin.com/totohamezu/edit?js,output
 
