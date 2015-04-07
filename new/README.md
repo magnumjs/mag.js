@@ -23,6 +23,8 @@ mag.module('hello', {
   <h1>Hello Mag.JS!</h1>
 </div>
 ```
+Hello world Example:
+http://jsbin.com/kevewiqani/edit?js,output
 
 Todos Example: 
 http://jsbin.com/rimawetuso/edit?js,output
