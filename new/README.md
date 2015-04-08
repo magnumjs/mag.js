@@ -42,8 +42,8 @@ Tab component example:
 http://jsbin.com/hoqojuqora/edit?js,output
 
 Todos Example: 
-http://jsbin.com/rimawetuso/edit?js,output
+http://jsbin.com/manixuyira/edit?js,output
 
 
 Contacts Example:
-http://jsbin.com/yupitowomu/edit?js,output
+http://jsbin.com/bozepurevi/edit?js,output
