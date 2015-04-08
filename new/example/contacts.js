@@ -8,7 +8,7 @@ var ContactsWidget = {
     }.bind(this)
 
     this.onload = function(element) {
-      console.log('contacts onload')
+      document.body.querySelector('#contacts').classList.remove('hide')
       localStorage.removeItem('contacts')
       element.querySelector('#list').classList.remove('hide')
     }
@@ -97,6 +97,4 @@ Contact.save = function(data, cb) {
   return contacts
 }
 
-document.body.querySelector('#contacts').classList.remove('hide')
-mag.logger(console)
 mag.module('contacts', ContactsWidget)
