@@ -3,13 +3,13 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.5.5.min.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.6.1.min.js"></script>
 </head>
 
 <body>
 
   <div id="hello">
-    <h1>Hello Mag.JS!</h1>
+    <h1></h1>
   </div>
 
   <div id="test" class="hide">
@@ -55,8 +55,20 @@
     <a href="">Nested - module - build</a> 
     <div class="more"></div>
   </div>
+
+  <div id="lister">
+    <ul>
+      <li class="item"></li>
+    </ul>
+  </div>
+
   <script>
-    mag.module('hello', {
+    mag.module('lister', {
+      view: function(element, props, state) {
+        state.item = [1, 2, 3]
+      }
+    })
+     mag.module('hello', {
       controller: function(props) {
         this.onload = function(ele) {
           console.log('hello onload')
