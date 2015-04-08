@@ -9,12 +9,28 @@ var mag = (function(mag, configs, document, undefined) {
     }
 
 
+    function getPathTo(element) {
+      if (element.id !== '')
+        return 'id("' + element.id + '")';
+      if (element === document.body)
+        return element.tagName;
 
+      var ix = 0;
+      var siblings = element.parentNode.childNodes;
+      for (var i = 0; i < siblings.length; i++) {
+        var sibling = siblings[i];
+        if (sibling === element)
+          return getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+        if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
+          ix++;
+      }
+    }
 
   var templates = {}
-
+  var cache = []
   // this is the entry point for this module, to fill the dom with data
     function fill(nodeList, data, key, index) {
+
       var node
       var parent
       var dataIsArray
@@ -36,6 +52,8 @@ var mag = (function(mag, configs, document, undefined) {
       var elements = nodeListToArray(nodeList)
 
       dataIsArray = _isArray(data)
+
+
 
       // match the number of nodes to the number of data elements
       if (dataIsArray) {
@@ -60,7 +78,6 @@ var mag = (function(mag, configs, document, undefined) {
           // cannot fill empty nodeList with an array of data
           return
         }
-
         // clone the first node if more nodes are needed
         parent = elements[0].parentNode
 
@@ -95,13 +112,31 @@ var mag = (function(mag, configs, document, undefined) {
 
       // now fill each node with the data
       for (var i = 0; i < elements.length; i++) {
+        var p = getPathTo(elements[i])
+
         if (dataIsArray) {
           if (elements[i]) {
+            if (cache[p] && cache[p] === JSON.stringify(data[i])) {
+              //console.log('same a', p)
+              continue
+            }
+            // if (cache[p]) console.log('changed a', p)
+
             fill(elements[i], data[i])
+            cache[p] = JSON.stringify(data[i])
           }
         } else {
+          if (cache[p] && cache[p] === JSON.stringify(data)) {
+            // console.log('same', p)
+            // TODO: fix issue when sub data
+            // continue
+          }
+          // if (cache[p]) console.log('changed', p, JSON.stringify(data))
+ 
           fillNode(elements[i], data)
+          cache[p] = JSON.stringify(data)
         }
+
       }
       return nodeList
     }
@@ -164,9 +199,6 @@ var mag = (function(mag, configs, document, undefined) {
               value = value()
             } catch (e) {}
           }
-
-          // check for key replacement within the element
-          //domElement.replaceWithin(node, key, value)
 
           fill(elements, value, key, index);
 
@@ -342,7 +374,9 @@ var mag = (function(mag, configs, document, undefined) {
         }
       }
 
-      if (!nested && !matches.length) log('FILL - Warning: no matches found for "' + key + '"');
+      if (!nested && !matches.length) {
+        //'FILL - Warning: no matches found for "' + key + '"'
+      }
 
       // return matches
       node.queryCache[key] = matches
@@ -384,18 +418,9 @@ var mag = (function(mag, configs, document, undefined) {
   // this.fill = fill;
   // this.configs = configs
 
-  // the user can inject a logger function to get some feedback from fill
-  function log(methodName) {
-    return function() {
-      if (typeof mag.logger === 'object') {
-        mag.logger[methodName || 'log'].apply(mag.logger, arguments)
-      }
-    }
-  }
 
   mag.fill = {
     fill: fill,
-    log: log,
     configs: configs
   }
   return mag
