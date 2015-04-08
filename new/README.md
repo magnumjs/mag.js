@@ -28,6 +28,8 @@ Mag.JS dom!:
 ```
 Hello world Example:
 http://jsbin.com/gotuziboho/edit?js,output
+(version 0.6.1, auto redraw called on event - mag.prop not necessary) 
+http://jsbin.com/sexijibimu/edit?js,output
 
 Hello world example with passFail reusable component:
 http://jsbin.com/jivicehuwe/edit?js,output
