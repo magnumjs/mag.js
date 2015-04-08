@@ -1,4 +1,6 @@
-var mag = (function(mag) {
+;(function(mag) {
+
+"use strict";
 
   var render = {
     roots: [],
@@ -63,7 +65,7 @@ var mag = (function(mag) {
     }
   }
 
-   render.innerLoop=function(module, fill, i, WatchJS) {
+  render.innerLoop = function(module, fill, i, WatchJS) {
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
@@ -127,6 +129,5 @@ var mag = (function(mag) {
   }
 
   mag.render = render
-  return mag
 
-}(window.mag || {}))
+})(window.mag || {})
