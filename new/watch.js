@@ -11,8 +11,9 @@
  * https://github.com/melanke/Watch.JS
  */
 
+;(function (mag) {
+
 "use strict";
-var mag =(function (mag) {
 
     var WatchJS = {
         noMore: false,        // use WatchJS.suspend(obj) instead
@@ -762,6 +763,5 @@ var mag =(function (mag) {
     WatchJS.onChange = trackChange;  // track changes made to object or  it's property and return a single change object
 
     mag.watch = WatchJS
-    return mag
-    
+
 })(window.mag || {});
