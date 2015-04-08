@@ -11,8 +11,7 @@ var mag = (function(self, document, undefined) {
 
 
   self.running = false
-  // set logger
-  self.logger = fill.logger || self.logger
+
 
   // REMOVE THIS? why is this here?
   privates.init = function(container, data) {
@@ -52,13 +51,7 @@ var mag = (function(self, document, undefined) {
 
     prop.toJSON = function() {
       // return a copy
-      try {
-        return JSON.parse(JSON.stringify(store))
-      } catch (e) {
-        throw new Error('JSON parse error' + e)
-      } finally {
-        return store
-      }
+      return store
     }
 
     return prop
@@ -66,7 +59,6 @@ var mag = (function(self, document, undefined) {
 
 
   privates.module = function(domElementId, moduleObject, props) {
-    fill.log('time')("MagnumJS:init:" + domElementId)
 
     var index = render.roots.indexOf(domElementId)
     // create new index on roots
@@ -78,12 +70,10 @@ var mag = (function(self, document, undefined) {
     if (!element) return Error('invalid node')
 
     var parentElement = element.parentNode
-    var elementClone = element // clone to copy 
-
     var tempEle = document.createElement("span")
     parentElement.replaceChild(tempEle, element)
 
-    render.roots[index] = elementClone.id
+    render.roots[index] = element.id
 
 
     //MODULE
@@ -100,9 +90,11 @@ var mag = (function(self, document, undefined) {
     // REALLY necessary?
     if (currentModule === topModule) {
 
-      module.controllers[index] = controller;
+      module.controllers[index] = controller
+      // if (controller.onunload) unloaders.push({controller: controller, handler: controller.onunload})
+
       module.modules[index] = mod
-      module.elements[index] = elementClone
+      module.elements[index] = element
 
     }
 
@@ -110,7 +102,7 @@ var mag = (function(self, document, undefined) {
     privates.redraw()
 
     //DOM
-    parentElement.replaceChild(elementClone, tempEle)
+    parentElement.replaceChild(element, tempEle)
 
     // call controller unloaders ?
     // check if was in previous and now not for the same node
@@ -118,22 +110,14 @@ var mag = (function(self, document, undefined) {
 
 
 
-    fill.log('timeEnd')("MagnumJS:init:" + domElementId)
-
-
     // console.log(self.running)
     // // call onload if present in controller
     if (controller.onload && !self.running) render.callOnload(module)
     return {
-      _html: elementClone.innerHTML
+      _html: element.innerHTML
     }
     // return instance ?
     // module.controllers[index]
-  }
-
-  // set to 0/off to disable
-  privates.logger = function(logger) {
-    self.logger = logger
   }
 
   var interfaces = function(method) {
@@ -148,7 +132,6 @@ var mag = (function(self, document, undefined) {
   api['prop'] = interfaces('prop')
   api['redraw'] = interfaces('redraw')
   api['withProp'] = interfaces('withProp')
-  api['logger'] = interfaces('logger')
 
   return api
 
