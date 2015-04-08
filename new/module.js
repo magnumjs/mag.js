@@ -1,4 +1,6 @@
-var mag = (function(mag) {
+;(function(mag) {
+
+"use strict";
 
   var mod = {
     modules: [],
@@ -38,5 +40,5 @@ var mag = (function(mag) {
     return args
   }
   mag.mod = mod
-  return mag
-}(window.mag || {}))
+  
+})(window.mag || {})
