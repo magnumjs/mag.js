@@ -34,6 +34,9 @@ http://jsbin.com/sexijibimu/edit?js,output
 Hello world example with passFail reusable component:
 http://jsbin.com/jivicehuwe/edit?js,output
 
+Count example:
+http://jsbin.com/gurobokupi/edit?js,output
+
 List example: 
 http://jsbin.com/gegawunifu/edit?js,output
 
