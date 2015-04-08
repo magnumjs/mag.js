@@ -1,15 +1,15 @@
 #MagNumJS (Mag.JS) v2
 
-##Complete rewrite
+##Tiny real dom intuitive templating
 
 ###leveraging fill.js,watch.js and mithril.js module architecture
 
-* Goal is to use HTML as template and a related module as instructions for transpiling/interpolations.
-
+* No virtual/shadow dom or new templating language! Super fast & under 5KB Gzipped!
+* Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 
 ```javascript
-Input:
+Initial dom:
 <div id="hello">
   <h1></h1>
 </div>
@@ -21,7 +21,7 @@ mag.module('hello', {
   }
 })
 
-Output:
+Mag.JS dom!:
 <div id="hello">
   <h1>Hello Mag.JS!</h1>
 </div>
@@ -44,6 +44,75 @@ http://jsbin.com/hoqojuqora/edit?js,output
 Todos Example: 
 http://jsbin.com/manixuyira/edit?js,output
 
-
 Contacts Example:
 http://jsbin.com/bozepurevi/edit?js,output
+
+### Simple API
+
+#### mag.module ( domElementID, Object Literal, Optional Object Properties to pass )
+This is the core function to attach a object of instructions to a dom element
+
+#### mag.prop ( setter value)
+Helper setter/getter which calls mag.redraw and every setter
+
+#### mag.redraw ()
+inititate a redraw manually
+
+#### mag.withProp (propName, functionToCall)
+Helper utility to add a property to a function such as mag.prop
+e.g. 
+```javascript
+state.input = { 
+_oninput : mag.withProp ( 'value', mag.prop | functionToCallWithValueOfPropAsFirstArgument )
+}
+```
+
+### state object
+
+State is the object that is watched for changes and is used to transpile the related dom parent element ID
+
+there are 5 ways to reference an element within a module
+* class name
+* tag name
+* data-bind name
+* id
+* or name attribute
+
+state.h1 will match the first h1 element within a module (element id or parent node)
+
+```javascript
+This: <h1></h1>
+With: state.h1 = 'Hello!'
+Makes: <h1>Hello!</h1>
+```
+
+state.$h1 will match all h1s
+
+To change the class for an element
+
+```javascript
+This: <h1></h1>
+With: state.h1 = { _class: 'header', _text : 'Hello!'} 
+Makes: <h1 class="header">Hello!</h1>
+```
+_text and _html are used to fill an elements text node and not as an attribute below.
+
+any prefix underscore will be an attribute except for _on that will be for events such as 
+```javascript
+state.h1 = { _onclick: function() { state.h1='clicked!' } } 
+```
+
+#### Lists
+
+Dealing with lists are simple and intuitive, including nested lists.
+
+The first list element is used as the template for all new items on the list
+For example:
+```html
+<ul><li class="item-template"></li></ul>
+
+state.li = [1,2]
+
+Will generate
+<ul><li class="item-template">1</li><li class="item-template">2</li></ul>
+```
