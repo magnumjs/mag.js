@@ -28,29 +28,29 @@ Mag.JS dom!:
 ```
 Hello world Example:
 http://jsbin.com/gotuziboho/edit?js,output
-(version 0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/sexijibimu/edit?js,output
+(since v0.6.1, auto redraw called on event - mag.prop not necessary) 
+http://jsbin.com/gevusowaja/edit?js,output
 
 Hello world example with passFail reusable component:
-http://jsbin.com/jivicehuwe/edit?js,output
+http://jsbin.com/tejepeqafe/edit?js,output
 
 Count example:
-http://jsbin.com/gurobokupi/edit?js,output
+http://jsbin.com/mazepufuga/edit?js,output
 
 List example: 
-http://jsbin.com/gegawunifu/edit?js,output
+http://jsbin.com/cetitovosa/edit?js,output
 
 More lists: 
-http://jsbin.com/bilugakexe/edit?js,output
+http://jsbin.com/yolafodedu/edit?js,output
 
 Tab component example:
-http://jsbin.com/hoqojuqora/edit?js,output
+http://jsbin.com/divewuxama/edit?js,output
 
 Todos Example: 
-http://jsbin.com/manixuyira/edit?js,output
+http://jsbin.com/buvacomime/edit?js,output
 
 Contacts Example:
-http://jsbin.com/bozepurevi/edit?js,output
+http://jsbin.com/zumecayiva/edit?js,output
 
 ### Simple API
 
