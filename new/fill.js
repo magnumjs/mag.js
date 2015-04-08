@@ -30,9 +30,9 @@
     }
 
   var templates = {}
-  var cache = []
+  var cached = []
   // this is the entry point for this module, to fill the dom with data
-    function fill(nodeList, data, key, index) {
+    function fill(nodeList, data, key) {
 
       var node
       var parent
@@ -61,10 +61,10 @@
       // match the number of nodes to the number of data elements
       if (dataIsArray) {
 
-        if (templates[key + index] && elements.length === 0) {
+        if (templates[key] && elements.length === 0) {
 
-          templates[key + index].parent.insertAdjacentHTML("beforeend", templates[key + index].node);
-          elements = nodeListToArray(templates[key + index].parent.children)
+          templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
+          elements = nodeListToArray(templates[key].parent.children)
 
         }
 
@@ -84,8 +84,8 @@
         // clone the first node if more nodes are needed
         parent = elements[0].parentNode
 
-        if (!templates[key + index]) {
-          templates[key + index] = {
+        if (!templates[key]) {
+          templates[key] = {
             node: elements[0].cloneNode(true).outerHTML,
             parent: parent
           }
@@ -94,8 +94,8 @@
         }
 
         while (elements.length < data.length) {
-          if (templates[key + index]) {
-            parent.insertAdjacentHTML("beforeend", templates[key + index].node)
+          if (templates[key]) {
+            parent.insertAdjacentHTML("beforeend", templates[key].node)
             node = parent.lastChild
           } else {
             node = elements[0].cloneNode(true)
@@ -119,25 +119,17 @@
 
         if (dataIsArray) {
           if (elements[i]) {
-            if (cache[p] && cache[p] === JSON.stringify(data[i])) {
-              //console.log('same a', p)
+            if (cached[p] && cached[p] === JSON.stringify(data[i])) {
+              // console.log('same a', p, cached[p])
               continue
             }
-            // if (cache[p]) console.log('changed a', p)
+            // if (cached[p]) console.log('changed a', p)
 
             fill(elements[i], data[i])
-            cache[p] = JSON.stringify(data[i])
+            cached[p] = JSON.stringify(data[i])
           }
         } else {
-          if (cache[p] && cache[p] === JSON.stringify(data)) {
-            // console.log('same', p)
-            // TODO: fix issue when sub data
-            // continue
-          }
-          // if (cache[p]) console.log('changed', p, JSON.stringify(data))
-
           fillNode(elements[i], data)
-          cache[p] = JSON.stringify(data)
         }
 
       }
@@ -182,9 +174,18 @@
         }
       }
 
+      var p = getPathTo(node)
+
       // fill in all the attributes
       if (attributes) {
+
+        if (cached[p] && cached[p] === JSON.stringify(attributes)) {
+          // console.log('same', p)
+          return
+        }
         fillAttributes(node, attributes)
+        //console.log('change', p)
+        cached[p] = JSON.stringify(attributes)
       }
 
       var index = 0
@@ -203,7 +204,9 @@
             } catch (e) {}
           }
 
-          fill(elements, value, key, index);
+
+
+          fill(elements, value, p);
 
           index++
         }
