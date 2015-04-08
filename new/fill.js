@@ -1,4 +1,7 @@
-var mag = (function(mag, configs, document, undefined) {
+;
+(function(mag, configs, document, undefined) {
+
+  "use strict";
 
   var ELEMENT_NODE = 1
   var cached = []
@@ -132,7 +135,7 @@ var mag = (function(mag, configs, document, undefined) {
             // continue
           }
           // if (cache[p]) console.log('changed', p, JSON.stringify(data))
- 
+
           fillNode(elements[i], data)
           cache[p] = JSON.stringify(data)
         }
@@ -250,13 +253,19 @@ var mag = (function(mag, configs, document, undefined) {
 
         // events
         if (attrName.indexOf('on') == 0) {
+          // REALLY ? only one same event per node?
           if (node._events.indexOf(attrName) !== -1) continue
 
-          node.addEventListener(attrName.substr(2), attributes[attrName])
+          var eventCall = function(fun, node, e) {
+            fun.call(node, e);
+            mag.redraw()
+          }.bind(null, attributes[attrName], node)
+
+          // TODO: factory to call redraw after event
+          node.addEventListener(attrName.substr(2), eventCall)
           node._events.push(attrName)
 
         } else {
-
 
           if (attrName == 'config') {
 
@@ -418,10 +427,10 @@ var mag = (function(mag, configs, document, undefined) {
   // this.fill = fill;
   // this.configs = configs
 
-
   mag.fill = {
     fill: fill,
     configs: configs
   }
-  return mag
+  window.mag = mag
+
 }(window.mag || {}, [], document))
