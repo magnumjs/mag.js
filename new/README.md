@@ -36,7 +36,7 @@ List example:
 http://jsbin.com/gegawunifu/edit?js,output
 
 More lists: 
-http://jsbin.com/xikabosuco/edit?js,output
+http://jsbin.com/bilugakexe/edit?js,output
 
 Tab component example:
 http://jsbin.com/totohamezu/edit?js,output
