@@ -39,7 +39,7 @@ More lists:
 http://jsbin.com/bilugakexe/edit?js,output
 
 Tab component example:
-http://jsbin.com/totohamezu/edit?js,output
+http://jsbin.com/hoqojuqora/edit?js,output
 
 Todos Example: 
 http://jsbin.com/rimawetuso/edit?js,output
