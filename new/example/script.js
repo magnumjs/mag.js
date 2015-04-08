@@ -93,7 +93,6 @@ utils.onload = function(element) {
   element.classList.remove("hide")
 }
 
-mag.logger(console) // comment to turn on/off
 mag.module("todos", todos)
 
 // simple nested/reuse module examples
