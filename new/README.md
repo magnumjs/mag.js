@@ -33,7 +33,7 @@ Hello world example with passFail reusable component:
 http://jsbin.com/jivicehuwe/edit?js,output
 
 List example: 
-http://jsbin.com/nimufuqojo/edit?js,output
+http://jsbin.com/gegawunifu/edit?js,output
 
 More lists: 
 http://jsbin.com/xikabosuco/edit?js,output
