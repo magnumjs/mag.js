@@ -1,16 +1,15 @@
-var mag = (function(self, document, undefined) {
+;(function(mag, document, undefined) {
 
   'use strict'
 
   var privates = {},
-    module = self.mod,
-    render = self.render,
-    fill = self.fill,
+    module = mag.mod,
+    render = mag.render,
+    fill = mag.fill,
     topModule,
-    watch = self.watch;
+    watch = mag.watch;
 
-
-  self.running = false
+  mag.running = false
 
 
   // REMOVE THIS? why is this here?
@@ -112,7 +111,7 @@ var mag = (function(self, document, undefined) {
 
     // console.log(self.running)
     // // call onload if present in controller
-    if (controller.onload && !self.running) render.callOnload(module)
+    if (controller.onload && !mag.running) render.callOnload(module)
     return {
       _html: element.innerHTML
     }
@@ -133,6 +132,6 @@ var mag = (function(self, document, undefined) {
   api['redraw'] = interfaces('redraw')
   api['withProp'] = interfaces('withProp')
 
-  return api
+  for (var k in api) mag[k] = api[k]
 
-}(window.mag || {}, document))
+})(window.mag || {}, document)
