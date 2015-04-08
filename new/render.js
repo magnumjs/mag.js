@@ -46,59 +46,64 @@ var mag = (function(mag) {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
 
-      for (var i = 0, root; root = render.roots[i]; i++) {
-        mag.running = true
-
-        if (module.controllers[i]) {
-
-          var elementClone = module.elements[i]
-
-          fill.log('time')('Mag.JS:render:' + elementClone.id)
-
-          var args = module.getArgs(i)
-
-          if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-            continue
-          }
-          callView(elementClone, module, i)
-          cache[i] = JSON.stringify(args[0])
-
-          WatchJS.watch(args[0], debounce(function(ele, i, module, changeId) {
-            mag.running = true
-            fill.log('time')('Mag.JS:re-render:' + ele.id)
-            var args = module.getArgs(i)
-
-            // check if data changed
-            if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-              // turning this off will have this running constantly
-              // WatchJS.noMore = false
-              return false
-            }
-            callView(ele, module, i)
-            cache[i] = JSON.stringify(args[0])
-
-            fill.fill(ele, args[0])
-            //WatchJS.noMore = true
-
-            render.callConfigs(fill.configs)
-
-
-            // call onload if present in all controllers
-            render.callOnload(module)
-
-            mag.running = false
-            fill.log('timeEnd')('Mag.JS:re-render:' + ele.id)
-          }.bind(null, elementClone, i, module)))
-
-          fill.fill(elementClone, args[0])
-          render.callConfigs(fill.configs)
-          fill.log('timeEnd')('Mag.JS:render:' + elementClone.id)
-        }
-      }
+      render.doLoop(module, fill, WatchJS)
     }))
     this.fun()
   }
 
+  render.doLoop = function(module, fill, WatchJS) {
+    for (var i = 0, root; root = render.roots[i]; i++) {
+      mag.running = true
+
+      if (module.controllers[i]) {
+        if (!render.innerLoop(module, fill, i, WatchJS)) {
+          continue
+        }
+      }
+    }
+  }
+
+   render.innerLoop=function(module, fill, i, WatchJS) {
+    var elementClone = module.elements[i]
+    var args = module.getArgs(i)
+
+    if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+      return false
+    }
+    callView(elementClone, module, i)
+    cache[i] = JSON.stringify(args[0])
+
+    render.setupWatch(WatchJS, args, fill, elementClone, i, module)
+
+    fill.fill(elementClone, args[0])
+    render.callConfigs(fill.configs)
+  }
+
+  render.doWatch = function(fill, ele, i, module, changeId) {
+    mag.running = true
+    var args = module.getArgs(i)
+
+    // check if data changed
+    if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+      return
+    }
+    callView(ele, module, i)
+    cache[i] = JSON.stringify(args[0])
+
+    fill.fill(ele, args[0])
+
+    render.callConfigs(fill.configs)
+
+
+    // call onload if present in all controllers
+    render.callOnload(module)
+
+    mag.running = false
+  }
+
+  render.setupWatch = function(WatchJS, args, fill, elementClone, i, module) {
+    WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)))
+  }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
