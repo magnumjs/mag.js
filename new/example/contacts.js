@@ -15,6 +15,8 @@ var ContactsWidget = {
 
   },
   view: function(element, props, state) {
+    
+    state.h2 = 'Contacts'
 
     state.form = mag.module('form', ContactForm, {
       onsave: state.save
