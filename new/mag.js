@@ -68,9 +68,9 @@
     var element = document.getElementById(domElementId)
     if (!element) return Error('invalid node')
 
-    var parentElement = element.parentNode
-    var tempEle = document.createElement("span")
-    parentElement.replaceChild(tempEle, element)
+    // var parentElement = element.parentNode
+    // var tempEle = document.createElement("span")
+    // parentElement.replaceChild(tempEle, element)
 
     render.roots[index] = element.id
 
@@ -101,7 +101,7 @@
     privates.redraw()
 
     //DOM
-    parentElement.replaceChild(element, tempEle)
+    // parentElement.replaceChild(element, tempEle)
 
     // call controller unloaders ?
     // check if was in previous and now not for the same node
@@ -111,7 +111,7 @@
 
     // console.log(self.running)
     // // call onload if present in controller
-    if (controller.onload && !mag.running) render.callOnload(module)
+    //if (controller.onload && !mag.running) render.callOnload(module)
     return {
       _html: element.innerHTML
     }
