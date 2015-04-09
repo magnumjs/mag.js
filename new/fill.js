@@ -19,6 +19,7 @@
         return element.tagName;
 
       var ix = 0;
+      if (!element.parentNode) return
       var siblings = element.parentNode.childNodes;
       for (var i = 0; i < siblings.length; i++) {
         var sibling = siblings[i];
@@ -60,7 +61,7 @@
 
       // match the number of nodes to the number of data elements
       if (dataIsArray) {
-        console.log(key)
+
         if (templates[key] && elements.length === 0) {
 
           templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
@@ -107,7 +108,18 @@
         while (elements.length > data.length) {
           node = elements.pop()
           parent = node.parentNode
-          if (parent) parent.removeChild(node)
+          if (parent) {
+            var p = getPathTo(node)
+
+            parent.removeChild(node)
+            // call config unload if any ?
+
+            //console.log(p, cached[p + '-config'])
+            if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
+              // what arg to send ?
+              cached[p + '-config'].configContext.onunload()
+            }
+          }
         }
 
       }
@@ -263,8 +275,11 @@
           if (node._events.indexOf(attrName) !== -1) continue
 
           var eventCall = function(fun, node, e) {
-            fun.call(node, e);
-            mag.redraw()
+            try {
+              return fun.call(node, e)
+            } finally {
+              mag.redraw()
+            }
           }.bind(null, attributes[attrName], node)
 
           // TODO: factory to call redraw after event
@@ -279,16 +294,27 @@
             // does the element already exist in cache
             // useful to know if this is newly added
             var isNew = true
+            var p = getPathTo(node)
 
+            if (!cached[p + '-config']) {
+              cached[p + '-config'] = {}
+            } else {
+              isNew = !isNew
+            }
+
+            var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
+
+
+            // console.log(p)
             // bind
             var callback = function(data, args) {
               return function() {
                 return data.apply(data, args)
               }
-            };
+            }
 
-            configs.push(callback(attributes[attrName], [node, isNew]))
-            continue;
+            configs.push(callback(attributes[attrName], [node, isNew, context]))
+            continue
           }
 
           if (attributes[attrName] === null) {
@@ -413,7 +439,6 @@
 
     return elements
   }
-
 
   // match elements on tag, id, name, class name, data-bind, etc.
   function elementMatcher(element, key) {
