@@ -89,8 +89,6 @@
             node: elements[0].cloneNode(true).outerHTML,
             parent: parent
           }
-          //remove from dom
-          //parent.removeChild(elements[0])
         }
 
         while (elements.length < data.length) {
@@ -111,6 +109,7 @@
           parent = node.parentNode
           if (parent) parent.removeChild(node)
         }
+
       }
 
       // now fill each node with the data
@@ -120,7 +119,7 @@
         if (dataIsArray) {
           if (elements[i]) {
             if (cached[p] && cached[p] === JSON.stringify(data[i])) {
-              // console.log('same a', p, cached[p])
+              // console.log('same a', p, cached[p], JSON.stringify(data[i]))
               continue
             }
             // if (cached[p]) console.log('changed a', p)
@@ -180,11 +179,11 @@
       if (attributes) {
 
         if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-          // console.log('same', p)
+          // console.log('isame', p, JSON.stringify(attributes))
           return
         }
         fillAttributes(node, attributes)
-        //console.log('change', p)
+        // console.log('ichange', p, JSON.stringify(attributes))
         cached[p] = JSON.stringify(attributes)
       }
 
@@ -204,7 +203,11 @@
             } catch (e) {}
           }
 
+          // if is array make sure we load all elements not just the first for existing lists
 
+          if (_isArray(value)) {
+            elements = matchingElements(node, '$' + key);
+          }
 
           fill(elements, value, p);
 
