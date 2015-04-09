@@ -52,6 +52,63 @@ http://jsbin.com/buvacomime/edit?js,output
 Contacts Example:
 http://jsbin.com/zumecayiva/edit?js,output
 
+###Statefullness
+When redrawing the view method is called.
+To maintain statefulness we can use the controller method
+
+HTML for below examples:
+```html
+  <div id="lister">
+    <h2></h2>
+    <ul>
+      <li class="item"></li>
+    </ul>
+  </div>
+```
+
+Example without controller
+```javascript
+    mag.module('lister', {
+      view: function(element, props, state) {
+      state.item = [1, 2, 3]
+      state.title = 'Lister'
+        state.h2 = {
+          _text: state.title,
+          _onclick: function() {
+            state.show = state.show ? !state.show : true
+            state.item.reverse()
+            state.title = 'Gister' + state.show
+          }
+        }
+      }
+    })
+```
+Example with controller
+```javascript
+    mag.module('lister', {
+      controller: function(props) {
+        this.item = [1, 2, 3]
+        this.title = 'Lister'
+      },
+      view: function(element, props, state) {
+        state.h2 = {
+          _text: state.title,
+          _onclick: function() {
+            state.show = state.show ? !state.show : true
+            state.item.reverse()
+            state.title = 'Gister' + state.show
+          }
+        }
+      }
+    })
+```
+
+This link displays both for comparison:
+http://jsbin.com/casabenibe/edit?js,output
+
+You can see that the first one when clicked nothing is changed while the second is dynamic.
+The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
+
 ### Simple API
 
 #### mag.module ( domElementID, Object Literal, Optional Object Properties to pass )
