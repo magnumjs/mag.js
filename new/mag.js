@@ -1,4 +1,5 @@
-;(function(mag, document, undefined) {
+;
+(function(mag, document, undefined) {
 
   'use strict'
 
@@ -56,15 +57,38 @@
     return prop
   }
 
-
+  var unloaders = []
   privates.module = function(domElementId, moduleObject, props) {
 
     var index = render.roots.indexOf(domElementId)
     // create new index on roots
     if (index < 0) index = render.roots.length;
 
-    //DOM
 
+    //unloaders that exists?
+    /*
+    var isPrevented = false;
+    var event = {
+      preventDefault: function() {
+        isPrevented = true
+      }
+    };
+    for (var i = 0, unloader; unloader = unloaders[i]; i++) {
+      unloader.handler(event)
+      unloader.controller.onunload = null
+    }
+    if (isPrevented) {
+      for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
+    } else unloaders = []
+
+    if (module.controllers[index] && typeof module.controllers[index].onunload === 'function') {
+      module.controllers[index].onunload(event)
+    }
+
+    if (isPrevented) return
+    */
+
+    //DOM
     var element = document.getElementById(domElementId)
     if (!element) return Error('invalid node')
 
@@ -90,7 +114,10 @@
     if (currentModule === topModule) {
 
       module.controllers[index] = controller
-      // if (controller.onunload) unloaders.push({controller: controller, handler: controller.onunload})
+      if (controller.onunload) unloaders.push({
+        controller: controller,
+        handler: controller.onunload
+      })
 
       module.modules[index] = mod
       module.elements[index] = element
@@ -111,7 +138,7 @@
 
     // console.log(self.running)
     // // call onload if present in controller
-    //if (controller.onload && !mag.running) render.callOnload(module)
+    if (controller.onload && !mag.running) render.callOnload(module)
     return {
       _html: element.innerHTML
     }
@@ -134,4 +161,4 @@
 
   for (var k in api) mag[k] = api[k]
 
-})(window.mag || {}, document)
+})(window.mag || {}, document)ent)
