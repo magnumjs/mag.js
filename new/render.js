@@ -1,6 +1,7 @@
-;(function(mag) {
+;
+(function(mag) {
 
-"use strict";
+  "use strict";
 
   var render = {
     roots: [],
@@ -113,17 +114,22 @@
     var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
     return function() {
-      if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
-        // hold on to it
-        if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
+      if (deferTimer) {
+        if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
+          // hold on to it
+          if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
 
-        deferTimer = $requestAnimationFrame(function() {
-          lastRedrawCallTime = +new Date
-          fn.apply(this, arguments);
-        }, FRAME_BUDGET);
+          deferTimer = $requestAnimationFrame(function() {
+            lastRedrawCallTime = +new Date
+            fn.apply(this, arguments);
+          }, FRAME_BUDGET)
+        }
       } else {
         lastRedrawCallTime = +new Date
-        fn.apply(this, arguments);
+        fn.apply(this, arguments)
+        deferTimer = $requestAnimationFrame(function() {
+          deferTimer = null
+        }, FRAME_BUDGET)
       }
     }
   }
