@@ -110,6 +110,9 @@ http://jsbin.com/casabenibe/edit?js,output
 You can see that the first one when clicked nothing is changed while the second is dynamic.
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
 
+Here's an alternative approach to the above the only uses a view method and no controller for a similar result:
+http://jsbin.com/dahigifoji/edit?js,output
+
 ### Simple API
 
 #### mag.module ( domElementID, Object Literal, Optional Object Properties to pass )
