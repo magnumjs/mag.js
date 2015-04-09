@@ -60,7 +60,7 @@
 
       // match the number of nodes to the number of data elements
       if (dataIsArray) {
-
+        console.log(key)
         if (templates[key] && elements.length === 0) {
 
           templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
@@ -209,7 +209,7 @@
             elements = matchingElements(node, '$' + key);
           }
 
-          fill(elements, value, p);
+          fill(elements, value, p + '/' + key);
 
           index++
         }
