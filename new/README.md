@@ -29,28 +29,28 @@ Mag.JS dom!:
 Hello world Example:
 http://jsbin.com/gotuziboho/edit?js,output
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/gevusowaja/edit?js,output
+http://jsbin.com/webumepihu/edit?js,output
 
 Hello world example with passFail reusable component:
-http://jsbin.com/tejepeqafe/edit?js,output
+http://jsbin.com/banecatene/edit?js,output
 
 Count example:
-http://jsbin.com/mazepufuga/edit?js,output
+http://jsbin.com/nocuqirute/edit?js,output
 
 List example: 
-http://jsbin.com/cetitovosa/edit?js,output
+http://jsbin.com/ziyenodebo/edit?js,output
 
 More lists: 
-http://jsbin.com/yolafodedu/edit?js,output
+http://jsbin.com/nanidiyaqi/edit?js,output
 
 Tab component example:
-http://jsbin.com/divewuxama/edit?js,output
+http://jsbin.com/dosubewabu/edit?js,output
 
 Todos Example: 
-http://jsbin.com/buvacomime/edit?js,output
+http://jsbin.com/maluqaveqi/edit?js,output
 
 Contacts Example:
-http://jsbin.com/zumecayiva/edit?js,output
+http://jsbin.com/hujamaxaco/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
