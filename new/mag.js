@@ -81,10 +81,6 @@
       for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
     } else unloaders = []
 
-    if (module.controllers[index] && typeof module.controllers[index].onunload === 'function') {
-      module.controllers[index].onunload(event)
-    }
-
     if (isPrevented) return
 
 
