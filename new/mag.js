@@ -12,7 +12,6 @@
 
   mag.running = false
 
-
   // REMOVE THIS? why is this here?
   privates.init = function(container, data) {
     // if (!(this instanceof privates.init)) return new privates.init(container, data)
