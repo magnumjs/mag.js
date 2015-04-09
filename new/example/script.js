@@ -14,7 +14,10 @@ todos.controller = function(props) {
         this.todoItem()[index]._completed = !this.todoItem()[index]._completed
         this.todoItem(this.todoItem()) // starts a redraw
       }.bind(this, this.todoItem().length),
-      _config: function(node) {
+      _config: function(node, isNew, context) {
+        context.onunload=function(){
+          console.log('unloaded')
+        }
         node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
       }
     }
