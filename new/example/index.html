@@ -3,11 +3,10 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.6.5.min.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.6.6.min.js"></script>
 </head>
 
 <body>
-
   <div id="hello">
     <h1></h1>
   </div>
@@ -19,14 +18,14 @@
     <div id="passFail2" class="hide">
       <div class="messaging"></div>
     </div>
-    <b></b>
+    <b>default</b>
   </div>
 
   <div id="contacts" class="hide">
     <h2></h2>
     <div id="form">
-      <input class="name" />
-      <input class="email" />
+      <input name="name" />
+      <input name="email" />
       <button>Save</button>
     </div>
     <ul id="list" class="hide">
@@ -58,15 +57,42 @@
   </div>
 
   <div id="lister">
+    <h2></h2>
     <ul>
       <li class="item"></li>
     </ul>
   </div>
 
+  <div id="count">
+    <button>Increment</button>
+    count: <span class="count"></span>
+  </div>
+
   <script>
     mag.module('lister', {
+      controller: function(props) {
+        this.item = [1, 2, 3]
+        this.title = 'Lister'
+      },
       view: function(element, props, state) {
-        state.item = [1, 2, 3]
+        state.h2 = {
+          _text: state.title,
+          _onclick: function() {
+            state.show = state.show ? !state.show : true
+            state.item.reverse()
+            state.title = 'Gister' + state.show
+          }
+        }
+      }
+    })
+
+     mag.module("count", {
+      view: function(element, props, state) {
+        state.button = {
+          _onclick: function() {
+            state.count = state.count + 1 || 1
+          }
+        }
       }
     })
      mag.module('hello', {
