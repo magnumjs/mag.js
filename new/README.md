@@ -54,7 +54,8 @@ http://jsbin.com/hujamaxaco/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
-To maintain statefulness we can use the controller method
+To maintain statefulness we can use the controller method.
+Plainly these are default values.
 
 HTML for below examples:
 ```html
