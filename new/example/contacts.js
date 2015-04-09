@@ -15,7 +15,7 @@ var ContactsWidget = {
 
   },
   view: function(element, props, state) {
-    
+
     state.h2 = 'Contacts'
 
     state.form = mag.module('form', ContactForm, {
@@ -33,6 +33,10 @@ var ContactsWidget = {
 var ContactForm = {
   controller: function(props) {
     this.contact = mag.prop(props.contact || new Contact())
+    this.onunload = function(e) {
+      console.log('ContactForm unloaded')
+      //e.preventDefault()
+    }
   },
   view: function(element, props, state) {
     var contact = state.contact()
