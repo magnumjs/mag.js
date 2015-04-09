@@ -47,7 +47,7 @@ Tab component example:
 http://jsbin.com/hurawebipu/edit?js,output
 
 Modal component example:
-http://jsbin.com/joxiliwapi/edit?js,output
+http://jsbin.com/pokurexeku/edit?js,output
 
 Todos Example: 
 http://jsbin.com/zugayijuka/edit?js,output
