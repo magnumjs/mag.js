@@ -66,7 +66,7 @@
 
 
     //unloaders that exists?
-    /*
+
     var isPrevented = false;
     var event = {
       preventDefault: function() {
@@ -86,7 +86,7 @@
     }
 
     if (isPrevented) return
-    */
+
 
     //DOM
     var element = document.getElementById(domElementId)
@@ -161,4 +161,4 @@
 
   for (var k in api) mag[k] = api[k]
 
-})(window.mag || {}, document)ent)
+})(window.mag || {}, document)
