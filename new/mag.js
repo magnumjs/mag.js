@@ -60,6 +60,9 @@
   privates.module = function(domElementId, moduleObject, props) {
 
     var index = render.roots.indexOf(domElementId)
+
+    // clear cache if exists
+    if (props && !props.retain) render.clear(index, domElementId, fill)
     // create new index on roots
     if (index < 0) index = render.roots.length;
 
