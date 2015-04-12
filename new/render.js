@@ -64,8 +64,17 @@
         }
       }
     }
+    fill.unclear()
   }
 
+  render.clear = function(index, elementId, fill) {
+    if (index !== -1 && cache[index]) {
+      // clear events too
+      fill.clear()
+      //console.log('clear called on reload', elementId)
+      // delete cache[index]
+    }
+  }
   render.innerLoop = function(module, fill, i, WatchJS) {
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
