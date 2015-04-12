@@ -119,6 +119,28 @@ The reasons is simply because the controller is called once while the view is ca
 Here's an alternative approach to the above that only uses a view method and no controller for a similar result:
 http://jsbin.com/dotajezate/edit?js,output
 
+```javascript
+mag.module("lister", {
+  view: function(element, props, state) {
+    var name1 = 'Yo!',
+        name2 = 'Joe!'
+    state.h2 = {
+      _config: function(element, isNew, context) {
+        if (isNew) {
+          state.span = name1
+          state.item = [1, 2, 3]
+          mag.redraw()
+        }
+      },
+      _onclick: function() {
+        state.item.reverse()
+        state.span = state.span == name1 && name2 || name1
+      }
+    }
+  }
+})
+```
+
 ### Simple API
 
 #### mag.module ( domElementID, Object Literal, Optional Object Properties to pass )
