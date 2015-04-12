@@ -4,18 +4,17 @@ var todos = {}
 todos.controller = function(props) {
 
   this.todoItem = mag.prop([])
-  this.onload = utils.onload
 
   this.add = function(text) {
     var item = {
       text: text,
       _completed: false,
-      _onclick: function(index, e) {
+      _onclick: function(e) {
+        var index = [].indexOf.call(document.querySelectorAll('.todoItem'), e.target.parentNode)
         this.todoItem()[index]._completed = !this.todoItem()[index]._completed
-        this.todoItem(this.todoItem()) // starts a redraw
-      }.bind(this, this.todoItem().length),
+      }.bind(this),
       _config: function(node, isNew, context) {
-        context.onunload=function(){
+        context.onunload = function() {
           console.log('unloaded')
         }
         node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
@@ -89,11 +88,6 @@ todos.view = function(element, props, state) {
   state.button = {
     _onclick: doAdd
   }
-}
-
-var utils = {}
-utils.onload = function(element) {
-  element.classList.remove("hide")
 }
 
 mag.module("todos", todos)
@@ -171,6 +165,11 @@ app.view = function(element, props, state) {
   setTimeout(function() {
     state.name = 'world'
   }, 1000)
+}
+
+var utils = {}
+utils.onload = function(element) {
+  element.classList.remove("hide")
 }
 
 mag.module("test", app, {
