@@ -80,6 +80,9 @@
 
     fill.fill(elementClone, args[0])
     render.callConfigs(fill.configs)
+
+    // call onload if present in all controllers
+    render.callOnload(module)
   }
 
   render.doWatch = function(fill, ele, i, module, changeId) {
@@ -97,10 +100,6 @@
 
     render.callConfigs(fill.configs)
 
-
-    // call onload if present in all controllers
-    render.callOnload(module)
-
     mag.running = false
   }
 
@@ -114,16 +113,14 @@
     var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
     return function() {
-      if (deferTimer) {
-        if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
-          // hold on to it
-          if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
+      if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
+        // hold on to it
+        if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
 
-          deferTimer = $requestAnimationFrame(function() {
-            lastRedrawCallTime = +new Date
-            fn.apply(this, arguments);
-          }, FRAME_BUDGET)
-        }
+        deferTimer = $requestAnimationFrame(function() {
+          lastRedrawCallTime = +new Date
+          fn.apply(this, arguments);
+        }, FRAME_BUDGET)
       } else {
         lastRedrawCallTime = +new Date
         fn.apply(this, arguments)
