@@ -1,0 +1,30 @@
+/* modal */
+
+.modal {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  width: 80%;
+  z-index: 100;
+  background-color: transparent;
+}
+.modal .wrapper {
+  position: relative;
+  left: -50%;
+  background-color: #fff;
+  padding: 10px;
+  border: solid 2px #444;
+  border-radius: 10px;
+}
+.modal .content {
+  margin-bottom: 0;
+  margin-bottom: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.modal .close-modal {
+  /* float: right; */
+  position: relative;
+  right: -7px;
+  bottom: 35px;
+}
