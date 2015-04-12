@@ -29,12 +29,14 @@ var ContactsWidget = {
   }
 }
 
-
+var guid = -1
 var ContactForm = {
   controller: function(props) {
-    this.contact = mag.prop(props.contact || new Contact())
+    this.contact = mag.prop(props.contact || new Contact({
+      id: guid++
+    }))
     this.onunload = function(e) {
-      console.log('ContactForm unloaded')
+      //console.log('ContactForm unloaded')
       //e.preventDefault()
     }
   },
@@ -51,7 +53,10 @@ var ContactForm = {
       value: contact.email()
     }
     state.button = {
-      _onclick: props.onsave.bind(this, contact)
+      _onclick: function(e) {
+        props.onsave(contact)
+        document.querySelector('#form input[name="name"]').value = ''
+      }
     }
   }
 }
@@ -89,7 +94,7 @@ Contact.save = function(data, cb) {
   var contacts = a = JSON.parse(localStorage['contacts'] || '[]')
 
   contacts.push({
-    id: 1,
+    id: data.id(),
     name: data.name(),
     email: data.email()
   })
@@ -103,4 +108,4 @@ Contact.save = function(data, cb) {
   return contacts
 }
 
-mag.module('contacts', ContactsWidget)
+mag.module('contacts', ContactsWidget)', ContactsWidget)
