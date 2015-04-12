@@ -100,24 +100,24 @@
     var mod = module.submodule(moduleObject, [props || {}])
 
 
-    var currentModule = topModule = mod = mod || {}
+    //var currentModule = topModule = mod = mod || {}
     var controller = new mod.controller
 
 
     //this conditional ensures only the last recursive module call is applied
     // REALLY necessary?
-    if (currentModule === topModule) {
+    //if (currentModule === topModule) {
 
-      module.controllers[index] = controller
-      if (controller.onunload) unloaders.push({
-        controller: controller,
-        handler: controller.onunload
-      })
+    module.controllers[index] = controller
+    if (controller.onunload) unloaders.push({
+      controller: controller,
+      handler: controller.onunload
+    })
 
-      module.modules[index] = mod
-      module.elements[index] = element
+    module.modules[index] = mod
+    module.elements[index] = element
 
-    }
+    // }
 
     //INTERPOLATIONS
     privates.redraw()
