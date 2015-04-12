@@ -11,6 +11,9 @@
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
 
+    function _isNull(obj) {
+      return Object.prototype.toString.call(obj) === '[object Null]'
+    }
 
     function getPathTo(element) {
       if (element.id !== '')
@@ -190,13 +193,13 @@
       // fill in all the attributes
       if (attributes) {
 
-        if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-          // console.log('isame', p, JSON.stringify(attributes))
-          return
-        }
+        // if (cached[p] && cached[p] === JSON.stringify(attributes)) {
+        //   console.log('isame', p, JSON.stringify(attributes))
+        // // return
+        // }
         fillAttributes(node, attributes)
         // console.log('ichange', p, JSON.stringify(attributes))
-        cached[p] = JSON.stringify(attributes)
+        // cached[p] = JSON.stringify(attributes)
       }
 
       var index = 0
@@ -258,10 +261,17 @@
     // fill in the attributes on an element (setting text and html first)
     function fillAttributes(node, attributes) {
 
-      // set html after setting text because html overrides text
-      setText(node, attributes.text)
-      setHtml(node, attributes.html)
-      node._events = node._events || []
+
+      var p = getPathTo(node),
+        cache = false
+
+
+      if (cached[p] && cached[p] === JSON.stringify(attributes)) {
+        // console.log('isame', p, JSON.stringify(attributes))
+        cache = true
+      }
+
+      // node._events = node._events || []
 
       // set the rest of the attributes
       for (var attrName in attributes) {
@@ -272,7 +282,7 @@
         // events
         if (attrName.indexOf('on') == 0) {
           // REALLY ? only one same event per node?
-          if (node._events.indexOf(attrName) !== -1) continue
+          // if (node._events.indexOf(attrName) !== -1) continue
 
           var eventCall = function(fun, node, e) {
             try {
@@ -282,9 +292,10 @@
             }
           }.bind(null, attributes[attrName], node)
 
-          // TODO: factory to call redraw after event
-          node.addEventListener(attrName.substr(2), eventCall)
-          node._events.push(attrName)
+          node[attrName] = eventCall
+
+          // node.addEventListener(attrName.substr(2), eventCall)
+          // node._events.push(attrName)
 
         } else {
 
@@ -317,22 +328,50 @@
             continue
           }
 
+          if (cache) continue
           if (attributes[attrName] === null) {
             node.removeAttribute(attrName)
           } else {
             node.setAttribute(attrName, attributes[attrName].toString())
           }
+
         }
       }
+
+
+      if (cache) {
+        //console.log(node.tagName, attributes.text)
+        return
+      }
+      // set html after setting text because html overrides text
+      setText(node, attributes.text)
+      setHtml(node, attributes.html)
+
+      //console.log('ichange', p, JSON.stringify(attributes))
+      cached[p] = JSON.stringify(attributes)
     }
 
     function setText(node, text) {
       var child
       var children
-
+      var p = getPathTo(node)
       // make sure that we have a node and text to insert
-      if (!node || text == null) return
-
+      if (!node || text == null) {
+        // TODO: delete case
+        // special case delete all children if equal to null type  
+        if (_isNull(text)) {
+          while (node.firstChild) {
+            node.removeChild(node.firstChild)
+          }
+          //TODO" call onunload
+          //console.log('config', cached[p + '-config'])
+          if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
+            // what arg to send ?
+            cached[p + '-config'].configContext.onunload()
+          }
+        }
+        return
+      }
       // cache all of the child nodes
       if (!children) {
         children = [];
