@@ -119,6 +119,8 @@ The reasons is simply because the controller is called once while the view is ca
 Here's an alternative approach to the above that only uses a view method and no controller for a similar result:
 http://jsbin.com/dotajezate/edit?js,output
 
+Example with config and without controller 
+
 ```javascript
 mag.module("lister", {
   view: function(element, props, state) {
@@ -146,7 +148,7 @@ It receives 3 arguments:
 * 1. is the element itself
 * 2. is a boolean stating if this is attaching or not, first run is always true, subsequent executions are always false
 * 3. context is an object that can be used to pass values to the method itself on every iterative call
-*   a. one available sub method of context is onunload e.g. context.onunload = fun is called when the element is removed from the dom.
+  - a. one available sub method of context is onunload e.g. context.onunload = fun is called when the element is removed from the dom.
 
 mag.redraw is required to be manually called here if the desire is to display the changed state to the dom.
 An alternative is to use mag.prop for the state variables. mag.prop on setter will call mag.redraw automatically.
