@@ -29,31 +29,34 @@ Mag.JS dom!:
 Hello world Example:
 http://jsbin.com/gotuziboho/edit?js,output
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/nepetiyori/edit?js,output
+http://jsbin.com/huyofenuwo/edit?js,output
 
 Hello world example with passFail reusable component:
-http://jsbin.com/kimuqiseno/edit?js,output
+http://jsbin.com/sevimaqano/edit?js,output
 
 Count example:
-http://jsbin.com/manuleqapi/edit?js,output
+http://jsbin.com/garirigabi/edit?js,output
 
 List example: 
-http://jsbin.com/cizijisuvi/edit?js,output
+http://jsbin.com/danubegabi/edit?js,output
 
 More lists: 
-http://jsbin.com/poqoyuhaji/edit?js,output
+http://jsbin.com/dihutuneno/edit?js,output
 
 Tab component example:
-http://jsbin.com/didomoreqa/edit?js,output
+http://jsbin.com/qoyavejama/edit?js,output
 
 Modal component example:
-http://jsbin.com/disoxezoti/edit?js,output
+http://jsbin.com/faqonuvolu/edit?js,output
 
 Todos Example: 
-http://jsbin.com/jeratugope/edit?js,output
+http://jsbin.com/lowococoso/edit?js,output
 
 Contacts Example:
-http://jsbin.com/dinobahuqa/edit?js,output
+http://jsbin.com/natemajetu/edit?js,output
+
+Async Example:
+http://jsbin.com/lumoniwoka/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
@@ -108,7 +111,7 @@ Example with controller
 ```
 
 This link displays both for comparison:
-http://jsbin.com/qacudapeko/edit?js,output
+http://jsbin.com/siyafopodi/edit?js,output
 
 You can see that the first one when clicked nothing is changed while the second is dynamic.
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
