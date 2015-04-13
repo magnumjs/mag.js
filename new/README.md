@@ -56,7 +56,7 @@ Contacts Example:
 http://jsbin.com/natemajetu/edit?js,output
 
 Async Example:
-http://jsbin.com/lumoniwoka/edit?js,output
+http://jsbin.com/mitomahihi/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
