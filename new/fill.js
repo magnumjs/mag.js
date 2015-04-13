@@ -33,6 +33,16 @@
       }
     }
 
+    function removeCache(p) {
+      // search cache for children
+
+      delete cached[p]
+
+      for (var k in cached) {
+        if (k.indexOf(p) === 0) delete cached[k]
+      }
+    }
+
   var templates = {}
   var cached = [],
     firstRun = false;
@@ -97,6 +107,7 @@
         }
       }
 
+
       while (elements.length < data.length) {
         if (templates[key]) {
           parent.insertAdjacentHTML("beforeend", templates[key].node)
@@ -115,7 +126,10 @@
         parent = node.parentNode
         if (parent) {
           var p = getPathTo(node)
+          //console.log('removing', p, cached)
 
+          // remove cache of all children too
+          removeCache(p)
           parent.removeChild(node)
           // call config unload if any ?
 
@@ -132,11 +146,10 @@
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
       var p = getPathTo(elements[i])
-
       if (dataIsArray) {
         if (elements[i]) {
           if (cached[p] && cached[p] === JSON.stringify(data[i])) {
-            // console.log('same a', p, cached[p], JSON.stringify(data[i]))
+            //console.log('same a', p, cached[p], JSON.stringify(data[i]))
             continue
           }
           // if (cached[p]) console.log('changed a', p)
@@ -158,10 +171,8 @@
       element,
       elements
 
-
       // ignore functions
     if (typeof data === 'function') {
-
       return
     }
 
@@ -270,7 +281,7 @@
 
 
     if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-      // console.log('isame', p, JSON.stringify(attributes))
+      //console.log('isame', p, JSON.stringify(attributes))
       cache = true
     }
 
@@ -346,8 +357,9 @@
       }
     }
 
+    // TODO: fix - this is not very accurate?
     if (cache) {
-      //console.log(node.tagName, attributes.text)
+      //console.log(node.tagName, attributes)
       return
     }
     // set html after setting text because html overrides text
@@ -367,9 +379,11 @@
       // TODO: delete case
       // special case delete all children if equal to null type  
       if (_isNull(text)) {
+        // TODO: remove cache too!
         while (node.firstChild) {
           node.removeChild(node.firstChild)
         }
+        cached[p]
         //TODO" call onunload
         //console.log('config', cached[p + '-config'])
         if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
