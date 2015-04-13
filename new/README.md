@@ -49,6 +49,9 @@ http://jsbin.com/gicoruhuvo/edit?js,output
 Filter list:
 http://jsbin.com/yexekacala/edit?js,output
 
+Filter list components:
+http://jsbin.com/jisoqubine/edit?js,output
+
 Tab component example:
 http://jsbin.com/qoyavejama/edit?js,output
 
