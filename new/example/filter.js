@@ -15,16 +15,12 @@ mag.module('filter', {
     this.onload=function(element){
       element.querySelector('ul').classList.remove('hide')
     }
-    this.term = mag.prop('')
+    this.search = mag.prop('')
     this.list = props.list
 
-    this.search = function(value) {
-      this.term(value.toLowerCase())
-    }.bind(this)
-
     this.filter = function(item) {
-      console.log(this.term())
-      return this.term() && item.name.toLowerCase().indexOf(this.term().toLowerCase()) > -1
+      return this.search() && 
+      item.name.toLowerCase().indexOf(this.search().toLowerCase()) > -1
     }.bind(this)
 
   },
@@ -34,7 +30,6 @@ mag.module('filter', {
     }
 
     state.li = state.list.filter(state.filter)
-    console.log(state.li)
   }
 }, {
   list: [{
