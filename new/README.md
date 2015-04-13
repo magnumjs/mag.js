@@ -71,49 +71,49 @@ Plainly these are default values.
 
 HTML for below examples:
 ```html
-  <div id="lister">
-    <h2></h2>
-    <ul>
-      <li class="item"></li>
-    </ul>
-  </div>
+<div id="lister">
+  <h2></h2>
+  <ul>
+    <li class="item"></li>
+  </ul>
+</div>
 ```
 
 Example without controller
 ```javascript
-    mag.module('lister', {
-      view: function(element, props, state) {
-      state.item = [1, 2, 3]
-      state.title = 'Lister'
-        state.h2 = {
-          _text: state.title,
-          _onclick: function() {
-            state.show = state.show ? !state.show : true
-            state.item.reverse()
-            state.title = 'Gister' + state.show
-          }
-        }
+mag.module('lister', {
+  view: function(element, props, state) {
+  state.item = [1, 2, 3]
+  state.title = 'Lister'
+    state.h2 = {
+      _text: state.title,
+      _onclick: function() {
+        state.show = state.show ? !state.show : true
+        state.item.reverse()
+        state.title = 'Gister' + state.show
       }
-    })
+    }
+  }
+})
 ```
 Example with controller
 ```javascript
-    mag.module('lister', {
-      controller: function(props) {
-        this.item = [1, 2, 3]
-        this.title = 'Lister'
-      },
-      view: function(element, props, state) {
-        state.h2 = {
-          _text: state.title,
-          _onclick: function() {
-            state.show = state.show ? !state.show : true
-            state.item.reverse()
-            state.title = 'Gister' + state.show
-          }
-        }
+mag.module('lister', {
+  controller: function(props) {
+    this.item = [1, 2, 3]
+    this.title = 'Lister'
+  },
+  view: function(element, props, state) {
+    state.h2 = {
+      _text: state.title,
+      _onclick: function() {
+        state.show = state.show ? !state.show : true
+        state.item.reverse()
+        state.title = 'Gister' + state.show
       }
-    })
+    }
+  }
+})
 ```
 
 This link displays both for comparison:
