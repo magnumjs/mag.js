@@ -47,7 +47,7 @@ Sortable List:
 http://jsbin.com/gicoruhuvo/edit?js,output
 
 Filter list:
-http://jsbin.com/reyanilefu/edit?js,output
+http://jsbin.com/yexekacala/edit?js,output
 
 Tab component example:
 http://jsbin.com/qoyavejama/edit?js,output
