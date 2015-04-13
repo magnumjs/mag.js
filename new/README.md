@@ -159,7 +159,7 @@ An alternative is to use mag.prop for the state variables. mag.prop on setter wi
 This is the core function to attach a object of instructions to a dom element
 
 #### mag.prop ( setter value)
-Helper setter/getter which calls mag.redraw and every setter
+Helper setter/getter which calls mag.redraw on every setter
 
 #### mag.redraw ()
 inititate a redraw manually
