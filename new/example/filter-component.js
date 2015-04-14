@@ -22,22 +22,19 @@
 var filter = {
   controller: function(props) {
 
-    this.term = mag.prop('')
-    this.list = props.list
     this.binds = props.binds || mag.prop()
-
-    this.search = function(value) {
-      this.term(value.toLowerCase())
-    }.bind(this)
+    this.term = mag.prop(props.term || '')
+    this.list = props.list || []
 
     this.filter = function(item) {
-      return this.term() && item.name.toLowerCase().indexOf(this.term()) > -1
+      return this.term() &&
+        item.name.toLowerCase().indexOf(this.term().toLowerCase()) > -1
     }.bind(this)
 
   },
   view: function(element, props, state) {
     state.input = {
-      _oninput: mag.withProp('value', state.search)
+      _oninput: mag.withProp('value', state.term)
     }
 
     state.li = state.list.filter(state.filter).map(function(item) {
@@ -80,7 +77,6 @@ mag.module('dashboard', {
       list: users,
       binds: this.selectedUser
     })
-
   },
   view: function(element, props, state) {
 
