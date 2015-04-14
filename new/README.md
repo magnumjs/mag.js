@@ -29,28 +29,28 @@ Mag.JS dom!:
 Hello world Example:
 http://jsbin.com/gotuziboho/edit?js,output
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/huyofenuwo/edit?js,output
+http://jsbin.com/fagutuhedu/edit?js,output
 
 Hello world example with passFail reusable component:
-http://jsbin.com/sevimaqano/edit?js,output
+http://jsbin.com/tokufazaki/edit?js,output
 
 Count example:
-http://jsbin.com/garirigabi/edit?js,output
+http://jsbin.com/fiheweteje/edit?js,output
 
 List example: 
-http://jsbin.com/danubegabi/edit?js,output
+http://jsbin.com/kamugipufu/edit?js,output
 
 More lists: 
-http://jsbin.com/dihutuneno/edit?js,output
+http://jsbin.com/fisugeniko/edit?js,output
 
 Sortable List:
-http://jsbin.com/gicoruhuvo/edit?js,output
+http://jsbin.com/lomujimusa/edit?js,output
 
 Filter list:
-http://jsbin.com/yexekacala/edit?js,output
+http://jsbin.com/fabuwitapi/edit?js,output
 
 Filter list components:
-http://jsbin.com/jisoqubine/edit?js,output
+http://jsbin.com/noliteragi/edit?js,output
 
 Tab component example:
 http://jsbin.com/qoyavejama/edit?js,output
@@ -59,13 +59,13 @@ Modal component example:
 http://jsbin.com/faqonuvolu/edit?js,output
 
 Todos Example: 
-http://jsbin.com/lowococoso/edit?js,output
+http://jsbin.com/dabiqamapo/edit?js,output
 
 Contacts Example:
-http://jsbin.com/natemajetu/edit?js,output
+http://jsbin.com/lasoluteju/edit?js,output
 
 Async Example:
-http://jsbin.com/mitomahihi/edit?js,output
+http://jsbin.com/hubawibaqu/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
