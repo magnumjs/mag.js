@@ -2,7 +2,7 @@
   <div id="filter">
     <h3>List filter example</h3>
     <input placeholder="Filter list by something" />
-    <ul class='hide'>
+    <ul>
       <li>Person Name: <span class="name"></span>
       </li>
     </ul>
@@ -12,15 +12,13 @@
 
 mag.module('filter', {
   controller: function(props) {
-    this.onload=function(element){
-      element.querySelector('ul').classList.remove('hide')
-    }
+
     this.search = mag.prop('')
     this.list = props.list
 
     this.filter = function(item) {
       return this.search() && 
-      item.name.toLowerCase().indexOf(this.search().toLowerCase()) > -1
+      item.name.toLowerCase().indexOf(this.search().toLowerCase())>-1
     }.bind(this)
 
   },
