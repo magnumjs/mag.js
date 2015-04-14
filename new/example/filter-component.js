@@ -73,18 +73,19 @@ mag.module('dashboard', {
     this.selectedProject = mag.prop('...')
     this.selectedUser = mag.prop('...')
 
-    this.usersFilter = mag.module('filter-users', filter, {
-      list: users,
+    mag.module('filter-users', filter, {
+      list: props.users,
       binds: this.selectedUser
     })
   },
   view: function(element, props, state) {
 
-    state.users = state.usersFilter
-
-    state.projects = mag.module('filter-projects', filter, {
-      list: projects,
+    mag.module('filter-projects', filter, {
+      list: props.projects,
       binds: state.selectedProject
     })
   }
+}, {
+  users: users,
+  projects: projects
 })
