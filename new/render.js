@@ -94,7 +94,7 @@
     render.callOnload(module)
   }
   var prevId
-  render.doWatch = function(fill, ele, i, module, changeId) {
+  render.doWatch = function(fill, ele, i, module, changeId, prop, action, difference, oldvalue) {
     if (changeId == prevId) return
     prevId = changeId
     mag.running = true
@@ -127,14 +127,16 @@
       if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
         // hold on to it
         if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
-
+        var args = arguments
         deferTimer = $requestAnimationFrame(function() {
           lastRedrawCallTime = +new Date
-          fn.apply(this, arguments);
+          var nargs = [].slice.call(arguments).concat([].slice.call(args))
+          fn.apply(this, nargs);
         }, FRAME_BUDGET)
       } else {
         lastRedrawCallTime = +new Date
-        fn.apply(this, arguments)
+        var nargs = [].slice.call(arguments).concat([].slice.call(args))
+        fn.apply(this, nargs)
         deferTimer = $requestAnimationFrame(function() {
           deferTimer = null
         }, FRAME_BUDGET)
