@@ -93,8 +93,10 @@
     // call onload if present in all controllers
     render.callOnload(module)
   }
-
+  var prevId
   render.doWatch = function(fill, ele, i, module, changeId) {
+    if (changeId == prevId) return
+    prevId = changeId
     mag.running = true
     var args = module.getArgs(i)
 
@@ -113,7 +115,7 @@
   }
 
   render.setupWatch = function(WatchJS, args, fill, elementClone, i, module) {
-    WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)))
+    WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
