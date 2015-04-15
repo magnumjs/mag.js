@@ -62,7 +62,7 @@ Modal component example:
 http://jsbin.com/jiyoforowa/edit?js,output
 
 Modal with select menu:
-http://jsbin.com/rocugoqeka/edit?js,output
+http://jsbin.com/cimulalapu/edit?js,output
 
 Todos Example: 
 http://jsbin.com/dabiqamapo/edit?js,output
