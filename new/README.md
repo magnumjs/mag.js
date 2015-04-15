@@ -56,7 +56,7 @@ Tab component example:
 http://jsbin.com/qoyavejama/edit?js,output
 
 Modal component example:
-http://jsbin.com/faqonuvolu/edit?js,output
+http://jsbin.com/jiyoforowa/edit?js,output
 
 Modal with select menu:
 http://jsbin.com/rocugoqeka/edit?js,output
