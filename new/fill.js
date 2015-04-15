@@ -33,6 +33,20 @@
       }
     }
 
+    function removeNode(node) {
+      var p = getPathTo(node)
+      // remove cache of all children too
+      removeCache(p)
+      node.parentNode.removeChild(node)
+      // call config unload if any ?
+
+      //console.log(p, cached[p + '-config'])
+      if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
+        // what arg to send ?
+        cached[p + '-config'].configContext.onunload()
+      }
+    }
+
     function removeCache(p) {
       // search cache for children
 
@@ -125,19 +139,10 @@
         node = elements.pop()
         parent = node.parentNode
         if (parent) {
-          var p = getPathTo(node)
+          //var p = getPathTo(node)
           //console.log('removing', p, cached)
 
-          // remove cache of all children too
-          removeCache(p)
-          parent.removeChild(node)
-          // call config unload if any ?
-
-          //console.log(p, cached[p + '-config'])
-          if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
-            // what arg to send ?
-            cached[p + '-config'].configContext.onunload()
-          }
+          removeNode(node)
         }
       }
 
@@ -186,7 +191,16 @@
       var value = data[key]
 
       // null values are treated like empty strings
-      if (value === undefined) value = ''
+      if (value === undefined) {
+        value = ''
+      } else if (_isNull(value) && ['onunload'].indexOf(key) === -1) {
+        // TODO: delete case
+        // special case delete all children if equal to null type  
+        var matches = matchingElements(node, key)
+        matches.forEach(function(item) {
+          removeNode(item)
+        })
+      }
 
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
@@ -374,23 +388,9 @@
     var child
     var children
     var p = getPathTo(node)
+
     // make sure that we have a node and text to insert
     if (!node || text == null) {
-      // TODO: delete case
-      // special case delete all children if equal to null type  
-      if (_isNull(text)) {
-        // TODO: remove cache too!
-        while (node.firstChild) {
-          node.removeChild(node.firstChild)
-        }
-        cached[p]
-        //TODO" call onunload
-        //console.log('config', cached[p + '-config'])
-        if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
-          // what arg to send ?
-          cached[p + '-config'].configContext.onunload()
-        }
-      }
       return
     }
     // cache all of the child nodes
@@ -529,6 +529,7 @@
 
   mag.fill = {
     fill: fill,
+    find: matchingElements,
     clear: clear,
     unclear: unclear,
     configs: configs
