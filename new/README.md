@@ -34,8 +34,8 @@ http://jsbin.com/fagutuhedu/edit?js,output
 Hello world example with passFail reusable component:
 http://jsbin.com/tokufazaki/edit?js,output
 
-Hello world (proxy support/Firefox v0.7.4):
-http://jsbin.com/tunakumapo/edit?js,output
+Hello world (proxy support/Firefox v0.7.4+):
+http://jsbin.com/kotejewexi/edit?js,output
 
 Count example:
 http://jsbin.com/fiheweteje/edit?js,output
