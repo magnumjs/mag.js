@@ -3,8 +3,7 @@
 
   'use strict'
 
-  var privates = {},
-    module = mag.mod,
+  var module = mag.mod,
     render = mag.render,
     fill = mag.fill,
     topModule,
@@ -12,13 +11,8 @@
 
   mag.running = false
 
-  // REMOVE THIS? why is this here?
-  privates.init = function(container, data) {
-    // if (!(this instanceof privates.init)) return new privates.init(container, data)
-    // var instance = this
-  }
   var redrawing = false
-  privates.redraw = function() {
+  mag.redraw = function() {
     if (redrawing) {
       // do we ever get here?
       // necessary?
@@ -29,7 +23,7 @@
     redrawing = false
   }
 
-  privates.withProp = function(prop, withAttrCallback) {
+  mag.withProp = function(prop, withAttrCallback) {
     return function(e) {
       e = e || event;
       var currentTarget = e.currentTarget || this;
@@ -37,11 +31,11 @@
     }
   }
 
-  privates.prop = function(store) {
+  mag.prop = function(store) {
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
-        privates.redraw()
+        mag.redraw()
       }
       return store
     }
@@ -57,127 +51,102 @@
   }
 
   var unloaders = []
-    privates.module = function(domElementId, moduleObject, props) {
+  mag.module = function(domElementId, moduleObject, props) {
 
-      var index = render.roots.indexOf(domElementId)
+    var index = render.roots.indexOf(domElementId)
 
-      // clear cache if exists
-      if (props && !props.retain) render.clear(index, domElementId, fill)
-      // create new index on roots
-      if (index < 0) index = render.roots.length;
+    // clear cache if exists
+    if (props && !props.retain) render.clear(index, domElementId, fill)
+    // create new index on roots
+    if (index < 0) index = render.roots.length;
 
 
-      //unloaders that exists?
+    //unloaders that exists?
 
-      var isPrevented = false;
-      var event = {
-        preventDefault: function() {
-          isPrevented = true
-        }
-      };
-      for (var i = 0, unloader; unloader = unloaders[i]; i++) {
-        unloader.handler(event)
-        unloader.controller.onunload = null
+    var isPrevented = false;
+    var event = {
+      preventDefault: function() {
+        isPrevented = true
       }
-      if (isPrevented) {
-        for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
-      } else unloaders = []
+    };
+    for (var i = 0, unloader; unloader = unloaders[i]; i++) {
+      unloader.handler(event)
+      unloader.controller.onunload = null
+    }
+    if (isPrevented) {
+      for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
+    } else unloaders = []
 
-      if (isPrevented) return
-
-
-      //DOM
-      var element = document.getElementById(domElementId)
-      if (!element) return Error('invalid node')
-
-      // var parentElement = element.parentNode
-      // var tempEle = document.createElement("span")
-      // parentElement.replaceChild(tempEle, element)
-
-      render.roots[index] = element.id
+    if (isPrevented) return
 
 
-      //MODULE
-      if (!moduleObject.view) return Error('module requires a view')
+    //DOM
+    var element = document.getElementById(domElementId)
+    if (!element) return Error('invalid node')
 
-      var mod = module.submodule(moduleObject, [props || {}])
+
+    render.roots[index] = element.id
 
 
-      //var currentModule = topModule = mod = mod || {}
-      var controller = new mod.controller
+    //MODULE
+    if (!moduleObject.view) return Error('module requires a view')
 
-      // FireFox only
-      if (typeof Proxy !== 'undefined') {
+    var mod = module.submodule(moduleObject, [props || {}])
 
-        controller = new Proxy(controller, {
-          get: function(target, prop) {
+
+    var controller
+
+    // FireFox support only
+    if (typeof Proxy !== 'undefined') {
+      controller = new Proxy(new mod.controller, {
+        get: function(target, prop) {
           if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
-            var a = fill.find(element, prop), v
+            var a = fill.find(element, prop),
+              v
             if (a[0]) {
               if (a[0].value && a[0].value.length > 0)
-                v= a[0].value
+                v = a[0].value
               if (a[0].innerText && a[0].innerText.length > 0)
-                v= a[0].innerText
+                v = a[0].innerText
               if (a[0].innerHTML && a[0].innerHTML.length > 0)
-                v= a[0].innerHTML
+                v = a[0].innerHTML
             }
             return v
           }
-            return target[prop]
-          }
-        })
-      }
-
-      //this conditional ensures only the last recursive module call is applied
-      // REALLY necessary?
-      //if (currentModule === topModule) {
-
-      module.controllers[index] = controller
-      if (controller.onunload) unloaders.push({
-        controller: controller,
-        handler: controller.onunload
+          return target[prop]
+        }
       })
 
-      module.modules[index] = mod
-      module.elements[index] = element
-
-      // }
-
-      //INTERPOLATIONS
-      privates.redraw()
-
-      //DOM
-      // parentElement.replaceChild(element, tempEle)
-
-      // call controller unloaders ?
-      // check if was in previous and now not for the same node
-      // add to fill.js
-
-
-
-      // console.log(self.running)
-      // // call onload if present in controller
-      if (controller.onload && !mag.running) render.callOnload(module)
-      return {
-        _html: element.innerHTML
-      }
-      // return instance ?
-      // module.controllers[index]
+    } else {
+      controller = new mod.controller
     }
 
-  var interfaces = function(method) {
-    return function() {
-      return privates[method].apply(this, arguments)
+
+    module.controllers[index] = controller
+    if (controller.onunload) unloaders.push({
+      controller: controller,
+      handler: controller.onunload
+    })
+
+    module.modules[index] = mod
+    module.elements[index] = element
+
+
+    //INTERPOLATIONS
+    mag.redraw()
+
+
+    // call controller unloaders ?
+    // check if was in previous and now not for the same node
+    // add to fill.js
+
+    // call onload if present in controller
+    if (controller.onload && !mag.running) render.callOnload(module)
+    return {
+      _html: element.innerHTML
     }
+    // return instance ?
+    // module.controllers[index]
   }
-
-  var api = interfaces('init')
-
-  api['module'] = interfaces('module')
-  api['prop'] = interfaces('prop')
-  api['redraw'] = interfaces('redraw')
-  api['withProp'] = interfaces('withProp')
-
-  for (var k in api) mag[k] = api[k]
 
 })(window.mag || {}, document)
