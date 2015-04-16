@@ -1,6 +1,7 @@
-;(function(mag) {
+;
+(function(mag) {
 
-"use strict";
+  "use strict";
 
   var mod = {
     modules: [],
@@ -8,8 +9,43 @@
     elements: []
   }
 
-  mod.submodule = function(module, args) {
+  mod.getController = function(mod, element, fill) {
+    var controller
 
+    // FireFox support only
+    if (typeof Proxy !== 'undefined') {
+      controller = new Proxy(new mod.controller, {
+        get: function(target, prop) {
+          if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
+            var a = fill.find(element, prop),
+              v
+            if (a[0]) {
+              if (a[0].value && a[0].value.length > 0) {
+                v = a[0].value
+                if (a[0].type && a[0].type == 'checkbox') {
+                  v = {
+                    _text: v,
+                    _checked: a[0].checked
+                  }
+                }
+              }
+              if (a[0].innerText && a[0].innerText.length > 0)
+                v = a[0].innerText
+              if (a[0].innerHTML && a[0].innerHTML.length > 0)
+                v = a[0].innerHTML
+            }
+            return v
+          }
+          return target[prop]
+        }
+      })
+    } else {
+      controller = new mod.controller
+    }
+    return controller
+  }
+
+  mod.submodule = function(module, args) {
     var controller = function(args) {
       return (module.controller || function() {}).apply(this, args)
     }.bind({}, args)
@@ -36,9 +72,8 @@
 
   mod.getArgs = function(i) {
     var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
-  // console.log(i,args[0])
     return args
   }
   mag.mod = mod
-  
+
 })(window.mag || {})
