@@ -11,9 +11,9 @@
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
 
-    function _isNull(obj) {
-      return Object.prototype.toString.call(obj) === '[object Null]'
-    }
+    // function _isNull(obj) {
+    //   return Object.prototype.toString.call(obj) === '[object Null]'
+    // }
 
     function getPathTo(element) {
       if (element.id !== '')
@@ -193,7 +193,7 @@
       // null values are treated like empty strings
       if (value === undefined) {
         value = ''
-      } else if (_isNull(value) && ['onunload'].indexOf(key) === -1) {
+      } else if (value === null && ['onunload'].indexOf(key) === -1) {
         // TODO: delete case
         // special case delete all children if equal to null type  
         var matches = matchingElements(node, key)
