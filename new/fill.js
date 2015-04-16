@@ -338,7 +338,6 @@
           // does the element already exist in cache
           // useful to know if this is newly added
           var isNew = true
-          console.log('config')
 
           var p = getPathTo(node)
           var tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
