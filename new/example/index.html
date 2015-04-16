@@ -9,7 +9,18 @@
 <body>
 
   <div id="hello">
-    <h1></h1>
+    <h1>Say </h1>
+    <input placeholder="test" value='tester' />
+    <input type="checkbox" name="done" />
+        <input type="checkbox" name="done" />
+
+    <select>
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
+    <textarea></textarea>
+    <button>Do</button>
+    Stuff
   </div>
 
   <div id="test" class="hide">
@@ -79,7 +90,7 @@
     </div>
     <button>Open</button>
   </div>
-  
+
   <div id="filter">
     <h3>List filter example</h3>
     <input placeholder="Filter list by something" />
@@ -88,7 +99,26 @@
       </li>
     </ul>
   </div>
-  
+
+  <div id="dashboard">
+    <div id="filter-users">
+      <h3>Filter users (<span data-bind="selectedUser"><name></name></span>)</h3>
+      <input placeholder="Filter users by ... " />
+      <ul>
+        <li>Person Name: <span data-bind="name"></span>
+        </li>
+      </ul>
+    </div>
+    <div id="filter-projects">
+      <h3>Filter projects (<span data-bind="selectedProject"><name></name></span>)</h3>
+      <input placeholder="Filter projects by ... " />
+      <ul>
+        <li>Person Name: <span data-bind="name"></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
   <script>
     var modal = {
       controller: function(props) {
@@ -200,7 +230,17 @@
         }
       },
       view: function(element, props, state) {
-        state.h1 = 'Hello Mag.JS!'
+        state.button = {
+          _onclick: function() {
+            console.log(state.h1, state.$done)
+            state.h1 = state.done
+          }
+        }
+        //state.h1 = '', 
+        state.select = 2, state.textarea = 1
+        //setTimeout(function() {
+        //  console.log(state.h1, state.input)
+        //}, 100)
       }
     })
   </script>
