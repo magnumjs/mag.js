@@ -64,7 +64,10 @@ http://jsbin.com/jiyoforowa/edit?js,output
 Modal with select menu:
 http://jsbin.com/cimulalapu/edit?js,output
 
-Todos Example: 
+Todos example:
+http://jsbin.com/ripasomama/edit?js,output
+
+Todos Example (expanded): 
 http://jsbin.com/dabiqamapo/edit?js,output
 
 Contacts Example:
