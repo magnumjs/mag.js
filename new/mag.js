@@ -87,40 +87,12 @@
 
     render.roots[index] = element.id
 
-
     //MODULE
     if (!moduleObject.view) return Error('module requires a view')
 
     var mod = module.submodule(moduleObject, [props || {}])
 
-
-    var controller
-
-    // FireFox support only
-    if (typeof Proxy !== 'undefined') {
-      controller = new Proxy(new mod.controller, {
-        get: function(target, prop) {
-          if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
-            var a = fill.find(element, prop),
-              v
-            if (a[0]) {
-              if (a[0].value && a[0].value.length > 0)
-                v = a[0].value
-              if (a[0].innerText && a[0].innerText.length > 0)
-                v = a[0].innerText
-              if (a[0].innerHTML && a[0].innerHTML.length > 0)
-                v = a[0].innerHTML
-            }
-            return v
-          }
-          return target[prop]
-        }
-      })
-
-    } else {
-      controller = new mod.controller
-    }
-
+    var controller = module.getController(mod, element, fill)
 
     module.controllers[index] = controller
     if (controller.onunload) unloaders.push({
