@@ -65,7 +65,7 @@ Modal with select menu:
 http://jsbin.com/cimulalapu/edit?js,output
 
 Todos example:
-http://jsbin.com/ripasomama/edit?js,output
+http://jsbin.com/yinozamaru/edit?js,output
 
 Todos Example (expanded): 
 http://jsbin.com/dabiqamapo/edit?js,output
