@@ -185,7 +185,7 @@
     if (typeof data !== 'object') return fillNode(node, {
       _text: data
     })
-    tagIndex = 0
+
     // find all the attributes
     for (var key in data) {
       var value = data[key]
@@ -285,163 +285,157 @@
     return nodeList;
   }
 
-  var prevTagName, tagIndex = 0
 
-    // fill in the attributes on an element (setting text and html first)
-    function fillAttributes(node, attributes) {
-
-
-      var p = getPathTo(node),
-        cache = false
+  // fill in the attributes on an element (setting text and html first)
+  function fillAttributes(node, attributes) {
 
 
-      if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-        //console.log('isame', p, JSON.stringify(attributes))
-        cache = true
-      }
-
-      // attach to topId so can be removed later
-
-      node._events = node._events || []
-
-      // set the rest of the attributes
-      for (var attrName in attributes) {
-
-        // skip text and html, they've already been set
-        if (attrName === 'text' || attrName === 'html') continue
-
-        // events
-        if (attrName.indexOf('on') == 0) {
-          // REALLY ? only one same event per node?
-          if (node._events.indexOf(attrName) !== -1 && !firstRun) {
-            // console.log('event exists', firstRun)
-            continue
-          }
-          var eventCall = function(fun, node, e) {
-            try {
-              return fun.call(node, e)
-            } finally {
-              mag.redraw()
-            }
-          }.bind(null, attributes[attrName], node)
-
-          node[attrName] = eventCall
-          //console.log('event exists', firstRun)
-
-          // node.addEventListener(attrName.substr(2), eventCall)
-          node._events.push(attrName)
-
-        } else {
-
-          if (attrName == 'config') {
-
-            // have we been here before?
-            // does the element already exist in cache
-            // useful to know if this is newly added
-            var isNew = true
-
-            //TODO: really enough to know they are siblings?
-            if (node.tagName === prevTagName) {
-              tagIndex++
-            } else {
-              tagIndex = 0
-            }
-            prevTagName = node.tagName
-            var p = getPathTo(node)
-
-            if (!cached[p + '-config']) {
-              cached[p + '-config'] = {}
-            } else {
-              isNew = !isNew
-            }
-
-            var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
+    var p = getPathTo(node),
+      cache = false
 
 
-            // console.log(p)
-            // bind
-            var callback = function(data, args) {
-              return function() {
-                return data.apply(data, args)
-              }
-            }
-
-            configs.push(callback(attributes[attrName], [node, isNew, context, tagIndex]))
-            continue
-          }
-
-          if (cache) continue
-          if (attributes[attrName] === null) {
-            node.removeAttribute(attrName)
-          } else {
-            node.setAttribute(attrName, attributes[attrName].toString())
-          }
-
-        }
-      }
-
-      // TODO: fix - this is not very accurate?
-      if (cache) {
-        //console.log(node.tagName, attributes)
-        return
-      }
-      // set html after setting text because html overrides text
-      setText(node, attributes.text)
-      setHtml(node, attributes.html)
-
-      //console.log('ichange', p, JSON.stringify(attributes))
-      cached[p] = JSON.stringify(attributes)
+    if (cached[p] && cached[p] === JSON.stringify(attributes)) {
+      //console.log('isame', p, JSON.stringify(attributes))
+      cache = true
     }
 
-    function setText(node, text) {
-      var child
-      var children
-      var p = getPathTo(node)
+    // attach to topId so can be removed later
 
-      // make sure that we have a node and text to insert
-      if (!node || text == null) {
-        return
-      }
-      // cache all of the child nodes
-      if (!children) {
-        children = [];
-        for (var i = 0; i < node.childNodes.length; i += 1) {
-          child = node.childNodes[i];
-          if (child.nodeType === ELEMENT_NODE) {
-            children.push(child)
-          }
+    node._events = node._events || []
+
+    // set the rest of the attributes
+    for (var attrName in attributes) {
+
+      // skip text and html, they've already been set
+      if (attrName === 'text' || attrName === 'html') continue
+
+      // events
+      if (attrName.indexOf('on') == 0) {
+        // REALLY ? only one same event per node?
+        if (node._events.indexOf(attrName) !== -1 && !firstRun) {
+          // console.log('event exists', firstRun)
+          continue
         }
-      }
+        var eventCall = function(fun, node, e) {
+          try {
+            return fun.call(node, e)
+          } finally {
+            mag.redraw()
+          }
+        }.bind(null, attributes[attrName], node)
 
-      // remove all of the children
-      //WHY?
-      while (node.firstChild) {
-        node.removeChild(node.firstChild)
-      }
+        node[attrName] = eventCall
+        //console.log('event exists', firstRun)
 
-      // SELECT|INPUT|TEXTAREA
-      // now add the text
-      if (node.nodeName.toLowerCase() === 'input') {
-        // special case for input elements
-        node.setAttribute('value', text.toString());
+        // node.addEventListener(attrName.substr(2), eventCall)
+        node._events.push(attrName)
+
       } else {
-        // create a new text node and stuff in the value
-        node.appendChild(node.ownerDocument.createTextNode(text.toString()));
-      }
 
-      // reattach all the child nodes
-      for (var i = 0; i < children.length; i += 1) {
-        node.appendChild(children[i]);
+        if (attrName == 'config') {
+
+          // have we been here before?
+          // does the element already exist in cache
+          // useful to know if this is newly added
+          var isNew = true
+          console.log('config')
+
+          var p = getPathTo(node)
+          var tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
+
+          if (!cached[p + '-config']) {
+            cached[p + '-config'] = {}
+          } else {
+            isNew = !isNew
+          }
+
+          var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
+
+
+          // console.log(p)
+          // bind
+          var callback = function(data, args) {
+            return function() {
+              return data.apply(data, args)
+            }
+          }
+
+          configs.push(callback(attributes[attrName], [node, isNew, context, tagIndex]))
+          continue
+        }
+
+        if (cache) continue
+        if (attributes[attrName] === null) {
+          node.removeAttribute(attrName)
+        } else {
+          node.setAttribute(attrName, attributes[attrName].toString())
+        }
+
       }
     }
 
+    // TODO: fix - this is not very accurate?
+    if (cache) {
+      //console.log(node.tagName, attributes)
+      return
+    }
+    // set html after setting text because html overrides text
+    setText(node, attributes.text)
+    setHtml(node, attributes.html)
 
-    function setHtml(node, html) {
-      if (!node || html == null) return;
-      node.innerHTML = html;
-      // CAN'T do below since it will append on every new call
-      // node.insertAdjacentHTML("afterbegin", html)
-    };
+    //console.log('ichange', p, JSON.stringify(attributes))
+    cached[p] = JSON.stringify(attributes)
+  }
+
+  function setText(node, text) {
+    var child
+    var children
+    var p = getPathTo(node)
+
+    // make sure that we have a node and text to insert
+    if (!node || text == null) {
+      return
+    }
+    // cache all of the child nodes
+    if (!children) {
+      children = [];
+      for (var i = 0; i < node.childNodes.length; i += 1) {
+        child = node.childNodes[i];
+        if (child.nodeType === ELEMENT_NODE) {
+          children.push(child)
+        }
+      }
+    }
+
+    // remove all of the children
+    //WHY?
+    while (node.firstChild) {
+      node.removeChild(node.firstChild)
+    }
+
+    // SELECT|INPUT|TEXTAREA
+    // now add the text
+    if (node.nodeName.toLowerCase() === 'input') {
+      // special case for input elements
+      node.setAttribute('value', text.toString());
+    } else {
+      // create a new text node and stuff in the value
+      node.appendChild(node.ownerDocument.createTextNode(text.toString()));
+    }
+
+    // reattach all the child nodes
+    for (var i = 0; i < children.length; i += 1) {
+      node.appendChild(children[i]);
+    }
+  }
+
+
+  function setHtml(node, html) {
+    if (!node || html == null) return;
+    node.innerHTML = html;
+    // CAN'T do below since it will append on every new call
+    // node.insertAdjacentHTML("afterbegin", html)
+  };
 
 
   //===========================================================================
