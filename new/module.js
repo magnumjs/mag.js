@@ -1,44 +1,50 @@
 ;
 (function(mag) {
 
-  "use strict";
+    "use strict";
 
-  var mod = {
-    modules: [],
-    controllers: [],
-    elements: []
-  }
+    var mod = {
+      modules: [],
+      controllers: [],
+      elements: []
+    }
 
-  mod.getController = function(mod, element, fill) {
-    var controller
+    mod.getController = function(mod, element, fill) {
+      var controller
 
-    // FireFox support only
-    if (typeof Proxy !== 'undefined') {
-      controller = new Proxy(new mod.controller, {
-        get: function(target, prop) {
-          if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
-            var a = fill.find(element, prop),
-              v
-            if (a[0]) {
-              if (a[0].value && a[0].value.length > 0) {
-                v = a[0].value
-                if (a[0].type && a[0].type == 'checkbox') {
-                  v = {
-                    _text: v,
-                    _checked: a[0].checked
-                  }
-                }
-              }
-              if (a[0].innerText && a[0].innerText.length > 0)
-                v = a[0].innerText
-              if (a[0].innerHTML && a[0].innerHTML.length > 0)
-                v = a[0].innerHTML
+      // FireFox support only
+      if (typeof Proxy !== 'undefined') {
+        controller = new Proxy(new mod.controller, {
+            get: function(target, prop) {
+              if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
+                var a = fill.find(element, prop),
+                  v, // can be an array, object or string
+                  // for each
+                  tmp = []
+                  a.forEach(function(item, index) {
+                      if (a[index]) {
+                        if (a[index].value && a[index].value.length > 0) {
+                          v = a[index].value
+                          if (a[index].type && a[index].type == 'checkbox') {
+                            v = {
+                              _text: v,
+                              _checked: a[index].checked
+                            }
+                          }
+                        } else if (a[index].innerText && a[index].innerText.length > 0) {
+                          v = a[index].innerText
+                        } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
+                          v = a[index].innerHTML
+                      }
+                      tmp.push(v)
+                    }
+                  })
+              if(tmp.length > 1) return tmp
+              return v
             }
-            return v
+            return target[prop]
           }
-          return target[prop]
-        }
-      })
+        })
     } else {
       controller = new mod.controller
     }
