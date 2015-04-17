@@ -43,6 +43,13 @@
       }
     }
 
+    // TODO: get index from getPathTo function
+    function getPathIndex(p) {
+      var s = parseInt(p.split('/').pop().split('[').pop().slice(0, -1))
+      if (!s) return 0
+      return parseInt(s) - 1
+    }
+
     function removeCache(p) {
       // search cache for children
 
@@ -282,25 +289,18 @@
 
     return nodeList;
   }
-   var myRegexp = /\[(\d+)\]/g;
-  // TODO: get index from getPathTo function
-  function getPathIndex(myString) {
-    var match = myRegexp.exec(myString);
-    if (!match) return 0
-    return match[1]
-  }
+
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
-
     var p = getPathTo(node),
-      cache = false;
-      var tagIndex = parseInt(getPathIndex(p)) - 1
+      cache = false,
+      tagIndex = getPathIndex(p)
 
-    if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-      //console.log('isame', p, JSON.stringify(attributes))
-      cache = true
-    }
-    // attach to topId so can be removed later
+      if (cached[p] && cached[p] === JSON.stringify(attributes)) {
+        //console.log('isame', p, JSON.stringify(attributes))
+        cache = true
+      }
+      // attach to topId so can be removed later
 
     node._events = node._events || []
 
