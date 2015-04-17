@@ -45,7 +45,9 @@
 
     // TODO: get index from getPathTo function
     function getPathIndex(p) {
-      var s = parseInt(p.split('/').pop().split('[').pop().slice(0, -1))
+      // var s = parseInt(p.split('/').pop().split('[').pop().slice(0, -1))
+  var s = parseInt(p.split('[').pop().slice(0,-1))
+
       if (!s) return 0
       return parseInt(s) - 1
     }
@@ -519,6 +521,7 @@
     //CLEAR CACHE TOO?
     //cached=[]
   }
+
 
   function unclear() {
     firstRun = false
