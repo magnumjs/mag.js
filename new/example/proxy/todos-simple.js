@@ -16,12 +16,13 @@
   </p>
 </div>
 */
-
 var todo = {};
 
 todo.controller = function(props) {
   this.todoList = props.todoList;
-
+  // non proxy suport - i.e. not Firefox
+  // this.form = mag.addons.binds(this);
+  
   this.button = {
     _onclick: function() {
       this.todoList = this.todoList.filter(function(x) {
@@ -47,7 +48,7 @@ todo.view = function(element, props, state) {
   state.add = {
     _onclick: function() {
       state.todoList.push({
-        todoText: state.todoInput, // for non Firefox - this|e.target.parentNode.children[0].value
+        todoText: state.todoInput, // use addon 'binds' or this|e.target.parentNode.children[0].value
         done: false
       });
       return false;
