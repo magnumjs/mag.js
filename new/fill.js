@@ -11,10 +11,6 @@
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
 
-    // function _isNull(obj) {
-    //   return Object.prototype.toString.call(obj) === '[object Null]'
-    // }
-
     function getPathTo(element) {
       if (element.id !== '')
         return 'id("' + element.id + '")';
@@ -202,6 +198,8 @@
         })
       }
 
+      //TODO: prepend attributes ? double underscore ??
+
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
         // store the properties to set them all at once
@@ -284,20 +282,24 @@
 
     return nodeList;
   }
-
-
+  // TODO: get index from getPathTo function
+  function getPathIndex(myString) {
+    var myRegexp = /\[(\d+)\]/g;
+    var match = myRegexp.exec(myString);
+    if (!match) return 0
+    return match[1]
+  }
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
 
     var p = getPathTo(node),
       cache = false,
-      tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
+      tagIndex = parseInt(getPathIndex(p)) - 1
 
     if (cached[p] && cached[p] === JSON.stringify(attributes)) {
       //console.log('isame', p, JSON.stringify(attributes))
       cache = true
     }
-
     // attach to topId so can be removed later
 
     node._events = node._events || []
@@ -317,7 +319,7 @@
         }
         var eventCall = function(fun, node, tagIndex, e) {
           try {
-            return fun.call(node, e, tagIndex)
+            return fun.call(node, e, tagIndex, node)
           } finally {
             mag.redraw()
           }
