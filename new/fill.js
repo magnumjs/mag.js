@@ -291,8 +291,8 @@
 
 
     var p = getPathTo(node),
-      cache = false
-
+      cache = false,
+      tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
 
     if (cached[p] && cached[p] === JSON.stringify(attributes)) {
       //console.log('isame', p, JSON.stringify(attributes))
@@ -316,13 +316,13 @@
           // console.log('event exists', firstRun)
           continue
         }
-        var eventCall = function(fun, node, e) {
+        var eventCall = function(fun, node, tagIndex, e) {
           try {
-            return fun.call(node, e)
+            return fun.call(node, tagIndex, e)
           } finally {
             mag.redraw()
           }
-        }.bind(null, attributes[attrName], node)
+        }.bind(null, attributes[attrName], node, tagIndex)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
@@ -338,9 +338,6 @@
           // does the element already exist in cache
           // useful to know if this is newly added
           var isNew = true
-
-          var p = getPathTo(node)
-          var tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
 
           if (!cached[p + '-config']) {
             cached[p + '-config'] = {}
