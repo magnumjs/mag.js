@@ -38,6 +38,7 @@ todo.view = function(element, props, state) {
   state.$todoList = {
     _config: function(node, isNew, context, index) {
       node.children[0].checked = state.todoList[index].done;
+      node.classList.toggle('done',state.todoList[index].done);
     },
     _onclick: function(e, index) {
       state.todoList[index].done = !state.todoList[index].done;
