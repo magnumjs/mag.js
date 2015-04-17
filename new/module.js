@@ -31,13 +31,13 @@
                       _text: v,
                       _checked: a[index].checked
                     }
+                    tmp.push(v)
                   }
                 } else if (a[index].innerText && a[index].innerText.length > 0) {
                   v = a[index].innerText
                 } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
                   v = a[index].innerHTML
                 }
-                tmp.push(v)
               }
             })
             if (tmp.length > 0 && greedy) return tmp
