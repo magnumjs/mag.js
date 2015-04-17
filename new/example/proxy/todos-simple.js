@@ -49,7 +49,7 @@ todo.view = function(element, props, state) {
   state.add = {
     _onclick: function() {
       state.todoList.push({
-        todoText: state.todoInput,
+        todoText: state.todoInput, // for non Firefox - e.target.parentNode.children[0].value
         done: false
       });
       return false;
