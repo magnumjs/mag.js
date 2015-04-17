@@ -282,9 +282,9 @@
 
     return nodeList;
   }
+   var myRegexp = /\[(\d+)\]/g;
   // TODO: get index from getPathTo function
   function getPathIndex(myString) {
-    var myRegexp = /\[(\d+)\]/g;
     var match = myRegexp.exec(myString);
     if (!match) return 0
     return match[1]
@@ -293,8 +293,8 @@
   function fillAttributes(node, attributes) {
 
     var p = getPathTo(node),
-      cache = false,
-      tagIndex = parseInt(getPathIndex(p)) - 1
+      cache = false;
+      var tagIndex = parseInt(getPathIndex(p)) - 1
 
     if (cached[p] && cached[p] === JSON.stringify(attributes)) {
       //console.log('isame', p, JSON.stringify(attributes))
