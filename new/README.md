@@ -26,22 +26,27 @@ Mag.JS dom!:
   <h1>Hello Mag.JS!</h1>
 </div>
 ```
-Hello world Example:
+##Examples
+
+Hello world:
 http://jsbin.com/gotuziboho/edit?js,output
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
 http://jsbin.com/fagutuhedu/edit?js,output
 
-Hello world example with passFail reusable component:
+Hello world with passFail reusable component:
 http://jsbin.com/tokufazaki/edit?js,output
 
 Hello world (proxy support/Firefox v0.7.4+):
 http://jsbin.com/kotejewexi/edit?js,output
 
-Count example:
+Count:
 http://jsbin.com/fiheweteje/edit?js,output
 
-List example: 
+List: 
 http://jsbin.com/kamugipufu/edit?js,output
+
+Navigation menu:
+http://jsbin.com/hoqoyisolo/edit?js,output
 
 More lists: 
 http://jsbin.com/fisugeniko/edit?js,output
@@ -55,28 +60,28 @@ http://jsbin.com/fabuwitapi/edit?js,output
 Filter list components:
 http://jsbin.com/noliteragi/edit?js,output
 
-Tab component example:
+Tab component:
 http://jsbin.com/qoyavejama/edit?js,output
 
-Modal component example:
+Modal component:
 http://jsbin.com/jiyoforowa/edit?js,output
 
 Modal with select menu:
 http://jsbin.com/cimulalapu/edit?js,output
 
-Todos example:
+Todos:
 http://jsbin.com/yinozamaru/edit?js,output
 
-Todo proxy example (firefox)
+Todo proxy (firefox)
 http://jsbin.com/fiqepasaki/edit?js,output
 
-Todos Example (expanded): 
+Todos (expanded): 
 http://jsbin.com/dabiqamapo/edit?js,output
 
-Contacts Example:
+Contacts:
 http://jsbin.com/lasoluteju/edit?js,output
 
-Async Example:
+Async:
 http://jsbin.com/hubawibaqu/edit?js,output
 
 ###Statefullness
