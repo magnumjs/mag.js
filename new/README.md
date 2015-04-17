@@ -1,6 +1,9 @@
+<img align="right" src="https://cloud.githubusercontent.com/assets/5196767/7201072/615ea42c-e4d1-11e4-8552-c41bb7491f7e.jpg" style="background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 100%;height:100%;opacity: 0.2;z-index: -1;" />
+
 #MagNumJS (Mag.JS) v2
 
 ##Elegant DOM bindings
+![alt text](https://cloud.githubusercontent.com/assets/5196767/7201072/615ea42c-e4d1-11e4-8552-c41bb7491f7e.jpg "Mag.JS - Elegant DOM Bindings")
 
 ###leveraging fill.js,watch.js and mithril.js module architecture
 
@@ -8,6 +11,10 @@
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * provides intuitive, clear helpers and shortcuts for dom templating, arrays, mathcers, eventing, onload, offload, configuration hookins etc...
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
+" target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
+alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 ```javascript
 Initial dom:
