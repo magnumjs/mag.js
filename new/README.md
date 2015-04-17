@@ -1,12 +1,13 @@
 #MagNumJS (Mag.JS) v2
 
-##Tiny real dom intuitive templating
+##Elegant DOM bindings
 
 ###leveraging fill.js,watch.js and mithril.js module architecture
 
 * No virtual/shadow dom or new templating language! Super fast & under 5KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
+* provides intuitive, clear helpers and shortcuts for dom templating, arrays, mathcers, eventing, onload, offload, configuration hookins etc...
 
 ```javascript
 Initial dom:
