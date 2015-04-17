@@ -289,7 +289,6 @@
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
 
-
     var p = getPathTo(node),
       cache = false,
       tagIndex = parseInt(p.match(/\d+/g).pop()) - 1
@@ -318,7 +317,7 @@
         }
         var eventCall = function(fun, node, tagIndex, e) {
           try {
-            return fun.call(node, tagIndex, e)
+            return fun.call(node, e, tagIndex)
           } finally {
             mag.redraw()
           }
