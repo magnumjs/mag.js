@@ -68,7 +68,7 @@ Todos example:
 http://jsbin.com/yinozamaru/edit?js,output
 
 Todo proxy example (firefox)
-http://jsbin.com/hayosuhila/edit?js,output
+http://jsbin.com/sacubefaku/edit?js,output
 
 Todos Example (expanded): 
 http://jsbin.com/dabiqamapo/edit?js,output
