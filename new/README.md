@@ -257,8 +257,10 @@ Will generate
 
 ####Attributes
 _html, _text, _on[EVENT], _config->context.onunload
-to not overwrite an existing attribute use double underscore as an append __ (coming soon!)
-or simply state.name._value = state.name._value + ''
+
+to not overwrite an existing attribute use: 
+
+state.name._value = state.name._value + ''
 
 event (e, index, node) default context is node
 
