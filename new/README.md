@@ -224,7 +224,7 @@ With: state.h1 = 'Hello!'
 Makes: <h1>Hello!</h1>
 ```
 
-state.$h1 will match all h1s
+state.$h1 will match all h1s - greedy matcher, default only selects the first
 
 To change the class for an element
 
@@ -254,3 +254,24 @@ state.li = [1,2]
 Will generate
 <ul><li class="item-template">1</li><li class="item-template">2</li></ul>
 ```
+
+####Attributes
+_html, _text, _on[EVENT], _config->context.onunload
+to not overwrite an existing attribute use double underscore as an append __ (coming soon!)
+or simply state.name._value = state.name._value + ''
+
+event (e, index, node) default context is node
+
+####Events
+controller ->this.onload
+_onclick ..
+
+##Config (DOM hookin)
+_config (node, isNew, context, index)
+
+context.onunload
+
+#### Mag.JS AddOns!
+Tiny simple library of reusable simple tools
+
+#### Mixins (coming soon!)
