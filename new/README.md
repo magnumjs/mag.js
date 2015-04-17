@@ -1,9 +1,7 @@
-<img align="right" src="https://cloud.githubusercontent.com/assets/5196767/7201072/615ea42c-e4d1-11e4-8552-c41bb7491f7e.jpg" style="background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 100;height:100;opacity: 0.2;z-index: -1;" />
-
 #MagNumJS (Mag.JS) v2
 
 ##Elegant DOM bindings
-
+<img align="right" src="https://cloud.githubusercontent.com/assets/5196767/7201072/615ea42c-e4d1-11e4-8552-c41bb7491f7e.jpg" style="background:no-repeat;background-position: right top;display:block;position:absolute;top:0;left:0;width: 100;height:100;opacity: 0.2;z-index: -1;" />
 ###leveraging fill.js,watch.js and mithril.js module architecture
 
 * No virtual/shadow dom or new templating language! Super fast & under 5KB Gzipped!
