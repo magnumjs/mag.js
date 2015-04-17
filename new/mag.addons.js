@@ -12,3 +12,8 @@ mag.addons.binds=function(data) {
     }
   };
 };
+
+
+mag.addons.onload = function(element) {
+  element.classList.remove("hide")
+};
