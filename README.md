@@ -34,63 +34,63 @@ Mag.JS dom!:
 ##Examples
 
 Hello world:
-http://jsbin.com/gotuziboho/edit?js,output
+http://jsbin.com/nenotoluvo/edit?js,output
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/fagutuhedu/edit?js,output
+http://jsbin.com/zuquqavoni/edit?js,output
 
 Hello world with passFail reusable component:
-http://jsbin.com/tokufazaki/edit?js,output
+http://jsbin.com/takatohoxo/edit?js,output
 
 Hello world (proxy support/Firefox v0.7.4+):
-http://jsbin.com/kotejewexi/edit?js,output
+http://jsbin.com/dubobayigo/edit?js,output
 
 Count:
-http://jsbin.com/fiheweteje/edit?js,output
+http://jsbin.com/reyacokico/edit?js,output
 
 List: 
-http://jsbin.com/kamugipufu/edit?js,output
+http://jsbin.com/yiseyuyuqu/edit?js,output
 
 Navigation menu:
-http://jsbin.com/hoqoyisolo/edit?js,output
+http://jsbin.com/basefakoda/edit?js,output
 
 Order form:
-http://jsbin.com/xolevafuci/edit?js,output
+http://jsbin.com/horuxanacu/edit?js,output
 
 More lists: 
-http://jsbin.com/fisugeniko/edit?js,output
+http://jsbin.com/ruzoyakene/edit?js,output
 
 Sortable List:
-http://jsbin.com/lomujimusa/edit?js,output
+http://jsbin.com/taducutoru/edit?js,output
 
 Filter list:
-http://jsbin.com/fabuwitapi/edit?js,output
+http://jsbin.com/lojobiqudi/edit?js,output
 
 Filter list components:
-http://jsbin.com/noliteragi/edit?js,output
+http://jsbin.com/xigipeziqi/edit?js,output
 
 Tab component:
-http://jsbin.com/qoyavejama/edit?js,output
+http://jsbin.com/payewiqasi/edit?js,output
 
 Modal component:
-http://jsbin.com/jiyoforowa/edit?js,output
+http://jsbin.com/beqimijebo/edit?js,output
 
 Modal with select menu:
-http://jsbin.com/cimulalapu/edit?js,output
+http://jsbin.com/vihudibabe/edit?js,output
 
 Todos:
-http://jsbin.com/yinozamaru/edit?js,output
+http://jsbin.com/bihubarogi/edit?js,output
 
 Todo proxy (firefox)
-http://jsbin.com/fiqepasaki/edit?js,output
+http://jsbin.com/qogiqufisu/edit?js,output
 
 Todos (expanded): 
-http://jsbin.com/dabiqamapo/edit?js,output
+http://jsbin.com/lukuwabaso/edit?js,output
 
 Contacts:
-http://jsbin.com/lasoluteju/edit?js,output
+http://jsbin.com/mixasihoye/edit?js,output
 
 Async:
-http://jsbin.com/hubawibaqu/edit?js,output
+http://jsbin.com/yajugavibe/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
