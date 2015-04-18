@@ -2,12 +2,13 @@
 #MagnumJS (Mag.JS)
 
 ##Elegant DOM bindings
-### Intuitive, simple, tiny, HTML templating library
+### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
 
+* Changes to state are immediately reflected in the dom by their element matchers.
 * No virtual/shadow dom or new templating language! Super fast & under 5KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
-* provides intuitive, clear helpers and shortcuts for dom templating, arrays, mathcers, eventing, onload, offload, configuration hookins etc...
+* provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
@@ -276,6 +277,32 @@ _config (node, isNew, context, index)
 context.onunload
 
 #### Mag.JS AddOns!
-Tiny simple library of reusable simple tools
+Tiny sub library of reusable simple tools
+
+* router
+* send ajax
+* binds
+* toggle visibility
 
 #### Mixins (coming soon!)
+
+#### Custom plugins (coming soon!)
+
+The ability to register handlers for attribute or value trans compilation.
+
+For example, allow the attribute _className register a handler that on every definition will modify both the final attribute name and or the value.
+
+```javascript
+mag.registerAttr('className',function(data){
+
+  var originalAttribute=data.attribute
+  var node =data.node
+  var originalValue =data.value
+
+  return {
+    attribute:'class',
+    value :  node.getAttribute('class')+' '+originalValue
+  }
+
+})
+```
