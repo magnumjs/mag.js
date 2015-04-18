@@ -145,13 +145,13 @@ mag.module('lister', {
 ```
 
 This link displays both for comparison:
-http://jsbin.com/siyafopodi/edit?js,output
+http://jsbin.com/yigoleyemu/edit?js,output
 
 You can see that the first one when clicked nothing is changed while the second is dynamic.
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
 
 Here's an alternative approach to the above that only uses a view method and no controller for a similar result:
-http://jsbin.com/dotajezate/edit?js,output
+http://jsbin.com/dafozijaje/edit?js,output
 
 Example with config and without controller 
 
@@ -234,7 +234,7 @@ To change the class for an element
 This: <h1></h1>
 With: state.h1 = { _class: 'header', _text : 'Hello!'} 
 Makes: <h1 class="header">Hello!</h1>
-```
+```j
 _text and _html are used to fill an elements text node and not as an attribute below.
 
 any prefix underscore will be an attribute except for _on that will be for events such as 
