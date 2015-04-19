@@ -51,9 +51,14 @@ http://jsbin.com/reyacokico/edit?js,output
 List: 
 http://jsbin.com/yiseyuyuqu/edit?js,output
 
+###React 2 Mag
 Navigation menu:
 http://jsbin.com/basefakoda/edit?js,output
 
+Timer:
+http://jsbin.com/cujohoyuwo/edit?js,output
+
+###Angular 2 Mag
 Order form:
 http://jsbin.com/horuxanacu/edit?js,output
 
