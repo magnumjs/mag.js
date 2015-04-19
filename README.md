@@ -51,17 +51,6 @@ http://jsbin.com/reyacokico/edit?js,output
 List: 
 http://jsbin.com/yiseyuyuqu/edit?js,output
 
-###React 2 Mag
-Navigation menu:
-http://jsbin.com/basefakoda/edit?js,output
-
-Timer:
-http://jsbin.com/cujohoyuwo/edit?js,output
-
-###Angular 2 Mag
-Order form:
-http://jsbin.com/horuxanacu/edit?js,output
-
 More lists: 
 http://jsbin.com/ruzoyakene/edit?js,output
 
@@ -97,6 +86,17 @@ http://jsbin.com/mixasihoye/edit?js,output
 
 Async:
 http://jsbin.com/yajugavibe/edit?js,output
+
+###React 2 Mag
+Navigation menu:
+http://jsbin.com/basefakoda/edit?js,output
+
+Timer:
+http://jsbin.com/cujohoyuwo/edit?js,output
+
+###Angular 2 Mag
+Order form:
+http://jsbin.com/horuxanacu/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
