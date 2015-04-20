@@ -8,7 +8,7 @@ todo.controller = function(props) {
   // For non proxy suport - i.e. not Firefox
   // this.form = mag.addons.binds(this);
 
-  this.clicked = function(state) {
+  this.remove = function(state) {
     this.todoList = this.todoList.filter(function(x, i) {
       if (state.$done[i]._checked) return false;
       return true;
@@ -21,22 +21,22 @@ todo.view = function(element, props, state) {
 
   state.$todoList = {
     _config: function(node, isNew, context, index) {
-      node.children[0].checked = false; //onload all are unchecked
-      node.classList.toggle('done', state.todoList[index].done);
+      node.children[0].checked=node.classList.toggle('done', state.todoList[index].done);
     },
     _onclick: function(e, index, node) {
-      this.classList.toggle('done');
+      this.classList.toggle('done', node.children[0].checked);
     }
   };
 
   state.button = {
-    _onclick: state.clicked.bind(null, state)
+    _onclick: state.remove.bind(null, state)
   };
 
   state.add = {
     _onclick: function() {
       state.todoList.push({
-        todoText: state.todoInput
+        todoText: state.todoInput,
+        done: false
       });
       return false;
     }
@@ -45,7 +45,8 @@ todo.view = function(element, props, state) {
 
 var props = {
   todoList: [{
-    todoText: 'Clean House'
+    todoText: 'Clean House',
+    done: false
   }]
 };
 
