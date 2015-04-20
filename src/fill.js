@@ -32,7 +32,7 @@
     function removeNode(node) {
       var p = getPathTo(node)
       // remove cache of all children too
-      removeCache(p)
+      if (node.queryCache) delete node.queryCache
       node.parentNode.removeChild(node)
       // call config unload if any ?
 
@@ -41,6 +41,7 @@
         // what arg to send ?
         cached[p + '-config'].configContext.onunload()
       }
+      removeCache(p)
     }
 
     // TODO: get index from getPathTo function
@@ -189,6 +190,7 @@
 
           fill(elements[i], data[i])
           cached[p] = JSON.stringify(data[i])
+          if (elements[i].queryCache) delete elements[i].queryCache
         }
       } else {
         fillNode(elements[i], data)
@@ -420,6 +422,8 @@
 
     //console.log('ichange', p, JSON.stringify(attributes))
     cached[p] = JSON.stringify(attributes)
+    if (node.queryCache) delete node.queryCache
+
   }
 
   function setText(node, text) {
@@ -488,6 +492,9 @@
     var elements = childElements(node)
     var matches = []
     var keyName = key
+
+    // is this cache necessary good useful?
+    // are we losing some dynamism?
 
     if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
 
@@ -578,4 +585,4 @@
   }
   window.mag = mag
 
-}(window.mag || {}, [], document))
+}(window.mag || {}, [], document))t))t))
