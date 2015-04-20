@@ -1,3 +1,11 @@
+function afterDraw(expect) {
+  waits(32)
+
+  runs(function() {
+    expect()
+  });
+}
+
 // specs code
 describe("MagJS - module", function() {
 
@@ -16,22 +24,32 @@ describe("MagJS - module", function() {
   });
 
   it("is accepts two arguments", function() {
+    spyOn(mag, 'module').andCallThrough()
+
     var view = {
+      controller: function(p) {
+        this.p = [1, 2]
+      },
       view: function(e, p, s) {
         s.h2 = 'tester'
+        s.b = {
+          _onclick: function() {
+            s.p = [2]
+          }
+        }
       }
     }
-    spyOn(mag, 'module').andCallThrough()
 
     mag.module('test', view)
     expect(mag.module).toHaveBeenCalledWith('test', view)
 
-    waits(32) // 16*2 frames
-
-    runs(function() {
+    afterDraw(function() {
       expect($('#test h2').text()).toEqual('tester')
+      expect($('#test p').length).toEqual(2)
+      $('#test b').click()
+      afterDraw(function() {
+        expect($('#test p').length).toEqual(1)
+      });
     });
-
   });
-
 });
