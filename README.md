@@ -101,6 +101,9 @@ http://jsbin.com/horuxanacu/edit?js,output
 Navigation menu:
 http://jsbin.com/kasuyupufa/edit?js,output
 
+##Jasmine Specs
+https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
+
 ###Statefullness
 When redrawing the view method is called.
 To maintain statefulness we can use the controller method.
