@@ -46,7 +46,7 @@
     // TODO: get index from getPathTo function
     function getPathIndex(p) {
       // var s = parseInt(p.split('/').pop().split('[').pop().slice(0, -1))
-  var s = parseInt(p.split('[').pop().slice(0,-1))
+      var s = parseInt(p.split('[').pop().slice(0, -1))
 
       if (!s) return 0
       return parseInt(s) - 1
@@ -100,7 +100,7 @@
 
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
         elements = nodeListToArray(templates[key].parent.children)
-
+        if (typeof data[0] == 'object') data[0].key = elements[0].key = 0
       }
 
       if (elements.length === 0) {
@@ -126,8 +126,9 @@
         }
       }
 
-
+      //Adding
       while (elements.length < data.length) {
+        var guid = elements.length
         if (templates[key]) {
           parent.insertAdjacentHTML("beforeend", templates[key].node)
           node = parent.lastChild
@@ -135,21 +136,50 @@
           node = elements[0].cloneNode(true)
         }
 
+        if (typeof data[guid] == 'object') {
+          data[guid].key = guid
+          node.key = guid++
+        }
+
         elements.push(node)
         if (parent) parent.appendChild(node)
       }
 
-      // remove the last node until the number of nodes matches the data
-      while (elements.length > data.length) {
-        node = elements.pop()
-        parent = node.parentNode
-        if (parent) {
-          //var p = getPathTo(node)
-          //console.log('removing', p, cached)
+      if (elements.length > data.length) {
+        if (data.length == 0) {
+          while (elements.length > data.length) {
+            node = elements.pop()
+            parent = node.parentNode
+            if (parent) {
+              removeNode(node)
+            }
+          }
+        } else {
 
-          removeNode(node)
+          // more elements than data
+          // remove elements that don't have matching data keys
+
+          var elements = elements.filter(function(ele) {
+            var out = data.filter(function(v) {
+              return v.key == ele.key
+            });
+            if (out.length == 0) {
+              removeNode(ele)
+              return false
+            }
+            return true
+          })
         }
       }
+
+      // remove the last node until the number of nodes matches the data
+      // while (elements.length > data.length) {
+      //   node = elements.pop()
+      //   parent = node.parentNode
+      //   if (parent) {
+      //     removeNode(node)
+      //   }
+      // }
 
     }
 
