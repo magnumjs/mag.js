@@ -98,6 +98,9 @@ http://jsbin.com/cujohoyuwo/edit?js,output
 Order form:
 http://jsbin.com/horuxanacu/edit?js,output
 
+Navigation menu:
+http://jsbin.com/wibelacipe/edit?js,output
+
 ###Statefullness
 When redrawing the view method is called.
 To maintain statefulness we can use the controller method.
