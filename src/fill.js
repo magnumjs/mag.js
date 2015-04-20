@@ -139,7 +139,7 @@
       }
 
       if (elements.length > data.length) {
-        if (data.length == 0) {
+        if (data.length == 0 || typeof data[0] != 'object') {
           while (elements.length > data.length) {
             node = elements.pop()
             parent = node.parentNode
