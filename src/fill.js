@@ -489,41 +489,41 @@
     var matches = []
     var keyName = key
 
-    //if (!node.queryCache || !node.queryCache[key]) {
+    if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
 
-    // node.queryCache = (node.queryCache || {})[key] = [];
+      node.queryCache = (node.queryCache || {})[key] = [];
 
-    var globalSearch = key[0] === '$'
+      var globalSearch = key[0] === '$'
 
-    if (keyName[0] === '$') {
-      // bust cache
-      keyName = keyName.substr(1)
-    }
-
-    // search all child elements for a match
-    for (var i = 0; i < elements.length; i += 1) {
-      if (elementMatcher(elements[i], keyName)) {
-        matches.push(elements[i]);
+      if (keyName[0] === '$') {
+        // bust cache
+        keyName = keyName.substr(1)
       }
-    }
 
-    // if there is no match, recursively search the childNodes
-    if (!matches.length || globalSearch) {
-      for (var i = 0; i < elements.length; i++) {
-        // NOTE: pass in a flag to prevent recursive calls from logging
-        matches = matches.concat(matchingElements(elements[i], key, true))
-        if (matches.length && !globalSearch) break
+      // search all child elements for a match
+      for (var i = 0; i < elements.length; i += 1) {
+        if (elementMatcher(elements[i], keyName)) {
+          matches.push(elements[i]);
+        }
       }
-    }
 
-    if (!nested && !matches.length) {
-      //'FILL - Warning: no matches found for "' + key + '"'
+      // if there is no match, recursively search the childNodes
+      if (!matches.length || globalSearch) {
+        for (var i = 0; i < elements.length; i++) {
+          // NOTE: pass in a flag to prevent recursive calls from logging
+          matches = matches.concat(matchingElements(elements[i], key, true))
+          if (matches.length && !globalSearch) break
+        }
+      }
+
+      if (!nested && !matches.length) {
+        //'FILL - Warning: no matches found for "' + key + '"'
+      }
+      //return matches
+      // return matches
+      node.queryCache[key] = matches
     }
-    return matches
-    // return matches
-    //node.queryCache[key] = matches
-    //}
-    //return node.queryCache[key];
+    return node.queryCache[key];
   }
 
 
