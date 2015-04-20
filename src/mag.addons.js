@@ -13,6 +13,25 @@ mag.addons.binds=function(data) {
   };
 };
 
+// show hide
+
+mag.addons.show = function(condition) {
+  return {
+    _config: function(n) {
+      if (!condition) n.style.display = 'none';
+      else n.style.display = 'block';
+    }
+  };
+}
+
+mag.addons.hide = function(condition) {
+  return {
+    _config: function(n) {
+      if (condition) n.style.display = 'none';
+    }
+  }
+}
+
 
 mag.addons.onload = function(element) {
   element.classList.remove("hide")
