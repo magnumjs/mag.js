@@ -100,19 +100,12 @@
 
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
         elements = nodeListToArray(templates[key].parent.children)
-        if (typeof data[0] == 'object') data[0].key = elements[0].key = 0
+        if (typeof data[0] == 'object') data[0]['__magnum__'] = elements[0].__key = 0
       }
 
       if (elements.length === 0) {
 
-        //=====================================================================
-        // Warning: the following is a case where we could end up here: A page
-        // that returns search results as the user is typing. If the results
-        // are empty, then the child nodes that display the results will all
-        // be removed. Then a subsequent attempt to fill in the search results
-        // with data won't have any dom elements to clone.
-        //=====================================================================
-
+        // should never reach here
         // cannot fill empty nodeList with an array of data
         return
       }
@@ -137,8 +130,8 @@
         }
 
         if (typeof data[guid] == 'object') {
-          data[guid].key = guid
-          node.key = guid++
+          data[guid]['__magnum__'] = guid
+          node.__key = guid++
         }
 
         elements.push(node)
@@ -161,7 +154,7 @@
 
           var elements = elements.filter(function(ele) {
             var out = data.filter(function(v) {
-              return v.key == ele.key
+              return v['__magnum__'] == ele.__key
             });
             if (out.length == 0) {
               removeNode(ele)
@@ -366,7 +359,6 @@
       } else {
 
         if (attrName == 'config') {
-
           // have we been here before?
           // does the element already exist in cache
           // useful to know if this is newly added
@@ -375,7 +367,7 @@
           if (!cached[p + '-config']) {
             cached[p + '-config'] = {}
           } else {
-            isNew = !isNew
+            isNew = false
           }
 
           var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
@@ -391,6 +383,20 @@
 
           configs.push(callback(attributes[attrName], [node, isNew, context, tagIndex]))
           continue
+        }
+
+        // hookins
+        var data = {
+          key: attrName,
+          cache: cache,
+          value: attributes[attrName],
+          node: node
+        }
+        mag.hook('attributes', attrName, data)
+        // change
+        if (data.change) {
+          attrName = data.key
+          attributes[attrName] = data.value
         }
 
         if (cache) continue
@@ -483,38 +489,41 @@
     var matches = []
     var keyName = key
 
-    if (!(node.queryCache || {})[key]) {
+    //if (!node.queryCache || !node.queryCache[key]) {
 
-      node.queryCache = (node.queryCache || {})[key] = [];
+    // node.queryCache = (node.queryCache || {})[key] = [];
 
-      var globalSearch = key[0] === '$'
+    var globalSearch = key[0] === '$'
 
-      if (keyName[0] === '$') keyName = keyName.substr(1)
-
-      // search all child elements for a match
-      for (var i = 0; i < elements.length; i += 1) {
-        if (elementMatcher(elements[i], keyName)) {
-          matches.push(elements[i]);
-        }
-      }
-
-      // if there is no match, recursively search the childNodes
-      if (!matches.length || globalSearch) {
-        for (var i = 0; i < elements.length; i++) {
-          // NOTE: pass in a flag to prevent recursive calls from logging
-          matches = matches.concat(matchingElements(elements[i], key, true))
-          if (matches.length && !globalSearch) break
-        }
-      }
-
-      if (!nested && !matches.length) {
-        //'FILL - Warning: no matches found for "' + key + '"'
-      }
-
-      // return matches
-      node.queryCache[key] = matches
+    if (keyName[0] === '$') {
+      // bust cache
+      keyName = keyName.substr(1)
     }
-    return node.queryCache[key];
+
+    // search all child elements for a match
+    for (var i = 0; i < elements.length; i += 1) {
+      if (elementMatcher(elements[i], keyName)) {
+        matches.push(elements[i]);
+      }
+    }
+
+    // if there is no match, recursively search the childNodes
+    if (!matches.length || globalSearch) {
+      for (var i = 0; i < elements.length; i++) {
+        // NOTE: pass in a flag to prevent recursive calls from logging
+        matches = matches.concat(matchingElements(elements[i], key, true))
+        if (matches.length && !globalSearch) break
+      }
+    }
+
+    if (!nested && !matches.length) {
+      //'FILL - Warning: no matches found for "' + key + '"'
+    }
+    return matches
+    // return matches
+    //node.queryCache[key] = matches
+    //}
+    //return node.queryCache[key];
   }
 
 
