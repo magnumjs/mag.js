@@ -28,7 +28,7 @@
           ix++;
       }
     }
-    
+
     function removeNode(node) {
       var p = getPathTo(node)
       // remove cache of all children too
@@ -239,7 +239,7 @@
       //TODO: prepend attributes ? double underscore ??
 
       // anything that starts with an underscore is an attribute
-      if (key[0] === '_') {
+      if (key[0] === '_' && key != '__magnum__') {
         // store the properties to set them all at once
         // if (typeof value === 'string' || typeof value === 'number') {
         attributes = attributes || {}
