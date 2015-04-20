@@ -1,7 +1,7 @@
-<img align="right" src="https://cloud.githubusercontent.com/assets/5196767/7201072/615ea42c-e4d1-11e4-8552-c41bb7491f7e.jpg" style="width: 100px;height:100px;opacity: 0.2;z-index: -1;" width="400" height="225" />
-#MagnumJS (Mag.JS)
+<a href="">
+<img alt="Mag.JS - Elegant DOM Bindings" src="https://cloud.githubusercontent.com/assets/5196767/7222868/53794478-e6e5-11e4-886c-40c2a3512654.png"/>
+</a>
 
-##Elegant DOM bindings
 ### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
 
 * Changes to state are immediately reflected in the dom by their element matchers.
