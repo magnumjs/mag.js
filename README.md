@@ -292,25 +292,19 @@ Tiny sub library of reusable simple tools
 * binds
 * toggle visibility
 
-#### Mixins (coming soon!)
-
-#### Custom plugins (coming soon!)
+#### Custom plugins
 
 The ability to register handlers for attribute or value trans compilation.
 
-For example, allow the attribute _className register a handler that on every definition will modify both the final attribute name and or the value.
+For example, allow the attribute _className. Register a handler that on every definition will modify both the final attribute name and or the value.
 
 ```javascript
-mag.registerAttr('className',function(data){
-
-  var originalAttribute=data.attribute
-  var node =data.node
-  var originalValue =data.value
-
-  return {
-    attribute:'class',
-    value :  node.getAttribute('class')+' '+originalValue
-  }
-
+mag.hookin('attributes', 'className', function(data) {
+  data.value = data.node.classList + ' ' + data.value
+  data.key = 'class'
 })
 ```
+
+Other hookins such as key/node value etc.. Coming soon!
+
+#### Mixins (coming soon!)
