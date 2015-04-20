@@ -13,8 +13,10 @@ var view = {
     this.h2 = {
       _text: 'tester',
       _config: function(n, is, c, i) {
-        c.onunload = function() {
-          console.log('unloaded', arguments)
+        c.count = c.count + 1 || 1
+        c.onunload = function(context, node, cache, path) {
+          expect(context.count).toEqual(1)
+          expect(path).toEqual('id("test")/H2[1]')
         }
       }
     }
@@ -69,7 +71,9 @@ describe("MagJS - module", function() {
     mag.module('test', view)
     afterDraw(function() {
       $('#test b').click()
-      expect($('#test h2').text()).toEqual('')
+      afterDraw(function() {
+        expect($('#test h2').text()).toEqual('')
+      });
     })
   })
 
