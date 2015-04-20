@@ -89,7 +89,7 @@ http://jsbin.com/yajugavibe/edit?js,output
 
 ###React 2 Mag
 Navigation menu:
-http://jsbin.com/basefakoda/edit?js,output
+http://jsbin.com/patecaronu/edit?js,output
 
 Timer:
 http://jsbin.com/cujohoyuwo/edit?js,output
