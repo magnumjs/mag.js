@@ -17,3 +17,11 @@ mag.addons.binds=function(data) {
 mag.addons.onload = function(element) {
   element.classList.remove("hide")
 };
+
+
+// hookin
+
+mag.hookin('attributes', 'className', function(data) {
+  data.value = data.node.classList + ' ' + data.value
+  data.key = 'class'
+})
