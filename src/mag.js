@@ -50,6 +50,37 @@
     return prop
   }
 
+  mag.hookins = {
+    attributes: []
+  }
+  mag.hookin = function(name, key, handler) {
+    mag.hookins[name].push({
+      context: {},
+      handler: handler,
+      key: key
+    })
+  }
+
+  mag.hook = function(name, key, data, before) {
+    for (var i in mag.hookins[name]) {
+      data.changed = false
+      if (mag.hookins[name][i].key == key) {
+        before = JSON.stringify({
+          v: data.value,
+          k: data.key
+        })
+        mag.hookins[name][i].handler.call(mag.hookins[name][i].context, data)
+        //if any change
+        if (before !== JSON.stringify({
+          v: data.value,
+          k: data.key
+        })) {
+          data.change = true
+        }
+      }
+    }
+  }
+
   var unloaders = []
   mag.module = function(domElementId, moduleObject, props) {
 
