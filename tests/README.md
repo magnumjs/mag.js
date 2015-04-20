@@ -2,4 +2,4 @@
 https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
 
 ###JSBIN
-http://jsbin.com/tinedidoya/edit?js,output
+http://jsbin.com/domiwemero/edit?js,output
