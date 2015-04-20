@@ -13,7 +13,7 @@ beforeEach(function(){
     
     spyOn(mag, 'module') 
     mag.module('test')
-    expect(obj.method).toHaveBeenCalledWith('test')
+    expect(mag.module).toHaveBeenCalledWith('test')
   });
 
 });
