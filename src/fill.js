@@ -32,22 +32,24 @@
     function removeNode(node) {
       var p = getPathTo(node)
       // remove cache of all children too
-      if (node.queryCache) delete node.queryCache
+      if (node.queryCache) {
+        delete node.queryCache;
+      }
       node.parentNode.removeChild(node)
       // call config unload if any ?
 
-      //console.log(p, cached[p + '-config'])
+      console.log(p, cached[p])
       if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
         // what arg to send ?
-        cached[p + '-config'].configContext.onunload()
+        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, JSON.parse(cached[p]), p)
       }
       removeCache(p)
     }
 
     // TODO: get index from getPathTo function
     function getPathIndex(p) {
-      // var s = parseInt(p.split('/').pop().split('[').pop().slice(0, -1))
-      var s = parseInt(p.split('[').pop().slice(0, -1))
+
+      var s = p && parseInt(p.split('[').pop().slice(0, -1))
 
       if (!s) return 0
       return parseInt(s) - 1
@@ -190,7 +192,9 @@
 
           fill(elements[i], data[i])
           cached[p] = JSON.stringify(data[i])
-          if (elements[i].queryCache) delete elements[i].queryCache
+          if (elements[i].queryCache) {
+            delete elements[i].queryCache
+          }
         }
       } else {
         fillNode(elements[i], data)
@@ -422,8 +426,9 @@
 
     //console.log('ichange', p, JSON.stringify(attributes))
     cached[p] = JSON.stringify(attributes)
-    if (node.queryCache) delete node.queryCache
-
+    if (node.queryCache) {
+      delete node.queryCache
+    }
   }
 
   function setText(node, text) {
@@ -585,4 +590,4 @@
   }
   window.mag = mag
 
-}(window.mag || {}, [], document))t))t))
+}(window.mag || {}, [], document))
