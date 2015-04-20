@@ -26,7 +26,7 @@ describe("MagJS - module", function() {
     mag.module('test', view)
     expect(mag.module).toHaveBeenCalledWith('test', view)
 
-    waits(16) // 16 frames
+    waits(32) // 16*2 frames
 
     runs(function() {
       expect($('#test h2').text()).toEqual('tester')
