@@ -28,7 +28,7 @@
           ix++;
       }
     }
-
+    
     function removeNode(node) {
       var p = getPathTo(node)
       // remove cache of all children too
@@ -38,7 +38,7 @@
       node.parentNode.removeChild(node)
       // call config unload if any ?
 
-      console.log(p, cached[p])
+      //console.log(p, cached[p])
       if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
         // what arg to send ?
         cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, JSON.parse(cached[p]), p)
