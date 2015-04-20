@@ -99,7 +99,7 @@ Order form:
 http://jsbin.com/horuxanacu/edit?js,output
 
 Navigation menu:
-http://jsbin.com/xijiluqeri/edit?js,output
+http://jsbin.com/kasuyupufa/edit?js,output
 
 ###Statefullness
 When redrawing the view method is called.
