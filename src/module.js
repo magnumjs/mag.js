@@ -5,6 +5,8 @@
 
   var mod = {
     modules: [],
+    promises: [],
+    deferreds: [],
     controllers: [],
     elements: []
   }
@@ -19,29 +21,29 @@
           if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
             var a = fill.find(element, prop),
               greedy = prop[0] === '$',
-            v, // can be an array, object or string
-            // for each
-            tmp = []
-            a.forEach(function(item, index) {
-              if (a[index]) {
-                if (a[index].value && a[index].value.length > 0) {
-                  v = a[index].value
-                  if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
-                    v = {
-                      _text: v,
-                      _checked: a[index].checked
+              v, // can be an array, object or string
+              // for each
+              tmp = []
+              a.forEach(function(item, index) {
+                if (a[index]) {
+                  if (a[index].value && a[index].value.length > 0) {
+                    v = a[index].value
+                    if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
+                      v = {
+                        _text: v,
+                        _checked: a[index].checked
+                      }
+                      tmp.push(v)
                     }
-                    tmp.push(v)
+                  } else if (a[index].innerText && a[index].innerText.length > 0) {
+                    v = a[index].innerText
+                  } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
+                    v = a[index].innerHTML
                   }
-                } else if (a[index].innerText && a[index].innerText.length > 0) {
-                  v = a[index].innerText
-                } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
-                  v = a[index].innerHTML
                 }
-              }
-            })
-            if (tmp.length > 0 && greedy) return tmp
-            return v
+              })
+              if (tmp.length > 0 && greedy) return tmp
+              return v
           }
           return target[prop]
         }
