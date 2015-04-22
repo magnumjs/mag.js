@@ -51,6 +51,7 @@
   }
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
+    mag.redraw()
   }
   var cache = []
   render.redraw = function(module, fill, WatchJS) {
