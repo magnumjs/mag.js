@@ -312,6 +312,8 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
- * Since v0.7.4 native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supoorted by Firefox
+ * Since v0.7.4 optional native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supoorted by Firefox
 
-* Since v0.8.5 native support for Object.observe used or load a polyfill such as https://github.com/MaxArt2501/object-observe for more aggressive bindings - will work without as well or call mag.redraw() where necessary
+* Since v0.8.5 native support use of Promise is required, polyfill as necessary.
+
+* Since v0.8.6 Optional native support for Object.observe used or load a polyfill such as https://github.com/MaxArt2501/object-observe for more aggressive bindings - will work without as well or call mag.redraw() where necessary
