@@ -5,6 +5,7 @@
 
   var render = {
     roots: [],
+    contexts: [],
     templates: {},
     cache: {}
   }
@@ -21,13 +22,17 @@
 
       // var controllerConstructor = mod.controller.$original || mod.controller
       // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
+      // give it unfrozen context ?
 
+
+      var context = render.contexts[i] = render.contexts[i] || {}
 
       try {
-        mod.view(controller, elementClone)
+        mod.view(controller, elementClone, context)
       } catch (e) {
         //THROW ?
-        console.log(e)
+        console.log(elementClone.id, i)
+        throw new Error(e)
       }
       // if (controller.onunload) unloaders.push({
       //   controller: controller,
