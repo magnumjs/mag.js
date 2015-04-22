@@ -5,8 +5,8 @@
 
   var mod = {
     modules: [],
-    promises: [],
-    deferreds: [],
+    promises:[],
+    deferreds:[],
     controllers: [],
     elements: []
   }
@@ -15,35 +15,37 @@
     var controller
 
     // FireFox support only
+    // Removing since we are now native with Object.observe which is only Chrome & Opera
+    /*
     if (typeof Proxy !== 'undefined') {
       controller = new Proxy(new mod.controller, {
         get: function(target, prop) {
           if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
             var a = fill.find(element, prop),
               greedy = prop[0] === '$',
-              v, // can be an array, object or string
-              // for each
-              tmp = []
-              a.forEach(function(item, index) {
-                if (a[index]) {
-                  if (a[index].value && a[index].value.length > 0) {
-                    v = a[index].value
-                    if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
-                      v = {
-                        _text: v,
-                        _checked: a[index].checked
-                      }
-                      tmp.push(v)
+            v, // can be an array, object or string
+            // for each
+            tmp = []
+            a.forEach(function(item, index) {
+              if (a[index]) {
+                if (a[index].value && a[index].value.length > 0) {
+                  v = a[index].value
+                  if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
+                    v = {
+                      _text: v,
+                      _checked: a[index].checked
                     }
-                  } else if (a[index].innerText && a[index].innerText.length > 0) {
-                    v = a[index].innerText
-                  } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
-                    v = a[index].innerHTML
+                    tmp.push(v)
                   }
+                } else if (a[index].innerText && a[index].innerText.length > 0) {
+                  v = a[index].innerText
+                } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
+                  v = a[index].innerHTML
                 }
-              })
-              if (tmp.length > 0 && greedy) return tmp
-              return v
+              }
+            })
+            if (tmp.length > 0 && greedy) return tmp
+            return v
           }
           return target[prop]
         }
@@ -51,6 +53,8 @@
     } else {
       controller = new mod.controller
     }
+    */
+    controller = new mod.controller
     return controller
   }
 
