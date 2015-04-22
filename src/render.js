@@ -24,9 +24,10 @@
 
 
       try {
-        mod.view(elementClone, controller)
+        mod.view(controller, elementClone)
       } catch (e) {
-        //console.log(e)
+        //THROW ?
+        console.log(e)
       }
       // if (controller.onunload) unloaders.push({
       //   controller: controller,
@@ -99,6 +100,8 @@
       return false
     }
     callView(elementClone, module, i)
+    // circular references will throw an exception
+    // such as setting to a dom element
     cache[i] = JSON.stringify(args[0])
 
     render.setupWatch(WatchJS, args, fill, elementClone, i, module)
@@ -176,9 +179,8 @@
 
   mag.render = render
 
-
   function observeNested(obj, callback) {
-    if (typeof Object.observe !== 'undefined') {
+    if (obj && typeof Object.observe !== 'undefined') {
       Object.observe(obj, function(changes) {
         changes.forEach(function(change) {
           if (typeof obj[change.name] == 'object') {
