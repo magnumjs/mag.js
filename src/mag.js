@@ -7,8 +7,10 @@
     render = mag.render,
     fill = mag.fill,
     topModule,
-    watch = mag.watch;
-
+    watch = mag.watch,
+    type = {}.toString,
+    FUNCTION = "function",
+    OBJECT = "[object Object]";
   mag.running = false
 
   var redrawing = false
@@ -32,6 +34,15 @@
   }
 
   mag.prop = function(store) {
+
+    if (((store != null && type.call(store) === OBJECT) || typeof store === FUNCTION) && typeof store.then === FUNCTION) {
+      return propify(store)
+    }
+
+    return gettersetter(store)
+  }
+
+  function gettersetter(store) {
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
@@ -50,11 +61,20 @@
     return prop
   }
 
-  mag.hookins = {
+  function propify(promise, initialValue) {
+    var prop = mag.prop(initialValue);
+    promise.then(prop);
+    prop.then = function(resolve, reject) {
+      return propify(promise.then(resolve, reject), initialValue)
+    };
+    return prop
+  }
+
+  var hookins = {
     attributes: []
   }
   mag.hookin = function(name, key, handler) {
-    mag.hookins[name].push({
+    hookins[name].push({
       context: {},
       handler: handler,
       key: key
@@ -62,14 +82,14 @@
   }
 
   mag.hook = function(name, key, data, before) {
-    for (var i in mag.hookins[name]) {
+    for (var i in hookins[name]) {
       data.changed = false
-      if (mag.hookins[name][i].key == key) {
+      if (hookins[name][i].key == key) {
         before = JSON.stringify({
           v: data.value,
           k: data.key
         })
-        mag.hookins[name][i].handler.call(mag.hookins[name][i].context, data)
+        hookins[name][i].handler.call(hookins[name][i].context, data)
         //if any change
         if (before !== JSON.stringify({
           v: data.value,
@@ -82,14 +102,14 @@
   }
 
   var unloaders = []
-  mag.module = function(domElementId, moduleObject, props) {
+  mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
 
     // clear cache if exists
     if (props && !props.retain) render.clear(index, domElementId, fill)
     // create new index on roots
-    if (index < 0) index = render.roots.length;
+    if (index < 0 || clone) index = render.roots.length;
 
 
     //unloaders that exists?
@@ -132,8 +152,12 @@
     })
 
     module.modules[index] = mod
-    module.elements[index] = element
+    module.elements[index] = clone ? element.cloneNode(true) : element
 
+
+    module.promises[index] = new Promise(function(resolve, reject) {
+      module.deferreds[index] = arguments
+    }.bind(null, clone, index))
 
     //INTERPOLATIONS
     mag.redraw()
@@ -145,11 +169,13 @@
 
     // call onload if present in controller
     if (controller.onload && !mag.running) render.callOnload(module)
-    return {
-      _html: element.innerHTML
-    }
-    // return instance ?
-    // module.controllers[index]
+    // interpolations haven't occurred yet
+    // return a promise in a settergetter
+
+    return propify(module.promises[index], {
+      _html: module.elements[index].innerHTML
+    })
+
   }
 
 })(window.mag || {}, document)
