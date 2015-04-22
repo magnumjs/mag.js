@@ -51,7 +51,7 @@
   }
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
-    mag.redraw()
+    //mag.redraw()
   }
   var cache = []
   render.redraw = function(module, fill, WatchJS) {
@@ -195,7 +195,51 @@
         });
         callback.apply(this, arguments);
       });
+    } else {
+      observeNested2(obj,callback)
     }
+  }
+  if (typeof Object.observe === 'undefined') {
+    Object.defineProperty(Object.prototype, "__watch", {
+      enumerable: false,
+      configurable: true,
+      writable: false,
+      value: function(prop, handler) {
+        var
+        oldval = this[prop],
+          getter = function() {
+            return oldval;
+          },
+          setter = function(newval) {
+            if (oldval !== newval) {
+              handler.call(this, prop, oldval, newval);
+              oldval = newval;
+            }
+            return newval;
+          };
+
+        if (delete this[prop]) { // can't watch constants
+          Object.defineProperty(this, prop, {
+            get: getter,
+            set: setter,
+            enumerable: true,
+            configurable: true
+          });
+        }
+      }
+    });
+    function observeNested2(obj, callback) {
+        if (obj) {
+          for (var k in obj) {
+            if (typeof obj[k] == 'object') {
+              observeNested2(obj[k], callback);
+            }
+            obj.__watch(k, function() {
+              callback.apply(this, arguments);
+            });
+          }
+        }
+      }
   }
 
 })(window.mag || {})
