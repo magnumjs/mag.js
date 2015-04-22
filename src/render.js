@@ -22,8 +22,12 @@
       // var controllerConstructor = mod.controller.$original || mod.controller
       // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
 
-      mod.view(elementClone, controller)
 
+      try {
+        mod.view(elementClone, controller)
+      } catch (e) {
+        //console.log(e)
+      }
       // if (controller.onunload) unloaders.push({
       //   controller: controller,
       //   handler: controller.onunload
@@ -44,8 +48,10 @@
   }
   var cache = []
   render.redraw = function(module, fill, WatchJS) {
+
     module = module || render.module || {}
-    this.fun || (this.fun = debounce(function() {
+
+    this.fun = (this.fun || debounce(function(id) {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
 
@@ -60,7 +66,17 @@
 
       if (module.controllers[i]) {
         if (!render.innerLoop(module, fill, i, WatchJS)) {
-          continue
+          //cached
+        } else {
+          module.deferreds[i][2]({
+            _html: module.elements[i].innerHTML
+          })
+          //TODO: remove clones
+          if (module.deferreds[i][0]) {
+            var index = module.deferreds[i][1]
+            delete module.elements[index],
+              module.modules[index], module.controllers[index], module.promises[index], module.deferreds[index]
+          }
         }
       }
     }
@@ -92,12 +108,14 @@
 
     // call onload if present in all controllers
     render.callOnload(module)
+    return true
   }
   var prevId
   render.doWatch = function(fill, ele, i, module, changeId, prop, action, difference, oldvalue) {
     if (changeId == prevId) return
     prevId = changeId
     mag.running = true
+
     var args = module.getArgs(i)
 
     // check if data changed
