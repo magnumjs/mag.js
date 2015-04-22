@@ -21,7 +21,7 @@ var view = {
       }
     }
   },
-  view: function(e, p, s) {
+  view: function(s, p, e) {
 
     s.b = {
       _onclick: function() {
