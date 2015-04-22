@@ -76,7 +76,7 @@ Todos:
 http://jsbin.com/bihubarogi/edit?js,output
 
 Todo proxy (firefox)
-http://jsbin.com/qogiqufisu/edit?js,output
+http://jsbin.com/bohuniquha/edit?js,output
 
 Todos (expanded): 
 http://jsbin.com/lukuwabaso/edit?js,output
