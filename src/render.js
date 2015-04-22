@@ -112,7 +112,7 @@
   }
   var prevId
   //render.doWatch = function(fill, ele, i, module, frameId, prop, action, difference, oldvalue) {
-   render.doWatch = function(fill, ele, i, module, changes, frameId) {
+  render.doWatch = function(fill, ele, i, module, changes, frameId) {
 
     if (frameId == prevId) return
     prevId = frameId
@@ -178,14 +178,16 @@
 
 
   function observeNested(obj, callback) {
-    Object.observe(obj, function(changes) {
-      changes.forEach(function(change) {
-        if (typeof obj[change.name] == 'object') {
-          observeNested(obj[change.name], callback);
-        }
+    if (typeof Object.observe !== 'undefined') {
+      Object.observe(obj, function(changes) {
+        changes.forEach(function(change) {
+          if (typeof obj[change.name] == 'object') {
+            observeNested(obj[change.name], callback);
+          }
+        });
+        callback.apply(this, arguments);
       });
-      callback.apply(this, arguments);
-    });
+    }
   }
 
 })(window.mag || {})
