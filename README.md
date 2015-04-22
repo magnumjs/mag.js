@@ -44,7 +44,7 @@ Hello world with passFail reusable component:
 http://jsbin.com/takatohoxo/edit?js,output
 
 Hello world (proxy support/Firefox since v0.7.4+):
-http://jsbin.com/dubobayigo/edit?js,output
+http://jsbin.com/xorahizevi/edit?js,output
 
 Count:
 http://jsbin.com/reyacokico/edit?js,output
