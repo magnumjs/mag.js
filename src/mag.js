@@ -9,8 +9,9 @@
     topModule,
     watch = mag.watch,
     type = {}.toString,
-    FUNCTION = "function",
-    OBJECT = "[object Object]";
+    FUNCTION = 'function',
+    OBJECT = '[object Object]';
+
   mag.running = false
 
   var redrawing = false
@@ -141,7 +142,8 @@
     //MODULE
     if (!moduleObject.view) return Error('module requires a view')
 
-    var mod = module.submodule(moduleObject, [props || {}])
+    // TODO: should props be frozen or changeable?
+    var mod = module.submodule(moduleObject, [props && Object.freeze(props) || {}])
 
     var controller = module.getController(mod, element, fill)
 
