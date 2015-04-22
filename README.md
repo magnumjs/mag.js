@@ -9,8 +9,8 @@
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
-* requires native support for Object.observe or load a polyfill such as https://github.com/MaxArt2501/object-observe
-* 
+* Requires (since v0.8.5) native support for Object.observe or load a polyfill such as https://github.com/MaxArt2501/object-observe
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
 alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
