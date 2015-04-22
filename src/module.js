@@ -16,7 +16,7 @@
 
     // FireFox support only
     // Removing since we are now native with Object.observe which is only Chrome & Opera
-    /*
+    
     if (typeof Proxy !== 'undefined') {
       controller = new Proxy(new mod.controller, {
         get: function(target, prop) {
@@ -53,8 +53,8 @@
     } else {
       controller = new mod.controller
     }
-    */
-    controller = new mod.controller
+    
+    //controller = new mod.controller
     return controller
   }
 
