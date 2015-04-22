@@ -5,7 +5,7 @@
 ### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
 
 * Changes to state are immediately reflected in the dom by their element matchers.
-* No virtual/shadow dom or new templating language! Super fast & under 3.5KB Gzipped!
+* No virtual/shadow dom or new templating language! Super fast & 3.5KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
@@ -22,7 +22,7 @@ Initial dom:
 
 Module:
 mag.module('hello', {
-  view: function(element, props, state) {
+  view: function(state, props, element) {
     state.h1 = 'Hello Mag.JS!'
   }
 })
@@ -122,7 +122,7 @@ HTML for below examples:
 Example without controller
 ```javascript
 mag.module('lister', {
-  view: function(element, props, state) {
+  view: function(state, props, element) {
   state.item = [1, 2, 3]
   state.title = 'Lister'
     state.h2 = {
@@ -143,7 +143,7 @@ mag.module('lister', {
     this.item = [1, 2, 3]
     this.title = 'Lister'
   },
-  view: function(element, props, state) {
+  view: function(state, props, element) {
     state.h2 = {
       _text: state.title,
       _onclick: function() {
@@ -169,11 +169,11 @@ Example with config and without controller
 
 ```javascript
 mag.module("lister", {
-  view: function(element, props, state) {
+  view: function(state, props, element) {
     var name1 = 'Yo!',
         name2 = 'Joe!'
     state.h2 = {
-      _config: function(element, isNew, context) {
+      _config: function(element, isNew, context, index) {
         if (isNew) {
           state.span = name1
           state.item = [1, 2, 3]
@@ -201,8 +201,15 @@ An alternative is to use mag.prop for the state variables. mag.prop on setter wi
 
 ### Simple API
 
-#### mag.module ( domElementID, Object Literal, Optional Object Properties to pass )
+#### mag.module ( domElementID, Object Literal, Optional Object Properties to pass, optional boolean toCLoneNode )
 This is the core function to attach a object of instructions to a dom element
+
+returns a mag.prop promise function settergetter with a default value 
+{_html : node.innerHTML}
+which is updated to the latest on promise resolution
+
+#### mag.hookin (type, key, handler)
+Allows for custom definitions, see examples below
 
 #### mag.prop ( setter value)
 Helper setter/getter which calls mag.redraw on every setter
