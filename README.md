@@ -22,7 +22,7 @@ Initial dom:
 
 Module:
 mag.module('hello', {
-  view: function(state, props, element) {
+  view: function(state) {
     state.h1 = 'Hello Mag.JS!'
   }
 })
@@ -201,21 +201,34 @@ An alternative is to use mag.prop for the state variables. mag.prop on setter wi
 
 ### Simple API
 
-#### mag.module ( domElementID, Object Literal, Optional Object Properties to pass, optional boolean toCLoneNode )
+#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass, optional boolean toCLoneNode )
 This is the core function to attach a object of instructions to a dom element
+
+ModuleDefinition is the instructions it needs to have a view function:
+```javascript
+var component = {
+  view:function(){
+  }
+}
+```
+view receives three arguments: state, props and element
+* state is the object used to transpile the dom 
+   - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
+* is the optional properties object passed to its mag.module definition
+* element is the node itself whose ID was pass to its mag.module definition
 
 returns a mag.prop promise function settergetter with a default value 
 {_html : node.innerHTML}
 which is updated to the latest on promise resolution
+
+#### mag.redraw ()
+inititate a redraw manually
 
 #### mag.hookin (type, key, handler)
 Allows for custom definitions, see examples below
 
 #### mag.prop ( setter value)
 Helper setter/getter which calls mag.redraw on every setter
-
-#### mag.redraw ()
-inititate a redraw manually
 
 #### mag.withProp (propName, functionToCall)
 Helper utility to add a property to a function such as mag.prop
