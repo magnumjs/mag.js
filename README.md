@@ -9,7 +9,6 @@
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
-* Since v0.8.5 native support for Object.observe used or load a polyfill such as https://github.com/MaxArt2501/object-observe for more aggressive bindings - will work without as well or call mag.redraw() where necessary
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
@@ -311,4 +310,8 @@ mag.hookin('attributes', 'className', function(data) {
 
 Other hookins such as key/node value etc.. Coming soon!
 
-#### Mixins (coming soon!)
+#### Notes
+
+ * Since v0.7.4 native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supoorted by Firefox
+
+* Since v0.8.5 native support for Object.observe used or load a polyfill such as https://github.com/MaxArt2501/object-observe for more aggressive bindings - will work without as well or call mag.redraw() where necessary
