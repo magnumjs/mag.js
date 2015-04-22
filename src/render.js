@@ -111,9 +111,11 @@
     return true
   }
   var prevId
-  render.doWatch = function(fill, ele, i, module, changeId, prop, action, difference, oldvalue) {
-    if (changeId == prevId) return
-    prevId = changeId
+  //render.doWatch = function(fill, ele, i, module, frameId, prop, action, difference, oldvalue) {
+   render.doWatch = function(fill, ele, i, module, changes, frameId) {
+
+    if (frameId == prevId) return
+    prevId = frameId
     mag.running = true
 
     var args = module.getArgs(i)
@@ -133,7 +135,17 @@
   }
 
   render.setupWatch = function(WatchJS, args, fill, elementClone, i, module) {
-    WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
+    // WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
+    // return
+    //this.fun = (this.fun || debounce(render.doWatch.bind(null, fill, elementClone, i, module)))
+
+    // Which we then observe
+    observeNested(args[0], function(changes) {
+      // changes.forEach(function(change) {
+      //console.log(change.type, change.name, change.oldValue);
+      //});
+      debounce(render.doWatch.bind(null, fill, elementClone, i, module, changes))()
+    });
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
@@ -163,5 +175,17 @@
   }
 
   mag.render = render
+
+
+  function observeNested(obj, callback) {
+    Object.observe(obj, function(changes) {
+      changes.forEach(function(change) {
+        if (typeof obj[change.name] == 'object') {
+          observeNested(obj[change.name], callback);
+        }
+      });
+      callback.apply(this, arguments);
+    });
+  }
 
 })(window.mag || {})
