@@ -107,6 +107,7 @@
     callView(elementClone, module, i)
     // circular references will throw an exception
     // such as setting to a dom element
+    
     cache[i] = JSON.stringify(args[0])
 
     render.setupWatch(WatchJS, args, fill, elementClone, i, module)
@@ -152,7 +153,7 @@
       // changes.forEach(function(change) {
       //console.log(change.type, change.name, change.oldValue);
       //});
-      debounce(render.doWatch.bind(null, fill, elementClone, i, module, changes))()
+      debounce(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
     });
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
@@ -194,51 +195,8 @@
         });
         callback.apply(this, arguments);
       });
-    } else if(obj) {
-      observeNested2(obj,callback)
     }
   }
-  if (typeof Object.observe === 'undefined') {
-    Object.defineProperty(Object.prototype, "__watch", {
-      enumerable: false,
-      configurable: true,
-      writable: false,
-      value: function(prop, handler) {
-        var
-        oldval = this[prop],
-          getter = function() {
-            return oldval;
-          },
-          setter = function(newval) {
-            if (oldval !== newval) {
-              handler.call(this, prop, oldval, newval);
-              oldval = newval;
-            }
-            return newval;
-          };
 
-        if (delete this[prop]) { // can't watch constants
-          Object.defineProperty(this, prop, {
-            get: getter,
-            set: setter,
-            enumerable: true,
-            configurable: true
-          });
-        }
-      }
-    });
-    function observeNested2(obj, callback) {
-        if (obj) {
-          for (var k in obj) {
-            if (typeof obj[k] == 'object') {
-              observeNested2(obj[k], callback);
-            }
-            obj.__watch(k, function() {
-              callback.apply(this, arguments);
-            });
-          }
-        }
-      }
-  }
 
 })(window.mag || {})
