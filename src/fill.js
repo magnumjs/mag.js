@@ -66,7 +66,8 @@
     }
 
   var templates = {}
-  var cached = [],guid=0,
+  var cached = [],
+    guid = 0,
     firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
@@ -131,7 +132,7 @@
           node = elements[0].cloneNode(true)
         }
 
-        if (typeof data[guid] == 'object') {
+        if (typeof data[guid] !== 'undefined') {
           data[guid]['__magnum__'] = guid
           node.__key = guid++
         }
@@ -150,20 +151,26 @@
             }
           }
         } else {
-
           // more elements than data
           // remove elements that don't have matching data keys
+          var elements = elements.filter(function(ele, i) {
 
-          var elements = elements.filter(function(ele) {
+            if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined') {
+              ele.__key = i
+              data[i]['__magnum__'] = i
+            }
+
             var out = data.filter(function(v) {
               return v['__magnum__'] == ele.__key
             });
+
             if (out.length == 0) {
               removeNode(ele)
               return false
             }
             return true
           })
+
         }
       }
 
@@ -185,7 +192,7 @@
         if (elements[i]) {
           if (cached[p] && cached[p] === JSON.stringify(data[i])) {
             //console.log('same a', p, cached[p], JSON.stringify(data[i]))
-           // continue
+            // continue
           }
           // if (cached[p]) console.log('changed a', p)
 
@@ -426,7 +433,7 @@
     //console.log('ichange', p, JSON.stringify(attributes))
     //cached[p] = JSON.stringify(attributes)
     if (node.queryCache) {
-     // delete node.queryCache
+      // delete node.queryCache
     }
   }
 
