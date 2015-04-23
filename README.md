@@ -338,7 +338,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
- * Since v0.7.4 optional native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supoorted by Firefox
+ * Since v0.7.4 optional native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supported by Firefox
 
 * Since v0.8.5 native support use of Promise is required, polyfill as necessary.
 
