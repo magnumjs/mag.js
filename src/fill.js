@@ -3,8 +3,7 @@
 
   "use strict";
 
-  var ELEMENT_NODE = 1
-  var cached = []
+  var ELEMENT_NODE = 1, cached = [],MAGNUM ='__magnum__'
 
   // helper method to detect arrays -- silly javascript
     function _isArray(obj) {
@@ -67,7 +66,7 @@
 
   var templates = {}
   var cached = [],
-    guid = 0,
+    guid = 0, // What about nested Lists, which guid?
     firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
@@ -133,7 +132,7 @@
         }
 
         if (typeof data[guid] !== 'undefined' && typeof data[guid] === 'object') {
-          data[guid]['__magnum__'] = guid
+          data[guid][MAGNUM] = guid
           node.__key = guid++
         }
 
@@ -157,11 +156,11 @@
 
             if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined') {
               ele.__key = i
-              data[i]['__magnum__'] = i
+              data[i][MAGNUM] = i
             }
 
             var out = data.filter(function(v) {
-              return v['__magnum__'] == ele.__key
+              return v[MAGNUM] == ele.__key
             });
 
             if (out.length == 0) {
@@ -245,7 +244,7 @@
       //TODO: prepend attributes ? double underscore ??
 
       // anything that starts with an underscore is an attribute
-      if (key[0] === '_' && key != '__magnum__') {
+      if (key[0] === '_' && key != MAGNUM) {
         // store the properties to set them all at once
         // if (typeof value === 'string' || typeof value === 'number') {
         attributes = attributes || {}
