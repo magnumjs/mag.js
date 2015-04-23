@@ -97,6 +97,9 @@ http://jsbin.com/patecaronu/edit?js,output
 Timer:
 http://jsbin.com/cujohoyuwo/edit?js,output
 
+Real-time search:
+http://jsbin.com/zuzavikocu/edit?js,output
+
 FilterableProductTable (Thinking in React tutorial):
 http://jsbin.com/qujekizici/edit?js,output
 
