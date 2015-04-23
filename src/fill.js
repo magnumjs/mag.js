@@ -103,7 +103,7 @@
 
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
         elements = nodeListToArray(templates[key].parent.children)
-        if (typeof data[0] == 'object') data[0]['__magnum__'] = elements[0].__key = 0
+        if (typeof data[0] == 'object') data[0]['MAGNUM'] = elements[0].__key = 0
       }
 
       if (elements.length === 0) {
