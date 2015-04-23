@@ -126,7 +126,6 @@
       }
 
       gkeys[key] = gkeys[key] || 0
-      console.log(key, gkeys[key])
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
