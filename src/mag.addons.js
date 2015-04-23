@@ -41,7 +41,7 @@ mag.addons.onload = function(element) {
 // hookin
 
 mag.hookin('attributes', 'className', function(data) {
-  if(data.node.classList.indexOf(data.value)===-1){
+  if(!data.node.classList.contains(data.value)){
     data.value = data.node.classList + ' ' + data.value
     data.key = 'class'
   }
