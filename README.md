@@ -342,4 +342,8 @@ Other hookins such as key/node value etc.. Coming soon!
 
 * Since v0.8.5 native support use of Promise is required, polyfill as necessary.
 
-* Since v0.8.6 Optional native support for Object.observe used or load a polyfill such as https://github.com/MaxArt2501/object-observe for more aggressive bindings - will work without as well or call mag.redraw() where necessary
+* Since v0.8.6 Optional native support for Object.observe used or load a polyfill such as 
+```html
+<script src="https://rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
+```
+for more aggressive bindings - will work without as well or call mag.redraw() where necessary
