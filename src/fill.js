@@ -33,7 +33,7 @@
       var p = getPathTo(node)
       // remove cache of all children too
       if (node.queryCache) {
-        delete node.queryCache;
+        //delete node.queryCache;
       }
       node.parentNode.removeChild(node)
       // call config unload if any ?
@@ -66,7 +66,7 @@
     }
 
   var templates = {}
-  var cached = [],
+  var cached = [],guid=0,
     firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
@@ -124,7 +124,6 @@
 
       //Adding
       while (elements.length < data.length) {
-        var guid = elements.length
         if (templates[key]) {
           parent.insertAdjacentHTML("beforeend", templates[key].node)
           node = parent.lastChild
@@ -186,14 +185,14 @@
         if (elements[i]) {
           if (cached[p] && cached[p] === JSON.stringify(data[i])) {
             //console.log('same a', p, cached[p], JSON.stringify(data[i]))
-            continue
+           // continue
           }
           // if (cached[p]) console.log('changed a', p)
 
           fill(elements[i], data[i])
-          cached[p] = JSON.stringify(data[i])
+          //cached[p] = JSON.stringify(data[i])
           if (elements[i].queryCache) {
-            delete elements[i].queryCache
+            //delete elements[i].queryCache
           }
         }
       } else {
@@ -329,7 +328,7 @@
 
       if (cached[p] && cached[p] === JSON.stringify(attributes)) {
         //console.log('isame', p, JSON.stringify(attributes))
-        cache = true
+        //cache = true
       }
       // attach to topId so can be removed later
 
@@ -418,16 +417,16 @@
     // TODO: fix - this is not very accurate?
     if (cache) {
       //console.log(node.tagName, attributes)
-      return
+      //return
     }
     // set html after setting text because html overrides text
     setText(node, attributes.text)
     setHtml(node, attributes.html)
 
     //console.log('ichange', p, JSON.stringify(attributes))
-    cached[p] = JSON.stringify(attributes)
+    //cached[p] = JSON.stringify(attributes)
     if (node.queryCache) {
-      delete node.queryCache
+     // delete node.queryCache
     }
   }
 
@@ -503,7 +502,7 @@
 
     if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
 
-      node.queryCache = (node.queryCache || {})[key] = [];
+      //node.queryCache = (node.queryCache || {})[key] = [];
 
       var globalSearch = key[0] === '$'
 
@@ -531,7 +530,7 @@
       if (!nested && !matches.length) {
         //'FILL - Warning: no matches found for "' + key + '"'
       }
-      //return matches
+      return matches
       // return matches
       node.queryCache[key] = matches
     }
