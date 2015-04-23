@@ -60,6 +60,9 @@ http://jsbin.com/taducutoru/edit?js,output
 Filter list:
 http://jsbin.com/lojobiqudi/edit?js,output
 
+Filter list sort:
+http://jsbin.com/kodumalodo/edit?js,output
+
 Filter list components:
 http://jsbin.com/xigipeziqi/edit?js,output
 
