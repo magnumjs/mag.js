@@ -41,7 +41,7 @@
       //console.log(p, cached[p])
       if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
         // what arg to send ?
-        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, JSON.parse(cached[p]), p)
+        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, cached[p], p)
       }
       removeCache(p)
     }
@@ -190,7 +190,7 @@
           // if (cached[p]) console.log('changed a', p)
 
           fill(elements[i], data[i])
-          //cached[p] = JSON.stringify(data[i])
+          cached[p] = JSON.stringify(data[i])
           if (elements[i].queryCache) {
             //delete elements[i].queryCache
           }
