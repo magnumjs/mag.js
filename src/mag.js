@@ -47,11 +47,14 @@
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
+        // Is a redraw here necessary?
         mag.redraw()
       }
       return store
     }
 
+    // do we still need this?
+    // TODO: value hookin?
     prop.type = 'fun'
 
     prop.toJSON = function() {
@@ -143,7 +146,7 @@
     if (!moduleObject.view) return Error('module requires a view')
 
     // TODO: should props be frozen or changeable?
-    var mod = module.submodule(moduleObject, [props && Object.freeze(props) || {}])
+    var mod = module.submodule(moduleObject, [props || {}])
 
     var controller = module.getController(mod, element, fill)
 
