@@ -3,9 +3,11 @@
 
   "use strict";
 
-  var ELEMENT_NODE = 1, cached = [],MAGNUM ='__magnum__'
+  var ELEMENT_NODE = 1,
+    cached = [],
+    MAGNUM = '__magnum__'
 
-  // helper method to detect arrays -- silly javascript
+    // helper method to detect arrays -- silly javascript
     function _isArray(obj) {
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
@@ -66,15 +68,16 @@
 
   var templates = {}
   var cached = [],
-    guid = 0, // What about nested Lists, which guid?
+    gkeys = {}, // What about nested Lists, which guid?
     firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data, key) {
-
     var node
     var parent
     var dataIsArray
+
+
 
     // there is nothing to do if there is nothing to fill
     if (!nodeList) return
@@ -122,6 +125,8 @@
         }
       }
 
+      gkeys[key] = gkeys[key] || 0
+      console.log(key, gkeys[key])
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
@@ -131,9 +136,9 @@
           node = elements[0].cloneNode(true)
         }
 
-        if (typeof data[guid] !== 'undefined' && typeof data[guid] === 'object') {
-          data[guid][MAGNUM] = guid
-          node.__key = guid++
+        if (typeof data[gkeys[key]] !== 'undefined' && typeof data[gkeys[key]] === 'object') {
+          data[gkeys[key]][MAGNUM] = gkeys[key]
+          node.__key = gkeys[key]++
         }
 
         elements.push(node)
