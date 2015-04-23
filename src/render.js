@@ -31,8 +31,8 @@
         mod.view(controller, elementClone, context)
       } catch (e) {
         //THROW ?
-        console.log(elementClone.id, i)
-        throw new Error(e)
+        console.log(elementClone.id, i, e)
+        //throw new Error(e)
       }
       // if (controller.onunload) unloaders.push({
       //   controller: controller,
@@ -51,7 +51,6 @@
   }
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
-    //mag.redraw()
   }
   var cache = []
   render.redraw = function(module, fill, WatchJS) {
@@ -195,7 +194,7 @@
         });
         callback.apply(this, arguments);
       });
-    } else {
+    } else if(obj) {
       observeNested2(obj,callback)
     }
   }
