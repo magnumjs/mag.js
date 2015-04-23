@@ -132,7 +132,7 @@
           node = elements[0].cloneNode(true)
         }
 
-        if (typeof data[guid] !== 'undefined') {
+        if (typeof data[guid] !== 'undefined' && typeof data[guid] === 'object') {
           data[guid]['__magnum__'] = guid
           node.__key = guid++
         }
