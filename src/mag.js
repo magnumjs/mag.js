@@ -146,7 +146,7 @@
     if (!moduleObject.view) return Error('module requires a view')
 
     // TODO: should props be frozen or changeable?
-    var mod = module.submodule(moduleObject, [props || {}])
+    var mod = module.submodule(moduleObject, [Object.freeze(props || {})])
 
     var controller = module.getController(mod, element, fill)
 
