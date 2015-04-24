@@ -106,7 +106,7 @@ FilterableProductTable (Thinking in React tutorial):
 http://jsbin.com/bisobeyuci/edit?js,output
 
 Comment Box:
-http://jsbin.com/torelucuni/edit?js,output
+http://jsbin.com/coquzijado/edit?js,output
 
 ###Angular 2 Mag
 Order form:
