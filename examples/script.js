@@ -17,7 +17,7 @@ todos.controller = function(props) {
         context.onunload = function() {
           console.log('unloaded')
         }
-        node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
+        //node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
       }
     }
     this.todoItem().push(item)
@@ -35,10 +35,11 @@ todos.controller = function(props) {
         return item
       }
     }))
+    return false
   }.bind(this)
 }
 
-todos.view = function(element, props, state) {
+todos.view = function(state, props, element) {
 
   var todo = mag.prop(''),
     doAdd = function(e) {
@@ -96,7 +97,7 @@ mag.module("todos", todos)
 
 var passFail = {}
 
-passFail.view = function(element, props, state) {
+passFail.view = function(state, props, element) {
 
   state.message = props.pass() ? props.message.pass : props.fail() ? props.message.fail : ""
 
@@ -106,7 +107,7 @@ passFail.view = function(element, props, state) {
 }
 
 var build = {}
-build.view = function(element, props, state) {
+build.view = function(state, props, element) {
   var link = function() {
     var scripts = document.querySelectorAll('head script')
     var string = ''
@@ -137,12 +138,13 @@ app.controller = function(props) {
   this.fail = mag.prop("")
 
   this.change = function() {
+    console.log('clicked')
     this.show() ? this.pass(true) : this.fail(true) && this.pass('')
     this.show(!this.show())
   }.bind(this)
 }
 
-app.view = function(element, props, state) {
+app.view = function(state, props, element) {
   state.test = {
     _class: 'test ' + (state.show() ? 'show' : 'hide'),
     _html: 'Hello'
@@ -150,7 +152,7 @@ app.view = function(element, props, state) {
 
   state.b = mag.module('build', build)
 
-  state.message = mag.module('passFail2', passFail, {
+  state.message =mag.module('passFail2', passFail, {
     pass: state.pass,
     fail: state.fail,
     message: {
