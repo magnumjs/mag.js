@@ -103,7 +103,7 @@ Same with different code style - creative Mag.JS!
 http://jsbin.com/yegibecumu/edit?js,output
 
 FilterableProductTable (Thinking in React tutorial):
-http://jsbin.com/qujekizici/edit?js,output
+http://jsbin.com/bisobeyuci/edit?js,output
 
 Comment Box:
 http://jsbin.com/torelucuni/edit?js,output
