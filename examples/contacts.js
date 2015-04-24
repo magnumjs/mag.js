@@ -14,15 +14,15 @@ var ContactsWidget = {
     }
 
   },
-  view: function(element, props, state) {
+  view: function(state, props, element) {
 
     state.h2 = 'Contacts'
 
-    state.form = mag.module('form', ContactForm, {
+    state.form =mag.module('form', ContactForm, {
       onsave: state.save
     })
 
-    state.ul = mag.module('list', ContactList, {
+    state.ul =mag.module('list', ContactList, {
       contacts: state.contacts
     })
 
@@ -40,29 +40,26 @@ var ContactForm = {
       //e.preventDefault()
     }
   },
-  view: function(element, props, state) {
+  view: function(state, props, element) {
     var contact = state.contact()
-
+    // better to event delegate redundancies higher up
     state.name = {
-      _oninput: mag.withProp("value", contact.name),
+      _onblur: mag.withProp("value", contact.name),
       value: contact.name()
     }
 
     state.email = {
-      _oninput: mag.withProp("value", contact.email),
+      _onblur: mag.withProp("value", contact.email),
       value: contact.email()
     }
     state.button = {
-      _onclick: function(e) {
-        props.onsave(contact)
-        document.querySelector('#form input[name="name"]').value = ''
-      }
+      _onclick: props.onsave.bind(this, contact)
     }
   }
 }
 
 var ContactList = {
-  view: function(element, props, state) {
+  view: function(state, props, element) {
     state.contact = props.contacts
   }
 }
@@ -108,4 +105,4 @@ Contact.save = function(data, cb) {
   return contacts
 }
 
-mag.module('contacts', ContactsWidget)', ContactsWidget)
+mag.module('contacts', ContactsWidget)
