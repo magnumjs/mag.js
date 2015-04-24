@@ -3,35 +3,32 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.8.5.min.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.9.3.min.js"></script>
 </head>
 
 <body>
- <!--   <xmp id="ProductCategoryRow2">
-  <tr>
-    <th colSpan="2">TEST</th>
-  </tr>
-</xmp>
+  <div id="SearchExample">
+    <h3>Real-time search</h3>
+    <div>
+      <input type="text" placeholder="Type here" />
+      <ul>
+        <li>{l.name} <a href={l.url}>{l.url}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-<xmp id="ProductRow2" class="hide">
-  <tr>
-    <td class="name">NAME</td>
-    <td class="price">PRICE</td>
-  </tr>
-</xmp>
 
-<div id="ProductTable2">
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-</div> -->
+  <div id="filter-test">
+    <h3>List filter example</h3>
+    <input placeholder="Filter list by something" />
+    <p>
+      <input name="inStockOnly" type="checkbox" />Only show products in stock</p>
+    <ul>
+      <li>Product Name: <span class="name"></span>
+      </li>
+    </ul>
+  </div>
 
   <div id="ProductCategoryRow">
     <div class="row">
@@ -185,282 +182,7 @@
     </div>
   </div>
 
-  <script>
-    var ProductRow = {
-      view: function(e, p, s) {
-        var name = p.product.stocked ?
-          p.product.name :
-          p.product.name;
-
-        s['row'] = p.product;
-      }
-    };
-    var ProductCategoryRow = {
-      view: function(e, p, s) {
-        s['row-header'] = p.category;
-      }
-    };
-    var ProductTable = {
-      controller: function(p) {
-        this.rows = []
-      },
-      view: function(e, p, s) {
-
-        var lastCategory = null;
-        var count = 0
-        //s.tbody = s.rows
-        var promises = []
-        p.products.forEach(function(product) {
-
-          if (product.category !== lastCategory) {
-
-            var p = mag.module('ProductCategoryRow', ProductCategoryRow, {
-              category: product.category
-            }, 1);
-
-            promises.push(p)
-
-          }
-          // var r = mag.module('ProductRow', ProductRow, {
-          //  product: product
-          //},1);
-          // r.then(function(node) {
-          //console.log(node.innerHTML) //Hello
-          //})
-
-          lastCategory = product.category;
-          count++
-
-        });
-
-        Promise.all(promises).then(function(values) {
-
-          s.tbody = values
-        });
-      }
-    };
-    var props = {
-      products: [{
-        category: "Sporting Goods",
-        price: "$49.99",
-        stocked: true,
-        name: "Football"
-      }, {
-        category: "Sporting Goods",
-        price: "$9.99",
-        stocked: true,
-        name: "Baseball"
-      }, {
-        category: "Sporting Goods",
-        price: "$29.99",
-        stocked: false,
-        name: "Basketball"
-      }, {
-        category: "Electronics",
-        price: "$99.99",
-        stocked: true,
-        name: "iPod Touch"
-      }, {
-        category: "Electronics",
-        price: "$399.99",
-        stocked: false,
-        name: "iPhone 5"
-      }, {
-        category: "Electronics",
-        price: "$199.99",
-        stocked: true,
-        name: "Nexus 7"
-      }]
-    };
-    mag.module('ProductTable', ProductTable, props)
-
-     var modal = {
-      controller: function(props) {
-        this.visible = mag.prop(props.visible)
-      },
-      view: function(element, props, state) {
-        if (state.visible()) {
-          element.classList.remove('hide')
-          state.wrapper = {
-            _html: props.content()
-          }
-        } else {
-          element.classList.add('hide')
-        }
-
-        state.button = {
-          _onclick: function() {
-            state.visible(false)
-          }
-        }
-      }
-    }
-
-    mag.module('modalCase', {
-      view: function(element, props, state) {
-        state.button = {
-          _onclick: function() {
-            mag.module('modal', modal, {
-              visible: true,
-              content: function() {
-                return '<b>Hello Modal!</b>'
-              }
-            })
-          }
-        }
-      }
-    })
-
-     mag.module("lister", {
-      view: function(element, props, state) {
-        var name1 = 'Yo!',
-          name2 = 'Joe!'
-        state.h2 = {
-          _config: function(element, isNew, context) {
-            context.onunload = function() {
-              console.log('test')
-            }
-            state.span = name1
-            state.item = [1, 2, 3]
-            mag.redraw()
-          },
-          _onclick: function() {
-            state.item.reverse()
-            state.span = state.span == name1 && name2 || name1
-          }
-        }
-      }
-    })
-
-     mag.module("lister", {
-      view: function(element, props, state) {
-        var name1 = 'Yo!',
-          name2 = 'Joe!'
-        state.h2 = {
-          _config: function(element, isNew, context) {
-            if (isNew) {
-              state.span = name1
-              state.item = [1, 2, 3]
-              mag.redraw()
-            }
-          },
-          _onclick: function() {
-            state.item.reverse()
-            state.span = state.span == name1 && name2 || name1;
-          }
-        }
-      }
-    })
-
-     mag.module('lister3', {
-      controller: function(props) {
-        this.item = [1, 2, 3]
-        this.title = 'Lister'
-      },
-      view: function(element, props, state) {
-        state.h2 = {
-          _text: state.title,
-          _onclick: function() {
-            state.show = state.show ? !state.show : true
-            state.item.reverse()
-            state.title = 'Gister' + state.show
-          }
-        }
-      }
-    })
-
-     mag.module("count", {
-      view: function(element, props, state) {
-        state.button = {
-          _onclick: function() {
-            state.count = state.count + 1 || 1
-          }
-        }
-      }
-    })
-
-     mag.module('hello', {
-      controller: function(props) {
-        this.onload = function(ele) {
-          console.log('hello onload')
-        }
-        this.item = [{
-          span: 'yo',
-          _config: test
-        }]
-
-        function test(n, is, c, i) {
-          console.log(is, i)
-        }
-        this.add = function() {
-          //console.log(this.$done)
-          this.item.push({
-            span: 'test',
-            _config: test
-          })
-          return false;
-        }
-      },
-      view: function(element, props, state) {
-        state.button = {
-          _onclick: state.add.bind(state)
-        }
-
-        //state.h1 = '', 
-        state.select = 2, state.textarea = 1
-        //setTimeout(function() {
-        //  console.log(state.h1, state.input)
-        //}, 100)
-      }
-    })
-
-    function merge(o1, o2) {
-      for (var i in o2) {
-        o1[i] = o2[i];
-      }
-      return o1;
-    }
-
-    mag.hookin('attributes', 'className', function(data) {
-      data.value = data.node.classList + ' ' + data.value
-      data.key = 'class'
-    })
-
-     mag.module("main", {
-      controller: function() {
-        this.h2 = {
-          _text: 'Naver',
-          _config: function(n, is, c, i) {
-            c.count = c.count + 1 || 0
-            c.onunload = function() {
-              console.log(arguments)
-            }
-          }
-        }
-      },
-      view: function(n, p, s) {
-        s.a = p.menuItem
-        s.p = {
-          _className: 'test',
-          _config: function(n, is, c, i) {
-            //console.log('here1')
-          }
-        }
-
-        s.$a = {
-          _onclick: function() {
-            console.log('clicked')
-            s.h2 = null
-          },
-          _config: function(n, is, c, i) {
-            console.log('here2')
-          }
-        }
-      }
-    }, {
-      menuItem: ['HOME', 'PROJECTS', 'SERVICES', 'CONTACT']
-    })
-  </script>
+  <script src="test.js"></script>
   <script src="contacts.js"></script>
   <script src="filter.js"></script>
   <script src="script.js"></script>
