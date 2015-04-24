@@ -8,7 +8,13 @@ mag.addons = {};
 // state.fom = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
     var handler = function(e) {
-        data[e.target.name] = e.target.type == 'checkbox' ? e.target.checked : e.target.value
+        var val =  e.target.type == 'checkbox' ? e.target.checked : e.target.value
+        var name = e.target.name
+        if(data[name].type=='fun' && typeof data[name] == 'function'){
+            data[name](val)
+        } else {
+            data[name] = val
+        }
         if(callback && typeof callback == 'function') callback()
     }
     var addThis = {}
