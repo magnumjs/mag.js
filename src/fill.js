@@ -126,6 +126,7 @@
       }
 
       gkeys[key] = gkeys[key] || 0
+
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
@@ -156,9 +157,12 @@
         } else {
           // more elements than data
           // remove elements that don't have matching data keys
+
+          var found = []
           var elements = elements.filter(function(ele, i) {
 
-            if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined') {
+            if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined' 
+            || (data[i] && typeof data[i][MAGNUM] === 'undefined' )) {
               ele.__key = i
               data[i][MAGNUM] = i
             }
@@ -167,10 +171,11 @@
               return v[MAGNUM] == ele.__key
             });
 
-            if (out.length == 0) {
+            if (out.length == 0 || (!data[i] && found.indexOf(ele.__key)!==-1)) {
               removeNode(ele)
               return false
             }
+            found.push(ele.__key)
             return true
           })
 
