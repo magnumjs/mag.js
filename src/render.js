@@ -57,7 +57,7 @@
 
     module = module || render.module || {}
 
-    this.fun = (this.fun || debounce(function(id) {
+    this.fun = (this.fun || throttle(function(id) {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
 
@@ -144,22 +144,22 @@
   }
 
   render.setupWatch = function(WatchJS, args, fill, elementClone, i, module) {
-    // WatchJS.watch(args[0], debounce(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
+    // WatchJS.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
     // return
-    //this.fun = (this.fun || debounce(render.doWatch.bind(null, fill, elementClone, i, module)))
+    //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
 
     // Which we then observe
     observeNested(args[0], function(changes) {
       // changes.forEach(function(change) {
       //console.log(change.type, change.name, change.oldValue);
       //});
-      debounce(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+      throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
     });
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
-  var debounce = function(fn, threshhold) {
+  var throttle = function(fn, threshhold) {
     var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
     return function() {
