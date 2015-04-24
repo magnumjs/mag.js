@@ -27,6 +27,15 @@ mag.addons.merge = function(source, destination) {
     for (var k in source) destination[k] = source[k]
 }
 
+// return object of getter values
+mag.addons.getProp=function(data){
+    var newData={}
+    Object.keys(data).forEach(function(k){
+        if(typeof data[k] == 'function') newData[k] = data[k]()
+    })
+    return newData
+}
+
 // show hide
 
 mag.addons.show = function(condition) {
