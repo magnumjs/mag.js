@@ -9,12 +9,12 @@ mag.addons = {};
 mag.addons.binds = function(data, attachTo, callback) {
     var handler = function(e) {
         data[e.target.name] = e.target.type == 'checkbox' ? e.target.checked : e.target.value
-        callback()
+        if(callback && typeof callback == 'function') callback()
     }
     var addThis = {}
 
     var events = ['_onchange', '_oninput']
-    for (var k in events) addThis[k] = handler
+    for (var k in events) addThis[events[k]] = handler
     if (attachTo) mag.addons.merge(addThis, attachTo)
     return addThis
 };
