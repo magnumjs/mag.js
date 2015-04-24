@@ -1,17 +1,24 @@
 /*
-Mag.JS AddOns v0.1
+Mag.JS AddOns v0.1.2
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js/new/master/new
 */
 mag.addons={};
 // helper function for non proxy supported browser i.e. NOT firefox
-mag.addons.binds=function(data) {
-  return {
+// state.fom = mag.addons.binds(state)
+mag.addons.binds=function(data, attachTo) {
+  var addThis= {
     _onchange: function(e) {
-      data[e.target.name] = e.target.value;
+      data[e.target.name] = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     }
-  };
+  }
+  if(attachTo) mag.addons.merge(addThis,attachTo)
+return addThis
 };
+
+mag.addons.merge=function(source, destination){
+  for(var k in source) destination[k] =source[k]
+}
 
 // show hide
 
