@@ -108,6 +108,9 @@ http://jsbin.com/bisobeyuci/edit?js,output
 Comment Box:
 http://jsbin.com/coquzijado/edit?js,output
 
+Video tutorial: 
+https://youtube.com/watch?v=QEnyWHSsMFg
+
 ###Angular 2 Mag
 Order form:
 http://jsbin.com/horuxanacu/edit?js,output
