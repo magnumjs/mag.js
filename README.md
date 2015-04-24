@@ -98,7 +98,10 @@ Timer:
 http://jsbin.com/cujohoyuwo/edit?js,output
 
 Real-time search:
-http://jsbin.com/zuzavikocu/edit?js,output
+http://jsbin.com/wuzovilaga/edit?js,output
+Same with different code style - creative Mag.JS!
+http://jsbin.com/yegibecumu/edit?js,output
+
 
 FilterableProductTable (Thinking in React tutorial):
 http://jsbin.com/qujekizici/edit?js,output
