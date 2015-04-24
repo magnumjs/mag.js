@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.2
+Mag.JS AddOns v0.1.3
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js/new/master/new
 */
@@ -18,6 +18,10 @@ mag.addons.binds = function(data, attachTo, callback) {
     if (attachTo) mag.addons.merge(addThis, attachTo)
     return addThis
 };
+
+mag.addons.when=function(arrayOfPromises, callback){
+    Promise.all(arrayOfPromises).then(callback)
+}
 
 mag.addons.merge = function(source, destination) {
     for (var k in source) destination[k] = source[k]
