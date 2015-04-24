@@ -102,9 +102,11 @@ http://jsbin.com/wuzovilaga/edit?js,output
 Same with different code style - creative Mag.JS!
 http://jsbin.com/yegibecumu/edit?js,output
 
-
 FilterableProductTable (Thinking in React tutorial):
 http://jsbin.com/qujekizici/edit?js,output
+
+Comment Box:
+http://jsbin.com/torelucuni/edit?js,output
 
 ###Angular 2 Mag
 Order form:
