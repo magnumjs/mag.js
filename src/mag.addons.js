@@ -31,7 +31,7 @@ mag.addons.merge = function(source, destination) {
 mag.addons.getProp=function(data){
     var newData={}
     Object.keys(data).forEach(function(k){
-        if(typeof data[k] == 'function') newData[k] = data[k]()
+        if(data[k].type=='fun' && typeof data[k] == 'function') newData[k] = data[k]()
     })
     return newData
 }
