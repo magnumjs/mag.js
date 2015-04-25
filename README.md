@@ -207,11 +207,12 @@ mag.module("lister", {
 ```
 This is similar to using a controller or onload.
 Every element has a _config to act as onload for hookins.
-It receives 3 arguments:
+It receives 4 arguments:
 * 1. is the element itself
 * 2. is a boolean stating if this is attaching or not, first run is always true, subsequent executions are always false
 * 3. context is an object that can be used to pass values to the method itself on every iterative call
   - a. one available sub method of context is onunload e.g. context.onunload = fun is called when the element is removed from the dom.
+* 4. Index- the x path based index of the element
 
 mag.redraw is required to be manually called here if the desire is to display the changed state to the dom immediately.
 An alternative is to use mag.prop for the state variables. mag.prop on setter will call mag.redraw automatically.
