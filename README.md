@@ -58,7 +58,7 @@ Sortable List:
 http://jsbin.com/taducutoru/edit?js,output
 
 Tiny filter:
-http://jsbin.com/pixibeziga/edit?js,output
+http://jsbin.com/hukukaxije/edit?js,output
 
 Filter list:
 http://jsbin.com/lojobiqudi/edit?js,output
