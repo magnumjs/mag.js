@@ -3,10 +3,38 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.9.3.min.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.9.4.min.js"></script>
 </head>
 
 <body>
+   <div id="todos">
+    <h3>Todos</h3>
+    <div class="total">
+      <b class="remaining"></b> 
+      <span class="size"></span> 
+      <a href="#">[archive]</a>
+    </div>
+    <ul>
+      <li class="todoItem">
+        <input type="checkbox" /><span class="text"></span>
+      </li>
+    </ul>
+    <input placeholder="Add todo!">
+    <button>Add</button>
+  </div>
+
+  <div id="shoes">
+    <h3>Search shoes by color: <span class="searching"></span></h3>
+    <input name="searchText" placeholder="search for shoes.." />
+    <ul>
+      <li class="shoes">
+        <span class="style"></span> -
+        <span class="color"></span>
+      </li>
+    </ul>
+
+  </div>
+
   <div id="SearchExample">
     <h3>Real-time search</h3>
     <div>
@@ -110,21 +138,7 @@
     </ul>
   </div>
 
-  <div id="todos">
-    <h3>Todos</h3>
-    <div class="total">
-      <b class="remaining"></b> 
-      <span class="size"></span> 
-      <a href="#">[archive]</a>
-    </div>
-    <ul>
-      <li class="todoItem">
-        <input type="checkbox" /><span class="text"></span>
-      </li>
-    </ul>
-    <input placeholder="Add todo!">
-    <button>Add</button>
-  </div>
+
 
   <div id="build" class="hide">
     <a href="">Nested - module - build</a> 
@@ -181,6 +195,7 @@
       </ul>
     </div>
   </div>
+  <script src="//rawgit.com/magnumjs/mag.js/master/src/mag.addons.js"></script>
 
   <script src="test.js"></script>
   <script src="contacts.js"></script>
