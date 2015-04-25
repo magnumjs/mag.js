@@ -1,3 +1,37 @@
+var shoes = {
+  controller: function(props) {
+    this.searchText = mag.prop(props.searchText)
+    this.searching = this.searchText
+
+    this.filter = function(item) {
+      //console.log(item)
+      return item.color.indexOf(this.searchText()) !== -1
+    }.bind(this)
+
+    this.shoes = props.shoes.filter(this.filter)
+  },
+  view: function(state, props) {
+    state.shoes = props.shoes.filter(state.filter)
+    mag.addons.binds(state, state.input = {})
+  }
+}
+
+var props = {
+  searchText: '',
+  shoes: [{
+    style: 'stilletos',
+    color: 'red'
+  }, {
+    style: 'platform',
+    color: 'gold'
+  }, {
+    style: 'flats',
+    color: 'black'
+  }]
+}
+
+mag.module("shoes", shoes, props)
+
 var SearchExample = {}
 
 SearchExample.controller = function(props) {
@@ -80,7 +114,7 @@ var props = {
 }
 
 
-mag.module("SearchExample", SearchExample, Object.freeze(props))
+mag.module("SearchExample", SearchExample, props)
 
 mag.module('filter-test', {
   controller: function(p) {
@@ -369,6 +403,9 @@ mag.module("count", {
 
 mag.module('hello', {
   controller: function(props) {
+    this.onunload = function(ele) {
+      console.log('hello onunload', arguments)
+    }
     this.onload = function(ele) {
       console.log('hello onload')
     }
@@ -390,6 +427,7 @@ mag.module('hello', {
     }
   },
   view: function(state, props, element) {
+    console.log('hello view')
     state.button = {
       _onclick: state.add.bind(state)
     }
