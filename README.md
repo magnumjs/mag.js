@@ -320,6 +320,8 @@ event (e, index, node) default context is node
 controller ->this.onload
 _onclick ..
 
+Native events, receive the event, the x path based 0 index and the node itself.
+
 ##Config (DOM hookin)
 _config (node, isNew, context, index)
 
