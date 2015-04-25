@@ -101,12 +101,14 @@
 
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
+      gkeys[key] = gkeys[key] || 0
 
       if (templates[key] && elements.length === 0) {
-
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
         elements = nodeListToArray(templates[key].parent.children)
-        if (typeof data[0] == 'object') data[0]['MAGNUM'] = elements[0].__key = 0
+        if (typeof data[0] === 'object') {
+          // data[0][MAGNUM] = elements[0].__key = 0
+        }
       }
 
       if (elements.length === 0) {
@@ -125,8 +127,6 @@
         }
       }
 
-      gkeys[key] = gkeys[key] || 0
-
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
@@ -136,17 +136,40 @@
           node = elements[0].cloneNode(true)
         }
 
-        if (typeof data[gkeys[key]] !== 'undefined' && typeof data[gkeys[key]] === 'object') {
-          data[gkeys[key]][MAGNUM] = gkeys[key]
-          node.__key = gkeys[key]++
-        }
-
         elements.push(node)
         if (parent) parent.appendChild(node)
       }
+      // loop thru to make sure no undefined keys
 
+      if (typeof elements[0].__key === 'undefined' && typeof data[0] === 'object') {
+        //data[0][MAGNUM] = elements[0].__key = 0
+      }
+      // get existing keys
+      var keys = data.map(function(i) {
+        return i[MAGNUM]
+      })
+      //console.log('existing', keys, keys.indexOf(undefined)!==-1)
+
+      // add keys if equal
+      if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
+        //console.log('here', gkeys[key])
+
+        var data = data.map(function(d, i) {
+
+          if (typeof d === 'object') {
+            if (typeof d[MAGNUM] === 'undefined') {
+              d[MAGNUM] = gkeys[key]++
+            }
+
+            elements[i].__key = d[MAGNUM]
+          }
+
+          return d
+        })
+        //console.log(key, data)
+      }
       if (elements.length > data.length) {
-        if (data.length == 0 || typeof data[0] != 'object') {
+        if (data.length === 0 || typeof data[0] !== 'object') {
           while (elements.length > data.length) {
             node = elements.pop()
             parent = node.parentNode
@@ -159,10 +182,31 @@
           // remove elements that don't have matching data keys
 
           var found = []
+          // get all data keys
+          var m = data.map(function(i) {
+            return i[MAGNUM]
+          })
+          // console.log('m keys', m)
+          var k = elements.map(function(i) {
+            return i.__key
+          })
+          // console.log('e keys', k)
+
           var elements = elements.filter(function(ele, i) {
+            if (m.indexOf(ele.__key) === -1) {
+              removeNode(ele)
+              return false
+            }
+            return true
+          })
+          /*
+          var elements = elements.filter(function(ele, i) {
+          // determine which elements are not in the data by their MAGNUM key
 
             if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined' 
             || (data[i] && typeof data[i][MAGNUM] === 'undefined' )) {
+              console.log('filter',i)
+
               ele.__key = i
               data[i][MAGNUM] = i
             }
@@ -170,15 +214,17 @@
             var out = data.filter(function(v) {
               return v[MAGNUM] == ele.__key
             });
+            console.log(out.length, data[i], ele.__key)
 
-            if (out.length == 0 || (!data[i] && found.indexOf(ele.__key)!==-1)) {
+            if ((out.length == 0 && typeof data[i] === 'undefined') 
+            || (typeof data[i] === 'undefined' && found.indexOf(ele.__key)!==-1)) {
               removeNode(ele)
               return false
             }
             found.push(ele.__key)
             return true
           })
-
+*/
         }
       }
 
