@@ -15,7 +15,7 @@ mag.addons.binds = function(data, attachTo, callback) {
         } else {
             data[name] = val
         }
-        // if(typeof Object.observe !== 'undefined'){
+        if(typeof Object.observe !== 'undefined'){
             // two-way bindings
             Object.observe(data, function(changes) {
               // update target with changes
