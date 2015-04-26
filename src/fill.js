@@ -5,7 +5,7 @@
 
   var ELEMENT_NODE = 1,
     cached = [],
-    MAGNUM = '__magnum__'
+    MAGNUM_KEY = '_key'
 
     // helper method to detect arrays -- silly javascript
     function _isArray(obj) {
@@ -146,7 +146,7 @@
       }
       // get existing keys
       var keys = data.map(function(i) {
-        return i[MAGNUM]
+        return i[MAGNUM_KEY]
       })
       //console.log('existing', keys, keys.indexOf(undefined)!==-1)
 
@@ -157,11 +157,11 @@
         var data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            if (typeof d[MAGNUM] === 'undefined') {
-              d[MAGNUM] = gkeys[key]++
+            if (typeof d[MAGNUM_KEY] === 'undefined') {
+              d[MAGNUM_KEY] = '__magnum__' + gkeys[key]++
             }
 
-            elements[i].__key = d[MAGNUM]
+            elements[i].__key = d[MAGNUM_KEY]
           }
 
           return d
@@ -184,7 +184,7 @@
           var found = []
           // get all data keys
           var m = data.map(function(i) {
-            return i[MAGNUM]
+            return i[MAGNUM_KEY]
           })
           // console.log('m keys', m)
           var k = elements.map(function(i) {
@@ -299,7 +299,7 @@
       //TODO: prepend attributes ? double underscore ??
 
       // anything that starts with an underscore is an attribute
-      if (key[0] === '_' && key != MAGNUM) {
+      if (key[0] === '_') {
         // store the properties to set them all at once
         // if (typeof value === 'string' || typeof value === 'number') {
         attributes = attributes || {}
@@ -561,7 +561,7 @@
     // is this cache necessary good useful?
     // are we losing some dynamism?
 
-    if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
+   // if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
 
       //node.queryCache = (node.queryCache || {})[key] = [];
 
@@ -593,9 +593,9 @@
       }
       return matches
       // return matches
-      node.queryCache[key] = matches
-    }
-    return node.queryCache[key];
+     // node.queryCache[key] = matches
+   // }
+   // return node.queryCache[key];
   }
 
 
