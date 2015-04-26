@@ -263,15 +263,26 @@
           //console.log(data)
           elements[i].isChildOfArray = true
           elements[i]._dataPass = data
-        } else if (elements[i].parentNode && elements[i].parentNode.isChildOfArray) {
-          elements[i].isChildOfArray = true
-          elements[i]._dataPass = elements[i].parentNode._dataPass
         }
+        // else if (elements[i].parentNode && elements[i].parentNode.isChildOfArray) {
+        //   elements[i].isChildOfArray = true
+        //   elements[i]._dataPass = elements[i].parentNode._dataPass
+        // }
+        // console.log(findParentChild(elements[i]), data, elements[i].parentNode)
         fillNode(elements[i], data)
       }
 
     }
     return nodeList
+  }
+
+  function findParentChild(node) {
+    if (node.parentNode && node.parentNode.isChildOfArray) {
+      return node.parentNode
+    } else if (node.parentNode) {
+      // continue to walk up parent tree 
+      return findParentChild(node.parentNode)
+    }
   }
 
   function fillNode(node, data) {
@@ -435,7 +446,7 @@
           } finally {
             mag.redraw()
           }
-        }.bind(null, attributes[attrName], node, tagIndex, node._dataPass)
+        }.bind(null, attributes[attrName], node, tagIndex, (findParentChild(node) || {})._dataPass)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
