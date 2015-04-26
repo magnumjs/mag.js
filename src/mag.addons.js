@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.3
+Mag.JS AddOns v0.1.4
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js/new/master/new
 */
@@ -67,7 +67,12 @@ mag.addons.onload = function(element) {
 };
 
 
-// hookin
+// hookins
+
+mag.hookin('attributes', 'key', function(data) {
+    // remove system key from being added to attributes in html
+    data.key = null
+})
 
 mag.hookin('attributes', 'className', function(data) {
     if (!data.node.classList.contains(data.value)) {
