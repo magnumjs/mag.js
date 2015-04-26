@@ -339,8 +339,9 @@ mag.module("lister", {
       name2 = 'Joe!'
     state.h2 = {
       _config: function(element, isNew, context) {
+        console.log('CONFIG')
         context.onunload = function() {
-          console.log('test')
+          console.log('lister unload')
         }
         state.span = name1
         state.item = [1, 2, 3]
@@ -406,8 +407,17 @@ mag.module('hello', {
     this.onunload = function(ele) {
       console.log('hello onunload', arguments)
     }
-    this.onload = function(ele) {
-      console.log('hello onload')
+    this.didload = function(ele) {
+      console.log('hello didload', arguments)
+    }
+    this.willload = function(ele) {
+      console.log('hello willload')
+    }
+    this.willupdate = function(ele) {
+      console.log('hello willupdate')
+    }
+    this.didupdate = function(ele) {
+      console.log('hello didupdate')
     }
     this.item = [{
       span: 'yo',
@@ -459,7 +469,7 @@ mag.module("main", {
       _config: function(n, is, c, i) {
         c.count = c.count + 1 || 0
         c.onunload = function() {
-          //console.log(arguments)
+          console.log('UNLOADED H2')
         }
       }
     }
