@@ -323,7 +323,10 @@ to not overwrite an existing attribute use:
 
 state.name._value = state.name._value + ''
 
-event (e, index, node) default context is node
+event (e, index, node, data) default context is node
+
+index is the xpath index of the node -1
+data is the index data of the parent if in a list
 
 ####Events
 
