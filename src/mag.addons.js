@@ -20,7 +20,7 @@ mag.addons.binds = function(data, attachTo, callback) {
             Object.observe(data, function(changes) {
               // update target with changes
               changes.forEach(function(change) {
-                if (change.type == 'update') {
+                if (change.type == 'update' || change.type=='add') {
                   // update the related dom
                   if(e.target.name ==change.name)
                     e.target.value = change.object[change.name]
