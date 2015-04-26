@@ -121,6 +121,9 @@ http://jsbin.com/horuxanacu/edit?js,output
 Navigation menu:
 http://jsbin.com/kasuyupufa/edit?js,output
 
+Contact Manager application:
+http://jsbin.com/jegasagemi/edit?js,output
+
 ##Jasmine Specs
 https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
 
