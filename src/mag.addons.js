@@ -1,7 +1,7 @@
 /*
 Mag.JS AddOns v0.1.6
 (c) Michael Glazer
-https://github.com/magnumjs/mag.js/new/master/new
+https://github.com/magnumjs/mag.js
 */
 mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
