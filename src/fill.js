@@ -249,14 +249,25 @@
             // continue
           }
           // if (cached[p]) console.log('changed a', p)
+          //console.log(p)
 
           fill(elements[i], data[i])
-          cached[p] = JSON.stringify(data[i])
+          //cached[p] = JSON.stringify(data[i])
           if (elements[i].queryCache) {
             //delete elements[i].queryCache
           }
         }
       } else {
+        //TODO: is this a child of an array?
+        if (Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+          //console.log(data)
+          elements[i].isChildOfArray = true
+          elements[i]._dataPass = {}
+          elements[i]._dataPass = data
+        } else if (elements[i].parentNode.isChildOfArray) {
+          elements[i].isChildOfArray = true
+          elements[i]._dataPass = elements[i].parentNode._dataPass
+        }
         fillNode(elements[i], data)
       }
 
@@ -274,6 +285,7 @@
     if (typeof data === 'function') {
       return
     }
+
 
     // if the value is a simple property wrap it in the attributes hash
     if (typeof data !== 'object') return fillNode(node, {
@@ -321,14 +333,23 @@
       // // return
       // }
       // console.log('called', node, attributes)
+
+      // TODO: pass data to event
+
+
       fillAttributes(node, attributes)
       // console.log('ichange', p, JSON.stringify(attributes))
       // cached[p] = JSON.stringify(attributes)
     }
 
-    var index = 0
-    // look for non-attribute keys and recurse into those elements
+    var index = 0,
+      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload']
+      // look for non-attribute keys and recurse into those elements
     for (var key in data) {
+
+      // ignore certain system keys
+      if (ignorekeys.indexOf(key) !== -1) continue
+
       var value = data[key]
 
       // only attributes start with an underscore
@@ -384,8 +405,8 @@
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
     var p = getPathTo(node),
-      cache = false,
       tagIndex = getPathIndex(p)
+
 
       if (cached[p] && cached[p] === JSON.stringify(attributes)) {
         //console.log('isame', p, JSON.stringify(attributes))
@@ -403,18 +424,19 @@
 
       // events
       if (attrName.indexOf('on') == 0) {
+
         // REALLY ? only one same event per node?
         if (node._events.indexOf(attrName) !== -1 && !firstRun) {
           // console.log('event exists', firstRun)
           continue
         }
-        var eventCall = function(fun, node, tagIndex, e) {
+        var eventCall = function(fun, node, tagIndex, data, e) {
           try {
-            return fun.call(node, e, tagIndex, node)
+            return fun.call(node, e, tagIndex, node, data)
           } finally {
             mag.redraw()
           }
-        }.bind(null, attributes[attrName], node, tagIndex)
+        }.bind(null, attributes[attrName], node, tagIndex, node._dataPass)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
@@ -454,7 +476,6 @@
         // hookins
         var data = {
           key: attrName,
-          cache: cache,
           value: attributes[attrName],
           node: node
         }
@@ -465,7 +486,7 @@
           attributes[attrName] = data.value
         }
 
-        if (cache) continue
+        //if (cache) continue
         if (attributes[attrName] === null) {
           node.removeAttribute(attrName)
         } else {
@@ -476,10 +497,10 @@
     }
 
     // TODO: fix - this is not very accurate?
-    if (cache) {
-      //console.log(node.tagName, attributes)
-      //return
-    }
+    //if (cache) {
+    //console.log(node.tagName, attributes)
+    //return
+    // }
     // set html after setting text because html overrides text
     setText(node, attributes.text)
     setHtml(node, attributes.html)
@@ -561,41 +582,52 @@
     // is this cache necessary good useful?
     // are we losing some dynamism?
 
-   // if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
+    // if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
 
-      //node.queryCache = (node.queryCache || {})[key] = [];
+    //node.queryCache = (node.queryCache || {})[key] = [];
 
-      var globalSearch = key[0] === '$'
+    var globalSearch = key[0] === '$'
 
-      if (keyName[0] === '$') {
-        // bust cache
-        keyName = keyName.substr(1)
+    if (keyName[0] === '$') {
+      // bust cache
+      keyName = keyName.substr(1)
+    }
+
+    // search all child elements for a match
+    for (var i = 0; i < elements.length; i += 1) {
+      if (elementMatcher(elements[i], keyName)) {
+        matches.push(elements[i]);
       }
+    }
 
-      // search all child elements for a match
-      for (var i = 0; i < elements.length; i += 1) {
-        if (elementMatcher(elements[i], keyName)) {
-          matches.push(elements[i]);
-        }
+    // if there is no match, recursively search the childNodes
+    if (!matches.length || globalSearch) {
+      for (var i = 0; i < elements.length; i++) {
+        // NOTE: pass in a flag to prevent recursive calls from logging
+        matches = matches.concat(matchingElements(elements[i], key, true))
+        if (matches.length && !globalSearch) break
       }
+    }
 
-      // if there is no match, recursively search the childNodes
-      if (!matches.length || globalSearch) {
-        for (var i = 0; i < elements.length; i++) {
-          // NOTE: pass in a flag to prevent recursive calls from logging
-          matches = matches.concat(matchingElements(elements[i], key, true))
-          if (matches.length && !globalSearch) break
-        }
+    if (!nested && !matches.length) {
+      // TODO: mag.hookin for not found matchers
+      //console.log('FILL - Warning: no matches found for "' + key + '"')
+      var data = {
+        key: key,
+        value: matches,
+        node: node
       }
-
-      if (!nested && !matches.length) {
-        //'FILL - Warning: no matches found for "' + key + '"'
+      mag.hook('elementMatcher', key, data)
+      //hookin change
+      if (data.change) {
+        //console.log('change to elementMatcher key - ' + key, data)
       }
-      return matches
-      // return matches
-     // node.queryCache[key] = matches
-   // }
-   // return node.queryCache[key];
+    }
+    return matches
+    // return matches
+    // node.queryCache[key] = matches
+    // }
+    // return node.queryCache[key];
   }
 
 
