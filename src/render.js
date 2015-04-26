@@ -16,7 +16,6 @@
 
     function callView(elementClone, module, i) {
       var args = module.getArgs(i)
-
       var mod = module.modules[i]
       var controller = module.controllers[i]
 
@@ -40,20 +39,28 @@
       // })
     }
 
-  render.callOnload = function(module) {
-    for (var i = 0, controller; controller = module.controllers[i]; i++) {
-      // call once
-      if (controller.onload && !controller.called) {
-        controller.onload.call(null, module.elements[i])
-        controller.called = 1
-      }
+    // render.callOnload = function(module) {
+    //   for (var i = 0, controller; controller = module.controllers[i]; i++) {
+    //     // call once
+    //     if (controller.onload && !controller.called) {
+    //       controller.onload.call({}, module.elements[i])
+    //       controller.called = 1
+    //     }
+    //   }
+    // }
+    // call Lifecycle event
+  render.callLCEvent = function(eventName, module, index, once) {
+    if (module.controllers[index][eventName]) {
+      module.controllers[index][eventName].call({}, module.elements[index])
+      if (once) module.controllers[index][eventName] = 0
     }
   }
+
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
   }
   var cache = []
-  render.redraw = function(module, fill, WatchJS) {
+  render.redraw = function(module, fill) {
 
     module = module || render.module || {}
 
@@ -61,22 +68,30 @@
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
 
-      render.doLoop(module, fill, WatchJS)
+      render.doLoop(module, fill)
     }))
     this.fun()
   }
 
-  render.doLoop = function(module, fill, WatchJS) {
+  render.doLoop = function(module, fill) {
     for (var i = 0, root; root = render.roots[i]; i++) {
       mag.running = true
 
-      if (module.controllers[i]) {
-        if (!render.innerLoop(module, fill, i, WatchJS)) {
+      if (module.controllers[i] && module.elements[i]) {
+        //debounce(
+        render.callLCEvent('willload', module, i, 1)
+        //, 1, 1)
+        if (!render.innerLoop(module, fill, i)) {
           //cached
+          //debounce(
+          render.callLCEvent('didload', module, i, 1)
+          //  , 1)
+          //render.callConfigs(fill.configs)
         } else {
           module.deferreds[i][2]({
             _html: module.elements[i].innerHTML
           })
+          render.callConfigs(fill.configs)
           //TODO: remove clones
           if (module.deferreds[i][0]) {
             var index = module.deferreds[i][1]
@@ -97,26 +112,27 @@
       // delete cache[index]
     }
   }
-  render.innerLoop = function(module, fill, i, WatchJS) {
+  render.innerLoop = function(module, fill, i) {
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
     if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+      //console.log('completed run',i, elementClone.id)
       return false
     }
     callView(elementClone, module, i)
+
     // circular references will throw an exception
     // such as setting to a dom element
-    
     cache[i] = JSON.stringify(args[0])
 
-    render.setupWatch(WatchJS, args, fill, elementClone, i, module)
+    render.setupWatch(args, fill, elementClone, i, module)
 
     fill.fill(elementClone, args[0])
-    render.callConfigs(fill.configs)
+    //render.callConfigs(fill.configs)
 
     // call onload if present in all controllers
-    render.callOnload(module)
+    //render.callOnload(module)
     return true
   }
   var prevId
@@ -127,23 +143,31 @@
     prevId = frameId
     mag.running = true
 
+    //console.log('componentWillUpdate', ele.id)
+    // debounce(
+    render.callLCEvent('willupdate', module, i, 1)
+    //, 1, 1)
+
     var args = module.getArgs(i)
 
     // check if data changed
     if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+      //console.log('componentDidUpdate', ele.id)
+      // debounce(
+      render.callLCEvent('didupdate', module, i)
+      // , 1)
       return
     }
     callView(ele, module, i)
     cache[i] = JSON.stringify(args[0])
 
     fill.fill(ele, args[0])
-
-    render.callConfigs(fill.configs)
+    //render.callConfigs(fill.configs)
 
     mag.running = false
   }
 
-  render.setupWatch = function(WatchJS, args, fill, elementClone, i, module) {
+  render.setupWatch = function(args, fill, elementClone, i, module) {
     // WatchJS.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
     // return
     //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
@@ -184,6 +208,22 @@
   }
 
   mag.render = render
+
+  // function debounce(func, wait, immediate) {
+  //   var timeout;
+  //   return function() {
+  //     var context = this,
+  //       args = arguments;
+  //     var later = function() {
+  //       timeout = null;
+  //       if (!immediate) func.apply(context, args);
+  //     };
+  //     var callNow = immediate && !timeout;
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(later, wait);
+  //     if (callNow) func.apply(context, args);
+  //   };
+  // };
 
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
