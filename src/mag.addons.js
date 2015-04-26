@@ -71,7 +71,7 @@ mag.addons.onload = function(element) {
 
 mag.hookin('attributes', 'key', function(data) {
     // remove system key from being added to attributes in html
-    data.key = null
+    data.value = null
 })
 
 mag.hookin('attributes', 'className', function(data) {
