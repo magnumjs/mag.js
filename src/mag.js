@@ -7,7 +7,6 @@
     render = mag.render,
     fill = mag.fill,
     topModule,
-    watch = mag.watch,
     type = {}.toString,
     FUNCTION = 'function',
     OBJECT = '[object Object]';
@@ -22,7 +21,7 @@
       return
     }
     redrawing = true
-    render.redraw(module || render.module || {}, fill, watch)
+    render.redraw(module || render.module || {}, fill)
     redrawing = false
   }
 
@@ -105,45 +104,61 @@
     }
   }
 
-  var unloaders = []
-  mag.module = function(domElementId, moduleObject, props, clone) {
+  var unloaders = [];
 
-    var index = render.roots.indexOf(domElementId)
-
-    // clear cache if exists
-    if (props && !props.retain) render.clear(index, domElementId, fill)
-    // create new index on roots
-    if (index < 0 || clone) index = render.roots.length;
-
-
-    //unloaders that exists?
-
-    var isPrevented = false;
+  function unloaderer(index) {
+    //console.log('unloaderer', index)
+    var isPrevented = false
     var event = {
       preventDefault: function() {
         isPrevented = true
       }
-    };
-    for (var i = 0, unloader; unloader = unloaders[i]; i++) {
-      unloader.handler(event)
-      unloader.controller.onunload = null
     }
+
+    // WHY here?
+    for (var i = 0, unloader; unloader = unloaders[i]; i++) {
+      //console.log('unloaderer')
+      // unloader.handler.call(unloader.controller, event)
+      // unloader.controller.onunload = null
+    }
+
     if (isPrevented) {
+      //console.log('index unload', index)
       for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
     } else unloaders = []
 
-    if (isPrevented) return
+    if (module.controllers[index] && typeof module.controllers[index].onunload === FUNCTION) {
+      //console.log('unloader?', index)
+      module.controllers[index].onunload(event)
+      module.controllers[index].onunload = 0
+    }
+
+    return isPrevented
+  }
+
+  mag.module = function(domElementId, moduleObject, props, clone) {
+
+    var index = render.roots.indexOf(domElementId)
+
+    //UNLOADERS that exist?
+    if (index > -1 && unloaderer(index)) return
+
+    // clear cache if exists
+    if (props && !props.retain) render.clear(index, domElementId, fill)
+
+    // create new index on roots
+    if (index < 0 || clone) index = render.roots.length;
 
 
     //DOM
     var element = document.getElementById(domElementId)
-    if (!element) return Error('invalid node')
+    if (!element) return Error('Mag.JS Module - invalid node')
 
 
     render.roots[index] = element.id
 
     //MODULE
-    if (!moduleObject.view) return Error('module requires a view')
+    if (!moduleObject.view) return Error('Mag.JS module - requires a view')
 
     // TODO: should props be frozen or changeable?
     var mod = module.submodule(moduleObject, [Object.freeze(props || {})])
@@ -162,7 +177,9 @@
 
     module.promises[index] = new Promise(function(resolve, reject) {
       module.deferreds[index] = arguments
-    }.bind(null, clone, index))
+      // call onload if present in controller
+      // if (controller.onload && !mag.running) render.callOnload(module)
+    }.bind({}, clone, index))
 
     //INTERPOLATIONS
     mag.redraw()
@@ -172,8 +189,7 @@
     // check if was in previous and now not for the same node
     // add to fill.js
 
-    // call onload if present in controller
-    if (controller.onload && !mag.running) render.callOnload(module)
+
     // interpolations haven't occurred yet
     // return a promise in a settergetter
 
