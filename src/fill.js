@@ -259,7 +259,7 @@
         }
       } else {
         //TODO: is this a child of an array?
-        if (Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+        if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
           //console.log(data)
           elements[i].isChildOfArray = true
           elements[i]._dataPass = data
