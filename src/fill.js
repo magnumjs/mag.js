@@ -262,9 +262,8 @@
         if (Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
           //console.log(data)
           elements[i].isChildOfArray = true
-          elements[i]._dataPass = {}
           elements[i]._dataPass = data
-        } else if (elements[i].parentNode.isChildOfArray) {
+        } else if (elements[i].parentNode && elements[i].parentNode.isChildOfArray) {
           elements[i].isChildOfArray = true
           elements[i]._dataPass = elements[i].parentNode._dataPass
         }
