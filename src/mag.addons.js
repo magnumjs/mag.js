@@ -10,7 +10,7 @@ mag.addons.binds = function(data, attachTo, callback) {
     var handler = function(e) {
         var val =  e.target.type == 'checkbox' ? e.target.checked : e.target.value
         var name = e.target.name
-        if(data[name].type=='fun' && typeof data[name] == 'function'){
+        if(data[name] && data[name].type=='fun' && typeof data[name] == 'function'){
             data[name](val)
         } else {
             data[name] = val
