@@ -45,6 +45,9 @@ http://jsbin.com/takatohoxo/edit?js,output
 Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):
 http://jsbin.com/badabiqigu/edit?js,output
 
+Hello array lifecycle event:
+http://jsbin.com/magumodacu/edit?js,output
+
 Count:
 http://jsbin.com/reyacokico/edit?js,output
 
@@ -323,6 +326,16 @@ state.name._value = state.name._value + ''
 event (e, index, node) default context is node
 
 ####Events
+
+Life cycle events in controller:
+
+* willload
+* didload
+* willupdate
+* didupdate
+* willunload
+* didunload
+
 controller ->this.onload
 _onclick ..
 
