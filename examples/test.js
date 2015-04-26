@@ -13,6 +13,12 @@ var shoes = {
   view: function(state, props) {
     state.shoes = props.shoes.filter(state.filter)
     mag.addons.binds(state, state.input = {})
+    state.test = ''
+    state.$a = {
+      _onclick: function(e, index, node, data) {
+        console.log(node.parentNode.__key, node.isChildOfArray, data)
+      }
+    }
   }
 }
 
@@ -30,7 +36,13 @@ var props = {
   }]
 }
 
+mag.hookin('elementMatcher', 'test', function(data) {
+  console.log('HOOKIN', data)
+})
+
+
 mag.module("shoes", shoes, props)
+
 
 var SearchExample = {}
 
@@ -404,8 +416,11 @@ mag.module("count", {
 
 mag.module('hello', {
   controller: function(props) {
-    this.onunload = function(ele) {
-      console.log('hello onunload', arguments)
+    this.willunload = function(ele) {
+      console.log('hello willunload', arguments)
+    }
+    this.didunload = function(ele) {
+      console.log('hello didunload', arguments)
     }
     this.didload = function(ele) {
       console.log('hello didload', arguments)
