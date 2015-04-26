@@ -44,7 +44,7 @@ mag.addons.binds = function(data, attachTo, callback) {
             }
         }
     }
-    if (attachTo) merge(addThis, attachTo)
+    if (attachTo) mag.addons.merge(addThis, attachTo)
 
     return addThis
 }
