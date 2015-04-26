@@ -16,18 +16,18 @@ mag.addons.binds = function(data, attachTo, callback) {
             data[name] = val
         }
         // if(typeof Object.observe !== 'undefined'){
-        //     // two-way bindings
-        //     Object.observe(data, function(changes) {
-        //       // update target with changes
-        //       changes.forEach(function(change) {
-        //         if (change.type == 'update') {
-        //           // update the related dom
-        //           if(e.target.name ==change.name)
-        //             e.target.value = change.object[change.name]
-        //         }
-        //       })
-        //     })
-        // }
+            // two-way bindings
+            Object.observe(data, function(changes) {
+              // update target with changes
+              changes.forEach(function(change) {
+                if (change.type == 'update') {
+                  // update the related dom
+                  if(e.target.name ==change.name)
+                    e.target.value = change.object[change.name]
+                }
+              })
+            })
+        }
         if(callback && typeof callback == 'function') callback()
     }
     var addThis = {}
