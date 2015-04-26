@@ -34,7 +34,7 @@ mag.addons.binds = function(data, attachTo, callback) {
     
     Object.observe
 
-    var events = ['_onchange', '_oninput']
+    var events = ['_onchange', '_oninput','_onclick']
     for (var k in events) addThis[events[k]] = handler
     if (attachTo) mag.addons.merge(addThis, attachTo)
     return addThis
