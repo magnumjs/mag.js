@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.4
+Mag.JS AddOns v0.1.6
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js/new/master/new
 */
@@ -15,9 +15,24 @@ mag.addons.binds = function(data, attachTo, callback) {
         } else {
             data[name] = val
         }
+        
+        // two-way bindings
+        Object.observe(data, function(changes) {
+          // update target with changes
+          changes.forEach(function(change) {
+            if (change.type == 'update') {
+              // update the related dom
+              if(e.target.name ==change.name)
+                e.target.value = change.object[change.name]
+            }
+          })
+        })
+        
         if(callback && typeof callback == 'function') callback()
     }
     var addThis = {}
+    
+    Object.observe
 
     var events = ['_onchange', '_oninput']
     for (var k in events) addThis[events[k]] = handler
