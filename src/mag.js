@@ -74,7 +74,8 @@
   }
 
   var hookins = {
-    attributes: []
+    attributes: [],
+    elementMatcher : []
   }
   mag.hookin = function(name, key, handler) {
     hookins[name].push({
