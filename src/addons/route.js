@@ -193,14 +193,14 @@ mag.route.buildQueryString = buildQueryString
 mag.route.parseQueryString = parseQueryString
 
 
-mag.route(document.body, "/", {
-  "/": function() {
-    console.log('home', arguments)
-  },
-  "/login": function() {
-    console.log('login', arguments)
-  }
-});
+// mag.route(document.body, "/", {
+//   "/": function() {
+//     console.log('home', arguments)
+//   },
+//   "/login": function() {
+//     console.log('login', arguments)
+//   }
+// });
 /*
   <a id="link" href="/login">login</a>
 */
