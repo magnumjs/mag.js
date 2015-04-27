@@ -54,6 +54,17 @@ mag.addons.when = function(arrayOfPromises, callback) {
     Promise.all(arrayOfPromises).then(callback)
 }
 
+//UTILITY
+mag.addons.copy =function (o) {
+   var out, v, key;
+   out = Array.isArray(o) ? [] : {};
+   for (key in o) {
+       v = o[key];
+       out[key] = (typeof v === "object") ? copy(v) : v;
+   }
+   return out;
+}
+
 mag.addons.merge = function(source, destination) {
     for (var k in source) destination[k] = source[k]
 }
