@@ -3,7 +3,7 @@
 </a>
 
 ### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
-
+c
 * Changes to state are immediately reflected in the dom by their element matchers.
 * No virtual/shadow dom or new templating language! Super fast & 3.5KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
@@ -224,6 +224,7 @@ It receives 4 arguments:
 * 2. is a boolean stating if this is attaching or not, first run is always true, subsequent executions are always false
 * 3. context is an object that can be used to pass values to the method itself on every iterative call
   - a. one available sub method of context is onunload e.g. context.onunload = fun is called when the element is removed from the dom.
+  - - context.onunload (configContext, node, xpath)
 * 4. Index- the x path based index of the element
 
 mag.redraw is required to be manually called here if the desire is to display the changed state to the dom immediately.
