@@ -91,6 +91,13 @@ mag.addons.onload = function(element) {
     element.classList.remove("hide")
 };
 
+mag.deferred = Deferred = function() {
+  return function Deferred(resolve, reject) {
+    Deferred.resolve = resolve
+    Deferred.reject = reject
+  }
+}
+
 
 // hookins
 
