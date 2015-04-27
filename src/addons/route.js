@@ -54,14 +54,14 @@ mag.route = function() {
     var isInitialized = arguments[1];
     var context = arguments[2];
     var index = arguments[3];
-
+    //console.log('CONFIG', isInitialized)
     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
     if (element.addEventListener) {
-      element.removeEventListener("click", routeUnobtrusive);
-      element.addEventListener("click", routeUnobtrusive)
+      element.removeEventListener("click", routeUnobtrusive.bind({}, element.href));
+      element.addEventListener("click", routeUnobtrusive.bind({}, element.href))
     } else {
-      element.detachEvent("onclick", routeUnobtrusive);
-      element.attachEvent("onclick", routeUnobtrusive)
+      element.detachEvent("onclick", routeUnobtrusive.bind({}, element.href));
+      element.attachEvent("onclick", routeUnobtrusive.bind({}, element.href))
     }
   }
   //m.route(route, params, shouldReplaceHistoryEntry)
@@ -105,20 +105,20 @@ function normalizeRoute(route) {
   return route.slice(modes[mag.route.mode].length)
 }
 
-function addLinks(items) {
-  //var items = document.querySelectorAll('.link')
-  for (var i = items.length; i--;) {
+// function addLinks(items) {
+//   //var items = document.querySelectorAll('.link')
+//   for (var i = items.length; i--;) {
 
-    var element = items[i]
-    if (element.children) addLinks(element.children)
-    if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
+//     var element = items[i]
+//     if (element.children) addLinks(element.children)
+//     if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
 
-    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+//     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
 
-    //console.log('href', element.href)
-    element.addEventListener("click", routeUnobtrusive)
-  }
-}
+//     //console.log('href', element.href)
+//     element.addEventListener("click", routeUnobtrusive)
+//   }
+// }
 
 function routeByValue(root, router, path) {
   routeParams = {};
@@ -141,7 +141,8 @@ function routeByValue(root, router, path) {
 
   for (var route in router) {
     if (route === path) {
-      //console.log('MOUNT2!!!', root, router[route]())
+      router[route]()
+      //console.log('MOUNT2!!!', root, routeParams)
       return true
     }
 
@@ -160,15 +161,23 @@ function routeByValue(root, router, path) {
   }
 }
 
-function routeUnobtrusive(e) {
+function routeUnobtrusive(href, e) {
+
   e = e || event;
   if (e.ctrlKey || e.metaKey || e.which === 2) return;
   if (e.preventDefault) e.preventDefault();
   else e.returnValue = false;
   var currentTarget = e.currentTarget || e.srcElement;
   var args = mag.route.mode === "pathname" && currentTarget.search ? parseQueryString(currentTarget.search.slice(1)) : {};
-  while (currentTarget && currentTarget.nodeName.toUpperCase() != "A") currentTarget = currentTarget.parentNode
+  while (currentTarget && currentTarget.nodeName.toUpperCase() != "A") {
+    currentTarget = currentTarget.parentNode
+  }
+
   mag.route(currentTarget[mag.route.mode].slice(modes[mag.route.mode].length), args)
+  if (currentTarget.href != href) {
+    currentTarget.href = href
+  }
+
 }
 
 function setScroll() {
@@ -219,24 +228,21 @@ mag.route.buildQueryString = buildQueryString
 mag.route.parseQueryString = parseQueryString
 
 /*
-//http://jsbin.com/magimoyodi/2/edit
-
+//http://jsbin.com/magimoyodi/edit
   <div id="app">
     <div id="container">
-      <ul>
-        <li class="link"><a href="/">Home</a></li>
+      <ul class="list">
+     <li class="countries">
+        <a href="#/{{country.id}}">{{country.name}}</a>
+      </li>
       </ul>
       <div id="content">
       </div>
     </div>
   </div>
  */
+
 /*
-mag.module('app', {
-  view: function(state) {
-    route(state)
-  }
-})
 var links = [{
   text: 'Home',
   link: '/'
@@ -245,10 +251,21 @@ var links = [{
   link: '/userid1232'
 }]
 
-function route(data) {
-  mag.route(data.container, "/", {
+mag.module('app', {
+  controller: function(props) {},
+  view: function(state, props) {
+    route(state, props.links)
+
+  }
+}, {
+  links: links
+})
+
+function route(data, links) {
+  mag.route(data.app, "/", {
     "/": function() {
-      data.link = links.map(function(item) {
+      console.log('test')
+      data.countries = links.map(function(item) {
         return {
           a: {
             _config: mag.route,
