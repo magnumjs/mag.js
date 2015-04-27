@@ -12,7 +12,7 @@ mag.addons.binds = function(data, attachTo, callback) {
     var name = e.target.name
     if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
         data[name](val)
-    } else if(data[name]) {
+    } else if(name) {
         data[name] = val
     }
       
