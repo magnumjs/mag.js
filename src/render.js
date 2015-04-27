@@ -48,12 +48,38 @@
     //     }
     //   }
     // }
-    // call Lifecycle event
+
+
+  render.unloaders = []
+
+  // call Lifecycle event
   render.callLCEvent = function(eventName, module, index, once) {
+    var isPrevented = false
+    var event = {
+      preventDefault: function() {
+        isPrevented = true
+      }
+    }
     if (module.controllers[index][eventName]) {
-      module.controllers[index][eventName].call({}, module.elements[index])
+      module.controllers[index][eventName].call({}, event, module.elements[index])
       if (once) module.controllers[index][eventName] = 0
     }
+
+    if (isPrevented) {
+      // unloading
+
+      //console.log('unloading', index, render.unloaders.length)
+
+      for (var i = 0, unloader; unloader = render.unloaders[i]; i++) {
+        //console.log('unloaderering')
+        if (unloader.controller.onunload) {
+          unloader.handler.call(unloader.controller, module.elements[index])
+          unloader.controller.onunload = 0
+        }
+      }
+    }
+
+    return isPrevented
   }
 
   render.callConfigs = function(configs) {
@@ -79,18 +105,20 @@
 
       if (module.controllers[i] && module.elements[i]) {
         //debounce(
-        render.callLCEvent('willload', module, i, 1)
+        if (render.callLCEvent('willload', module, i, 1)) return
+
         //, 1, 1)
         if (!render.innerLoop(module, fill, i)) {
           //cached
           //debounce(
-          render.callLCEvent('didload', module, i, 1)
+          // render.callLCEvent('didload', module, i, 1)
           //  , 1)
           //render.callConfigs(fill.configs)
         } else {
           module.deferreds[i][2]({
             _html: module.elements[i].innerHTML
           })
+          render.callLCEvent('didload', module, i, 1)
           render.callConfigs(fill.configs)
           //TODO: remove clones
           if (module.deferreds[i][0]) {
@@ -239,4 +267,4 @@
   }
 
 
-})(window.mag || {})
+})(window.mag || {})| {})
