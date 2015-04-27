@@ -131,7 +131,7 @@ mag.request = function(xhrOptions) {
     try {
       e = e || event;
       var unwrap = (e.type === "load" ? xhrOptions.unwrapSuccess : xhrOptions.unwrapError) || identity;
-      console.log(e.target)
+      //console.log(e.target)
       var response = unwrap(deserialize(extract(e.target, xhrOptions)), e.target);
       if (e.type === "load") {
         if (type.call(response) === ARRAY && xhrOptions.type) {
