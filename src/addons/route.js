@@ -105,20 +105,20 @@ function normalizeRoute(route) {
   return route.slice(modes[mag.route.mode].length)
 }
 
-function addLinks(items) {
-  //var items = document.querySelectorAll('.link')
-  for (var i = items.length; i--;) {
+// function addLinks(items) {
+//   //var items = document.querySelectorAll('.link')
+//   for (var i = items.length; i--;) {
 
-    var element = items[i]
-    if (element.children) addLinks(element.children)
-    if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
+//     var element = items[i]
+//     if (element.children) addLinks(element.children)
+//     if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
 
-    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+//     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
 
-    //console.log('href', element.href)
-    element.addEventListener("click", routeUnobtrusive)
-  }
-}
+//     //console.log('href', element.href)
+//     element.addEventListener("click", routeUnobtrusive)
+//   }
+// }
 
 function routeByValue(root, router, path) {
   routeParams = {};
