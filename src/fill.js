@@ -42,7 +42,7 @@
       //console.log(p, cached[p])
       if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
         // what arg to send ?
-        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, cached[p], p)
+        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
       }
       removeCache(p)
     }
