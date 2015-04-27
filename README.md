@@ -124,6 +124,9 @@ http://jsbin.com/horuxanacu/edit?js,output
 Navigation menu:
 http://jsbin.com/kasuyupufa/edit?js,output
 
+Switchable Grid:
+http://jsbin.com/tiyuxutosi/edit?js,output
+
 Contact Manager application:
 http://jsbin.com/jegasagemi/edit?js,output
 
