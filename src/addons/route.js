@@ -44,7 +44,7 @@ mag.route = function() {
     };
     computePreRedrawHook = setScroll;
 
-    addLinks(root.children)
+    //addLinks(root.children)
 
     window[listener]()
   }
@@ -53,8 +53,9 @@ mag.route = function() {
     var element = arguments[0];
     var isInitialized = arguments[1];
     var context = arguments[2];
-    var vdom = arguments[3];
-    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + vdom.attrs.href;
+    var index = arguments[3];
+    
+    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
     if (element.addEventListener) {
       element.removeEventListener("click", routeUnobtrusive);
       element.addEventListener("click", routeUnobtrusive)
@@ -218,15 +219,28 @@ mag.route.buildQueryString = buildQueryString
 mag.route.parseQueryString = parseQueryString
 
 /*
-  <a id="link" config="route" href="/userid1232">login</a>
-*/
+  <div id="container">
+    <a href="/">Home</a>
+    <a href="/userid1232">Login</a>
+    <div id="content">
+    </div>
+  </div>
+  */
+
 /*
+var content = document.getElementById('content')
 mag.route(document.getElementById('container'), "/", {
   "/": function() {
     console.log('home', arguments)
+    content.innerText = 'HOME'
   },
   "/:login": function() {
     console.log('login', arguments, mag.route.param('login'))
+    content.innerText = 'LOGIN'
   }
 });
+  
+
+mag.route.call({},document.querySelector('a:first-child'),true,{},0)
+mag.route.call({},document.querySelector('a:nth-child(2)'),true,{},0)
 */
