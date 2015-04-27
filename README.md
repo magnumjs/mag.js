@@ -131,7 +131,7 @@ Contact Manager application:
 http://jsbin.com/jegasagemi/edit?js,output
 
 Country App - JSON/Routing
-http://jsbin.com/fozerasoke/edit?js,output
+http://jsbin.com/nuvixocuje/edit?js,output
 
 ##Jasmine Specs
 https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
