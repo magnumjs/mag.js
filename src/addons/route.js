@@ -79,7 +79,7 @@ mag.route = function() {
     var shouldReplaceHistoryEntry = (arguments.length === 3 ? arguments[2] : arguments[1]) === true || oldRoute === arguments[0];
 
     if (window.history.pushState) {
-      console.log('history', shouldReplaceHistoryEntry, arguments.length, oldRoute, arguments[0], modes[mag.route.mode] + currentRoute)
+      //console.log('history', shouldReplaceHistoryEntry, arguments.length, oldRoute, arguments[0], modes[mag.route.mode] + currentRoute)
 
       computePreRedrawHook = setScroll
       computePostRedrawHook = function() {
@@ -135,13 +135,13 @@ function routeByValue(root, router, path) {
   var index = keys.indexOf(path);
   if (index !== -1) {
     router[keys[index]]()
-    console.log(path, root, routeParams)
+    //console.log(path, root, routeParams)
     return true;
   }
 
   for (var route in router) {
     if (route === path) {
-      console.log('MOUNT2!!!', root, router[route]())
+      //console.log('MOUNT2!!!', root, router[route]())
       return true
     }
 
@@ -153,7 +153,7 @@ function routeByValue(root, router, path) {
         var values = [].slice.call(arguments, 1, -2);
         for (var i = 0, len = keys.length; i < len; i++) routeParams[keys[i].replace(/:|\./g, "")] = decodeURIComponent(values[i])
         router[route]()
-        console.log(path, root, routeParams)
+        //console.log(path, root, routeParams)
       });
       return true
     }
