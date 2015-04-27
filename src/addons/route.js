@@ -27,7 +27,7 @@ mag.route = function() {
     redirect = function(source) {
       var path = currentRoute = normalizeRoute(source);
       if (!routeByValue(root, router, path)) {
-        if (isDefaultRoute) throw new Error("Ensure the default route matches one of the routes defined in m.route")
+        if (isDefaultRoute) throw new Error("Ensure the default route matches one of the routes defined in mag.route")
         isDefaultRoute = true
         mag.route(defaultRoute, true)
         isDefaultRoute = false
@@ -42,6 +42,9 @@ mag.route = function() {
       }
     };
     computePreRedrawHook = setScroll;
+
+    addLinks(root.children)
+
     window[listener]()
   }
   //config: m.route
@@ -95,6 +98,21 @@ function normalizeRoute(route) {
   return route.slice(modes[mag.route.mode].length)
 }
 
+function addLinks(items) {
+  //var items = document.querySelectorAll('.link')
+  for (var i = items.length; i--;) {
+
+    var element = items[i]
+    if (element.children) addLinks(element.children)
+    if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
+
+    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+
+    console.log('href', element.href)
+    element.addEventListener("click", routeUnobtrusive)
+  }
+}
+
 function routeByValue(root, router, path) {
   routeParams = {};
 
@@ -109,7 +127,8 @@ function routeByValue(root, router, path) {
   var keys = Object.keys(router);
   var index = keys.indexOf(path);
   if (index !== -1) {
-    console.log('MOUNT1!!!', root, router[keys[index]]())
+    router[keys[index]]()
+    console.log(path, root, routeParams)
     return true;
   }
 
@@ -126,8 +145,8 @@ function routeByValue(root, router, path) {
         var keys = route.match(/:[^\/]+/g) || [];
         var values = [].slice.call(arguments, 1, -2);
         for (var i = 0, len = keys.length; i < len; i++) routeParams[keys[i].replace(/:|\./g, "")] = decodeURIComponent(values[i])
-        
-      console.log('MOUNT3!!!', root, router[route]())
+        router[route]()
+        console.log(path, root, routeParams)
       });
       return true
     }
@@ -192,26 +211,17 @@ function parseQueryString(str) {
 mag.route.buildQueryString = buildQueryString
 mag.route.parseQueryString = parseQueryString
 
-
-// mag.route(document.body, "/", {
-//   "/": function() {
-//     console.log('home', arguments)
-//   },
-//   "/:login": function() {
-//     console.log('login', arguments, mag.route.param('login'))
-//   }
-// });
 /*
-  <a id="link" href="/userid1232">login</a>
+  <a id="link" config="route" href="/userid1232">login</a>
 */
+
 /*
-var items = document.querySelectorAll('.link')
-for (var i = items.length; i--;) {
-
-  var element = items[i]
-
-element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
-console.log(element.href)
-element.addEventListener("click", routeUnobtrusive)
-}
+mag.route(document.getElementById('container'), "/", {
+  "/": function() {
+    console.log('home', arguments)
+  },
+  "/:login": function() {
+    console.log('login', arguments, mag.route.param('login'))
+  }
+});
 */
