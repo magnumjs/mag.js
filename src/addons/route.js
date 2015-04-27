@@ -105,20 +105,20 @@ function normalizeRoute(route) {
   return route.slice(modes[mag.route.mode].length)
 }
 
-// function addLinks(items) {
-//   //var items = document.querySelectorAll('.link')
-//   for (var i = items.length; i--;) {
+function addLinks(items) {
+  //var items = document.querySelectorAll('.link')
+  for (var i = items.length; i--;) {
 
-//     var element = items[i]
-//     if (element.children) addLinks(element.children)
-//     if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
+    var element = items[i]
+    if (element.children) addLinks(element.children)
+    if (!element.hasAttribute('href') || element.getAttribute('config') != 'route') continue
 
-//     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
 
-//     //console.log('href', element.href)
-//     element.addEventListener("click", routeUnobtrusive)
-//   }
-// }
+    //console.log('href', element.href)
+    element.addEventListener("click", routeUnobtrusive)
+  }
+}
 
 function routeByValue(root, router, path) {
   routeParams = {};
@@ -219,28 +219,36 @@ mag.route.buildQueryString = buildQueryString
 mag.route.parseQueryString = parseQueryString
 
 /*
-  <div id="container">
-    <a href="/">Home</a>
-    <a href="/userid1232">Login</a>
-    <div id="content">
+//http://jsbin.com/magimoyodi/2/edit
+
+  <div id="app">
+    <div id="container">
+      <a href="/">Home</a>
+      <a href="/userid1232">Login</a>
+      <div id="content">
+      </div>
     </div>
   </div>
-  */
-
+ */
 /*
-var content = document.getElementById('content')
-mag.route(document.getElementById('container'), "/", {
+mag.module('app',{
+  view:function(state){
+    route(state)
+  }
+})
+function route(data){
+  mag.route(data.container, "/", {
   "/": function() {
-    console.log('home', arguments)
-    content.innerText = 'HOME'
+    data.a = {
+      _config : mag.route
+    }
+    data.content = 'HOME'
   },
   "/:login": function() {
-    console.log('login', arguments, mag.route.param('login'))
-    content.innerText = 'LOGIN'
+    data.content = 'LOGIN - ' + mag.route.param('login')
   }
 });
-  
-
-mag.route.call({},document.querySelector('a:first-child'),true,{},0)
-mag.route.call({},document.querySelector('a:nth-child(2)'),true,{},0)
+}
 */
+// mag.route.call({},document.querySelector('a:first-child'),true,{},0)
+// mag.route.call({},document.querySelector('a:nth-child(2)'),true,{},0)
