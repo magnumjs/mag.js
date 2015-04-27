@@ -190,6 +190,6 @@ function parseQueryString(str) {
   return params
 }
 
-mag.request({
-  url: 'https://api.github.com/users/defunkt'
-})
+// mag.request({
+//   url: 'https://api.github.com/users/defunkt'
+// })
