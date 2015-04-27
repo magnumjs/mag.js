@@ -6,7 +6,8 @@ var ARRAY = '[object Array]'
 var OBJECT = '[object Object]'
 var STRING = "[object String]"
 
-var $location = location
+var $location = location,
+  $document = document
 
 
 var modes = {
@@ -77,11 +78,16 @@ mag.route = function() {
     var shouldReplaceHistoryEntry = (arguments.length === 3 ? arguments[2] : arguments[1]) === true || oldRoute === arguments[0];
 
     if (window.history.pushState) {
+      console.log('history', shouldReplaceHistoryEntry, arguments.length, oldRoute, arguments[0], modes[mag.route.mode] + currentRoute)
+
       computePreRedrawHook = setScroll
       computePostRedrawHook = function() {
         window.history[shouldReplaceHistoryEntry ? "replaceState" : "pushState"](null, $document.title, modes[mag.route.mode] + currentRoute);
       };
       redirect(modes[mag.route.mode] + currentRoute)
+
+      // should be run in didupdate
+      computePostRedrawHook()
     } else {
       $location[mag.route.mode] = currentRoute
       redirect(modes[mag.route.mode] + currentRoute)
@@ -108,7 +114,7 @@ function addLinks(items) {
 
     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
 
-    console.log('href', element.href)
+    //console.log('href', element.href)
     element.addEventListener("click", routeUnobtrusive)
   }
 }
@@ -214,7 +220,6 @@ mag.route.parseQueryString = parseQueryString
 /*
   <a id="link" config="route" href="/userid1232">login</a>
 */
-
 /*
 mag.route(document.getElementById('container'), "/", {
   "/": function() {
