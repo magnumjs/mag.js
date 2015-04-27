@@ -54,7 +54,7 @@ mag.route = function() {
     var isInitialized = arguments[1];
     var context = arguments[2];
     var index = arguments[3];
-    
+
     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
     if (element.addEventListener) {
       element.removeEventListener("click", routeUnobtrusive);
@@ -223,31 +223,48 @@ mag.route.parseQueryString = parseQueryString
 
   <div id="app">
     <div id="container">
-      <a href="/">Home</a>
-      <a href="/userid1232">Login</a>
+      <ul>
+        <li class="link"><a href="/">Home</a></li>
+      </ul>
       <div id="content">
       </div>
     </div>
   </div>
  */
 /*
-mag.module('app',{
-  view:function(state){
+mag.module('app', {
+  view: function(state) {
     route(state)
   }
 })
-function route(data){
+var links = [{
+  text: 'Home',
+  link: '/'
+}, {
+  text: 'Login',
+  link: '/userid1232'
+}]
+
+function route(data) {
   mag.route(data.container, "/", {
-  "/": function() {
-    data.a = {
-      _config : mag.route
+    "/": function() {
+      data.link = links.map(function(item) {
+        return {
+          a: {
+            _config: mag.route,
+            _href: item.link,
+            _text: item.text
+          }
+        }
+      })
+
+      data.content = 'HOME'
+    },
+    "/:login": function() {
+      data.content = 'LOGIN - ' + mag.route.param('login')
     }
-    data.content = 'HOME'
-  },
-  "/:login": function() {
-    data.content = 'LOGIN - ' + mag.route.param('login')
-  }
-});
+  });
+
 }
 */
 // mag.route.call({},document.querySelector('a:first-child'),true,{},0)
