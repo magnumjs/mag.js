@@ -1,4 +1,4 @@
-var mag = {}
+var mag = mag || {}
 
 var Deferred = function() {
   return function Deferred(resolve, reject) {
