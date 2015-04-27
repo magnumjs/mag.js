@@ -13,7 +13,8 @@ todos.controller = function(props) {
         var index = [].indexOf.call(document.querySelectorAll('.todoItem'), e.target.parentNode)
         this.todoItem()[index]._completed = !this.todoItem()[index]._completed
       }.bind(this),
-      _config: function(node, isNew, context) {
+      _config: function(node, isNew, context, index) {
+        //console.log(isNew, index)
         context.onunload = function() {
           console.log('unloaded')
         }
@@ -126,14 +127,13 @@ build.view = function(state, props, element) {
   }
 }
 
-
 var app = {}
 
 app.controller = function(props) {
 
   this.show = mag.prop(true)
   this.name = '?'
-  this.onload = utils.onload
+  this.didload = utils.onload
   this.pass = mag.prop("")
   this.fail = mag.prop("")
 
@@ -152,7 +152,7 @@ app.view = function(state, props, element) {
 
   state.b = mag.module('build', build)
 
-  state.message =mag.module('passFail2', passFail, {
+  state.message = mag.module('passFail2', passFail, {
     pass: state.pass,
     fail: state.fail,
     message: {
@@ -170,7 +170,7 @@ app.view = function(state, props, element) {
 }
 
 var utils = {}
-utils.onload = function(element) {
+utils.onload = function(e, element) {
   element.classList.remove("hide")
 }
 
