@@ -276,12 +276,12 @@
     return nodeList
   }
 
-  function findParentChild(node) {
-    if (node.parentNode && node.parentNode.isChildOfArray) {
-      return node.parentNode
-    } else if (node.parentNode) {
-      // continue to walk up parent tree 
-      return findParentChild(node.parentNode)
+  function findParentChild(node){
+    if(node.parentNode && node.parentNode.isChildOfArray){
+      return node.parentNode 
+    } else if (node.parentNode){
+     // continue to walk up parent tree 
+     return findParentChild(node.parentNode)
     }
   }
 
@@ -685,6 +685,7 @@
 
   mag.fill = {
     fill: fill,
+    cached: cached,
     find: matchingElements,
     clear: clear,
     unclear: unclear,
