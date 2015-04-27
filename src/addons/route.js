@@ -115,8 +115,7 @@ function routeByValue(root, router, path) {
 
   for (var route in router) {
     if (route === path) {
-      console.log('MOUNT2!!!', root, router[route])
-
+      console.log('MOUNT2!!!', root, router[route]())
       return true
     }
 
@@ -127,7 +126,8 @@ function routeByValue(root, router, path) {
         var keys = route.match(/:[^\/]+/g) || [];
         var values = [].slice.call(arguments, 1, -2);
         for (var i = 0, len = keys.length; i < len; i++) routeParams[keys[i].replace(/:|\./g, "")] = decodeURIComponent(values[i])
-        m.mount(root, router[route])
+        
+      console.log('MOUNT3!!!', root, router[route]())
       });
       return true
     }
@@ -197,12 +197,12 @@ mag.route.parseQueryString = parseQueryString
 //   "/": function() {
 //     console.log('home', arguments)
 //   },
-//   "/login": function() {
-//     console.log('login', arguments)
+//   "/:login": function() {
+//     console.log('login', arguments, mag.route.param('login'))
 //   }
 // });
 /*
-  <a id="link" href="/login">login</a>
+  <a id="link" href="/userid1232">login</a>
 */
 
 // var element = document.getElementById('link')
