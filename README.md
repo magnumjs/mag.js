@@ -335,22 +335,33 @@ data is the index data of the parent if in a list
 
 Life cycle events in controller:
 
-* willload
-* didload
-* willupdate
-* didupdate
-* willunload
-* didunload
+* willload (event, node)
+* didload (event, node)
+* willupdate (event, node)
+* didupdate (event, node)
+* onunload (node)
 
-controller ->this.onload
-_onclick ..
+event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
-Native events, receive the event, the x path based 0 index and the node itself.
+controller ->this.willload
+state.matcher._onclick = function(e,index, node, data) 
+
+Native events, receive the event, the x path based 0 index, the node itself (default context) and the data of a parent list item.
 
 ##Config (DOM hookin)
 _config (node, isNew, context, index)
 
-context.onunload
+arguments :
+
+* node - the element itself
+
+* isNew is true initially when first run and then is false afterwards
+
+* context is a empty object you can use to pass to itself
+
+   - context.onunload - will be attached to the current modules onunloaders and called if any lifecycle event triggers e.preventDefault()
+
+* index is 0 based on xpath of matcher
 
 #### Mag.JS AddOns!
 Tiny sub library of reusable simple tools
