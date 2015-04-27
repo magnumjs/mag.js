@@ -3,6 +3,10 @@ var shoes = {
     this.searchText = mag.prop(props.searchText)
     this.searching = this.searchText
 
+    this.clickee = function(e, index, node, data) {
+      console.log(node.parentNode.__key, node.isChildOfArray, data)
+    }
+
     this.filter = function(item) {
       //console.log(item)
       return item.color.indexOf(this.searchText()) !== -1
@@ -15,9 +19,7 @@ var shoes = {
     mag.addons.binds(state, state.input = {})
     state.test = ''
     state.$a = {
-      _onclick: function(e, index, node, data) {
-        console.log(node.parentNode.__key, node.isChildOfArray, data)
-      }
+      _onclick: state.clickee
     }
   }
 }
@@ -37,7 +39,7 @@ var props = {
 }
 
 mag.hookin('elementMatcher', 'test', function(data) {
-  console.log('HOOKIN', data)
+  // console.log('HOOKIN', data)
 })
 
 
@@ -414,56 +416,7 @@ mag.module("count", {
   }
 })
 
-mag.module('hello', {
-  controller: function(props) {
-    this.willunload = function(ele) {
-      console.log('hello willunload', arguments)
-    }
-    this.didunload = function(ele) {
-      console.log('hello didunload', arguments)
-    }
-    this.didload = function(ele) {
-      console.log('hello didload', arguments)
-    }
-    this.willload = function(ele) {
-      console.log('hello willload')
-    }
-    this.willupdate = function(ele) {
-      console.log('hello willupdate')
-    }
-    this.didupdate = function(ele) {
-      console.log('hello didupdate')
-    }
-    this.item = [{
-      span: 'yo',
-      _config: test
-    }]
 
-    function test(n, is, c, i) {
-      console.log(is, i)
-    }
-    this.add = function() {
-      //console.log(this.$done)
-      this.item.push({
-        span: 'test',
-        _config: test
-      })
-      return false;
-    }
-  },
-  view: function(state, props, element) {
-    console.log('hello view')
-    state.button = {
-      _onclick: state.add.bind(state)
-    }
-
-    //state.h1 = '', 
-    state.select = 2, state.textarea = 1
-    //setTimeout(function() {
-    //  console.log(state.h1, state.input)
-    //}, 100)
-  }
-})
 
 function merge(o1, o2) {
   for (var i in o2) {
@@ -512,4 +465,82 @@ mag.module("main", {
   }
 }, {
   menuItem: ['HOME', 'PROJECTS', 'SERVICES', 'CONTACT']
+})
+
+
+mag.module('hello', {
+  controller: function(props) {
+    this.onunload = function(e, ele) {
+      console.log('hello onunload', arguments)
+    }
+    this.didload = function(e, ele) {
+      console.log('hello didload', arguments)
+    }
+    this.willload = function(e, ele) {
+      console.log('hello willload')
+      //e.preventDefault()
+    }
+    this.willupdate = function(e, ele) {
+      console.log('hello willupdate')
+    }
+    this.didupdate = function(e, ele) {
+      console.log('hello didupdate')
+    }
+    this.item = [{
+      span: 'yo',
+      _config: test
+    }]
+
+    function test(n, is, c, i) {
+      console.log(is, i)
+    }
+    this.add = function() {
+      //console.log(this.$done)
+      this.item.push({
+        span: 'test',
+        _config: test
+      })
+      return false;
+    }
+  },
+  view: function(state, props, element) {
+    console.log('hello view')
+
+    state.button = {
+      _config: function(n, is, c, i) {
+        c.onunload = function() {
+          console.log('mod config onunloader!')
+        }
+      },
+      _onclick: state.add.bind(state)
+    }
+
+    mag.module('innerhello', {
+      controller: function() {
+        this.onunload = function(e, ele) {
+          console.log('hello inner onunload', arguments)
+        }
+        this.willload = function(e, ele) {
+          console.log('hello inner willload')
+          //e.preventDefault()
+        }
+      },
+      view: function(s) {
+        console.log('hello inner view')
+        s.b = {
+          _config: function(n, is, c, i) {
+            c.onunload = function() {
+              console.log('inner mod config onunloader!')
+            }
+          }
+        }
+      }
+    })
+
+    //state.h1 = '', 
+    state.select = 2, state.textarea = 1
+    //setTimeout(function() {
+    //  console.log(state.h1, state.input)
+    //}, 100)
+  }
 })
