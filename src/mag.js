@@ -75,7 +75,7 @@
 
   var hookins = {
     attributes: [],
-    elementMatcher : []
+    elementMatcher: []
   }
   mag.hookin = function(name, key, handler) {
     hookins[name].push({
@@ -105,44 +105,12 @@
     }
   }
 
-  var unloaders = [];
-
-  function unloaderer(index) {
-    //console.log('unloaderer', index)
-    var isPrevented = false
-    var event = {
-      preventDefault: function() {
-        isPrevented = true
-      }
-    }
-
-    // WHY here?
-    for (var i = 0, unloader; unloader = unloaders[i]; i++) {
-      //console.log('unloaderer')
-      // unloader.handler.call(unloader.controller, event)
-      // unloader.controller.onunload = null
-    }
-
-    if (isPrevented) {
-      //console.log('index unload', index)
-      for (var i = 0, unloader; unloader = unloaders[i]; i++) unloader.controller.onunload = unloader.handler
-    } else unloaders = []
-
-    if (module.controllers[index] && typeof module.controllers[index].onunload === FUNCTION) {
-      //console.log('unloader?', index)
-      module.controllers[index].onunload(event)
-      module.controllers[index].onunload = 0
-    }
-
-    return isPrevented
-  }
-
   mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
 
     //UNLOADERS that exist?
-    if (index > -1 && unloaderer(index)) return
+    //if (index > -1 && unloaderer(index, domElementId)) return
 
     // clear cache if exists
     if (props && !props.retain) render.clear(index, domElementId, fill)
@@ -167,7 +135,8 @@
     var controller = module.getController(mod, element, fill)
 
     module.controllers[index] = controller
-    if (controller.onunload) unloaders.push({
+
+    if (controller.onunload) render.unloaders.push({
       controller: controller,
       handler: controller.onunload
     })
