@@ -1,4 +1,4 @@
-var mag = {}
+var mag = mag || {}
 var noop = function() {}
 
 var type = {}.toString
@@ -205,7 +205,7 @@ mag.route(document.body, "/", {
   <a id="link" href="/login">login</a>
 */
 
-var element = document.getElementById('link')
-element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
-console.log(element.href)
-element.addEventListener("click", routeUnobtrusive)
+// var element = document.getElementById('link')
+// element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+// console.log(element.href)
+// element.addEventListener("click", routeUnobtrusive)
