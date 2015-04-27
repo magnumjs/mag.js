@@ -7,46 +7,46 @@ mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
 // state.fom = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
-    var handler = function(e) {
-
-        var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
-        var name = e.target.name
-        if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
-            data[name](val)
-        } else {
-            data[name] = val
-        }
-
-        Object.observe(data, function(changes) {
-            // update target with changes
-            changes.forEach(function(change) {
-                if (change.type == 'update' || change.type == 'add') {
-                    // update the related dom
-                    if (e.target.name == change.name)
-                        e.target.value = change.object[change.name]
-                }
-            })
-        })
-
-        if (callback && typeof callback == 'function') callback()
+  var handler = function(e) {
+    var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
+    var name = e.target.name
+    if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
+        data[name](val)
+    } else {
+        data[name] = val
     }
-    var addThis = {}
+      
+    if(typeof Object.observe !== 'undefined'){
+      Object.observe(data, function(changes) {
+        // update target with changes
+        changes.forEach(function(change) {
+          if (change.type == 'update' || change.type == 'add') {
+              // update the related dom
+            if (e.target.name == change.name)
+                e.target.value = change.object[change.name]
+          }
+        })
+      })
+    }
+    if (callback && typeof callback == 'function') callback()
+  }
+  var addThis = {}
 
-    var events = ['_onclick', '_onchange', '_oninput']
-    for (var k in events) addThis[events[k]] = handler
+  var events = ['_onclick', '_onchange', '_oninput']
+  for (var k in events) addThis[events[k]] = handler
 
-    addThis['_config'] = function(node, isNew) {
-        if (isNew) {
-            for (var j in data) {
-                if (j) {
-                    document.querySelector('[name="' + j + '"]').click()
-                }
+  addThis['_config'] = function(node, isNew) {
+    if (isNew) {
+        for (var j in data) {
+            if (j) {
+                document.querySelector('[name="' + j + '"]').click()
             }
         }
     }
-    if (attachTo) mag.addons.merge(addThis, attachTo)
+  }
+  if (attachTo) mag.addons.merge(addThis, attachTo)
 
-    return addThis
+  return addThis
 }
 
 mag.addons.when = function(arrayOfPromises, callback) {
