@@ -39,7 +39,8 @@ mag.addons.binds = function(data, attachTo, callback) {
     if (isNew) {
         for (var j in data) {
             if (j) {
-                document.querySelector('[name="' + j + '"]').click()
+             document.querySelector('[name="' + j + '"]')?
+               document.querySelector('[name="' + j + '"]').click() : 0
             }
         }
     }
