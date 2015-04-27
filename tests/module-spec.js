@@ -22,7 +22,6 @@ var view = {
     }
   },
   view: function(s, p, e) {
-
     s.b = {
       _onclick: function() {
         s.p = [2]
@@ -43,14 +42,30 @@ describe("MagJS - module", function() {
   it("is defined", function() {
     expect(mag.module).toBeDefined();
   });
-  it("is accepts one argument", function() {
+  it("accepts one argument", function() {
 
     spyOn(mag, 'module')
     mag.module('test')
     expect(mag.module).toHaveBeenCalledWith('test')
   });
 
-  it("is accepts two arguments", function() {
+  it("props are not modifiable", function() {
+
+    mag.module('test', {
+      controller: function(p) {
+        expect(p.alwaysstay).toEqual(true)
+        p.alwaysstay = false
+      },
+      view: function(s, p) {
+        expect(p.alwaysstay).toEqual(true)
+      }
+    }, {
+      alwaysstay: true
+    })
+  })
+
+
+  it("lists change when state changes", function() {
     spyOn(mag, 'module').andCallThrough()
     mag.module('test', view)
 
@@ -76,5 +91,6 @@ describe("MagJS - module", function() {
       });
     })
   })
+
 
 });
