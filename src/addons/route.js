@@ -204,8 +204,14 @@ mag.route.parseQueryString = parseQueryString
 /*
   <a id="link" href="/userid1232">login</a>
 */
+/*
+var items = document.querySelectorAll('.link')
+for (var i = items.length; i--;) {
 
-// var element = document.getElementById('link')
-// element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
-// console.log(element.href)
-// element.addEventListener("click", routeUnobtrusive)
+  var element = items[i]
+
+element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+console.log(element.href)
+element.addEventListener("click", routeUnobtrusive)
+}
+*/
