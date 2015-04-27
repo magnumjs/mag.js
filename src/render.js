@@ -67,6 +67,9 @@
 
     if (isPrevented) {
       // unloading
+      //console.log(this.fill.cached)
+
+      //console.log('unloader id', module.elements[index].id)
 
       //console.log('unloading', index, render.unloaders.length)
 
@@ -99,6 +102,27 @@
     this.fun()
   }
 
+    function addConfigUnloaders(module, fill, index) {
+
+      //var cfgUnloaders = []
+
+      for (var k in fill.cached) {
+        //console.log(module.elements[index].id, k)
+        if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1) {
+          if (fill.cached[k].configContext) {
+            //            console.log(k, fill.cached[k].configContext.onunload)
+
+            render.unloaders.push({
+              controller: fill.cached[k].configContext,
+              handler: fill.cached[k].configContext.onunload
+            })
+          }
+        }
+      }
+
+      //console.log(cfgUnloaders)
+
+    }
   render.doLoop = function(module, fill) {
     for (var i = 0, root; root = render.roots[i]; i++) {
       mag.running = true
@@ -120,6 +144,9 @@
           })
           render.callLCEvent('didload', module, i, 1)
           render.callConfigs(fill.configs)
+
+          // add configs unloaders
+          addConfigUnloaders(module, fill, i)
           //TODO: remove clones
           if (module.deferreds[i][0]) {
             var index = module.deferreds[i][1]
@@ -267,4 +294,4 @@
   }
 
 
-})(window.mag || {})| {})
+})(window.mag || {})
