@@ -320,17 +320,102 @@ The first list element is used as the template for all new items on the list
 For example:
 ```html
 <ul><li class="item-template"></li></ul>
+```
 
+```javascript
 state.li = [1,2]
+```
 
-Will generate
-<ul><li class="item-template">1</li><li class="item-template">2</li></ul>
+Will render
+```html
+<ul>
+  <li class="item-template">1</li>
+  <li class="item-template">2</li>
+</ul>
 ```
 
 ###Lists of Objects
+```html
+<ul><li class="item-template">People: <b class="name"></b></li></ul>
+```
+```javascript
+state.li = [{name:'Joe'},{name:'Bob'}]
+```
 
+Will render
+```html
+<ul>
+  <li class="item-template">People: <b class="name">Joe</b>
+  </li>
+  <li class="item-template">People: <b class="name">Bob</b>
+  </li>
+</ul>
+```
 ###Nested Lists
-
+```html
+<ul>
+  <li class="item-template">Project: <b class="projectName"></b>
+    <ul>
+      <li class="doneBy">
+        <name/>
+      </li>
+    </ul>
+    <tasks/>
+  </li>
+</ul>
+```
+```javascript
+state['item-template'] = [{
+    projectName: 'house cleaning',
+    doneBy: [{
+      name: 'Joe'
+    }, {
+      name: 'Bob'
+    }],
+    tasks: ['wash', 'rinse', 'repeat']
+  }, {
+    projectName: 'car detailing',
+    doneBy: [{
+      name: 'Bill'
+    }, {
+      name: 'Sam'
+    }],
+    tasks: ['wash', 'rinse', 'repeat']
+  }]
+```
+Will render
+```html
+<ul>
+  <li class="item-template">Project: <b class="projectName">house cleaning</b>
+    <ul>
+      <li class="doneBy">
+        <name>Joe</name>
+      </li>
+      <li class="doneBy">
+        <name>Bob</name>
+      </li>
+    </ul>
+    <tasks>wash</tasks>
+    <tasks>rinse</tasks>
+    <tasks>repeat</tasks>
+  </li>
+  <li class="item-template">Project: <b class="projectName">car detailing</b>
+    <ul>
+      <li class="doneBy">
+        <name>Bill</name>
+      </li>
+      <li class="doneBy">
+        <name>Sam</name>
+      </li>
+    </ul>
+    <tasks>wash</tasks>
+    <tasks>rinse</tasks>
+    <tasks>repeat</tasks>
+  </li>
+</ul>
+```
+(JsBin Example)[http://jsbin.com/piriducice/edit?js,output]
+  
 ####Attributes
 _html, _text, _on[EVENT], _config->context.onunload
 
@@ -419,4 +504,4 @@ Other hookins such as key/node value etc.. Coming soon!
 
 ###Inspired By & cloned from
 
-[Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill), , [React.js](https://facebook.github.io/react/), [Angular.js](https://angularjs.org/), 
+[Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill),  [React.js](https://facebook.github.io/react/), [Angular.js](https://angularjs.org/), 
