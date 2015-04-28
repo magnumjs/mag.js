@@ -171,15 +171,15 @@
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
-    if (cache[i] && cache[i] === JSON.stringify(args[0])) {
-      //console.log('completed run',i, elementClone.id)
+    if (cache[i] && cache[i] === JSON.stringify(args)) {
+      //console.log('completed run',i, elementClone.id, cache[i], JSON.stringify(args))
       return false
     }
     callView(elementClone, module, i)
 
     // circular references will throw an exception
     // such as setting to a dom element
-    cache[i] = JSON.stringify(args[0])
+    cache[i] = JSON.stringify(args)
 
     render.setupWatch(args, fill, elementClone, i, module)
 
@@ -206,7 +206,7 @@
     var args = module.getArgs(i)
 
     // check if data changed
-    if (cache[i] && cache[i] === JSON.stringify(args[0])) {
+    if (cache[i] && cache[i] === JSON.stringify(args)) {
       //console.log('componentDidUpdate', ele.id)
       // debounce(
       render.callLCEvent('didupdate', module, i)
@@ -214,7 +214,7 @@
       return
     }
     callView(ele, module, i)
-    cache[i] = JSON.stringify(args[0])
+    cache[i] = JSON.stringify(args)
 
     fill.fill(ele, args[0])
     //render.callConfigs(fill.configs)
