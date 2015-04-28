@@ -34,25 +34,24 @@ Mag.JS dom!:
 ```
 ##Examples
 
-Hello world:
-http://jsbin.com/nenotoluvo/edit?js,output
+[Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-http://jsbin.com/zuquqavoni/edit?js,output
+[Hello world, take2](http://jsbin.com/zuquqavoni/edit?js,output)
 
-Hello world with passFail reusable component:
-http://jsbin.com/takatohoxo/edit?js,output
+[Hello world with passFail reusable component:]
+(http://jsbin.com/takatohoxo/edit?js,output)
 
-Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):
-http://jsbin.com/badabiqigu/edit?js,output
+[Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
+(http://jsbin.com/badabiqigu/edit?js,output)
 
-Hello array lifecycle event:
-http://jsbin.com/magumodacu/edit?js,output
+[Hello array lifecycle event:]
+(http://jsbin.com/magumodacu/edit?js,output)
 
-Count:
-http://jsbin.com/reyacokico/edit?js,output
+[Count:]
+(http://jsbin.com/reyacokico/edit?js,output)
 
-List: 
-http://jsbin.com/yiseyuyuqu/edit?js,output
+[List:] 
+(http://jsbin.com/yiseyuyuqu/edit?js,output)
 
 More lists: 
 http://jsbin.com/ruzoyakene/edit?js,output
