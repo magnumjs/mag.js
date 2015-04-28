@@ -111,6 +111,9 @@ http://jsbin.com/yegibecumu/edit?js,output
 FilterableProductTable (Thinking in React tutorial):
 http://jsbin.com/bisobeyuci/edit?js,output
 
+Weather App:
+http://jsbin.com/matediqixo/edit?js,output
+
 Comment Box:
 http://jsbin.com/coquzijado/edit?js,output
 
