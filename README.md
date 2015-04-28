@@ -3,7 +3,7 @@
 </a>
 
 ### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
-c
+
 * Changes to state are immediately reflected in the dom by their element matchers.
 * No virtual/shadow dom or new templating language! Super fast & 3.5KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
@@ -136,8 +136,7 @@ http://jsbin.com/jegasagemi/edit?js,output
 Country App - JSON/Routing
 http://jsbin.com/nuvixocuje/edit?js,output
 
-##Jasmine Specs
-https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
+##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
 ###Statefullness
 When redrawing the view method is called.
@@ -324,6 +323,8 @@ state.li = [1,2]
 
 Will generate
 <ul><li class="item-template">1</li><li class="item-template">2</li></ul>
+
+###Nested Lists
 ```
 
 ####Attributes
@@ -375,8 +376,9 @@ Tiny sub library of reusable simple tools
 
 * router
 * send ajax
-* binds
+* binds - automatic two way binding
 * toggle visibility
+* Reusable utilities (copy, merge .. )
 
 #### Custom plugins
 
