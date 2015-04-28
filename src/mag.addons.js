@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.6
+Mag.JS AddOns v0.1.7
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -13,7 +13,11 @@ mag.addons.binds = function(data, attachTo, callback) {
     if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
         data[name](val)
     } else if(name) {
-        data[name] = val
+      //necessary ?
+      if(data.name && data.name._text)
+        data.name._text=val
+      else 
+        data[name]=val
     }
       
     if(typeof Object.observe !== 'undefined'){
