@@ -74,7 +74,7 @@
       //return template
     }
     controller.$original = module.controller
-
+    controller.$$args = args
     var output = {
       controller: controller,
       view: view
@@ -88,7 +88,8 @@
   mod.getArgs = function(i) {
     var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
     // args that contaian circular references will throw an exception up the chain
-    // TODO: filter for circual references such as DOM nodes
+    // TODO: filter for circular references such as DOM nodes
+
     return args
   }
   mag.mod = mod
