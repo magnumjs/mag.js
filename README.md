@@ -1,4 +1,4 @@
-<a href="">
+<a href="//github.com/magnumjs/mag.js">
 <img alt="Mag.JS - Elegant DOM Bindings" src="https://cloud.githubusercontent.com/assets/5196767/7222868/53794478-e6e5-11e4-886c-40c2a3512654.png"/>
 </a>
 
@@ -403,3 +403,7 @@ Other hookins such as key/node value etc.. Coming soon!
 ```html
 <script src="//rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
 ```
+
+###Inspired By & cloned from
+
+[Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill)
