@@ -23,6 +23,15 @@
       // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
       // give it unfrozen context ?
 
+      if (Object.keys(controller).length < 1) {
+        // add one
+        // initiates a draw
+        controller['__magnum__::'] = 1
+      } else {
+        if (controller['__magnum__::']) {
+          delete controller['__magnum__::']
+        }
+      }
 
       var context = render.contexts[i] = render.contexts[i] || {}
 
@@ -172,7 +181,7 @@
     var args = module.getArgs(i)
 
     if (cache[i] && cache[i] === JSON.stringify(args)) {
-      //console.log('completed run',i, elementClone.id, cache[i], JSON.stringify(args))
+      //console.log('completed run',i, elementClone.id, cache[i], JSON.stringify(args[0]))
       return false
     }
     callView(elementClone, module, i)
