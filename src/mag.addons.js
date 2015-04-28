@@ -14,8 +14,8 @@ mag.addons.binds = function(data, attachTo, callback) {
         data[name](val)
     } else if(name) {
       //necessary ?
-      if(data.name && data.name._text)
-        data.name._text=val
+      if(data[name] && data[name]._text)
+        data[name]._text=val
       else 
         data[name]=val
     }
