@@ -14,7 +14,7 @@ mag.addons.binds = function(data, attachTo, callback) {
         data[name](val)
     } else if(name) {
       //necessary ?
-      if(data[name] && 'undefined'!==data[name]._text)
+      if(data[name] && typeof data[name]._text !=='undefined')
         data[name]._text=val
       else 
         data[name]=val
