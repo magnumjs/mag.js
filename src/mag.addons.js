@@ -109,6 +109,33 @@ mag.deferred = Deferred = function() {
   }
 }
 
+mag.addons.requestWithFeedback = function(args) {
+  var key = JSON.stringify(args)
+  if (!mag.addons.requestWithFeedback.cache[key]) {
+    
+    var loaders = document.querySelectorAll(".loader")
+
+    //show icons
+    for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "block"
+
+    var expire = function(data) {
+      delete mag.addons.requestWithFeedback.cache[key]
+
+      if (Object.keys(mag.addons.requestWithFeedback.cache).length == 0) {
+          //hide icons
+          for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "none"
+      }
+      return data
+    }
+    mag.addons.requestWithFeedback.cache[key] = mag.request(args).then(expire, function(error) {
+      expire(error)
+      throw error
+    })
+  }
+  return mag.addons.requestWithFeedback.cache[key]
+}
+mag.addons.requestWithFeedback.cache = {}
+
 
 // hookins
 
