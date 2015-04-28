@@ -114,9 +114,7 @@ Mag.JS dom!:
 (http://jsbin.com/matediqixo/edit?js,output)
 
 [Comment Box:]
-(http://jsbin.com/licerahipi/edit?js,output)
-
-[Video tutorial:]
+(http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
 (https://youtube.com/watch?v=QEnyWHSsMFg)
 
 ###Angular 2 Mag
