@@ -53,47 +53,47 @@ Mag.JS dom!:
 [List:] 
 (http://jsbin.com/yiseyuyuqu/edit?js,output)
 
-More lists: 
-http://jsbin.com/ruzoyakene/edit?js,output
+[More lists:]
+http://jsbin.com/ruzoyakene/edit?js,output)
 
-Sortable List:
-http://jsbin.com/taducutoru/edit?js,output
+[Sortable List:]
+(http://jsbin.com/taducutoru/edit?js,output)
 
-Tiny filter:
-http://jsbin.com/hukukaxije/edit?js,output
+[Tiny filter:]
+(http://jsbin.com/hukukaxije/edit?js,output)
 
-Filter list:
-http://jsbin.com/lojobiqudi/edit?js,output
+[Filter list:]
+(http://jsbin.com/lojobiqudi/edit?js,output)
 
-Filter list sort:
-http://jsbin.com/kodumalodo/edit?js,output
+[Filter list sort:]
+(http://jsbin.com/kodumalodo/edit?js,output)
 
-Filter list components:
-http://jsbin.com/xigipeziqi/edit?js,output
+[Filter list components:]
+(http://jsbin.com/xigipeziqi/edit?js,output)
 
-Tab component:
-http://jsbin.com/payewiqasi/edit?js,output
+[Tab component:]
+(http://jsbin.com/payewiqasi/edit?js,output)
 
-Modal component:
-http://jsbin.com/beqimijebo/edit?js,output
+[Modal component:]
+(http://jsbin.com/beqimijebo/edit?js,output)
 
-Modal with select menu:
-http://jsbin.com/vihudibabe/edit?js,output
+[Modal with select menu:]
+(http://jsbin.com/vihudibabe/edit?js,output)
 
-Todos:
-http://jsbin.com/bihubarogi/edit?js,output
+[Todos:]
+(http://jsbin.com/bihubarogi/edit?js,output)
 
-Todo proxy (firefox)
-http://jsbin.com/bohuniquha/edit?js,output
+[Todo proxy (firefox)]
+(http://jsbin.com/bohuniquha/edit?js,output)
 
-Todos (expanded): 
-http://jsbin.com/lukuwabaso/edit?js,output
+[Todos (expanded):]
+(http://jsbin.com/lukuwabaso/edit?js,output)
 
-Contacts:
-http://jsbin.com/mixasihoye/edit?js,output
+[Contacts:]
+(http://jsbin.com/mixasihoye/edit?js,output)
 
-Async:
-http://jsbin.com/yajugavibe/edit?js,output
+[Async:]
+(http://jsbin.com/yajugavibe/edit?js,output)
 
 ###React 2 Mag
 Navigation menu:
