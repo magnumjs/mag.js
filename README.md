@@ -115,7 +115,7 @@ Weather App:
 http://jsbin.com/matediqixo/edit?js,output
 
 Comment Box:
-http://jsbin.com/coquzijado/edit?js,output
+http://jsbin.com/licerahipi/edit?js,output
 
 Video tutorial: 
 https://youtube.com/watch?v=QEnyWHSsMFg
