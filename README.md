@@ -302,10 +302,12 @@ To change the class for an element
 This: <h1></h1>
 With: state.h1 = { _class: 'header', _text : 'Hello!'} 
 Makes: <h1 class="header">Hello!</h1>
-```j
+```
+
 _text and _html are used to fill an elements text node and not as an attribute below.
 
 any prefix underscore will be an attribute except for _on that will be for events such as 
+
 ```javascript
 state.h1 = { _onclick: function() { state.h1='clicked!' } } 
 ```
@@ -323,9 +325,11 @@ state.li = [1,2]
 
 Will generate
 <ul><li class="item-template">1</li><li class="item-template">2</li></ul>
+```
+
+###Lists of Objects
 
 ###Nested Lists
-```
 
 ####Attributes
 _html, _text, _on[EVENT], _config->context.onunload
@@ -336,8 +340,8 @@ state.name._value = state.name._value + ''
 
 event (e, index, node, data) default context is node
 
-index is the xpath index of the node -1
-data is the index data of the parent if in a list
+* index is the xpath index of the node -1
+* data is the index data of the parent if in a list
 
 ####Events
 
@@ -351,13 +355,20 @@ Life cycle events in controller:
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
-controller ->this.willload
-state.matcher._onclick = function(e,index, node, data) 
+controller -> this.willload
+state.matcher._onclick = function(e, index, node, data) 
 
-Native events, receive the event, the x path based 0 index, the node itself (default context) and the data of a parent list item.
+###Native events: parameters - 
+
+* the event
+* the x path based 0 index
+* the node itself (default context)
+* the data of the closest parent list item (In nested lists, the first parent with data).
 
 ##Config (DOM hookin)
 _config (node, isNew, context, index)
+
+Available on all matchers to hookin to the DOM 
 
 arguments :
 
@@ -369,7 +380,7 @@ arguments :
 
    - context.onunload - will be attached to the current modules onunloaders and called if any lifecycle event triggers e.preventDefault()
 
-* index is 0 based on xpath of matcher
+* index is 0 based on xpath of the matcher
 
 #### Mag.JS AddOns!
 Tiny sub library of reusable simple tools
@@ -408,4 +419,4 @@ Other hookins such as key/node value etc.. Coming soon!
 
 ###Inspired By & cloned from
 
-[Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill)
+[Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill), , [React.js](https://facebook.github.io/react/), [Angular.js](https://angularjs.org/), 
