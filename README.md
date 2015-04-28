@@ -96,44 +96,44 @@ http://jsbin.com/ruzoyakene/edit?js,output)
 (http://jsbin.com/yajugavibe/edit?js,output)
 
 ###React 2 Mag
-Navigation menu:
-http://jsbin.com/patecaronu/edit?js,output
+[Navigation menu:]
+(http://jsbin.com/patecaronu/edit?js,output)
 
-Timer:
-http://jsbin.com/cujohoyuwo/edit?js,output
+[Timer:]
+(http://jsbin.com/cujohoyuwo/edit?js,output)
 
-Real-time search:
-http://jsbin.com/wuzovilaga/edit?js,output
-Same with different code style - creative Mag.JS!
-http://jsbin.com/yegibecumu/edit?js,output
+[Real-time search:]
+(http://jsbin.com/wuzovilaga/edit?js,output)
+[Same with different code style - creative Mag.JS!]
+(http://jsbin.com/yegibecumu/edit?js,output)
 
-FilterableProductTable (Thinking in React tutorial):
-http://jsbin.com/bisobeyuci/edit?js,output
+[FilterableProductTable (Thinking in React tutorial):]
+(http://jsbin.com/bisobeyuci/edit?js,output)
 
-Weather App:
-http://jsbin.com/matediqixo/edit?js,output
+[Weather App:]
+(http://jsbin.com/matediqixo/edit?js,output)
 
-Comment Box:
-http://jsbin.com/licerahipi/edit?js,output
+[Comment Box:]
+(http://jsbin.com/licerahipi/edit?js,output)
 
-Video tutorial: 
-https://youtube.com/watch?v=QEnyWHSsMFg
+[Video tutorial:]
+(https://youtube.com/watch?v=QEnyWHSsMFg)
 
 ###Angular 2 Mag
-Order form:
-http://jsbin.com/horuxanacu/edit?js,output
+[Order form:]
+(http://jsbin.com/horuxanacu/edit?js,output)
 
-Navigation menu:
-http://jsbin.com/kasuyupufa/edit?js,output
+[Navigation menu:]
+(http://jsbin.com/kasuyupufa/edit?js,output)
 
-Switchable Grid:
-http://jsbin.com/xuduluhivi/edit?js,output
+[Switchable Grid:]
+(http://jsbin.com/xuduluhivi/edit?js,output)
 
-Contact Manager application:
-http://jsbin.com/jegasagemi/edit?js,output
+[Contact Manager application:]
+(http://jsbin.com/jegasagemi/edit?js,output)
 
-Country App - JSON/Routing
-http://jsbin.com/nuvixocuje/edit?js,output
+[Country App - JSON/Routing]
+(http://jsbin.com/nuvixocuje/edit?js,output)
 
 ##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
