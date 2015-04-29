@@ -64,7 +64,7 @@ mag.addons.copy =function (o) {
    out = Array.isArray(o) ? [] : {};
    for (key in o) {
        v = o[key];
-       out[key] = (typeof v === "object") ? copy(v) : v;
+       out[key] = (typeof v === "object") ? mag.addons.copy(v) : v;
    }
    return out;
 }
