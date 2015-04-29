@@ -23,15 +23,11 @@
       // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
       // give it unfrozen context ?
 
-      if (Object.keys(controller).length < 1) {
+     // if (Object.keys(controller).length < 1) {
         // add one
         // initiates a draw
-        controller['__magnum__::'] = 1
-      } else {
-        if (controller['__magnum__::']) {
-          delete controller['__magnum__::']
-        }
-      }
+        //controller['__magnum__::'] = 1
+     // }
 
       var context = render.contexts[i] = render.contexts[i] || {}
 
@@ -191,7 +187,8 @@
     cache[i] = JSON.stringify(args)
 
     render.setupWatch(args, fill, elementClone, i, module)
-
+    // remove 
+    //delete args[0]['__magnum__::']
     fill.fill(elementClone, args[0])
     //render.callConfigs(fill.configs)
 
@@ -225,6 +222,7 @@
     callView(ele, module, i)
     cache[i] = JSON.stringify(args)
 
+    //delete args[0]['__magnum__::']
     fill.fill(ele, args[0])
     //render.callConfigs(fill.configs)
 
