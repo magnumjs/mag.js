@@ -1,3 +1,3 @@
-[route example](http://jsbin.com/magimoyodi/edit)
+[route example](http://jsbin.com/huwesiwuma/edit)
 
 Route example with nested components in tabbed view...
