@@ -75,7 +75,7 @@
 
   var hookins = {
     attributes: [],
-    elementMatcher: []
+    elementMatcher : []
   }
   mag.hookin = function(name, key, handler) {
     hookins[name].push({
@@ -121,13 +121,13 @@
 
     //DOM
     var element = document.getElementById(domElementId)
-    if (!element) return Error('Mag.JS Module - invalid node')
+    if (!element) throw Error('Mag.JS Module - invalid node')
 
 
     render.roots[index] = element.id
 
     //MODULE
-    if (!moduleObject.view) return Error('Mag.JS module - requires a view')
+    if (!moduleObject.view) throw Error('Mag.JS module - requires a view')
 
     // TODO: should props be frozen or changeable?
     var mod = module.submodule(moduleObject, [Object.freeze(props || {})])
@@ -135,7 +135,7 @@
     var controller = module.getController(mod, element, fill)
 
     module.controllers[index] = controller
-
+    
     if (controller.onunload) render.unloaders.push({
       controller: controller,
       handler: controller.onunload
