@@ -163,7 +163,7 @@ function routeByValue(root, router, path) {
   }
 }
 
-function routeUnobtrusive(href, e) {
+function routeUnobtrusive(e) {
 
   e = e || event;
   if (e.ctrlKey || e.metaKey || e.which === 2) return;
@@ -176,10 +176,7 @@ function routeUnobtrusive(href, e) {
   }
 
   mag.route(currentTarget[mag.route.mode].slice(modes[mag.route.mode].length), args)
-  if (currentTarget.href != href) {
-    //WHAT?
-    //currentTarget.href = href
-  }
+
 
 }
 
