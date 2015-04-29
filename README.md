@@ -111,7 +111,7 @@ Mag.JS dom!:
 (http://jsbin.com/bisobeyuci/edit?js,output)
 
 [Weather App:]
-(http://jsbin.com/matediqixo/edit?js,output)
+(http://jsbin.com/matediqixo/edit?js,output) [Take 2](http://jsbin.com/zihuwelete/edit?js,output)
 
 [Comment Box:]
 (http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
