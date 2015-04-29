@@ -54,8 +54,10 @@ mag.route = function() {
     var isInitialized = arguments[1];
     var context = arguments[2];
     var index = arguments[3];
-    //console.log('CONFIG', isInitialized)
-    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + element.getAttribute('href');
+    var ohref = context._href ?context._href: context._href=element.getAttribute('href');
+    
+    element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + ohref;
+    
     if (element.addEventListener) {
       element.removeEventListener("click", routeUnobtrusive.bind({}, element.href));
       element.addEventListener("click", routeUnobtrusive.bind({}, element.href))
