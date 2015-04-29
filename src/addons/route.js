@@ -175,6 +175,16 @@ function routeUnobtrusive(e) {
     currentTarget = currentTarget.parentNode
   }
 
+  var href =  currentTarget.getAttribute('href');
+
+ if(href.indexOf(modes[mag.route.mode])!==0){
+ // console.log('click1', currentTarget.href, href, currentTarget._ohref)
+   currentTarget.setAttribute('href',modes[mag.route.mode] + href)
+ } else {
+  //console.log('click2', currentTarget.href, href, currentTarget._ohref)
+   
+ }
+
   mag.route(currentTarget[mag.route.mode].slice(modes[mag.route.mode].length), args)
 
 
