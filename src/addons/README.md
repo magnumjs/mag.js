@@ -1,0 +1,3 @@
+[route example](http://jsbin.com/magimoyodi/edit)
+
+Route example with nested components in tabbed view...
