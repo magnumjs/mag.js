@@ -59,11 +59,11 @@ mag.route = function() {
     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + ohref;
     
     if (element.addEventListener) {
-      element.removeEventListener("click", routeUnobtrusive.bind({}, element.href));
-      element.addEventListener("click", routeUnobtrusive.bind({}, element.href))
+      element.removeEventListener("click", routeUnobtrusive);
+      element.addEventListener("click", routeUnobtrusive)
     } else {
-      element.detachEvent("onclick", routeUnobtrusive.bind({}, element.href));
-      element.attachEvent("onclick", routeUnobtrusive.bind({}, element.href))
+      element.detachEvent("onclick", routeUnobtrusive);
+      element.attachEvent("onclick", routeUnobtrusive)
     }
   }
   //m.route(route, params, shouldReplaceHistoryEntry)
