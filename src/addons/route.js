@@ -175,7 +175,8 @@ function routeUnobtrusive(href, e) {
 
   mag.route(currentTarget[mag.route.mode].slice(modes[mag.route.mode].length), args)
   if (currentTarget.href != href) {
-    currentTarget.href = href
+    //WHAT?
+    //currentTarget.href = href
   }
 
 }
