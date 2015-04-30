@@ -1,7 +1,64 @@
+mag.module('app2', {
+  view: function(s, p, e) {
+    //s.b='first'
+    s.data = mag.module('comp2', {
+      view: function(s, p) {
+        s.span = s.span || 'stuff'
+        s.b = {
+          _text: 'yoyo',
+          _onclick: function() {
+            s.span = s.span == 'stuff' ? 'other' : 'stuff'
+            console.log('test', s.span)
+            //mag.redraw(1)
+          }
+        }
+      }
+    }).then(function(data) {
+      s.data = data
+    })
+
+  }
+})
+
+
+mag.module('app', {
+  view: function(s, p, e) {
+    s.count = s.count || 1
+    s.data = mag.module('comp', {
+      view: function(s, p, e, c) {
+        //console.log(c)
+        s.b = c.thingy
+        s.count = p.changeling
+        s.span = p.expr + '' + s.count
+        s.head = {
+          _onclick: function() {
+            //console.log(c)
+            s.span = 'yoyo'
+            c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
+          }
+        }
+      }
+    }, {
+      expr: (s.count % 2 == 0 ? 'hm' : 'blow'),
+      changeling: s.count
+    }) // try cloning by adding a 1 last argument to see the difference
+    .then(function(data) {
+      //console.log('test', data._html())
+      s.data = data
+      s.span = {
+        _onclick: function() {
+          s.count++
+        }
+      }
+    })
+  }
+})
+
 var shoes = {
   controller: function(props) {
     this.searchText = mag.prop(props.searchText)
     this.searching = this.searchText
+    mag.addons.copy(props.shoes, this.shoes = [])
 
     this.clickee = function(e, index, node, data) {
       console.log(node.parentNode.__key, node.isChildOfArray, data)
@@ -12,7 +69,7 @@ var shoes = {
       return item.color.indexOf(this.searchText()) !== -1
     }.bind(this)
 
-    this.shoes = props.shoes.filter(this.filter)
+    this.shoes = this.shoes.filter(this.filter)
   },
   view: function(state, props) {
     state.shoes = props.shoes.filter(state.filter)
@@ -437,7 +494,7 @@ mag.module("main", {
       _config: function(n, is, c, i) {
         c.count = c.count + 1 || 0
         c.onunload = function() {
-          console.log('UNLOADED H2')
+          console.log('UNLOADED H2', arguments)
         }
       }
     }
