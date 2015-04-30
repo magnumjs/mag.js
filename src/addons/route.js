@@ -1,4 +1,4 @@
-var mag = mag || {}
+    var mag = mag || {}
 var noop = function() {}
 
 var type = {}.toString
@@ -57,6 +57,8 @@ mag.route = function() {
     var ohref = context._href ?context._href: context._href=element.getAttribute('href');
     
     element.href = (mag.route.mode !== 'pathname' ? $location.pathname : '') + modes[mag.route.mode] + ohref;
+    
+    element._ohref = ohref
     
     if (element.addEventListener) {
       element.removeEventListener("click", routeUnobtrusive);
@@ -178,7 +180,9 @@ function routeUnobtrusive(e) {
   var href =  currentTarget.getAttribute('href');
 
  if(href.indexOf(modes[mag.route.mode])!==0){
- // console.log('click1', currentTarget.href, href, currentTarget._ohref)
+   
+//  console.log('click1', currentTarget.href, href, currentTarget._ohref)
+  href = currentTarget._ohref
    currentTarget.setAttribute('href',modes[mag.route.mode] + href)
  } else {
   //console.log('click2', currentTarget.href, href, currentTarget._ohref)
