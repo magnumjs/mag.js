@@ -7,7 +7,7 @@ var ContactsWidget = {
       this.contacts = Contact.save(contact, update.bind(this))
     }.bind(this)
 
-    this.onload = function(element) {
+    this.didload = function(e,element) {
       document.body.querySelector('#contacts').classList.remove('hide')
       localStorage.removeItem('contacts')
       element.querySelector('#list').classList.remove('hide')
@@ -18,11 +18,11 @@ var ContactsWidget = {
 
     state.h2 = 'Contacts'
 
-    state.form =mag.module('form', ContactForm, {
+    mag.module('form', ContactForm, {
       onsave: state.save
     })
 
-    state.ul =mag.module('list', ContactList, {
+    mag.module('list', ContactList, {
       contacts: state.contacts
     })
 
