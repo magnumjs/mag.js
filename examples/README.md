@@ -4,6 +4,8 @@
 
 [Binding Example](http://jsbin.com/dicezageja/edit)
 
+[Component Hierarchy 3 deep](http://jsbin.com/fosoladene/edit?html,js,output)
+
 ###Notes
 
 This works by Mag.js listening to changes to state
