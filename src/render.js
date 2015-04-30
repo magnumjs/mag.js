@@ -23,19 +23,19 @@
       // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
       // give it unfrozen context ?
 
-     // if (Object.keys(controller).length < 1) {
-        // add one
-        // initiates a draw
-        //controller['__magnum__::'] = 1
-     // }
+      // if (Object.keys(controller).length < 1) {
+      // add one
+      // initiates a draw
+      //controller['__magnum__::'] = 1
+      // }
 
       var context = render.contexts[i] = render.contexts[i] || {}
-
+      //console.log(controller, args)
       try {
-        mod.view(controller, elementClone, context)
+        mod.view(args[0], elementClone, context)
       } catch (e) {
         //THROW ?
-        console.log(elementClone.id, i, e)
+        console.log('Mag.JS', elementClone.id, i, e)
         //throw new Error(e)
       }
       // if (controller.onunload) unloaders.push({
@@ -94,14 +94,14 @@
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
   }
   var cache = []
-  render.redraw = function(module, fill) {
+  render.redraw = function(module, fill, force) {
 
     module = module || render.module || {}
+    if (force) cache = []
 
     this.fun = (this.fun || throttle(function(id) {
       // clear existing configs
       fill.configs.splice(0, fill.configs.length)
-
       render.doLoop(module, fill)
     }))
     this.fun()
@@ -145,7 +145,11 @@
           //render.callConfigs(fill.configs)
         } else {
           module.deferreds[i][2]({
-            _html: module.elements[i].innerHTML
+            _html: mag.prop(module.elements[i])
+            // _html: function(node){ return node }.bind({}, module.elements[i])
+            // _html : function(node){return fill.cloneNodeWithEvents(node)}.bind({}, module.elements[i]) 
+            //clone: fill.cloneNodeWithEvents(module.elements[i])
+            //_html: module.elements[i].innerHTML
           })
           render.callLCEvent('didload', module, i, 1)
           render.callConfigs(fill.configs)
@@ -177,7 +181,7 @@
     var args = module.getArgs(i)
 
     if (cache[i] && cache[i] === JSON.stringify(args)) {
-      //console.log('completed run',i, elementClone.id, cache[i], JSON.stringify(args[0]))
+      //console.log('completed run', i, elementClone.id, cache[i], JSON.stringify(args))
       return false
     }
     callView(elementClone, module, i)
@@ -210,7 +214,6 @@
     //, 1, 1)
 
     var args = module.getArgs(i)
-
     // check if data changed
     if (cache[i] && cache[i] === JSON.stringify(args)) {
       //console.log('componentDidUpdate', ele.id)
@@ -239,6 +242,9 @@
       // changes.forEach(function(change) {
       //console.log(change.type, change.name, change.oldValue);
       //});
+
+      // retain reference
+      module.controllers[i] = args[0]
       throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
     });
   }
