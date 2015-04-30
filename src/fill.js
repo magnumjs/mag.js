@@ -592,7 +592,8 @@
 
         // change id
         if (html().cloner) {
-          html().id = '__magnum__::' + html().id
+          // check if already has
+          html().id = '__magnum__::' + html().id.split('__magnum__::').pop()
         }
         //var children = html().querySelectorAll(':scope > *')
         //console.log(children)
@@ -603,7 +604,7 @@
         try {
         node.replaceChild(html(), sp1);
         }catch (e){
-          console.log('FILL HTML ERROR',html().id)
+          console.log('FILL HTML ERROR',html().id, e)
         }
         //}
       } else if (html.nodeType === 1) {
