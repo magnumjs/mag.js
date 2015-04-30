@@ -58,10 +58,10 @@
 
     prop.toJSON = function() {
       // return a copy
-      if(store && store.nodeType){
+      if (store && store.nodeType && store.innerHTML) {
         //make sure no circular references
-      
-        return fill.elementToObject(store)
+        return store.innerHTML
+        //return fill.elementToObject(store)
       }
       return store
     }
@@ -149,8 +149,8 @@
 
 
     module.modules[index] = mod
-    
-    module.elements[index] = clone ? element.cloneNode(true): element
+
+    module.elements[index] = clone ? element.cloneNode(true) : element
     module.elements[index].cloner = clone
 
     module.promises[index] = new Promise(function(resolve, reject) {
@@ -177,14 +177,16 @@
     //   html :{_html: fill.cloneNodeWithEvents(module.elements[index]) }
     // }
 
-// return propify(module.promises[index], {
-//       _html: module.elements[index].innerHTML
-//     })
+    // return propify(module.promises[index], {
+    //       _html: module.elements[index].innerHTML
+    //     })
 
     return propify(module.promises[index], {
-     // _html: fill.cloneNodeWithEvents(module.elements[index])
-     _html : mag.prop(module.elements[index] )
-      // _html: function(){ return module.elements[index] }
+      // _html: fill.cloneNodeWithEvents(module.elements[index])
+      // _html : mag.prop(module.elements[index] )
+      _html: function() {
+        return module.elements[index]
+      }
     })
 
   }
