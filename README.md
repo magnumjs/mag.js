@@ -132,7 +132,7 @@ Mag.JS dom!:
 (http://jsbin.com/jegasagemi/edit?js,output)
 
 [Country App - JSON/Routing]
-(http://plnkr.co/edit/LnwflR8PD6AvvD0AZwfE?p=preview)
+(http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
 
 ##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
