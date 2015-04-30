@@ -255,8 +255,10 @@ returns a mag.prop promise function settergetter with a default value
 {_html : node.innerHTML}
 which is updated to the latest on promise resolution
 
-#### mag.redraw ()
+#### mag.redraw (optional force Boolean)
 inititate a redraw manually
+
+Optional boolean argument to force cache to be cleared
 
 #### mag.hookin (type, key, handler)
 Allows for custom definitions, see examples below
