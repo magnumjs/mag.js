@@ -563,7 +563,13 @@
       node.appendChild(children[i]);
     }
   }
-
+function addCloneId(html){
+                  // change id
+        if (html.cloner) {
+          // check if already has
+          html.id = '__magnum__::' + html.id.split('__magnum__::').pop()
+        }
+}
     function setHtml(node, html) {
       if (!node || html == null) return;
 
@@ -589,12 +595,8 @@
 
       //console.log(node.children.length, node.id, html().id)
 
-
-        // change id
-        if (html().cloner) {
-          // check if already has
-          html().id = '__magnum__::' + html().id.split('__magnum__::').pop()
-        }
+        addCloneId(html())
+        
         //var children = html().querySelectorAll(':scope > *')
         //console.log(children)
         //for(var k in children){
@@ -608,6 +610,9 @@
         }
         //}
       } else if (html.nodeType === 1) {
+        
+        addCloneId(html)
+        
         var sp1 = document.createElement("span")
         node.appendChild(sp1)
         node.replaceChild(html, sp1);
