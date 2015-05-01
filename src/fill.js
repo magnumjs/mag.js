@@ -144,24 +144,31 @@
       if (typeof elements[0].__key === 'undefined' && typeof data[0] === 'object') {
         //data[0][MAGNUM] = elements[0].__key = 0
       }
-      // get existing keys
+
+      // var keys = elements.map(function(i) {
+      //   return i.__key
+      // })
+
       var keys = data.map(function(i) {
         return i[MAGNUM_KEY]
       })
-      //console.log('existing', keys, keys.indexOf(undefined)!==-1)
+      // console.log('existing', keys, keys.indexOf(undefined)!==-1)
 
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-        //console.log('here', gkeys[key])
+        // console.log('here', gkeys[key])
 
         var data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            if (typeof d[MAGNUM_KEY] === 'undefined') {
+            // if (!elements[i].__key) {
+            //   elements[i].__key = '__magnum__' + gkeys[key]++
+            // }
+            if (!d[MAGNUM_KEY]) {
               d[MAGNUM_KEY] = '__magnum__' + gkeys[key]++
             }
-
             elements[i].__key = d[MAGNUM_KEY]
+            // d[MAGNUM_KEY] = elements[i].__key
           }
 
           return d
