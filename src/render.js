@@ -145,10 +145,8 @@
           //render.callConfigs(fill.configs)
         } else {
           module.deferreds[i][2]({
-            // _html: mag.prop(module.elements[i])
-            _html: function(node) {
-              return node
-            }.bind({}, module.elements[i])
+            _html: mag.prop(module.elements[i])
+            // _html: function(node){ return node }.bind({}, module.elements[i])
             // _html : function(node){return fill.cloneNodeWithEvents(node)}.bind({}, module.elements[i]) 
             //clone: fill.cloneNodeWithEvents(module.elements[i])
             //_html: module.elements[i].innerHTML
