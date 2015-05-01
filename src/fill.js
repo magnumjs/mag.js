@@ -443,9 +443,8 @@
         var eventCall = function(fun, node, tagIndex, data, e) {
           try {
             return fun.call(node, e, tagIndex, node, data)
-          } catch(e) {
-            console.log(e)
-            //mag.redraw()
+          } finally {
+            mag.redraw()
           }
         }.bind(null, attributes[attrName], node, tagIndex, (findParentChild(node) || {})._dataPass)
 
