@@ -47,7 +47,7 @@
       if (arguments.length) {
         store = arguments[0]
         // Is a redraw here necessary?
-        mag.redraw()
+        //mag.redraw()
       }
       return store
     }
@@ -58,10 +58,10 @@
 
     prop.toJSON = function() {
       // return a copy
-      if (store && store.nodeType && store.innerHTML) {
+      if (store && store.nodeType) {
         //make sure no circular references
-        return store.innerHTML
-        //return fill.elementToObject(store)
+        //return store.innerHTML
+        return fill.elementToObject(store)
       }
       return store
     }
@@ -183,10 +183,10 @@
 
     return propify(module.promises[index], {
       // _html: fill.cloneNodeWithEvents(module.elements[index])
-      // _html : mag.prop(module.elements[index] )
-      _html: function() {
-        return module.elements[index]
-      }
+      _html: mag.prop(module.elements[index])
+      // _html: function() {
+      // return module.elements[index]
+      // }
     })
 
   }
