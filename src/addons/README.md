@@ -3,5 +3,6 @@
 [route with modules](http://jsbin.com/citejiculi/edit) [Take 2](http://jsbin.com/jemijawedi/edit)
 
 [Routing with Sub routes](http://jsbin.com/jajagaleto/edit) [Take 2](http://jsbin.com/yixiyazebi/edit)
+[Take 3](http://jsbin.com/coritiweme/edit)
 
 Route example with nested components in tabbed view...
