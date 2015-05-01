@@ -563,65 +563,67 @@
       node.appendChild(children[i]);
     }
   }
-function addCloneId(html){
-                  // change id
-        if (html.cloner) {
-          // check if already has
-          html.id = '__magnum__::' + html.id.split('__magnum__::').pop()
-        }
-}
-    function setHtml(node, html) {
-      if (!node || html == null) return;
 
-      // remove all children
-      
-      // before remove if firstChild has a magnum id we need to save it
-      // if(node.firstChild && node.nodeType === 1 && node.id && node.id.indexOf('__magnum__::')!==-1){
-      //   console.log('WHOAH!!')
-      //   // copy and move
-      //   var copy = node.firstChild
-      //   var sp1 = document.createElement("span")
-      //   // append to whom ?
-      //   document.body.appendChild(sp1)
-        
-      //   node.replaceChild(copy, sp1);
-        
-      // }
-      while (node.firstChild) {
-        node.removeChild(node.firstChild);
-      }
+  function addCloneId(html) {
+    // change id
+    if (html.cloner) {
+      // check if already has
+      html.id = '__magnum__::' + html.id.split('__magnum__::').pop()
+    }
+  }
 
-      if (typeof html === 'function' && html().nodeType === 1) {
+  function setHtml(node, html) {
+    if (!node || html == null) return;
+
+    // remove all children
+
+    // before remove if firstChild has a magnum id we need to save it
+    // if(node.firstChild && node.nodeType === 1 && node.id && node.id.indexOf('__magnum__::')!==-1){
+    //   console.log('WHOAH!!')
+    //   // copy and move
+    //   var copy = node.firstChild
+    //   var sp1 = document.createElement("span")
+    //   // append to whom ?
+    //   document.body.appendChild(sp1)
+
+    //   node.replaceChild(copy, sp1);
+
+    // }
+    while (node.firstChild) {
+      node.removeChild(node.firstChild);
+    }
+
+    if (typeof html === 'function' && html().nodeType === 1) {
 
       //console.log(node.children.length, node.id, html().id)
 
-        addCloneId(html())
-        
-        //var children = html().querySelectorAll(':scope > *')
-        //console.log(children)
-        //for(var k in children){
-        //console.log(k, children[k])
-        var sp1 = document.createElement("span")
-        node.appendChild(sp1)
-        try {
+      addCloneId(html())
+
+      //var children = html().querySelectorAll(':scope > *')
+      //console.log(children)
+      //for(var k in children){
+      //console.log(k, children[k])
+      var sp1 = document.createElement("span")
+      node.appendChild(sp1)
+      try {
         node.replaceChild(html(), sp1);
-        }catch (e){
-          console.log('FILL HTML ERROR',html().id, e)
-        }
-        //}
-      } else if (html.nodeType === 1) {
-        
-        addCloneId(html)
-        
-        var sp1 = document.createElement("span")
-        node.appendChild(sp1)
-        node.replaceChild(html, sp1);
-      } else {
-        node.innerHTML = html;
+      } catch (e) {
+        console.log('FILL HTML ERROR', html().id, e)
       }
-      // CAN'T do below since it will append on every new call
-      // node.insertAdjacentHTML("afterbegin", html)
-    };
+      //}
+    } else if (html.nodeType === 1) {
+
+      addCloneId(html)
+
+      var sp1 = document.createElement("span")
+      node.appendChild(sp1)
+      node.replaceChild(html, sp1);
+    } else {
+      node.innerHTML = html;
+    }
+    // CAN'T do below since it will append on every new call
+    // node.insertAdjacentHTML("afterbegin", html)
+  };
 
 
   //===========================================================================
@@ -726,37 +728,40 @@ function addCloneId(html){
     //cached=[]
   }
 
-function elementToObject(el, o) {
 
-  var o = {
-    tagName: el.tagName
-  };
-  if (el.firstChild || el.children[0]) {
-    var item = el.firstChild || el.childNodes[0]
-    var val = item.nodeValue || item.value || item.innerText
-    if(val)val = val.replace(/\u00a0/g, "x").trim()
-    if (val) o.tagValue = val
+  function elementToObject(el, o) {
 
-  }
+    var o = {
+      tagName: el.tagName
+    };
+    if (el.firstChild || el.children[0]) {
+      var item = el.firstChild || el.childNodes[0]
+      var val = item.nodeValue || item.value || item.innerText
+      if (val) val = val.replace(/\u00a0/g, "x").trim()
+      if (val) o.tagValue = val
 
-  var i = 0;
-  for (i; i < el.attributes.length; i++) {
-    o[el.attributes[i].name] = el.attributes[i].value;
-  }
-
-  var children = el.children;
-  if (children.length) {
-
-
-    o.children = [];
-    i = 0;
-    for (i; i < children.length; i++) {
-      var child = children[i];
-      o.children[i] = elementToObject(child, o.children);
     }
+
+    var i = 0;
+    for (i; i < el.attributes.length; i++) {
+      o[el.attributes[i].name] = el.attributes[i].value;
+    }
+
+    var children = el.children;
+    if (children.length) {
+
+
+      o.children = [];
+      i = 0;
+      for (i; i < children.length; i++) {
+        var child = children[i];
+        o.children[i] = elementToObject(child, o.children);
+      }
+    }
+    return o;
   }
-  return o;
-}
+
+
   function unclear() {
     firstRun = false
   }
@@ -766,7 +771,7 @@ function elementToObject(el, o) {
 
   mag.fill = {
     fill: fill,
-    elementToObject:elementToObject,
+    elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
     clear: clear,
