@@ -195,26 +195,25 @@ You can see that the first one when clicked nothing is changed while the second 
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
 
 Here's an alternative approach to the above that only uses a view method and no controller for a similar result:
-http://jsbin.com/dafozijaje/edit?js,output
+http://jsbin.com/juvisawici/edit?js,output
 
 Example with config and without controller 
 
 ```javascript
 mag.module("lister", {
-  view: function(state, props, element) {
+  view: function(state) {
     var name1 = 'Yo!',
-        name2 = 'Joe!'
+      name2 = 'Joe!'
     state.h2 = {
-      _config: function(element, isNew, context, index) {
+      _config: function(node, isNew) {
         if (isNew) {
           state.span = name1
           state.item = [1, 2, 3]
-          mag.redraw()
         }
       },
       _onclick: function() {
         state.item.reverse()
-        state.span = state.span == name1 && name2 || name1
+        state.span = state.span == name1 && name2 || name1;
       }
     }
   }
@@ -230,8 +229,6 @@ It receives 4 arguments:
   - - context.onunload (configContext, node, xpath)
 * 4. Index- the x path based index of the element
 
-mag.redraw is required to be manually called here if the desire is to display the changed state to the dom immediately.
-An alternative is to use mag.prop for the state variables. mag.prop on setter will call mag.redraw automatically.
 
 ### Simple API
 
