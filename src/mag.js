@@ -15,7 +15,7 @@
 
   var redrawing = false
   mag.redraw = function(force) {
-    if (redrawing) {
+    if (redrawing || mag.running) {
       // do we ever get here?
       // necessary?
       return
@@ -47,7 +47,7 @@
       if (arguments.length) {
         store = arguments[0]
         // Is a redraw here necessary?
-        //mag.redraw()
+        mag.redraw()
       }
       return store
     }
