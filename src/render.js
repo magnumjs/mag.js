@@ -231,21 +231,28 @@
 
     mag.running = false
   }
-
+  //mag.runner = false
   render.setupWatch = function(args, fill, elementClone, i, module) {
     // WatchJS.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
     // return
     //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
+    mag.runner = false;
+    var changed = false;
 
     // Which we then observe
     observeNested(args[0], function(changes) {
-      // changes.forEach(function(change) {
-      //console.log(change.type, change.name, change.oldValue);
-      //});
-
-      // retain reference
-      module.controllers[i] = args[0]
-      throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+      changes.forEach(function(change) {
+        if (change.type == 'add' || change.type == 'update') {
+          changed = true
+          return
+        }
+      });
+      if (changed && !mag.runner) {
+        mag.runner = true
+        // retain reference
+        module.controllers[i] = args[0]
+        throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+      }
     });
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
