@@ -11,8 +11,7 @@
     FUNCTION = 'function',
     OBJECT = '[object Object]';
 
-  mag.running = false
-
+  //mag.running = false
   var redrawing = false
   mag.redraw = function(force) {
     if (redrawing || mag.running) {
