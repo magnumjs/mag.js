@@ -185,11 +185,14 @@
       //console.log('completed run', i, elementClone.id, cache[i], JSON.stringify(args))
       return false
     }
-    callView(elementClone, module, i)
-
     // circular references will throw an exception
     // such as setting to a dom element
     cache[i] = JSON.stringify(args)
+
+
+    callView(elementClone, module, i)
+
+
 
     // only setup once!
     // if (!module.elements[i].setWatch) {
@@ -227,8 +230,12 @@
       // , 1)
       return
     }
-    callView(ele, module, i)
+
+    // console.log('isupdate', ele.id, cache[i], i, JSON.stringify(args))
+    render.callLCEvent('isupdate', module, i)
     cache[i] = JSON.stringify(args)
+
+    callView(ele, module, i)
 
     //delete args[0]['__magnum__::']
     fill.fill(ele, args[0])
@@ -242,7 +249,7 @@
     // mag.watch.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
     // return
     //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
-    mag.runner = false;
+    //mag.runner = false;
     // var changed = false;
     // console.log('setup watch', elementClone.id)
     var observer = function(changes) {
@@ -296,16 +303,22 @@
   function debounce(func, wait, immediate) {
     var timeout;
     return function() {
-      var context = this,
+
+      var obj = this,
         args = arguments;
-      var later = function() {
+
+      function delayed() {
+        if (!immediate)
+          func.apply(obj, args);
         timeout = null;
-        if (!immediate) func.apply(context, args);
       };
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
+
+      if (timeout)
+        $cancelAnimationFrame(timeout);
+      else if (immediate)
+        func.apply(obj, args);
+
+      timeout = $requestAnimationFrame(delayed, wait);
     };
   };
 
