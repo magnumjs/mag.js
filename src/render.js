@@ -1,33 +1,34 @@
 ;
 (function(mag) {
 
-  "use strict";
+  'use strict';
 
   var render = {
     roots: [],
     contexts: [],
     templates: {},
+    unloaders: [],
     cache: {}
-  }
+  }, iscached = function(key, data) {
+      if (render.cache[key] && render.cache[key] === JSON.stringify(data)) return true
+      render.cache[key] = JSON.stringify(data)
+    }
 
-  var unloaders = [],
-    cached = [],
-    pendingRequests = 0
 
     function callView(elementClone, module, i) {
-      var args = module.getArgs(i)
-      var mod = module.modules[i]
-      var controller = module.controllers[i]
+      var args = module.getArgs(i),
+        mod = module.modules[i],
+        controller = module.controllers[i]
 
-      // var controllerConstructor = mod.controller.$original || mod.controller
-      // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
-      // give it unfrozen context ?
+        // var controllerConstructor = mod.controller.$original || mod.controller
+        // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
+        // give it unfrozen context ?
 
-      // if (Object.keys(controller).length < 1) {
-      // add one
-      // initiates a draw
-      //controller['__magnum__::'] = 1
-      // }
+        // if (Object.keys(controller).length < 1) {
+        // add one
+        // initiates a draw
+        //controller['__magnum__::'] = 1
+        // }
 
       var context = render.contexts[i] = render.contexts[i] || {}
       //console.log(controller, args)
@@ -55,16 +56,16 @@
     // }
 
 
-  render.unloaders = []
+    // render.unloaders = []
 
-  // call Lifecycle event
+    // call Lifecycle event
   render.callLCEvent = function(eventName, module, index, once) {
-    var isPrevented = false
-    var event = {
-      preventDefault: function() {
-        isPrevented = true
+    var isPrevented = false,
+      event = {
+        preventDefault: function() {
+          isPrevented = true
+        }
       }
-    }
     if (module.controllers[index][eventName]) {
       module.controllers[index][eventName].call({}, event, module.elements[index])
       if (once) module.controllers[index][eventName] = 0
@@ -93,11 +94,11 @@
   render.callConfigs = function(configs) {
     for (var i = 0, len = configs.length; i < len; i++) configs[i]()
   }
-  var cache = []
+
   render.redraw = function(module, fill, force) {
 
     module = module || render.module || {}
-    if (force) cache = []
+    if (force) cache = {}
 
     this.fun = (this.fun || throttle(function(id) {
       // clear existing configs
@@ -107,27 +108,27 @@
     this.fun()
   }
 
-    function addConfigUnloaders(module, fill, index) {
+  function addConfigUnloaders(module, fill, index) {
 
-      //var cfgUnloaders = []
+    //var cfgUnloaders = []
 
-      for (var k in fill.cached) {
-        //console.log(module.elements[index].id, k)
-        if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1) {
-          if (fill.cached[k].configContext) {
-            //            console.log(k, fill.cached[k].configContext.onunload)
+    for (var k in fill.cached) {
+      //console.log(module.elements[index].id, k)
+      if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1) {
+        if (fill.cached[k].configContext) {
+          //            console.log(k, fill.cached[k].configContext.onunload)
 
-            render.unloaders.push({
-              controller: fill.cached[k].configContext,
-              handler: fill.cached[k].configContext.onunload
-            })
-          }
+          render.unloaders.push({
+            controller: fill.cached[k].configContext,
+            handler: fill.cached[k].configContext.onunload
+          })
         }
       }
-
-      //console.log(cfgUnloaders)
-
     }
+
+    //console.log(cfgUnloaders)
+
+  }
   render.doLoop = function(module, fill) {
     for (var i = 0, root; root = render.roots[i]; i++) {
       // mag.running = true
@@ -170,7 +171,7 @@
   }
 
   render.clear = function(index, elementId, fill) {
-    if (index !== -1 && cache[index]) {
+    if (index !== -1 && render.cache[index]) {
       // clear events too
       fill.clear()
       //console.log('clear called on reload', elementId)
@@ -181,13 +182,13 @@
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
-    if (cache[i] && cache[i] === JSON.stringify(args)) {
+    if (iscached(i, args)) {
       //console.log('completed run', i, elementClone.id, cache[i], JSON.stringify(args))
       return false
     }
     // circular references will throw an exception
     // such as setting to a dom element
-    cache[i] = JSON.stringify(args)
+    //cache[i] = JSON.stringify(args)
 
 
     callView(elementClone, module, i)
@@ -218,12 +219,13 @@
 
     //console.log('componentWillUpdate', ele.id)
     // debounce(
+    //TODO: return true then skip execution?
     render.callLCEvent('willupdate', module, i, 1)
     //, 1, 1)
 
     var args = module.getArgs(i)
     // check if data changed
-    if (cache[i] && cache[i] === JSON.stringify(args)) {
+    if (iscached(i, args)) {
       //console.log('componentDidUpdate', ele.id)
       // debounce(
       render.callLCEvent('didupdate', module, i)
@@ -233,7 +235,7 @@
 
     // console.log('isupdate', ele.id, cache[i], i, JSON.stringify(args))
     render.callLCEvent('isupdate', module, i)
-    cache[i] = JSON.stringify(args)
+    //cache[i] = JSON.stringify(args)
 
     callView(ele, module, i)
 
@@ -340,7 +342,7 @@
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
       notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, debounce(callback, 16, 1));
+      Object.observe(obj, debounce(callback, 16));
     }
   }
 
