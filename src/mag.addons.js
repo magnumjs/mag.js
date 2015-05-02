@@ -145,7 +145,7 @@ mag.addons.requestWithFeedback.cache = {}
 
 mag.hookin('attributes', 'key', function(data) {
     // remove system key from being added to attributes in html
-    data.value = null
+  //  data.value = null
 })
 
 mag.hookin('attributes', 'className', function(data) {
