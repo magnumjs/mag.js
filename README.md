@@ -72,7 +72,7 @@ Mag.JS dom!:
 (http://jsbin.com/xigipeziqi/edit?js,output)
 
 [Tab component:]
-(http://jsbin.com/payewiqasi/edit?js,output)
+(http://jsbin.com/payewiqasi/edit?js,output) - [Take2](http://jsbin.com/jutuvukiwe/edit?html,js,output)
 
 [Modal component:]
 (http://jsbin.com/beqimijebo/edit?js,output)
