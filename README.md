@@ -5,7 +5,7 @@
 ### Intuitive, fast, clean, simple, clear, tiny, JS2HTML component templating library.
 
 * Changes to state are immediately reflected in the dom by their element matchers.
-* No virtual/shadow dom or new templating language! Super fast & 3.5KB Gzipped!
+* No virtual/shadow dom or new templating language! Super fast & 4KB Gzipped!
 * Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
