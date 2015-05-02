@@ -165,6 +165,7 @@
         }
       }
     }
+    mag.running = false
     fill.unclear()
   }
 
@@ -190,7 +191,11 @@
     // such as setting to a dom element
     cache[i] = JSON.stringify(args)
 
+    // only setup once!
+    // if (!module.elements[i].setWatch) {
     render.setupWatch(args, fill, elementClone, i, module)
+    //    module.elements[i].setWatch = 1
+    //}
     // remove 
     //delete args[0]['__magnum__::']
     fill.fill(elementClone, args[0])
@@ -231,29 +236,33 @@
 
     mag.running = false
   }
+
+
   //mag.runner = false
   render.setupWatch = function(args, fill, elementClone, i, module) {
-    // WatchJS.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
+    // mag.watch.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
     // return
     //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
     mag.runner = false;
-    var changed = false;
-
-    // Which we then observe
-    observeNested(args[0], function(changes) {
+    // var changed = false;
+    // console.log('setup watch', elementClone.id)
+    var observer = function(changes) {
       changes.forEach(function(change) {
-        if (change.type == 'add' || change.type == 'update') {
-          changed = true
-          return
-        }
+        //if (change.type == 'add' || change.type == 'update') {
+        //console.log(change.name)
+        //changed = true
+        // return
+        //}
       });
-      if (changed && !mag.runner) {
-        mag.runner = true
+      if (!mag.runner) {
+        //mag.runner = true
         // retain reference
         module.controllers[i] = args[0]
         throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
       }
-    });
+    }
+    // Which we then observe
+    observeNested(args[0], observer);
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
@@ -284,21 +293,6 @@
 
   mag.render = render
 
-  // function debounce(func, wait, immediate) {
-  //   var timeout;
-  //   return function() {
-  //     var context = this,
-  //       args = arguments;
-  //     var later = function() {
-  //       timeout = null;
-  //       if (!immediate) func.apply(context, args);
-  //     };
-  //     var callNow = immediate && !timeout;
-  //     clearTimeout(timeout);
-  //     timeout = setTimeout(later, wait);
-  //     if (callNow) func.apply(context, args);
-  //   };
-  // };
 
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
