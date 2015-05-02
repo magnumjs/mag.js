@@ -66,16 +66,13 @@
       }
     }
 
-  var templates = {}
-  var cached = [],
+  var templates = {},
     gkeys = {}, // What about nested Lists, which guid?
     firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data, key) {
-    var node
-    var parent
-    var dataIsArray
+    var node,parent, dataIsArray
 
 
 
@@ -600,6 +597,8 @@
       html.id = '__magnum__::' + html.id.split('__magnum__::').pop()
     }
   }
+
+
 
   function setHtml(node, html) {
     if (!node || html == null) return;
