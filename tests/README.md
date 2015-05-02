@@ -2,7 +2,7 @@
 https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html
 
 ###JSBIN
-http://jsbin.com/damedulanu/edit?js,output
+http://jsbin.com/nexegitimu/edit?js,output
 
 ###Component test (clone with 1)
 http://jsbin.com/zusafoyito/4/edit
