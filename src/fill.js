@@ -145,14 +145,14 @@
         //data[0][MAGNUM] = elements[0].__key = 0
       }
 
-      // var keys = elements.map(function(i) {
-      //   return i.__key
-      // })
+      var ekeys = elements.map(function(i) {
+        return i.__key
+      })
 
       var keys = data.map(function(i) {
         return i[MAGNUM_KEY]
       })
-      //console.log('existing', keys, keys.indexOf(undefined)!==-1)
+      //console.log('existing', keys, keys.indexOf(undefined)!==-1,  ekeys, ekeys.indexOf(undefined)!==-1)
       //if (elements.length == data.length) gkeys[key] = 0
 
       // add keys if equal
@@ -161,12 +161,15 @@
 
         //console.log('here', key, gkeys[key])
 
+        // changes data can cause recursion!
+
         var data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            // if (!elements[i].__key) {
-            //   elements[i].__key = '__magnum__' + gkeys[key]++
-            // }
+            if (elements[i].__key && typeof d[MAGNUM_KEY] === 'undefined') {
+              d[MAGNUM_KEY] = elements[i].__key
+              return d
+            }
             if (typeof d[MAGNUM_KEY] === 'undefined') {
               d[MAGNUM_KEY] = '__magnum__' + gkeys[key]++
             }
@@ -453,10 +456,22 @@
           // console.log('event exists', firstRun)
           continue
         }
+        //TODO: if data parent its index is useful add it?
+        // TODO: put all params into a data MAP {} ?
         var eventCall = function(fun, node, tagIndex, e) {
           try {
-            var dataParent = findParentChild(node)
-            return fun.call(node, e, tagIndex, node, (dataParent || {})._dataPass, dataParent)
+            var dataParent = findParentChild(node),
+              path = dataParent && getPathTo(dataParent),
+              parentIndex = getPathIndex(path),
+              parent = {
+                path: path,
+                data: (dataParent || {})._dataPass,
+                node: dataParent,
+                index: parentIndex
+              }
+            return fun.call(node, e, tagIndex, node, parent)
+          } catch (err) {
+            throw Error('Mag.JS - event handler error - ' + p + err + err.stack)
           } finally {
             mag.redraw()
           }
