@@ -1,10 +1,11 @@
+
 var tabbed = {
   controller: function(p) {
 
     this.selected = p.selectedItem
     this.changeTab = function(name) {
       this.selected = name
-      console.log(name, p.selectedItem, this.selected)
+      return console.log(name, p.selectedItem, this.selected)
     }.bind(this)
 
   }
@@ -30,7 +31,7 @@ var tabs = function(data) {
 
 var tab = function(ctrl, item, idx) {
   return {
-    _key: idx,
+    // _key : idx, 
     a: {
       _class: ctrl.selectedItem == item.name ? "selected" : "",
       _onclick: ctrl.onchange.bind(ctrl, item.name),
@@ -74,6 +75,7 @@ mag.module('tabbed', tabbed, {
     "content": list
   }]
 })
+
 
 
 var SearchExample = {}
@@ -340,7 +342,6 @@ var props = {
 };
 mag.module('ProductTable', ProductTable, props)
 
-
 var shoes = {
   controller: function(props) {
     this.searchText = mag.prop(props.searchText)
@@ -348,7 +349,7 @@ var shoes = {
     mag.addons.copy(props.shoes, this.shoes = [])
 
     this.clickee = function(e, index, node, data, parentIndexNode) {
-      console.log(node, parentIndexNode, data, index)
+     return console.log(e, index, node, data, parentIndexNode)
     }
 
     this.filter = function(item) {
@@ -678,3 +679,4 @@ mag.module('app', {
     })
   }
 })
+
