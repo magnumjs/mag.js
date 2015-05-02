@@ -423,7 +423,7 @@ state.name._value = state.name._value + ''
 event (e, index, node, data) default context is node
 
 * index is the xpath index of the node -1
-* data is the index data of the parent if in a list
+* data is the index data of the parent if in a list (map{path,data,node,index})
 
 ####Events
 
@@ -433,6 +433,7 @@ Life cycle events in controller:
 * didload (event, node)
 * willupdate (event, node)
 * didupdate (event, node)
+* isupdate (event, node)
 * onunload (node)
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
