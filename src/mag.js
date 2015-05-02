@@ -109,7 +109,6 @@
     }
   }
 
-  var topComponent
   mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
