@@ -1,106 +1,79 @@
-mag.module('app2', {
-  view: function(s, p, e) {
-    //s.b='first'
-    s.data = mag.module('comp2', {
-      view: function(s, p) {
-        s.span = s.span || 'stuff'
-        s.b = {
-          _text: 'yoyo',
-          _onclick: function() {
-            s.span = s.span == 'stuff' ? 'other' : 'stuff'
-            console.log('test', s.span)
-            //mag.redraw(1)
-          }
-        }
-      }
-    }).then(function(data) {
-      s.data = data
-    })
+var tabbed = {
+  controller: function(p) {
 
-  }
-})
-
-
-mag.module('app', {
-  view: function(s, p, e) {
-    s.count = s.count || 1
-    s.data = mag.module('comp', {
-      view: function(s, p, e, c) {
-        //console.log(c)
-        s.b = c.thingy
-        s.count = p.changeling
-        s.span = p.expr + '' + s.count
-        s.head = {
-          _onclick: function() {
-            //console.log(c)
-            s.span = 'yoyo'
-            c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
-          }
-        }
-      }
-    }, {
-      expr: (s.count % 2 == 0 ? 'hm' : 'blow'),
-      changeling: s.count
-    }) // try cloning by adding a 1 last argument to see the difference
-    .then(function(data) {
-      //console.log('test', data._html())
-      s.data = data
-      s.span = {
-        _onclick: function() {
-          s.count++
-        }
-      }
-    })
-  }
-})
-
-var shoes = {
-  controller: function(props) {
-    this.searchText = mag.prop(props.searchText)
-    this.searching = this.searchText
-    mag.addons.copy(props.shoes, this.shoes = [])
-
-    this.clickee = function(e, index, node, data) {
-      console.log(node.parentNode.__key, node.isChildOfArray, data)
-    }
-
-    this.filter = function(item) {
-      //console.log(item)
-      return item.color.indexOf(this.searchText()) !== -1
+    this.selected = p.selectedItem
+    this.changeTab = function(name) {
+      this.selected = name
+      console.log(name, p.selectedItem, this.selected)
     }.bind(this)
 
-    this.shoes = this.shoes.filter(this.filter)
-  },
-  view: function(state, props) {
-    state.shoes = props.shoes.filter(state.filter)
-    mag.addons.binds(state, state.input = {})
-    state.test = ''
-    state.$a = {
-      _onclick: state.clickee
+  }
+}
+
+tabbed.view = function(s, p) {
+
+  s.li = tabs({
+    tabs: p.tabs,
+    selectedItem: s.selected,
+    onchange: s.changeTab
+  })
+
+  s.content = choosey(s.selected, p.tabs)
+
+}
+
+var tabs = function(data) {
+  return data.tabs.map(function(item, i) {
+    return tab(data, item, i)
+  })
+}
+
+var tab = function(ctrl, item, idx) {
+  return {
+    _key: idx,
+    a: {
+      _class: ctrl.selectedItem == item.name ? "selected" : "",
+      _onclick: ctrl.onchange.bind(ctrl, item.name),
+      _text: item.name
     }
   }
 }
 
-var props = {
-  searchText: '',
-  shoes: [{
-    style: 'stilletos',
-    color: 'red'
-  }, {
-    style: 'platform',
-    color: 'gold'
-  }, {
-    style: 'flats',
-    color: 'black'
-  }]
+var choosey = function(name, options) {
+  var content
+  options.forEach(function(item, idx) {
+    if (item.name == name) {
+      content = item.content
+      return
+    }
+  })
+
+  var comp = typeof content === 'function' ? content() : content
+  //console.log('TEST', comp)
+  return comp
 }
 
-mag.hookin('elementMatcher', 'test', function(data) {
-  // console.log('HOOKIN', data)
+var form = function() {
+  return {
+    _html: 'FORM STUFF'
+  }
+}
+var list = function() {
+  return {
+    _html: 'LIST STUFF'
+  }
+}
+
+mag.module('tabbed', tabbed, {
+  "selectedItem": "form",
+  "tabs": [{
+    "name": "form",
+    "content": form
+  }, {
+    "name": "list",
+    "content": list
+  }]
 })
-
-
-mag.module("shoes", shoes, props)
 
 
 var SearchExample = {}
@@ -367,6 +340,55 @@ var props = {
 };
 mag.module('ProductTable', ProductTable, props)
 
+
+var shoes = {
+  controller: function(props) {
+    this.searchText = mag.prop(props.searchText)
+    this.searching = this.searchText
+    mag.addons.copy(props.shoes, this.shoes = [])
+
+    this.clickee = function(e, index, node, data, parentIndexNode) {
+      console.log(node, parentIndexNode, data, index)
+    }
+
+    this.filter = function(item) {
+      //console.log(item)
+      return item.color.indexOf(this.searchText()) !== -1
+    }.bind(this)
+
+    this.shoes = this.shoes.filter(this.filter)
+  },
+  view: function(state, props) {
+    state.shoes = props.shoes.filter(state.filter)
+    mag.addons.binds(state, state.input = {})
+    state.test = ''
+    state.$a = {
+      _onclick: state.clickee
+    }
+  }
+}
+
+var props = {
+  searchText: '',
+  shoes: [{
+    style: 'stilletos',
+    color: 'red'
+  }, {
+    style: 'platform',
+    color: 'gold'
+  }, {
+    style: 'flats',
+    color: 'black'
+  }]
+}
+
+mag.hookin('elementMatcher', 'test', function(data) {
+  // console.log('HOOKIN', data)
+})
+
+mag.module("shoes", shoes, props)
+
+
 var modal = {
   controller: function(props) {
     this.visible = mag.prop(props.visible)
@@ -435,7 +457,6 @@ mag.module("lister", {
         if (isNew) {
           state.span = name1
           state.item = [1, 2, 3]
-          mag.redraw()
         }
       },
       _onclick: function() {
@@ -599,5 +620,61 @@ mag.module('hello', {
     //setTimeout(function() {
     //  console.log(state.h1, state.input)
     //}, 100)
+  }
+})
+
+mag.module('app2', {
+  view: function(s, p, e) {
+    //s.b='first'
+    s.data = mag.module('comp2', {
+      view: function(s, p) {
+        s.span = s.span || 'stuff'
+        s.b = {
+          _text: 'yoyo',
+          _onclick: function() {
+            s.span = s.span == 'stuff' ? 'other' : 'stuff'
+            console.log('test', s.span)
+            //mag.redraw(1)
+          }
+        }
+      }
+    }).then(function(data) {
+      s.data = data
+    })
+
+  }
+})
+
+
+mag.module('app', {
+  view: function(s, p, e) {
+    s.count = s.count || 1
+    s.data = mag.module('comp', {
+      view: function(s, p, e, c) {
+        //console.log(c)
+        s.b = c.thingy
+        s.count = p.changeling
+        s.span = p.expr + '' + s.count
+        s.head = {
+          _onclick: function() {
+            //console.log(c)
+            s.span = 'yoyo'
+            c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
+          }
+        }
+      }
+    }, {
+      expr: (s.count % 2 == 0 ? 'hm' : 'blow'),
+      changeling: s.count
+    }) // try cloning by adding a 1 last argument to see the difference
+    .then(function(data) {
+      //console.log('test', data._html())
+      s.data = data
+      s.span = {
+        _onclick: function() {
+          s.count++
+        }
+      }
+    })
   }
 })
