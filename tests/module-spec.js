@@ -15,7 +15,8 @@ var view = {
       _config: function(n, is, c, i) {
         c.count = c.count + 1 || 1
         c.onunload = function(context, node, path) {
-          expect(context.count).toEqual(1)
+          console.log(arguments)
+          expect(context.count).toEqual(2)
           expect(path).toEqual('id("test")/H2[1]')
         }
       }
