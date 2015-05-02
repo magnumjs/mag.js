@@ -18,7 +18,7 @@
     if (redrawing || mag.running) {
       // do we ever get here?
       // necessary?
-      return
+      //return
     }
     redrawing = true
     render.redraw(module || render.module || {}, fill, force)
