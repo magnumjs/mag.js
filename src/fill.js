@@ -112,7 +112,7 @@
       }
 
       if (elements.length === 0) {
-
+        gkeys[key] = 0
         // should never reach here
         // cannot fill empty nodeList with an array of data
         return
@@ -152,11 +152,14 @@
       var keys = data.map(function(i) {
         return i[MAGNUM_KEY]
       })
-      // console.log('existing', keys, keys.indexOf(undefined)!==-1)
+      //console.log('existing', keys, keys.indexOf(undefined)!==-1)
+      //if (elements.length == data.length) gkeys[key] = 0
 
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-        // console.log('here', gkeys[key])
+        //console.log('something!') 
+
+        //console.log('here', key, gkeys[key])
 
         var data = data.map(function(d, i) {
 
@@ -164,9 +167,10 @@
             // if (!elements[i].__key) {
             //   elements[i].__key = '__magnum__' + gkeys[key]++
             // }
-            if (!d[MAGNUM_KEY]) {
+            if (typeof d[MAGNUM_KEY] === 'undefined') {
               d[MAGNUM_KEY] = '__magnum__' + gkeys[key]++
             }
+            //console.log(d[MAGNUM_KEY], i)
             elements[i].__key = d[MAGNUM_KEY]
             // d[MAGNUM_KEY] = elements[i].__key
           }
@@ -193,17 +197,19 @@
           var m = data.map(function(i) {
             return i[MAGNUM_KEY]
           })
-          // console.log('m keys', m)
+          //console.log('m keys', m)
           var k = elements.map(function(i) {
             return i.__key
           })
-          // console.log('e keys', k)
+          //console.log('e keys', k)
 
           var elements = elements.filter(function(ele, i) {
-            if (m.indexOf(ele.__key) === -1) {
+            if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
+              found.push(ele.__key)
               removeNode(ele)
               return false
             }
+            found.push(ele.__key)
             return true
           })
           /*
@@ -267,7 +273,7 @@
       } else {
         //TODO: is this a child of an array?
         if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
-          //console.log(data)
+          //console.log(data, i)
           elements[i].isChildOfArray = true
           elements[i]._dataPass = data
         }
@@ -447,13 +453,14 @@
           // console.log('event exists', firstRun)
           continue
         }
-        var eventCall = function(fun, node, tagIndex, data, e) {
+        var eventCall = function(fun, node, tagIndex, e) {
           try {
-            return fun.call(node, e, tagIndex, node, data)
+            var dataParent = findParentChild(node)
+            return fun.call(node, e, tagIndex, node, (dataParent || {})._dataPass, dataParent)
           } finally {
             mag.redraw()
           }
-        }.bind(null, attributes[attrName], node, tagIndex, (findParentChild(node) || {})._dataPass)
+        }.bind(null, attributes[attrName], node, tagIndex)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
