@@ -11,6 +11,7 @@
     elements: []
   }
 
+
   mod.getController = function(mod, element, fill) {
     var controller
 
@@ -58,7 +59,27 @@
     return controller
   }
 
+  function deepFreeze(o) {
+    var prop, propKey;
+    Object.freeze(o); // First freeze the object.
+    for (propKey in o) {
+      prop = o[propKey];
+      if (!o.hasOwnProperty(propKey) || !(typeof prop === 'object') || Object.isFrozen(prop)) {
+        // If the object is on the prototype, not an object, or is already frozen,
+        // skip it. Note that this might leave an unfrozen reference somewhere in the
+        // object if there is an already frozen object containing an unfrozen object.
+        continue;
+      }
+
+      deepFreeze(prop); // Recursively call deepFreeze.
+    }
+  }
+
   mod.submodule = function(module, args) {
+
+
+    deepFreeze(args)
+
 
     var controller = function(args) {
       return (module.controller || function() {}).apply(this, args)
@@ -75,6 +96,7 @@
     }
     controller.$original = module.controller
     controller.$$args = args
+
     var output = {
       controller: controller,
       view: view
@@ -88,7 +110,6 @@
   mod.getArgs = function(i) {
     var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
     // args that contaian circular references will throw an exception up the chain
-    // TODO: filter for circular references such as DOM nodes
 
     return args
   }
