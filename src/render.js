@@ -130,7 +130,7 @@
     }
   render.doLoop = function(module, fill) {
     for (var i = 0, root; root = render.roots[i]; i++) {
-      mag.running = true
+      // mag.running = true
 
       if (module.controllers[i] && module.elements[i]) {
         //debounce(
@@ -165,7 +165,7 @@
         }
       }
     }
-    mag.running = false
+    //mag.running = false
     fill.unclear()
   }
 
@@ -211,7 +211,7 @@
 
     if (frameId == prevId) return
     prevId = frameId
-    mag.running = true
+    //mag.running = true
 
     //console.log('componentWillUpdate', ele.id)
     // debounce(
@@ -234,7 +234,6 @@
     fill.fill(ele, args[0])
     //render.callConfigs(fill.configs)
 
-    mag.running = false
   }
 
 
@@ -247,6 +246,7 @@
     // var changed = false;
     // console.log('setup watch', elementClone.id)
     var observer = function(changes) {
+      //console.log('observer',mag.runner)
       changes.forEach(function(change) {
         //if (change.type == 'add' || change.type == 'update') {
         //console.log(change.name)
@@ -254,12 +254,12 @@
         // return
         //}
       });
-      if (!mag.runner) {
-        //mag.runner = true
-        // retain reference
-        module.controllers[i] = args[0]
-        throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
-      }
+      //      if (!mag.runner) {
+      //mag.runner = true
+      // retain reference
+      module.controllers[i] = args[0]
+      throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+      //    }
     }
     // Which we then observe
     observeNested(args[0], observer);
@@ -293,19 +293,42 @@
 
   mag.render = render
 
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this,
+        args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
 
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      Object.observe(obj, function(changes) {
-        changes.forEach(function(change) {
-          if (typeof obj[change.name] == 'object') {
-            observeNested(obj[change.name], callback);
-          }
+  function notifySubobjectChanges(object) {
+    var notifier = Object.getNotifier(object); // get notifier for this object
+    for (var k in object) { // loop over its properties
+      var prop = object[k]; // get property value
+      if (!prop || typeof prop !== 'object') break; // skip over non-objects
+      Object.observe(prop, function(changes) { // observe the property value
+        changes.forEach(function(change) { // and for each change
+          notifier.notify(change);
         });
-        callback.apply(this, arguments);
       });
+      notifySubobjectChanges(prop); // repeat for sub-subproperties
     }
   }
 
+
+  function observeNested(obj, callback) {
+    if (obj && typeof Object.observe !== 'undefined') {
+      notifySubobjectChanges(obj); // set up recursive observers
+      Object.observe(obj, debounce(callback, 16, 1));
+    }
+  }
 
 })(window.mag || {})
