@@ -114,15 +114,15 @@
 
     for (var k in fill.cached) {
       //console.log(module.elements[index].id, k)
-      if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1) {
-        if (fill.cached[k].configContext) {
+      if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1
+          && k.indexOf('-config')!==-1 && fill.cached[k].configContext) {
           //            console.log(k, fill.cached[k].configContext.onunload)
 
           render.unloaders.push({
             controller: fill.cached[k].configContext,
             handler: fill.cached[k].configContext.onunload
           })
-        }
+        
       }
     }
 
