@@ -60,51 +60,44 @@
     return controller
   }
 
-  function deepFreeze(o) {
-    var prop, propKey;
-    Object.freeze(o); // First freeze the object.
-    for (propKey in o) {
-      prop = o[propKey];
-      if (!o.hasOwnProperty(propKey) || !(typeof prop === 'object') || Object.isFrozen(prop)) {
-        // If the object is on the prototype, not an object, or is already frozen,
-        // skip it. Note that this might leave an unfrozen reference somewhere in the
-        // object if there is an already frozen object containing an unfrozen object.
-        continue;
-      }
+  // function deepFreeze(o) {
+  //   var prop, propKey;
+  //   Object.freeze(o); // First freeze the object.
+  //   for (propKey in o) {
+  //     prop = o[propKey];
+  //     if (!o.hasOwnProperty(propKey) || !(typeof prop === 'object') || Object.isFrozen(prop)) {
+  //       // If the object is on the prototype, not an object, or is already frozen,
+  //       // skip it. Note that this might leave an unfrozen reference somewhere in the
+  //       // object if there is an already frozen object containing an unfrozen object.
+  //       continue;
+  //     }
 
-      deepFreeze(prop); // Recursively call deepFreeze.
-    }
-  }
+  //     deepFreeze(prop); // Recursively call deepFreeze.
+  //   }
+  // }
 
   mod.submodule = function(module, args) {
+    // do we need/want this? view/controller will always get the same args
+    // difference is that that can't be changed within those functions - does that matter?
+    //deepFreeze(args)
 
+    var controller = function() {
+      return (module.controller || function() {}).apply(this, args) || this
+    },
+      view = function(ctrl, ele) {
 
-    deepFreeze(args)
+        if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
+        module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
 
+      }, output = {
+        controller: controller,
+        view: view
+      }
+      // why do we need these?
 
-    var controller = function(args) {
-      return (module.controller || function() {}).apply(this, args)
-    }.bind({}, args)
-
-    var view = function(ctrl, ele) {
-
-      if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
-      var template = module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
-
-      if (args[0] && args[0].key != null) template.attrs.key = args[0].key
-      // There's no template return ??
-      //return template
-    }
-    controller.$original = module.controller
+      //controller.$original = module.controller
+      //view.$original = module.view
     controller.$$args = args
-
-    var output = {
-      controller: controller,
-      view: view
-    }
-    if (args[0] && args[0].key != null) output.attrs = {
-      key: args[0].key
-    }
     return output
   }
 
