@@ -5,12 +5,22 @@
 
   var ELEMENT_NODE = 1,
     cached = [],
+    MAGNUM = '__magnum__',
+    FUNCTION = 'function',
+    UNDEFINED = 'undefined',
     MAGNUM_KEY = '_key'
 
     // helper method to detect arrays -- silly javascript
     function _isArray(obj) {
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
+
+    // TODO: all of these mutations to the element shoudl be there own map
+    // i.e. element.__magnum__ = {}
+    // TODO: optimize cache results or attach them to the node for reuse
+    // use fastdom
+
+
 
     function getPathTo(element) {
       if (element.id !== '')
@@ -31,20 +41,18 @@
     }
 
     function removeNode(node) {
+      // console.log('read inside removeNode')
       var p = getPathTo(node)
       // remove cache of all children too
-      if (node.queryCache) {
-        //delete node.queryCache;
-      }
+
       node.parentNode.removeChild(node)
       // call config unload if any ?
 
       //console.log(p, cached[p])
-      if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === 'function') {
+      if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
         // what arg to send ?
         cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
       }
-      removeCache(p)
     }
 
     // TODO: get index from getPathTo function
@@ -56,15 +64,19 @@
       return parseInt(s) - 1
     }
 
-    function removeCache(p) {
-      // search cache for children
+    // function removeCache(p) {
+    //   // search cache for children
 
-      delete cached[p]
+    //   delete cached[p]
 
-      for (var k in cached) {
-        if (k.indexOf(p) === 0) delete cached[k]
-      }
-    }
+    //   // remove cached config too?
+
+    //   for (var k in cached) {
+    //     if (k.indexOf(p) === 0) delete cached[k]
+    //   }
+    //   // remove cache
+    //   //console.log('removed',p)
+    // }
 
   var templates = {},
     gkeys = {}, // What about nested Lists, which guid?
@@ -72,11 +84,11 @@
 
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data, key) {
-    var node,parent, dataIsArray
+    var node, parent, dataIsArray
 
 
 
-    // there is nothing to do if there is nothing to fill
+      // there is nothing to do if there is nothing to fill
     if (!nodeList) return
 
     // remove all child nodes if there is no data
@@ -138,9 +150,7 @@
       }
       // loop thru to make sure no undefined keys
 
-      if (typeof elements[0].__key === 'undefined' && typeof data[0] === 'object') {
-        //data[0][MAGNUM] = elements[0].__key = 0
-      }
+
 
       var ekeys = elements.map(function(i) {
         return i.__key
@@ -149,8 +159,7 @@
       var keys = data.map(function(i) {
         return i[MAGNUM_KEY]
       })
-      //console.log('existing', keys, keys.indexOf(undefined)!==-1,  ekeys, ekeys.indexOf(undefined)!==-1)
-      //if (elements.length == data.length) gkeys[key] = 0
+
 
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
@@ -163,16 +172,15 @@
         var data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            if (elements[i].__key && typeof d[MAGNUM_KEY] === 'undefined') {
+            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
               d[MAGNUM_KEY] = elements[i].__key
               return d
             }
-            if (typeof d[MAGNUM_KEY] === 'undefined') {
-              d[MAGNUM_KEY] = '__magnum__' + gkeys[key]++
+            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
             }
             //console.log(d[MAGNUM_KEY], i)
             elements[i].__key = d[MAGNUM_KEY]
-            // d[MAGNUM_KEY] = elements[i].__key
           }
 
           return d
@@ -181,6 +189,7 @@
       }
       if (elements.length > data.length) {
         if (data.length === 0 || typeof data[0] !== 'object') {
+
           while (elements.length > data.length) {
             node = elements.pop()
             parent = node.parentNode
@@ -188,6 +197,8 @@
               removeNode(node)
             }
           }
+
+
         } else {
           // more elements than data
           // remove elements that don't have matching data keys
@@ -212,6 +223,7 @@
             found.push(ele.__key)
             return true
           })
+
           /*
           var elements = elements.filter(function(ele, i) {
           // determine which elements are not in the data by their MAGNUM key
@@ -257,25 +269,18 @@
       var p = getPathTo(elements[i])
       if (dataIsArray) {
         if (elements[i]) {
-          if (cached[p] && cached[p] === JSON.stringify(data[i])) {
-            //console.log('same a', p, cached[p], JSON.stringify(data[i]))
-            // continue
-          }
-          // if (cached[p]) console.log('changed a', p)
-          //console.log(p)
+
 
           fill(elements[i], data[i])
-          //cached[p] = JSON.stringify(data[i])
-          if (elements[i].queryCache) {
-            //delete elements[i].queryCache
-          }
+
         }
       } else {
         //TODO: is this a child of an array?
         if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+          elements[i][MAGNUM] = elements[i][MAGNUM] || {}
           //console.log(data, i)
-          elements[i].isChildOfArray = true
-          elements[i]._dataPass = data
+          elements[i][MAGNUM].isChildOfArray = true
+          elements[i][MAGNUM].dataPass = data
         }
         // else if (elements[i].parentNode && elements[i].parentNode.isChildOfArray) {
         //   elements[i].isChildOfArray = true
@@ -290,7 +295,7 @@
   }
 
   function findParentChild(node) {
-    if (node.parentNode && node.parentNode.isChildOfArray) {
+    if (node.parentNode && node.parentNode[MAGNUM] && node.parentNode[MAGNUM].isChildOfArray) {
       return node.parentNode
     } else if (node.parentNode) {
       // continue to walk up parent tree 
@@ -305,7 +310,7 @@
       elements
 
       // ignore functions
-    if (typeof data === 'function') {
+    if (typeof data === FUNCTION) {
       return
     }
 
@@ -380,7 +385,7 @@
         elements = matchingElements(node, key);
 
         // function 
-        if (typeof value === 'function' && value.type == 'fun') {
+        if (typeof value === FUNCTION && value.type == 'fun') {
           try {
             value = value()
           } catch (e) {}
@@ -431,15 +436,11 @@
       tagIndex = getPathIndex(p)
 
 
-      if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-        //console.log('isame', p, JSON.stringify(attributes))
-        //cache = true
-      }
       // attach to topId so can be removed later
 
-    node._events = node._events || []
+      node._events = node._events || []
 
-    // set the rest of the attributes
+      // set the rest of the attributes
     for (var attrName in attributes) {
 
       // skip text and html, they've already been set
@@ -462,7 +463,7 @@
               parentIndex = getPathIndex(path),
               parent = {
                 path: path,
-                data: (dataParent || {})._dataPass,
+                data: ((dataParent || {})[MAGNUM] || []).dataPass,
                 node: dataParent,
                 index: parentIndex
               }
@@ -472,7 +473,7 @@
           } finally {
             mag.redraw()
           }
-        }.bind(null, attributes[attrName], node, tagIndex)
+        }.bind({}, attributes[attrName], node, tagIndex)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
@@ -541,19 +542,13 @@
     setText(node, attributes.text)
     setHtml(node, attributes.html)
 
-    //console.log('ichange', p, JSON.stringify(attributes))
-    //cached[p] = JSON.stringify(attributes)
-    if (node.queryCache) {
-      // delete node.queryCache
-    }
+
   }
 
-  function setText(node, text) {
-    var child
-    var children
-    var p = getPathTo(node)
+  function setText(node, text, xpath) {
+    var child, children
 
-    // make sure that we have a node and text to insert
+      // make sure that we have a node and text to insert
     if (!node || text == null) {
       return
     }
@@ -594,13 +589,14 @@
     // change id
     if (html.cloner) {
       // check if already has
-      html.id = '__magnum__::' + html.id.split('__magnum__::').pop()
+      html.id = MAGNUM + html.id.split(MAGNUM).pop()
     }
   }
 
 
 
   function setHtml(node, html) {
+
     if (!node || html == null) return;
 
     // remove all children
@@ -621,7 +617,7 @@
       node.removeChild(node.firstChild);
     }
 
-    if (typeof html === 'function' && html().nodeType === 1) {
+    if (typeof html === FUNCTION && html().nodeType === 1) {
 
       //console.log(node.children.length, node.id, html().id)
 
@@ -673,9 +669,6 @@
     // is this cache necessary good useful?
     // are we losing some dynamism?
 
-    // if (!node.queryCache || !node.queryCache[key] || key[0] === '$') {
-
-    //node.queryCache = (node.queryCache || {})[key] = [];
 
     var globalSearch = key[0] === '$'
 
@@ -715,10 +708,7 @@
       }
     }
     return matches
-    // return matches
-    // node.queryCache[key] = matches
-    // }
-    // return node.queryCache[key];
+
   }
 
 
