@@ -149,10 +149,8 @@
       // mag.running = true
 
       if (module.controllers[i] && module.elements[i]) {
-        //debounce(
         if (render.callLCEvent('willload', module, i, 1)) return
 
-        //, 1, 1)
         if (!render.innerLoop(module, fill, i)) {
           //cached
           //debounce(
@@ -198,13 +196,12 @@
     var args = module.getArgs(i)
 
     if (iscached(i, args)) {
-      //console.log('completed run', i, elementClone.id, cache[i], JSON.stringify(args))
+      //console.log('completed run', i, elementClone.id, JSON.stringify(args[0]))
       return false
     }
     // circular references will throw an exception
     // such as setting to a dom element
     //cache[i] = JSON.stringify(args)
-
 
     callView(elementClone, module, i)
 
