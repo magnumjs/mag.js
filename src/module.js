@@ -21,6 +21,7 @@
     if (typeof Proxy !== 'undefined') {
       controller = new Proxy(new mod.controller, {
         get: function(target, prop) {
+          //more default props like willload, didload, willupdate, didupdate, isupdate
           if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
             var a = fill.find(element, prop),
               greedy = prop[0] === '$',
