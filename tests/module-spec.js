@@ -10,13 +10,14 @@ function afterDraw(expect) {
 var view = {
   controller: function(p) {
     this.p = [1, 2]
+    this.b = 'TEST'
     this.h2 = {
       _text: 'tester',
       _config: function(n, is, c, i) {
         c.count = c.count + 1 || 1
         c.onunload = function(context, node, path) {
-          console.log(arguments)
-          expect(context.count).toEqual(2)
+          expect(is).toEqual(false)
+          expect(context.count >= 2).toBeTruthy()
           expect(path).toEqual('id("test")/H2[1]')
         }
       }
