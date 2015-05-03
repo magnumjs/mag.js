@@ -1,7 +1,7 @@
 ;
 (function(mag, document, undefined) {
 
-  'use strict'
+  'use strict';
 
   var module = mag.mod,
     render = mag.render,
@@ -179,4 +179,4 @@
 
   }
 
-})(window.mag || {}, document)t)
+})(window.mag || {}, document)
