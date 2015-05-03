@@ -6,15 +6,17 @@
   var module = mag.mod,
     render = mag.render,
     fill = mag.fill,
-    topModule,
     type = {}.toString,
     FUNCTION = 'function',
-    OBJECT = '[object Object]';
+    OBJECT = '[object Object]',
+    redrawing = false,
+    hookins = {
+      attributes: [],
+      elementMatcher: []
+    }
 
-  //mag.running = false
-  var redrawing = false
   mag.redraw = function(force) {
-    if (redrawing || mag.running) {
+    if (redrawing) {
       // do we ever get here?
       // necessary?
       //return
@@ -77,10 +79,7 @@
     return prop
   }
 
-  var hookins = {
-    attributes: [],
-    elementMatcher: []
-  }
+
   mag.hookin = function(name, key, handler) {
     hookins[name].push({
       context: {},
@@ -170,15 +169,6 @@
     // return a promise in a settergetter
 
 
-    // return {
-    //   promise: module.promises[index],
-    //   html :{_html: fill.cloneNodeWithEvents(module.elements[index]) }
-    // }
-
-    // return propify(module.promises[index], {
-    //       _html: module.elements[index].innerHTML
-    //     })
-
     return propify(module.promises[index], {
       // _html: fill.cloneNodeWithEvents(module.elements[index])
       _html: mag.prop(module.elements[index])
@@ -189,4 +179,4 @@
 
   }
 
-})(window.mag || {}, document)
+})(window.mag || {}, document)t)
