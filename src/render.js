@@ -10,8 +10,24 @@
     unloaders: [],
     cache: {}
   }, iscached = function(key, data) {
-      if (render.cache[key] && render.cache[key] === JSON.stringify(data)) return true
-      render.cache[key] = JSON.stringify(data)
+      jcache = []
+      if (render.cache[key] && render.cache[key] === JSON.stringify(data, JSONStringifyReplacer)) {
+        jcache = null
+        return true
+      }
+      render.cache[key] = JSON.stringify(data, JSONStringifyReplacer)
+      jcache = null
+    }, jcache = [],
+    JSONStringifyReplacer = function(key, value) {
+      if (typeof value === 'object' && value !== null) {
+        if (jcache.indexOf(value) !== -1) {
+          // Circular reference found, discard key
+          return;
+        }
+        // Store value in our collection
+        jcache.push(value);
+      }
+      return value;
     }
 
 
@@ -32,13 +48,13 @@
 
       var context = render.contexts[i] = render.contexts[i] || {}
       //console.log(controller, args)
-      try {
-        mod.view(args[0], elementClone, context)
-      } catch (e) {
-        //THROW ?
-        console.log('Mag.JS', elementClone.id, i, e)
-        //throw new Error(e)
-      }
+      //try {
+      mod.view(args[0], elementClone, context)
+      //} catch (e) {
+      //THROW ?
+      // console.log('Mag.JS', elementClone.id, i, e)
+      //throw new Error(e)
+      //}
       // if (controller.onunload) unloaders.push({
       //   controller: controller,
       //   handler: controller.onunload
@@ -114,15 +130,14 @@
 
     for (var k in fill.cached) {
       //console.log(module.elements[index].id, k)
-      if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1
-          && k.indexOf('-config')!==-1 && fill.cached[k].configContext) {
-          //            console.log(k, fill.cached[k].configContext.onunload)
+      if (k.indexOf('id("' + module.elements[index].id + '")/') !== -1 && k.indexOf('-config') !== -1 && fill.cached[k].configContext) {
+        //            console.log(k, fill.cached[k].configContext.onunload)
 
-          render.unloaders.push({
-            controller: fill.cached[k].configContext,
-            handler: fill.cached[k].configContext.onunload
-          })
-        
+        render.unloaders.push({
+          controller: fill.cached[k].configContext,
+          handler: fill.cached[k].configContext.onunload
+        })
+
       }
     }
 
