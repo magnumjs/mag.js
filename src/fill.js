@@ -107,7 +107,6 @@
     dataIsArray = _isArray(data)
 
 
-
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
       gkeys[key] = gkeys[key] || 0
@@ -115,9 +114,6 @@
       if (templates[key] && elements.length === 0) {
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
         elements = nodeListToArray(templates[key].parent.children)
-        if (typeof data[0] === 'object') {
-          // data[0][MAGNUM] = elements[0].__key = 0
-        }
       }
 
       if (elements.length === 0) {
@@ -386,9 +382,9 @@
 
         // function 
         if (typeof value === FUNCTION && value.type == 'fun') {
-          try {
+          // try {
             value = value()
-          } catch (e) {}
+          // } catch (e) {}
         }
 
         // if is array make sure we load all elements not just the first for existing lists
@@ -457,7 +453,7 @@
         //TODO: if data parent its index is useful add it?
         // TODO: put all params into a data MAP {} ?
         var eventCall = function(fun, node, tagIndex, e) {
-          try {
+          // try {
             var dataParent = findParentChild(node),
               path = dataParent && getPathTo(dataParent),
               parentIndex = getPathIndex(path),
@@ -468,11 +464,11 @@
                 index: parentIndex
               }
             return fun.call(node, e, tagIndex, node, parent)
-          } catch (err) {
-            throw Error('Mag.JS - event handler error - ' + p + err + err.stack)
-          } finally {
+          // } catch (err) {
+          //   throw Error('Mag.JS - event handler error - ' + p + err + err.stack)
+          // } finally {
             mag.redraw()
-          }
+          // }
         }.bind({}, attributes[attrName], node, tagIndex)
 
         node[attrName] = eventCall
@@ -629,11 +625,11 @@
       //console.log(k, children[k])
       var sp1 = document.createElement("span")
       node.appendChild(sp1)
-      try {
+      //try {
         node.replaceChild(html(), sp1);
-      } catch (e) {
-        console.log('FILL HTML ERROR', html().id, e)
-      }
+      // } catch (e) {
+      //   console.log('FILL HTML ERROR', html().id, e)
+      // }
       //}
     } else if (html.nodeType === 1) {
 
@@ -757,7 +753,6 @@
       var val = item.nodeValue || item.value || item.innerText
       if (val) val = val.replace(/\u00a0/g, "x").trim()
       if (val) o.tagValue = val
-
     }
 
     var i = 0;
