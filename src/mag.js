@@ -130,7 +130,7 @@
     render.roots[index] = element.id
 
     //MODULE
-    if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + JSON.stringify(moduleObject))
+    if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
 
     // TODO: should props be frozen or changeable?
     var mod = module.submodule(moduleObject, [Object.freeze(props || {})])
