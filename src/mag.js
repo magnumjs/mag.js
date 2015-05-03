@@ -107,13 +107,16 @@
       }
     }
   }
-
+  var unloaderer = function(index, domElementId) {
+    //console.log('unloaded', index, domElementId)
+    render.callLCEvent('onunload', module, index, 1)
+  }
   mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
 
     //UNLOADERS that exist?
-    //if (index > -1 && unloaderer(index, domElementId)) return
+    if (index > -1 && unloaderer(index, domElementId)) return
 
     // clear cache if exists
     if (props && !props.retain) render.clear(index, domElementId, fill)
@@ -133,7 +136,7 @@
     if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
 
     // TODO: should props be frozen or changeable?
-    var mod = module.submodule(moduleObject, [Object.freeze(props || {})])
+    var mod = module.submodule(moduleObject, [props || {}])
 
     var controller = module.getController(mod, element, fill)
 
