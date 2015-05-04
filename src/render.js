@@ -10,24 +10,10 @@
     unloaders: [],
     cache: {}
   }, iscached = function(key, data) {
-      jcache = []
-      if (render.cache[key] && render.cache[key] === JSON.stringify(data, JSONStringifyReplacer)) {
-        jcache = null
+      if (render.cache[key] && render.cache[key] === JSON.stringify(data)) {
         return true
       }
-      render.cache[key] = JSON.stringify(data, JSONStringifyReplacer)
-      jcache = null
-    }, jcache = [],
-    JSONStringifyReplacer = function(key, value) {
-      if (typeof value === 'object' && value !== null) {
-        if (jcache.indexOf(value) !== -1) {
-          // Circular reference found, discard key
-          return;
-        }
-        // Store value in our collection
-        jcache.push(value);
-      }
-      return value;
+      render.cache[key] = JSON.stringify(data)
     }
 
 
@@ -114,7 +100,7 @@
   render.redraw = function(module, fill, force) {
 
     module = module || render.module || {}
-    if (force) cache = {}
+    if (force) render.cache = {}
 
     this.fun = (this.fun || throttle(function(id) {
       // clear existing configs
@@ -188,7 +174,7 @@
       // clear events too
       fill.clear()
       //console.log('clear called on reload', elementId)
-      // delete cache[index]
+      delete render.cache[index]
     }
   }
   render.innerLoop = function(module, fill, i) {
@@ -269,11 +255,21 @@
     var observer = function(changes) {
       //console.log('observer',mag.runner)
       changes.forEach(function(change) {
-        //if (change.type == 'add' || change.type == 'update') {
-        //console.log(change.name)
-        //changed = true
-        // return
-        //}
+      //if (change.type == 'add' || change.type == 'update') {
+      //console.log(change.name, change.type)
+      if(change.type == 'update' 
+      && change.oldValue.type=='fun' && change.oldValue.data 
+      && change.oldValue.data.type == 'module' && !change.object[change.name].data){
+       // call unloader for module
+        render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
+        //console.log(change.name,change.object[change.name].data, change.oldValue.data)
+      }
+      //if(change.object[change.name].type=='fun' && change.object[change.name]()._html.data){
+      //console.log(change.name, change.type, change.object[change.name]()._html.typeName, change.object)
+      //}
+      //changed = true
+      // return
+     // }
       });
       //      if (!mag.runner) {
       //mag.runner = true
