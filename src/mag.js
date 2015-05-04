@@ -34,20 +34,19 @@
     }
   }
 
-  mag.prop = function(store) {
+  mag.prop = function(store, custom) {
 
     if (((store != null && type.call(store) === OBJECT) || typeof store === FUNCTION) && typeof store.then === FUNCTION) {
-      return propify(store)
+      return propify(store, custom)
     }
 
-    return gettersetter(store)
+    return gettersetter(store, custom)
   }
 
-  function gettersetter(store) {
+  function gettersetter(store, custom) {
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
-        // Is a redraw here necessary?
         mag.redraw()
       }
       return store
@@ -56,6 +55,8 @@
     // do we still need this?
     // TODO: value hookin?
     prop.type = 'fun'
+    // extra custom data to pass - used by the unloader event
+    prop.data = custom ? custom : null
 
     prop.toJSON = function() {
       // return a copy
@@ -70,9 +71,10 @@
     return prop
   }
 
-  function propify(promise, initialValue) {
-    var prop = mag.prop(initialValue);
+  function propify(promise, initialValue, custom) {
+    var prop = mag.prop(initialValue, custom);
     promise.then(prop);
+    //console.log(prop.data, prop()._html.data)
     prop.then = function(resolve, reject) {
       return propify(promise.then(resolve, reject), initialValue)
     };
@@ -107,23 +109,29 @@
       }
     }
   }
-  var unloaderer = function(index, domElementId) {
-    //console.log('unloaded', index, domElementId)
-    render.callLCEvent('onunload', module, index, 1)
+  var reloader = function(index, domElementId) {
+    //console.log('reloaded', index, domElementId)
+    // remove cache ?
+    //delete render.cache[index]
+    //console.log(render.cache[index] ? JSON.parse(render.cache[index]) : 'no cache')
+    render.callLCEvent('onreload', module, index)
   }
   mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
 
+
+    //console.log('module called', index, domElementId, render.roots)
+
     //UNLOADERS that exist?
-    if (index > -1 && unloaderer(index, domElementId)) return
+    if (index > -1 && reloader(index, domElementId)) return
 
     // clear cache if exists
     if (props && !props.retain) render.clear(index, domElementId, fill)
 
     // create new index on roots
-    if (index < 0 || clone) index = render.roots.length;
-
+    if (index < 0) index = render.roots.length;
+    if (clone) delete render.cache[index]
 
     //DOM
     var element = document.getElementById(domElementId)
@@ -163,6 +171,9 @@
     mag.redraw()
 
 
+
+
+
     // call controller unloaders ?
     // check if was in previous and now not for the same node
     // add to fill.js
@@ -178,6 +189,9 @@
       // _html: function() {
       // return module.elements[index]
       // }
+    }, {
+      type: 'module',
+      id: index
     })
 
   }
