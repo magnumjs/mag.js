@@ -33,6 +33,7 @@ Mag.JS dom!:
 </div>
 ```
 ##Examples
+[Boilreplate](http://jsbin.com/kuwusazaji/edit)
 
 [Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
