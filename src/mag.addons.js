@@ -101,10 +101,13 @@ mag.addons.hide = function(condition) {
     }
 }
 
-
-mag.addons.onload = function(element) {
-    element.classList.remove("hide")
-};
+// remove class hide to given context/this
+// show(this) inside controller
+mag.addons.show = function(context) {
+  context.didload = function(e, n) {
+    n.classList.remove('hide')
+  }
+}
 
 mag.deferred = Deferred = function() {
   return function Deferred(resolve, reject) {
