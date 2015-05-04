@@ -95,6 +95,9 @@ Mag.JS dom!:
 [Async:]
 (http://jsbin.com/yajugavibe/edit?js,output)
 
+###Mithril 2 Mag
+[Rotate Links](http://jsbin.com/xadacatoke/edit?js,output)
+
 ###React 2 Mag
 [Navigation menu:]
 (http://jsbin.com/patecaronu/edit?js,output)
