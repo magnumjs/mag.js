@@ -453,7 +453,6 @@
         //TODO: if data parent its index is useful add it?
         // TODO: put all params into a data MAP {} ?
         var eventCall = function(fun, node, tagIndex, e) {
-          // try {
             var dataParent = findParentChild(node),
               path = dataParent && getPathTo(dataParent),
               parentIndex = getPathIndex(path),
@@ -463,12 +462,11 @@
                 node: dataParent,
                 index: parentIndex
               }
-            return fun.call(node, e, tagIndex, node, parent)
-          // } catch (err) {
-          //   throw Error('Mag.JS - event handler error - ' + p + err + err.stack)
-          // } finally {
+            var ret= fun.call(node, e, tagIndex, node, parent)
+          // what ret is a promise
+          //if(ret.then && ret.then == FUNCTION)
             mag.redraw()
-          // }
+            return ret
         }.bind({}, attributes[attrName], node, tagIndex)
 
         node[attrName] = eventCall
@@ -536,7 +534,7 @@
     // }
     // set html after setting text because html overrides text
     setText(node, attributes.text)
-    setHtml(node, attributes.html)
+    setHtml(node, attributes.html, tagIndex)
 
 
   }
@@ -581,17 +579,18 @@
     }
   }
 
-  function addCloneId(html) {
+  function addCloneId(html, index) {
     // change id
     if (html.cloner) {
+      
       // check if already has
-      html.id = MAGNUM + html.id.split(MAGNUM).pop()
+      html.id = MAGNUM + html.id.split(MAGNUM).pop() + index
     }
   }
 
 
 
-  function setHtml(node, html) {
+  function setHtml(node, html, tagIndex) {
 
     if (!node || html == null) return;
 
@@ -617,7 +616,7 @@
 
       //console.log(node.children.length, node.id, html().id)
 
-      addCloneId(html())
+      addCloneId(html(), tagIndex)
 
       //var children = html().querySelectorAll(':scope > *')
       //console.log(children)
@@ -633,7 +632,7 @@
       //}
     } else if (html.nodeType === 1) {
 
-      addCloneId(html)
+      addCloneId(html, tagIndex)
 
       var sp1 = document.createElement("span")
       node.appendChild(sp1)
@@ -742,33 +741,32 @@
     //cached=[]
   }
 
-
   function elementToObject(el, o) {
 
     var o = {
-      tagName: el.tagName
+      tag: el.tagName
     };
+    o['children']=[]
     if (el.firstChild || el.children[0]) {
       var item = el.firstChild || el.childNodes[0]
       var val = item.nodeValue || item.value || item.innerText
       if (val) val = val.replace(/\u00a0/g, "x").trim()
-      if (val) o.tagValue = val
+      if (val) o['children'].push(val)
     }
 
     var i = 0;
+    o['attrs'] = {}
     for (i; i < el.attributes.length; i++) {
-      o[el.attributes[i].name] = el.attributes[i].value;
+      o['attrs'][el.attributes[i].name] = el.attributes[i].value;
     }
 
     var children = el.children;
     if (children.length) {
 
-
-      o.children = [];
       i = 0;
       for (i; i < children.length; i++) {
         var child = children[i];
-        o.children[i] = elementToObject(child, o.children);
+        o.children.push(elementToObject(child, o.children))
       }
     }
     return o;
