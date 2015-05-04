@@ -434,7 +434,8 @@ Life cycle events in controller:
 * willupdate (event, node)
 * didupdate (event, node)
 * isupdate (event, node)
-* onunload (node)
+* onunload (event, node)
+* onreload (event, node)
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
