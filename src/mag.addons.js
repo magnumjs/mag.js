@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.7
+Mag.JS AddOns v0.1.8
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -56,6 +56,18 @@ mag.addons.binds = function(data, attachTo, callback) {
 
 mag.addons.when = function(arrayOfPromises, callback) {
     Promise.all(arrayOfPromises).then(callback)
+}
+
+// BINDS
+// this is the context which should be the 'state'
+//  mag.addons.bindEvent.call(state, 'input', 'keyup', props.model.name)
+
+mag.addons.bindEvent = function(field, event, model) {
+  var src = {}
+  src._value = model()
+  src['_on' + event] = mag.withProp('value', model)
+
+  mag.addons.merge(src, this[field] = {});
 }
 
 //UTILITY
