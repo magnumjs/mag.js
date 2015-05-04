@@ -3,9 +3,59 @@
 
 <head>
   <link rel="stylesheet" href="style.css">
-  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.10.2.min.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/new/dist/mag.0.11.min.js"></script>
 </head>
 <body>
+
+  <div id="unloader">
+    <mod></mod>
+    <button>Count</button>
+  </div>
+
+  <div id="testmod" class="hide">
+    YO
+  </div>
+
+  <div id="dashboard">
+    <div id="filter-users">
+      <h3>Filter users (<span data-bind="selectedUser"><name></name></span>)</h3>
+      <input placeholder="Filter users by ... " />
+      <ul>
+        <li>Person Name: <span data-bind="name"></span>
+        </li>
+      </ul>
+    </div>
+    <div id="filter-projects">
+      <h3>Filter projects (<span data-bind="selectedProject"><name></name></span>)</h3>
+      <input placeholder="Filter projects by ... " />
+      <ul>
+        <li>Person Name: <span data-bind="name"></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="app2">
+    <h2>TEST</h2>
+    <data></data>
+  </div>
+
+  <div id="comp2" class="">
+    <h2 class="head">TESTER</h2>
+    <b>b</b>
+    <span>testerrr</span>
+  </div>
+
+  <div id="app">
+    <h2>TEST</h2>
+    <data></data>
+  </div>
+
+  <div id="comp" class="">
+    <h2 class="head">TESTER</h2>
+    <b>b</b>
+    <span>testerrr</span>
+  </div>
 
   <div id="tabbed">
     <div>
@@ -189,63 +239,15 @@
     <button>Open</button>
   </div>
 
-  <div id="filter">
-    <h3>List filter example</h3>
-    <input placeholder="Filter list by something" />
-    <ul class='hide'>
-      <li>Person Name: <span class="name"></span>
-      </li>
-    </ul>
-  </div>
-
-  <div id="dashboard">
-    <div id="filter-users">
-      <h3>Filter users (<span data-bind="selectedUser"><name></name></span>)</h3>
-      <input placeholder="Filter users by ... " />
-      <ul>
-        <li>Person Name: <span data-bind="name"></span>
-        </li>
-      </ul>
-    </div>
-    <div id="filter-projects">
-      <h3>Filter projects (<span data-bind="selectedProject"><name></name></span>)</h3>
-      <input placeholder="Filter projects by ... " />
-      <ul>
-        <li>Person Name: <span data-bind="name"></span>
-        </li>
-      </ul>
-    </div>
-  </div>
-  
-  <div id="app2">
-    <h2>TEST</h2>
-    <data></data>
-  </div>
-  <div id="comp2" class="">
-    <h2 class="head">TESTER</h2>
-    <b>b</b>
-    <span>testerrr</span>
-  </div>
-
-  <div id="app">
-    <h2>TEST</h2>
-    <data></data>
-  </div>
-
-  <div id="comp" class="">
-    <h2 class="head">TESTER</h2>
-    <b>b</b>
-    <span>testerrr</span>
-  </div>
-  
   <script src="//rawgit.com/magnumjs/mag.js/master/src/addons/ajax.js"></script>
   <script src="//rawgit.com/magnumjs/mag.js/master/src/mag.addons.js"></script>
+  <script src="utils.js"></script>
   <script src="//rawgit.com/magnumjs/mag.js/master/src/addons/route.js"></script>
-  
   <script src="test.js"></script>
   <script src="contacts.js"></script>
   <script src="filter.js"></script>
   <script src="script.js"></script>
-</body>
+  
+  </body>
 
 </html>
