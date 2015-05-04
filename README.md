@@ -276,6 +276,14 @@ _oninput : mag.withProp ( 'value', mag.prop | functionToCallWithValueOfPropAsFir
 }
 ```
 
+```javascript
+// A data store
+var name = mag.prop('')
+
+// binding the data store in a view
+state.input = { _oninput: mag.withProp('value', name), _value: name() }
+```
+
 ### state object
 
 State is the object that is watched for changes and is used to transpile the related dom parent element ID
