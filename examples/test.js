@@ -1,7 +1,37 @@
+mag.module('unloader', {
+  controller: function() {
+    this.count = 1
+  },
+  view: function(state) {
+    state.button = {
+      _onclick: function() {
+        console.log(state.count)
+        state.count = state.count + 1
+      }
+    }
+    state.mod = state.count % 2 ? mag.module('testmod', {
+      controller: function() {
+        console.log('inner ctrl')
+        show(this)
+        this.onunload = function() {
+          console.log('removed from state')
+        },
+        this.onreload = function() {
+          console.log('reloaded into state')
+        }
+      },
+      view: function(s) {
+        s.dude = 1
+      }
+    }, {}, 1) : {
+      _html: 'other'
+    }
+  }
+})
 
 var tabbed = {
   controller: function(p) {
-
+    console.log(p)
     this.selected = p.selectedItem
     this.changeTab = function(name) {
       this.selected = name
@@ -348,8 +378,8 @@ var shoes = {
     this.searching = this.searchText
     mag.addons.copy(props.shoes, this.shoes = [])
 
-    this.clickee = function(e, index, node, data, parentIndexNode) {
-     return console.log(e, index, node, data, parentIndexNode)
+    this.clickee = function(e, index, node, data) {
+      return console.log(e, index, node, data)
     }
 
     this.filter = function(item) {
@@ -579,6 +609,7 @@ mag.module('hello', {
         span: 'test',
         _config: test
       })
+      //mag.redraw()
       return false;
     }
   },
@@ -679,4 +710,3 @@ mag.module('app', {
     })
   }
 })
-
