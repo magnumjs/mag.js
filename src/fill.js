@@ -383,7 +383,7 @@
         // function 
         if (typeof value === FUNCTION && value.type == 'fun') {
           // try {
-            value = value()
+          value = value()
           // } catch (e) {}
         }
 
@@ -452,22 +452,25 @@
         }
         //TODO: if data parent its index is useful add it?
         // TODO: put all params into a data MAP {} ?
-        var eventCall = function(fun, node, tagIndex, e) {
-            var dataParent = findParentChild(node),
-              path = dataParent && getPathTo(dataParent),
-              parentIndex = getPathIndex(path),
-              parent = {
-                path: path,
-                data: ((dataParent || {})[MAGNUM] || []).dataPass,
-                node: dataParent,
-                index: parentIndex
-              }
-            var ret= fun.call(node, e, tagIndex, node, parent)
+        var eventCall = function(fun, node, e) {
+
+          var dataParent = findParentChild(node),
+            path = dataParent && getPathTo(dataParent),
+            parentIndex = getPathIndex(path),
+            xpath = getPathTo(node),
+            tagIndex = getPathIndex(xpath),
+            parent = {
+              path: path,
+              data: ((dataParent || {})[MAGNUM] || []).dataPass,
+              node: dataParent,
+              index: parentIndex
+            }
+          var ret = fun.call(node, e, tagIndex, node, parent)
           // what ret is a promise
           //if(ret.then && ret.then == FUNCTION)
-            mag.redraw()
-            return ret
-        }.bind({}, attributes[attrName], node, tagIndex)
+          mag.redraw()
+          return ret
+        }.bind({}, attributes[attrName], node)
 
         node[attrName] = eventCall
         //console.log('event exists', firstRun)
@@ -582,7 +585,7 @@
   function addCloneId(html, index) {
     // change id
     if (html.cloner) {
-      
+
       // check if already has
       html.id = MAGNUM + html.id.split(MAGNUM).pop() + index
     }
@@ -625,7 +628,7 @@
       var sp1 = document.createElement("span")
       node.appendChild(sp1)
       //try {
-        node.replaceChild(html(), sp1);
+      node.replaceChild(html(), sp1);
       // } catch (e) {
       //   console.log('FILL HTML ERROR', html().id, e)
       // }
@@ -746,7 +749,7 @@
     var o = {
       tag: el.tagName
     };
-    o['children']=[]
+    o['children'] = []
     if (el.firstChild || el.children[0]) {
       var item = el.firstChild || el.childNodes[0]
       var val = item.nodeValue || item.value || item.innerText
