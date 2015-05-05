@@ -49,10 +49,10 @@ Mag.JS dom!:
 (http://jsbin.com/magumodacu/edit?js,output)
 
 [Count:]
-(http://jsbin.com/reyacokico/edit?js,output)
+(http://jsbin.com/wipaxiguce/edit?js,output)
 
 [List:] 
-(http://jsbin.com/yiseyuyuqu/edit?js,output)
+(http://jsbin.com/tefitefotu/edit?js,output)
 
 [More lists:]
 (http://jsbin.com/ruzoyakene/edit?js,output)
@@ -76,7 +76,7 @@ Mag.JS dom!:
 (http://jsbin.com/payewiqasi/edit?js,output) - [Take2](http://jsbin.com/jutuvukiwe/edit?html,js,output)
 
 [Modal component:]
-(http://jsbin.com/beqimijebo/edit?js,output)
+(http://jsbin.com/kemowayego/edit?js,output)
 
 [Modal with select menu:]
 (http://jsbin.com/vihudibabe/edit?js,output)
