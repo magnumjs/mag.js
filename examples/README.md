@@ -6,6 +6,8 @@
 
 [Component Hierarchy 3 deep](http://jsbin.com/fosoladene/edit?html,js,output)
 
+[Simple form with passFail component](http://jsbin.com/laraserije/edit?html,js,output)
+
 ###Notes
 
 This works by Mag.js listening to changes to state
