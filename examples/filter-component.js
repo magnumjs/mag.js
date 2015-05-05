@@ -32,7 +32,7 @@ var filter = {
     }.bind(this)
 
   },
-  view: function(element, props, state) {
+  view: function(state, props) {
     state.input = {
       _oninput: mag.withProp('value', state.term)
     }
