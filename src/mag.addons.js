@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.8
+Mag.JS AddOns v0.1.9
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -69,6 +69,15 @@ mag.addons.bindEvent = function(field, event, model) {
 
   mag.addons.merge(src, this[field] = {});
 }
+
+// bind methods from a model to a controller instance
+//  mag.addons.bindToModel(this, Todo)
+mag.addons.bindToModel = function(context, model) {
+  for (var meth in model) {
+    context[meth] = model[meth].bind(context)
+  }
+}
+
 
 //UTILITY
 mag.addons.copy =function (o) {
