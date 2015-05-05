@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.1.9
+Mag.JS AddOns v0.10
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -115,19 +115,33 @@ mag.addons.show = function(condition) {
         else n.style.display = 'block';
       }
     };
-  } else {
+  } else if(typeof condition === 'object') {
     condition.didload = function(e, n) {
       n.classList.remove('hide')
+      // both or just if no class hide ..
+      //node.style.display = 'none'
+    }
+  } else if (arguments.length == 0){
+    return function(e, n) {
+      // next didupdate event
+      n.style.display = 'block'
     }
   }
 }
 
 mag.addons.hide = function(condition) {
+  if (typeof condition === 'boolean') {
     return {
-        _config: function(n) {
-            if (condition) n.style.display = 'none';
-        }
+      _config: function(n) {
+          if (condition) n.style.display = 'none';
+      }
     }
+  } else if(arguments.length == 0){
+    return function(e, n) {
+      // next didupdate event
+      n.style.display = 'none'
+    }
+  }
 }
 
 mag.deferred = Deferred = function() {
