@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10
+Mag.JS AddOns v0.10.1
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -144,6 +144,15 @@ mag.addons.hide = function(condition) {
   }
 }
 
+// life cycle event helpers
+
+mag.addons.onNextUpdate = function(context, callback) {
+  context.didupdate = function(event, node) {
+    return callback.call(context, event, node)
+  }
+}
+
+// promises
 mag.deferred = Deferred = function() {
   return function Deferred(resolve, reject) {
     Deferred.resolve = resolve
