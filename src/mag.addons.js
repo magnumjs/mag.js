@@ -105,13 +105,21 @@ mag.addons.getProp = function(data) {
 
 // show hide
 
+// remove class hide to given context/this
+// show(this) inside controller
 mag.addons.show = function(condition) {
+  if (typeof condition === 'boolean') {
     return {
-        _config: function(n) {
-            if (!condition) n.style.display = 'none';
-            else n.style.display = 'block';
-        }
+      _config: function(n) {
+        if (!condition) n.style.display = 'none';
+        else n.style.display = 'block';
+      }
     };
+  } else {
+    condition.didload = function(e, n) {
+      n.classList.remove('hide')
+    }
+  }
 }
 
 mag.addons.hide = function(condition) {
@@ -120,14 +128,6 @@ mag.addons.hide = function(condition) {
             if (condition) n.style.display = 'none';
         }
     }
-}
-
-// remove class hide to given context/this
-// show(this) inside controller
-mag.addons.show = function(context) {
-  context.didload = function(e, n) {
-    n.classList.remove('hide')
-  }
 }
 
 mag.deferred = Deferred = function() {
