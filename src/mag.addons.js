@@ -173,6 +173,7 @@ mag.hookin('attributes', 'key', function(data) {
 })
 
 mag.hookin('attributes', 'className', function(data) {
+    data.value = data.node.classList+''
     if (!data.node.classList.contains(data.value)) {
         data.value = data.node.classList.length > 0 ? data.node.classList + ' ' + data.value : data.value
     }
