@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.1
+Mag.JS AddOns v0.10.2
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -54,8 +54,19 @@ mag.addons.binds = function(data, attachTo, callback) {
   return addThis
 }
 
-mag.addons.when = function(arrayOfPromises, callback) {
-    Promise.all(arrayOfPromises).then(callback)
+// simple bind to keyup event
+// mag.addons.change(state, state.form={})
+// state.form = mag.addons.change(state)
+mag.addons.change=function(data, addTo){
+  var src = {
+    _onkeyup : function(e){
+      data[e.target.name](e.target.value)
+    }
+  }
+  if(addTo){
+    return mag.addons.merge(src, addTo)
+  }
+  return src
 }
 
 // BINDS
@@ -158,6 +169,10 @@ mag.deferred = Deferred = function() {
     Deferred.resolve = resolve
     Deferred.reject = reject
   }
+}
+
+mag.addons.when = function(arrayOfPromises, callback) {
+    Promise.all(arrayOfPromises).then(callback)
 }
 
 mag.addons.requestWithFeedback = function(args) {
