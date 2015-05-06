@@ -19,7 +19,7 @@ It'll also have a few neat features:
 
 ##Getting started
 
-For this tutorial, we'll use prebuilt JavaScript files on a CDN. Open up your favorite editor and create a new HTML document:
+For this tutorial, we'll use the latest prebuilt JavaScript file. Open up your favorite editor and create a new HTML document:
 
 ```html
 <html>
