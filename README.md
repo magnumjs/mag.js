@@ -35,7 +35,7 @@ Mag.JS dom!:
 </div>
 ```
 ##Examples
-[Boilerplate JSbin](http://jsbin.com/giquhokari/edit)
+[Boilerplate JSbin](http://jsbin.com/cubizoqaha/edit)
 
 [Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
