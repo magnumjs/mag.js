@@ -35,3 +35,13 @@ For this tutorial, we'll use the latest prebuilt JavaScript file. Open up your f
   </body>
 </html>
 ```
+
+##Your first component
+
+MagJS is all about modular, composable components. For our comment box example, we'll have the following component structure:
+
+- CommentBox
+  - CommentList
+    - Comment
+  - CommentForm
+  - 
