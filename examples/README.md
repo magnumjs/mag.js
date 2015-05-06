@@ -67,6 +67,89 @@ a_name("Mary"); //Mary
 var b = a_name(); //b == "Mary"
 ```
 
+Note that the Todo and TodoList classes we defined above are plain vanilla Javascript constructors. They can be initialized and used like this:
+```javascript
+var myTask = new todo.Todo({description: "Write code"});
+
+//read the description
+myTask.description(); //Write code
+
+//is it done?
+var isDone = myTask.done(); //isDone == false
+
+//mark as done
+myTask.done(true); //true
+
+//now it's done
+isDone = myTask.done(); //isDone == true
+```
+
+## View model
+
+The view model layer is plain HTML. Note the ID is used to attach to the mag.module the element that we will use our javascript element matchers to transpile data.
+
+```html
+<div id="todos">
+  <input>
+  <button>Add</button>
+  <table>
+    <tr>
+      <td>
+          <input type="checkbox">
+      </td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+```
+
+We can break apart this html component into at least two separate ones within our parent module.
+1. the add button and input as a "add todo form"
+2. the list of our todos
+
+For this simple example we will only use the parent module.
+
+##Module definition
+
+A mag.module defines the control and trapilation that should occur in the html element.
+
+```javascript
+mag.module('todos',todos)
+```
+
+This attaches our component definition JS object to the element we want to manipulate. ALl inner elements can be used by the state to match and add values e.g.
+
+```javascript
+view;function(state){
+  state.button = 'Add todo!'
+}
+```
+This will change the value or text of the button.
+
+To attach an event and change the text:
+
+```javascript
+view;function(state){
+  state.button = {
+    _text : 'Add todo!',
+    _onclick : function(e){}
+  }
+}
+```
+
+
+The todos object is plain javascript that contains our component.
+
+The component has the instructions of which html element mathcers within out module element we want to transpile and to what.
+
+```javascript
+var todos = {}
+todos.view=function(state){
+
+}
+```
+
+
 ##Implementation Examples
 
 ## Implement automatic 2 way bindings
