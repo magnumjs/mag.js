@@ -51,6 +51,22 @@ todo.Todo = function(data) {
 todo.TodoList = Array;
 ```
 
+mag.prop is simply a factory for a getter-setter function. Getter-setters work like this:
+
+```javascript
+//define a getter-setter with initial value `John`
+var a_name = mag.prop("John");
+
+//read the value
+var a = a_name(); //a == "John"
+
+//set the value to `Mary`
+a_name("Mary"); //Mary
+
+//read the value
+var b = a_name(); //b == "Mary"
+```
+
 ##Implementation Examples
 
 ## Implement automatic 2 way bindings
