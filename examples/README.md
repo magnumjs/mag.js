@@ -9,12 +9,12 @@ It is only 4kb gzipped and has a tiny api that is tightly focused on only doing 
 
 You can use MagJS as a thin layer to prototype and template your html via javascript.
 
-It does not put html code in your JS and it does not put JS code in your JS.
+It does not put html code in your JS and it does not put JS code in your html.
 
 There is no special templating syntax or special JS way in which to code.
 <hr/>
 ##A Simple Application
-Getting started is farily trivial.
+Getting started is fairly trivial.
 
 [Boilerplate JSBin](http://jsbin.com/giquhokari/edit?html,output)
 
@@ -86,7 +86,7 @@ isDone = myTask.done(); //isDone == true
 
 ## View model
 
-The view model layer is plain HTML. Note the ID is used to attach to the mag.module the element that we will use our javascript element matchers to transpile data.
+The view model layer is plain HTML. Note the ID is used to attach to the mag.module the element that we will use our javascript element matchers to transpile with.
 
 ```html
 <div id="todos">
@@ -102,9 +102,13 @@ The view model layer is plain HTML. Note the ID is used to attach to the mag.mod
   </table>
 </div>
 ```
+Transpilation is the conversion of the JavaScript object to HTML.
+
 
 We can break apart this html component into at least two separate ones within our parent module.
+
 1. the add button and input as a "add todo form"
+
 2. the list of our todos
 
 For this simple example we will only use the parent module.
@@ -117,10 +121,12 @@ A mag.module defines the control and transpilation that should occur in the html
 mag.module('todos',todo)
 ```
 
-This attaches our component definition JS object to the element we want to manipulate. ALl inner elements can be used by the state to match and add values e.g.
+This attaches our component definition JS object to the element we want to manipulate. 
+
+All inner elements can be used by the state to match and add values e.g.
 
 ```javascript
-view;function(state){
+view:function(state){
   state.button = 'Add todo!'
 }
 ```
@@ -141,7 +147,7 @@ All attributes are denoted by a leading underscore "_"
 ## View object
 The todos object is plain javascript that contains our component.
 
-The component has the instructions of which html element mathcers within out module element we want to transpile and to what.
+The component has the instructions of which html element matchers within out module element we want to transpile and to what.
 
 ```javascript
 var todos = {}
