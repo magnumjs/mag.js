@@ -282,6 +282,8 @@ todo.view = function(state) {
 mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
+[Todo JSBin example](http://jsbin.com/xegejosuju/edit)
+
 We are binding our list to the class list in the TR - more about lists here:
 
 Lists should have their own container and they are the template for all preceding items.
@@ -289,8 +291,6 @@ Lists should have their own container and they are the template for all precedin
 ###Coming soon:
 Introductory section on Components
 Introductory section on Lists
-
-[Todo JSBin example](http://jsbin.com/xegejosuju/edit)
 
 ##Implementation Examples
 
