@@ -224,6 +224,18 @@ Here's the application code in its entirety:
 ```javascript
 <!doctype html>
 <script src="mag.min.js"></script>
+<div id="todos">
+  <input>
+  <button>Add</button>
+  <ol>
+    <li class="list">
+      <label class="checkbox">
+        <input class="check" type="checkbox" />
+        <span class="description"></span>
+      </label>
+    </li>
+  </ol>
+</div>
 <script>
 //this application only has one component: todo
 var todo = {};
