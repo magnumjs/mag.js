@@ -138,10 +138,10 @@ Let's create the Comment component, which will depend on data passed in from its
 
 ```html
 <div id="comment">
-  <h2 className="commentAuthor">
-    {props.commentAuthor}
+  <h2 className="author">
+    {props.author}
   </h2>
-  <comment/>
+  <text/>
 </div>
 ```
 
@@ -169,7 +169,7 @@ var CommentList = {
   view: function(state) {
     state.Comment = mag.module('comment', Comment,{
       author:'Mike Glazer',
-      comment:'This is one comment'
+      text:'This is one comment'
     })
   }
 }
@@ -259,4 +259,40 @@ var CommentBox = {
     
   }
 }
+```
+
+controller() executes exactly once during the lifecycle of the component and sets up the initial state of the component.
+
+##Updating state
+
+When the component is first created, we want to GET some JSON from the server and update the state to reflect the latest data. In a real application this would be a dynamic endpoint, but for this example, we will use a static JSON with setTimeout to keep things simple:
+
+```javascript
+var data = [
+  {"author": "Pete Hunt", "text": "This is one comment"},
+  {"author": "Jordan Walke", "text": "This is *another* comment"}
+]
+```
+
+```html
+<div id="commentBox">
+  <h1>Comments</h1>
+  <CommentList />
+  <CommentForm />
+</div>
+```
+
+```javascript
+var CommentBox = {
+  controller: function(props) {
+    setTimeout(function(){
+      this.data =  props.data
+    },10);
+  },
+  view: function(state, props) {
+    state.CommentList = mag.module('CommentList', CommentList,{data:state.data})
+  }
+}
+
+mag.module('CommentBox','CommentBox',{data:data})
 ```
