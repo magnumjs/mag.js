@@ -22,7 +22,7 @@ There is no special templating syntax or special JS way in which to code.
 ##A Simple Application
 Getting started is fairly trivial.
 
-[Boilerplate JSBin](http://jsbin.com/giquhokari/edit?html,output)
+[Boilerplate JSBin](http://jsbin.com/cubizoqaha/edit?html,output)
 
 ```html
 <!doctype html>
