@@ -93,7 +93,7 @@ The view model layer is plain HTML. Note the ID is used to attach to the mag.mod
   <input>
   <button>Add</button>
   <table>
-    <tr>
+    <tr class="list">
       <td>
           <input type="checkbox">
       </td>
@@ -136,8 +136,9 @@ view;function(state){
   }
 }
 ```
+All attributes are denoted by a leading underscore "_"
 
-
+## View object
 The todos object is plain javascript that contains our component.
 
 The component has the instructions of which html element mathcers within out module element we want to transpile and to what.
@@ -145,10 +146,26 @@ The component has the instructions of which html element mathcers within out mod
 ```javascript
 var todos = {}
 todos.view=function(state){
+    // bind the list to our html using the tagName element matcher
+    state.list = new todo.TodoList();
 
+    //a slot to store the name of a new todo before it is created
+    state.description = m.prop("");
+
+    //adds a todo to the list, and clears the description field for user convenience
+    state.button ={
+        _onclick : function() {
+            if (state.description()) {
+                state.list.push(new todo.Todo({description: state.description()}));
+                state.description("");
+            }
+        }
+    }
 }
 ```
+We are binding our list to the class list in the TR - more about lists here:
 
+Lists should have their own container and they are the template for all preceding items.
 
 ##Implementation Examples
 
