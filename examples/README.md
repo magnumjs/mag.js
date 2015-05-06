@@ -88,6 +88,9 @@ isDone = myTask.done(); //isDone == true
 
 The view model layer is plain HTML. Note the ID is used to attach to the mag.module the element that we will use our javascript element matchers to transpile with.
 
+
+This exists on the HTML page your JS is loaded on, it does not exist anywhere unnaturally such as in JavaScript.
+
 ```html
 <div id="todos">
   <input>
