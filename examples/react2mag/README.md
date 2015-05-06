@@ -16,3 +16,22 @@ It'll also have a few neat features:
 ##Want to skip all this and just see the source?
 
 [JSBin](http://jsbin.com/licerahipi/edit?js,output)
+
+##Getting started
+
+For this tutorial, we'll use prebuilt JavaScript files on a CDN. Open up your favorite editor and create a new HTML document:
+
+```html
+<html>
+  <head>
+    <title>Hello MagJS</title>
+    <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      // Your code here
+    </script>
+  </body>
+</html>
+```
