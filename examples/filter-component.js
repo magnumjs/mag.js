@@ -1,4 +1,5 @@
 /*
+http://jsbin.com/favibehoye/edit?html,js,output
   <div id="dashboard">
     <div id="filter-users">
       <h3>Filter users (<span data-bind="selectedUser"><name></name></span>)</h3>
