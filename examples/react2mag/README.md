@@ -151,3 +151,5 @@ var Comment = {
   }
 }
 ```
+
+Don't be fooled by the braces, these are just placeholders there is NO templating syntax to learn in MagJS. You can drop text or MagJS components into the tree. We access named attributes passed to the component as keys on "props" and any nested elements.
