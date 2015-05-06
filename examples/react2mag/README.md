@@ -82,7 +82,7 @@ mag.module() instantiates the root component, starts the framework, and injects 
 Let's build skeletons for CommentList and CommentForm which will, again, be simple div tags:
 
 ```html
-<div className="commentList">
+<div id="commentList">
   Hello, world! I am a CommentList.
 </div>
 ```
@@ -96,7 +96,7 @@ var CommentList = {
 }
 ```
 ```html
-<div className="commentForm">
+<div id="commentForm">
   Hello, world! I am a CommentForm.
 </div>
 ```
@@ -137,11 +137,11 @@ Notice how we're mixing HTML tags and components we've built. HTML components ar
 Let's create the Comment component, which will depend on data passed in from its parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through "props". Using props, we will be able to read the data passed to the Comment from the CommentList, and render some markup:
 
 ```html
-<div className="comment">
+<div id="comment">
   <h2 className="commentAuthor">
-    {this.props.author}
+    {props.commentAuthor}
   </h2>
-  {this.props.children}
+  <comment/>
 </div>
 ```
 
@@ -160,19 +160,22 @@ Now that we have defined the Comment component, we will want to pass it the auth
 
 ```html
 <div id="commentList">
-  <Comment author="Pete Hunt">This is one comment</Comment>
-  <Comment author="Jordan Walke">This is *another* comment</Comment>
+  <Comment></Comment>
 </div>
 ```
       
 ```javascript
 var CommentList = {
-  view: function() {
+  view: function(state) {
+    state.Comment = mag.module('comment', Comment,{
+      author:'Mike Glazer',
+      comment:'This is one comment'
+    })
   }
 }
 ```
 
-Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Mike Glazer (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through this.props.author, and this.props.children.
+Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Mike Glazer (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through props.author, and props.comment.
 
 ##Hook up the data model
 
@@ -185,44 +188,41 @@ var data = [
 ];
 ```
 
-We need to get this data into CommentList in a modular way. Modify CommentBox and the React.render() call to pass this data into the CommentList via props:
+We need to get this data into CommentList in a modular way. Modify CommentBox and the mag.module() call to pass this data into the CommentList via props:
+
+```html
+<div id="commentBox">
+  <h1>Comments</h1>
+  <CommentList />
+  <CommentForm />
+</div>
+```
 
 ```javascript
 var CommentBox = {
-  render: function() {
-    return (
-      <div className="commentBox">
-        <h1>Comments</h1>
-        <CommentList data={this.props.data} />
-        <CommentForm />
-      </div>
-    );
+  view: function(state, props) {
+    state.CommentList = mag.module('commentList', CommentList, {data:data})
   }
 }
 
-mag.module(
-  <CommentBox data={data} />,
-  document.getElementById('content')
-);
+mag.module('CommentBox',CommentBox {data:data})
 ```
 
 Now that the data is available in the CommentList, let's render the comments dynamically:
 
+```html
+<div id="commentList">
+  <Comments/>
+</div>
+```
+
 ```javascript
 var CommentList = {
-  render: function() {
-    var commentNodes = this.props.data.map(function (comment) {
-      return (
-        <Comment author={comment.author}>
-          {comment.text}
-        </Comment>
-      );
+  view: function(state, props) {
+    state.Comments = props.data.map(function (comment) {
+    // the last argument 'true' tells MagJS to make a clone of this component
+      return mag.module('comment', Comment, {comment:comment}, true)
     });
-    return (
-      <div className="commentList">
-        {commentNodes}
-      </div>
-    );
   }
 }
 ```
