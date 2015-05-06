@@ -159,7 +159,7 @@ Don't be fooled by the braces, these are just placeholders there is NO templatin
 Now that we have defined the Comment component, we will want to pass it the author name and comment text. This allows us to reuse the same code for each unique comment. Now let's add some comments within our CommentList:
 
 ```html
-<div className="commentList">
+<div id="commentList">
   <Comment author="Pete Hunt">This is one comment</Comment>
   <Comment author="Jordan Walke">This is *another* comment</Comment>
 </div>
@@ -171,3 +171,5 @@ var CommentList = {
   }
 }
 ```
+
+Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Mike Glazer (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through this.props.author, and this.props.children.
