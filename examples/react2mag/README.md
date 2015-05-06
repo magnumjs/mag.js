@@ -296,3 +296,5 @@ var CommentBox = {
 
 mag.module('CommentBox','CommentBox',{data:data})
 ```
+
+Here, controller is a method called automatically by MagJS when a component is loaded. The key to dynamic updates is the attachement to the state object which is the "this" in the controller. We replace the old array of comments with the new one from the server and the UI automatically updates itself. Because of this reactivity, it is only a minor change to add live updates. We can use simple polling or you could easily use WebSockets or other technologies.
