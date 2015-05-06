@@ -313,7 +313,6 @@ Now it's time to build the form. Our CommentForm component should ask the user f
 
 Let's make the form interactive. When the user submits the form, we should clear it, submit a request to the server, and refresh the list of comments. To start, let's listen for the form's submit event and clear it.
 
-
 ```javascript
 var CommentForm = {
   controller: function(props){
@@ -352,3 +351,31 @@ Call preventDefault() on the event to prevent the browser's default action of su
 When a user submits a comment, we will need to refresh the list of comments to include the new one. It makes sense to do all of this logic in CommentBox since CommentBox owns the state that represents the list of comments.
 
 We need to pass data from the child component back up to its parent. We do this in our parent's render method by passing a new callback (handleCommentSubmit) into the child, binding it to the child's onCommentSubmit event. Whenever the event is triggered, the callback will be invoked:
+
+```javascript
+
+````
+
+Let's call the callback from the CommentForm when the user submits the form:
+
+```javascript
+
+````
+
+Now that the callbacks are in place, all we have to do is submit to the server and refresh the list:
+
+```javascript
+
+````
+
+##Optimization: optimistic updates
+
+Our application is now feature complete but it feels slow to have to wait for the request to complete before your comment appears in the list. We can optimistically add this comment to the list to make the app feel faster.
+
+```javascript
+
+````
+
+##Congrats!
+
+You have just built a comment box in a few simple steps. Learn more about why to use MagJS, or dive into the API reference and start hacking! Good luck!
