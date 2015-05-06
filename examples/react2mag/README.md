@@ -304,9 +304,11 @@ Here, controller is a method called automatically by MagJS when a component is l
 Now it's time to build the form. Our CommentForm component should ask the user for their name and comment text and send a request to the service to save the comment.
 
 ```html
-<form className="commentForm">
+<form id="commentForm">
   <input type="text" placeholder="Your name" />
   <input type="text" placeholder="Say something..." />
   <input type="submit" value="Post" />
 </form>
 ```
+
+Let's make the form interactive. When the user submits the form, we should clear it, submit a request to the server, and refresh the list of comments. To start, let's listen for the form's submit event and clear it.
