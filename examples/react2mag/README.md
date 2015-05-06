@@ -46,3 +46,22 @@ MagJS is all about modular, composable components. For our comment box example, 
     - Comment
   - CommentForm
 ```
+
+Let's build the CommentBox component, which is just a simple <div>:
+
+```html
+//id is required
+<div id="commentBox">
+  Hello, world! I am a CommentBox.
+</div>
+```
+
+```javascript
+// view method is required
+var CommentBox = {
+  view: function() {
+  }
+}
+
+mag.module('CommentBox',CommentBox)
+```
