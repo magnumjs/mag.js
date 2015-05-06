@@ -146,6 +146,15 @@ The component has the instructions of which html element mathcers within out mod
 ```javascript
 var todos = {}
 
+todo.handleAddTodo = function() {
+  if (this.text()) {
+    this.list.push(new todo.Todo({
+      description: this.text()
+    }));
+    this.text("");
+  }
+}
+
 todo.controller = function() {
   return {
       // bind the list to our html using the tagName element matcher
@@ -163,12 +172,14 @@ todo.view=function(state){
   state.input = {_onchange: mag.withProp("value", state.text)}
   
   //adds a todo to the list, and clears the description field for user convenience
-  state.button = {_onclick: handleAddTodo}
+  state.button = {_onclick: todo.handleAddTodo.bind(state)}
 }
 ```
 We are binding our list to the class list in the TR - more about lists here:
 
 Lists should have their own container and they are the template for all preceding items.
+
+[Todo JSBin example](http://jsbin.com/ruqozucexe/edit)
 
 ##Implementation Examples
 
