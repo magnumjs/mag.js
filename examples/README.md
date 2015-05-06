@@ -222,6 +222,7 @@ state.list = state.mylist.map(function(task) {
 ```
 In the code above, the todo list is an Array, and map is one of its native functional methods. It allows us to iterate over the list and merge transformed versions of the list items into an output array.
 
+The view is re-run every time there is a change to the state object that is different than the previous state. It can also be redrawn manually by calling mag.redraw() and optionally to clear the cache; mag.redraw(true)
 
 ##Summary
 
@@ -290,6 +291,7 @@ todo.controller = function() {
 }
 
 //here's the view
+// it is called on every change to the state object
 todo.view = function(state) {
 
   //Here's the most basic way of implementing the view-to-model part of the binding:
