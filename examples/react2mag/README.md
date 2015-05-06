@@ -129,3 +129,9 @@ var CommentBox = {
   }
 }
 ```
+
+Notice how we're mixing HTML tags and components we've built. HTML components are regular MagJS components, just like the ones you define, with one difference. The fill compiler will automatically render HTML results of the components into its new container. This is to prevent the pollution of the global namespace.
+
+##Using props
+
+Let's create the Comment component, which will depend on data passed in from its parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through "props". Using props, we will be able to read the data passed to the Comment from the CommentList, and render some markup:
