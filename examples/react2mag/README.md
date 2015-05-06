@@ -153,3 +153,21 @@ var Comment = {
 ```
 
 Don't be fooled by the braces, these are just placeholders there is NO templating syntax to learn in MagJS. You can drop text or MagJS components into the tree. We access named attributes passed to the component as keys on "props" and any nested elements.
+
+##Component Properties
+
+Now that we have defined the Comment component, we will want to pass it the author name and comment text. This allows us to reuse the same code for each unique comment. Now let's add some comments within our CommentList:
+
+```html
+<div className="commentList">
+  <Comment author="Pete Hunt">This is one comment</Comment>
+  <Comment author="Jordan Walke">This is *another* comment</Comment>
+</div>
+```
+      
+```javascript
+var CommentList = {
+  view: function() {
+  }
+}
+```
