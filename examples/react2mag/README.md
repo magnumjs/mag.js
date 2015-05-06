@@ -231,3 +231,32 @@ That's it!
 ##Fetching from the server
 
 Let's replace the hard-coded data with some dynamic data from the server. We will remove the data prop and replace it with a URL to fetch:
+
+##Reactive state
+
+So far, each component has rendered itself once based on its props. props are immutable: they are passed from the parent and are "owned" by the parent. To implement interactions, we introduce mutable state to the component. state is private to the component and can be changed by calling "state". When the state is updated, the component re-renders itself.
+
+view() methods are written declaratively as functions of "props" and "state". The framework guarantees the UI is always consistent with the inputs.
+
+When the server fetches data, we will be changing the comment data we have. Let's add an array of comment data to the CommentBox component as its state:
+
+```html
+<div id="commentBox">
+  <h1>Comments</h1>
+  <CommentList />
+  <CommentForm />
+</div>
+```
+
+```javascript
+var CommentBox = {
+  controller: function() {
+    return {data: []};
+  },
+  view: function(state, props) {
+    
+    state.commentList = state.data
+    
+  }
+}
+```
