@@ -145,25 +145,25 @@ The component has the instructions of which html element mathcers within out mod
 
 ```javascript
 var todos = {}
-todo.view=function(state){
-    // bind the list to our html using the tagName element matcher
-    state.list = new todo.TodoList();
 
-    // 
-    state.input = {_onchange: mag.withProp("value", state.description), value: state.description()})
-
+todo.controller = function() {
+  return {
+      // bind the list to our html using the tagName element matcher
+    list: new todo.TodoList(),
+  
     //a slot to store the name of a new todo before it is created
-    state.description = mag.prop("");
+    text: mag.prop("")
+  }
+}
+todo.view=function(state){
+  // bind the list to our html using the tagName element matcher
+  state.list = new todo.TodoList();
 
-    //adds a todo to the list, and clears the description field for user convenience
-    state.button ={
-        _onclick : function() {
-            if (state.description()) {
-                state.list.push(new todo.Todo({description: state.description()}));
-                state.description("");
-            }
-        }
-    }
+  //Here's the most basic way of implementing the view-to-model part of the binding:
+  state.input = {_onchange: mag.withProp("value", state.text)}
+  
+  //adds a todo to the list, and clears the description field for user convenience
+  state.button = {_onclick: handleAddTodo}
 }
 ```
 We are binding our list to the class list in the TR - more about lists here:
