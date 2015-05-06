@@ -135,3 +135,19 @@ Notice how we're mixing HTML tags and components we've built. HTML components ar
 ##Using props
 
 Let's create the Comment component, which will depend on data passed in from its parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through "props". Using props, we will be able to read the data passed to the Comment from the CommentList, and render some markup:
+
+```html
+<div className="comment">
+  <h2 className="commentAuthor">
+    {this.props.author}
+  </h2>
+  {this.props.children}
+</div>
+```
+
+```javascript
+var Comment = {
+  view: function() {
+  }
+}
+```
