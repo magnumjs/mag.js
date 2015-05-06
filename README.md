@@ -16,8 +16,6 @@ alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 ##[Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
-##[Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/react2mag/README.md)
-
 ```javascript
 Initial dom:
 <div id="hello">
@@ -36,6 +34,9 @@ Mag.JS dom!:
   <h1>Hello Mag.JS!</h1>
 </div>
 ```
+##[Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/react2mag/README.md)
+
+
 ##Examples
 [Boilerplate JSbin](http://jsbin.com/cubizoqaha/edit)
 
