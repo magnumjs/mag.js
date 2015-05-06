@@ -108,3 +108,24 @@ var CommentForm = {
   }
 }
 ```
+
+Next, update the CommentBox component to use these new components:
+
+```html
+<div id="commentBox">
+  <h1>Comments</h1>
+  <CommentList />
+  <CommentForm />
+</div>
+```
+
+```javascript
+var CommentBox = {
+  view: function(state) {
+  
+    state.CommentList = mag.module('CommentList',CommentList)
+    state.CommentForm = mag.module('CommentForm',CommentForm)
+    
+  }
+}
+```
