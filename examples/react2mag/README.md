@@ -312,3 +312,30 @@ Now it's time to build the form. Our CommentForm component should ask the user f
 ```
 
 Let's make the form interactive. When the user submits the form, we should clear it, submit a request to the server, and refresh the list of comments. To start, let's listen for the form's submit event and clear it.
+
+
+```javascript
+var CommentForm = {
+  controller: function(props){
+    this.author = mag.prop('')
+    this.text = mag.prop('')
+    
+    this.handleSubmit = function(e) {
+      e.preventDefault();
+      if (this.author() && this.text()) {
+        return;
+      }
+    }.bind(this)
+    
+  },
+  view:function(state, props){
+   state.form = {
+      _onchange: function(e) {
+      // bind form values to our gettersetters
+        state[e.target.name](e.target.value)
+      },
+      _onsubmit: state.handleSubmit
+    }
+  }
+}
+```
