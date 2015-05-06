@@ -76,3 +76,35 @@ The html is plain html no scripts or tempalte special syntax. the JavaScript is 
 You do not have to return. You can call a tree of components that you (or someone else) built. This is what makes MagJS composable: a key tenet of maintainable frontends.
 
 mag.module() instantiates the root component, starts the framework, and injects the transpilations into the associated DOM element, provided as the second argument.
+
+##Composing components
+
+Let's build skeletons for CommentList and CommentForm which will, again, be simple div tags:
+
+```html
+<div className="commentList">
+  Hello, world! I am a CommentList.
+</div>
+```
+
+```javascript
+// tutorial2.js
+var CommentList = {
+  view: function() {
+
+  }
+}
+```
+```html
+<div className="commentForm">
+  Hello, world! I am a CommentForm.
+</div>
+```
+
+```javascript
+var CommentForm = {
+  view: function() {
+
+  }
+}
+```
