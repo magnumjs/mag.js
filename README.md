@@ -36,7 +36,7 @@ Mag.JS dom!:
 ```
 ##[Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/react2mag/README.md)
 
-##Hello world!
+###Hello world!
 
 [JSBin](http://jsbin.com/hebebodeji/2/edit?js,output)
 
