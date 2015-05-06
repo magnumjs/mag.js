@@ -21,7 +21,7 @@ Getting started is fairly trivial.
 ```html
 <!doctype html>
 <title>Todo app</title>
-<script src="mag.min.js"></script>
+<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
 <script>
 //app goes here
 </script>
@@ -223,7 +223,8 @@ Here's the application code in its entirety:
 
 ```javascript
 <!doctype html>
-<script src="mag.min.js"></script>
+<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+
 <div id="todos">
   <input>
   <button>Add</button>
@@ -236,6 +237,7 @@ Here's the application code in its entirety:
     </li>
   </ol>
 </div>
+
 <script>
 //this application only has one component: todo
 var todo = {};
