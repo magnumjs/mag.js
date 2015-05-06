@@ -149,6 +149,9 @@ todo.view=function(state){
     // bind the list to our html using the tagName element matcher
     state.list = new todo.TodoList();
 
+    // 
+    state.input = {_onchange: mag.withProp("value", state.description), value: state.description()})
+
     //a slot to store the name of a new todo before it is created
     state.description = mag.prop("");
 
