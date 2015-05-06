@@ -148,11 +148,34 @@ view:function(state){
 All attributes are denoted by a leading underscore "_"
 
 ## View object
-The todos object is plain javascript that contains our component.
+The todos object is plain javascript that contains our component. The view's "state" is what maintains our updates to the DOM as values and or events.
+
+```html
+<h2></h2>
+```
+```javascript
+//here's the view
+todo.view = function(state) {
+  // assign a dynamic value to the html
+  // data should flow via props to the state
+  state.h2='My Todos!'
+}
+```
+
+```html
+<h2>My Todos!</h2>
+```
 
 The component has the instructions for which html element matchers within out module element we want to transpile and to what.
 
-Element Matchers can be tag name, class name, ID value, name attribute value or data-bind attribute value.
+Element Matchers are the "state" of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
+
+There are 5 ways to reference an element within a module
+* class name
+* tag name
+* data-bind name
+* id
+* or name attribute
 
 ##Data bindings
 
@@ -282,8 +305,6 @@ todo.view = function(state) {
 mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
-[Todo JSBin example](http://jsbin.com/xegejosuju/edit)
-
 We are binding our list to the class list in the TR - more about lists here:
 
 Lists should have their own container and they are the template for all preceding items.
@@ -291,6 +312,8 @@ Lists should have their own container and they are the template for all precedin
 ###Coming soon:
 Introductory section on Components
 Introductory section on Lists
+
+[Todo JSBin example](http://jsbin.com/xegejosuju/edit)
 
 ##Implementation Examples
 
