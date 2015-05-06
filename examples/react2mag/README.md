@@ -47,14 +47,15 @@ MagJS is all about modular, composable components. For our comment box example, 
   - CommentForm
 ```
 
-Let's build the CommentBox component, which is just a simple <div>:
+Let's build the CommentBox component, which is just a simple div tag:
 
 ```html
-//id is required
 <div id="commentBox">
   Hello, world! I am a CommentBox.
 </div>
 ```
+
+Note that ID is required for modules
 
 ```javascript
 // view method is required
@@ -65,3 +66,13 @@ var CommentBox = {
 
 mag.module('CommentBox',CommentBox)
 ```
+
+**What's going on**
+
+We pass some methods in a JavaScript object to mag.module() to create a new component. The most important of these methods is called view which returns a promise tree of MagJS components that will eventually render to HTML with all inner element matcher transpilations.
+
+The html is plain html no scripts or tempalte special syntax. the JavaScript is just plain javascript no special syntax, sugar or new api to learn.
+
+You do not have to return. You can call a tree of components that you (or someone else) built. This is what makes MagJS composable: a key tenet of maintainable frontends.
+
+mag.module() instantiates the root component, starts the framework, and injects the transpilations into the associated DOM element, provided as the second argument.
