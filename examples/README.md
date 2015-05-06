@@ -138,7 +138,7 @@ This will change the value or text of the button.
 To attach an event and change the text:
 
 ```javascript
-view;function(state){
+view:function(state){
   state.button = {
     _text : 'Add todo!',
     _onclick : function(e){}
@@ -150,7 +150,9 @@ All attributes are denoted by a leading underscore "_"
 ## View object
 The todos object is plain javascript that contains our component.
 
-The component has the instructions of which html element matchers within out module element we want to transpile and to what.
+The component has the instructions for which html element matchers within out module element we want to transpile and to what.
+
+Element Matchers can be tag name, class name, ID value, name attribute value or data-bind attribute value.
 
 ```javascript
 var todos = {}
