@@ -302,7 +302,7 @@ todo.view = function(state) {
     _onclick: todo.handleAddTodo.bind(state)
   }
 
-  // list mapping for element mathcer transpilations
+  // list mapping for element matcher transpilations
   state.list = state.mylist.map(function(task) {
   
     var checked = {
