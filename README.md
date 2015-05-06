@@ -36,6 +36,33 @@ Mag.JS dom!:
 ```
 ##[Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/react2mag/README.md)
 
+##Hello world!
+
+[JSBin](http://jsbin.com/hebebodeji/2/edit?js,output)
+
+
+Initial html
+```html
+<div id="hello">
+  <label>Name:</label>
+  <input type="text" placeholder="Enter a name here" />
+  <hr/>
+  <h1>Hello <span class="name"></span>!</h1>
+</div>
+```
+Module:
+
+```javascript
+mag.module("hello", {
+  view: function(state) {
+    state.input = {
+      _oninput: function() {
+        state.name = this.value
+      }
+    }
+  }
+})
+```
 
 ##Examples
 [Boilerplate JSbin](http://jsbin.com/cubizoqaha/edit)
