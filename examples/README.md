@@ -114,7 +114,7 @@ For this simple example we will only use the parent module.
 A mag.module defines the control and transpilation that should occur in the html element.
 
 ```javascript
-mag.module('todos',todos)
+mag.module('todos',todo)
 ```
 
 This attaches our component definition JS object to the element we want to manipulate. ALl inner elements can be used by the state to match and add values e.g.
@@ -145,12 +145,12 @@ The component has the instructions of which html element mathcers within out mod
 
 ```javascript
 var todos = {}
-todos.view=function(state){
+todo.view=function(state){
     // bind the list to our html using the tagName element matcher
     state.list = new todo.TodoList();
 
     //a slot to store the name of a new todo before it is created
-    state.description = m.prop("");
+    state.description = mag.prop("");
 
     //adds a todo to the list, and clears the description field for user convenience
     state.button ={
