@@ -209,8 +209,8 @@ var todo = {};
 
 //the Todo class has two properties
 todo.Todo = function(data) {
-  this.description = mag.prop(data.description);
-  this.done = mag.prop(false);
+this.description = mag.prop(data.description);
+this.done = mag.prop(false);
 };
 
 //the TodoList class is a list of Todo's
@@ -220,12 +220,12 @@ todo.TodoList = Array;
 //adds a todo to the list, and clears the description field for user convenience
 // can be defined in the controller or passed in as props
 todo.handleAddTodo = function() {
-  if (this.text()) {
-    this.mylist.push(new todo.Todo({
-      description: this.text()
-    }));
-    this.text("");
-  }
+if (this.text()) {
+  this.mylist.push(new todo.Todo({
+    description: this.text()
+  }));
+  this.text("");
+}
 }
 
 //the view-model tracks a running list of todos,
@@ -237,59 +237,61 @@ todo.handleAddTodo = function() {
 //the controller defines what part of the model is relevant for the current page
 //in our case, there's only one view-model that handles everything
 todo.controller = function() {
-  return {
-    //a running list of todos
-    mylist: new todo.TodoList(),
+return {
+  //a running list of todos
+  mylist: new todo.TodoList(),
 
-    //a slot to store the name of a new todo before it is created
-    text: mag.prop("")
-  }
+  //a slot to store the name of a new todo before it is created
+  text: mag.prop("")
+}
 }
 
 //here's the view
 todo.view = function(state) {
 
 
-  //Here's the most basic way of implementing the view-to-model part of the binding:
-  state.input = {
-    _onchange: mag.withProp("value", state.text)
+//Here's the most basic way of implementing the view-to-model part of the binding:
+state.input = {
+  _onchange: mag.withProp("value", state.text)
+}
+
+
+//adds a todo to the list, and clears the description field for user convenience
+state.button = {
+  _onclick: todo.handleAddTodo.bind(state)
+}
+
+state.list = state.mylist.map(function(task) {
+
+  var checked = {
+    _onclick: mag.withProp("checked", task.done)
   }
 
+  task.done() ? checked._checked = true : ""
 
-  //adds a todo to the list, and clears the description field for user convenience
-  state.button = {
-    _onclick: todo.handleAddTodo.bind(state)
+  return {
+    description: {
+      _text: task.description(),
+      _style: 'text-decoration: ' + (task.done() ? "line-through" : "none")
+    },
+    check: checked
   }
 
-  state.list = state.mylist.map(function(task) {
-
-    var checked = {
-      _onclick: mag.withProp("checked", task.done)
-    }
-
-    task.done() ? checked._checked = true : ""
-
-    return {
-      description: {
-        _text: task.description(),
-        _style: 'text-decoration: ' + (task.done() ? "line-through" : "none")
-      },
-      check: checked
-    }
-
-  })
+})
 
 }
 
 //initialize the application
-mag.module('todos', {controller: todo.controller, view: todo.view});
+mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
 We are binding our list to the class list in the TR - more about lists here:
 
 Lists should have their own container and they are the template for all preceding items.
 
-
+###Coming soon:
+Introductory section on Components
+Introductory section on Lists
 
 [Todo JSBin example](http://jsbin.com/xegejosuju/edit)
 
