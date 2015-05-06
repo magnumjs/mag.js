@@ -111,7 +111,7 @@ For this simple example we will only use the parent module.
 
 ##Module definition
 
-A mag.module defines the control and trapilation that should occur in the html element.
+A mag.module defines the control and transpilation that should occur in the html element.
 
 ```javascript
 mag.module('todos',todos)
