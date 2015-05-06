@@ -13,6 +13,12 @@ It does not put html code in your JS and it does not put JS code in your html.
 
 There is no special templating syntax or special JS way in which to code.
 <hr/>
+
+##Download
+```html
+<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+```
+
 ##A Simple Application
 Getting started is fairly trivial.
 
