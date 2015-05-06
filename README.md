@@ -14,6 +14,8 @@
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
 alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
+##[Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
+
 ```javascript
 Initial dom:
 <div id="hello">
