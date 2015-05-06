@@ -173,3 +173,61 @@ var CommentList = {
 ```
 
 Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Mike Glazer (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through this.props.author, and this.props.children.
+
+##Hook up the data model
+
+So far we've been inserting the comments directly in the source code. Instead, let's render a blob of JSON data into the comment list. Eventually this will come from the server, but for now, write it in your source:
+
+```javascript
+var data = [
+  {author: "Pete Hunt", text: "This is one comment"},
+  {author: "Jordan Walke", text: "This is *another* comment"}
+];
+```
+
+We need to get this data into CommentList in a modular way. Modify CommentBox and the React.render() call to pass this data into the CommentList via props:
+
+```javascript
+var CommentBox = {
+  render: function() {
+    return (
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.props.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+}
+
+mag.module(
+  <CommentBox data={data} />,
+  document.getElementById('content')
+);
+```
+
+Now that the data is available in the CommentList, let's render the comments dynamically:
+
+```javascript
+var CommentList = {
+  render: function() {
+    var commentNodes = this.props.data.map(function (comment) {
+      return (
+        <Comment author={comment.author}>
+          {comment.text}
+        </Comment>
+      );
+    });
+    return (
+      <div className="commentList">
+        {commentNodes}
+      </div>
+    );
+  }
+}
+```
+That's it!
+
+##Fetching from the server
+
+Let's replace the hard-coded data with some dynamic data from the server. We will remove the data prop and replace it with a URL to fetch:
