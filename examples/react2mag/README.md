@@ -270,7 +270,7 @@ When the component is first created, we want to GET some JSON from the server an
 ```javascript
 var data = [
   {"author": "Pete Hunt", "text": "This is one comment"},
-  {"author": "Jordan Walke", "text": "This is *another* comment"}
+  {"author": "Mike Glazer", "text": "This is *another* comment"}
 ]
 ```
 
