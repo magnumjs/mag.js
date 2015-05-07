@@ -7,15 +7,15 @@ Let's create a simple model entity which we'll use in a simple application, to i
 ```javascript
 var Contact = function(data) {
     data = data || {}
-    this.id = m.prop(data.id)
-    this.name = m.prop(data.name)
-    this.email = m.prop(data.email)
+    this.id = mag.prop(data.id)
+    this.name = mag.prop(data.name)
+    this.email = mag.prop(data.email)
 }
 Contact.list = function(data) {
-    return m.request({method: "GET", url: "/api/contact", type: Contact})
+    return mag.addons.request({method: "GET", url: "/api/contact", type: Contact})
 }
 Contact.save = function(data) {
-    return m.request({method: "POST", url: "/api/contact", data: data})
+    return mag.addons.request({method: "POST", url: "/api/contact", data: data})
 }
 ```
 
@@ -35,17 +35,17 @@ var ContactsWidget = {
     },
     view: function(ctrl) {
         return [
-            m.component(ContactForm, {onsave: ctrl.save}),
-            m.component(ContactList, {contacts: ctrl.contacts})
+            mag.module(ContactForm, {onsave: ctrl.save}),
+            mag.module(ContactList, {contacts: ctrl.contacts})
         ]
     }
 }
 
 var ContactForm = {
-    controller: function(args) {
-        this.contact = m.prop(args.contact || new Contact())
+    controller: function(props) {
+        this.contact = mag.prop(args.contact || new Contact())
     },
-    view: function(ctrl, args) {
+    view: function(state, props) {
         var contact = ctrl.contact()
 
         return m("form", [
@@ -74,7 +74,7 @@ var ContactList = {
     }
 }
 
-m.mount(document.body, ContactsWidget)
+mag.module(document.body, ContactsWidget)
 ```
 
 In the example above, there are 3 components. ContactsWidget is the top level module being rendered to document.body, and it is the module that has the responsibility of talking to our Model entity Contact, which we defined earlier.
