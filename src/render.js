@@ -166,13 +166,13 @@
       }
     }
     //mag.running = false
-    fill.unclear()
+    // fill.unclear()
   }
 
   render.clear = function(index, elementId, fill) {
     if (index !== -1 && render.cache[index]) {
       // clear events too
-      fill.clear()
+      // fill.clear()
       //console.log('clear called on reload', elementId)
       delete render.cache[index]
     }
@@ -255,21 +255,19 @@
     var observer = function(changes) {
       //console.log('observer',mag.runner)
       changes.forEach(function(change) {
-      //if (change.type == 'add' || change.type == 'update') {
-      //console.log(change.name, change.type)
-      if(change.type == 'update' 
-      && change.oldValue.type=='fun' && change.oldValue.data 
-      && change.oldValue.data.type == 'module' && !change.object[change.name].data){
-       // call unloader for module
-        render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
-        //console.log(change.name,change.object[change.name].data, change.oldValue.data)
-      }
-      //if(change.object[change.name].type=='fun' && change.object[change.name]()._html.data){
-      //console.log(change.name, change.type, change.object[change.name]()._html.typeName, change.object)
-      //}
-      //changed = true
-      // return
-     // }
+        //if (change.type == 'add' || change.type == 'update') {
+        //console.log(change.name, change.type)
+        if (change.type == 'update' && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
+          // call unloader for module
+          render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
+          //console.log(change.name,change.object[change.name].data, change.oldValue.data)
+        }
+        //if(change.object[change.name].type=='fun' && change.object[change.name]()._html.data){
+        //console.log(change.name, change.type, change.object[change.name]()._html.typeName, change.object)
+        //}
+        //changed = true
+        // return
+        // }
       });
       //      if (!mag.runner) {
       //mag.runner = true
