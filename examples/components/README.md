@@ -4,6 +4,7 @@ Components are versatile tools to organize code and can be used in a variety of 
 
 Let's create a simple model entity which we'll use in a simple application, to illustrate different usage patterns for components:
 
+```javascript
 var Contact = function(data) {
     data = data || {}
     this.id = m.prop(data.id)
@@ -16,12 +17,15 @@ Contact.list = function(data) {
 Contact.save = function(data) {
     return m.request({method: "POST", url: "/api/contact", data: data})
 }
+```
+
 Here, we've defined a class called Contact. A contact has an id, a name and an email. There are two static methods: list for retrieving a list of contacts, and save to save a single contact. These methods assume that the AJAX responses return contacts in JSON format, containing the same fields as the class.
 
 Aggregation of responsibility
 
 One way of organizing components is to use component parameter lists to send data downstream, and to define events to bubble data back upstream to a centralized module who is responsible for interfacing with the model layer.
 
+```javascript
 var ContactsWidget = {
     controller: function update() {
         this.contacts = Contact.list()
@@ -71,6 +75,8 @@ var ContactList = {
 }
 
 m.mount(document.body, ContactsWidget)
+```
+
 In the example above, there are 3 components. ContactsWidget is the top level module being rendered to document.body, and it is the module that has the responsibility of talking to our Model entity Contact, which we defined earlier.
 
 The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = m.prop(args.contact || new Contact())).
