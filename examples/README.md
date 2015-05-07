@@ -172,7 +172,7 @@ todo.view = function(state) {
 <h2>My Todos!</h2>
 ```
 
-The component has the instructions for which html element matchers within out module element we want to transpile and to what.
+The component has the instructions for which html element matchers within our module element we want to transpile and to what.
 
 Element Matchers are the "state" of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
 
