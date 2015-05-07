@@ -434,7 +434,7 @@
 
       // attach to topId so can be removed later
 
-      node._events = node._events || []
+     // node._events = node._events || []
 
       // set the rest of the attributes
     for (var attrName in attributes) {
@@ -446,10 +446,10 @@
       if (attrName.indexOf('on') == 0) {
 
         // REALLY ? only one same event per node?
-        if (node._events.indexOf(attrName) !== -1 && !firstRun) {
-          // console.log('event exists', firstRun)
-          continue
-        }
+       // if (node._events.indexOf(attrName) !== -1 && !firstRun) {
+         // console.log('event exists', firstRun)
+        //  continue
+       // }
         //TODO: if data parent its index is useful add it?
         // TODO: put all params into a data MAP {} ?
         var eventCall = function(fun, node, e) {
@@ -476,7 +476,7 @@
         //console.log('event exists', firstRun)
 
         // node.addEventListener(attrName.substr(2), eventCall)
-        node._events.push(attrName)
+        //node._events.push(attrName)
 
       } else {
 
