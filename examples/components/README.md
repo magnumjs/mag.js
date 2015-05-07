@@ -1,4 +1,4 @@
-Application architecture with components
+##Application architecture with components
 
 Components are versatile tools to organize code and can be used in a variety of ways.
 
@@ -21,7 +21,7 @@ Contact.save = function(data) {
 
 Here, we've defined a class called Contact. A contact has an id, a name and an email. There are two static methods: list for retrieving a list of contacts, and save to save a single contact. These methods assume that the AJAX responses return contacts in JSON format, containing the same fields as the class.
 
-Aggregation of responsibility
+##Aggregation of responsibility
 
 One way of organizing components is to use component parameter lists to send data downstream, and to define events to bubble data back upstream to a centralized module who is responsible for interfacing with the model layer.
 
@@ -85,11 +85,11 @@ The ContactList component displays a table showing all the contact entities that
 
 The most interesting component is ContactsWidget:
 
-on initialization, it fetches the list of contacts (this.contacts = Contact.list)
+* on initialization, it fetches the list of contacts (this.contacts = Contact.list)
 
-when save is called, it saves a contact (Contact.save(contact))
+* when save is called, it saves a contact (Contact.save(contact))
 
-after saving the contact, it reloads the list (.then(update.bind(this)))
+* after saving the contact, it reloads the list (.then(update.bind(this)))
 
 update is the controller function itself, so defining it as a promise callback simply means that the controller is re-initialized after the previous asynchronous operation (Contact.save())
 
