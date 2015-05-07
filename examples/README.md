@@ -330,9 +330,9 @@ mag.module('todos', {controller: todo.controller,view: todo.view});
 
 [Todo JSBin example](http://jsbin.com/xegejosuju/edit)
 
-We are binding our list to the class list in the TR - more about lists here:
+We are binding our list to the class list in the OL - more about lists here:
 
-Lists should have their own container and they are the template for all preceding items.
+Lists should have their own container and they are the template for all iterating items.
 
 ###Coming soon:
 Introductory section on Components
