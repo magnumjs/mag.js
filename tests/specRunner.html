@@ -2,10 +2,16 @@
 <head>
   <title>Mag.JS Jasmine Spec Runner</title>
   <link href="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine.css" type="text/css" rel="stylesheet">
-  <script src="//rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
+  <script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
   <script src="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine.js" type="text/javascript"></script>
   <script src="//cdn.jsdelivr.net/jasmine/1.3.1/jasmine-html.js" type="text/javascript"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+    // for syncrhonous testing
+    window.requestAnimationFrame = function(callback) {
+      callback()
+    }
+  </script>
   <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
   <script src="jasmine-fixture.js"></script>
   <script src="json.js"></script>
