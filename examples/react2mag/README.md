@@ -353,13 +353,55 @@ When a user submits a comment, we will need to refresh the list of comments to i
 We need to pass data from the child component back up to its parent. We do this in our parent's render method by passing a new callback (handleCommentSubmit) into the child, binding it to the child's onCommentSubmit event. Whenever the event is triggered, the callback will be invoked:
 
 ```javascript
+var CommentBox = {
 
+  controller: function() {
+    setTimeout(function(){
+      this.data =  props.data
+    },10);
+    this.handleCommentSubmit = function(){
+      // TODO: submit to the server and refresh the list
+    }
+  }
+  view: function() {
+
+    state.CommentList = mag.module('CommentList', CommentList,{data:state.data})
+    state.CommentForm = mag.module('CommentForm', CommentForm,{onCommentSubmit:state.handleCommentSubmit})
+
+  }
+}
 ````
 
 Let's call the callback from the CommentForm when the user submits the form:
 
 ```javascript
-
+var CommentForm = {
+  controller: function(props){
+    this.author = mag.prop('')
+    this.text = mag.prop('')
+    
+    this.handleSubmit = function(e) {
+      e.preventDefault();
+      if (this.author() && this.text()) {
+        props.onCommentSubmit({author: this.author(), text: this.text()});
+        // clear fields
+        document.querySelector('[name="author"]').value = this.author('')
+        document.querySelector('[name="text"]').value = this.text('')
+        return;
+      }
+    }.bind(this)
+    
+  },
+  view:function(state, props){
+   state.form = {
+      _onchange: function(e) {
+      // bind form values to our gettersetters
+        state[e.target.name](e.target.value)
+      },
+      _onsubmit: state.handleSubmit
+    }
+  }
+}
 ````
 
 Now that the callbacks are in place, all we have to do is submit to the server and refresh the list:
