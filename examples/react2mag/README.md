@@ -407,7 +407,31 @@ var CommentForm = {
 Now that the callbacks are in place, all we have to do is submit to the server and refresh the list:
 
 ```javascript
+var CommentBox = {
 
+  controller: function() {
+      //simulate async server side request 
+      // load initial comments
+    this.willload = function(node) {
+      setTimeout(function(){
+        this.data =  props.data || []
+      },10);
+    }.bind(this)
+    //save posted comments
+    this.handleCommentSubmit = function(comment){
+      //simulate async server side request 
+      setTimeout(function(){
+        this.data.push(comments)
+      },10);
+    }
+  }
+  view: function() {
+
+    state.CommentList = mag.module('CommentList', CommentList,{data:state.data})
+    state.CommentForm = mag.module('CommentForm', CommentForm,{onCommentSubmit:state.handleCommentSubmit})
+
+  }
+}
 ````
 
 ##Optimization: optimistic updates
