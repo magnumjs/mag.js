@@ -51,7 +51,6 @@ mag.addons.binds = function(data, attachTo, callback) {
             document.querySelector('[name="' + j + '"]').value=data[j]   
             //Why is this necesary?
             //if(isNew){document.querySelector('[name="' + j + '"]').click()}
-          }
         }
       }
     }
