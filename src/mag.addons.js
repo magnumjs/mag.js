@@ -7,8 +7,13 @@ mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
 // state.fom = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
-  var handler = function(e) {
+  var oldVal,handler = function(e) {
+    
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
+    if (val === oldVal) return
+
+    oldVal = val;
+
     var name = e.target.name
     if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
         data[name](val)
@@ -26,7 +31,7 @@ mag.addons.binds = function(data, attachTo, callback) {
         changes.forEach(function(change) {
           if (change.type == 'update' || change.type == 'add') {
               // update the related dom
-            if (e.target.name == change.name)
+            if (e.target.name == change.name && e.target.value!==change.object[change.name)
                 e.target.value = change.object[change.name]
           }
         })
