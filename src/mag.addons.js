@@ -31,7 +31,7 @@ mag.addons.binds = function(data, attachTo, callback) {
         changes.forEach(function(change) {
           if (change.type == 'update' || change.type == 'add') {
               // update the related dom
-            if (e.target.name == change.name && e.target.value!==change.object[change.name)
+            if (e.target.name == change.name && e.target.value!==change.object[change.name])
                 e.target.value = change.object[change.name]
           }
         })
