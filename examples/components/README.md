@@ -2,7 +2,34 @@
 
 Components are versatile tools to organize code and can be used in a variety of ways.
 
-Let's create a simple model entity which we'll use in a simple application, to illustrate different usage patterns for components:
+First we have our html that we will be using:
+
+```html
+<div id="contacts">
+  <h2>Contacts</h2>
+  <addForm>
+    <div id="form" class="hide">
+      <form>
+        <input name="name" />
+        <input name="email" />
+        <input type="submit" />
+      </form>
+    </div>
+  </addForm>
+  <list>
+    <ul id="items" class="hide">
+      <li class="contact">
+        <span class="name"></span> - 
+        (<id></id>: <span class="email"></span>)
+      </li>
+    </ul>
+  </list>
+</div>
+```
+
+
+Now let's create a simple model entity which we'll use in our simple application, to illustrate different usage patterns for components:
+
 
 ```javascript
 var Contact = function(data) {
@@ -25,61 +52,91 @@ Here, we've defined a class called Contact. A contact has an id, a name and an e
 
 One way of organizing components is to use component parameter lists to send data downstream, and to define events to bubble data back upstream to a centralized module who is responsible for interfacing with the model layer.
 
+This is the parent component
+
 ```javascript
 var ContactsWidget = {
-    controller: function update() {
-        this.contacts = Contact.list()
-        this.save = function(contact) {
-            Contact.save(contact).then(update.bind(this))
-        }.bind(this)
-    },
-    view: function(ctrl) {
-        return [
-            mag.module(ContactForm, {onsave: ctrl.save}),
-            mag.module(ContactList, {contacts: ctrl.contacts})
-        ]
-    }
+  controller: function update() {
+  
+    this.contacts = Contact.list(update.bind(this))
+
+    this.handleContactSubmit = function(contact) {
+        Contact.save(contact).then(update.bind(this))
+    }.bind(this)
+    
+  },
+  view: function(state) {
+    
+    state.addForm = mag.module('form', contactForm, {
+      onContactSubmit: state.handleContactSubmit,
+    })
+
+    state.list = mag.module('items', ContactList, {
+      contacts: state.contacts
+    })
+    
+  }
 }
-
-var ContactForm = {
-    controller: function(props) {
-        this.contact = mag.prop(args.contact || new Contact())
-    },
-    view: function(state, props) {
-        var contact = ctrl.contact()
-
-        return m("form", [
-            m("label", "Name"),
-            m("input", {oninput: m.withAttr("value", contact.name), value: contact.name()}),
-
-            m("label", "Email"),
-            m("input", {oninput: m.withAttr("value", contact.email), value: contact.email()}),
-
-            m("button[type=button]", {onclick: args.onsave.bind(this, contact)}, "Save")
-        ])
-    }
-}
-
-var ContactList = {
-    view: function(ctrl, args) {
-        return m("table", [
-            args.contacts().map(function(contact) {
-                return m("tr", [
-                    m("td", contact.id()),
-                    m("td", contact.name()),
-                    m("td", contact.email())
-                ])
-            })
-        ])
-    }
-}
-
-mag.module(document.body, ContactsWidget)
 ```
 
-In the example above, there are 3 components. ContactsWidget is the top level module being rendered to document.body, and it is the module that has the responsibility of talking to our Model entity Contact, which we defined earlier.
+This is our first inner component
 
-The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = m.prop(args.contact || new Contact())).
+```javascript
+var ContactForm = {
+  controller: function(props) {
+      this.contact = mag.prop(args.contact || new Contact())
+  },
+  view: function(state, props) {
+    var contact = ctrl.contact()
+
+    // create an object to bind our instructions for our html fields
+    state.form = Object.keys(contact).reduce(function(previous, current) {
+
+      previous[current] = {
+        _onchange: mag.withProp("value", contact[current]),
+        _value: contact[current](),
+        _config: function(node, isNew) {
+          // change html value
+          node.value = contact[current]()
+        }
+      }
+
+      return previous;
+    }, {});
+
+    // handle form submit
+    state.form._onsubmit = function(e) {
+      // prevent default browser form submti behavior
+      e.preventDefault()
+      if (contact.name() && contact.email()) {
+        props.onContactSubmit(contact)
+      }
+    }
+  }
+}
+```
+
+This is our second inner componenet and sibling to the contact form
+
+
+```javascript
+var ContactList = {
+  view: function(state, props) {
+    state.contact = props.contacts
+  }
+}
+```
+
+Now let's start the applicaton by attaching it the our html element
+
+```javascript
+//Initialize the application
+mag.module('contacts', ContactsWidget)
+```
+
+In the example above, there are 3 components. ContactsWidget is the top level module being rendered to its associated element, and it is the module that has the responsibility of talking to our Model entity Contact, which we defined earlier.
+
+The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = mag.prop(args.contact || new Contact())).
 
 The ContactList component displays a table showing all the contact entities that are passed to it via the contacts argument.
 
