@@ -27,6 +27,7 @@ First we have our html that we will be using:
 </div>
 ```
 
+##Model/services
 
 Now let's create a simple model entity which we'll use in our simple application, to illustrate different usage patterns for components:
 
@@ -52,7 +53,9 @@ Here, we've defined a class called Contact. A contact has an id, a name and an e
 
 One way of organizing components is to use component parameter lists to send data downstream, and to define events to bubble data back upstream to a centralized module who is responsible for interfacing with the model layer.
 
-This is the parent component
+##Container component
+
+This is the parent component, it houses all inner components.
 
 ```javascript
 var ContactsWidget = {
@@ -79,6 +82,7 @@ var ContactsWidget = {
 }
 ```
 
+##Form module
 This is our first inner component, the contact form.
 
 The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = mag.prop(props.contact || new Contact())).
@@ -117,6 +121,7 @@ var ContactForm = {
   }
 }
 ```
+##List module
 
 This is our second inner componenet and sibling to the contact form.
 
