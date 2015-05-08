@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.2
+Mag.JS AddOns v0.10.3
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -45,13 +45,15 @@ mag.addons.binds = function(data, attachTo, callback) {
   for (var k in events) addThis[events[k]] = handler
 
   addThis['_config'] = function(node, isNew) {
-    if (isNew) {
-        for (var j in data) {
-            if (j) {
-             document.querySelector('[name="' + j + '"]')?
-               document.querySelector('[name="' + j + '"]').click() : 0
-            }
-        }
+    
+    for (var j in data) {
+      var ele = document.querySelector('[name="' + j + '"]')
+      if (j && isNew && ele) {
+        ele.click()
+      } else if(j && ele && ele.value!==data[j]) {
+        // checkboxes/select/textarea ?
+        ele.value = data[j] 
+      }
     }
   }
   if (attachTo) mag.addons.merge(addThis, attachTo)
