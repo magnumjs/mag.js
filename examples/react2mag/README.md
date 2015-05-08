@@ -426,12 +426,6 @@ var CommentBox = {
     }
   }
   view: function() {
-
-    state.CommentList = mag.module('CommentList', CommentList,{data:state.data})
-    state.CommentForm = mag.module('CommentForm', CommentForm,{onCommentSubmit:state.handleCommentSubmit})
-
-  }
-}
 ````
 
 ##Optimization: optimistic updates
@@ -439,7 +433,31 @@ var CommentBox = {
 Our application is now feature complete but it feels slow to have to wait for the request to complete before your comment appears in the list. We can optimistically add this comment to the list to make the app feel faster.
 
 ```javascript
+var CommentBox = {
 
+  controller: function() {
+      //simulate async server side request 
+      // load initial comments
+    this.willload = function(node) {
+      setTimeout(function(){
+        this.data =  props.data || []
+      },10);
+    }.bind(this)
+    //save posted comments
+    this.handleCommentSubmit = function(comment){
+      // optimistically add new comment to state
+      // will refresh once server is done too
+      var comments = this.data
+      var newComments = comments.concat([comment])
+      this.data= newComments
+      
+      //simulate async server side request 
+      setTimeout(function(){
+        this.data.push(comments)
+      },10);
+    }
+  }
+  view: function() {
 ````
 
 ##Congrats!
