@@ -453,7 +453,7 @@ var CommentBox = {
       
       //simulate async server side request 
       setTimeout(function(){
-        this.data.push(comments)
+        this.data.push(comment)
       },10);
     }
   }
