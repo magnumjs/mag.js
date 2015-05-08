@@ -79,7 +79,9 @@ var ContactsWidget = {
 }
 ```
 
-This is our first inner component
+This is our first inner component, the contact form.
+
+The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = mag.prop(props.contact || new Contact())).
 
 ```javascript
 var ContactForm = {
@@ -116,8 +118,9 @@ var ContactForm = {
 }
 ```
 
-This is our second inner componenet and sibling to the contact form
+This is our second inner componenet and sibling to the contact form.
 
+The ContactList component displays a table showing all the contact entities that are passed to it via the contacts properties.
 
 ```javascript
 var ContactList = {
@@ -136,9 +139,6 @@ mag.module('contacts', ContactsWidget)
 
 In the example above, there are 3 components. ContactsWidget is the top level module being rendered to its associated element, and it is the module that has the responsibility of talking to our Model entity Contact, which we defined earlier.
 
-The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = mag.prop(args.contact || new Contact())).
-
-The ContactList component displays a table showing all the contact entities that are passed to it via the contacts argument.
 
 The most interesting component is ContactsWidget:
 
@@ -155,3 +155,5 @@ Aggregating responsibility in a top-level component allows the developer to mana
 In addition, components can be reused in different contexts. Notice that the ContactList does not care about whether args.contacts refers to all the contacts in the database, or just contacts that match some criteria. Similarly, ContactForm can be used to both create new contacts as well as edit existing ones. The implications of saving are left to the parent component to handle.
 
 This architecture can yield highly flexible and reusable code, but flexibility can also increase the cognitive load of the system (for example, you need to look at both the top-level module and ContactList in order to know what is the data being displayed (and how it's being filtered, etc). In addition, having a deeply nested tree of components can result in a lot of intermediate "pass-through" arguments and event handlers.
+
+[JSBin example](http://jsbin.com/mawayisoka/edit)
