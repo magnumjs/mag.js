@@ -41,17 +41,14 @@ mag.addons.binds = function(data, attachTo, callback) {
   }
   var addThis = {}
 
-  var events = ['_onchange', '_oninput']
+  var events = ['_onclick','_onchange', '_oninput']
   for (var k in events) addThis[events[k]] = handler
 
   addThis['_config'] = function(node, isNew) {
     for (var j in data) {
-        if (j) {
-          if(document.querySelector('[name="' + j + '"]')){
-            document.querySelector('[name="' + j + '"]').value=data[j]   
+      if(j && isNew && document.querySelector('[name="' + j + '"]')){
             //Why is this necesary?
-            //if(isNew){document.querySelector('[name="' + j + '"]').click()}
-        }
+        document.querySelector('[name="' + j + '"]').click()
       }
     }
   }
