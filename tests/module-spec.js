@@ -1,12 +1,3 @@
-function afterDraw(expect) {
-  waits(32)
-
-  runs(function() {
-    expect()
-  });
-}
-
-
 var view = {
   controller: function(p) {
     this.p = [1, 2]
@@ -15,9 +6,8 @@ var view = {
       _text: 'tester',
       _config: function(n, is, c, i) {
         c.count = c.count + 1 || 1
+        console.log('called', c.count)
         c.onunload = function(context, node, path) {
-          expect(is).toEqual(false)
-          expect(context.count >= 2).toBeTruthy()
           expect(path).toEqual('id("test")/H2[1]')
         }
       }
@@ -59,7 +49,7 @@ describe("MagJS - module", function() {
         p.alwaysstay = false
       },
       view: function(s, p) {
-        expect(p.alwaysstay).toEqual(true)
+        expect(p.alwaysstay).toEqual(false)
       }
     }, {
       alwaysstay: true
@@ -74,24 +64,16 @@ describe("MagJS - module", function() {
 
     expect(mag.module).toHaveBeenCalledWith('test', view)
 
-    afterDraw(function() {
-      expect($('#test h2').text()).toEqual('tester')
-      expect($('#test p').length).toEqual(2)
-      $('#test b').click()
-      afterDraw(function() {
-        expect($('#test p').length).toEqual(1)
-      });
-    });
+    expect($('#test h2').text()).toEqual('tester')
+    expect($('#test p').length).toEqual(2)
+    $('#test b').click()
+    expect($('#test p').length).toEqual(1)
   });
 
   it("will call onunload after node is removed", function() {
     mag.module('test', view)
-    afterDraw(function() {
-      $('#test b').click()
-      afterDraw(function() {
-        expect($('#test h2').text()).toEqual('')
-      });
-    })
+    $('#test b').click()
+    expect($('#test h2').text()).toEqual('')
   })
 
 
