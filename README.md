@@ -114,7 +114,7 @@ mag.module("hello", {
 (http://jsbin.com/vihudibabe/edit?js,output)
 
 [Todos:]
-(http://jsbin.com/bihubarogi/edit?js,output) [Take2](http://jsbin.com/kiqenucefi/edit?js,output)
+(http://jsbin.com/bihubarogi/edit?js,output) [Take2](http://jsbin.com/rafemapivi/edit?js,output)
 
 [Todo proxy (firefox)]
 (http://jsbin.com/bohuniquha/edit?js,output)
