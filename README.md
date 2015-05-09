@@ -108,6 +108,8 @@ mag.module("hello", {
 [Filter list components:]
 (http://jsbin.com/xigipeziqi/edit?js,output)
 
+[Forms - passFail component](http://jsbin.com/cuxijarihi/edit?js,output)
+
 [Tab component:]
 (http://jsbin.com/payewiqasi/edit?js,output) - [Take2](http://jsbin.com/jutuvukiwe/edit?html,js,output)
 
