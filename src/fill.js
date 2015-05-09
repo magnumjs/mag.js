@@ -582,13 +582,18 @@
       node.appendChild(children[i]);
     }
   }
+  
+  function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
 
   function addCloneId(html, index) {
     // change id
     if (html.cloner) {
 
       // check if already has
-      html.id = MAGNUM  + html.id + index
+      html.id = MAGNUM  + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index)?index:'')
+
     }
   }
 
