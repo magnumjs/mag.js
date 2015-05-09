@@ -7,17 +7,13 @@
 ##Features
 
 * Changes to state are immediately reflected in the dom by their element matchers.
-* No virtual/shadow dom or new templating language! Super fast & 4KB Gzipped!
-* Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
+* Valid HTML templates - No virtual/shadow dom or new templating language! Super fast & 4KB Gzipped!
+* Semantic data binding - Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
-* provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc...
-* Semantic data binding - No need for <%=foo%> or {{foo}} assignments
-* Collection rendering - No need for hand-written loops
-* Valid HTML templates - Write templates as a part of the HTML, in plain HTML
+* provides intuitive, clear helpers and shortcuts for dom templating, arrays, matchers, eventing, onload, offload, configuration hookins etc... Full life cycle control.
+* Collection rendering - No need for hand-written loops. Write templates as a part of the HTML, in plain HTML
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
-* Native events & attributes
-* life cycle events
-* Hookin to modify attributes
+* Native events & attributes, life cycle events, Hookin to modify and create custom attributes
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
