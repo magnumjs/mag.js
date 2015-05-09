@@ -3,7 +3,7 @@
 </a>
 
 ### Intuitive, tiny and fast JavaScript 2 HTML component templating library.
-
+<hr>
 ##Features
 
 * Changes to state are immediately reflected in the dom by their element matchers.
