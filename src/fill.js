@@ -79,8 +79,8 @@
     // }
 
   var templates = {},
-    gkeys = {}, // What about nested Lists, which guid?
-    firstRun = false;
+    gkeys = {} // What about nested Lists, which guid?
+    //firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data, key) {
@@ -173,7 +173,8 @@
               return d
             }
             if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
+              d[MAGNUM_KEY] = MAGNUM + i
+              //d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
             }
             //console.log(d[MAGNUM_KEY], i)
             elements[i].__key = d[MAGNUM_KEY]
@@ -587,7 +588,7 @@
     if (html.cloner) {
 
       // check if already has
-      html.id = MAGNUM + html.id.split(MAGNUM).pop() + index
+      html.id = MAGNUM  + html.id + index
     }
   }
 
@@ -739,7 +740,7 @@
 
   function clear() {
     //console.log('clear called')
-    firstRun = true
+    //firstRun = true
     //CLEAR CACHE TOO?
     //cached=[]
   }
@@ -777,7 +778,7 @@
 
 
   function unclear() {
-    firstRun = false
+    //firstRun = false
   }
   // attach fill to current context (in the browser this will be window.fill)
   // this.fill = fill;
@@ -788,8 +789,8 @@
     elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
-    clear: clear,
-    unclear: unclear,
+    // clear: clear,
+    // unclear: unclear,
     configs: configs
   }
   window.mag = mag
