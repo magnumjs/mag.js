@@ -169,7 +169,7 @@ mag.module("hello", {
 (http://jsbin.com/xuduluhivi/edit?js,output)
 
 [Contact Manager application:]
-(http://jsbin.com/wepihedota/edit?js,output)
+(http://jsbin.com/wepihedota/edit?js,output) - [Take 2](http://jsbin.com/wevazabiwi/edit?js,output)
 
 [Country App - JSON/Routing]
 (http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
