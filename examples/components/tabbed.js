@@ -25,7 +25,7 @@ tabbed.view = function(s, p) {
     onchange: p.changeTab
   })
 
-  s.content = choosey(s.selected, p.tabs)
+  s.content = choosey(s.selected, p.tabs, p.params)
 
 }
 
@@ -46,7 +46,7 @@ var tab = function(ctrl, item, idx) {
   }
 }
 
-var choosey = function(name, options) {
+var choosey = function(name, options, parms) {
   var content
   options.forEach(function(item, idx) {
     if (item.name == name) {
@@ -55,6 +55,6 @@ var choosey = function(name, options) {
     }
   })
 
-  var comp = typeof content === 'function' ? content() : content
+  var comp = typeof content === 'function' ? content(parms) : content
   return comp
 }
