@@ -52,7 +52,7 @@ mag.addons.binds = function(data, attachTo, callback) {
         ele.click()
       } else if(j && ele && ele.value!==data[j]) {
         // checkboxes/select/textarea ?
-        ele.value = data[j] 
+        ele.value = typeof data[j]=='function' ? data[j]() : data[j] 
       }
     }
   }
