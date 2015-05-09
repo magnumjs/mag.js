@@ -1,5 +1,7 @@
 /*
-mag.comps v0.1
+Mag.JS Components v0.1
+(c) Michael Glazer
+https://github.com/magnumjs/mag.js
 */
 
 mag.comps ={}
