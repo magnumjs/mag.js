@@ -12,7 +12,7 @@ mag.addons.binds = function(data, attachTo, callback) {
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     if (oldVal && val === oldVal) return
     
-    //mag.addons.addFocus(e.target)
+    mag.addons.addFocus(e.target)
 
     oldVal = val;
 
@@ -43,7 +43,7 @@ mag.addons.binds = function(data, attachTo, callback) {
   }
   var addThis = {}
 
-  var events = ['_onclick', '_onchange', '_oninput']
+  var events = ['_onchange', '_oninput']
   for (var k in events) addThis[events[k]] = handler
 
   addThis['_config'] = function(node, isNew) {
@@ -52,7 +52,7 @@ mag.addons.binds = function(data, attachTo, callback) {
       var ele = document.querySelector('[name="' + j + '"]'),val =typeof data[j]=='function'?data[j](): 
       data[j]
       if (j && isNew && ele) {
-        ele.click()
+       // ele.click()
       } else if (j && ele && ele.value !== val) {
         // checkboxes/select/textarea ?
         ele.value = val
