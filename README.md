@@ -119,6 +119,8 @@ mag.module("hello", {
 [Modal with select menu:]
 (http://jsbin.com/vihudibabe/edit?js,output)
 
+[Forms - composable components - link manager](http://jsbin.com/cipezuyusu/edit?js,output)
+
 [Todos:]
 (http://jsbin.com/bihubarogi/edit?js,output) [Take2](http://jsbin.com/rafemapivi/edit?js,output)
 
