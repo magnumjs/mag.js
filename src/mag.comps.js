@@ -66,31 +66,31 @@ var tabs = function(p){
   })
 }
 */
-var tabbed = {
+mag.comps.tabbed = {
   controller: function(p) {
     this.selected = p.selectedItem
   }
 }
 
-tabbed.view = function(s, p) {
+mag.comps.tabbed.view = function(s, p) {
 
-  s.li = tabs({
+  s.li = mag.comps.tabbed.tabs({
     tabs: p.tabs,
     selectedItem: s.selected,
     onchange: p.changeTab
   })
 
-  s.content = choosey(s.selected, p.tabs, p.params)
+  s.content = mag.comps.tabbed.choosey(s.selected, p.tabs, p.params)
 
 }
 
-var tabs = function(data) {
+mag.comps.tabbed.tabs = function(data) {
   return data.tabs.map(function(item, i) {
-    return tab(data, item, i)
+    return mag.comps.tabbed.tab(data, item, i)
   })
 }
 
-var tab = function(ctrl, item, idx) {
+mag.comps.tabbed.tab = function(ctrl, item, idx) {
   return {
     // _key : idx, 
     a: {
@@ -101,7 +101,7 @@ var tab = function(ctrl, item, idx) {
   }
 }
 
-var choosey = function(name, options, parms) {
+mag.comps.tabbed.choosey = function(name, options, parms) {
   var content
   options.forEach(function(item, idx) {
     if (item.name == name) {
