@@ -34,7 +34,7 @@ mag.comps.passFail.view = function(state, props) {
 
   state._class = props.pass() ? 'success' : props.fail() ? 'error' : ''
 
-  state.messaging = state.message
+ // state.messaging = state.message
 }
 
 
