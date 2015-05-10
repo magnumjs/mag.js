@@ -257,7 +257,7 @@
       changes.forEach(function(change) {
         //if (change.type == 'add' || change.type == 'update') {
         //console.log(change.name, change.type)
-        if (change.type == 'update' && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
+        if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
           // call unloader for module
           render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
           //console.log(change.name,change.object[change.name].data, change.oldValue.data)
@@ -286,16 +286,17 @@
     var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
     return function() {
+      var args = arguments
       if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
         // hold on to it
         if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
-        var args = arguments
         deferTimer = $requestAnimationFrame(function() {
           lastRedrawCallTime = +new Date
           var nargs = [].slice.call(arguments).concat([].slice.call(args))
           fn.apply(this, nargs);
         }, FRAME_BUDGET)
       } else {
+        // called when setTimeout is used
         lastRedrawCallTime = +new Date
         var nargs = [].slice.call(arguments).concat([].slice.call(args))
         fn.apply(this, nargs)
