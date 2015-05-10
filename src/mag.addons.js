@@ -135,7 +135,7 @@ mag.addons.copy = function(o) {
   out = Array.isArray(o) ? [] : {};
   for (key in o) {
     v = o[key];
-    out[key] = (typeof v === "object") ? mag.addons.copy(v) : v;
+    out[key] = (typeof v === "object") ? mag.addons.copy(v) : typeof v == 'function' && v.type=='fun' ? mag.prop(v()) : v;
   }
   return out;
 }
