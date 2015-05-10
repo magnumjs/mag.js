@@ -348,6 +348,8 @@ Introductory section on Lists
 
 [Simple form with passFail component](http://jsbin.com/laraserije/edit?html,js,output)
 
+[Take 2](http://jsbin.com/zivefoditi/edit?,js,output)
+
 ###Notes
 
 This works by Mag.js listening to changes to state
