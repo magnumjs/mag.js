@@ -8,6 +8,7 @@ mag.addons = {};
 // state.fom = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
   var oldVal, handler = function(e) {
+    mag.addons.addFocus(e.target)
 
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     if (oldVal && val === oldVal) return
@@ -24,7 +25,6 @@ mag.addons.binds = function(data, attachTo, callback) {
       else
         data[name] = val
     }
-    mag.addons.addFocus(e.target)
 
     if (typeof Object.observe !== 'undefined') {
       Object.observe(data, function(changes) {
@@ -34,7 +34,6 @@ mag.addons.binds = function(data, attachTo, callback) {
             // update the related dom
             if (e.target.name == change.name && e.target.value !== change.object[change.name])
               e.target.value = change.object[change.name]
-              mag.addons.addFocus(e.target)
           }
         })
       })
