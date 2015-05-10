@@ -12,7 +12,7 @@ mag.addons.binds = function(data, attachTo, callback) {
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     if (oldVal && val === oldVal) return
     
-    mag.addons.addFocus(e.target)
+    //mag.addons.addFocus(e.target)
 
     oldVal = val;
 
