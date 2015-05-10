@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.4
+Mag.JS AddOns v0.10.5
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -93,7 +93,13 @@ mag.addons.addFocus = function(ele) {
 mag.addons.change = function(data, addTo) {
   var src = {
     _onkeyup: function(e) {
-      data[e.target.name](e.target.value)
+      
+      var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
+      
+      typeof data[e.target.name]=='function'?data[e.target.name](val): 
+      data[e.target.name]=val
+      
+      //data[e.target.name](e.target.value)
       mag.addons.addFocus(e.target)
     }
   }
