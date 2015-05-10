@@ -34,6 +34,7 @@ mag.addons.binds = function(data, attachTo, callback) {
             // update the related dom
             if (e.target.name == change.name && e.target.value !== change.object[change.name])
               e.target.value = change.object[change.name]
+              mag.addons.addFocus(e.target)
           }
         })
       })
@@ -54,6 +55,7 @@ mag.addons.binds = function(data, attachTo, callback) {
       } else if (j && ele && ele.value !== data[j]) {
         // checkboxes/select/textarea ?
         ele.value = typeof data[j] == 'function' ? data[j]() : data[j]
+        mag.addons.addFocus(ele)
       }
     }
   }
