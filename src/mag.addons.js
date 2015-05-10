@@ -48,12 +48,13 @@ mag.addons.binds = function(data, attachTo, callback) {
   addThis['_config'] = function(node, isNew) {
 
     for (var j in data) {
-      var ele = document.querySelector('[name="' + j + '"]')
+      var ele = document.querySelector('[name="' + j + '"]'),val =typeof data[j]=='function'?data[j](): 
+      data[j]
       if (j && isNew && ele) {
         ele.click()
-      } else if (j && ele && ele.value !== data[j]) {
+      } else if (j && ele && ele.value !== val) {
         // checkboxes/select/textarea ?
-        ele.value = typeof data[j] == 'function' ? data[j]() : data[j]
+        ele.value = val
       }
     }
   }
@@ -82,7 +83,7 @@ mag.addons.debounce = function(func, wait, immediate) {
 mag.addons.addFocus = function(ele) {
   mag.addons.debounce(function() {
     ele.focus()
-  }, 10)()
+  }, 15)()
 }
 
 // simple bind to keyup event
