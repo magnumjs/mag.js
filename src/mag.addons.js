@@ -7,8 +7,8 @@ mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
 // state.fom = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
-  var oldVal,handler = function(e) {
-    
+  var oldVal, handler = function(e) {
+
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     if (oldVal && val === oldVal) return
 
@@ -16,24 +16,24 @@ mag.addons.binds = function(data, attachTo, callback) {
 
     var name = e.target.name
     if (data[name] && data[name].type == 'fun' && typeof data[name] == 'function') {
-        data[name](val)
-    } else if(name) {
+      data[name](val)
+    } else if (name) {
       //necessary ?
-      if(data[name] && typeof data[name]._text !=='undefined')
-        data[name]._text=val
-      else 
-        data[name]=val
+      if (data[name] && typeof data[name]._text !== 'undefined')
+        data[name]._text = val
+      else
+        data[name] = val
     }
     mag.addons.addFocus(e.target)
-    
-    if(typeof Object.observe !== 'undefined'){
+
+    if (typeof Object.observe !== 'undefined') {
       Object.observe(data, function(changes) {
         // update target with changes
         changes.forEach(function(change) {
           if (change.type == 'update' || change.type == 'add') {
-              // update the related dom
-            if (e.target.name == change.name && e.target.value!==change.object[change.name])
-                e.target.value = change.object[change.name]
+            // update the related dom
+            if (e.target.name == change.name && e.target.value !== change.object[change.name])
+              e.target.value = change.object[change.name]
           }
         })
       })
@@ -46,14 +46,14 @@ mag.addons.binds = function(data, attachTo, callback) {
   for (var k in events) addThis[events[k]] = handler
 
   addThis['_config'] = function(node, isNew) {
-    
+
     for (var j in data) {
       var ele = document.querySelector('[name="' + j + '"]')
       if (j && isNew && ele) {
         ele.click()
-      } else if(j && ele && ele.value!==data[j]) {
+      } else if (j && ele && ele.value !== data[j]) {
         // checkboxes/select/textarea ?
-        ele.value = typeof data[j]=='function' ? data[j]() : data[j] 
+        ele.value = typeof data[j] == 'function' ? data[j]() : data[j]
       }
     }
   }
@@ -62,37 +62,40 @@ mag.addons.binds = function(data, attachTo, callback) {
   return addThis
 }
 
-mag.addons.debounce =function (func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
+mag.addons.debounce = function(func, wait, immediate) {
+  var timeout;
+  return function() {
+    var context = this,
+      args = arguments;
+    var later = function() {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
 };
 
 // needed for async change values such as change & bind
-mag.addons.addFocus=function(ele){
-  mag.addons.debounce(function() {ele.focus()}, 10)()
+mag.addons.addFocus = function(ele) {
+  mag.addons.debounce(function() {
+    ele.focus()
+  }, 10)()
 }
 
 // simple bind to keyup event
 // mag.addons.change(state, state.form={})
 // state.form = mag.addons.change(state)
-mag.addons.change=function(data, addTo){
+mag.addons.change = function(data, addTo) {
   var src = {
-    _onkeyup : function(e){
+    _onkeyup: function(e) {
       data[e.target.name](e.target.value)
       mag.addons.addFocus(e.target)
     }
   }
-  if(addTo){
+  if (addTo) {
     return mag.addons.merge(src, addTo)
   }
   return src
@@ -120,27 +123,27 @@ mag.addons.bindToModel = function(context, model) {
 
 
 //UTILITY
-mag.addons.copy =function (o) {
-   var out, v, key;
-   out = Array.isArray(o) ? [] : {};
-   for (key in o) {
-       v = o[key];
-       out[key] = (typeof v === "object") ? mag.addons.copy(v) : v;
-   }
-   return out;
+mag.addons.copy = function(o) {
+  var out, v, key;
+  out = Array.isArray(o) ? [] : {};
+  for (key in o) {
+    v = o[key];
+    out[key] = (typeof v === "object") ? mag.addons.copy(v) : v;
+  }
+  return out;
 }
 
 mag.addons.merge = function(source, destination) {
-    for (var k in source) destination[k] = source[k]
+  for (var k in source) destination[k] = source[k]
 }
 
 // return object of getter values
 mag.addons.getProp = function(data) {
-    var newData = {}
-    Object.keys(data).forEach(function(k) {
-        if (data[k].type == 'fun' && typeof data[k] == 'function') newData[k] = data[k]()
-    })
-    return newData
+  var newData = {}
+  Object.keys(data).forEach(function(k) {
+    if (data[k].type == 'fun' && typeof data[k] == 'function') newData[k] = data[k]()
+  })
+  return newData
 }
 
 // show hide
@@ -155,13 +158,13 @@ mag.addons.show = function(condition) {
         else n.style.display = 'block';
       }
     };
-  } else if(typeof condition === 'object') {
+  } else if (typeof condition === 'object') {
     condition.didload = function(e, n) {
       n.classList.remove('hide')
-      // both or just if no class hide ..
-      //node.style.display = 'none'
+        // both or just if no class hide ..
+        //node.style.display = 'none'
     }
-  } else if (arguments.length == 0){
+  } else if (arguments.length == 0) {
     return function(e, n) {
       // next didupdate event
       n.style.display = 'block'
@@ -173,10 +176,10 @@ mag.addons.hide = function(condition) {
   if (typeof condition === 'boolean') {
     return {
       _config: function(n) {
-          if (condition) n.style.display = 'none';
+        if (condition) n.style.display = 'none';
       }
     }
-  } else if(arguments.length == 0){
+  } else if (arguments.length == 0) {
     return function(e, n) {
       // next didupdate event
       n.style.display = 'none'
@@ -201,13 +204,13 @@ mag.deferred = Deferred = function() {
 }
 
 mag.addons.when = function(arrayOfPromises, callback) {
-    Promise.all(arrayOfPromises).then(callback)
+  Promise.all(arrayOfPromises).then(callback)
 }
 
 mag.addons.requestWithFeedback = function(args) {
   var key = JSON.stringify(args)
   if (!mag.addons.requestWithFeedback.cache[key]) {
-    
+
     var loaders = document.querySelectorAll(".loader")
 
     //show icons
@@ -217,8 +220,8 @@ mag.addons.requestWithFeedback = function(args) {
       delete mag.addons.requestWithFeedback.cache[key]
 
       if (Object.keys(mag.addons.requestWithFeedback.cache).length == 0) {
-          //hide icons
-          for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "none"
+        //hide icons
+        for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "none"
       }
       return data
     }
@@ -235,7 +238,7 @@ mag.addons.requestWithFeedback.cache = {}
 // hookins
 
 mag.hookin('attributes', 'key', function(data) {
-    // remove system key from being added to attributes in html
+  // remove system key from being added to attributes in html
   //  data.value = null
 })
 
@@ -245,5 +248,5 @@ mag.hookin('attributes', 'className', function(data) {
   if (!data.node.classList.contains(newClass)) {
     data.value = data.node.classList.length > 0 ? data.node.classList + ' ' + newClass : newClass
   }
-    data.key = 'class'
+  data.key = 'class'
 })
