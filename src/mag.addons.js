@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.3
+Mag.JS AddOns v0.10.4
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -24,7 +24,8 @@ mag.addons.binds = function(data, attachTo, callback) {
       else 
         data[name]=val
     }
-      
+    mag.addons.addFocus(e.target)
+    
     if(typeof Object.observe !== 'undefined'){
       Object.observe(data, function(changes) {
         // update target with changes
@@ -61,6 +62,26 @@ mag.addons.binds = function(data, attachTo, callback) {
   return addThis
 }
 
+mag.addons.debounce =function (func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
+// needed for async change values such as change & bind
+mag.addons.addFocus=function(ele){
+  mag.addons.debounce(function() {ele.focus()}, 10)()
+}
+
 // simple bind to keyup event
 // mag.addons.change(state, state.form={})
 // state.form = mag.addons.change(state)
@@ -68,6 +89,7 @@ mag.addons.change=function(data, addTo){
   var src = {
     _onkeyup : function(e){
       data[e.target.name](e.target.value)
+      mag.addons.addFocus(e.target)
     }
   }
   if(addTo){
