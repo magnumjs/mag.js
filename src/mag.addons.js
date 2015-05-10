@@ -96,8 +96,7 @@ mag.addons.change = function(data, addTo) {
       
       var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
       
-      typeof data[e.target.name]=='function'?data[e.target.name](val): 
-      data[e.target.name]=val
+      typeof data[e.target.name]=='function'?data[e.target.name](val):data[e.target.name]=val
       
       //data[e.target.name](e.target.value)
       mag.addons.addFocus(e.target)
