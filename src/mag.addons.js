@@ -5,13 +5,14 @@ https://github.com/magnumjs/mag.js
 */
 mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
-// state.fom = mag.addons.binds(state)
+// state.form = mag.addons.binds(state)
 mag.addons.binds = function(data, attachTo, callback) {
   var oldVal, handler = function(e) {
-    mag.addons.addFocus(e.target)
 
     var val = e.target.type == 'checkbox' ? e.target.checked : e.target.value
     if (oldVal && val === oldVal) return
+    
+    mag.addons.addFocus(e.target)
 
     oldVal = val;
 
