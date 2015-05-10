@@ -350,6 +350,8 @@ Introductory section on Lists
 
 [Take 2](http://jsbin.com/zivefoditi/edit?,js,output)
 
+[Composing things](http://jsbin.com/sajemubole/edit?html,js,output)
+
 ###Notes
 
 This works by Mag.js listening to changes to state
