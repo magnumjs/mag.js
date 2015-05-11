@@ -1,3 +1,9 @@
+/*
+Mag.JS ajax v0.10.5
+(c) Michael Glazer
+https://github.com/magnumjs/mag.js
+*/
+
 var mag = mag || {}
 
 var Deferred = function() {
