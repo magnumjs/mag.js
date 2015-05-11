@@ -4,6 +4,8 @@ Mag.JS Animate v0.1
 https://github.com/magnumjs/mag.js
 */
 
+var mag = mag || {}
+
 mag.anime = {}
 
 mag.anime.fadeIn =function ( elem, ms )
