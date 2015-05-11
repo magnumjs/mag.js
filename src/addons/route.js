@@ -1,4 +1,10 @@
-    var mag = mag || {}
+/*
+Mag.JS route v0.1
+(c) Michael Glazer
+https://github.com/magnumjs/mag.js
+*/
+
+var mag = mag || {}
 var noop = function() {}
 
 var type = {}.toString
