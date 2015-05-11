@@ -2,7 +2,7 @@
 <img alt="Mag.JS - Elegant DOM Bindings" src="https://cloud.githubusercontent.com/assets/5196767/7222868/53794478-e6e5-11e4-886c-40c2a3512654.png"/>
 </a>
 
-### Intuitive, tiny, fast - JavaScript 2 HTML component templating library.
+### Intuitive, tiny, fast, JavaScript 2 HTML component templating library.
 <hr>
 ##Features
 
