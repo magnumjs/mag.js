@@ -1,5 +1,7 @@
 /*
-
+Mag.JS Animate v0.1
+(c) Michael Glazer
+https://github.com/magnumjs/mag.js
 */
 
 mag.anime = {}
