@@ -1,5 +1,5 @@
 /*
-Mag.JS ajax v0.10.5
+Mag.JS ajax v0.1
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
