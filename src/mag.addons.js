@@ -3,6 +3,9 @@ Mag.JS AddOns v0.10.5
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
+
+var mag = mag || {}
+
 mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
 // state.form = mag.addons.binds(state)
