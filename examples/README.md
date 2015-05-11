@@ -351,7 +351,7 @@ Introductory section on Lists
 [Take 2](http://jsbin.com/zivefoditi/edit?,js,output)
 
 [Composing things](http://jsbin.com/sajemubole/edit?html,js,output) - 
-[Plunker](http://embed.plnkr.co/EHPeCyExJOYB1hVesr9B/preview)
+[Plunker](http://embed.plnkr.co/EHPeCyExJOYB1hVesr9B/preview) - [Take 2](http://embed.plnkr.co/VUXucg3ZNAZWfEbNCpux/preview)
 
 ###Notes
 
