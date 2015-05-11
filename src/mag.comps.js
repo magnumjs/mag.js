@@ -4,6 +4,9 @@ Mag.JS Components v0.11
 https://github.com/magnumjs/mag.js
 */
 
+var mag = mag || {}
+
+
 mag.comps ={}
 
 /*
