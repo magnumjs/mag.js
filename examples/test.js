@@ -1,13 +1,16 @@
 mag.module('unloader', {
   controller: function() {
     this.count = 1
+    this.thing = mag.prop('test')
   },
   view: function(state) {
     state.button = {
       _onclick: function() {
         console.log(state.count)
+        state.thing('other')
         state.count = state.count + 1
-      }
+      },
+      _className : 'metoo'
     }
     state.mod = state.count % 2 ? mag.module('testmod', {
       controller: function() {
@@ -21,6 +24,7 @@ mag.module('unloader', {
         }
       },
       view: function(s) {
+        console.log('viewee')
         s.dude = 1
       }
     }, {}, 1) : {
@@ -383,15 +387,14 @@ var shoes = {
     }
 
     this.filter = function(item) {
-      //console.log(item)
-      return item.color.indexOf(this.searchText()) !== -1
+      return item && item.color.indexOf(this.searchText()) !== -1
     }.bind(this)
 
     this.shoes = this.shoes.filter(this.filter)
   },
   view: function(state, props) {
     state.shoes = props.shoes.filter(state.filter)
-    mag.addons.binds(state, state.input = {})
+    mag.addons.change(state, state.input = {})
     state.test = ''
     state.$a = {
       _onclick: state.clickee
@@ -422,9 +425,11 @@ mag.module("shoes", shoes, props)
 
 var modal = {
   controller: function(props) {
+    console.log('ctrl')
     this.visible = mag.prop(props.visible)
   },
   view: function(state, props, element) {
+    console.log('view',state.visible())
     if (state.visible()) {
       element.classList.remove('hide')
       state.wrapper = {
@@ -551,20 +556,20 @@ mag.module("main", {
       }
     }
   },
-  view: function(s, p, n, con) {
+  view: function(s, p, n) {
     console.log(arguments)
     s.a = p.menuItem
     s.p = {
       _className: 'test',
       _config: function(n, is, c, i) {
         //console.log('here1',p)
-        con.menuItem2 = []
+        //con.menuItem2 = []
       }
     }
 
     s.$a = {
       _onclick: function() {
-        console.log('clicked', con)
+        console.log('clicked')
         s.h2 = null
       },
       _config: function(n, is, c, i) {
@@ -601,7 +606,7 @@ mag.module('hello', {
     }]
 
     function test(n, is, c, i) {
-      console.log(is, i)
+      //console.log(is, i)
     }
     this.add = function() {
       //console.log(this.$done)
@@ -682,16 +687,16 @@ mag.module('app', {
   view: function(s, p, e) {
     s.count = s.count || 1
     s.data = mag.module('comp', {
-      view: function(s, p, e, c) {
+      view: function(s, p, e) {
         //console.log(c)
-        s.b = c.thingy
+        //s.b = c.thingy
         s.count = p.changeling
         s.span = p.expr + '' + s.count
         s.head = {
           _onclick: function() {
             //console.log(c)
             s.span = 'yoyo'
-            c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
+            //c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
           }
         }
       }
