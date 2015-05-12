@@ -15,7 +15,7 @@ It'll also have a few neat features:
 
 ##Want to skip all this and just see the source?
 
-[JSBin](http://jsbin.com/licerahipi/edit?js,output)
+[JSBin](http://jsbin.com/tejabayowa/edit?js,output)
 
 ##Getting started
 
@@ -463,3 +463,5 @@ var CommentBox = {
 ##Congrats!
 
 You have just built a comment box in a few simple steps. Learn more about why to use MagJS, or dive into the API reference and start hacking! Good luck!
+
+[JSBin](http://jsbin.com/tejabayowa/edit?js,output)
