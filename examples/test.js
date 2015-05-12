@@ -1,3 +1,65 @@
+var demo = {}
+
+demo.controller = function(p) {
+  p.data = [{
+    name: 'joe'
+  }, {
+    name: 'bob'
+  }]
+}
+
+demo.view = function(s, p) {
+
+  s.h2 = {
+    _onclick: function() {
+      s.count = s.count + 1 || 1
+      p.data.push({
+        name: "--" + s.count
+      })
+    }
+  }
+
+  mag.module('CommentList', CommentList, {
+    data: p.data
+  })
+
+}
+
+var CommentList = {
+  view: function(s, p) {
+    console.log('view', p.data.length)
+
+    var promises = p.data.map(function(comment) {
+      console.log('name: ', comment.name)
+      return mag.module('Comment', Comment, {
+        name: comment.name
+      }, 1)
+
+
+    })
+
+
+    Promise.all(promises).then(function(d) {
+      console.log(d, d.length)
+      s.commentList = d
+    })
+
+
+  }
+}
+
+var Comment = {
+  view: function(s, p) {
+    s.span = p.name
+  }
+}
+
+var props = {
+
+}
+
+mag.module("demo", demo, props)
+
 mag.module('unloader', {
   controller: function() {
     this.count = 1
@@ -10,7 +72,7 @@ mag.module('unloader', {
         state.thing('other')
         state.count = state.count + 1
       },
-      _className : 'metoo'
+      _className: 'metoo'
     }
     state.mod = state.count % 2 ? mag.module('testmod', {
       controller: function() {
@@ -429,7 +491,7 @@ var modal = {
     this.visible = mag.prop(props.visible)
   },
   view: function(state, props, element) {
-    console.log('view',state.visible())
+    console.log('view', state.visible())
     if (state.visible()) {
       element.classList.remove('hide')
       state.wrapper = {
@@ -684,19 +746,19 @@ mag.module('app2', {
 
 
 mag.module('app', {
-  view: function(s, p, e) {
+  view: function(s, p1, e) {
     s.count = s.count || 1
     s.data = mag.module('comp', {
       view: function(s, p, e) {
         //console.log(c)
-        //s.b = c.thingy
+        s.b = p1.thingy
         s.count = p.changeling
         s.span = p.expr + '' + s.count
         s.head = {
           _onclick: function() {
             //console.log(c)
             s.span = 'yoyo'
-            //c.thingy = s.b = c.thingy == 'jay' ? 'thingy' : 'jay'
+            p1.thingy = s.b = p1.thingy == 'jay' ? 'thingy' : 'jay'
           }
         }
       }
