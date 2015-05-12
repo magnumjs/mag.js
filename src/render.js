@@ -22,43 +22,11 @@
         mod = module.modules[i],
         controller = module.controllers[i]
 
-        // var controllerConstructor = mod.controller.$original || mod.controller
-        // var controller = controllerConstructor === cached.controllerConstructor ? cached.controller : new(mod.controller || function() {})
-        // give it unfrozen context ?
 
-        // if (Object.keys(controller).length < 1) {
-        // add one
-        // initiates a draw
-        //controller['__magnum__::'] = 1
-        // }
+        mod.view(args[0], elementClone)
 
-      var context = render.contexts[i] = render.contexts[i] || {}
-      //console.log(controller, args)
-      //try {
-      mod.view(args[0], elementClone, context)
-      //} catch (e) {
-      //THROW ?
-      // console.log('Mag.JS', elementClone.id, i, e)
-      //throw new Error(e)
-      //}
-      // if (controller.onunload) unloaders.push({
-      //   controller: controller,
-      //   handler: controller.onunload
-      // })
     }
 
-    // render.callOnload = function(module) {
-    //   for (var i = 0, controller; controller = module.controllers[i]; i++) {
-    //     // call once
-    //     if (controller.onload && !controller.called) {
-    //       controller.onload.call({}, module.elements[i])
-    //       controller.called = 1
-    //     }
-    //   }
-    // }
-
-
-    // render.unloaders = []
 
     // call Lifecycle event
   render.callLCEvent = function(eventName, module, index, once) {
@@ -75,14 +43,9 @@
 
     if (isPrevented) {
       // unloading
-      //console.log(this.fill.cached)
-
-      //console.log('unloader id', module.elements[index].id)
-
-      //console.log('unloading', index, render.unloaders.length)
 
       for (var i = 0, unloader; unloader = render.unloaders[i]; i++) {
-        //console.log('unloaderering')
+
         if (unloader.controller.onunload) {
           unloader.handler.call(unloader.controller, module.elements[index])
           unloader.controller.onunload = 0
@@ -126,23 +89,15 @@
 
       }
     }
-
-    //console.log(cfgUnloaders)
-
   }
   render.doLoop = function(module, fill) {
     for (var i = 0, root; root = render.roots[i]; i++) {
-      // mag.running = true
 
       if (module.controllers[i] && module.elements[i]) {
         if (render.callLCEvent('willload', module, i, 1)) return
 
         if (!render.innerLoop(module, fill, i)) {
-          //cached
-          //debounce(
-          // render.callLCEvent('didload', module, i, 1)
-          //  , 1)
-          //render.callConfigs(fill.configs)
+
         } else {
           module.deferreds[i][2]({
             _html: mag.prop(module.elements[i])
@@ -165,8 +120,7 @@
         }
       }
     }
-    //mag.running = false
-    // fill.unclear()
+
   }
 
   render.clear = function(index, elementId, fill) {
@@ -181,30 +135,19 @@
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
-    if (iscached(i, args)) {
-      //console.log('completed run', i, elementClone.id, JSON.stringify(args[0]))
+    if (iscached(i, args[0])) {
       return false
     }
     // circular references will throw an exception
     // such as setting to a dom element
-    //cache[i] = JSON.stringify(args)
+
 
     callView(elementClone, module, i)
 
-
-
-    // only setup once!
-    // if (!module.elements[i].setWatch) {
     render.setupWatch(args, fill, elementClone, i, module)
-    //    module.elements[i].setWatch = 1
-    //}
-    // remove 
-    //delete args[0]['__magnum__::']
-    fill.fill(elementClone, args[0])
-    //render.callConfigs(fill.configs)
 
-    // call onload if present in all controllers
-    //render.callOnload(module)
+    fill.fill(elementClone, args[0])
+
     return true
   }
   var prevId
@@ -213,34 +156,22 @@
 
     if (frameId == prevId) return
     prevId = frameId
-    //mag.running = true
 
-    //console.log('componentWillUpdate', ele.id)
-    // debounce(
     //TODO: return true then skip execution?
     render.callLCEvent('willupdate', module, i, 1)
-    //, 1, 1)
 
     var args = module.getArgs(i)
     // check if data changed
-    if (iscached(i, args)) {
-      //console.log('componentDidUpdate', ele.id)
-      // debounce(
+    if (iscached(i, args[0])) {
       render.callLCEvent('didupdate', module, i)
-      // , 1)
       return
     }
 
-    // console.log('isupdate', ele.id, cache[i], i, JSON.stringify(args))
     render.callLCEvent('isupdate', module, i)
-    //cache[i] = JSON.stringify(args)
 
     callView(ele, module, i)
 
-    //delete args[0]['__magnum__::']
     fill.fill(ele, args[0])
-    //render.callConfigs(fill.configs)
-
   }
 
 
@@ -253,10 +184,9 @@
     // var changed = false;
     // console.log('setup watch', elementClone.id)
     var observer = function(changes) {
-      //console.log('observer',mag.runner)
+
       changes.forEach(function(change) {
-        //if (change.type == 'add' || change.type == 'update') {
-        //console.log(change.name, change.type)
+
         if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
           // call unloader for module
           render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
@@ -287,13 +217,14 @@
       deferTimer
     return function() {
       var args = arguments
-      if (+new Date - lastRedrawCallTime > FRAME_BUDGET || $requestAnimationFrame === window.requestAnimationFrame) {
+      if ($requestAnimationFrame === window.requestAnimationFrame || +new Date - lastRedrawCallTime > FRAME_BUDGET) {
         // hold on to it
         if (deferTimer > 0) $cancelAnimationFrame(deferTimer)
         deferTimer = $requestAnimationFrame(function() {
           lastRedrawCallTime = +new Date
           var nargs = [].slice.call(arguments).concat([].slice.call(args))
           fn.apply(this, nargs);
+          mag.redrawing = false
         }, FRAME_BUDGET)
       } else {
         // called when setTimeout is used
@@ -302,6 +233,7 @@
         fn.apply(this, nargs)
         deferTimer = $requestAnimationFrame(function() {
           deferTimer = null
+          mag.redrawing = false
         }, FRAME_BUDGET)
       }
     }
