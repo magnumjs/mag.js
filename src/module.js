@@ -8,18 +8,18 @@
     promises: [],
     deferreds: [],
     controllers: [],
-    elements: []
-  }
+    elements: []  }
 
 
-  mod.getController = function(mod, element, fill) {
+  mod.getController = function(module, element, fill) {
     var controller
 
     // FireFox support only
     // Removing since we are now native with Object.observe which is only Chrome & Opera
 
+
     if (typeof Proxy !== 'undefined') {
-      controller = new Proxy(new mod.controller, {
+      controller = new Proxy(new module.controller, {
         get: function(target, prop) {
           //more default props like willload, didload, willupdate, didupdate, isupdate
           if (target[prop] === undefined && ['watchers', 'toJSON', 'called', 'onload', 'onunload'].indexOf(prop) === -1) {
@@ -53,10 +53,9 @@
         }
       })
     } else {
-      controller = new mod.controller
+      controller = new module.controller
     }
 
-    //controller = new mod.controller
     return controller
   }
 
@@ -80,6 +79,8 @@
     // do we need/want this? view/controller will always get the same args
     // difference is that that can't be changed within those functions - does that matter?
     //deepFreeze(args)
+
+    
 
     var controller = function() {
       return (module.controller || function() {}).apply(this, args) || this
