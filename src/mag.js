@@ -14,16 +14,13 @@
       attributes: [],
       elementMatcher: []
     }
-
+  mag.redrawing = false
   mag.redraw = function(force) {
-    if (redrawing) {
-      // do we ever get here?
-      // necessary?
-      //return
+    if (mag.redrawing) {
+      return
     }
-    redrawing = true
+    mag.redrawing = true
     render.redraw(module || render.module || {}, fill, force)
-    redrawing = false
   }
 
   mag.withProp = function(prop, withAttrCallback) {
@@ -47,7 +44,8 @@
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
-        mag.redraw()
+        // too much ?
+        //mag.redraw()
       }
       return store
     }
