@@ -161,7 +161,7 @@ mag.module("hello", {
 
 [Comment Box:]
 (http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
-(https://youtube.com/watch?v=QEnyWHSsMFg)
+(https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/tejabayowa/edit?js,output),
 [Take 2](http://jsbin.com/tepesojige/edit?js,output)
 
 ###Angular 2 Mag
