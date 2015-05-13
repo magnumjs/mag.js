@@ -2,7 +2,7 @@
 
 #Mag.JS: A Tutorial Introductions (Part 1)
 
-This is part 1 of a tutorial series. You can view part 2 here.
+This is part 1 of a tutorial series. You can view part 2 [here](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md).
 
 Mag.js is a small (4kb) and fast, classical MVC JavaScript framework. It encourages an architecture similar to Angular.js, and uses a virtual DOM like React.js, all while avoiding the need for libraries like jQuery. MagJS's small size and API makes it ideal for embedded JavaScript widgets and user interfaces that have high performance requirements.
 
