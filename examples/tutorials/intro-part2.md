@@ -206,7 +206,7 @@ VolunteerForm.view = function (ctrl) {
 
 Here we attach a new mag.prop discount to VolunteerForm. As previously mentioned, it's a good idea to attach all your model data to the top-level component, and then pass down data to child components as necessary.
 Here is another example of nesting a component. This time we pass two extra options. Note how the Total component's view does not need to know where options.count comes from.
-We made ctrl.discount an m.prop in preparation for the Coupon component, which is coming up next :)
+We made ctrl.discount an mag.prop in preparation for the Coupon component, which is coming up next :)
 
 If you're coding along, refresh the page now. You should see the total update as you add and remove attendees.
 
@@ -233,14 +233,14 @@ I. The Coupon Controller
 Let's first take a look at the Coupon controller:
 
 ```javascript
-// src/components/coupon/coupon.js
-Coupon.controller = function (options) {  
+// coupon.js
+Coupon.controller = function (props) {  
   var ctrl = this
-  ctrl.code = m.prop('') /* 1 */
-  ctrl.submit = function (e) { /* 2 */
+  ctrl.code = mag.prop('') /* 1 */
+  ctrl.onSubmit = function (e) { /* 2 */
     e.preventDefault()
     validateCoupon(ctrl.code()) /* 3 */
-      .then(options.onSuccess) /* 4 */
+      .then(props.onSuccess) /* 4 */
   }
 }
 ```
@@ -248,8 +248,9 @@ Coupon.controller = function (options) {
 ctrl.code is our view-model. This will hold what the user has typed in.
 This is the function that will run when the user submits the coupon code form (you'll see the form in the next subsection).
 validateCoupon is the function that validates the user's coupon code against the server via AJAX. However, in our case this function will mock the AJAX request instead of hitting a real server. We will see the implementation of this function soon.
-Another thing we expect validateCoupon to do is return a promise-like object. Here we take advantage by telling the promise to run options.onSuccess after it resolves.
-Note that options.onSuccess will come from the parent component. Because of this, we can say Coupon is a callback-style component.
+Another thing we expect validateCoupon to do is return a promise-like object. Here we take advantage by telling the promise to run props.onSuccess after it resolves.
+
+> Note that props.onSuccess will come from the parent component. Because of this, we can say Coupon is a callback-style component.
 
 Now let's look at the implementation of validateCoupon:
 
@@ -259,7 +260,7 @@ function validateCoupon (code) {
   var isValid = (code === 'happy') /* 1 */
   var discount = 0.20
   // Mock AJAX promise
-  var deferred = m.deferred() /* 2 */
+  var deferred = mag.deferred() /* 2 */
   if (isValid) { deferred.resolve(discount) }
   else         { deferred.reject('invalid_code') }
   return deferred.promise /* 3 */
@@ -279,16 +280,18 @@ In general, mocking allows us to simulate an AJAX request without actually touch
 As it turns out, the view is quite straightforward:
 
 ```javascript
-// src/components/coupon/coupon.js
+// coupon.js
 Coupon.view = function (ctrl) {  
-  return m('form', { onsubmit: ctrl.submit }, [
-    m('label', "Enter coupon (if you have one):"),
-    m('input[type=text]', {
-      value: ctrl.code(),
-      onchange: m.withAttr('value', ctrl.code)
-    }),
-    m('button[type=submit]', "Validate coupon")
-  ])
+ ctrl.form = {
+    _onsubmit: ctrl.onSubmit
+  }
+
+  ctrl.errorcode = ctrl.error() ? "Invalid coupon." : ''
+
+  ctrl.coupon = {
+    _value: ctrl.code(),
+    _onchange: mag.withProp('value', ctrl.code)
+  }
 }
 ```
 
@@ -301,40 +304,46 @@ By the time the user submits, ctrl.code will contain the user's input due to the
 Revisiting the VolunteerForm view, we can now nest the Coupon component:
 
 ```javascript
-// src/components/volunteer-form/volunteer-form.js
-VolunteerForm.view = function (ctrl) {  
-  return m('.volunteer-form', [
-    m('h3', 'Please enter your contact information:'),
-    m.component(Contacts, { contacts: ctrl.contacts }),
-    m.component(Total, {
-      count: ctrl.contacts().length,
-      discount: ctrl.discount()
-    }),
-    m.component(Coupon, {
-      onSuccess: ctrl.discount
-    })
-  ])
+// volunteer-form.js
+VolunteerForm.view = function(ctrl) {
+  ctrl['volunteer-form'] = {
+    'h3': 'Please enter your contact information:'
+  }
+  ctrl.listcontacts = mag.module('contacts', Contacts, {
+    contacts: ctrl.contacts
+  })
+
+  mag.module('total', Total, {
+    count: ctrl.contacts().length,
+    discount: ctrl.discount()
+  })
+
+  mag.module('coupon', Coupon, {
+    onSuccess: ctrl.discount
+  })
+
 }
 ```
 
-More excitement! The onSuccess callback we pass to Coupon is the ctrl.discount m.prop. This means the Coupon controller code validateCoupon.then(options.onSuccess) will feed the discount amount directly into this m.prop, and thus gracefully and indirectly update the shown total amount in the Total view!
+More excitement! The onSuccess callback we pass to Coupon is the ctrl.discount mag.prop. This means the Coupon controller code validateCoupon.then(options.onSuccess) will feed the discount amount directly into this mag.prop, and thus gracefully and indirectly update the shown total amount in the Total view!
 
-Remember that the result of calling m.prop() is a getter-setter function. In the above code, we take advantage of this by using the setter part of the function as the onSuccess callback.
+Remember that the result of calling mag.prop() is a getter-setter function. In the above code, we take advantage of this by using the setter part of the function as the onSuccess callback.
+
 If you're coding along, refresh the page and take note of the total. Enter happy into the coupon code form and click the button. The total changed! Try adding and removing attendees. The discount still applies! :D
 
-IV. Error handling for invalid coupons
+##IV. Error handling for invalid coupons
 
-The happy path works perfectly. However, we still need to give visual feedback when the user types in an invalid code. Fortunately, Mithril's controller+view combo makes this easy.
+The happy path works perfectly. However, we still need to give visual feedback when the user types in an invalid code. Fortunately, MagJS's controller+view combo makes this easy.
 
 Let's go back to the Coupon controller and add a dash of code:
 
 ```javascript
 Coupon.controller = function (options) {  
   var ctrl = this
-  ctrl.code = m.prop('')
-  ctrl.error = m.prop(null) /* 1 */
+  ctrl.code = mag.prop('')
+  ctrl.error = mag.prop(null) /* 1 */
 
-  ctrl.submit = function (e) {
+  ctrl.onSubmit = function (e) {
     e.preventDefault()
     ctrl.error(null) /* 2 */
     validateCoupon(ctrl.code())
@@ -343,29 +352,29 @@ Coupon.controller = function (options) {
 }
 ```
 
-This is another mag.prop — it's the spot we will store any error we might get from the [mocked] server. The view will use this m.prop to determine whether or not to display error information. Note how we initialize with null, indicating that we begin with no error.
+This is another mag.prop — it's the spot we will store any error we might get from the [mocked] server. The view will use this mag.prop to determine whether or not to display error information. Note how we initialize with null, indicating that we begin with no error.
 
 On submit, we always clear the error. This will hide any previous error message that might be on the page.
 
-Here we added ctrl.error as a parameter to .then(). As it turns out, .then() can take two parameters: a success callback, and a failure callback. In this case, any reject error value from validateCoupon will feed directly into our ctrl.error m.prop.
+Here we added ctrl.error as a parameter to .then(). As it turns out, .then() can take two parameters: a success callback, and a failure callback. In this case, any reject error value from validateCoupon will feed directly into our ctrl.error mag.prop.
 
 That wasn't so bad. Now let's revisit the Coupon view:
 
 ```javascript
 Coupon.view = function (ctrl) {  
-  return m('form.coupon', { onsubmit: ctrl.submit }, [
-    ctrl.error() ? [
-      m('.error', "Invalid coupon.")
-    ] : null,
-    m('label', "Enter coupon (if you have one):"),
+  ctrl.form = {
+    _onsubmit: ctrl.onSubmit
+  }
+
+  ctrl.errorcode = ctrl.error() ? "Invalid coupon." : ''
     /* [clipped] */
   ])
 }
 ```
 
-Do you see the ternary? The pattern condition ? [content] : null is a good practice for showing/hiding content based on state. There are several advantages to doing it this way: the conditional comes first, the content array can contain multiple elements, and moving the pattern block up/down won't cause any comma-related syntax errors.
+Do you see the ternary? The pattern condition ? [content] : '' is a good practice for showing/hiding content based on state. There are several advantages to doing it this way: the conditional comes first, the content array can contain multiple elements, and moving the pattern block up/down won't cause any comma-related syntax errors.
 
-Unless you're targeting IE8 or below, leaving trailing commas in your content arrays is a great way to avoid unnecessary syntax errors.
+
 If you're coding along, refresh the page, type in an invalid coupon code, and submit. See the error message? Now try submitting happy. Cool! Not only does the discount apply, but the error message also disappears :)
 
 ##V. Showing the discounted amount
@@ -381,19 +390,12 @@ Total.calcDiscount = function (discount, count) {
   return roundCents(total * discount)
 }
 
-Total.view = function (ctrl, options) {  
-  var total =
-    Total.calcPrice(options.discount, options.count)
-  var discountedAmount =
-    Total.calcDiscount(options.discount, options.count)
+Total.view = function(ctrl, props) {
+ var total = Total.calcPrice(props.discount, props.count)
+  var discountedAmount = Total.calcDiscount(props.discount, props.count)
 
-  return m('.total', [
-    m('label', "Total: "),
-    options.discount > 0 ? [ /* 2 */
-      m('span', "(Coupon discount: -$" + discountedAmount + ")")
-    ] : null,
-    m('b', "$" + total),
-  ])
+  ctrl.span = props.discount > 0 ? "(Coupon discount: -$" + discountedAmount + ")" : ''
+    ctrl.b = "$" + total
 }
 ```
 
@@ -401,7 +403,7 @@ Only two points this time:
 
 Here we create another model-level method to avoid hardcoding any business logic in our view.
 
-Here is where we show the discounted amount, but only if a discount is present. Again we make use of the pattern condition ? [content] : null
+Here is where we show the discounted amount, but only if a discount is present. Again we make use of the pattern condition ? [content] : ''
 
 > You may have noticed there is some duplicate logic between `calcPrice` and `calcDiscount`. In a real app, you can avoid this duplication by creating a helper method for calculating a total without discount.
 
@@ -416,12 +418,12 @@ Total, a stateless component. It displays the total price information and has no
 Coupon, a callback component. It handles validation and runs a parent-provided callback when validation passes.
 VolunteerForm is also the top-level component. It is the component that holds all the important model data, and passes it down to its children as needed.
 
-At the end of the day, Mithril's component features gives us a lot of flexibility for organizing and gluing together our code. Used properly, we can achieve succinct code that is easy to reason about, yet still accomplishes a great deal of functionality.
+At the end of the day, MagJS's component features gives us a lot of flexibility for organizing and gluing together our code. Used properly, we can achieve succinct code that is easy to reason about, yet still accomplishes a great deal of functionality.
 
 In part 3 (not yet released), we will handle submission and validation of the entire form, as well as handle some new user stories that involve changing the UX. Until next time!
 
 ##Further Reading
 
-Mithril's Components documentation
+[MagJS's Components documentation](https://github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
 
 http://www.sitepoint.com/functional-programming-pure-functions/
