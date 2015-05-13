@@ -226,7 +226,8 @@ Now we can [quite elegantly] add this new link to our view:
 
 ```javascript
 Contacts.view = function (state, props) {  
-  ctrl.fieldset = ctrl.contacts().map(function(contact, idx) {
+
+  state.fieldset = state.contacts().map(function(contact, idx) {
 
     return {
       'legend': "Attendee #" + (idx + 1),
@@ -243,7 +244,7 @@ Contacts.view = function (state, props) {
     }
   })
 
-  ctrl.a = {
+  state.a = {
     _onclick: ctrl.add,
     _href: '#',
     _text: 'Add another attendee'
