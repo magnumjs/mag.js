@@ -1,6 +1,6 @@
 #Mag.JS: A Tutorial Introduction (Part2)
 
-Welcome to part 2 of this tutorial series! In part 1 we implemented the Contacts component. In part 2 we will first refactor the Contacts component to take advantage of MagJS's stellar component features. Then we will implement both the Total component and the Coupon component, all of which will be managed by MagJS algorithm under one parent component.
+Welcome to part 2 of this tutorial series! In [part 1](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md) we implemented the Contacts component. In part 2 we will first refactor the Contacts component to take advantage of MagJS's stellar component features. Then we will implement both the Total component and the Coupon component, all of which will be managed by MagJS algorithm under one parent component.
 
 ##Here's the demo!
 
