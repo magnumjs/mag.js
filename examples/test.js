@@ -1,3 +1,18 @@
+// hookin to create an element if does not exist at the root level
+mag.hookin('elementMatcher', 'testme', function(data) {
+  // data.key, data.node, data.value
+
+  var fragment = document.createDocumentFragment(),
+    el = document.createElement('div');
+  el.setAttribute('class', data.key)
+  fragment.appendChild(el);
+
+  var nodelist = fragment.childNodes;
+  data.node.appendChild(fragment)
+
+  data.value = nodelist
+})
+
 var demo = {}
 
 demo.controller = function(p) {
@@ -9,6 +24,8 @@ demo.controller = function(p) {
 }
 
 demo.view = function(s, p) {
+
+  s.testme = 'tester'
 
   s.h2 = {
     _onclick: function() {
@@ -27,10 +44,10 @@ demo.view = function(s, p) {
 
 var CommentList = {
   view: function(s, p) {
-    console.log('view', p.data.length)
+    //console.log('view', p.data.length)
 
     var promises = p.data.map(function(comment) {
-      console.log('name: ', comment.name)
+      //console.log('name: ', comment.name)
       return mag.module('Comment', Comment, {
         name: comment.name
       }, 1)
@@ -40,7 +57,7 @@ var CommentList = {
 
 
     Promise.all(promises).then(function(d) {
-      console.log(d, d.length)
+      // console.log(d, d.length)
       s.commentList = d
     })
 
