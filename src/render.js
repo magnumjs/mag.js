@@ -22,9 +22,7 @@
         mod = module.modules[i],
         controller = module.controllers[i]
 
-
-        mod.view(args[0], elementClone)
-
+      if (mod) mod.view(args[0], elementClone)
     }
 
 
@@ -36,7 +34,7 @@
           isPrevented = true
         }
       }
-    if (module.controllers[index][eventName]) {
+    if (module.controllers[index] && module.controllers[index][eventName]) {
       module.controllers[index][eventName].call({}, event, module.elements[index])
       if (once) module.controllers[index][eventName] = 0
     }
@@ -99,7 +97,7 @@
         if (!render.innerLoop(module, fill, i)) {
 
         } else {
-          module.deferreds[i][2]({
+          module.deferreds[i][1]({
             _html: mag.prop(module.elements[i])
             // _html: function(node){ return node }.bind({}, module.elements[i])
             // _html : function(node){return fill.cloneNodeWithEvents(node)}.bind({}, module.elements[i]) 
@@ -113,9 +111,11 @@
           addConfigUnloaders(module, fill, i)
           //TODO: remove clones
           if (module.deferreds[i][0]) {
-            var index = module.deferreds[i][1]
-            delete module.elements[index],
-              module.modules[index], module.controllers[index], module.promises[index], module.deferreds[index]
+            delete module.elements[i]
+            delete module.modules[i]
+            delete module.controllers[i]
+            delete module.promises[i]
+            delete module.deferreds[i]
           }
         }
       }
@@ -125,8 +125,6 @@
 
   render.clear = function(index, elementId, fill) {
     if (index !== -1 && render.cache[index]) {
-      // clear events too
-      // fill.clear()
       //console.log('clear called on reload', elementId)
       delete render.cache[index]
     }
@@ -141,7 +139,6 @@
     // circular references will throw an exception
     // such as setting to a dom element
 
-
     callView(elementClone, module, i)
 
     render.setupWatch(args, fill, elementClone, i, module)
@@ -151,7 +148,7 @@
     return true
   }
   var prevId
-  //render.doWatch = function(fill, ele, i, module, frameId, prop, action, difference, oldvalue) {
+
   render.doWatch = function(fill, ele, i, module, changes, frameId) {
 
     if (frameId == prevId) return
@@ -174,15 +171,8 @@
     fill.fill(ele, args[0])
   }
 
-
-  //mag.runner = false
   render.setupWatch = function(args, fill, elementClone, i, module) {
-    // mag.watch.watch(args[0], throttle(render.doWatch.bind(null, fill, elementClone, i, module)), 6, true)
-    // return
-    //this.fun = (this.fun || throttle(render.doWatch.bind(null, fill, elementClone, i, module)))
-    //mag.runner = false;
-    // var changed = false;
-    // console.log('setup watch', elementClone.id)
+
     var observer = function(changes) {
 
       changes.forEach(function(change) {
@@ -192,21 +182,15 @@
           render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
           //console.log(change.name,change.object[change.name].data, change.oldValue.data)
         }
-        //if(change.object[change.name].type=='fun' && change.object[change.name]()._html.data){
-        //console.log(change.name, change.type, change.object[change.name]()._html.typeName, change.object)
-        //}
-        //changed = true
-        // return
-        // }
       });
-      //      if (!mag.runner) {
-      //mag.runner = true
-      // retain reference
+
       module.controllers[i] = args[0]
       throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
-      //    }
     }
     // Which we then observe
+    if (observeHandler && args[0] && typeof Object.observe !== 'undefined') {
+      Object.unobserve(args[0], observeHandler);
+    }
     observeNested(args[0], observer);
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
@@ -277,12 +261,14 @@
     }
   }
 
+  var observeHandler
 
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, debounce(callback, 16));
+    function observeNested(obj, callback) {
+      if (obj && typeof Object.observe !== 'undefined') {
+        observeHandler = debounce(callback, 16)
+        notifySubobjectChanges(obj); // set up recursive observers
+        Object.observe(obj, observeHandler);
+      }
     }
-  }
 
 })(window.mag || {})
