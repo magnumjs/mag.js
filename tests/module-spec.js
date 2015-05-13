@@ -29,6 +29,7 @@ describe("MagJS - module", function() {
 
   beforeEach(function() {
     affix("div#test h2+p>b")
+
   })
 
   it("is defined", function() {
@@ -61,7 +62,6 @@ describe("MagJS - module", function() {
     spyOn(mag, 'module').andCallThrough()
     mag.module('test', view)
 
-
     expect(mag.module).toHaveBeenCalledWith('test', view)
 
     expect($('#test h2').text()).toEqual('tester')
@@ -76,5 +76,59 @@ describe("MagJS - module", function() {
     expect($('#test h2').text()).toEqual('')
   })
 
+  describe("list", function() {
+
+    var mod = {
+      view: function(state, props, element) {
+        var name1 = 'Yo!',
+          name2 = 'Joe!'
+        state.h2 = {
+          _config: function(element, isNew, context) {
+            console.log('CONFIG')
+            context.onunload = function() {
+              console.log('lister unload')
+            }
+            state.span = name1
+            state.item = [1, 2, 3]
+            mag.redraw()
+          },
+          _onclick: function() {
+            state.item.reverse()
+            state.span = state.span == name1 && name2 || name1
+          }
+        }
+      }
+    }
+
+    beforeEach(function() {
+      var $main = affix('#lister h2>span')
+      $main.affix('ul>li.item')
+    })
+
+    it("can reverse a list", function() {
+
+      console.log($('#lister').html())
+
+      var flag, promise = mag.module("lister", mod)
+
+      runs(function() {
+        promise.then(function(d) {
+          flag = true
+        })
+      })
+
+
+      waitsFor(function() {
+        return flag;
+      }, "Flag should be set", 10);
+
+      runs(function() {
+        expect($('#lister ul li').text()).toBe('123')
+        $('#lister h2').click()
+        expect($('#lister ul li').text()).toBe('321')
+      })
+    })
+
+  })
 
 });
