@@ -94,22 +94,29 @@ We also use mag.prop here to follow the Uniform Access Principle. Not only do we
 Now that we have our controller set up, we can set up a view to present it. In MagJS, a view is a plain function that returns a virtual DOM element. Here is everything at once:
 
 ```javascript
-// src/components/contacts/contacts.js
+// contacts.js
 Contacts.view = function (state, props) {  
-  state.contacts ={
-    'h3' : 'Please enter your contact information:',
-    
-    list : props.contacts().map(function (contact, idx) {
-      return m('fieldset', [
-        m('legend', "Attendee #" + (idx+1)),
-        m('label', "Name:"),
-        m('input[type=text]', { value: contact.name() }),
-        m('br'),
-        m('label', "Email:"),
-        m('input[type=text]', { value: contact.email() })
-      ])
-    })
+
+  state.contacts = {
+   'h3' : 'Please enter your contact information:'
   }
+    
+  state.fieldset = state.contacts().map(function(contact, idx) {
+
+    return {
+      'legend': "Attendee #" + (idx + 1),
+
+      name: {
+        _value: contact.name(),
+        _onchange: mag.withProp('value', contact.name)
+      },
+      email: {
+        _value: contact.email(),
+        _onchange: mag.withProp('value', contact.email)
+      }
+    }
+  })
+  
 }
 ```
 
@@ -145,7 +152,7 @@ Now it's time to add some user interaction. According to our user stories, the u
 ```javascript
 Contacts.controller = function (props) {  
 
-// this = state in view
+// this = "state" in view
 // use props to pass data that is not an elementMatcher
   
   props.contacts = mag.prop( [new Contacts.model()] )
