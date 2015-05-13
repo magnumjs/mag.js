@@ -709,6 +709,8 @@
       //hookin change
       if (data.change) {
         //console.log('change to elementMatcher key - ' + key, data)
+        // TODO: return a custom element for unmatched one ?
+        matches = data.value
       }
     }
     return matches
