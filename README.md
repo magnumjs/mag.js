@@ -38,7 +38,7 @@ Mag.JS dom!:
   <h1>Hello Mag.JS!</h1>
 </div>
 ```
-##[Tutorial](/magnumjs/mag.js/blob/master/examples/react2mag/README.md) -[Intro Part1](/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)- [Part2](/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md) -  [Components](/magnumjs/mag.js/blob/master/examples/components/README.md)
+##[Tutorial](//github.com/magnumjs/mag.js/blob/master/examples/react2mag/README.md) -[Intro Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)- [Part2](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md) -  [Components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
 
 ###Hello world!
 
