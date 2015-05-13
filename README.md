@@ -141,6 +141,8 @@ mag.module("hello", {
 ###Mithril 2 Mag
 [Rotate Links](http://jsbin.com/xadacatoke/edit?js,output)
 
+[Pagination](http://embed.plnkr.co/9VjZ6807pXbu0GETgk1u/preview)
+
 [Volunteer form application](http://embed.plnkr.co/L2AN3YYchOMdqLOB3hPI/preview)
 
 ###React 2 Mag
