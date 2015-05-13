@@ -1,6 +1,6 @@
 #Mag.JS: A Tutorial Introduction (Part2)
 
-Welcome to part 2 of this tutorial series! In part 1 we implemented the Contacts component. In part 2 we will first refactor the Contacts component to take advantage of Mithril's stellar component features. Then we will implement both the Total component and the Coupon component, all of which will be managed by Mithril Virtual DOM algorithm under one parent component.
+Welcome to part 2 of this tutorial series! In part 1 we implemented the Contacts component. In part 2 we will first refactor the Contacts component to take advantage of MagJS's stellar component features. Then we will implement both the Total component and the Coupon component, all of which will be managed by MagJS algorithm under one parent component.
 
 ##Here's the demo!
 
@@ -22,13 +22,13 @@ The Coupon component will handle checking the validity of an entered coupon via 
 A new (!) component VolunteerForm will manage the other three as their parent component.
 Getting Started
 
-If you want to code along, clone down this repo and git checkout the mithril-part-1-solution branch. This is the point we will start from.
+If you want to code along, check out the Plunker link above and start in the first version in edit mode.
 
-Keep in mind that the purpose of this project is to teach Mithril concepts, so it uses some non-best practices. In a real project you would minimize the use of DOM ids, concatenate and minify your JavaScript files, wrap your code in anonymous function scopes, and so on.
+Keep in mind that the purpose of this project is to teach MagJS concepts, so it uses some non-best practices. In a real project you would minimize the use of DOM ids, concatenate and minify your JavaScript files, wrap your code in anonymous function scopes, and so on.
 
 ##Strategy
 
-As it turns out, Mithril has stellar support for nesting components. Because other components are about to enter the mix, we will refactor the Contacts component to make it easier to nest.
+As it turns out, MagJS has stellar support for nesting components. Because other components are about to enter the mix, we will refactor the Contacts component to make it easier to nest.
 
 After refactoring the Contacts component, we will build more components and connect them all together, so you can see how everything fits in one application.
 
@@ -45,8 +45,8 @@ Enough talk, let's get started!
 When a MagJS component is nested, its parent can send extra options to its controller and view. Let's update the Contacts component so it "imports" its contacts data from these extra options:
 
 ```javascript
-// src/components/contacts/contacts.js
-Contacts.controller = function (options) {  
+//contacts.js
+Contacts.controller = function (props) {  
   var ctrl = this
   ctrl.contacts = options.contacts //<-- (!)
 
@@ -60,17 +60,20 @@ Contacts.controller = function (options) {
 }
 ```
 
-As it turns out, we only had to change two lines of code! First, we expect the new parameter options — the object of "extra options" that the parent component will send down (you will see what this looks like in the next section).
+As it turns out, we only had to change two lines of code! First, we expect the new parameter props — the object properties that the parent component will send down (you will see what this looks like in the next section).
 
-Second, instead of creating our array of contacts, we receive it from the parent via options.contacts (we still expect it to be an m.prop, just like in part 1).
+Second, instead of creating our array of contacts, we receive it from the parent via props.contacts (we still expect it to be an mag.prop, just like in part 1).
 
-Notice how this component is mutating options.contacts directly. Because of this, we can say this is a mutative component; it mutates the data of its parent. This is by no means the only way to design a component; you will see other types later in the post.
+Notice how this component is mutating props.contacts directly. Because of this, we can say this is a mutative component; it mutates the data of its parent. This is by no means the only way to design a component; you will see other types later in the post.
 
-A Small View Tweak
+##A Small View Tweak
 
 In the Contacts view, remove the following line:
 
-m('h3', 'Please enter your contact information:'),  
+```javascript
+state.h3 =  'Please enter your contact information:'  
+```
+
 Because we intend this component to be reusable, we leave the responsibility of labeling it to the parent (you'll see this in the next section).
 
 ##2. The VolunteerForm Component
@@ -78,19 +81,23 @@ Because we intend this component to be reusable, we leave the responsibility of 
 It's time write the parent VolunteerForm component. If you're coding along, create a folder and the following new file. Let's look at both the controller and view at once:
 
 ```javascript
-// src/components/volunteer-form/volunteer-form.js
+// volunteer-form.js
 VolunteerForm = {}
 
 VolunteerForm.controller = function () {  
   var ctrl = this
-  ctrl.contacts = m.prop( [new Contacts.model()] ) /*1*/
+   ctrl.contacts = mag.prop([new Contacts.model()])  /*1*/
 }
 
 VolunteerForm.view = function (ctrl) {  
-  return m('.volunteer-form', [
-    m('h3', 'Please enter your contact information:'), /*2*/
-    m.component(Contacts, { contacts: ctrl.contacts }) /*3*/
-  ])
+ ctrl['volunteer-form'] = {
+    'h3': 'Please enter your contact information:'
+  }, /*2*/
+  
+   ctrl.listcontacts = mag.module('contacts', Contacts, {
+    contacts: ctrl.contacts
+  }) /*3*/
+  
 }
 ```
 
@@ -100,20 +107,20 @@ We've moved the model data to this new component's controller. In fact, any time
 
 Here is where the h3 tag ended up. The parent holds responsibility for labeling the intent of the child component.
 
-And here is where we actually nest the Contacts component! Here we use m.component. If we nest a component in this fashion, then — when it comes time to render the page — Mithril will automatically initialize the nested component's controller and run its view function, all without the need for us to manage it ourselves!
+And here is where we actually nest the Contacts component! Here we use mag.module. If we nest a component in this fashion, then — when it comes time to render the page — MagJS will automatically initialize the nested component's controller and run its view function, all without the need for us to manage it ourselves!
 
 Note that nested components play by the same rules as other components: controllers initialize once, and the view (eventually) runs many times.
 
-Mounting the Parent
+##Mounting the Parent
 
 Now that we're using a top-down component architecture, we need to update index.html to include our new file and mount VolunteerForm instead of Contacts.
 
 ```javascript
 <!-- index.html -->  
-<script src="src/components/volunteer-form/volunteer-form.js"></script>
+<script src="volunteer-form.js"></script>
 
 <script>  
-  m.mount(document.getElementById('app'), VolunteerForm)
+mag.module('app', VolunteerForm)
 </script> 
 ```
 
@@ -124,12 +131,15 @@ Our refactor is complete. If you refresh the page, you should see everything wor
 Now let's write the Total component. This component will display the total amount the user needs to donate for the signup application. Let's begin with the view:
 
 ```javascript
-// src/components/total/total.js
-Total.view = function (ctrl, options) {  
-  return m('.total', [
-    m('label', "Total: "),
-    m('b', "$" + Total.calcPrice(options.discount, options.count))
-  ])
+// total.js
+Total.view = function(ctrl, props) {
+
+  var total = Total.calcPrice(props.discount, props.count)
+  var discountedAmount = Total.calcDiscount(props.discount, props.count)
+
+  ctrl.span = props.discount > 0 ? "(Coupon discount: -$" + discountedAmount + ")" : ''
+  ctrl.b = "$" + total
+
 }
 ```
 
@@ -138,7 +148,7 @@ Here Total.calcPrice (implementation not shown yet) is a pure function that calc
 Also note that we don't use the ctrl variable. That's because, as it turns out, there is no controller!
 
 ```javascript
-// src/components/total/total.js
+// total.js
 Total = {}
 
 /* Model-level functionality */
@@ -159,39 +169,42 @@ function roundCents (num) {
 }
 ```
 
-As you can see, we do not define Total.controller at all. This is because Mithril does not require a component to have a controller. In fact, because the Total component does not have a controller, and does not mutate anything in options, we can say that Total is a stateless component.
+As you can see, we do not define Total.controller at all. This is because MagJS does not require a component to have a controller. In fact, because the Total component does not have a controller, and does not mutate anything in options, we can say that Total is a stateless component.
 
 As an aside, the nice thing about writing Total as its own component is we now have one place to go to if we need to modify anything total-related, whether it's changing how it looks on the page (Total.view) or changing the business logic (Total.calcPrice). Of course, if this file starts getting too big, you can always split it up into multiple files, while keeping everything in the same components/total/ folder.
 
-Nesting Total in VolunteerForm
+##Nesting Total in VolunteerForm
 
 Now we need to put the Total component on the page. To do so, there are two tasks to complete:
 
-Add a discount m.prop to the VolunteerForm controller
-Nest the Total component within the VolunteerForm view and send down its "extra options": discount and number of volunteers.
+Add a discount mag.prop to the VolunteerForm controller
+Nest the Total component within the VolunteerForm view and send down its properties: discount and number of volunteers.
 Here is VolunterForm with the above updates:
 
 ```javascript
-// src/components/volunteer-form/volunteer-form.js
+// volunteer-form.js
 VolunteerForm.controller = function () {  
   var ctrl = this
-  ctrl.contacts = m.prop( [new Contacts.model()] )
-  ctrl.discount = m.prop(0) /*1*/
+  ctrl.contacts = mag.prop( [new Contacts.model()] )
+  ctrl.discount = mag.prop(0) /*1*/
 }
 
 VolunteerForm.view = function (ctrl) {  
-  return m('.volunteer-form', [
-    m('h3', 'Please enter your contact information:'),
-    m.component(Contacts, { contacts: ctrl.contacts }),
-    m.component(Total, { /*2*/
-      count: ctrl.contacts().length,
-      discount: ctrl.discount()
-    })
-  ])
+  ctrl['volunteer-form'] = {
+    'h3': 'Please enter your contact information:'
+  }
+  ctrl.listcontacts = mag.module('contacts', Contacts, {
+    contacts: ctrl.contacts
+  })
+
+  mag.module('total', Total, {
+    count: ctrl.contacts().length,
+    discount: ctrl.discount()
+  })
 }
 ```
 
-Here we attach a new m.prop discount to VolunteerForm. As previously mentioned, it's a good idea to attach all your model data to the top-level component, and then pass down data to child components as necessary.
+Here we attach a new mag.prop discount to VolunteerForm. As previously mentioned, it's a good idea to attach all your model data to the top-level component, and then pass down data to child components as necessary.
 Here is another example of nesting a component. This time we pass two extra options. Note how the Total component's view does not need to know where options.count comes from.
 We made ctrl.discount an m.prop in preparation for the Coupon component, which is coming up next :)
 
