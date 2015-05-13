@@ -8,7 +8,8 @@
     promises: [],
     deferreds: [],
     controllers: [],
-    elements: []  }
+    elements: []
+  }
 
 
   mod.getController = function(module, element, fill) {
@@ -80,7 +81,7 @@
     // difference is that that can't be changed within those functions - does that matter?
     //deepFreeze(args)
 
-    
+
 
     var controller = function() {
       return (module.controller || function() {}).apply(this, args) || this
@@ -103,7 +104,7 @@
   }
 
   mod.getArgs = function(i) {
-    var args = mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
+    var args = mod.modules[i] && mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
     // args that contaian circular references will throw an exception up the chain
 
     return args
