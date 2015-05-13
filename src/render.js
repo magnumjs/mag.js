@@ -135,7 +135,7 @@
     var elementClone = module.elements[i]
     var args = module.getArgs(i)
 
-    if (iscached(i, args[0])) {
+    if (iscached(i, args)) {
       return false
     }
     // circular references will throw an exception
@@ -162,7 +162,7 @@
 
     var args = module.getArgs(i)
     // check if data changed
-    if (iscached(i, args[0])) {
+    if (iscached(i, args)) {
       render.callLCEvent('didupdate', module, i)
       return
     }
