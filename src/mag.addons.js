@@ -206,6 +206,21 @@ mag.addons.onNextUpdate = function(context, callback) {
 }
 
 // promises
+
+/*
+var d = mag.deferred()
+var p = new Promise(d)
+
+p.then(function() {
+  console.log('success', arguments)
+},function() {
+  console.log('failure', arguments)
+
+})
+d.reject({things:false})
+d.resolve({things:[]})
+*/
+
 mag.deferred = Deferred = function() {
   return function Deferred(resolve, reject) {
     Deferred.resolve = resolve
