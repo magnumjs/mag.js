@@ -8,16 +8,16 @@ Mag.js is a small (4kb) and fast, classical MVC JavaScript framework. It encoura
 
 My personal favorite part about Mithril is that it's just JavaScript. In other words, if you know how JavaScript-the-language works, you can fully apply that knowledge when using MagJS. Oh, and that also includes JavaScript's functional programming features and techniques :)
 
-Tutorial Overview
+##Tutorial Overview
 
 In this tutorial we are going to walk through building a real-world case study, slightly modified to focus on building the core pieces of a MagJS component. Afterwards we will study the small amount of glue code needed to get MagJS running on page load, and briefly talk about how Mithril keeps the DOM in sync.
 
-Here's the demo!
+##Here's the demo!
 
 Anxious? You can view the code gist here, and the full source code here.
 This tutorial only covers the front-end; there will be no server-side code snippets.
 
-Project User Stories
+##Project User Stories
 
 As a user, I want to sign up for an event.
 As a user, I want to sign up multiple people at once.
@@ -30,7 +30,7 @@ We're going to use this rudimentary starting point. You can clone the repository
 
 Keep in mind that the purpose of this project is to teach MagJS concepts, so it uses some non-best practices. In a real project you would minimize the use of DOM ids, concatenate and minify your JavaScript files, wrap your code in anonymous function scopes, and so on.
 
-MagJS Components
+##MagJS Components
 
 MagJS makes it easy to write modular code. In this project we will be writing three seperate components:
 
@@ -43,7 +43,7 @@ The controller holds up to two main responsibilies: providing controller actions
 The view is what the user sees; it renders based on the view state, and it binds user events to controller actions. In Mithril, the view is a function that returns a virtual DOM element.
 In this project, each component will live in its own folder under src/components/. If you cloned the GitHub repo, you'll see skeleton files in each one.
 
-Strategy
+##Strategy
 
 In part 1 of this series we will first build the Contacts component. To incrementally introduce concepts, we're going to take the following approach:
 
@@ -52,7 +52,8 @@ Start the Controller
 Build a part of the View
 Complete the Controller
 Complete the View
-1. The Contacts Model
+
+##1. The Contacts Model
 
 Let's begin with the model. You may have noticed that we haven't mentioned the model at all up to this point. That's because Mithril imposes nothing special on your model; you can use whatever design pattern you like.
 
@@ -68,7 +69,8 @@ Contacts.model = function () {
 Here our model uses m.prop, a function that returns a getter-setter function. It's a small and elegant pattern that will later help us write short, succinct views.
 
 In the above example we initialized the model with default values. This is just for demonstration; in practice you might use a blank string instead.
-2. The Contacts Controller
+
+##2. The Contacts Controller
 
 Now let's look at the controller. In software design, there is a pattern called the view-model. The view-model is the current state of the user interface. It contains transient data such as the text the user has typed in (but not saved), the index of the active tab, the array of models the user is viewing, and so on. In Mithril (and classical MVC), the view-model is often part of the controller.
 
@@ -86,7 +88,7 @@ In this code we initialize with an empty model so the user will see one empty fi
 
 We also use mag.prop here to follow the Uniform Access Principle. Not only do we gain consistency by making all view-model data accessible via parethesis (i.e. calling the getter), but we also retain the flexibility to later turn this into a computed property — if needed — such as using Mithril's clever m.request to load data from a server.
 
-3. The Contacts View
+##3. The Contacts View
 
 Now that we have our controller set up, we can set up a view to present it. In Mithril, a view is a plain function that returns a virtual DOM element. Here is everything at once:
 
@@ -135,7 +137,7 @@ Here is the resulting HTML:
 
 After completing the controller in the next step, if you open index.html in your browser, you will see the inputs pre-filled with the values we initialized in the model.
 
-4. Completing The Contacts Controller
+##4. Completing The Contacts Controller
 
 Now it's time to add some user interaction. According to our user stories, the user needs to be able to add additional attendees in the same form. Since this logic is decoupled from the view, it is quite straightforward:
 
@@ -159,7 +161,7 @@ Contacts.controller = function (props) {
 
 The add and remove functions are called controller actions. We can now bind these actions to the view.
 
-5. Completing the Contacts View
+##5. Completing the Contacts View
 
 We have two controller actions to bind. Let's start with add, since it's easy — we just need an anchor tag:
 
@@ -188,7 +190,7 @@ Contacts.view = function (state, props) {
 
 And that's it! If you're coding along, refresh the page and try clicking the new anchor in your browser.
 
-Removing Attendees
+##Removing Attendees
 
 The requirements for remove are trickier. We want users to be able to remove extraneous attendees, but not remove all of them. In other words, the page needs to have at least one fieldset at all times.
 
@@ -233,7 +235,7 @@ Contacts.view = function (state, props) {
 
 And that'll do it!
 
-Two-Way Data Binding
+##Two-Way Data Binding
 
 ...well, almost.
 
@@ -259,7 +261,7 @@ state.input = {
 ```
 Apply that to the other input, and we're done!
 
-Tying Loose Ends
+##Tying Loose Ends
 
 There's one part I haven't mentioned yet — the code that mounts the MagJS component to the DOM on page load. You'll find the this code in index.html:
 
@@ -270,7 +272,7 @@ When we give Contacts to mag.module, MagJS initializes the controller with the k
 
 
 
-Conclusion
+###Conclusion
 
 MagJS is a wonderful, lightweight framework that doesn't try to abstract over JavaScript-the-language. Because it uses functional JavaScript constructs, we can refactor our views and controllers in ways that are framework-agnostic, allowing us to construct the right architecture for our application.
 
