@@ -45,7 +45,7 @@
       if (arguments.length) {
         store = arguments[0]
         // too much ?
-        //mag.redraw()
+        mag.redraw()
       }
       return store
     }
@@ -88,23 +88,27 @@
     })
   }
 
-  mag.hook = function(name, key, data, before) {
-    for (var i in hookins[name]) {
-      data.changed = false
-      if (hookins[name][i].key == key) {
-        before = JSON.stringify({
-          v: data.value,
-          k: data.key
-        })
-        hookins[name][i].handler.call(hookins[name][i].context, data)
-        //if any change
-        if (before !== JSON.stringify({
-          v: data.value,
-          k: data.key
-        })) {
-          data.change = true
-        }
+  function callHook(key, name, i, data, before) {
+    data.change = false
+    if (hookins[name][i].key == key) {
+      before = JSON.stringify({
+        v: data.value,
+        k: data.key
+      })
+      hookins[name][i].handler.call(hookins[name][i].context, data)
+      //if any change
+      if (before !== JSON.stringify({
+        v: data.value,
+        k: data.key
+      })) {
+        data.change = true
       }
+    }
+  }
+
+  mag.hook = function(name, key, data, before) {
+    for (var i = 0, size = hookins[name].length; i < size; i++) {
+      callHook(key, name, i, data, before)
     }
   }
   var reloader = function(index, domElementId) {
@@ -114,6 +118,7 @@
     //console.log(render.cache[index] ? JSON.parse(render.cache[index]) : 'no cache')
     render.callLCEvent('onreload', module, index)
   }
+
   mag.module = function(domElementId, moduleObject, props, clone) {
 
     var index = render.roots.indexOf(domElementId)
@@ -128,15 +133,14 @@
     if (props && !props.retain) render.clear(index, domElementId, fill)
 
     // create new index on roots
-    if (index < 0) index = render.roots.length;
-    if (clone) delete render.cache[index]
+    if (index < 0 || clone) index = render.roots.length;
 
     //DOM
     var element = document.getElementById(domElementId)
     if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
 
 
-    render.roots[index] = element.id
+    render.roots[index] = domElementId
 
     //MODULE
     if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
@@ -163,7 +167,7 @@
       module.deferreds[index] = arguments
       // call onload if present in controller
       // if (controller.onload && !mag.running) render.callOnload(module)
-    }.bind({}, clone, index))
+    }.bind({}, clone))
 
     //INTERPOLATIONS
     mag.redraw()
@@ -179,6 +183,7 @@
 
     // interpolations haven't occurred yet
     // return a promise in a settergetter
+
 
 
     return propify(module.promises[index], {
