@@ -14,7 +14,8 @@ In this tutorial we are going to walk through building a real-world case study, 
 
 ##Here's the demo!
 
-Anxious? You can view the code gist here, and the full source code here.
+> Anxious? You can view the code gist here, and the full source code here.
+
 This tutorial only covers the front-end; there will be no server-side code snippets.
 
 ##Project User Stories
@@ -59,7 +60,7 @@ Let's begin with the model. You may have noticed that we haven't mentioned the m
 
 In this project we will use a simple constructor function:
 ```javascript
-// components/contacts/contacts.js
+// contacts.js
 Contacts.model = function () {  
   this.name  = mag.prop('[Your name]');
   this.email = mag.prop('[Your email]');
@@ -77,7 +78,7 @@ Now let's look at the controller. In software design, there is a pattern called 
 According to our use case, we need to keep track of all entered attendees. We can do this with an array:
 
 ```javascript
-// src/components/contacts/contacts.js
+// contacts.js
 Contacts.controller = function () {  
   var ctrl = this
   ctrl.contacts = mag.prop([new Contacts.model()])
@@ -86,11 +87,11 @@ Contacts.controller = function () {
 
 In this code we initialize with an empty model so the user will see one empty fieldset on page load (once we implement the view, which is coming up next).
 
-We also use mag.prop here to follow the Uniform Access Principle. Not only do we gain consistency by making all view-model data accessible via parethesis (i.e. calling the getter), but we also retain the flexibility to later turn this into a computed property — if needed — such as using Mithril's clever m.request to load data from a server.
+We also use mag.prop here to follow the Uniform Access Principle. Not only do we gain consistency by making all view-model data accessible via parethesis (i.e. calling the getter), but we also retain the flexibility to later turn this into a computed property — if needed — such as using MagJS's clever m.request to load data from a server.
 
 ##3. The Contacts View
 
-Now that we have our controller set up, we can set up a view to present it. In Mithril, a view is a plain function that returns a virtual DOM element. Here is everything at once:
+Now that we have our controller set up, we can set up a view to present it. In MagJS, a view is a plain function that returns a virtual DOM element. Here is everything at once:
 
 ```javascript
 // src/components/contacts/contacts.js
@@ -201,7 +202,11 @@ To keep our view code clean, let's create a helper method. Add this code after y
 ```javascript
 function removeAnchor (state, idx) {  
   if (ctrl.contacts().length >= 2) {
-    return m('a', { onclick: ctrl.remove.bind({},idx), href:'#' }, 'remove')
+   return {
+      _text: 'remove',
+      _onclick: ctrl.remove.bind({}, idx),
+      _href: '#'
+    }
   }
 }
 ```
@@ -214,22 +219,28 @@ Now we can [quite elegantly] add this new link to our view:
 
 ```javascript
 Contacts.view = function (state, props) {  
-  return m('.contacts', [
-    m('h3', 'Please enter your contact information:'),
-    ctrl.contacts().map(function (contact, idx) {
-      return m('fieldset', [
-        m('legend', "Attendee #" + (idx+1)),
-        m('label', "Name:"),
-        m('input[type=text]', { value: contact.name() }),
-        m('br'),
-        m('label', "Email:"),
-        m('input[type=text]', { value: contact.email() }),
-        // === Here it is! === \\
-        removeAnchor(ctrl, idx) // <--------
-      ])
-    }),
-    m('a', { onclick: ctrl.add, href:'#' }, 'Add another attendee')
-  ])
+  ctrl.fieldset = ctrl.contacts().map(function(contact, idx) {
+
+    return {
+      'legend': "Attendee #" + (idx + 1),
+
+      name: {
+        _value: contact.name(),
+        _onchange: mag.withProp('value', contact.name)
+      },
+      email: {
+        _value: contact.email(),
+        _onchange: mag.withProp('value', contact.email)
+      },
+      a: removeAnchor(ctrl, idx)
+    }
+  })
+
+  ctrl.a = {
+    _onclick: ctrl.add,
+    _href: '#',
+    _text: 'Add another attendee'
+  }
 }
 ```
 
@@ -280,5 +291,6 @@ In part 2, we will implement both the Total and Coupon components. Until next ti
 
 Further Reading
 
-Getting Started with Mag.js
+[Getting Started with Mag.js](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
+
 Differences from other MVC frameworks
