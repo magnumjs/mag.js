@@ -27,7 +27,7 @@ As an organizer, I want to charge $10 per attendee.
 As an organizer, I want to provide coupons to offer a percent discount on total price.
 Getting Started
 
-We're going to use this rudimentary starting point. You can clone the repository (branch mithril-part-1) and follow along.
+We're going to use this rudimentary starting point.
 
 Keep in mind that the purpose of this project is to teach MagJS concepts, so it uses some non-best practices. In a real project you would minimize the use of DOM ids, concatenate and minify your JavaScript files, wrap your code in anonymous function scopes, and so on.
 
