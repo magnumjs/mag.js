@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.5
+Mag.JS AddOns v0.10.6
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -209,23 +209,27 @@ mag.addons.onNextUpdate = function(context, callback) {
 
 /*
 var d = mag.deferred()
-var p = new Promise(d)
 
-p.then(function() {
+d.promise.then(function() {
   console.log('success', arguments)
-},function() {
+}, function() {
   console.log('failure', arguments)
-
 })
-d.reject({things:false})
-d.resolve({things:[]})
+d.reject({
+  things: false
+})
+d.resolve({
+  things: []
+})
 */
 
-mag.deferred = Deferred = function() {
-  return function Deferred(resolve, reject) {
+mag.deferred = function() {
+  var Deferred = {}
+  Deferred.promise = new Promise(function(resolve, reject) {
     Deferred.resolve = resolve
     Deferred.reject = reject
-  }
+  })
+  return Deferred
 }
 
 mag.addons.when = function(arrayOfPromises, callback) {
