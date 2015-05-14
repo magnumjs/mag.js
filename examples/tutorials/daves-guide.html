@@ -323,7 +323,7 @@ var Stateful1 = {
 	view: function(state){
 		state = {
 			"div" : "Speak, friend, and enter: ", 
-			"strong", this.friend(),
+			"strong": this.friend(),
 			"input" : {_onkeyup: mag.withProp("value", Stateful1.friend), _value: this.friend()}
 		}
 		
