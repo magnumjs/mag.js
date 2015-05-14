@@ -525,7 +525,7 @@ arguments :
 * index is 0 based on xpath of the matcher
 
 #### Mag.JS AddOns!
-Tiny sub library of reusable simple tools
+Tiny sub library of reusable simple tools can be found [here](//github.com/magnumjs/mag.js/blob/master/src/mag.addons.js)
 
 * router
 * send ajax
@@ -541,10 +541,18 @@ For example, allow the attribute _className. Register a handler that on every de
 
 ```javascript
 mag.hookin('attributes', 'className', function(data) {
-  data.value = data.node.classList + ' ' + data.value
+  var newClass = data.value
+  data.value = data.node.classList + ''
+  if (!data.node.classList.contains(newClass)) {
+    data.value = data.node.classList.length > 0 ? data.node.classList + ' ' + newClass : newClass
+  }
   data.key = 'class'
 })
 ```
+
+The above is in the [MagJS addons library](//github.com/magnumjs/mag.js/blob/master/src/mag.addons.js)
+
+**Another example**
 
 Hookin when a specific elementMatcher is not found and return a set of element matches
 
