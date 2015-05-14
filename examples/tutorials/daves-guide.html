@@ -262,7 +262,7 @@ var hobbit = mag.prop();
 hobbit("A mortal creature with small stature and hairy feet.");
 mag.module("prop-example1", { 
 	view: function(state){ 
-		state={"p" : hobbit() }
+		state.p =  hobbit() 
 	}
 });
 </script>
@@ -285,10 +285,8 @@ var Boromir = {
 	txt: mag.prop(),
 	yell: function(){ alert('"'+this.txt()+' for Gondor!"'); },
 	view: function(state){
-		state= {
-			input :  {_onchange: mag.withProp("value", Boromir.txt)},
-			button : { _onclick: this.yell.bind(this),_text: "Yell" }
-		}
+		state.input =  {_onchange: mag.withProp("value", Boromir.txt)},
+	  state.button = { _onclick: this.yell.bind(this),_text: "Yell" }
 	}
 }
 mag.module("prop-example2", Boromir);
