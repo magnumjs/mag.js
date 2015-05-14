@@ -57,7 +57,7 @@ document.getElementById("tiny1").appendChild(p);
 </div>
 
 <script showme="tiny2-code">
-var p = {view:function(state){state={"p" : "Hello Middle-earth!" }}}
+var p = {view:function(state){state.p= "Hello Middle-earth!" }}
 mag.module("tiny2", p)
 </script>
 
