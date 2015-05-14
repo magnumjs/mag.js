@@ -211,12 +211,10 @@ document.getElementById("tiny7").appendChild(hungryHobbit);
 <script showme="withattr-example-code">
 var WithAttrExample = {
 	view: function(state){
-		state= {
-			"button" : 
+		state.button=  
 			{
-				_onclick: mag.withProp("tagName", alert) ,
-		_text:	"What kind of tag am I?"
-			}
+			_onclick: mag.withProp("tagName", alert) ,
+			_text:	"What kind of tag am I?"
 		}
 	}
 }
@@ -234,13 +232,10 @@ mag.module("withattr-example", WithAttrExample);
 
 <script showme="withattr-example2-code">
 var WithAttrExample2 = {
-	view: function(){
-		state= {
-			"input": 
-			{ 
-				_value: "...it was a hobbit-hole, and that means comfort.",
-				_onclick: mag.withProp("value", alert)
-			}
+view: function(){
+	state.input = { 
+			_value: "...it was a hobbit-hole, and that means comfort.",
+			_onclick: mag.withProp("value", alert)
 		}
 	}
 }
