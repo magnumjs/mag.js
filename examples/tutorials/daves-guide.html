@@ -86,11 +86,11 @@ mag.module("tiny2", p)
 
 <script showme="tiny4-code">
 var Hobbit = {
-	view: function(){
-		return m("p", "Even the smallest person can change the course of the future.")
+	view: function(state){
+		state = { "p" : "Even the smallest person can change the course of the future." }
 	}
 } 
-m.module(document.getElementById("tiny4"), Hobbit);
+mag.module("tiny4", Hobbit);
 </script>
 
 <p>So far, this looks much the same as the first example. It just renders a <code>&lt;p&gt;</code> tag with some text. So what have we gained?  Quite a lot, actually.  <code>m.render()</code> just puts something on the screen.  But when you give Mithril a module, it intelligently watches the module for changes.</p>
@@ -99,11 +99,11 @@ m.module(document.getElementById("tiny4"), Hobbit);
 
 <h2>Viewing the spirit-world</h2>
 
-<p>Programming in Mithril is kind of like slipping the One Ring onto your finger and being able to see what's going on in the spirit-world.</p>
+<p>Programming in MagJS is kind of like slipping the One Ring onto your finger and being able to see what's going on in the spirit-world.</p>
 
-<p>We make changes to our application's state by calling its methods and changing its properties. Mithril is designed to encourage us to write Views that directly reflect those changes.  You can think of it this way: the spirit-world of state can't touch the mortal realm of DOM elements...but changes in state can <i>result</i> in changes to the DOM.</p>
+<p>We make changes to our application's state by calling its methods and changing its properties. MagJS is designed to encourage us to write Views that directly reflect those changes.  You can think of it this way: the spirit-world of state can't touch the mortal realm of DOM elements...but changes in state can <i>result</i> in changes to the DOM.</p>
 
-<h3>Mithril's automatic magic</h3>
+<h3>MagJS's automatic magic</h3>
 
 <div class="row">
 	<div id="tiny5-code" class="language-javascript"></div>
@@ -116,11 +116,11 @@ var Tiny5 = {
 	stab: function(){
 		this.count++;
 	},
-	view: function(){
-		return m("button", {onclick: this.stab.bind(this)}, "I've been stabbed "+this.count+" times!");
+	view: function(state){
+		state= { "button" :  {_onclick: this.stab.bind(this)}, _text: "I've been stabbed "+this.count+" times!" };
 	}
 }
-m.module(document.getElementById("tiny5"), Tiny5);
+mag.module("tiny5", Tiny5);
 </script>
 
 <p>In this example, our View returns a button with an assigned <code>onclick</code> event handler called <code>stab()</code>. Use of modern JavaScript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind()</a> method is encouraged by the Mithril documentation. In general, Mithril's author, Mithril itself, its community, and I encourage the use of functional programming.</p>
