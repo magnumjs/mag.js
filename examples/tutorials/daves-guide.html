@@ -369,7 +369,7 @@ var Stateful2 = {
 	],
 	view: function(state){
 		state = {
-			"h3" : "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"),
+			"h3" : "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings",
 			item : this.poem.map(function(line){ 
 				return {
 				"input" : {_checked: line.used() ? 'true' : '', _onclick: mag.withProp("checked", line.used)},
