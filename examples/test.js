@@ -610,19 +610,6 @@ mag.module("count", {
 })
 
 
-
-function merge(o1, o2) {
-  for (var i in o2) {
-    o1[i] = o2[i];
-  }
-  return o1;
-}
-
-mag.hookin('attributes', 'className', function(data) {
-  data.value = data.node.classList + ' ' + data.value
-  data.key = 'class'
-})
-
 mag.module("main", {
   controller: function() {
     this.h2 = {
