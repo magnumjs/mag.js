@@ -546,6 +546,26 @@ mag.hookin('attributes', 'className', function(data) {
 })
 ```
 
+Hookin when a specific elementMatcher is not found and return a set of element matches
+
+```javascript
+// hookin to create an element if does not exist at the root level
+mag.hookin('elementMatcher', 'testme', function(data) {
+  // data.key, data.node, data.value
+
+  var fragment = document.createDocumentFragment(),
+    el = document.createElement('div');
+    
+  el.setAttribute('class', data.key)
+  fragment.appendChild(el);
+
+  var nodelist = fragment.childNodes;
+  data.node.appendChild(fragment)
+
+  data.value = nodelist
+})
+```
+
 Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
