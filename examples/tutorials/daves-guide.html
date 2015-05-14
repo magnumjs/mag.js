@@ -40,7 +40,7 @@
 
 <div class="row">
 	<div id="tiny1-code" class="language-javascript"></div>
-	<div id="tiny1" class="output"></div>
+	<div id="tiny1" class="output"><p></p></div>
 </div>
 
 <script showme="tiny1-code">
@@ -81,7 +81,7 @@ Whatever the <code>view(state)</code> state values equal is what MagJS will rend
 
 <div class="row">
 	<div id="tiny4-code" class="language-javascript"></div>
-	<div id="tiny4" class="output"></div>
+	<div id="tiny4" class="output"><p></p></div>
 </div>
 
 <script showme="tiny4-code">
@@ -107,7 +107,7 @@ mag.module("tiny4", Hobbit);
 
 <div class="row">
 	<div id="tiny5-code" class="language-javascript"></div>
-	<div id="tiny5" class="output"></div>
+	<div id="tiny5" class="output"><button></button></div>
 </div>
 
 <script showme="tiny5-code">
@@ -186,58 +186,59 @@ document.getElementById("tiny7").appendChild(hungryHobbit);
 
 <blockquote><i>"Great elephants!"</i> - Gandalf</blockquote>
 
-<p>You could shrug and say this is just how Mithril works. Big deal. But if you've ever built interfaces with jQuery or with manual DOM manipulation, I imagine you're starting to smile a little bit because the difference is profound: <strong><em>you don't have to manually invoke DOM changes</em>.  Mithril does this for you.</strong></p>
+<p>You could shrug and say this is just how MagJS works. Big deal. But if you've ever built interfaces with jQuery or with manual DOM manipulation, I imagine you're starting to smile a little bit because the difference is profound: <strong><em>you don't have to manually invoke DOM changes</em>.  Mithril does this for you.</strong></p>
 
 <p>You just make an application with state and then write your View to reflect that state.</p>
 
-<h2>Utility methods: m.withAttr() and m.prop()</h2>
+<h2>Utility methods: mag.withProp() and mag.prop()</h2>
 
 <p>We need more and better examples.  But before we get to those, there are two utility methods we need to introduce.</p>
 
-<h3>m.withAttr()</h3>
+<h3>mag.withProp()</h3>
 
-<p>What <code>m.withAttr()</code> does is simple enough, but it is difficult to describe without an example or two:</p>
+<p>What <code>mag.withProp()</code> does is simple enough, but it is difficult to describe without an example or two:</p>
 
 <div class="row">
 	<div id="withattr-example-code" class="language-javascript"></div>
-	<div id="withattr-example" class="output"></div>
+	<div id="withattr-example" class="output"><button></button></div>
 </div>
 
 <script showme="withattr-example-code">
 var WithAttrExample = {
-	view: function(){
-		return m(
-			"button", 
-			{onclick: m.withAttr("tagName", alert) },
-			"What kind of tag am I?"
-		);
+	view: function(state){
+		state= {
+			"button" : { 
+			{_onclick: mag.withProp("tagName", alert) },
+		_text:	"What kind of tag am I?"
+			}
+		}
 	}
 }
-m.module(document.getElementById("withattr-example"), WithAttrExample);
+mag.module("withattr-example", WithAttrExample);
 </script>
 
 <p>When you press the button, a standard browser alert() box appears and says "BUTTON". Why?</p>
 
-<p>What <code>m.withAttr()</code> does is return a new function which gets the property (<em>"tagName"</em> in this case) of an element <em>(button)</em> whose event <em>(onclick)</em> has been fired and passes it as parameter to another function <em>(alert)</em>.  Let's do another one.</p>
+<p>What <code>mag.withProp()</code> does is return a new function which gets the property (<em>"tagName"</em> in this case) of an element <em>(button)</em> whose event <em>(onclick)</em> has been fired and passes it as parameter to another function <em>(alert)</em>.  Let's do another one.</p>
 
 <div class="row">
 	<div id="withattr-example2-code" class="language-javascript"></div>
-	<div id="withattr-example2" class="output"></div>
+	<div id="withattr-example2" class="output"><input/></div>
 </div>
 
 <script showme="withattr-example2-code">
 var WithAttrExample2 = {
 	view: function(){
-		return m(
-			"input[type=text]", 
+		state= {
+			"input", 
 			{ 
-				value: "...it was a hobbit-hole, and that means comfort.",
-				onclick: m.withAttr("value", alert)
+				_value: "...it was a hobbit-hole, and that means comfort.",
+				_onclick: mag.withProp("value", alert)
 			}
-		);
+		}
 	}
 }
-m.module(document.getElementById("withattr-example2"), WithAttrExample2);
+mag.module("withattr-example2", WithAttrExample2);
 </script>
 
 <p>Sorry about all of these alert boxes. I'm using <code>alert()</code> because it's already in the browser and it helps to keep these examples as small as possible.</p>
@@ -246,28 +247,28 @@ m.module(document.getElementById("withattr-example2"), WithAttrExample2);
 
 
 
-<h3>m.prop()</h3>
+<h3>mag.prop()</h3>
 
-<p><code>m.prop()</code> is very simple.  It returns a getter/setter function which can set, store, and return a value.</p>
+<p><code>mag.prop()</code> is very simple.  It returns a getter/setter function which can set, store, and return a value.</p>
 
 <div class="row">
 	<div id="prop-example1-code" class="language-javascript"></div>
-	<div id="prop-example1" class="output"></div>
+	<div id="prop-example1" class="output"><p></p></div>
 </div>
 
 <script showme="prop-example1-code">
-var hobbit = m.prop();
+var hobbit = mag.prop();
 hobbit("A mortal creature with small stature and hairy feet.");
-m.module(document.getElementById("prop-example1"), { 
-	view: function(){ 
-		return m("p", hobbit());
+mag.module("prop-example1", { 
+	view: function(state){ 
+		state={"p" : hobbit() }
 	}
 });
 </script>
 
 <p>Here we create a new prop called <code>hobbit</code> which we set to a string. Then we use that value in a View to render the string on the screen.</p>
 
-<p>You can optionally set an initial value for the function, <code>var foo = m.prop("bar");</code>.</p>
+<p>You can optionally set an initial value for the function, <code>var foo = mag.prop("bar");</code>.</p>
 
 <p>You can store anything in a prop: arrays, objects, functions, you name it.</p>
 
