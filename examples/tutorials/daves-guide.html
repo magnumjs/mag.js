@@ -352,33 +352,31 @@ mag.module("state1", Stateful1);
 
 <div class="row">
 	<div id="state2-code" class="language-javascript"></div>
-	<div id="state2" class="output"></div>
+	<div id="state2" class="output"><h3></h3><div class="list"><div class="item"><label class="checkbox"><input/><span/></label><br/></div></div></div>
 </div>
 
 <script showme="state2-code">
 var Stateful2 = {
 	poem: [
-		{used: m.prop(true), line: "Three Rings for the Elven-kings under the sky,", rings: 3},
-		{used: m.prop(true), line: "Seven for the Dwarf-lords in their halls of stone,", rings: 7},
-		{used: m.prop(true), line: "Nine for Mortal Men doomed to die,", rings: 9},
-		{used: m.prop(true), line: "One for the Dark Lord on his dark throne", one_ring: true},
-		{used: m.prop(true), line: "In the Land of Mordor where the Shadows lie."},
-		{used: m.prop(true), line: "One Ring to rule them all, One Ring to find them,", one_ring: true},
-		{used: m.prop(true), line: "One Ring to bring them all and in the darkness bind them", one_ring: true},
-		{used: m.prop(true), line: "In the Land of Mordor where the Shadows lie."}
+		{used: mag.prop(true), line: "Three Rings for the Elven-kings under the sky,", rings: 3},
+		{used: mag.prop(true), line: "Seven for the Dwarf-lords in their halls of stone,", rings: 7},
+		{used: mag.prop(true), line: "Nine for Mortal Men doomed to die,", rings: 9},
+		{used: mag.prop(true), line: "One for the Dark Lord on his dark throne", one_ring: true},
+		{used: mag.prop(true), line: "In the Land of Mordor where the Shadows lie."},
+		{used: mag.prop(true), line: "One Ring to rule them all, One Ring to find them,", one_ring: true},
+		{used: mag.prop(true), line: "One Ring to bring them all and in the darkness bind them", one_ring: true},
+		{used: mag.prop(true), line: "In the Land of Mordor where the Shadows lie."}
 	],
-	view: function(){
-		return [
-			m("h3", "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"),
-			this.poem.map(function(line){ return [
-				m("label.checkbox", [
-					m("input[type=checkbox]", 
-						{checked: line.used(), onclick: m.withAttr("checked", line.used)}),
-					m("span", line.used() ? line.line : '')
-				]),
-				m("br")
-			];})
-		];
+	view: function(state){
+		state = {
+			"h3" : "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"),
+			item : this.poem.map(function(line){ 
+				return {
+				"input" : {_checked: line.used() ? 'true' : '', _onclick: mag.withProp("checked", line.used)},
+				"span" :  line.used() ? line.line : ''
+				}
+				})
+		}
 	},
 	lineCount: function(){ return this.poem.filter(function(x){ return x.used(); }).length; },
 	ringCount: function(){ 
@@ -386,7 +384,7 @@ var Stateful2 = {
 		  this.poem.reduce( function(p,x){ return p+(x.used() ? x.rings||0 : 0); }, 0); 
 	}
 }
-m.module(document.getElementById("state2"), Stateful2);
+mag.module("state2", Stateful2);
 </script>
 
 <p>Start unchecking the boxes. Watch the poem and its descriptive title change.</p>
@@ -413,7 +411,7 @@ m.module(document.getElementById("state2"), Stateful2);
 <h3>A simplistic request</h3>
 
 <p>In an ideal world, this is all we would need to do to load data from a REST API:</p>
-
+<!--
 <div class="row">
 	<div id="request1-code" class="language-javascript"></div>
 	<div id="request1" class="output"></div>
@@ -421,10 +419,10 @@ m.module(document.getElementById("state2"), Stateful2);
 
 <script showme="request1-code">
 var Request1 = {
-	data: m.prop(false),
+	data: mag.prop(false),
 	url: "http://ratfactor.com/misc/lotr-fellowship.json.php",
 	click: function(){
-		m.request({method: "GET", url: Request1.url}).then(Request1.data);
+		mag.request({method: "GET", url: Request1.url}).then(Request1.data);
 	},
 	view: function(){
 		return [
@@ -434,7 +432,7 @@ var Request1 = {
 		]
 	}
 }
-m.module(document.getElementById("request1"), Request1);
+mag.module("request1", Request1);
 </script>
 
 <p>Click on the Load Fellowship button and after a brief delay (2+ seconds), the button should be replaced with a paragraph of text describing the Fellowship.</p>
@@ -901,7 +899,7 @@ for(var i=0; i<scripts.length; i++){
 	m.render(attachto, m("pre",	m("code", s.innerHTML)));
 }
 </script>
-
+-->
 <blockquote><i>"I know what it was that you saw, for that is also in my mind."</i> - Galadriel</blockquote>
 
 <p>I am using the <a href="http://prismjs.com/">Prism</a> syntax highlighter to beautify the source code.</p>
@@ -910,7 +908,7 @@ for(var i=0; i<scripts.length; i++){
 
 <p>I want it.  You can help me out by <a href="contact-me">contacting me</a> with corrections to this article or if you have any way of improving it. I also really appreciate feedback on spelling and grammar. Thank you.</p>
 
-<p><small>Copyright (c) 2015 <a href="http://ratfactor.com">Dave Gauer</a></small></p>
+<p>Original <small>Copyright (c) 2015 <a href="http://ratfactor.com">Dave Gauer</a></small></p>
 
 </body>
 </html>
