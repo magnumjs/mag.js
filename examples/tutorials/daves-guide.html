@@ -326,8 +326,8 @@ var Stateful1 = {
           _onkeyup: mag.withProp("value", props.friend),
           _value: this.friend()
 		}
-		console.log(this.friend())
-		 state.button = this.friend() === "friend" ? { _text: "Enter and be welcome!", _class:'success' } : {_class: 'hide',_text:'' }
+
+     state.button = this.friend() === "friend" ? { _text: "Enter and be welcome!", _class:'success' } : {_class: 'hide',_text:'' }
 		
 	}
 }
@@ -354,7 +354,7 @@ mag.module("state1", Stateful1,{
 
 <div class="row">
 	<div id="state2-code" class="language-javascript"></div>
-	<div id="state2" class="output"><h3></h3><div class="list"><div class="item"><label class="checkbox"><input/><span/></label><br/></div></div></div>
+	<div id="state2" class="output"><h3></h3><div class="list"><div class="item"><label class="checkbox"><input type="checkbox"/><span/></label><br/></div></div></div>
 </div>
 
 <script showme="state2-code">
@@ -370,15 +370,17 @@ var Stateful2 = {
 		{used: mag.prop(true), line: "In the Land of Mordor where the Shadows lie."}
 	],
 	view: function(state){
-		state = {
-			"h3" : "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings",
-			item : this.poem.map(function(line){ 
+		state.h3= "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"
+			state.item = this.poem.map(function(line){ 
 				return {
-				"input" : {_checked: line.used() ? 'true' : '', _onclick: mag.withProp("checked", line.used)},
+				"input" : {
+                  _checked: line.used() ? 'true' : '',
+                           _onclick: mag.withProp("checked", line.used)
+                },
 				"span" :  line.used() ? line.line : ''
 				}
 				})
-		}
+		
 	},
 	lineCount: function(){ return this.poem.filter(function(x){ return x.used(); }).length; },
 	ringCount: function(){ 
