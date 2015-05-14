@@ -92,7 +92,7 @@ Whatever the <code>view(state)</code> state values equal is what MagJS will rend
 <script showme="tiny4-code">
 var Hobbit = {
 	view: function(state){
-		state = { "p" : "Even the smallest person can change the course of the future." }
+		state.p =  "Even the smallest person can change the course of the future." 
 	}
 } 
 mag.module("tiny4", Hobbit);
@@ -122,7 +122,7 @@ var Tiny5 = {
 		this.count++;
 	},
 	view: function(state){
-		state= { "button" :  {_onclick: this.stab.bind(this)}, _text: "I've been stabbed "+this.count+" times!" };
+		state.button =   {_onclick: this.stab.bind(this), _text: "I've been stabbed "+this.count+" times!" }
 	}
 }
 mag.module("tiny5", Tiny5);
