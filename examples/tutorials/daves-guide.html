@@ -1,27 +1,27 @@
-<!-- http://ratfactor.com/daves-guide-to-mithril-js?/mordor/barad-dur -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<title>Mike's Guide to MagJS - converted from (Dave's Guide to Mithril.js Part 1)</title>
+  <meta charset="UTF-8">
+  <title>Mike's Guide to MagJS - converted from (Dave's Guide to Mithril.js Part 1)</title>
   <link href="http://www.picnicss.com/nut/picnic_3_2.min.css" rel="stylesheet">
   <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
 
-	<link href="prism.css" rel="stylesheet">
-	<script src="prism.js"></script>
+  <link href="prism.css" rel="stylesheet">
+  <script src="prism.js"></script>
 
-	<style>
-		body { margin: 2em; }
-		pre>code { background-color: transparent; }
-		.output { background-color: #DDE4E9; padding: 1em; }
-		.page { margin: 1em; padding: 1em; background-color: #FFE; }
-		.spaced { margin: 1em; }
-	</style>
+  <style>
+    body { margin: 2em; }
+    		pre>code { background-color: transparent; }
+    		.output { background-color: #DDE4E9; padding: 1em; }
+    		.page { margin: 1em; padding: 1em; background-color: #FFE; }
+    		.spaced { margin: 1em; }
+  </style>
 </head>
+
 <body>
 
-<h1>Converted to MagJS - Dave's guide to Mithril.js Part 1</h2>
+  <h1>Converted to MagJS - Dave's guide to Mithril.js Part 1</h2>
 <h2><i>JavaScript from the Mines of Moria</i></h2>
 
 <p><a href="//github.com/magnumjs/mag.js">MagJS</a> is a marvelously tiny JavaScript library by Michael Glazer.  The functionality it provides works best when it is used as a complete framework.</p>
@@ -53,7 +53,7 @@ document.getElementById("tiny1").appendChild(p);
 
 <div class="row">
 	<div id="tiny2-code" class="language-javascript"></div>
-	<div id="tiny2" class="output"></div>
+  <div id="tiny2" class="output"><p></p></div>
 </div>
 
 <script showme="tiny2-code">
@@ -117,24 +117,29 @@ mag.module("tiny4", Hobbit);
 
 <script showme="tiny5-code">
 var Tiny5 = {
-	count: 0,
 	stab: function(){
 		this.count++;
 	},
-	view: function(state){
-		state.button =   {_onclick: this.stab.bind(this), _text: "I've been stabbed "+this.count+" times!" }
+	view: function(state, props){
+		state.button =   {
+          _onclick: this.stab.bind(props),
+          _text: "I've been stabbed "+props.count+" times!" 
+        }
 	}
 }
-mag.module("tiny5", Tiny5);
+
+mag.module("tiny5", Tiny5,{
+  count:0
+});
 </script>
 
-<p>In this example, our View returns a button with an assigned <code>onclick</code> event handler called <code>stab()</code>. Use of modern JavaScript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind()</a> method is encouraged by the Mithril documentation. In general, Mithril's author, Mithril itself, its community, and I encourage the use of functional programming.</p>
+<p>In this example, our View returns a button with an assigned <code>onclick</code> event handler called <code>stab()</code>. Use of modern JavaScript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind()</a> method is encouraged by the MagJS documentation. In general, MagJS's author, MagJS itself, its community, and I encourage the use of functional programming.</p>
 
 <p>Our module contains a property called <code>count</code> which gets incremented by <code>stab()</code> when the button is clicked.</p>
 
 <p>As if by otherworldly magic, the button's text changes as the stab count goes higher.</p>
 
-<p>Why does the button text update? Because MagJS runs our module's <code>view()</code> method whenever an event created in a View gets fired.  If the virtual structure returned by the View changes, Mithril intelligently updates just the DOM elements which have been changed since the last time they were drawn.</p>
+<p>Why does the button text update? Because MagJS runs our module's <code>view()</code> method whenever an event created in a View gets fired.  If the virtual structure returned by the View changes, MagJS intelligently updates just the DOM elements which have been changed since the last time they were drawn.</p>
 
 <p>Not just any event causes a redraw.  Nor does changing the property itself cause a redraw.  We can demonstrate this by manually doing these things ourselves:</p>
 
@@ -211,8 +216,7 @@ document.getElementById("tiny7").appendChild(hungryHobbit);
 <script showme="withattr-example-code">
 var WithAttrExample = {
 	view: function(state){
-		state.button=  
-			{
+		state.button=  {
 			_onclick: mag.withProp("tagName", alert) ,
 			_text:	"What kind of tag am I?"
 		}
@@ -232,7 +236,7 @@ mag.module("withattr-example", WithAttrExample);
 
 <script showme="withattr-example2-code">
 var WithAttrExample2 = {
-view: function(){
+view: function(state){
 	state.input = { 
 			_value: "...it was a hobbit-hole, and that means comfort.",
 			_onclick: mag.withProp("value", alert)
@@ -314,10 +318,9 @@ mag.module("prop-example2", Boromir);
 var Stateful1 = {
 	friend: mag.prop("enemy"),
 	view: function(state){
-		state = {
-			"div" : "Speak, friend, and enter: ", 
-			"strong": this.friend(),
-			"input" : {_onkeyup: mag.withProp("value", Stateful1.friend), _value: this.friend()}
+		state.div =  "Speak, friend, and enter: ", 
+		state.strong =  this.friend(),
+	 state.input =  {_onkeyup: mag.withProp("value", Stateful1.friend), _value: this.friend()}
 		}
 		
 		state.button = 	this.friend() === "friend" ? "Enter and be welcome!" : ''
@@ -892,7 +895,7 @@ for(var i=0; i<scripts.length; i++){
   	attachto = document.getElementById(showme);
 
 	if(!showme || !attachto){ continue; }
-  
+    
        var pre= document.createElement('pre');
        var code= document.createElement('code');
   code.innerHTML = s.innerHTML
