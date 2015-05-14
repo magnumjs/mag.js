@@ -547,7 +547,7 @@ mag.module("lister", {
       name2 = 'Joe!'
     state.h2 = {
       _config: function(element, isNew, context) {
-        console.log('CONFIG')
+        //console.log('CONFIG')
         context.onunload = function() {
           console.log('lister unload')
         }
@@ -558,25 +558,6 @@ mag.module("lister", {
       _onclick: function() {
         state.item.reverse()
         state.span = state.span == name1 && name2 || name1
-      }
-    }
-  }
-})
-
-mag.module("lister", {
-  view: function(state, props, element) {
-    var name1 = 'Yo!',
-      name2 = 'Joe!'
-    state.h2 = {
-      _config: function(element, isNew, context) {
-        if (isNew) {
-          state.span = name1
-          state.item = [1, 2, 3]
-        }
-      },
-      _onclick: function() {
-        state.item.reverse()
-        state.span = state.span == name1 && name2 || name1;
       }
     }
   }
