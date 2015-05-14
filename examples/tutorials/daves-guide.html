@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- http://ratfactor.com/daves-guide-to-mithril-js -->
 
 <head>
   <meta charset="UTF-8">
@@ -7,11 +8,12 @@
   <link href="http://www.picnicss.com/nut/picnic_3_2.min.css" rel="stylesheet">
   <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
 
-  <link href="prism.css" rel="stylesheet">
-  <script src="prism.js"></script>
+  <link href="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.css" rel="stylesheet">
+  <script src="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.js"></script>
 
-  <style>
+  <style type="text/css">
     body { margin: 2em; }
+    .hide {display:none;}
     		pre>code { background-color: transparent; }
     		.output { background-color: #DDE4E9; padding: 1em; }
     		.page { margin: 1em; padding: 1em; background-color: #FFE; }
@@ -311,23 +313,27 @@ mag.module("prop-example2", Boromir);
 
 <div class="row">
 	<div id="state1-code" class="language-javascript"></div>
-	<div id="state1" class="output"><div> <strong></strong></div><input/><button class="success"></button></div>
+	<div id="state1" class="output"><div><strong></strong></div><input/><button class="success"></button></div>
 </div>
 
 <script showme="state1-code">
 var Stateful1 = {
 	friend: mag.prop("enemy"),
-	view: function(state){
-		state.div =  "Speak, friend, and enter: ", 
-		state.strong =  this.friend(),
-	 state.input =  {_onkeyup: mag.withProp("value", Stateful1.friend), _value: this.friend()}
+	view: function(state, props){
+		state.div =  "Speak, friend, and enter: " 
+		state.strong =  this.friend()
+	 state.input =  {
+          _onkeyup: mag.withProp("value", props.friend),
+          _value: this.friend()
 		}
-		
-		state.button = 	this.friend() === "friend" ? "Enter and be welcome!" : ''
+		console.log(this.friend())
+		 state.button = this.friend() === "friend" ? { _text: "Enter and be welcome!", _class:'success' } : {_class: 'hide',_text:'' }
 		
 	}
 }
-mag.module("state1", Stateful1);
+mag.module("state1", Stateful1,{
+  friend : Stateful1.friend
+});
 </script>
 
 <p>Try typing "friend" in the text field.</p>
