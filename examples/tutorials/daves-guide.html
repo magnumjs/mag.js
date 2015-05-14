@@ -276,26 +276,26 @@ mag.module("prop-example1", {
 
 <div class="row">
 	<div id="prop-example2-code" class="language-javascript"></div>
-	<div id="prop-example2" class="output"></div>
+	<div id="prop-example2" class="output"><input/><button></button></div>
 </div>
 
 <script showme="prop-example2-code">
 var Boromir = {
-	txt: m.prop(),
+	txt: mag.prop(),
 	yell: function(){ alert('"'+this.txt()+' for Gondor!"'); },
-	view: function(){
-		return [
-			m("input[type=text]", {onchange: m.withAttr("value", Boromir.txt)}),
-			m("button", { onclick: this.yell.bind(this)}, "Yell")
-		];
+	view: function(state){
+		state= {
+			input :  {_onchange: mag.withProp("value", Boromir.txt)},
+			button : { _onclick: this.yell.bind(this),_text: "Yell" }
+		}
 	}
 }
-m.module(document.getElementById("prop-example2"), Boromir);
+mag.module("prop-example2", Boromir);
 </script>
 
 <p>Type something in the text box and then press the button. The value of the input field will be displayed in an alert box.</p>
 
-<p>Since <code>m.withAttr()</code> passes a value to a function, and since our <code>txt</code> getter/setter <em>is</em> a function, it takes whatever value is passed to it and stores it. Then we can use that value however we like, such as displaying it in an alert box as a battle cry.</p>
+<p>Since <code>mag.withProp()</code> passes a value to a function, and since our <code>txt</code> getter/setter <em>is</em> a function, it takes whatever value is passed to it and stores it. Then we can use that value however we like, such as displaying it in an alert box as a battle cry.</p>
 
 <p>Now that we understand what these two utility methods do, we can proceed with the fun stuff.</p>
 
@@ -308,21 +308,24 @@ m.module(document.getElementById("prop-example2"), Boromir);
 
 <div class="row">
 	<div id="state1-code" class="language-javascript"></div>
-	<div id="state1" class="output"></div>
+	<div id="state1" class="output"><div> <strong></strong></div><input/><button class="success"></button></div>
 </div>
 
 <script showme="state1-code">
 var Stateful1 = {
-	friend: m.prop("enemy"),
-	view: function(){
-		return [
-			m("div", "Speak, friend, and enter: ", m("strong", this.friend())),
-			m("input[type=text]", {onkeyup: m.withAttr("value", Stateful1.friend), value: this.friend()}),
-			this.friend() === "friend" ? m("button.success", "Enter and be welcome!") : ''
-		];
+	friend: mag.prop("enemy"),
+	view: function(state){
+		state = {
+			"div" : "Speak, friend, and enter: ", 
+			"strong", this.friend(),
+			"input" : {_onkeyup: mag.withProp("value", Stateful1.friend), _value: this.friend()}
+		}
+		
+		state.button = 	this.friend() === "friend" ? "Enter and be welcome!" : ''
+		
 	}
 }
-m.module(document.getElementById("state1"), Stateful1);
+mag.module("state1", Stateful1);
 </script>
 
 <p>Try typing "friend" in the text field.</p>
