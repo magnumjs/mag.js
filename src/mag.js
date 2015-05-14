@@ -106,9 +106,9 @@
     }
   }
 
-  mag.hook = function(name, key, data, before) {
+  mag.hook = function(name, key, data) {
     for (var i = 0, size = hookins[name].length; i < size; i++) {
-      callHook(key, name, i, data, before)
+      callHook(key, name, i, data)
     }
   }
   var reloader = function(index, domElementId) {
