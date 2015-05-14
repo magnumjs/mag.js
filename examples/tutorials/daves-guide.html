@@ -875,16 +875,18 @@ m.module(document.getElementById("rendering2"), new Renderable("Samwise"));
 
 <blockquote><i>"I gave you the chance of aiding me willingly, and so saving yourself much trouble and pain."</i> - Saruman</blockquote>
 
+-->
 
 <h2>TL;DR</h2>
 
-<p>Mithril loosely encourages an MVC or MVVM architecture. Your Mithril-based application renders itself on the page by generating virtual DOM elements which are automatically redrawn as needed. Mithril provides a set of features which work well together but is otherwise unopinionated about the structure of your application.</p>
+<p>MagJS loosely encourages an MVC or MVVM architecture. Your MagJS-based application renders itself on the page by generating virtual DOM elements which are automatically redrawn as needed. MagJS provides a set of features which work well together but is otherwise unopinionated about the structure of your application.</p>
 
 <h2>Colophon</h2>
 
 <h3>This Page</h3>
 
-<p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page. I'm using Mithril's <code>render()</code> and <code>m()</code> functions to help me do this compactly. I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
+<p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page. I'm using MagJS's <code>render()</code> and <code>m()</code> functions to help me do this compactly. I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
+
 
 
 <div id="galadriel" class="language-javascript"></div>
@@ -894,12 +896,21 @@ var scripts = document.getElementsByTagName("script");
 for(var i=0; i<scripts.length; i++){
 	s = scripts[i];
 	showme = s.getAttribute("showme");
-	if(!showme){ continue; }
-	attachto = document.getElementById(showme);
-	m.render(attachto, m("pre",	m("code", s.innerHTML)));
+  	attachto = document.getElementById(showme);
+
+	if(!showme || !attachto){ continue; }
+  
+  console.log(attachto, s.innerHTML)
+  
+       var pre= document.createElement('pre');
+       var code= document.createElement('code');
+  code.innerHTML = s.innerHTML
+pre.appendChild(code)
+  attachto.appendChild(pre)
+  
 }
 </script>
--->
+
 <blockquote><i>"I know what it was that you saw, for that is also in my mind."</i> - Galadriel</blockquote>
 
 <p>I am using the <a href="http://prismjs.com/">Prism</a> syntax highlighter to beautify the source code.</p>
