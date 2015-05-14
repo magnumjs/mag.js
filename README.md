@@ -308,7 +308,7 @@ inititate a redraw manually
 Optional boolean argument to force cache to be cleared
 
 #### mag.hookin (type, key, handler)
-Allows for custom definitions, see examples below
+Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins)
 
 #### mag.prop ( setter value)
 Helper setter/getter which calls mag.redraw on every setter
