@@ -1,0 +1,906 @@
+<!-- http://ratfactor.com/daves-guide-to-mithril-js?/mordor/barad-dur -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Mike's GUide to MagJS - converted from (Dave's Guide to Mithril.js Part 1)</title>
+  <link href="//www.picnicss.com/nut/picnic_3_2.min.css" rel="stylesheet">
+  <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+
+	<link href="//ratfactor.com/prism.css" rel="stylesheet">
+	<script src="//ratfactor.com/prism.js"></script>
+
+	<style>
+		body { margin: 2em; }
+		pre>code { background-color: transparent; }
+		.output { background-color: #DDE4E9; padding: 1em; }
+		.page { margin: 1em; padding: 1em; background-color: #FFE; }
+		.spaced { margin: 1em; }
+	</style>
+</head>
+<body>
+
+<h1>Converted to MagJS - Dave's guide to Mithril.js Part 1</h2>
+<h2><i>JavaScript from the Mines of Moria</i></h2>
+
+<p><a href="//github.com/magnumjs/mag.js">MagJS</a> is a marvelously tiny JavaScript library by Michael Glazer.  The functionality it provides works best when it is used as a complete framework.</p>
+
+<p>I found the fundamentals of Mithril's rendering system to be a challenge to my basic assumptions about how a JavaScript application works.  Once I had my "eureka" moment, I knew I had to write this article using as many working code examples as possible.</p>
+
+<p>I assume you're fully versed in JavaScript and the browser DOM.  I do <i>not</i> assume you have familiarity with any other JavaScript frameworks.</p>
+
+<p>This is certainly not an attempt to replace the Mithril <a href="//github.com/magnumjs/mag.js/blob/master/examples/README.md">documentation</a> and I will try not delve too greedily or too deep.</p>
+
+<h2>Tiniest useful example</h2>
+
+<p>Let's start as small as we can.  We'll set a variable to a value and then render it on the screen within the DOM element.</p>
+
+<p>Here's how you might do it with plain JavaScript:</p>
+
+<div class="row">
+	<div id="tiny1-code" class="language-javascript"></div>
+	<div id="tiny1" class="output"></div>
+</div>
+
+<script showme="tiny1-code">
+var p = document.createElement("p");
+p.textContent = "Hello World!";
+document.getElementById("tiny1").appendChild(p);
+</script>
+
+<p>And here's the same thing using MagJS:</p>
+
+<div class="row">
+	<div id="tiny2-code" class="language-javascript"></div>
+	<div id="tiny2" class="output"></div>
+</div>
+
+<script showme="tiny2-code">
+var p = {view:function(state){state={"p" : "Hello Middle-earth!" }}
+mag.module("tiny2", p)
+</script>
+
+<p>In this example, <code>p{}</code> is a simple JavaScript object and <code>mag.module()</code> attaches it to the DOM element ID we pass it.  Not using Virtual elements, special syntax or any template language make MagJS efficient.</p>
+
+<p>The important points here are:</p>
+<ol><li>We attach a MagJS mdoule to an existing HTML element's ID attribute</li>
+<li>We pass the <code>mag.module()</code> a object literal which minimally contains a 'view' method</li>
+<li>The view method's first parameter 'state' is a simple JavaScript object that will bind values to any Element Matchers within our modules HTML</li>
+<li>There are 5 element matchers : 1. element tag name 2. element class name 3. element id 4. element name attribute value 5. element data-bind attribute value</li>
+<li>It with match the first found one, t match all append with a '$' e.g. <code>state.$p</code></li>
+</ol>
+
+<h2>MagJS modules with views</h2>
+
+<p>We used <code>m.render()</code> in the example above, which is a low-level call. Generally, this is not how we use Mithril.</p>
+
+<p>It is much more useful to create Mithril modules.  First, you create a JavaScript object. Then you pass it to Mithril via a method called <code>m.module()</code>.</p>
+
+<p>To get a module to display something in the browser, Mithril wants us to define a <code>view()</code> method in our module object.  Whatever <code>view()</code> returns is what Mithril will render.</p>
+
+<div class="row">
+	<div id="tiny4-code" class="language-javascript"></div>
+	<div id="tiny4" class="output"></div>
+</div>
+
+<script showme="tiny4-code">
+var Hobbit = {
+	view: function(){
+		return m("p", "Even the smallest person can change the course of the future.")
+	}
+} 
+m.module(document.getElementById("tiny4"), Hobbit);
+</script>
+
+<p>So far, this looks much the same as the first example. It just renders a <code>&lt;p&gt;</code> tag with some text. So what have we gained?  Quite a lot, actually.  <code>m.render()</code> just puts something on the screen.  But when you give Mithril a module, it intelligently watches the module for changes.</p>
+
+<p>Let's see how that works.</p>
+
+<h2>Viewing the spirit-world</h2>
+
+<p>Programming in Mithril is kind of like slipping the One Ring onto your finger and being able to see what's going on in the spirit-world.</p>
+
+<p>We make changes to our application's state by calling its methods and changing its properties. Mithril is designed to encourage us to write Views that directly reflect those changes.  You can think of it this way: the spirit-world of state can't touch the mortal realm of DOM elements...but changes in state can <i>result</i> in changes to the DOM.</p>
+
+<h3>Mithril's automatic magic</h3>
+
+<div class="row">
+	<div id="tiny5-code" class="language-javascript"></div>
+	<div id="tiny5" class="output"></div>
+</div>
+
+<script showme="tiny5-code">
+var Tiny5 = {
+	count: 0,
+	stab: function(){
+		this.count++;
+	},
+	view: function(){
+		return m("button", {onclick: this.stab.bind(this)}, "I've been stabbed "+this.count+" times!");
+	}
+}
+m.module(document.getElementById("tiny5"), Tiny5);
+</script>
+
+<p>In this example, our View returns a button with an assigned <code>onclick</code> event handler called <code>stab()</code>. Use of modern JavaScript's <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind()</a> method is encouraged by the Mithril documentation. In general, Mithril's author, Mithril itself, its community, and I encourage the use of functional programming.</p>
+
+<p>Our module contains a property called <code>count</code> which gets incremented by <code>stab()</code> when the button is clicked.</p>
+
+<p>As if by otherworldly magic, the button's text changes as the stab count goes higher.</p>
+
+<p>Why does the button text update? Because Mithril runs our module's <code>view()</code> method whenever an event created in a View gets fired.  If the virtual structure returned by the View changes, Mithril intelligently updates just the DOM elements which have been changed since the last time they were drawn.</p>
+
+<p>Not just any event causes a redraw.  Nor does changing the property itself cause a redraw.  We can demonstrate this by manually doing these things ourselves:</p>
+
+<h3>Invoking the magic ourselves</h3>
+
+<p>This example affects the property in the Mithril module above.</p>
+
+<div class="row">
+	<div id="wraith-code" class="language-javascript"></div>
+	<div id="wraith" class="output"></div>
+</div>
+
+<script showme="wraith-code">
+var stabber = document.createElement("button");
+stabber.textContent = "Silently stab in the spirit-world";
+stabber.onclick = function(){ Tiny5.count++; }
+document.getElementById("wraith").appendChild(stabber);
+
+var redrawer = document.createElement("button");
+redrawer.textContent = "Redraw";
+redrawer.onclick = function(){ m.redraw(); }
+document.getElementById("wraith").appendChild(redrawer);
+</script>
+
+
+<p>Pressing this stab button <i>does</i> increment the variable in the module in the previous example. But to make the change visible, we must manually call Mithril's low-level <code>m.redraw()</code> method to update the module's View. (Be sure to scroll back up, if needed, to see the count update.)</p>
+
+
+<h3>Without magic</h3>
+
+<p>The above example module was extremely small and contrived and perhaps it's difficult to see what's interesting about it. Let's look at a completely manual JavaScript DOM manipulation version of the same functionality.  Then we can pinpoint the interesting part.</p>
+
+<div class="row">
+	<div id="tiny7-code" class="language-javascript"></div>
+	<div id="tiny7" class="output"></div>
+</div>
+
+<script showme="tiny7-code">
+// This is *not* how I would write this in production code.
+var count = 0;
+var hungryHobbit = document.createElement("button");
+function eat(){
+	hungryHobbit.textContent = "I've had "+count+" meals today";
+	count++;
+}
+hungryHobbit.onclick = eat;
+eat();
+document.getElementById("tiny7").appendChild(hungryHobbit);
+</script>
+
+<p>This example and the Mithril module work <em>almost</em> the same way: Create a counter variable; Create a <code>&lt;button&gt;</code> element; Set an <code>onclick</code> event handler which increments the variable and... <em>(here's where they diverge)</em> ...update the textContent of the button element</p>
+
+<p>In this example, I had to manually update the DOM by changing the <code>textContent</code> of the button.  We didn't have to do that in the Mithril module example. In fact, Mithril doesn't even provide any facilities for DOM manipulation of this sort.  Instead, all DOM manipulations are made by enacting the <em>differences</em> to your View since the last time it was rendered.</p>
+
+<blockquote><i>"Great elephants!"</i> - Gandalf</blockquote>
+
+<p>You could shrug and say this is just how Mithril works. Big deal. But if you've ever built interfaces with jQuery or with manual DOM manipulation, I imagine you're starting to smile a little bit because the difference is profound: <strong><em>you don't have to manually invoke DOM changes</em>.  Mithril does this for you.</strong></p>
+
+<p>You just make an application with state and then write your View to reflect that state.</p>
+
+<h2>Utility methods: m.withAttr() and m.prop()</h2>
+
+<p>We need more and better examples.  But before we get to those, there are two utility methods we need to introduce.</p>
+
+<h3>m.withAttr()</h3>
+
+<p>What <code>m.withAttr()</code> does is simple enough, but it is difficult to describe without an example or two:</p>
+
+<div class="row">
+	<div id="withattr-example-code" class="language-javascript"></div>
+	<div id="withattr-example" class="output"></div>
+</div>
+
+<script showme="withattr-example-code">
+var WithAttrExample = {
+	view: function(){
+		return m(
+			"button", 
+			{onclick: m.withAttr("tagName", alert) },
+			"What kind of tag am I?"
+		);
+	}
+}
+m.module(document.getElementById("withattr-example"), WithAttrExample);
+</script>
+
+<p>When you press the button, a standard browser alert() box appears and says "BUTTON". Why?</p>
+
+<p>What <code>m.withAttr()</code> does is return a new function which gets the property (<em>"tagName"</em> in this case) of an element <em>(button)</em> whose event <em>(onclick)</em> has been fired and passes it as parameter to another function <em>(alert)</em>.  Let's do another one.</p>
+
+<div class="row">
+	<div id="withattr-example2-code" class="language-javascript"></div>
+	<div id="withattr-example2" class="output"></div>
+</div>
+
+<script showme="withattr-example2-code">
+var WithAttrExample2 = {
+	view: function(){
+		return m(
+			"input[type=text]", 
+			{ 
+				value: "...it was a hobbit-hole, and that means comfort.",
+				onclick: m.withAttr("value", alert)
+			}
+		);
+	}
+}
+m.module(document.getElementById("withattr-example2"), WithAttrExample2);
+</script>
+
+<p>Sorry about all of these alert boxes. I'm using <code>alert()</code> because it's already in the browser and it helps to keep these examples as small as possible.</p>
+
+<p>Here we create an <code>&lt;input&gt;</code> element, set its <code>value</code> property to a string, and then attach an <code>onclick</code> event handler created with the help of <code>m.withAttr()</code>.  In this case, we're creating an event handler which passes the value of the <code>"value"</code> property to the <code>alert()</code> function.</p>
+
+
+
+<h3>m.prop()</h3>
+
+<p><code>m.prop()</code> is very simple.  It returns a getter/setter function which can set, store, and return a value.</p>
+
+<div class="row">
+	<div id="prop-example1-code" class="language-javascript"></div>
+	<div id="prop-example1" class="output"></div>
+</div>
+
+<script showme="prop-example1-code">
+var hobbit = m.prop();
+hobbit("A mortal creature with small stature and hairy feet.");
+m.module(document.getElementById("prop-example1"), { 
+	view: function(){ 
+		return m("p", hobbit());
+	}
+});
+</script>
+
+<p>Here we create a new prop called <code>hobbit</code> which we set to a string. Then we use that value in a View to render the string on the screen.</p>
+
+<p>You can optionally set an initial value for the function, <code>var foo = m.prop("bar");</code>.</p>
+
+<p>You can store anything in a prop: arrays, objects, functions, you name it.</p>
+
+<p>Mithril cleverly re-uses the concept of a getter/setter in multiple ways. Since we've just learned about <code>m.withAttr()</code>, let's see the two of those play together:</p>
+
+<div class="row">
+	<div id="prop-example2-code" class="language-javascript"></div>
+	<div id="prop-example2" class="output"></div>
+</div>
+
+<script showme="prop-example2-code">
+var Boromir = {
+	txt: m.prop(),
+	yell: function(){ alert('"'+this.txt()+' for Gondor!"'); },
+	view: function(){
+		return [
+			m("input[type=text]", {onchange: m.withAttr("value", Boromir.txt)}),
+			m("button", { onclick: this.yell.bind(this)}, "Yell")
+		];
+	}
+}
+m.module(document.getElementById("prop-example2"), Boromir);
+</script>
+
+<p>Type something in the text box and then press the button. The value of the input field will be displayed in an alert box.</p>
+
+<p>Since <code>m.withAttr()</code> passes a value to a function, and since our <code>txt</code> getter/setter <em>is</em> a function, it takes whatever value is passed to it and stores it. Then we can use that value however we like, such as displaying it in an alert box as a battle cry.</p>
+
+<p>Now that we understand what these two utility methods do, we can proceed with the fun stuff.</p>
+
+
+<h2>Thinking about Views as reflections of state</h2>
+
+<p>To drive home the idea of Views as reflections or visualizations of application state and how that can result in a dynamic interface, let's see some examples.</p>
+
+<h3>The Doors of Durin: A simple interface belies its power</h3>
+
+<div class="row">
+	<div id="state1-code" class="language-javascript"></div>
+	<div id="state1" class="output"></div>
+</div>
+
+<script showme="state1-code">
+var Stateful1 = {
+	friend: m.prop("enemy"),
+	view: function(){
+		return [
+			m("div", "Speak, friend, and enter: ", m("strong", this.friend())),
+			m("input[type=text]", {onkeyup: m.withAttr("value", Stateful1.friend), value: this.friend()}),
+			this.friend() === "friend" ? m("button.success", "Enter and be welcome!") : ''
+		];
+	}
+}
+m.module(document.getElementById("state1"), Stateful1);
+</script>
+
+<p>Try typing "friend" in the text field.</p>
+
+<p>First, this gives us an example of <strong>data binding</strong>. As you change the value in the text field, a property called <code>friend</code> is updated. The changes to <code>friend</code> in turn, drive visual changes elsewhere in the View.</p>
+
+<p><em>It should be noted that this is not "true" two-way data binding because it's actually the keyboard event which redraws our View.  To support true two-way data binding, Mithril would have to poll the <code>friend</code> property for changes and redraw the view whenever a change was detected.  I suppose you could call <code>m.redraw()</code> on a timer to do just that, but don't come running to me if you unearth a <a href="http://en.wikipedia.org/wiki/Balrog">Balrog</a>.</em></p>
+
+<p>Second, you'll notice that the entire state of the application is essentially just one string value contained in <code>friend</code> and yet three different elements (strong, input, and button) derive their appearance from the value of that string.  The button even appears and disappears depending on the value of the string.  It is not merely set to visible or invisible, it actually winks in and out of existance.</p>
+
+<p>Because the visual changes are calculated with the virtual elements created with <code>m()</code>, not with actual DOM elements, the process is surprisingly efficient. If you're anything like me, only repeated exposure to this concept will make you comfortable with it.</p>
+
+<blockquote><i>"I feel thin, sort of stretched, like butter scraped over too much bread."</i> - Bilbo Baggins</blockquote>
+
+<p>But this is good stuff. The decoupling of application state from the rendered appearance of the application, if carefully designed, can result in a huge reduction in redundant code and frees us from having to consider a tangled mess of function calls and logic explicitly tying events to visual changes.</p>
+
+<h3>Interactive Ring-verse</h3>
+
+<div class="row">
+	<div id="state2-code" class="language-javascript"></div>
+	<div id="state2" class="output"></div>
+</div>
+
+<script showme="state2-code">
+var Stateful2 = {
+	poem: [
+		{used: m.prop(true), line: "Three Rings for the Elven-kings under the sky,", rings: 3},
+		{used: m.prop(true), line: "Seven for the Dwarf-lords in their halls of stone,", rings: 7},
+		{used: m.prop(true), line: "Nine for Mortal Men doomed to die,", rings: 9},
+		{used: m.prop(true), line: "One for the Dark Lord on his dark throne", one_ring: true},
+		{used: m.prop(true), line: "In the Land of Mordor where the Shadows lie."},
+		{used: m.prop(true), line: "One Ring to rule them all, One Ring to find them,", one_ring: true},
+		{used: m.prop(true), line: "One Ring to bring them all and in the darkness bind them", one_ring: true},
+		{used: m.prop(true), line: "In the Land of Mordor where the Shadows lie."}
+	],
+	view: function(){
+		return [
+			m("h3", "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"),
+			this.poem.map(function(line){ return [
+				m("label.checkbox", [
+					m("input[type=checkbox]", 
+						{checked: line.used(), onclick: m.withAttr("checked", line.used)}),
+					m("span", line.used() ? line.line : '')
+				]),
+				m("br")
+			];})
+		];
+	},
+	lineCount: function(){ return this.poem.filter(function(x){ return x.used(); }).length; },
+	ringCount: function(){ 
+		return this.poem.some(function(x){ return x.one_ring && x.used(); }) +
+		  this.poem.reduce( function(p,x){ return p+(x.used() ? x.rings||0 : 0); }, 0); 
+	}
+}
+m.module(document.getElementById("state2"), Stateful2);
+</script>
+
+<p>Start unchecking the boxes. Watch the poem and its descriptive title change.</p>
+
+<p>The contents of <code>lineCount()</code> and <code>ringCount()</code> are compacted to the point of obfuscation, but their implementation is irrelevant to the example.  The rest should be pretty clear.</p>
+
+<p>Our application state is contained in a poem, the lines of which form an array.  Each line may be turned on and off by changing the value of its <code>used</code> getter/setter property. Each line may specify a quantity of rings or it may contain a reference to the One Ring.  While multiple lines may refer to the One Ring, it still only counts as one in the total.</p>
+
+<p>While you could certainly write this in a clever and compact form <em>without</em> Mithril, there's something to be said for an abstraction that promotes such a neat separation of concerns.  It doesn't get much cleaner than a visualization of a module that feeds directly off of that module's logical state.</p>
+
+<p>Mithril imposes very few concepts on us. Once we understand what a View is in Mithril, it's easy to read and understand any View in isolation.  Mithril mastery awaits.  We'll take a look at some other helpful utilities and then finish off the last of the conceptual stuff with a look at MVC and MVVM architecture.</p>
+
+
+<h2>Getting data from a server with m.request()</h2>
+
+<p>If making AJAX calls to a server is not something you're going to be doing with your applications, feel free to skip this entire section and continue to Routing with m.route().</p>
+
+<p>Reliably getting complicated information synced with a server is <em>hard</em>.  There are so many things that can go wrong. The user of the application needs to be kept aprised of delays and errors while keeping the guts of the transactions as unobtrusive as possible.</p>
+
+<blockquote><i>"And you are lucky to be here too after all the absurd things you've done since you left home."</i> - Gandalf</blockquote>
+
+<p>Mithril has a <code>m.request()</code> method for making AJAX calls.  It has a ton of options and I won't duplicate the explanation you can find in the <a href="http://lhorie.github.io/mithril/mithril.route.html">official documentation</a>.  However, I would like to address it as it relates to building real-world application interfaces.</p>
+
+<h3>A simplistic request</h3>
+
+<p>In an ideal world, this is all we would need to do to load data from a REST API:</p>
+
+<div class="row">
+	<div id="request1-code" class="language-javascript"></div>
+	<div id="request1" class="output"></div>
+</div>
+
+<script showme="request1-code">
+var Request1 = {
+	data: m.prop(false),
+	url: "http://ratfactor.com/misc/lotr-fellowship.json.php",
+	click: function(){
+		m.request({method: "GET", url: Request1.url}).then(Request1.data);
+	},
+	view: function(){
+		return [
+			m("h3", "The Fellowship of the Ring"),
+			this.data() ? m("p", this.data().description) : 
+			m("button", {onclick: Request1.click}, "Load Fellowship")
+		]
+	}
+}
+m.module(document.getElementById("request1"), Request1);
+</script>
+
+<p>Click on the Load Fellowship button and after a brief delay (2+ seconds), the button should be replaced with a paragraph of text describing the Fellowship.</p>
+
+<p>The entire AJAX call and the handling of its return value occurs in just a single line.  The rest of this example is a view and a prop called <code>data</code> for housing and displaying the return value.</p>
+
+<p><em>Note: I strongly believe in having an actual server to test against to really understand what is happening in client/server applications.  The data is coming from <a href="http://ratfactor.com/misc/lotr-fellowship.json.php">this resource</a>.  The resource sleeps for at least 2 seconds (you can add a <code>?delay=N</code> query string to delay for N seconds) before returning the JSON data. See below for an example of getting it to return an HTTP error status as well.  Feel free to use this resource for your own projects. I intend to maintain it indefinitely.</em></p>
+
+<h4>Deferring with then()s</h4>
+
+<p>By default, Mithril doesn't redraw until the HTTP request is fulfilled.  You can defined a callback in the event of success by supplying a function to a method cleverly named <code>then()</code>.  After the callback has finished, Mithril redraws to reflect any changes.</p>
+
+<h4>If only it were so easy</h4>
+
+<p>When everything works, this is wonderfully compact code.  Unfortunately, this isn't enough for a production environment.  There's no indication that anything is happening until the server replies.  We're not handling errors.  Oh, if only life were so simple.</p>
+
+
+<h3>A more realistic request</h3>
+
+<p>Here's a naive attempt at solving the aforementioned deficiencies:</p>
+
+<div class="row">
+	<div id="request2-code" class="language-javascript"></div>
+	<div id="request2" class="output"></div>
+</div>
+
+<script showme="request2-code">
+var Request2 = {
+	loading: false,
+	errorMsg: '',
+	data: m.prop(false),
+	url: "http://ratfactor.com/misc/lotr-fellowship.json.php",
+	errorUrl: "http://ratfactor.com/misc/lotr-fellowship.json.php?http_status=501%20Not%20Implemented",
+	click: function(){ this.getData(this.url); },
+	errorClick: function(){ this.getData(this.errorUrl); },
+	getData: function(myurl){
+		var me = Request2;
+		var checkHttpStatus = function(xhr){ 
+			if(xhr.status >= 300){ 
+				me.fail(xhr.status); 
+				return JSON.stringify(xhr.responseText);
+			}
+			return xhr.responseText;
+		}
+		me.loading = true;
+		m.request({method: "GET", background: true, url: myurl, extract: checkHttpStatus}).then(me.good);
+	},
+	good: function(mydata){
+		var me = Request2;
+		me.data(mydata);
+		me.errorMsg = '';
+		me.loading = false;
+		m.redraw();
+	},
+	fail: function(errorStatus){ 
+		var me = Request2;
+		me.loading = false;
+		me.errorMsg = "Server responded with a "+errorStatus+" error status.";
+		m.redraw();
+	},
+	view: function(){
+		return [
+			m("h3", "Members of the fellowship"),
+			this.loading ? m("button.dull", "Loading fellowship...") :
+			  m("button", {onclick: this.click.bind(this)}, "Load Fellowship Members"),
+			this.loading ? m("button.dull", "Loading fellowship...") :
+			  m("button.error", {onclick: this.errorClick.bind(this)}, "Fail to Load"),
+			!this.data() || this.errorMsg ? "" :
+				m("table",
+					this.data().members.map(function(member){
+						return m("tr", [m("td", member.name), m("td", member.race)]);
+					})
+				),
+			!this.errorMsg ? "" : [
+				m("h4", "We hates it forever!"),
+				m("p", this.errorMsg)
+			]
+		]
+	}
+}
+m.module(document.getElementById("request2"), Request2);
+</script>
+
+<p>Obviously this is a lot more code, but it's not quite as dire as it looks. For one thing, there's extra code to demonstrate an intentional error.  Also, we now have a much larger View to render a table of data rather than just a single text string.</p>
+
+<p>But most importantly, a lot of this looks like functionality that would be common to other requests I might make in an application. We can abstract away a lot of this complexity:</p>
+
+<h3>A wrapper for requests</h3>
+
+<div id="request-wrapper-code" class="language-javascript"></div>
+
+<script showme="request-wrapper-code">
+var requestWrapper = function(opts){
+	return new function(){
+		me = this;
+		me.opts = opts;
+		me.success = me.loading = me.failed = false;
+		me.errorStatus = me.errorBody = '';
+		me.data = null;
+		me.opts.background = true;
+		me.opts.extract = function(xhr){
+			if(xhr.status >= 300){ // error!
+				me.failed = true;	me.success = me.loading = false;
+				me.errorStatus = xhr.status;
+				me.errorBody = xhr.responseText;
+				m.redraw();
+			}
+			return xhr.responseText;
+		}
+		me.go = function(){
+			me = me;
+			me.loading = true; me.success = me.failed = false;
+			m.request(me.opts)
+			.then(function(mydata){ // success!
+				me.success = true; me.failed = me.loading = false;
+				me.data = mydata;
+				m.redraw();
+			});
+		}
+	}
+}
+</script>
+
+<p>There we are. By letting a wrapper do the housekeeping, we can now return to actually making our request with a single line of code.  This will surely be much nicer:</p>
+
+<div class="row">
+	<div id="request3-code" class="language-javascript"></div>
+	<div id="request3" class="output"></div>
+</div>
+
+<script showme="request3-code">
+var Request3 = {
+	fellowship: requestWrapper({method: "GET", url: "http://ratfactor.com/misc/lotr-fellowship.json.php"}),
+	errorRequest: function(){
+		var origurl = Request3.fellowship.opts.url;
+		Request3.fellowship.opts.url = origurl+"?http_status=501%20Not%20Implemented";
+		Request3.fellowship.go();
+		Request3.fellowship.opts.url = origurl;
+	},
+	view: function(){
+		return [
+			m("h3", "Members of the fellowship (via request wrapper)"),
+			drawButton(m("button", {onclick: this.fellowship.go}, "Load Fellowship Members")),
+			drawButton(m("button.error", {onclick: this.errorRequest}, "Fail to Load")),
+			drawTable(),
+			this.fellowship.failed ? [m("h4", "We hates it forever!"), m("p", "Error status: "+this.fellowship.errorStatus)] : ''
+		];
+		function drawButton(regularButton){
+			if(Request3.fellowship.loading){ return m("button.dull", "Loading fellowship..."); }
+			return regularButton;
+		}
+		function drawTable(){
+			if(!Request3.fellowship.success){ return; }
+			return m("table", Request3.fellowship.data.members.map(function(member){
+				return m("tr", [m("td", member.name), m("td", member.race)]);
+			}));
+		}
+	}
+}
+m.module(document.getElementById("request3"), Request3);
+</script>
+
+<p>Much better. Look at how much of this is actually just needed to demonstrate an intentional error. In a real, battle-tested application, I imagine the wrapper would grow a bit more (handling time-outs, etc.), but the individual modules should not. There is lots of room for additional refactoring of error handling in Views which could probably be common to the entire application.</p>
+
+<p>Speaking of refactoring, I believe I have improved the view code by applying the DRY principle to the creation of buttons and by separating out the table drawing logic. The ability to do this is one potential benefit of creating the elements through JavaScript.  When's the last time you heard somebody say, "I just refactored my templates"?</p>
+
+<p>Certainly this only scratches the surface of client/server communications. By keeping the request functionality minimal but configurable, Mithril provides cohesive framework functionality while letting you make the important decisions for your application's structure.</p>
+
+
+<h2>Routing with m.route()</h2>
+
+<p>Another potentially powerful little feature that Mithril provides is a module routing system.  In single-page JavaScript applications, URL-based routing allows you to define bookmarkable locations for content within your application.  If you like, you can think of these locations as "pages" within your application.</p>
+
+<p>A route is associated with a module and Mithril automates the process of loading and unloading so that it's trivially easy to set up. Here is a complete example of the uses of <code>m.route()</code>:</p>
+
+<div class="row">
+	<div id="routing-example-code" class="language-javascript"></div>
+	<div id="routing-example" class="output"></div>
+</div>
+
+<script showme="routing-example-code">
+var Menu = { view: function(){
+	return [
+		btn("The Shire",  "/shire"),
+		btn("Mordor",     "/mordor"),
+		btn("Mount Doom", "/mordor/mt-doom"),
+		btn("Barad-dur",  "/mordor/barad-dur"),
+		btn("Mirkwood",   "/mirkwood")
+	];
+	function btn(name, route){
+		var isCurrent = (m.route() === route);
+		var click = function(){ m.route(route); };
+		return m("button"+(isCurrent ? ".success" : ""), {onclick: click}, name);
+	}
+}};
+
+function Page(content, placePlugin){
+	this.view = function(){
+		return [ Menu.view(), m("hr"), m(".page", m("p", content) ) ];
+	}
+}
+
+function rlink(href, txt){ return [m('a[href="'+href+'"]', {config: m.route}, txt), m("br")]; }
+
+var Shire = new Page("The home of the Hobbits. Full of forests and marshes.");
+var Mirkwood = new Page("An ancient and dense forest bisected by the Old Forest Road.");
+var MordorMtDoom = new Page("A volcanic mountain in Mordor, forge of the One Ring.");
+var MordorBaradDur = new Page("Sauron's fortress in Mordor. Held together with dark magic.");
+var MordorMain = new Page(["The blighted home of Sauron. Scenic points of interest include:", m("br"),
+	rlink("/mordor/mt-doom", "Mount Doom"), 
+	rlink("/mordor/barad-dur", "Barad-dur")
+]);
+var Mordor = { 
+	view: function(){
+		var p = m.route.param("place");
+		return p ? {"mt-doom": MordorMtDoom, "barad-dur": MordorBaradDur }[p].view() :
+		  MordorMain.view();
+	}
+}
+
+m.route.mode = "search";
+m.route(document.getElementById("routing-example"), "/shire", {
+	"/shire": Shire,
+	"/mordor": Mordor,
+	"/mordor/:place": Mordor,
+	"/mirkwood": Mirkwood
+});
+</script>
+
+<p>As you click on the menu buttons, notice how your browser's address bar is updated to reflect the current route. The URL is bookmarkable and accessing this page with a URL containing a route will cause that "page" module to load.</p>
+
+<p>The example demonstrates a default route ("/shire" - had you noticed that in the address bar when you first loaded this page?), routing with parameters (the two places within Mordor), routing triggered by an <code>onclick</code> handler, and anchor tags with <code>href</code> attributes that link to specific routes (with the help of <code>{config: m.route}</code>.  Like the rest of Mithril, the routing system is compact, flexible, and simple.</p>
+
+<p>You'll also notice that the <code>Mordor.view()</code> contains some slightly (or not-so-slightly) convoluted syntax.  In production code, I'd write this a little differently, favoring clarity over compactness.  But the point to take away here is this: a View ideally evaluates an expression and returns it. It can call upon other functions as part of the expression, but it should <a href="http://lhorie.github.io/mithril-blog/getting-over-a-fear-of-turing-complete-templates.html">remain declarative</a>.  Essentially, <code>Mordor.view()</code> checks for the existence of the <code>"place"</code> parameter in the route and returns the value of a matched place's <code>view()</code>.</p>
+
+<p>As you read the source for this example, consider how little of the code is actually setting up the Mithril routing feature.  Most of it is View code specific to my example.</p>
+
+<p><em>Note: As of this writing (Mithril v0.1.30) scrolls to the top of the page upon each route change.  This guide is using a <strong>modified</strong> version of mithril.js with the setScroll() function disabled so that you don't have to scroll back down here each time you click on one of the routes in this example!</em></p>
+
+
+
+<h2>Mithril and the Fellowship of MVC</h2>
+
+<p>Mithril.js is described as an MVC (Model-View-Controller architecture) framework.</p>
+
+<h3>Models</h3>
+
+<p>The Model concept is not enforced by Mithril (neither is ViewModel via MVVM architecture, thought you'll see a lot of references to both concepts in the Mithril documentation).  These are left for you to define in memory or in the browser's <code>localStorage</code> or even entirely on a server somewhere.  It's important to be aware that Mithril is completely neutral on the subject. The word "model" does not appear anywhere in the Mithril source code.</p>
+
+<p>This is not to say that good data representation (whether it's within the concept of Models or ViewModels or something else entirely) isn't important. To the contrary, it is of the utmost importance.  Only deep thought and experimentation will yield the right combination of clarity, flexibility, and safety for your particular application.</p>
+
+<h3>Views</h3>
+
+<p>There's no question that the View component is strongly supported, as we have seen. You are free to build Views however you like, but in the end, you're always just returning virtual elements to Mithril to be rendered.</p>
+
+<h3>Controllers</h3>
+
+<p>So what about Controllers?  They're often described as the "glue" between Models and Views.  But what do they actually do in Mithril?  In the end, I found Mithril's source code itself to be the most definitive explanation.</p>
+
+<h4>A minimal controller</h4>
+
+<div class="row">
+	<div id="controller-tiny-code" class="language-javascript"></div>
+	<div id="controller-tiny" class="output"></div>
+</div>
+
+<script showme="controller-tiny-code">
+var IHaveAController = {
+	controller: function(){ this.name = "Tom Bombadil"; },
+	view: function(controller){ return m("h3", "I am "+controller.name); }
+}
+m.module(document.getElementById("controller-tiny"), IHaveAController);
+</script>
+
+
+<p>Just as with a method named "view", a method named "controller" has special meaning in Mitrhil.  The above demonstrates how little code you need.  As you can see, <code>controller</code> is being instantiated and passed to <code>view</code> as a parameter.</p>
+
+<p>What else does Mithril do with Controllers?</p>
+
+<h4>Controller special features</h4>
+
+<div class="row">
+	<div id="controller-example-code" class="language-javascript"></div>
+	<div id="controller-example" class="output"></div>
+</div>
+
+<script showme="controller-example-code">
+var ControllerExample = {
+	controller: function(){
+		var me = this;
+		me.unloadAttempted = false;
+		me.myName = "Strider";
+		me.myElem = null;
+
+		me.close = function(){
+			m.module(me.myElem, null); // unloads module
+		};
+		me.onunload = function(event){
+			me.unloadAttempted = true;
+			event.preventDefault();
+		};
+	},
+	view: function(ctrl){
+		return m(".card", [
+			m("h3", ctrl.myName),
+			m("p", ctrl.unloadAttempted ? "I am unkillable!" : ""),
+			m("button", {onclick: ctrl.close}, "X")
+		]);
+	}
+}
+
+var elem = document.getElementById("controller-example");
+var fooCtrl = m.module(elem, ControllerExample);
+fooCtrl.myElem = elem;
+fooCtrl.myName = "Aragorn";
+
+</script>
+
+<p>The above example demonstrates just about everything that is special about Mithril Controllers. A Controller in Mithril is:</p>
+
+<ol>
+	<li>A function named "controller" in an object passed to <code>m.module()</code></li>
+	<li>Instantiated using the <code>new</code> keyword immediately</li>
+	<li>Passed back as the return value of <code>m.module()</code></li>
+	<li>Passed as the sole parameter of the <code>view()</code> method</li>
+	<li>Notified via an optional <code>onunload()</code> method when the module is unloaded</li>
+	<li>(Not shown) Mithril also has special handling for nested Controllers (modules that instantiate other modules) which I will not demonstrate</li>
+</ol>
+
+<p>Okay, so what exactly does this gain us?  Well, that's a very open-ended question. To me, it seems clear that the Controller is a potential provider and gatekeeper between application state and the rendered view.</p>
+
+<p>In all of my prior examples, I had various direct references from the View to the actual state I was representing (using the MVC term losely, you might call this data the Model). There's nothing wrong with that per se. But I think there's also something to be gained by having an explicit set of View data or View-facing methods.</p>
+
+<p>If you're providing a specific set of application data to a View, this data can be called a "ViewModel".  You could pass or expose such a ViewModel to your View through the Controller.</p>
+
+<h4>A Controller exposing a ViewModel</h4>
+
+<div class="row">
+	<div id="viewmodel1-code" class="language-javascript"></div>
+	<div id="viewmodel1" class="output"></div>
+</div>
+
+<script showme="viewmodel1-code">
+var Question1 = {
+	vm: {
+		riddle: "Alive without breath,\nAs cold as death;\nNever thirsty, ever drinking,\nAll in mail never clinking.",
+		answer: "fish",
+		revealed: false,
+		reveal: function(){ this.revealed = true; }
+	},
+	controller: function(){ this.vm = Question1.vm; },
+	view: function(ctrl){
+		return [
+			m("pre", ctrl.vm.riddle),
+			m("button", {onclick: ctrl.vm.reveal.bind(ctrl.vm)}, "Reveal Answer"),
+			m("h2", ctrl.vm.revealed ? ctrl.vm.answer : ""),
+		];
+	}
+}
+m.module(document.getElementById("viewmodel1"), Question1);
+</script>
+
+<p>As you can see, I have a JavaScript object literal called <code>vm</code> for ViewModel. The Controller contains a reference to <code>vm</code> and gives the View convenient access to it.</p>
+
+<p>Of course, in this example, there's nothing to prevent us from thinking of our Controller <em>as</em> a ViewModel. It's all just mental concepts and semantics.</p>
+
+<h4>A Controller <em>acting as</em> a ViewModel</h4>
+
+<div class="row">
+	<div id="viewmodel2-code" class="language-javascript"></div>
+	<div id="viewmodel2" class="output"></div>
+</div>
+
+<script showme="viewmodel2-code">
+var Question2 = {
+	controller: function(){ return {
+		riddle: "It cannot be seen, cannot be felt,\nCannot be heard, cannot be smelt.\nIt lies behind stars and under hills,\nAnd empty holes it fills.\nIt comes first and follows after,\nEnds life, kills laughter.",
+		answer: "dark",
+		revealed: false,
+		reveal: function(){ this.revealed = true; }
+	}},
+	view: function(vm){
+		return [
+			m("pre", vm.riddle),
+			m("button", {onclick: vm.reveal.bind(vm)}, "Reveal Answer"),
+			m("h2", vm.revealed ? vm.answer : ""),
+			m("i", vm.revealed ? "Nasty hobbitses!" : "")
+		];
+	}
+}
+m.module(document.getElementById("viewmodel2"), Question2);
+</script>
+
+<p>The Controller is identical in this second example, but notice that I'm calling it <code>vm</code> when it's passed into the <code>view()</code> method.</p>
+
+<p>Whatever you chose for your application, you'll probably want to be consistent.</p>
+
+<p>Mithril steers well clear of making decisions for you. This can seem to lead to a paradox of choice, but in the end it's beneficial; a simple project might benefit from one method while a complex one may benefit from another.  I think the "aha!" moment here is remembering that architectural decisions like this aren't something you can entirely let a framework make for you...they're part of the whole task we call <em>programming</em>. Try stuff, be educated, be pragmatic, write lots of code.</p>
+
+
+<h2>In the darkness bind them: Mithril's redrawing scheme</h2>
+
+<p>You might have wondered how Mithril keeps track of which module Views to redraw when events are fired. The answer is: it doesn't!</p>
+
+<div class="row">
+	<div id="rendering-code" class="language-javascript"></div>
+	<div class="output">
+		<div id="rendering1" class="card spaced"></div>
+		<div id="rendering2" class="card spaced"></div>
+	</div>
+</div>
+
+<script showme="rendering-code">
+function Renderable(name){ return {
+	controller: function(){ 
+		this.clicks = 0;
+		this.renders = 0;
+		this.click = function(){ this.clicks++; };
+	},
+	view: function(ctrl){
+		ctrl.renders++;
+		return [
+			m("h3", name+" clicked "+ctrl.clicks+" times and view rendered "+ctrl.renders+" times"),
+			m("button", {onclick: ctrl.click.bind(ctrl)}, "Click to redraw")
+		];
+	}
+}}
+
+m.module(document.getElementById("rendering1"), new Renderable("Frodo"));
+m.module(document.getElementById("rendering2"), new Renderable("Samwise"));
+</script>
+
+<p>If you've resisted the temptation to click on any of the examples before reaching this point, the render count on both Frodo and Samwise are 1.  Chances are, they're much higher.  Try clicking on their buttons. Notice that while the click count is individual to each module, both render counts rise at the same time.  What is this powerful brotherhood they share?</p>
+
+<p>Well, whenever it needs to redraw, Mithril redraws <em>every</em> module's View on the page.  If you think about it, this is an incredibly simple and foolproof way to keep everything in sync.</p>
+
+<p>But is it efficient?  Well, yes, surprisingly.  It certainly <em>can</em> be because nothing in the actual browser DOM is changed unless the virtual elements have changed. Every single <code>view()</code> method on this entire page has been called every single time an <code>m.redraw()</code> has been triggered. Which makes this page a vivid example of why you should refrain from doing expensive things in your <code>view()</code> methods!</p>
+
+<p>As with any framework, it's your responsibility to not abuse the tools you've been given.</p>
+
+<blockquote><i>"I gave you the chance of aiding me willingly, and so saving yourself much trouble and pain."</i> - Saruman</blockquote>
+
+
+<h2>TL;DR</h2>
+
+<p>Mithril loosely encourages an MVC or MVVM architecture. Your Mithril-based application renders itself on the page by generating virtual DOM elements which are automatically redrawn as needed. Mithril provides a set of features which work well together but is otherwise unopinionated about the structure of your application.</p>
+
+<h2>Colophon</h2>
+
+<h3>This Page</h3>
+
+<p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page. I'm using Mithril's <code>render()</code> and <code>m()</code> functions to help me do this compactly. I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
+
+
+<div id="galadriel" class="language-javascript"></div>
+
+<script showme="galadriel">
+var scripts = document.getElementsByTagName("script");
+for(var i=0; i<scripts.length; i++){
+	s = scripts[i];
+	showme = s.getAttribute("showme");
+	if(!showme){ continue; }
+	attachto = document.getElementById(showme);
+	m.render(attachto, m("pre",	m("code", s.innerHTML)));
+}
+</script>
+
+<blockquote><i>"I know what it was that you saw, for that is also in my mind."</i> - Galadriel</blockquote>
+
+<p>I am using the <a href="http://prismjs.com/">Prism</a> syntax highlighter to beautify the source code.</p>
+
+<h3>Your feedback</h3>
+
+<p>I want it.  You can help me out by <a href="contact-me">contacting me</a> with corrections to this article or if you have any way of improving it. I also really appreciate feedback on spelling and grammar. Thank you.</p>
+
+<p><small>Copyright (c) 2015 <a href="http://ratfactor.com">Dave Gauer</a></small></p>
+
+</body>
+</html>
