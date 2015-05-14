@@ -67,17 +67,17 @@ mag.module("tiny2", p)
 <ol><li>We attach a MagJS mdoule to an existing HTML element's ID attribute</li>
 <li>We pass the <code>mag.module()</code> a object literal which minimally contains a 'view' method</li>
 <li>The view method's first parameter 'state' is a simple JavaScript object that will bind values to any Element Matchers within our modules HTML</li>
-<li>There are 5 element matchers : 1. element tag name 2. element class name 3. element id 4. element name attribute value 5. element data-bind attribute value</li>
+<li>There are 5 element matchers :<pre> 1. element tag name 2. element class name 3. element id 4. element name attribute value 5. element data-bind attribute value</pre></li>
 <li>It with match the first found one, t match all append with a '$' e.g. <code>state.$p</code></li>
 </ol>
 
 <h2>MagJS modules with views</h2>
 
-<p>We used <code>m.render()</code> in the example above, which is a low-level call. Generally, this is not how we use Mithril.</p>
+<p>It is very useful to create MagJS modules.  First, you create a JavaScript object. Then you pass it to MagJS via a method called <code>mag.module()</code>.</p>
 
-<p>It is much more useful to create Mithril modules.  First, you create a JavaScript object. Then you pass it to Mithril via a method called <code>m.module()</code>.</p>
-
-<p>To get a module to display something in the browser, Mithril wants us to define a <code>view()</code> method in our module object.  Whatever <code>view()</code> returns is what Mithril will render.</p>
+<p>To get a module to display something in the browser, MagJS wants us to define a <code>view()</code> method in our module object.
+The <code>view(state)</code> gives us the state object which maps elementMatcher keys to our values to the DOM. 
+Whatever the <code>view(state)</code> state values equal is what MagJS will render.</p>
 
 <div class="row">
 	<div id="tiny4-code" class="language-javascript"></div>
@@ -129,7 +129,7 @@ mag.module("tiny5", Tiny5);
 
 <p>As if by otherworldly magic, the button's text changes as the stab count goes higher.</p>
 
-<p>Why does the button text update? Because Mithril runs our module's <code>view()</code> method whenever an event created in a View gets fired.  If the virtual structure returned by the View changes, Mithril intelligently updates just the DOM elements which have been changed since the last time they were drawn.</p>
+<p>Why does the button text update? Because MagJS runs our module's <code>view()</code> method whenever an event created in a View gets fired.  If the virtual structure returned by the View changes, Mithril intelligently updates just the DOM elements which have been changed since the last time they were drawn.</p>
 
 <p>Not just any event causes a redraw.  Nor does changing the property itself cause a redraw.  We can demonstrate this by manually doing these things ourselves:</p>
 
@@ -150,7 +150,7 @@ document.getElementById("wraith").appendChild(stabber);
 
 var redrawer = document.createElement("button");
 redrawer.textContent = "Redraw";
-redrawer.onclick = function(){ m.redraw(); }
+redrawer.onclick = function(){ mag.redraw(); }
 document.getElementById("wraith").appendChild(redrawer);
 </script>
 
