@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- http://ratfactor.com/daves-guide-to-mithril-js -->
+<!-- http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome -->
+<head>
+  <meta charset="UTF-8">
+  <title>Mike's Guide to MagJS - code examples</title>
+  <link href="http://www.picnicss.com/nut/picnic_3_2.min.css" rel="stylesheet">
+  <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+
+  <link href="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.css" rel="stylesheet">
+  <script src="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.js"></script>
+
+  <style type="text/css">
+    body { margin: 2em; }
+    .hide {display:none;}
+    		pre>code { background-color: transparent; }
+    		.output { background-color: #DDE4E9; padding: 1em; }
+    		.page { margin: 1em; padding: 1em; background-color: #FFE; }
+    		.spaced { margin: 1em; }
+  </style>
+</head>
+
+<body>
+
+<h1>Converted to MagJS - <a href="http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome">Removing User Interface Complexity, or Why React is Awesome</a></h2>
+<h2><i>JavaScript and HTML interaction - the simple elegant way</i></h2>
+
+<blockquote>No JavaScript code in HTML and no HTML code in JavaScript!</blockquote>
+
+<p><a href="//github.com/magnumjs/mag.js">MagJS</a> is a marvelously tiny JavaScript library by Michael Glazer. 
+The functionality it provides works best when it is used as a standalone library for simple HTML interpolations without the need for any special templating syntax.</p>
+
+
+<h2>Tiniest useful example</h2>
+
+<p>This is what a component looks like with our library. 
+It shows a number and a button that, when pressed, increments the number.
+view provides the initial state of the object that can be accessed with "state".</p>
+
+
+<p>And here's the same thing using MagJS:</p>
+
+<div class="row">
+	<div id="Box-code" class="language-javascript"></div>
+  <div id="Box" class="output"><button></button></div>
+</div>
+
+<script showme="tiny2-code">
+var Box = Bloop.createClass({
+  getInitialState: function() {
+    return { number: 0 };
+  },
+
+  updateNumber: function() {
+    this.state.number++;
+  },
+
+  render: function() {
+    return dom.div(
+      this.state.number,
+      dom.button({ onClick: this.updateNumber }, 'Increment')
+    );
+  }
+});
+mag.module("Box", Box)
+</script>
+
+<p>In this example, <code>p{}</code> is a simple JavaScript object and <code>mag.module()</code>
+attaches it to the DOM element ID we pass it.  
+Not using Virtual elements, special syntax or any template language make MagJS efficient.</p>
+
+
+<h2>TL;DR</h2>
+
+<p>MagJS loosely encourages an MVC or MVVM architecture. 
+Your MagJS-based application renders itself on the page by generating virtual DOM elements which are automatically redrawn as needed.
+MagJS provides a set of features which work well together but is otherwise unopinionated about the structure of your application.</p>
+
+<h2>Colophon</h2>
+
+<h3>This Page</h3>
+
+<p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page.
+I'm using MagJS's <code>render()</code> and <code>m()</code> functions to help me do this compactly.
+I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
+
+
+
+<div id="galadriel" class="language-javascript"></div>
+
+<script showme="galadriel">
+var scripts = document.getElementsByTagName("script");
+for(var i=0; i<scripts.length; i++){
+	s = scripts[i];
+	showme = s.getAttribute("showme");
+  	attachto = document.getElementById(showme);
+
+	if(!showme || !attachto){ continue; }
+    
+       var pre= document.createElement('pre');
+       var code= document.createElement('code');
+  code.innerHTML = s.innerHTML
+pre.appendChild(code)
+  attachto.appendChild(pre)
+  
+}
+</script>
+
+<blockquote><i>"I know what it was that you saw, for that is also in my mind."</i> - Galadriel</blockquote>
+
+<p>I am using the <a href="http://prismjs.com/">Prism</a> syntax highlighter to beautify the source code.</p>
+
+<h3>Your feedback</h3>
+
+<p>I want it.  You can help me out by <a href="https://github.com/magnumjs/mag.js/issues">creating an issue</a> with corrections to this article or if you have any way of improving it. I also really appreciate feedback on spelling and grammar. Thank you.</p>
+
+<p><small>Copyright (c) 2015 <a href="https://github.com/magnumjs/mag.js">Michael Glazer</a></small></p>
+
+</body>
+</html>
