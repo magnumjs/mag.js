@@ -23,7 +23,7 @@
 
 <body>
 
-  <h1>Converted to MagJS - Dave's guide to Mithril.js Part 1</h2>
+  <h1>Converted to MagJS - Dave's guide to MagJS Part 1</h2>
 <h2><i>JavaScript from the Mines of Moria</i></h2>
 
 <p><a href="//github.com/magnumjs/mag.js">MagJS</a> is a marvelously tiny JavaScript library by Michael Glazer.  The functionality it provides works best when it is used as a complete framework.</p>
@@ -100,7 +100,7 @@ var Hobbit = {
 mag.module("tiny4", Hobbit);
 </script>
 
-<p>So far, this looks much the same as the first example. It just renders a <code>&lt;p&gt;</code> tag with some text. So what have we gained?  Quite a lot, actually.  <code>m.render()</code> just puts something on the screen.  But when you give Mithril a module, it intelligently watches the module for changes.</p>
+<p>So far, this looks much the same as the first example. It just renders a <code>&lt;p&gt;</code> tag with some text. So what have we gained?  Quite a lot, actually. But when you give MagJS a module, it intelligently watches the module for changes.</p>
 
 <p>Let's see how that works.</p>
 
@@ -147,7 +147,7 @@ mag.module("tiny5", Tiny5,{
 
 <h3>Invoking the magic ourselves</h3>
 
-<p>This example affects the property in the Mithril module above.</p>
+<p>This example affects the property in the MagJS module above.</p>
 
 <div class="row">
 	<div id="wraith-code" class="language-javascript"></div>
@@ -167,7 +167,7 @@ document.getElementById("wraith").appendChild(redrawer);
 </script>
 
 
-<p>Pressing this stab button <i>does</i> increment the variable in the module in the previous example. But to make the change visible, we must manually call Mithril's low-level <code>m.redraw()</code> method to update the module's View. (Be sure to scroll back up, if needed, to see the count update.)</p>
+<p>Pressing this stab button <i>does</i> increment the variable in the module in the previous example. But to make the change visible, we must manually call MagJS's low-level <code>mag.redraw()</code> method to update the module's View. (Be sure to scroll back up, if needed, to see the count update.)</p>
 
 
 <h3>Without magic</h3>
@@ -192,13 +192,13 @@ eat();
 document.getElementById("tiny7").appendChild(hungryHobbit);
 </script>
 
-<p>This example and the Mithril module work <em>almost</em> the same way: Create a counter variable; Create a <code>&lt;button&gt;</code> element; Set an <code>onclick</code> event handler which increments the variable and... <em>(here's where they diverge)</em> ...update the textContent of the button element</p>
+<p>This example and the MagJS module work <em>almost</em> the same way: Create a counter variable; Create a <code>&lt;button&gt;</code> element; Set an <code>onclick</code> event handler which increments the variable and... <em>(here's where they diverge)</em> ...update the textContent of the button element</p>
 
-<p>In this example, I had to manually update the DOM by changing the <code>textContent</code> of the button.  We didn't have to do that in the Mithril module example. In fact, Mithril doesn't even provide any facilities for DOM manipulation of this sort.  Instead, all DOM manipulations are made by enacting the <em>differences</em> to your View since the last time it was rendered.</p>
+<p>In this example, I had to manually update the DOM by changing the <code>textContent</code> of the button.  We didn't have to do that in the MagJS module example. In fact, MagJS doesn't even provide any facilities for DOM manipulation of this sort.  Instead, all DOM manipulations are made by enacting the <em>differences</em> to your View since the last time it was rendered.</p>
 
 <blockquote><i>"Great elephants!"</i> - Gandalf</blockquote>
 
-<p>You could shrug and say this is just how MagJS works. Big deal. But if you've ever built interfaces with jQuery or with manual DOM manipulation, I imagine you're starting to smile a little bit because the difference is profound: <strong><em>you don't have to manually invoke DOM changes</em>.  Mithril does this for you.</strong></p>
+<p>You could shrug and say this is just how MagJS works. Big deal. But if you've ever built interfaces with jQuery or with manual DOM manipulation, I imagine you're starting to smile a little bit because the difference is profound: <strong><em>you don't have to manually invoke DOM changes</em>.  MagJS does this for you.</strong></p>
 
 <p>You just make an application with state and then write your View to reflect that state.</p>
 
@@ -279,7 +279,7 @@ mag.module("prop-example1", {
 
 <p>You can store anything in a prop: arrays, objects, functions, you name it.</p>
 
-<p>Mithril cleverly re-uses the concept of a getter/setter in multiple ways. Since we've just learned about <code>mag.withprop()</code>, let's see the two of those play together:</p>
+<p>MagJS cleverly re-uses the concept of a getter/setter in multiple ways. Since we've just learned about <code>mag.withprop()</code>, let's see the two of those play together:</p>
 
 <div class="row">
 	<div id="prop-example2-code" class="language-javascript"></div>
@@ -340,7 +340,7 @@ mag.module("state1", Stateful1,{
 
 <p>First, this gives us an example of <strong>data binding</strong>. As you change the value in the text field, a property called <code>friend</code> is updated. The changes to <code>friend</code> in turn, drive visual changes elsewhere in the View.</p>
 
-<p><em>It should be noted that this is not "true" two-way data binding because it's actually the keyboard event which redraws our View.  To support true two-way data binding, Mithril would have to poll the <code>friend</code> property for changes and redraw the view whenever a change was detected.  I suppose you could call <code>m.redraw()</code> on a timer to do just that, but don't come running to me if you unearth a <a href="http://en.wikipedia.org/wiki/Balrog">Balrog</a>.</em></p>
+<p><em>It should be noted that this is not "true" two-way data binding because it's actually the keyboard event which redraws our View.  To support true two-way data binding, MagJS would have to poll the <code>friend</code> property for changes and redraw the view whenever a change was detected.  I suppose you could call <code>mag.redraw()</code> on a timer to do just that, but don't come running to me if you unearth a <a href="http://en.wikipedia.org/wiki/Balrog">Balrog</a>.</em></p>
 
 <p>Second, you'll notice that the entire state of the application is essentially just one string value contained in <code>friend</code> and yet three different elements (strong, input, and button) derive their appearance from the value of that string.  The button even appears and disappears depending on the value of the string.  It is not merely set to visible or invisible, it actually winks in and out of existance.</p>
 
@@ -369,9 +369,10 @@ var Stateful2 = {
 		{used: mag.prop(true), line: "One Ring to bring them all and in the darkness bind them", one_ring: true},
 		{used: mag.prop(true), line: "In the Land of Mordor where the Shadows lie."}
 	],
-	view: function(state){
+	view: function(state, props){
 		state.h3= "A Poem With "+this.lineCount()+" Lines and "+this.ringCount()+" Rings"
-			state.item = this.poem.map(function(line){ 
+			state.item = props.poem.map(function(line){ 
+              console.log(line.used(), line.line)
 				return {
 				"input" : {
                   _checked: line.used() ? 'true' : '',
@@ -388,7 +389,9 @@ var Stateful2 = {
 		  this.poem.reduce( function(p,x){ return p+(x.used() ? x.rings||0 : 0); }, 0); 
 	}
 }
-mag.module("state2", Stateful2);
+mag.module("state2", Stateful2, {
+  poem: Stateful2.poem
+});
 </script>
 
 <p>Start unchecking the boxes. Watch the poem and its descriptive title change.</p>
@@ -397,9 +400,9 @@ mag.module("state2", Stateful2);
 
 <p>Our application state is contained in a poem, the lines of which form an array.  Each line may be turned on and off by changing the value of its <code>used</code> getter/setter property. Each line may specify a quantity of rings or it may contain a reference to the One Ring.  While multiple lines may refer to the One Ring, it still only counts as one in the total.</p>
 
-<p>While you could certainly write this in a clever and compact form <em>without</em> Mithril, there's something to be said for an abstraction that promotes such a neat separation of concerns.  It doesn't get much cleaner than a visualization of a module that feeds directly off of that module's logical state.</p>
+<p>While you could certainly write this in a clever and compact form <em>without</em> MagJS, there's something to be said for an abstraction that promotes such a neat separation of concerns.  It doesn't get much cleaner than a visualization of a module that feeds directly off of that module's logical state.</p>
 
-<p>Mithril imposes very few concepts on us. Once we understand what a View is in Mithril, it's easy to read and understand any View in isolation.  Mithril mastery awaits.  We'll take a look at some other helpful utilities and then finish off the last of the conceptual stuff with a look at MVC and MVVM architecture.</p>
+<p>MagJS imposes very few concepts on us. Once we understand what a MagJS is in MagJS, it's easy to read and understand any View in isolation.  MagJS mastery awaits.  We'll take a look at some other helpful utilities and then finish off the last of the conceptual stuff with a look at MVC and MVVM architecture.</p>
 
 
 <h2>Getting data from a server with m.request()</h2>
@@ -410,7 +413,7 @@ mag.module("state2", Stateful2);
 
 <blockquote><i>"And you are lucky to be here too after all the absurd things you've done since you left home."</i> - Gandalf</blockquote>
 
-<p>Mithril has a <code>m.request()</code> method for making AJAX calls.  It has a ton of options and I won't duplicate the explanation you can find in the <a href="http://lhorie.github.io/mithril/mithril.route.html">official documentation</a>.  However, I would like to address it as it relates to building real-world application interfaces.</p>
+  <p>MagJS (<a href="https://github.com/magnumjs/mag.js/blob/master/src/mag.addons.js">addons</a>) has a <code>mag.request()</code> method for making AJAX calls.  It has a ton of options and I won't duplicate the explanation you can find in the <a href="https://github.com/magnumjs/mag.js/tree/master/examples/tutorials">official documentation</a>.  However, I would like to address it as it relates to building real-world application interfaces.</p>
 
 <h3>A simplistic request</h3>
 
