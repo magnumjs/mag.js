@@ -326,11 +326,9 @@ var Tabbed = {
   //controller
   controller: function() {
     this.data = Tabbed.data
-
     this.changeTab = function(name) {
       this.data.selectedItem = name
     }.bind(this)
-
     this.changeSetting = function(name, value) {
       this.data.settings[name] = value
     }.bind(this)
@@ -341,13 +339,11 @@ var Tabbed = {
       _class: "app " + (ctrl.data.settings.bigFonts ? "big" : ""),
       _style: 'background-color:' + ctrl.data.settings.color
     }
-
     ctrl.tab = tabs({
       tabs: ctrl.data.tabs,
       selectedItem: ctrl.data.selectedItem,
       onchange: ctrl.changeTab
     })
-
     var tabComps = {
       "list": list.bind({}, {
         items: ctrl.data.items
@@ -358,18 +354,15 @@ var Tabbed = {
       }),
       "about": about.bind({}, ctrl)
     }
-
     // inner components
     ctrl.content = Tabbed.choose(ctrl.data.selectedItem, tabComps)
   }
 }
-
 var tabs = function(ctrl) {
   return ctrl.tabs.map(function(tabName) {
     return tab(ctrl, tabName)
   })
 }
-
 var tab = function(ctrl, name) {
   return {
     "a": {
@@ -379,7 +372,6 @@ var tab = function(ctrl, name) {
     }
   }
 }
-
 var about = function(ctrl) {
   return mag.module('about', {
     view: function(state, props) {
@@ -394,7 +386,6 @@ var about = function(ctrl) {
     data: ctrl.data
   }, true)
 }
-
 var list = function(ctrl) {
   return mag.module('list', {
     view: function(state, props) {
@@ -406,9 +397,7 @@ var list = function(ctrl) {
     items: ctrl.items
   }, true)
 }
-
 var settings = function(ctrl) {
-
   return mag.module('settings', {
     view: function(state, props) {
       state.input = {
@@ -427,12 +416,9 @@ var settings = function(ctrl) {
     onchange: ctrl.onchange
   }, true)
 }
-
 Tabbed.choose = function(name, options) {
   return options[name]()
 }
-
-
 mag.module("Tabbed", Tabbed) 
   </script>
   
@@ -450,10 +436,7 @@ MagJS provides a set of features which work well together but is otherwise unopi
 <h3>This Page</h3>
 
 <p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page.
-I'm using MagJS's <code>render()</code> and <code>m()</code> functions to help me do this compactly.
 I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
-
-
 
 <div id="galadriel" class="language-javascript"></div>
 
