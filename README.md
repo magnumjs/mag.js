@@ -160,6 +160,8 @@ mag.module("hello", {
 [FilterableProductTable (Thinking in React tutorial):]
 (http://jsbin.com/bisobeyuci/edit?js,output)
 
+[Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
+
 [Weather App:]
 (http://jsbin.com/matediqixo/edit?js,output) [Take 2](http://jsbin.com/zihuwelete/edit?js,output)
 
