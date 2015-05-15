@@ -2,6 +2,7 @@
 <html lang="en">
 <!-- http://ratfactor.com/daves-guide-to-mithril-js -->
 <!-- http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome -->
+
 <head>
   <meta charset="UTF-8">
   <title>Mike's Guide to MagJS - code examples</title>
@@ -12,12 +13,32 @@
   <script src="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.js"></script>
 
   <style type="text/css">
-    body { margin: 2em; }
-    .hide {display:none;}
-    		pre>code { background-color: transparent; }
-    		.output { background-color: #DDE4E9; padding: 1em; }
-    		.page { margin: 1em; padding: 1em; background-color: #FFE; }
-    		.spaced { margin: 1em; }
+    body {
+      margin: 2em;
+    }
+    
+    .hide {
+      display: none;
+    }
+    
+    pre>code {
+      background-color: transparent;
+    }
+    
+    .output {
+      background-color: #DDE4E9;
+      padding: 1em;
+    }
+    
+    .page {
+      margin: 1em;
+      padding: 1em;
+      background-color: #FFE;
+    }
+    
+    .spaced {
+      margin: 1em;
+    }
   </style>
 </head>
 
@@ -74,20 +95,19 @@ I'll call the script Galadriel and here is her source (displayed by herself, nat
 <div id="galadriel" class="language-javascript"></div>
 
 <script showme="galadriel">
-var scripts = document.getElementsByTagName("script");
-for(var i=0; i<scripts.length; i++){
+	var scripts = document.getElementsByTagName("script");
+	for(var i=0; i<scripts.length; i++){
 	s = scripts[i];
 	showme = s.getAttribute("showme");
   	attachto = document.getElementById(showme);
 
 	if(!showme || !attachto){ continue; }
     
-       var pre= document.createElement('pre');
-       var code= document.createElement('code');
-  code.innerHTML = s.innerHTML
-pre.appendChild(code)
-  attachto.appendChild(pre)
-  
+  var pre= document.createElement('pre');
+  var code= document.createElement('code');
+	code.innerHTML = s.innerHTML
+	pre.appendChild(code)
+	attachto.appendChild(pre) 
 }
 </script>
 
