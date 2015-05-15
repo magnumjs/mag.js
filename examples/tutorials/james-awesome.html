@@ -2,6 +2,7 @@
 <html lang="en">
 <!-- http://ratfactor.com/daves-guide-to-mithril-js -->
 <!-- http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome -->
+
 <head>
   <meta charset="UTF-8">
   <title>Mike's Guide to MagJS - code examples</title>
@@ -13,6 +14,9 @@
 
   <style type="text/css">
     body { margin: 2em; }
+    #Box span {line-height: 1em;
+display: block;
+    font-size: 3em;}
     .hide {display:none;}
     		pre>code { background-color: transparent; }
     		.output { background-color: #DDE4E9; padding: 1em; }
@@ -23,7 +27,7 @@
 
 <body>
 
-<h1>Converted to MagJS - <a href="http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome">Removing User Interface Complexity, or Why React is Awesome</a></h2>
+  <h1>Converted to MagJS - <a href="http://jlongster.com/Removing-User-Interface-Complexity,-or-Why-React-is-Awesome">Removing User Interface Complexity, or Why React is Awesome</a></h2>
 <h2><i>JavaScript and HTML interaction - the simple elegant way</i></h2>
 
 <blockquote>No JavaScript code in HTML and no HTML code in JavaScript!</blockquote>
@@ -43,27 +47,23 @@ view provides the initial state of the object that can be accessed with "state".
 
 <div class="row">
 	<div id="Box-code" class="language-javascript"></div>
-  <div id="Box" class="output"><button></button></div>
+  <div id="Box" class="output"><span></span><button></button></div>
 </div>
 
-<script showme="tiny2-code">
-var Box = Bloop.createClass({
-  getInitialState: function() {
-    return { number: 0 };
-  },
-
+<script showme="Box-code">
+var Box = {
   updateNumber: function() {
-    this.state.number++;
+    this.number++;
   },
+  view: function(state, props) {
+    state.span = props.number
+    state.button = { _onclick: this.updateNumber.bind(props) , _text: 'Increment' }
 
-  render: function() {
-    return dom.div(
-      this.state.number,
-      dom.button({ onClick: this.updateNumber }, 'Increment')
-    );
   }
-});
-mag.module("Box", Box)
+}
+mag.module("Box", Box,{
+  number : 0
+})
 </script>
 
 <p>In this example, <code>p{}</code> is a simple JavaScript object and <code>mag.module()</code>
@@ -92,18 +92,17 @@ I'll call the script Galadriel and here is her source (displayed by herself, nat
 <script showme="galadriel">
 var scripts = document.getElementsByTagName("script");
 for(var i=0; i<scripts.length; i++){
-	s = scripts[i];
-	showme = s.getAttribute("showme");
-  	attachto = document.getElementById(showme);
+  s = scripts[i];
+  showme = s.getAttribute("showme");
+  attachto = document.getElementById(showme);
 
-	if(!showme || !attachto){ continue; }
-    
-       var pre= document.createElement('pre');
-       var code= document.createElement('code');
+  if(!showme || !attachto){ continue; }
+
+  var pre= document.createElement('pre');
+  var code= document.createElement('code');
   code.innerHTML = s.innerHTML
-pre.appendChild(code)
-  attachto.appendChild(pre)
-  
+  pre.appendChild(code)
+  attachto.appendChild(pre) 
 }
 </script>
 
