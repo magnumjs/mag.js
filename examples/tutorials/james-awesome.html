@@ -90,8 +90,10 @@ var Box = {
   },
   view: function(state, props) {
     state.span = props.number
-    state.button = { _onclick: this.updateNumber.bind(props) , _text: 'Increment' }
-
+    state.button = { 
+      _onclick: this.updateNumber.bind(props) ,
+      _text: 'Increment'
+    }
   }
 }
 mag.module("Box", Box,{
@@ -122,15 +124,11 @@ mag.module("Box", Box,{
 
 <script showme="App-code">
 var App = {
-
   updateNumber: function(value) {
     this.number = value;
   },
-
   view: function(state, props) {
-
     state.span = props.number
-
     mag.module('Toolbar', Toolbar, {
       number: props.number,
       onNumberClick: this.updateNumber.bind(props)
@@ -140,23 +138,31 @@ var App = {
 
 var Toolbar = {
   view: function(state, props) {
-    
-       state.decrement = {
-         _onclick: props.onNumberClick.bind(props,props.number - 1) ,
-         _text: 'decrement'
-       }
-       
-       state.increment = {
-         _onclick: props.onNumberClick.bind(props,props.number + 1) ,
-         _text: 'increment' }
+    state.decrement = {
+      _onclick: props.onNumberClick.bind(props,props.number - 1) ,
+      _text: 'decrement'
+    }
+    state.increment = {
+      _onclick: props.onNumberClick.bind(props,props.number + 1) ,
+      _text: 'increment'
+    }
   }
 }
-
 
 mag.module("App", App,{
   number : 0
 })
 </script>
+  
+  
+<p>State flows down the components, and events flow up. Note that while properties should never be changed, state is mutable. Properties can't be changed because they are inherited every time the component is rendered, so any changes will be lost.
+  </p>
+  
+  <p>
+The difference between state and properties can be useful. It makes it clear what state the component owns. It's best to keep most of your components stateless, and isolate state into as few places as possible. This makes it easy to rationalize about your app and how it changes over time. We will explore this more in the next section.
+  </p>
+
+  
   
 <h2>TL;DR</h2>
 
