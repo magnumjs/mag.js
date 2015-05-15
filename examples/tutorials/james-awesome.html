@@ -14,10 +14,10 @@
 
   <style type="text/css">
     body { margin: 2em; }
-    #Box span {line-height: 1em;
+    #Box span, #App span {line-height: 1em;
 display: block;
     font-size: 3em;}
-    #Box { text-align:center;}
+    #Box, #App { text-align:center;}
     .hide {display:none;}
     		pre>code { background-color: transparent; }
     		.output { background-color: #DDE4E9; padding: 1em; }
@@ -49,7 +49,10 @@ view provides the initial state of the object that can be accessed with "state".
 <div class="row">
 	<div id="Box-code" class="language-javascript"></div>
   <div id="Box-html" class="language-markup"></div>
-  <div id="Box" class="output"><span></span><button></button></div>
+  <div id="Box">
+    <span></span>
+    <button></button>
+</div>
 </div>
 
 <script showme="Box-code">
@@ -78,42 +81,48 @@ mag.module("Box", Box,{
   
 <div class="row">
 	<div id="App-code" class="language-javascript"></div>
-  <div id="App" class="output"><span></span><button></button></div>
+    <div id="App-html" class="language-markup"></div>
+
+  <div id="App">
+    <span></span>
+    <div id="Toolbar">
+      <button class="decrement"></button>
+      <button class="increment"></button>
+    </div>
+  </div>
 </div>
 
 <script showme="App-code">
-var App = Bloop.createClass({
-  getInitialState: function() {
-    return { number: 0 };
-  },
+var App = {
 
   updateNumber: function(value) {
-    this.state.number = value;
+    this.number = value;
   },
 
-  render: function() {
-    return dom.div(
-      dom.span(this.state.number),
-      Toolbar({
-        number: this.state.number,
-        onChange: this.updateNumber
-      })
-    );
-  }
-});
+  view: function(state, props) {
 
-var Toolbar = Bloop.createClass({
-  render: function() {
-    return dom.div(
-      dom.button({
-        onClick: this.props.onChange.bind(null, this.props.number - 1)
-      }, 'decrement'),
-      dom.button({
-        onClick: this.props.onChange.bind(null, this.props.number + 1)
-      }, 'increment')
-    );
+    state.span = props.number
+
+    mag.module('Toolbar', Toolbar, {
+      number: props.number,
+      onNumberClick: this.updateNumber.bind(props)
+    })
   }
-});
+}
+
+var Toolbar = {
+  view: function(state, props) {
+    
+       state.decrement = { _onclick: props.onNumberClick.bind(props,props.number - 1) , _text: 'decrement' }
+       
+       state.increment = { _onclick: props.onNumberClick.bind(props,props.number + 1) , _text: 'increment' }
+  }
+}
+
+
+mag.module("App", App,{
+  number : 0
+})
 </script>
   
 <h2>TL;DR</h2>
