@@ -75,12 +75,18 @@ view provides the initial state of the object that can be accessed with "state".
 <p>And here's the same thing using MagJS:</p>
 
 <div class="row">
-	<div id="Box-code" class="language-javascript"></div>
+  
+  <div id="Box-code" class="language-javascript"></div>
+  <div class="col">
   <div id="Box-html" class="language-markup"></div>
+  
   <div id="Box">
     <span></span>
     <button></button>
-</div>
+  </div>
+    
+  </div>
+  
 </div>
 
 <script showme="Box-code">
@@ -110,9 +116,12 @@ mag.module("Box", Box,{
 
   
 <div class="row">
-	<div id="App-code" class="language-javascript"></div>
-    <div id="App-html" class="language-markup"></div>
-
+  
+  <div id="App-code" class="language-javascript"></div>
+  
+  <div class="col">
+  <div id="App-html" class="language-markup"></div>
+  
   <div id="App">
     <span></span>
     <div id="Toolbar">
@@ -120,7 +129,10 @@ mag.module("Box", Box,{
       <button class="increment"></button>
     </div>
   </div>
+    
+  </div>
 </div>
+
 
 <script showme="App-code">
 var App = {
