@@ -145,6 +145,8 @@ mag.module("hello", {
 
 [Volunteer form application](http://embed.plnkr.co/L2AN3YYchOMdqLOB3hPI/preview)
 
+[Ajax Github Api](http://jsbin.com/xamebitiye/edit)
+
 ###React 2 Mag
 [Navigation menu:]
 (http://jsbin.com/patecaronu/edit?js,output)
