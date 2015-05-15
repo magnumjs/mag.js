@@ -13,16 +13,44 @@
   <script src="//rawgit.com/magnumjs/mag.js/master/examples/tutorials/prism.js"></script>
 
   <style type="text/css">
-    body { margin: 2em; }
-    #Box span, #App span {line-height: 1em;
-display: block;
-    font-size: 3em;}
-    #Box, #App { text-align:center;}
-    .hide {display:none;}
-    		pre>code { background-color: transparent; }
-    		.output { background-color: #DDE4E9; padding: 1em; }
-    		.page { margin: 1em; padding: 1em; background-color: #FFE; }
-    		.spaced { margin: 1em; }
+    body {
+      margin: 2em;
+    }
+    
+    #Box span,
+    #App span {
+      line-height: 1em;
+      display: block;
+      font-size: 3em;
+    }
+    
+    #Box,
+    #App {
+      text-align: center;
+    }
+    
+    .hide {
+      display: none;
+    }
+    
+    pre>code {
+      background-color: transparent;
+    }
+    
+    .output {
+      background-color: #DDE4E9;
+      padding: 1em;
+    }
+    
+    .page {
+      margin: 1em;
+      padding: 1em;
+      background-color: #FFE;
+    }
+    
+    .spaced {
+      margin: 1em;
+    }
   </style>
 </head>
 
@@ -113,9 +141,14 @@ var App = {
 var Toolbar = {
   view: function(state, props) {
     
-       state.decrement = { _onclick: props.onNumberClick.bind(props,props.number - 1) , _text: 'decrement' }
+       state.decrement = {
+         _onclick: props.onNumberClick.bind(props,props.number - 1) ,
+         _text: 'decrement'
+       }
        
-       state.increment = { _onclick: props.onNumberClick.bind(props,props.number + 1) , _text: 'increment' }
+       state.increment = {
+         _onclick: props.onNumberClick.bind(props,props.number + 1) ,
+         _text: 'increment' }
   }
 }
 
