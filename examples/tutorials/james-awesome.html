@@ -57,7 +57,7 @@
     color: white;
     } */
 
-a, a:visited, a:active {
+#Tabbed a, #Tabbed a:visited, #Tabbed a:active {
     color: white;
     text-decoration: none;
 }
@@ -68,12 +68,14 @@ ul {
     list-style: none;
 }
 
-.Tabbed {
+#Tabbed {
     margin: 1.5em;
   background-color: #466a5c;
-    color: white;
-}
 
+}
+#Tabbed button {
+background-color:silver;
+}
 .app.big {
     font-size: 2em;
 }
@@ -259,9 +261,7 @@ The difference between state and properties can be useful. It makes it clear wha
           </li>
         </ul>
       </div>
-
       <div class="content"></div>
-
     </div>
   </div>
 
@@ -271,7 +271,6 @@ The difference between state and properties can be useful. It makes it clear wha
         <li></li>
       </ul>
     </div>
-
     <div id="settings">
       <div class="settings">
         <div>
@@ -285,7 +284,6 @@ The difference between state and properties can be useful. It makes it clear wha
         </div>
       </div>
     </div>
-
     <div id="about">
       <div class="about">This is a sample demo
         <hr/>
@@ -293,7 +291,6 @@ The difference between state and properties can be useful. It makes it clear wha
       </div>
     </div>
   </div>
-    
   </div>
 </div>
 
@@ -326,9 +323,11 @@ var Tabbed = {
   //controller
   controller: function() {
     this.data = Tabbed.data
+
     this.changeTab = function(name) {
       this.data.selectedItem = name
     }.bind(this)
+
     this.changeSetting = function(name, value) {
       this.data.settings[name] = value
     }.bind(this)
@@ -436,7 +435,10 @@ MagJS provides a set of features which work well together but is otherwise unopi
 <h3>This Page</h3>
 
 <p>All of the source code displayed on this page is being retrieved from the <code>innerHTML</code> contents of the actual <code>&lt;script&gt;</code> tags on the page.
+I'm using MagJS's <code>render()</code> and <code>m()</code> functions to help me do this compactly.
 I'll call the script Galadriel and here is her source (displayed by herself, naturally):</p>
+
+
 
 <div id="galadriel" class="language-javascript"></div>
 
