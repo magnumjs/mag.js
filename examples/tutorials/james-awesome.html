@@ -51,6 +51,73 @@
     .spaced {
       margin: 1em;
     }
+    
+/*     body {
+    background-color: #466a5c;
+    color: white;
+    } */
+
+a, a:visited, a:active {
+    color: white;
+    text-decoration: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.Tabbed {
+    margin: 1.5em;
+  background-color: #466a5c;
+    color: white;
+}
+
+.app.big {
+    font-size: 2em;
+}
+
+.sidebar, .itemlist {
+    color: black;
+    min-height: 300px;
+}
+
+.tabs {
+    background-color: #222222;
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.tabs li {
+    float: left;
+    margin: 0 .25em;
+    padding-top: 4px;
+    border-bottom: 4px solid #BEAA8E;
+}
+
+.tabs a {
+    padding: .5em;
+    display: block;
+}
+
+.tabs a.selected {
+    background-color: #BEAA8E;
+}
+
+.tabs a:hover {
+    background-color: #BEAA8E;
+}
+
+.itemlist {
+    color: white;
+}
+
+ul.itemlist li {
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: #222222;
+}
   </style>
 </head>
 
@@ -174,7 +241,203 @@ mag.module("App", App,{
 The difference between state and properties can be useful. It makes it clear what state the component owns. It's best to keep most of your components stateless, and isolate state into as few places as possible. This makes it easy to rationalize about your app and how it changes over time. We will explore this more in the next section.
   </p>
 
+  <h2>Tabbed UI</h2>
   
+  
+  <div class="row">
+  
+  <div id="Tabbed-code" class="language-javascript"></div>
+  
+  <div class="col">
+  <div id="Tabbed-html" class="language-markup"></div>
+  
+  <div id="Tabbed">
+    <div>
+      <div class="tabs">
+        <ul>
+          <li class="tab"><a class=" ">list</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="content"></div>
+
+    </div>
+  </div>
+
+  <div class="hide">
+    <div id="list">
+      <ul class="itemlist">
+        <li></li>
+      </ul>
+    </div>
+
+    <div id="settings">
+      <div class="settings">
+        <div>
+          <input type="checkbox"/>big fonts
+        </div>
+        <div>
+          <button class="random">random color</button>
+        </div>
+        <div>
+          <button class="reset">reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="about">
+      <div class="about">This is a sample demo
+        <hr/>
+        <textarea></textarea>
+      </div>
+    </div>
+  </div>
+    
+  </div>
+</div>
+
+
+<script showme="Tabbed-code">
+var Tabbed = {
+  //model
+  data: {
+    "tabs": ["list", "settings", "about"],
+    "settings": {
+      "bigFonts": false,
+      "color": ''
+    },
+    "selectedItem": "list",
+    "items": [{
+      "text": "Would I rather be feared or loved? Easy, both. I want people to be afraid of how much they love me. - Michael Scott"
+    }, {
+      "text": "Sorry I annoyed you with my friendship. -Andy "
+    }, {
+      "text": "I am not a security threat. And, my middle name is Kurt, not Fart. - Dwight Schrute"
+    }]
+  },
+  randomizeColor: function() {
+    this.onchange("color", "rgb(0, " + (Math.random() * 125 | 0) + ", 0)")
+  },
+  reset: function() {
+    this.onchange("bigFonts", false)
+    this.onchange("color", null)
+  },
+  //controller
+  controller: function() {
+    this.data = Tabbed.data
+
+    this.changeTab = function(name) {
+      this.data.selectedItem = name
+    }.bind(this)
+
+    this.changeSetting = function(name, value) {
+      this.data.settings[name] = value
+    }.bind(this)
+  },
+  //view
+  view: function(ctrl) {
+    ctrl.div = {
+      _class: "app " + (ctrl.data.settings.bigFonts ? "big" : ""),
+      _style: 'background-color:' + ctrl.data.settings.color
+    }
+
+    ctrl.tab = tabs({
+      tabs: ctrl.data.tabs,
+      selectedItem: ctrl.data.selectedItem,
+      onchange: ctrl.changeTab
+    })
+
+    var tabComps = {
+      "list": list.bind({}, {
+        items: ctrl.data.items
+      }),
+      "settings": settings.bind({}, {
+        settings: ctrl.data.settings,
+        onchange: ctrl.changeSetting
+      }),
+      "about": about.bind({}, ctrl)
+    }
+
+    // inner components
+    ctrl.content = Tabbed.choose(ctrl.data.selectedItem, tabComps)
+  }
+}
+
+var tabs = function(ctrl) {
+  return ctrl.tabs.map(function(tabName) {
+    return tab(ctrl, tabName)
+  })
+}
+
+var tab = function(ctrl, name) {
+  return {
+    "a": {
+      _class: ctrl.selectedItem == name ? "selected" : "",
+      _onclick: ctrl.onchange.bind(ctrl, name),
+      _text: name
+    }
+  }
+}
+
+var about = function(ctrl) {
+  return mag.module('about', {
+    view: function(state, props) {
+      state.textarea = {
+        _text: JSON.stringify(props.data),
+        _onchange: function() {
+          ctrl.data = JSON.parse(this.value);
+        }
+      }
+    }
+  }, {
+    data: ctrl.data
+  }, true)
+}
+
+var list = function(ctrl) {
+  return mag.module('list', {
+    view: function(state, props) {
+      state.li = props.items.map(function(item) {
+        return item.text
+      })
+    }
+  }, {
+    items: ctrl.items
+  }, true)
+}
+
+var settings = function(ctrl) {
+
+  return mag.module('settings', {
+    view: function(state, props) {
+      state.input = {
+        _checked: props.bigFonts ? 'true' : null,
+        _onclick: props.onchange.bind(ctrl, "bigFonts", !ctrl.settings.bigFonts)
+      }
+      state.random = {
+        _onclick: Tabbed.randomizeColor.bind(ctrl)
+      }
+      state.reset = {
+        _onclick: Tabbed.reset.bind(ctrl)
+      }
+    }
+  }, {
+    bigFonts: ctrl.settings.bigFonts,
+    onchange: ctrl.onchange
+  }, true)
+}
+
+Tabbed.choose = function(name, options) {
+  return options[name]()
+}
+
+
+mag.module("Tabbed", Tabbed) 
+  </script>
+  
+  <h2>Explicit App State</h2>
+  <p>Tearing apart state from the component instance turns out to be really powerful. It fits well with the model that most of our state is held at the top-level, since most of your UI is now described in one simple JavaScript object. This has far-reaching consequences.</p>
   
 <h2>TL;DR</h2>
 
