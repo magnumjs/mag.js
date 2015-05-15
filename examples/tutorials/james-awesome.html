@@ -17,6 +17,7 @@
     #Box span {line-height: 1em;
 display: block;
     font-size: 3em;}
+    #Box { text-align:center;}
     .hide {display:none;}
     		pre>code { background-color: transparent; }
     		.output { background-color: #DDE4E9; padding: 1em; }
@@ -47,6 +48,7 @@ view provides the initial state of the object that can be accessed with "state".
 
 <div class="row">
 	<div id="Box-code" class="language-javascript"></div>
+  <div id="Box-html" class="language-markup"></div>
   <div id="Box" class="output"><span></span><button></button></div>
 </div>
 
@@ -66,11 +68,54 @@ mag.module("Box", Box,{
 })
 </script>
 
-<p>In this example, <code>p{}</code> is a simple JavaScript object and <code>mag.module()</code>
-attaches it to the DOM element ID we pass it.  
-Not using Virtual elements, special syntax or any template language make MagJS efficient.</p>
+<p>Properties are available as the second argument to the view "props" and represent the data passed into the component. Components should never mutate their properties. </p>
 
 
+ <h2>Data Flow</h2>
+
+<p>We expressed our component's structure in JavaScript instead of trying to mangle it into the DOM. This makes data flow very natural, since we have direct access to the component instance. If you use the DOM directly, it's common to have to wire up the data flow in JavaScript afterwards. A templating engine with automatic bindings helps, but it still creates more complexity than necessary. The days of having one big HTML file are gone; components and their behaviors are intimately dependant and should be encapsulated like so. </p>
+
+  
+<div class="row">
+	<div id="App-code" class="language-javascript"></div>
+  <div id="App" class="output"><span></span><button></button></div>
+</div>
+
+<script showme="App-code">
+var App = Bloop.createClass({
+  getInitialState: function() {
+    return { number: 0 };
+  },
+
+  updateNumber: function(value) {
+    this.state.number = value;
+  },
+
+  render: function() {
+    return dom.div(
+      dom.span(this.state.number),
+      Toolbar({
+        number: this.state.number,
+        onChange: this.updateNumber
+      })
+    );
+  }
+});
+
+var Toolbar = Bloop.createClass({
+  render: function() {
+    return dom.div(
+      dom.button({
+        onClick: this.props.onChange.bind(null, this.props.number - 1)
+      }, 'decrement'),
+      dom.button({
+        onClick: this.props.onChange.bind(null, this.props.number + 1)
+      }, 'increment')
+    );
+  }
+});
+</script>
+  
 <h2>TL;DR</h2>
 
 <p>MagJS loosely encourages an MVC or MVVM architecture. 
@@ -90,20 +135,36 @@ I'll call the script Galadriel and here is her source (displayed by herself, nat
 <div id="galadriel" class="language-javascript"></div>
 
 <script showme="galadriel">
+  function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+    function addHtml(attachto, html){
+  var pre= document.createElement('pre');
+  var code= document.createElement('code');
+  code.innerHTML = html 
+  pre.appendChild(code)
+  attachto.appendChild(pre) 
+  }
 var scripts = document.getElementsByTagName("script");
 for(var i=0; i<scripts.length; i++){
   s = scripts[i];
   showme = s.getAttribute("showme");
+
   attachto = document.getElementById(showme);
 
   if(!showme || !attachto){ continue; }
 
-  var pre= document.createElement('pre');
-  var code= document.createElement('code');
-  code.innerHTML = s.innerHTML
-  pre.appendChild(code)
-  attachto.appendChild(pre) 
-}
+    var htmlName = showme.split('-').shift()
+ 
+    var htmlCon = document.getElementById(htmlName)
+    var htmlAttachTo = document.getElementById(htmlName+'-html')
+  
+
+  addHtml(attachto, s.innerHTML)
+  
+  if(htmlCon && htmlAttachTo) {
+    addHtml(htmlAttachTo,htmlEntities(htmlCon.outerHTML))
+            }}
 </script>
 
 <blockquote><i>"I know what it was that you saw, for that is also in my mind."</i> - Galadriel</blockquote>
