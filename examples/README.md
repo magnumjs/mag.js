@@ -339,6 +339,8 @@ Lists should have their own container and they are the template for all iteratin
 
 [Introductory section on Lists](//github.com/magnumjs/mag.js/blob/master/README.md#lists)
 
+[Dave's intro guide to Mithril converted to MagJS](https://rawgit.com/magnumjs/mag.js/master/examples/tutorials/daves-guide.html)
+
 ##Implementation Examples
 
 ## Implement automatic 2 way bindings
