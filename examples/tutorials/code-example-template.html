@@ -62,12 +62,19 @@ We'll set a variable to a value and then render it on the screen within the DOM 
 <p>And here's the same thing using MagJS:</p>
 
 <div class="row">
-	<div id="tiny2-code" class="language-javascript"></div>
-  <div id="tiny2" class="output"><p></p></div>
+  <div id="tiny2-code" class="language-javascript"></div>
+  <div class="col">
+    <div id="tiny2-html" class="language-markup"></div>
+    <div id="tiny2" class="output"><p></p></div>
+  </div>
 </div>
 
 <script showme="tiny2-code">
-var p = {view:function(state){state.p= "Hello Middle-earth!" }}
+var p = {
+	view:function(state){
+		state.p= "Hello Middle-earth!"
+	}
+}
 mag.module("tiny2", p)
 </script>
 
@@ -95,19 +102,36 @@ I'll call the script Galadriel and here is her source (displayed by herself, nat
 <div id="galadriel" class="language-javascript"></div>
 
 <script showme="galadriel">
-	var scripts = document.getElementsByTagName("script");
-	for(var i=0; i<scripts.length; i++){
-	s = scripts[i];
-	showme = s.getAttribute("showme");
-  	attachto = document.getElementById(showme);
-
-	if(!showme || !attachto){ continue; }
-    
+function htmlEntities(str) {
+	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function addHtml(attachto, html){
   var pre= document.createElement('pre');
   var code= document.createElement('code');
-	code.innerHTML = s.innerHTML
-	pre.appendChild(code)
-	attachto.appendChild(pre) 
+  code.innerHTML = html 
+  pre.appendChild(code)
+  attachto.appendChild(pre) 
+}
+var scripts = document.getElementsByTagName("script");
+
+for(var i=0; i<scripts.length; i++){
+  s = scripts[i];
+  showme = s.getAttribute("showme");
+
+  attachto = document.getElementById(showme);
+
+  if(!showme || !attachto){ continue; }
+
+    var htmlName = showme.split('-').shift()
+ 
+    var htmlCon = document.getElementById(htmlName)
+    var htmlAttachTo = document.getElementById(htmlName+'-html')
+  
+  	addHtml(attachto, s.innerHTML)
+  
+  	if(htmlCon && htmlAttachTo) {
+    	addHtml(htmlAttachTo,htmlEntities(htmlCon.outerHTML))
+  }
 }
 </script>
 
