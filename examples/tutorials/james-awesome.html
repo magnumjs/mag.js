@@ -424,6 +424,86 @@ mag.module("Tabbed", Tabbed)
   <h2>Explicit App State</h2>
   <p>Tearing apart state from the component instance turns out to be really powerful. It fits well with the model that most of our state is held at the top-level, since most of your UI is now described in one simple JavaScript object. This has far-reaching consequences.</p>
   
+  <h2>Game Loop</h2>
+  
+<p>A wonderful thing about immediate mode is that it's easy to do things like occlusion culling. Another corollary to graphics engines, occlusion culling is an algorithm to optimize rendering by figuring out which elements are actually visible, and only rendering them. Imagine you have a list of 5000 items. If you create a big <ul> with all of them, the DOM will grow large, take up lots of memory, and scrolling will be degraded (especially on mobile). If you know only 25 are on the screen at once, why do we need to create 5000 DOM elements?
+  </p>
+<p>
+You should only need 25 DOM elements at one time, and fill them out with the 25 elements that pass the occlusion test. I made this component in just a few minutes to make this work (view the full code here):</p>
+  
+<div class="row">
+  
+  <div id="App2-code" class="language-javascript"></div>
+  <div class="col">
+  <div id="App2-html" class="language-markup"></div>
+  
+
+<div id="App2">
+  <div class="list">
+    <ul>
+      <li>
+      </li>
+    </ul>
+  </div>
+</div>
+
+    <iframe style="max-height:905px;transition: width 0.6s; -webkit-transition: width 0.6s;" src="http://run.plnkr.co/plunks/AgTYMqKi5JkYpHFxymGX/" width="100%" height="100%" frameborder="0"></iframe>
+    
+  </div>
+  
+</div>
+
+
+  
+<script showme="App2-code">
+//model
+var app = {}
+app.state = {
+  pageY: 0,
+  pageHeight: window.innerHeight
+}
+var items = []
+for (var i = 0; i < 5000; i++) {
+  items.push({
+    title: 'Foo Bar ' + i
+  })
+}
+//yes, window.innerHeight is a data source, so it goes in the model
+window.addEventListener("scroll", function(e) {
+  app.state.pageY = Math.max(e.pageY || window.pageYOffset, 0);
+  app.state.pageHeight = window.innerHeight;
+  mag.redraw(true) //notify view
+})
+//controller
+app.controller = function() {
+  this.items = items
+}
+//view
+app.view = function(ctrl) {
+  var pageY = app.state.pageY
+  var begin = pageY / 31 | 0
+  // Add 2 so that the top and bottom of the page are filled with
+  // next/prev item, not just whitespace if item not in full view
+  var end = begin + (app.state.pageHeight / 31 | 0 + 2)
+  var offset = pageY % 31
+  ctrl.list = {
+    _style: 'height:' + ctrl.items.length * 31 + "px; position: relative; top:" + -offset + "px"
+  }
+  ctrl.ul = {
+    _style: 'top:' + app.state.pageY + "px"
+  }
+  ctrl.li = ctrl.items.slice(begin, end).map(function(item) {
+    return item.title
+  })
+}
+mag.module("app", app)
+</script>
+  
+  <p>Go ahead, right-click and inspect one of the list elements in your browser's developer tools. Look around and you'll only see a modest number of <code>&lt;li&gt;</code> elements.</p>
+  
+  
+  <p>When the scroll event is fired, we simply update pageY and pageHeight and the new DOM elements are filled with the right data, giving the illusion that the user is scrolling down a large list. This basic implementation isn't perfect, but it certainly could be with some better edge case handling.</p>
+  
 <h2>TL;DR</h2>
 
 <p>MagJS loosely encourages an MVC or MVVM architecture. 
@@ -431,39 +511,42 @@ Your MagJS-based application renders itself on the page by generating virtual DO
 MagJS provides a set of features which work well together but is otherwise unopinionated about the structure of your application.</p>
 
 
-<script showme="galadriel">
+<script>
   function htmlEntities(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-    function addHtml(attachto, html){
-  var pre= document.createElement('pre');
-  var code= document.createElement('code');
-  code.innerHTML = html 
-  pre.appendChild(code)
-  attachto.appendChild(pre) 
   }
-var scripts = document.getElementsByTagName("script");
-for(var i=0; i<scripts.length; i++){
-  s = scripts[i];
-  showme = s.getAttribute("showme");
 
-  attachto = document.getElementById(showme);
+  function addHtml(attachto, html) {
+    var pre = document.createElement('pre');
+    var code = document.createElement('code');
+    code.innerHTML = html
+    pre.appendChild(code)
+    attachto.appendChild(pre)
+  }
+  var scripts = document.getElementsByTagName("script");
+  for (var i = 0; i < scripts.length; i++) {
+    s = scripts[i];
+    showme = s.getAttribute("showme");
 
-  if(!showme || !attachto){ continue; }
+    attachto = document.getElementById(showme);
+
+    if (!showme || !attachto) {
+      continue;
+    }
 
     var htmlName = showme.split('-').shift()
- 
+
     var htmlCon = document.getElementById(htmlName)
-    var htmlAttachTo = document.getElementById(htmlName+'-html')
-  
+    var htmlAttachTo = document.getElementById(htmlName + '-html')
 
-  addHtml(attachto, s.innerHTML)
-  
-  if(htmlCon && htmlAttachTo) {
-    addHtml(htmlAttachTo,htmlEntities(htmlCon.outerHTML))
-            }}
+
+    addHtml(attachto, s.innerHTML)
+
+    if (htmlCon && htmlAttachTo) {
+      addHtml(htmlAttachTo, htmlEntities(htmlCon.outerHTML))
+    }
+  }
 </script>
-
 
 <p>I am using the <a href="http://prismjs.com/">Prism</a> syntax highlighter to beautify the source code.</p>
 
