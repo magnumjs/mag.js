@@ -190,6 +190,8 @@ mag.module("hello", {
 (https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/tejabayowa/edit?js,output),
 [Take 2](http://jsbin.com/davapupufo/edit?js,output)
 
+[Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/preview)
+
 ###Angular 2 Mag
 [Order form:]
 (http://jsbin.com/horuxanacu/edit?js,output)
