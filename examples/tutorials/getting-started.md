@@ -345,6 +345,8 @@ Lists should have their own container and they are the template for all iteratin
 
 ##Implementation Examples
 
+[Example code] (https://github.com/magnumjs/mag.js/blob/master/README.md#examples)
+
 ## Implement automatic 2 way bindings
 
 [Binding Example](http://jsbin.com/dicezageja/edit)
