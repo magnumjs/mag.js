@@ -335,7 +335,7 @@ We are binding our list to the class list in the OL - more about lists here:
 Lists should have their own container and they are the template for all iterating items.
 
 ###Further reading:
-[Introductory section on Components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
+[Introductory section on Components](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 
 [Introductory section on Lists](//github.com/magnumjs/mag.js/blob/master/README.md#lists)
 
