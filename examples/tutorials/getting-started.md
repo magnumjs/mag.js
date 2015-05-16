@@ -5,7 +5,7 @@ MagJS is a very simple and intuitive javascript templating library.
 
 It provides the ability to easily hook into html elements from your javascript code.
 
-It is only 4kb gzipped and has a tiny api that is tightly focused on only doing what it is desgined for.
+It is only 4kb gzipped and has a [tiny api](https://github.com/magnumjs/mag.js/blob/master/README.md#simple-api) that is tightly focused on only doing what it is desgined for.
 
 You can use MagJS as a thin layer to prototype and template your html via javascript.
 
