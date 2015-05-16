@@ -20,7 +20,7 @@ alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 ##[Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md)
 
-**There is no JavaScript code in the HTML and there is no HTML code in the JavaScript!**
+> *"There is no JavaScript code in the HTML and there is no HTML code in the JavaScript!"*
 
 ```javascript
 Initial dom:
