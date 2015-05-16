@@ -198,7 +198,7 @@ mag.module("hello", {
 (http://jsbin.com/kasuyupufa/edit?js,output)
 
 [Switchable Grid:]
-(http://jsbin.com/xuduluhivi/edit?js,output)
+(http://jsbin.com/seyadifimu/edit?js,output)
 
 [Contact Manager application:]
 (http://jsbin.com/wepihedota/edit?js,output) - [Take 2](http://jsbin.com/wevazabiwi/edit?js,output)
