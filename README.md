@@ -22,6 +22,12 @@ alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 **There is no JavaScript code in the HTML and there is no HTML code in the JavaScript!**
 
+*View receives 2 arguments* 
+
+1. "state": is the DOM element(s) we want to set - the element Matchers and their controls
+2. "props": is what we want the DOM element(s) to be set to - the data
+ 2. "props" is passed from the parent and is set by <code>mag.module()</code>
+
 ```javascript
 Initial dom:
 <div id="hello">
