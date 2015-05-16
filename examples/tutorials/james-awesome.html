@@ -245,7 +245,11 @@ The difference between state and properties can be useful. It makes it clear wha
 
   <h2>Tabbed UI</h2>
   
-  
+  <p>Looking at our app with tabs again, there is a Tabs component. This is a completely stateless component, and the top-level App component actually handles the tab change and changes selectedItem in the app state. You might think that Tabs should handle the state to be reusable, but if you think about it, something needs to be hooked up to change the panes when a tab is changed. This makes the dependency on that state explicit and easy to rationalize about.</p>
+    <h2>Explicit App State</h2>
+  <p>Tearing apart state from the component instance turns out to be really powerful. It fits well with the model that most of our state is held at the top-level, since most of your UI is now described in one simple JavaScript object. This has far-reaching consequences.</p>
+ 
+    
   <div class="row">
   
   <div id="Tabbed-code" class="language-javascript"></div>
@@ -420,10 +424,8 @@ Tabbed.choose = function(name, options) {
 }
 mag.module("Tabbed", Tabbed)
 </script>
-  
-  <h2>Explicit App State</h2>
-  <p>Tearing apart state from the component instance turns out to be really powerful. It fits well with the model that most of our state is held at the top-level, since most of your UI is now described in one simple JavaScript object. This has far-reaching consequences.</p>
-  
+  <p>In fact, all of our app state is a single object attached to the App component. It's easy to expose this as an editor, which is what you see below. This is the raw state of the app, and is synced both ways. Change it manually in the textarea below (change bigFonts to true, for example), and click around the app to watch changes come in.</p>
+
   <h2>Game Loop</h2>
   
 <p>A wonderful thing about immediate mode is that it's easy to do things like occlusion culling. Another corollary to graphics engines, occlusion culling is an algorithm to optimize rendering by figuring out which elements are actually visible, and only rendering them. Imagine you have a list of 5000 items. If you create a big <ul> with all of them, the DOM will grow large, take up lots of memory, and scrolling will be degraded (especially on mobile). If you know only 25 are on the screen at once, why do we need to create 5000 DOM elements?
