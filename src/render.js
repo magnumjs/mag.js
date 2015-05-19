@@ -3,16 +3,13 @@
 
   'use strict';
 
-
-
-  var FRAME_RATE = 16,
-    render = {
-      roots: [],
-      contexts: [],
-      templates: {},
-      unloaders: [],
-      cache: {}
-    }, iscached = function(key, data) {
+  var render = {
+    roots: [],
+    contexts: [],
+    templates: {},
+    unloaders: [],
+    cache: {}
+  }, iscached = function(key, data) {
       if (render.cache[key] && render.cache[key] === JSON.stringify(data)) {
         return true
       }
@@ -71,8 +68,7 @@
       fill.configs.splice(0, fill.configs.length)
       render.doLoop(module, fill)
     }))
-
-    debounce(this.fun(), FRAME_RATE)
+    this.fun()
   }
 
   function addConfigUnloaders(module, fill, index) {
@@ -192,8 +188,8 @@
       throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
     }
     // Which we then observe
-    if (observeHandler && args[0] && typeof Object.unobserve !== 'undefined') {
-      Object.unobserve(args[0], observeHandler);
+    if(observeHandler && args[0] && typeof Object.unobserve !== 'undefined') {
+       Object.unobserve(args[0], observeHandler);
     }
     observeNested(args[0], observer);
   }
@@ -201,7 +197,7 @@
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
   var throttle = function(fn, threshhold) {
-    var lastRedrawCallTime, FRAME_BUDGET = threshhold || FRAME_RATE,
+    var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
       deferTimer
     return function() {
       var args = arguments
@@ -265,14 +261,13 @@
     }
   }
 
-  var observeHandler
-
-    function observeNested(obj, callback) {
-      if (obj && typeof Object.observe !== 'undefined') {
-        observeHandler = debounce(callback, FRAME_RATE)
-        notifySubobjectChanges(obj); // set up recursive observers
-        Object.observe(obj, observeHandler);
-      }
+var observeHandler
+  function observeNested(obj, callback) {
+    if (obj && typeof Object.observe !== 'undefined') {
+      observeHandler = debounce(callback, 16)
+      notifySubobjectChanges(obj); // set up recursive observers
+      Object.observe(obj, observeHandler);
     }
+  }
 
 })(window.mag || {})
