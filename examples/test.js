@@ -1,3 +1,40 @@
+mag.module('unloader', {
+  controller: function() {
+    this.count = 1
+    this.thing = mag.prop('test')
+  },
+  view: function(state) {
+    state.button = {
+      _onclick: function() {
+        console.log(state.count)
+        state.thing('other')
+        state.count = state.count + 1
+      },
+      _className: 'metoo'
+    }
+    state.mod = state.count % 2 ? mag.module('testmod', {
+      controller: function() {
+        console.log('inner ctrl')
+        show(this)
+        this.onunload = function() {
+          console.log('removed from state')
+        },
+        this.onreload = function() {
+          console.log('reloaded into state')
+        }
+      },
+      view: function(s) {
+        console.log('viewee')
+        s.dude = 1
+      }
+    }, {}, 1) : {
+      _html: 'other'
+    }
+  }
+})
+
+
+
 // hookin to create an element if does not exist at the root level
 mag.hookin('elementMatcher', 'testme', function(data) {
   // data.key, data.node, data.value
@@ -77,40 +114,7 @@ var props = {
 
 mag.module("demo", demo, props)
 
-mag.module('unloader', {
-  controller: function() {
-    this.count = 1
-    this.thing = mag.prop('test')
-  },
-  view: function(state) {
-    state.button = {
-      _onclick: function() {
-        console.log(state.count)
-        state.thing('other')
-        state.count = state.count + 1
-      },
-      _className: 'metoo'
-    }
-    state.mod = state.count % 2 ? mag.module('testmod', {
-      controller: function() {
-        console.log('inner ctrl')
-        show(this)
-        this.onunload = function() {
-          console.log('removed from state')
-        },
-        this.onreload = function() {
-          console.log('reloaded into state')
-        }
-      },
-      view: function(s) {
-        console.log('viewee')
-        s.dude = 1
-      }
-    }, {}, 1) : {
-      _html: 'other'
-    }
-  }
-})
+
 
 var tabbed = {
   controller: function(p) {
@@ -188,7 +192,6 @@ mag.module('tabbed', tabbed, {
     "content": list
   }]
 })
-
 
 
 var SearchExample = {}
@@ -495,9 +498,9 @@ var props = {
   }]
 }
 
-mag.hookin('elementMatcher', 'test', function(data) {
-  // console.log('HOOKIN', data)
-})
+// mag.hookin('elementMatcher', 'test', function(data) {
+//   // console.log('HOOKIN', data)
+// })
 
 mag.module("shoes", shoes, props)
 
@@ -547,13 +550,15 @@ mag.module("lister", {
       name2 = 'Joe!'
     state.h2 = {
       _config: function(element, isNew, context) {
-        //console.log('CONFIG')
+        console.log('CONFIG', isNew)
         context.onunload = function() {
           console.log('lister unload')
         }
-        state.span = name1
-        state.item = [1, 2, 3]
-        mag.redraw()
+        if (isNew) {
+          state.item = [1, 2, 3]
+          state.span = name1
+        }
+        // mag.redraw()
       },
       _onclick: function() {
         state.item.reverse()
@@ -589,6 +594,9 @@ mag.module("count", {
     }
   }
 })
+
+
+
 
 
 mag.module("main", {
