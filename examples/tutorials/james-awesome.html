@@ -277,9 +277,9 @@ The difference between state and properties can be useful. It makes it clear wha
     </div>
     <div id="settings">
       <div class="settings">
-        <div>
-          <input type="checkbox"/>big fonts
-        </div>
+        <label class="checkbox">
+          <input type="checkbox"/><span>big fonts</span>
+        </label>
         <div>
           <button class="random">random color</button>
         </div>
@@ -459,8 +459,8 @@ You should only need 25 DOM elements at one time, and fill them out with the 25 
   
 <script showme="App2-code">
 //model
-var app = {}
-app.state = {
+var app2 = {}
+app2.state = {
   pageY: 0,
   pageHeight: window.innerHeight
 }
@@ -477,11 +477,11 @@ window.addEventListener("scroll", function(e) {
   mag.redraw(true) //notify view
 })
 //controller
-app.controller = function() {
+app2.controller = function() {
   this.items = items
 }
 //view
-app.view = function(ctrl) {
+app2.view = function(ctrl) {
   var pageY = app.state.pageY
   var begin = pageY / 31 | 0
   // Add 2 so that the top and bottom of the page are filled with
@@ -498,7 +498,7 @@ app.view = function(ctrl) {
     return item.title
   })
 }
-mag.module("app", app)
+mag.module("app2", app2)
 </script>
   
   <p>Go ahead, right-click and inspect one of the list elements in your browser's developer tools. Look around and you'll only see a modest number of <code>&lt;li&gt;</code> elements.</p>
@@ -557,6 +557,6 @@ MagJS provides a set of features which work well together but is otherwise unopi
 <p>I want it.  You can help me out by <a href="https://github.com/magnumjs/mag.js/issues">creating an issue</a> with corrections to this article or if you have any way of improving it. I also really appreciate feedback on spelling and grammar. Thank you.</p>
 
 <p><small>Copyright (c) 2015 <a href="https://github.com/magnumjs/mag.js">Michael Glazer</a></small></p>
-
+<script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
 </body>
 </html>
