@@ -3,13 +3,16 @@
 
   'use strict';
 
-  var render = {
-    roots: [],
-    contexts: [],
-    templates: {},
-    unloaders: [],
-    cache: {}
-  }, iscached = function(key, data) {
+
+
+  var FRAME_RATE = 16,
+    render = {
+      roots: [],
+      contexts: [],
+      templates: {},
+      unloaders: [],
+      cache: {}
+    }, iscached = function(key, data) {
       if (render.cache[key] && render.cache[key] === JSON.stringify(data)) {
         return true
       }
@@ -68,7 +71,8 @@
       fill.configs.splice(0, fill.configs.length)
       render.doLoop(module, fill)
     }))
-    this.fun()
+
+    debounce(this.fun(), FRAME_RATE)
   }
 
   function addConfigUnloaders(module, fill, index) {
@@ -188,7 +192,7 @@
       throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
     }
     // Which we then observe
-    if (observeHandler && args[0] && typeof Object.observe !== 'undefined') {
+    if (observeHandler && args[0] && typeof Object.unobserve !== 'undefined') {
       Object.unobserve(args[0], observeHandler);
     }
     observeNested(args[0], observer);
@@ -197,7 +201,7 @@
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
   var throttle = function(fn, threshhold) {
-    var lastRedrawCallTime, FRAME_BUDGET = threshhold || 16,
+    var lastRedrawCallTime, FRAME_BUDGET = threshhold || FRAME_RATE,
       deferTimer
     return function() {
       var args = arguments
@@ -265,7 +269,7 @@
 
     function observeNested(obj, callback) {
       if (obj && typeof Object.observe !== 'undefined') {
-        observeHandler = debounce(callback, 16)
+        observeHandler = debounce(callback, FRAME_RATE)
         notifySubobjectChanges(obj); // set up recursive observers
         Object.observe(obj, observeHandler);
       }
