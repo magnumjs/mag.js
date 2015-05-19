@@ -611,6 +611,10 @@ Other hookins such as key/node value etc.. Coming soon!
 <script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
 ```
 
+###Performance
+
+[JSPerf](http://jsperf.com/angular-vs-knockout-vs-ember/613)
+
 ###Inspired By & cloned from
 
 [Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill),  [React.js](https://facebook.github.io/react/), [Angular.js](https://angularjs.org/), 
