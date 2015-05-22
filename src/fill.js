@@ -374,9 +374,6 @@
 
       // events
       if (attrName.indexOf('on') == 0) {
-
-
-        if(node[attrName]) continue
         
         var eventCall = function(fun, node, e) {
 
