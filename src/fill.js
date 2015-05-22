@@ -15,12 +15,6 @@
       return Object.prototype.toString.call(obj) === '[object Array]'
     }
 
-    // TODO: all of these mutations to the element shoudl be there own map
-    // i.e. element.__magnum__ = {}
-    // TODO: optimize cache results or attach them to the node for reuse
-    // use fastdom
-
-
 
     function getPathTo(element) {
       if (element.id !== '')
@@ -64,19 +58,6 @@
       return parseInt(s) - 1
     }
 
-    // function removeCache(p) {
-    //   // search cache for children
-
-    //   delete cached[p]
-
-    //   // remove cached config too?
-
-    //   for (var k in cached) {
-    //     if (k.indexOf(p) === 0) delete cached[k]
-    //   }
-    //   // remove cache
-    //   //console.log('removed',p)
-    // }
 
   var templates = {},
     gkeys = {} // What about nested Lists, which guid?
@@ -159,9 +140,7 @@
 
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-        //console.log('something!') 
-
-        //console.log('here', key, gkeys[key])
+ 
 
         // changes data can cause recursion!
 
@@ -221,43 +200,8 @@
             return true
           })
 
-          /*
-          var elements = elements.filter(function(ele, i) {
-          // determine which elements are not in the data by their MAGNUM key
-
-            if (typeof ele.__key === 'undefined' && i != 0 && typeof data[i] !== 'undefined' 
-            || (data[i] && typeof data[i][MAGNUM] === 'undefined' )) {
-              console.log('filter',i)
-
-              ele.__key = i
-              data[i][MAGNUM] = i
-            }
-
-            var out = data.filter(function(v) {
-              return v[MAGNUM] == ele.__key
-            });
-            console.log(out.length, data[i], ele.__key)
-
-            if ((out.length == 0 && typeof data[i] === 'undefined') 
-            || (typeof data[i] === 'undefined' && found.indexOf(ele.__key)!==-1)) {
-              removeNode(ele)
-              return false
-            }
-            found.push(ele.__key)
-            return true
-          })
-*/
         }
       }
-
-      // remove the last node until the number of nodes matches the data
-      // while (elements.length > data.length) {
-      //   node = elements.pop()
-      //   parent = node.parentNode
-      //   if (parent) {
-      //     removeNode(node)
-      //   }
-      // }
 
     }
 
@@ -279,11 +223,7 @@
           elements[i][MAGNUM].isChildOfArray = true
           elements[i][MAGNUM].dataPass = data
         }
-        // else if (elements[i].parentNode && elements[i].parentNode.isChildOfArray) {
-        //   elements[i].isChildOfArray = true
-        //   elements[i]._dataPass = elements[i].parentNode._dataPass
-        // }
-        // console.log(findParentChild(elements[i]), data, elements[i].parentNode)
+
         fillNode(elements[i], data)
       }
 
@@ -337,14 +277,10 @@
 
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
-        // store the properties to set them all at once
-        // if (typeof value === 'string' || typeof value === 'number') {
+
         attributes = attributes || {}
         attributes[key.substr(1)] = value;
-        // } else {
-        //   throw new Error('Expected a string or number for "' + key +
-        //                   '", got: "' + JSON.stringify(value) + '"');
-        // }
+
       }
     }
 
@@ -353,22 +289,15 @@
     // fill in all the attributes
     if (attributes) {
 
-      // if (cached[p] && cached[p] === JSON.stringify(attributes)) {
-      //   console.log('isame', p, JSON.stringify(attributes))
-      // // return
-      // }
-      // console.log('called', node, attributes)
 
-      // TODO: pass data to event
 
 
       fillAttributes(node, attributes)
-      // console.log('ichange', p, JSON.stringify(attributes))
-      // cached[p] = JSON.stringify(attributes)
+
     }
 
     var index = 0,
-      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload']
+      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload','isupdate']
       // look for non-attribute keys and recurse into those elements
     for (var key in data) {
 
@@ -446,13 +375,9 @@
       // events
       if (attrName.indexOf('on') == 0) {
 
-        // REALLY ? only one same event per node?
-       // if (node._events.indexOf(attrName) !== -1 && !firstRun) {
-         // console.log('event exists', firstRun)
-        //  continue
-       // }
-        //TODO: if data parent its index is useful add it?
-        // TODO: put all params into a data MAP {} ?
+
+        if(node[attrName]) continue
+        
         var eventCall = function(fun, node, e) {
 
           var dataParent = findParentChild(node),
@@ -474,10 +399,7 @@
         }.bind({}, attributes[attrName], node)
 
         node[attrName] = eventCall
-        //console.log('event exists', firstRun)
 
-        // node.addEventListener(attrName.substr(2), eventCall)
-        //node._events.push(attrName)
 
       } else {
 
@@ -531,16 +453,10 @@
       }
     }
 
-    // TODO: fix - this is not very accurate?
-    //if (cache) {
-    //console.log(node.tagName, attributes)
-    //return
-    // }
+
     // set html after setting text because html overrides text
     setText(node, attributes.text)
     setHtml(node, attributes.html, tagIndex)
-
-
   }
 
   function setText(node, text, xpath) {
@@ -604,19 +520,6 @@
     if (!node || html == null) return;
 
     // remove all children
-
-    // before remove if firstChild has a magnum id we need to save it
-    // if(node.firstChild && node.nodeType === 1 && node.id && node.id.indexOf('__magnum__::')!==-1){
-    //   console.log('WHOAH!!')
-    //   // copy and move
-    //   var copy = node.firstChild
-    //   var sp1 = document.createElement("span")
-    //   // append to whom ?
-    //   document.body.appendChild(sp1)
-
-    //   node.replaceChild(copy, sp1);
-
-    // }
     while (node.firstChild) {
       node.removeChild(node.firstChild);
     }
@@ -627,18 +530,11 @@
 
       addCloneId(html(), tagIndex)
 
-      //var children = html().querySelectorAll(':scope > *')
-      //console.log(children)
-      //for(var k in children){
-      //console.log(k, children[k])
+
       var sp1 = document.createElement("span")
       node.appendChild(sp1)
-      //try {
       node.replaceChild(html(), sp1);
-      // } catch (e) {
-      //   console.log('FILL HTML ERROR', html().id, e)
-      // }
-      //}
+
     } else if (html.nodeType === 1) {
 
       addCloneId(html, tagIndex)
@@ -784,12 +680,6 @@
   }
 
 
-  function unclear() {
-    //firstRun = false
-  }
-  // attach fill to current context (in the browser this will be window.fill)
-  // this.fill = fill;
-  // this.configs = configs
 
   mag.fill = {
     fill: fill,
