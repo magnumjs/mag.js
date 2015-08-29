@@ -114,7 +114,6 @@
   }
 
   var added = [];
-
   var attacher = function(i, k, obj, element) {
     var oval = obj[k];
     // only for user input fields
@@ -125,7 +124,9 @@
     Object.defineProperty(obj, k, {
       get: function() {
         var found = mag.fill.find(element, k);
+
         if (found[0] && found[0].value && found[0].value !== oval) {
+          oval = found[0].value;
           return found[0].value;
         }
         return oval;
