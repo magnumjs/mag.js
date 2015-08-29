@@ -92,7 +92,7 @@ mag.module("hello", {
 [Hello world, take2](http://jsbin.com/zuquqavoni/edit?js,output)
 
 [Basic Math: addition (proxy)](http://jsbin.com/rivolaciri/edit?html,js,output) - 
-[Basic Math: addition (no proxy)](http://jsbin.com/bonivejivu/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?html,js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/wiwifexulu/edit?html,js,output)
+[Basic Math: addition (no proxy)](http://jsbin.com/bonivejivu/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?html,js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/regofazoza/edit?html,js,output)
 
 [Hello world with passFail reusable component:]
 (http://jsbin.com/xemugoyehe/edit?js,output)
