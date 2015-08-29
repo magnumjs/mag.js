@@ -91,6 +91,8 @@ mag.module("hello", {
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
 [Hello world, take2](http://jsbin.com/zuquqavoni/edit?js,output)
 
+[Basic Math: addition (proxy)](http://jsbin.com/rivolaciri/edit?html,js,output)
+
 [Hello world with passFail reusable component:]
 (http://jsbin.com/xemugoyehe/edit?js,output)
 
