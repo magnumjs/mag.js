@@ -120,12 +120,12 @@
     // only for user input fields
     var found = mag.fill.find(element, k);
 
-    if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(found[0].tagName) === -1) return;
+    if (typeof oval == 'function' || !found[0] || ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(found[0].tagName) === -1) return;
 
     Object.defineProperty(obj, k, {
       get: function() {
         var found = mag.fill.find(element, k);
-        if (found[0].value && found[0].value !== oval) {
+        if (found[0] && found[0].value && found[0].value !== oval) {
           return found[0].value;
         }
         return oval;
