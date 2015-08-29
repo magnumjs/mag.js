@@ -92,7 +92,7 @@ mag.module("hello", {
 [Hello world, take2](http://jsbin.com/zuquqavoni/edit?js,output)
 
 [Basic Math: addition (proxy)](http://jsbin.com/rivolaciri/edit?html,js,output)
-[Basic Math: addition (no proxy)][http://jsbin.com/bonivejivu/edit?html,js,output]
+[Basic Math: addition (no proxy)](http://jsbin.com/bonivejivu/edit?html,js,output)
 
 [Hello world with passFail reusable component:]
 (http://jsbin.com/xemugoyehe/edit?js,output)
