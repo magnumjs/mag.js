@@ -2,13 +2,47 @@
 <html>
 
 <head>
-  <link href="http://www.picnicss.com/nut/picnic_3_2.min.css" rel="stylesheet">
+  <link href="//cdn.jsdelivr.net/picnicss/4.1.1/picnic.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
 </head>
 
 <body>
 
+
+  <div id="mathdemo">
+    <form onsubmit="return false">
+      1st Number :
+      <input type="text" name="num1" />
+      <br/> 2nd Number :
+      <input type="text" name="num2" />
+      <button>ADD</button>
+      <br/> Sum :
+      <result></result>
+    </form>
+  </div>
+
+  <div id="mathdemo1">
+    1st Number :
+    <input type="text" name="num1">
+    <br/> 2nd Number :
+    <input type="text" name="num2">
+    <button>ADD</button>
+    <br/> Sum :
+    <result></result>
+  </div>
+
+  <div id="mathdemo2">
+    <numbers>
+      1st Number :
+      <input type="text" name="num1">
+      <br/> 2nd Number :
+      <input type="text" name="num2">
+    </numbers>
+    <button>ADD</button>
+    <br/> Sum :
+    <result></result>
+  </div>
 
   <div id="Comment" class="">
     <span />
@@ -255,6 +289,7 @@
     </div>
     <button>Open</button>
   </div>
+
 
   <script src="//rawgit.com/magnumjs/mag.js/master/src/addons/ajax.js"></script>
   <script src="//rawgit.com/magnumjs/mag.js/master/src/mag.addons.js"></script>
