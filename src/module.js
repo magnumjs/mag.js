@@ -108,7 +108,7 @@
     var args = mod.modules[i] && mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
       // args that contaian circular references will throw an exception up the chain
 
-    attachToArgs(i, args, this.elements[i]);
+    attachToArgs(i, args[0], this.elements[i]);
 
     return args
   }
@@ -144,10 +144,17 @@
 
     if (!added[i]) added[i] = [];
 
-    for (var k in args[0]) {
-      if (!added[i][k]) {
-        attacher(i, k, args[0], element);
-        added[i][k] = true;
+    for (var k in args) {
+
+      if (typeof args[k] === 'object') {
+        // recurse
+        attachToArgs(i, args[k], element);
+      } else {
+
+        if (!added[i][k]) {
+          attacher(i, k, args, element);
+          added[i][k] = true;
+        }
       }
     }
   }
