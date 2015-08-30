@@ -121,13 +121,25 @@
 
     if (typeof oval == 'function' || !found[0] || ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(found[0].tagName) === -1) return;
 
+    var found = mag.fill.find(element, k);
+    var founder = found[0];
+    if (founder && !founder.eventOnFocus) {
+
+      var onfocus = function() {
+        if (!this.classList.contains('mag-dirty')) {
+          this.classList.add('mag-dirty');
+        }
+      }
+
+      founder.addEventListener("focus", onfocus, false);
+      founder.eventOnFocus = true;
+    }
     Object.defineProperty(obj, k, {
       get: function() {
-        var found = mag.fill.find(element, k);
-
-        if (found[0] && found[0].value && found[0].value !== oval) {
-          oval = found[0].value;
-          return found[0].value;
+        // set on focus listener once
+        if (founder && founder.value !== 'undefined' && founder.classList.contains('mag-dirty') && founder.value !== oval) {
+          oval = founder.value;
+          return founder.value;
         }
         return oval;
       }
