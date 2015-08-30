@@ -1,54 +1,57 @@
-mag.module('unloader', {
+mag.module("mathdemo", {
   controller: function() {
-    this.count = 1
-    this.thing = mag.prop('test')
+
+    this.num1 = mag.prop(2);
+    this.num2 = mag.prop(2);
+
   },
+
   view: function(state) {
+
     state.button = {
       _onclick: function() {
-        console.log(state.count)
-        state.thing('other')
-        state.count = state.count + 1
-      },
-      _className: 'metoo'
-    }
-    state.mod = state.count % 2 ? mag.module('testmod', {
-      controller: function() {
-        console.log('inner ctrl')
-        show(this)
-        this.onunload = function() {
-          console.log('removed from state')
-        },
-        this.onreload = function() {
-          console.log('reloaded into state')
-        }
-      },
-      view: function(s) {
-        console.log('viewee')
-        s.dude = 1
+        state.result = parseInt(state.num1()) + parseInt(state.num2());
       }
-    }, {}, 1) : {
-      _html: 'other'
-    }
+    };
+
+    mag.addons.change(state, state.form = {});
+
   }
-})
+});
 
 
+mag.module("mathdemo1", {
+  controller: function() {
+    this.num1 = 1;
+    this.num2 = 2;
+  },
+  view: function(state, props) {
+    state.button = {
+      _onclick: function() {
+        state.result = parseInt(state.num1) + parseInt(state.num2);
+      }
+    };
+  }
+});
 
-// hookin to create an element if does not exist at the root level
-mag.hookin('elementMatcher', 'testme', function(data) {
-  // data.key, data.node, data.value
+mag.module("mathdemo2", {
+  controller: function() {
+    this.numbers = {
+      num1: 1,
+      num2: 2
+    }
+  },
+  view: function(state, props) {
 
-  var fragment = document.createDocumentFragment(),
-    el = document.createElement('div');
-  el.setAttribute('class', data.key)
-  fragment.appendChild(el);
+    state.button = {
+      _onclick: function() {
+        state.result = parseInt(state.numbers.num1) + parseInt(state.numbers.num2);
+      }
+    };
 
-  var nodelist = fragment.childNodes;
-  data.node.appendChild(fragment)
+  }
+});
 
-  data.value = nodelist
-})
 
 var demo = {}
 
@@ -61,8 +64,6 @@ demo.controller = function(p) {
 }
 
 demo.view = function(s, p) {
-
-  s.testme = 'tester'
 
   s.h2 = {
     _onclick: function() {
@@ -114,7 +115,40 @@ var props = {
 
 mag.module("demo", demo, props)
 
-
+mag.module('unloader', {
+  controller: function() {
+    this.count = 1
+    this.thing = mag.prop('test')
+  },
+  view: function(state) {
+    state.button = {
+      _onclick: function() {
+        console.log(state.count)
+        state.thing('other')
+        state.count = state.count + 1
+      },
+      _className: 'metoo'
+    }
+    state.mod = state.count % 2 ? mag.module('testmod', {
+      controller: function() {
+        console.log('inner ctrl')
+        show(this)
+        this.onunload = function() {
+            console.log('removed from state')
+          },
+          this.onreload = function() {
+            console.log('reloaded into state')
+          }
+      },
+      view: function(s) {
+        console.log('viewee')
+        s.dude = 1
+      }
+    }, {}, 1) : {
+      _html: 'other'
+    }
+  }
+})
 
 var tabbed = {
   controller: function(p) {
@@ -167,7 +201,7 @@ var choosey = function(name, options) {
   })
 
   var comp = typeof content === 'function' ? content() : content
-  //console.log('TEST', comp)
+    //console.log('TEST', comp)
   return comp
 }
 
@@ -192,6 +226,7 @@ mag.module('tabbed', tabbed, {
     "content": list
   }]
 })
+
 
 
 var SearchExample = {}
@@ -295,7 +330,7 @@ mag.module('filter-test', {
         return false;
       }
       return true
-      //       return this.term()!='' && item.name.toLowerCase().indexOf(this.term().toLowerCase()) > -1
+        //       return this.term()!='' && item.name.toLowerCase().indexOf(this.term().toLowerCase()) > -1
     }.bind(this)
 
     this.products = function(filterText, inStockOnly) {
@@ -392,7 +427,7 @@ var ProductTable = {
 
     var lastCategory = null;
     var count = 0
-    //s.tbody = s.rows
+      //s.tbody = s.rows
     var promises = []
     p.products.forEach(function(product) {
 
@@ -498,9 +533,9 @@ var props = {
   }]
 }
 
-// mag.hookin('elementMatcher', 'test', function(data) {
-//   // console.log('HOOKIN', data)
-// })
+mag.hookin('elementMatcher', 'test', function(data) {
+  // console.log('HOOKIN', data)
+})
 
 mag.module("shoes", shoes, props)
 
@@ -550,19 +585,36 @@ mag.module("lister", {
       name2 = 'Joe!'
     state.h2 = {
       _config: function(element, isNew, context) {
-        console.log('CONFIG', isNew)
+        console.log('CONFIG')
         context.onunload = function() {
           console.log('lister unload')
         }
-        if (isNew) {
-          state.item = [1, 2, 3]
-          state.span = name1
-        }
-        // mag.redraw()
+        state.span = name1
+        state.item = [1, 2, 3]
+        mag.redraw()
       },
       _onclick: function() {
         state.item.reverse()
         state.span = state.span == name1 && name2 || name1
+      }
+    }
+  }
+})
+
+mag.module("lister", {
+  view: function(state, props, element) {
+    var name1 = 'Yo!',
+      name2 = 'Joe!'
+    state.h2 = {
+      _config: function(element, isNew, context) {
+        if (isNew) {
+          state.span = name1
+          state.item = [1, 2, 3]
+        }
+      },
+      _onclick: function() {
+        state.item.reverse()
+        state.span = state.span == name1 && name2 || name1;
       }
     }
   }
@@ -597,7 +649,17 @@ mag.module("count", {
 
 
 
+function merge(o1, o2) {
+  for (var i in o2) {
+    o1[i] = o2[i];
+  }
+  return o1;
+}
 
+mag.hookin('attributes', 'className', function(data) {
+  data.value = data.node.classList + ' ' + data.value
+  data.key = 'class'
+})
 
 mag.module("main", {
   controller: function() {
@@ -647,7 +709,7 @@ mag.module('hello', {
     }
     this.willload = function(e, ele) {
       console.log('hello willload')
-      //e.preventDefault()
+        //e.preventDefault()
     }
     this.willupdate = function(e, ele) {
       console.log('hello willupdate')
@@ -666,10 +728,10 @@ mag.module('hello', {
     this.add = function() {
       //console.log(this.$done)
       this.item.push({
-        span: 'test',
-        _config: test
-      })
-      //mag.redraw()
+          span: 'test',
+          _config: test
+        })
+        //mag.redraw()
       return false;
     }
   },
@@ -692,7 +754,7 @@ mag.module('hello', {
         }
         this.willload = function(e, ele) {
           console.log('hello inner willload')
-          //e.preventDefault()
+            //e.preventDefault()
         }
       },
       view: function(s) {
@@ -709,9 +771,9 @@ mag.module('hello', {
 
     //state.h1 = '', 
     state.select = 2, state.textarea = 1
-    //setTimeout(function() {
-    //  console.log(state.h1, state.input)
-    //}, 100)
+      //setTimeout(function() {
+      //  console.log(state.h1, state.input)
+      //}, 100)
   }
 })
 
@@ -726,7 +788,7 @@ mag.module('app2', {
           _onclick: function() {
             s.span = s.span == 'stuff' ? 'other' : 'stuff'
             console.log('test', s.span)
-            //mag.redraw(1)
+              //mag.redraw(1)
           }
         }
       }
@@ -742,31 +804,31 @@ mag.module('app', {
   view: function(s, p1, e) {
     s.count = s.count || 1
     s.data = mag.module('comp', {
-      view: function(s, p, e) {
-        //console.log(c)
-        s.b = p1.thingy
-        s.count = p.changeling
-        s.span = p.expr + '' + s.count
-        s.head = {
-          _onclick: function() {
-            //console.log(c)
-            s.span = 'yoyo'
-            p1.thingy = s.b = p1.thingy == 'jay' ? 'thingy' : 'jay'
+        view: function(s, p, e) {
+          //console.log(c)
+          s.b = p1.thingy
+          s.count = p.changeling
+          s.span = p.expr + '' + s.count
+          s.head = {
+            _onclick: function() {
+              //console.log(c)
+              s.span = 'yoyo'
+              p1.thingy = s.b = p1.thingy == 'jay' ? 'thingy' : 'jay'
+            }
           }
         }
-      }
-    }, {
-      expr: (s.count % 2 == 0 ? 'hm' : 'blow'),
-      changeling: s.count
-    }) // try cloning by adding a 1 last argument to see the difference
-    .then(function(data) {
-      //console.log('test', data._html())
-      s.data = data
-      s.span = {
-        _onclick: function() {
-          s.count++
+      }, {
+        expr: (s.count % 2 == 0 ? 'hm' : 'blow'),
+        changeling: s.count
+      }) // try cloning by adding a 1 last argument to see the difference
+      .then(function(data) {
+        //console.log('test', data._html())
+        s.data = data
+        s.span = {
+          _onclick: function() {
+            s.count++
+          }
         }
-      }
-    })
+      })
   }
 })
