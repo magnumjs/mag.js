@@ -114,15 +114,24 @@
   }
 
   var added = [];
-  var attacher = function(i, k, obj, element) {
-    var oval = obj[k];
-    // only for user input fields
-    var found = mag.fill.find(element, k);
 
-    if (typeof oval == 'function' || !found[0] || ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(found[0].tagName) === -1) return;
+  function getElement(obj, k, i, parentElement) {
 
-    var found = mag.fill.find(element, k);
-    var founder = found[0];
+    // search within _key if there
+
+    var parts = i.toString().split('-');
+
+    if (parts.length === 3) {
+      parentElement = mag.fill.find(parentElement, parts[1]);
+    }
+
+    var last = parseInt(parts.pop());
+    var index = !isNaN(last) ? last : 0;
+
+    var found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
+
+    // first user input field
+    var founder = isInput(found);
     if (founder && !founder.eventOnFocus) {
 
       var onfocus = function() {
@@ -134,16 +143,39 @@
       founder.addEventListener("focus", onfocus, false);
       founder.eventOnFocus = true;
     }
-    Object.defineProperty(obj, k, {
-      get: function() {
-        // set on focus listener once
-        if (founder && founder.value !== 'undefined' && founder.classList.contains('mag-dirty') && founder.value !== oval) {
-          oval = founder.value;
-          return founder.value;
-        }
-        return oval;
+    return founder;
+  }
+
+  function isInput(items) {
+
+    for (var k in items) {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1) {
+        return items[k];
       }
-    });
+    }
+    return false;
+  }
+  var attacher = function(i, k, obj, element) {
+    var oval = obj[k];
+    // only for user input fields
+    var found = mag.fill.find(element, k);
+    var founder = isInput(found);
+    if (typeof oval !== 'function' && founder) {
+
+      var founderCall = getElement.bind({}, obj, k, i, element);
+
+      Object.defineProperty(obj, k, {
+        get: function() {
+          var founder = founderCall();
+          // set on focus listener once
+          if (founder && founder.value !== 'undefined' && founder.classList.contains('mag-dirty') && founder.value !== oval) {
+            oval = founder.value;
+            return founder.value;
+          }
+          return oval;
+        }
+      });
+    }
   };
 
   function attachToArgs(i, args, element) {
@@ -160,7 +192,7 @@
 
       if (typeof args[k] === 'object') {
         // recurse
-        attachToArgs(i, args[k], element);
+        attachToArgs(i + '-' + k, args[k], element);
       } else {
 
         if (!added[i][k]) {
