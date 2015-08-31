@@ -615,13 +615,13 @@
   function childElements(node) {
     var children = node.childNodes
     var elements = []
-
+if(children) {
     for (var i = 0; i < children.length; i += 1) {
       if (children[i].nodeType === ELEMENT_NODE) {
         elements.push(children[i])
       }
     }
-
+}
     return elements
   }
 
