@@ -114,21 +114,34 @@
   }
 
   var added = [];
-
-  function getElement(obj, k, i, parentElement) {
+  var getParent = function(parts, parentElement) {
+    for (var i = 1; i < parts.length; i += 2) {
+      var key = parts[i];
+      var index = parts[i + 1];
+      parentElement = mag.fill.find(parentElement, key);
+      // console.log(key, index, parentElement[index])
+      parentElement = parentElement[index];
+    }
+    return parentElement;
+  };
+  var getElement = function(obj, k, i, parentElement) {
 
     // search within _key if there
 
-    var parts = i.toString().split('-');
+    var parts = i.toString().split('-'),
+      found;
 
-    if (parts.length === 3) {
-      parentElement = mag.fill.find(parentElement, parts[1]);
+    if (parts.length >= 3) {
+      // recurse
+      parentElement = getParent(parts, parentElement)
+      found = mag.fill.find(parentElement, k);
+
+    } else {
+
+      var last = parseInt(parts.pop()),
+        index = !isNaN(last) ? last : 0;
+      found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
     }
-
-    var last = parseInt(parts.pop());
-    var index = !isNaN(last) ? last : 0;
-
-    var found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
 
     // first user input field
     var founder = isInput(found);
