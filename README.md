@@ -58,7 +58,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/hebebodeji/edit?js,output)
+[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output)
 
 
 Initial html
@@ -85,7 +85,7 @@ mag.module("hello", {
 ```
 
 ##Examples
-[Boilerplate JSbin](http://jsbin.com/mobotilume/edit) - [Boilerplate Plunker](http://embed.plnkr.co/DKO1djGRkxSndWgphQHL/preview)
+[Boilerplate JSbin](http://jsbin.com/xadinepimo/edit) - [Boilerplate Plunker](http://embed.plnkr.co/DKO1djGRkxSndWgphQHL/preview)
 
 [Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
