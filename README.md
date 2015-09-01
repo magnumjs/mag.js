@@ -58,7 +58,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output)
+[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output)
 
 
 Initial html
