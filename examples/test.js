@@ -28,7 +28,11 @@ mag.module("mathdemo1", {
   view: function(state, props) {
     state.button = {
       _onclick: function() {
-        state.result = parseInt(state.num1) + parseInt(state.num2);
+        if (!state.num1 || !state.num2) {
+          state.result = 'All fields must be filled';
+        } else {
+          state.result = parseInt(state.num1) + parseInt(state.num2);
+        }
       }
     };
   }
@@ -45,13 +49,91 @@ mag.module("mathdemo2", {
 
     state.button = {
       _onclick: function() {
-        state.result = parseInt(state.numbers.num1) + parseInt(state.numbers.num2);
+        if (!state.numbers.num1 || !state.numbers.num2) {
+          state.result = 'All fields must be filled';
+        } else {
+          state.result = parseInt(state.numbers.num1) + parseInt(state.numbers.num2);
+        }
       }
     };
 
   }
 });
 
+
+var mathdemo3 = {};
+
+mathdemo3.view = function(state, props) {
+
+  state.$input = {
+    _config: function() {
+      mag.addons.merge(props, state);
+    },
+    _oninput: function(event, index, node, container) {
+
+      var res = parseInt(state.numbers[container.index].num1) + parseInt(state.numbers[container.index].num2);
+
+      state.numbers[container.index].result = res;
+
+    }
+  };
+
+};
+
+var props = {
+  numbers: [{
+    num1: 2,
+    num2: 2
+  }, {
+    num1: 3,
+    num2: 1
+  }]
+};
+
+mag.module("mathdemo3", mathdemo3, props);
+
+
+
+var mathdemo4 = {};
+
+mathdemo4.controller = function(props) {
+  mag.addons.merge(props, this);
+}
+mathdemo4.view = function(state, props) {
+
+  state.$input = {
+    _oninput: function(event, index, node, container) {
+
+      console.log(state.numbers[container.index].nested[0].test)
+
+      var res = parseInt(state.numbers[container.index].num1) + parseInt(state.numbers[container.index].num2);
+
+      state.numbers[container.index].result = res;
+
+    }
+  };
+
+};
+
+var props = {
+  numbers: [{
+    num1: 2,
+    num2: 2,
+    nested: [{
+      test: '',
+      option: ['momma', 'said', 'yo']
+    }]
+  }, {
+    num1: 3,
+    num2: 1,
+    nested: [{
+      test: '',
+      option: ['momma1', 'said2', 'yo3']
+    }]
+  }]
+};
+
+mag.module("mathdemo4", mathdemo4, props);
 
 var demo = {}
 
