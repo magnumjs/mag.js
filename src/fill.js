@@ -482,7 +482,7 @@
 
     // SELECT|INPUT|TEXTAREA
     // now add the text
-    if (node.nodeName.toLowerCase() === 'input') {
+    if (node.nodeName === 'INPUT') {
       // special case for input elements
       node.setAttribute('value', text.toString());
     } else {
@@ -494,6 +494,23 @@
     for (var i = 0; i < children.length; i += 1) {
       node.appendChild(children[i]);
     }
+    
+    
+    if (node.nodeName === 'SELECT'){
+      node.value=text.toString(); 
+    } 
+    
+  // if (node.nodeName === 'SELECT') {
+  //     for(var k in node.childNodes){
+  //       if(node.childNodes[k].innerText){
+  //         node.childNodes[k].setAttribute('value', node.childNodes[k].innerText);
+  //         if(node.childNodes[k].innerText == text.toString()){
+  //           node.childNodes[k].setAttribute('selected',true);
+  //         }
+  //       }
+  //     }
+  //     node.value=text.toString();
+  // }
   }
   
   function endsWith(str, suffix) {
@@ -613,15 +630,17 @@
 
   // return just the child nodes that are elements
   function childElements(node) {
+        var elements = []
+    if(node){
     var children = node.childNodes
-    var elements = []
-if(children) {
+    if(children) {
     for (var i = 0; i < children.length; i += 1) {
       if (children[i].nodeType === ELEMENT_NODE) {
         elements.push(children[i])
       }
     }
-}
+    }
+    }
     return elements
   }
 
