@@ -279,3 +279,36 @@ mag.hookin('attributes', 'className', function(data) {
   }
   data.key = 'class'
 })
+
+
+// disable add to config
+// http://jsbin.com/qutudiqife/3/edit?js,output
+// define condition func
+// this.show = mag.prop(false);
+
+//define context
+// mag.addons.disable.call(this, 'other', this.show);
+
+mag.addons.disable = function(selector, condition) {
+
+  if (typeof this[selector] !== 'object') {
+    // create object
+    this[selector] = {
+      _value: this[selector]
+    };
+  }
+
+  // add or merge to config if not exists
+  var orig = this[selector]._config ? this[selector]._config : function() {};
+
+  this[selector]._config = function(n) {
+    orig.call(this, arguments);
+    if (condition()) n.setAttribute('disabled', 'disabled');
+    else n.removeAttribute('disabled');
+  };
+}
+
+mag.addons.get = function(parentRootId, selector) {
+  var parent = document.getElementById(parentRootId);
+  return mag.fill.find(parent, selector)
+}
