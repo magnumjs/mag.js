@@ -312,3 +312,15 @@ mag.addons.get = function(parentRootId, selector) {
   var parent = document.getElementById(parentRootId);
   return mag.fill.find(parent, selector)
 }
+
+// mag.addons.toMenu(['one', 'two', 'three'], state.selected())
+// http://jsbin.com/mapuwojumu/3/edit?js,output
+mag.addons.toMenu = function(maps, selected) {
+  return maps.map(function(v, k) {
+    return {
+      _text: v,
+      _value: k,
+      _selected: selected === k || selected === v ? true : null
+    }
+  })
+}
