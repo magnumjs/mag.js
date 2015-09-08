@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.10.6
+Mag.JS AddOns v0.11
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
