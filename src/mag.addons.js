@@ -272,10 +272,13 @@ mag.hookin('attributes', 'key', function(data) {
 })
 
 mag.hookin('attributes', 'className', function(data) {
-  var newClass = data.value
+  var newClass = data.value.split(' ')
   data.value = data.node.classList + ''
-  if (!data.node.classList.contains(newClass)) {
-    data.value = data.node.classList.length > 0 ? data.node.classList + ' ' + newClass : newClass
+  for (var k in newClass){
+    var cls = newClass[k]
+    if (!data.node.classList.contains(cls)) {
+      data.value = data.node.classList.length > 0 ? data.node.classList + ' ' + cls : cls
+    }
   }
   data.key = 'class'
 })
