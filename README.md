@@ -97,6 +97,8 @@ mag.module("hello", {
 *Auto wiring*
 [select menu](http://jsbin.com/rayotexedi/edit?js,output)
 
+[Simple messaging component example](http://jsbin.com/jesivuxumi/edit?html,js,output)
+
 [Hello world with passFail reusable component:]
 (http://jsbin.com/xemugoyehe/edit?js,output)
 
