@@ -13,6 +13,7 @@ var Deferred = function() {
   }
 }
 var FUNCTION = 'function'
+var STRING = '[object String]';
 
 var  $document = document
 
