@@ -145,6 +145,7 @@ mag.addons.copy = function(o) {
 
 mag.addons.merge = function(source, destination) {
   for (var k in source) destination[k] = source[k]
+  return destination;
 }
 
 // return object of getter values
