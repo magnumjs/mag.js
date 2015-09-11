@@ -1,5 +1,5 @@
 /*
-Mag.JS Components v0.11
+Mag.JS Components v0.2
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -116,3 +116,102 @@ mag.comps.tabbed.choosey = function(name, options, parms) {
   var comp = typeof content === 'function' ? content(parms) : content
   return comp
 }
+
+
+
+/*
+// http://jsbin.com/tidomagisi/edit?html,css,js,output
+<div id="messaging">
+  <div class="messages">
+  </div>
+</div>
+<div id="message">
+  <div><i></i> <span></span>
+  </div>
+</div>
+
+mag.module('messaging', mag.comps.messaging.Messaging, {
+  message: 'All fields are required!',
+  className: 'error'
+})
+    
+*/
+
+
+//specific attached comp namespace
+mag.comps.messaging = {}
+
+// Model collection
+;(function(MessageModel) {
+
+  MessageModel.messages = [];
+
+  MessageModel.getMessages = function() {
+    return MessageModel.messages;
+  }
+  MessageModel.addMessage = function(data) {
+    MessageModel.getMessages().push(data)
+  }
+  MessageModel.removeMessage = function(index) {
+    MessageModel.getMessages().splice(index, 1);
+  }
+  MessageModel.removeAllMessage=function(){
+    MessageModel.getMessages().splice(0,MessageModel.getMessages().length);
+  }
+})(mag.comps.messaging.MessageModel = {});
+
+
+
+// component list
+mag.comps.messaging.Messaging = {
+  messageClass: 'simple-alert', // over ride with props
+  controller: function(props) {
+
+    mag.comps.messaging.MessageModel.addMessage({
+      message: props.message,
+      className: props.className
+    });
+
+    // maintain state with our collection
+    this.messageList = mag.comps.messaging.MessageModel.getMessages();
+
+    // handler call back
+    props.handleMessageRemove = function(index) {
+      mag.comps.messaging.MessageModel.removeMessage(index);
+    }
+  },
+  view: function(state, props, element) {
+    // map our collection to a sub component's clone to array of promises
+    var messages = state.messageList.map(function(mess) {
+
+      //cloning module template returns promise
+      return mag.module("message", mag.comps.messaging.Message,
+        // merge mess item with handle function
+        mag.addons.merge({
+          onMessageRemove: props.handleMessageRemove
+        }, mess),
+        // try = clone module template
+        true);
+
+    });
+
+    // when the async module loading is completed add to state property
+    mag.addons.sync.call(state, messages, 'messages');
+  }
+};
+
+// component item
+mag.comps.messaging.Message = {
+  view: function(state, props) {
+    state.div = {
+      i: {
+        _onclick: function(Event, index, Element, objData) {
+          // parent component property event handler
+          props.onMessageRemove(objData.index);
+        }
+      },
+      _class: props.className + ' ' + mag.comps.messaging.Messaging.messageClass,
+    }
+    state.span = props.message
+  }
+};
