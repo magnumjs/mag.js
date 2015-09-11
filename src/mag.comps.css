@@ -1,0 +1,28 @@
+/** MagJS - Comp - Messaging **/
+
+.simple-alert {
+  height: 70px;
+  padding: 20px;
+  border: solid 1px #ebebeb;
+  color: white;
+  vertical-align: middle;
+}
+.simple-alert i {
+  display: inline-block;
+  font-style: normal;
+  cursor: pointer;
+}
+.simple-alert i:before {
+  content: '✖';
+}
+.simple-alert.default {
+  background-color: blue;
+}
+.simple-alert.success {
+  background-color: green;
+}
+.simple-alert.error {
+  background-color: red;
+}
+
+/** MagJS - Comp - Messaging **/
