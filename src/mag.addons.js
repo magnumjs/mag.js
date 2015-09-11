@@ -234,6 +234,7 @@ mag.deferred = function() {
 }
 
 mag.addons.when = function(arrayOfPromises, callback) {
+  arrayOfPromises = Array.isArray(arrayOfPromises) ? arrayOfPromises : [arrayOfPromises];
   Promise.all(arrayOfPromises).then(callback)
 }
 
