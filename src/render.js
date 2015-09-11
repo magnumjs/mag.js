@@ -4,12 +4,13 @@
   'use strict';
 
   var render = {
-    roots: [],
-    contexts: [],
-    templates: {},
-    unloaders: [],
-    cache: {}
-  }, iscached = function(key, data) {
+      roots: [],
+      contexts: [],
+      templates: {},
+      unloaders: [],
+      cache: {}
+    },
+    iscached = function(key, data) {
       if (render.cache[key] && render.cache[key] === JSON.stringify(data)) {
         return true
       }
@@ -17,16 +18,16 @@
     }
 
 
-    function callView(elementClone, module, i) {
-      var args = module.getArgs(i),
-        mod = module.modules[i],
-        controller = module.controllers[i]
+  function callView(elementClone, module, i) {
+    var args = module.getArgs(i),
+      mod = module.modules[i],
+      controller = module.controllers[i]
 
-      if (mod) mod.view(args[0], elementClone)
-    }
+    if (mod) mod.view(args[0], elementClone)
+  }
 
 
-    // call Lifecycle event
+  // call Lifecycle event
   render.callLCEvent = function(eventName, module, index, once) {
     var isPrevented = false,
       event = {
@@ -99,17 +100,17 @@
         } else {
           module.deferreds[i][1]({
             _html: mag.prop(module.elements[i])
-            // _html: function(node){ return node }.bind({}, module.elements[i])
-            // _html : function(node){return fill.cloneNodeWithEvents(node)}.bind({}, module.elements[i]) 
-            //clone: fill.cloneNodeWithEvents(module.elements[i])
-            //_html: module.elements[i].innerHTML
+              // _html: function(node){ return node }.bind({}, module.elements[i])
+              // _html : function(node){return fill.cloneNodeWithEvents(node)}.bind({}, module.elements[i]) 
+              //clone: fill.cloneNodeWithEvents(module.elements[i])
+              //_html: module.elements[i].innerHTML
           })
           render.callLCEvent('didload', module, i, 1)
           render.callConfigs(fill.configs)
 
           // add configs unloaders
           addConfigUnloaders(module, fill, i)
-          //TODO: remove clones
+            //TODO: remove clones
           if (module.deferreds[i][0]) {
             delete module.elements[i]
             delete module.modules[i]
@@ -158,7 +159,7 @@
     render.callLCEvent('willupdate', module, i, 1)
 
     var args = module.getArgs(i)
-    // check if data changed
+      // check if data changed
     if (iscached(i, args)) {
       render.callLCEvent('didupdate', module, i)
       return
@@ -173,24 +174,23 @@
 
   render.setupWatch = function(args, fill, elementClone, i, module) {
 
+    // console.log('setup', i)
+
     var observer = function(changes) {
 
-      changes.forEach(function(change) {
+        changes.forEach(function(change) {
 
-        if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
-          // call unloader for module
-          render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
-          //console.log(change.name,change.object[change.name].data, change.oldValue.data)
-        }
-      });
+          if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
+            // call unloader for module
+            render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
+              //console.log(change.name,change.object[change.name].data, change.oldValue.data)
+          }
+        });
 
-      module.controllers[i] = args[0]
-      throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
-    }
-    // Which we then observe
-    if(observeHandler && args[0] && typeof Object.unobserve !== 'undefined') {
-       Object.unobserve(args[0], observeHandler);
-    }
+        module.controllers[i] = args[0]
+        throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+      }
+      // Which we then observe
     observeNested(args[0], observer);
   }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
@@ -261,12 +261,13 @@
     }
   }
 
-var observeHandler
+
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
-      observeHandler = debounce(callback, 16)
+      var handler = debounce(callback, 16)
       notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, observeHandler);
+      Object.observe(obj, handler);
+      Object.unobserve(obj, handler);
     }
   }
 
