@@ -44,7 +44,7 @@
     var prop = function() {
       if (arguments.length) {
         store = arguments[0]
-        // too much ?
+          // too much ?
         mag.redraw()
       }
       return store
@@ -53,7 +53,7 @@
     // do we still need this?
     // TODO: value hookin?
     prop.type = 'fun'
-    // extra custom data to pass - used by the unloader event
+      // extra custom data to pass - used by the unloader event
     prop.data = custom ? custom : null
 
     prop.toJSON = function() {
@@ -96,11 +96,11 @@
         k: data.key
       })
       hookins[name][i].handler.call(hookins[name][i].context, data)
-      //if any change
+        //if any change
       if (before !== JSON.stringify({
-        v: data.value,
-        k: data.key
-      })) {
+          v: data.value,
+          k: data.key
+        })) {
         data.change = true
       }
     }
@@ -165,8 +165,8 @@
 
     module.promises[index] = new Promise(function(resolve, reject) {
       module.deferreds[index] = arguments
-      // call onload if present in controller
-      // if (controller.onload && !mag.running) render.callOnload(module)
+        // call onload if present in controller
+        // if (controller.onload && !mag.running) render.callOnload(module)
     }.bind({}, clone))
 
     //INTERPOLATIONS
@@ -189,9 +189,9 @@
     return propify(module.promises[index], {
       // _html: fill.cloneNodeWithEvents(module.elements[index])
       _html: mag.prop(module.elements[index])
-      // _html: function() {
-      // return module.elements[index]
-      // }
+        // _html: function() {
+        // return module.elements[index]
+        // }
     }, {
       type: 'module',
       id: index
