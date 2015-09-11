@@ -10,53 +10,53 @@
     UNDEFINED = 'undefined',
     MAGNUM_KEY = '_key'
 
-    // helper method to detect arrays -- silly javascript
-    function _isArray(obj) {
-      return Object.prototype.toString.call(obj) === '[object Array]'
+  // helper method to detect arrays -- silly javascript
+  function _isArray(obj) {
+    return Object.prototype.toString.call(obj) === '[object Array]'
+  }
+
+
+  function getPathTo(element) {
+    if (element.id !== '')
+      return 'id("' + element.id + '")';
+    if (element === document.body)
+      return element.tagName;
+
+    var ix = 0;
+    if (!element.parentNode) return
+    var siblings = element.parentNode.childNodes;
+    for (var i = 0; i < siblings.length; i++) {
+      var sibling = siblings[i];
+      if (sibling === element)
+        return getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+      if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
+        ix++;
     }
+  }
 
-
-    function getPathTo(element) {
-      if (element.id !== '')
-        return 'id("' + element.id + '")';
-      if (element === document.body)
-        return element.tagName;
-
-      var ix = 0;
-      if (!element.parentNode) return
-      var siblings = element.parentNode.childNodes;
-      for (var i = 0; i < siblings.length; i++) {
-        var sibling = siblings[i];
-        if (sibling === element)
-          return getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
-        if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
-          ix++;
-      }
-    }
-
-    function removeNode(node) {
-      // console.log('read inside removeNode')
-      var p = getPathTo(node)
+  function removeNode(node) {
+    // console.log('read inside removeNode')
+    var p = getPathTo(node)
       // remove cache of all children too
 
-      node.parentNode.removeChild(node)
+    node.parentNode.removeChild(node)
       // call config unload if any ?
 
-      //console.log(p, cached[p])
-      if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
-        // what arg to send ?
-        cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
-      }
+    //console.log(p, cached[p])
+    if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
+      // what arg to send ?
+      cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
     }
+  }
 
-    // TODO: get index from getPathTo function
-    function getPathIndex(p) {
+  // TODO: get index from getPathTo function
+  function getPathIndex(p) {
 
-      var s = p && parseInt(p.split('[').pop().slice(0, -1))
+    var s = p && parseInt(p.split('[').pop().slice(0, -1))
 
-      if (!s) return 0
-      return parseInt(s) - 1
-    }
+    if (!s) return 0
+    return parseInt(s) - 1
+  }
 
 
   var templates = {},
@@ -69,7 +69,7 @@
 
 
 
-      // there is nothing to do if there is nothing to fill
+    // there is nothing to do if there is nothing to fill
     if (!nodeList) return
 
     // remove all child nodes if there is no data
@@ -99,8 +99,8 @@
 
       if (elements.length === 0) {
         gkeys[key] = 0
-        // should never reach here
-        // cannot fill empty nodeList with an array of data
+          // should never reach here
+          // cannot fill empty nodeList with an array of data
         return
       }
       // clone the first node if more nodes are needed
@@ -140,28 +140,28 @@
 
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
- 
+
 
         // changes data can cause recursion!
 
         var data = data.map(function(d, i) {
 
-          if (typeof d === 'object') {
-            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = elements[i].__key
-              return d
+            if (typeof d === 'object') {
+              if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+                d[MAGNUM_KEY] = elements[i].__key
+                return d
+              }
+              if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+                d[MAGNUM_KEY] = MAGNUM + i
+                  //d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
+              }
+              //console.log(d[MAGNUM_KEY], i)
+              elements[i].__key = d[MAGNUM_KEY]
             }
-            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = MAGNUM + i
-              //d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
-            }
-            //console.log(d[MAGNUM_KEY], i)
-            elements[i].__key = d[MAGNUM_KEY]
-          }
 
-          return d
-        })
-        //console.log(key, data)
+            return d
+          })
+          //console.log(key, data)
       }
       if (elements.length > data.length) {
         if (data.length === 0 || typeof data[0] !== 'object') {
@@ -180,15 +180,15 @@
           // remove elements that don't have matching data keys
 
           var found = []
-          // get all data keys
+            // get all data keys
           var m = data.map(function(i) {
-            return i[MAGNUM_KEY]
-          })
-          //console.log('m keys', m)
+              return i[MAGNUM_KEY]
+            })
+            //console.log('m keys', m)
           var k = elements.map(function(i) {
-            return i.__key
-          })
-          //console.log('e keys', k)
+              return i.__key
+            })
+            //console.log('e keys', k)
 
           var elements = elements.filter(function(ele, i) {
             if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
@@ -219,7 +219,7 @@
         //TODO: is this a child of an array?
         if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
           elements[i][MAGNUM] = elements[i][MAGNUM] || {}
-          //console.log(data, i)
+            //console.log(data, i)
           elements[i][MAGNUM].isChildOfArray = true
           elements[i][MAGNUM].dataPass = data
         }
@@ -246,10 +246,14 @@
       element,
       elements
 
-      // ignore functions
-    if (typeof data === FUNCTION) {
+    // ignore functions
+    if (typeof data === FUNCTION && typeof data()._html !== FUNCTION) {
       return
     }
+
+    if (typeof data !== 'object' && typeof data === FUNCTION && typeof data()._html === FUNCTION) return fillNode(node, {
+      _html: data()._html
+    })
 
 
     // if the value is a simple property wrap it in the attributes hash
@@ -297,7 +301,7 @@
     }
 
     var index = 0,
-      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload','isupdate']
+      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
       // look for non-attribute keys and recurse into those elements
     for (var key in data) {
 
@@ -313,7 +317,9 @@
         // function 
         if (typeof value === FUNCTION && value.type == 'fun') {
           // try {
+
           value = value()
+
           // } catch (e) {}
         }
 
@@ -362,11 +368,11 @@
       tagIndex = getPathIndex(p)
 
 
-      // attach to topId so can be removed later
+    // attach to topId so can be removed later
 
-     // node._events = node._events || []
+    // node._events = node._events || []
 
-      // set the rest of the attributes
+    // set the rest of the attributes
     for (var attrName in attributes) {
 
       // skip text and html, they've already been set
@@ -374,7 +380,7 @@
 
       // events
       if (attrName.indexOf('on') == 0) {
-        
+
         var eventCall = function(fun, node, e) {
 
           var dataParent = findParentChild(node),
@@ -389,8 +395,8 @@
               index: parentIndex
             }
           var ret = fun.call(node, e, tagIndex, node, parent)
-          // what ret is a promise
-          //if(ret.then && ret.then == FUNCTION)
+            // what ret is a promise
+            //if(ret.then && ret.then == FUNCTION)
           mag.redraw()
           return ret
         }.bind({}, attributes[attrName], node)
@@ -434,7 +440,7 @@
           node: node
         }
         mag.hook('attributes', attrName, data)
-        // change
+          // change
         if (data.change) {
           attrName = data.key
           attributes[attrName] = data.value
@@ -459,7 +465,7 @@
   function setText(node, text, xpath) {
     var child, children
 
-      // make sure that we have a node and text to insert
+    // make sure that we have a node and text to insert
     if (!node || text == null) {
       return
     }
@@ -494,35 +500,35 @@
     for (var i = 0; i < children.length; i += 1) {
       node.appendChild(children[i]);
     }
-    
-    
-    if (node.nodeName === 'SELECT'){
-      node.value=text.toString(); 
-    } 
-    
-  // if (node.nodeName === 'SELECT') {
-  //     for(var k in node.childNodes){
-  //       if(node.childNodes[k].innerText){
-  //         node.childNodes[k].setAttribute('value', node.childNodes[k].innerText);
-  //         if(node.childNodes[k].innerText == text.toString()){
-  //           node.childNodes[k].setAttribute('selected',true);
-  //         }
-  //       }
-  //     }
-  //     node.value=text.toString();
-  // }
+
+
+    if (node.nodeName === 'SELECT') {
+      node.value = text.toString();
+    }
+
+    // if (node.nodeName === 'SELECT') {
+    //     for(var k in node.childNodes){
+    //       if(node.childNodes[k].innerText){
+    //         node.childNodes[k].setAttribute('value', node.childNodes[k].innerText);
+    //         if(node.childNodes[k].innerText == text.toString()){
+    //           node.childNodes[k].setAttribute('selected',true);
+    //         }
+    //       }
+    //     }
+    //     node.value=text.toString();
+    // }
   }
-  
+
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
-}
+  }
 
   function addCloneId(html, index) {
     // change id
     if (html.cloner) {
 
       // check if already has
-      html.id = MAGNUM  + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index)?index:'')
+      html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
 
     }
   }
@@ -616,7 +622,7 @@
         node: node
       }
       mag.hook('elementMatcher', key, data)
-      //hookin change
+        //hookin change
       if (data.change) {
         //console.log('change to elementMatcher key - ' + key, data)
         // TODO: return a custom element for unmatched one ?
@@ -630,16 +636,16 @@
 
   // return just the child nodes that are elements
   function childElements(node) {
-        var elements = []
-    if(node){
-    var children = node.childNodes
-    if(children) {
-    for (var i = 0; i < children.length; i += 1) {
-      if (children[i].nodeType === ELEMENT_NODE) {
-        elements.push(children[i])
+    var elements = []
+    if (node) {
+      var children = node.childNodes
+      if (children) {
+        for (var i = 0; i < children.length; i += 1) {
+          if (children[i].nodeType === ELEMENT_NODE) {
+            elements.push(children[i])
+          }
+        }
       }
-    }
-    }
     }
     return elements
   }
