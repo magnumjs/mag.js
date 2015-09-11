@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.11
+Mag.JS AddOns v0.12
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -326,4 +326,13 @@ mag.addons.toMenu = function(maps, selected) {
       _selected: selected === k || selected === v ? true : null
     }
   })
+}
+
+// when the async module loading is completed
+// mag.addons.sync.call(state, messages, 'messages');
+mag.addons.sync=function(promises, prop){
+      mag.addons.when(promises, function(data) {
+      this[prop] = data;
+      mag.redraw()
+    }.bind(this))
 }
