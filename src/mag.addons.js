@@ -234,7 +234,6 @@ mag.deferred = function() {
 }
 
 mag.addons.when = function(arrayOfPromises, callback) {
-  arrayOfPromises = Array.isArray(arrayOfPromises) ? arrayOfPromises : [arrayOfPromises];
   Promise.all(arrayOfPromises).then(callback)
 }
 
@@ -333,8 +332,15 @@ mag.addons.toMenu = function(maps, selected) {
 // when the async module loading is completed
 // mag.addons.sync.call(state, messages, 'messages');
 mag.addons.sync=function(promises, prop){
+  if(Array.isArray(promises)){
       mag.addons.when(promises, function(data) {
       this[prop] = data;
       mag.redraw()
     }.bind(this))
+  } else {
+    promises.then(function(data){
+      this[prop] = data;
+      mag.redraw()
+    }.bind(this))
+  }
 }
