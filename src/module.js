@@ -113,7 +113,6 @@
     return args
   }
 
-  var added = [];
   var getParent=function(parts, parentElement){
         for (var i=1;i<parts.length; i+=2){
           var key = parts[i];
@@ -177,6 +176,7 @@
       var founderCall = getElement.bind({}, obj, k, i, element);
       founderCall();
       Object.defineProperty(obj, k, {
+        configurable: true,
         get: function() {
           var founder = founderCall();
           
@@ -199,7 +199,7 @@
 
     // call fill to get and assign
 
-    if (!added[i]) added[i] = [];
+    //if (!added[i]) added[i] = [];
 
     for (var k in args) {
 
@@ -208,10 +208,10 @@
         attachToArgs(i + '-' + k, args[k], element);
       } else {
 
-        if (!added[i][k]) {
+        //if (!added[i][k]) {
           attacher(i, k, args, element);
-          added[i][k] = true;
-        }
+        //  added[i][k] = true;
+       // }
       }
     }
   }
