@@ -1,3 +1,198 @@
+// data model - uniform access principle
+
+
+// model & service
+var CommentService = function(data) {
+  data = data || {}
+  this.author = data.author
+  this.text = data.text
+}
+
+CommentService.comments = [];
+
+CommentService.list = function(comments) {
+  //local storage implementation
+
+  var Deferred = mag.deferred()
+
+  setTimeout(function() {
+
+    if (comments) {
+      CommentService.comments = comments;
+    }
+    Deferred.resolve(CommentService.comments)
+  }, 1000)
+
+  return Deferred.promise;
+}
+CommentService.save = function(comment) {
+
+  var Deferred = mag.deferred()
+
+  setTimeout(function() {
+
+    CommentService.list().then(function(data) {
+      CommentService.comments = data.concat([comment]);
+
+      Deferred.resolve(CommentService.comments)
+    }, 500)
+  })
+
+  return Deferred.promise;
+}
+
+var CommentBox = {}
+
+CommentBox.controller = function(props) {
+
+  var commentService = new props.CommentService(props)
+
+  // load default or initial comments from service - sync with state
+
+  this.data = props.CommentService.list(props.data);
+
+}
+
+
+
+CommentBox.view = function(state, props) {
+
+  mag.module('CommentList', CommentList, {
+    data: Array.isArray(state.data) ? state.data : [],
+    CommentService: props.CommentService,
+  })
+
+}
+
+var CommentList = {
+  view: function(state, props) {
+
+    state.comment = props.data.map(function(comment) {
+      // clone component returns a promise instance
+      return mag.module('Comment', Comment, new props.CommentService(comment), true)
+    })
+
+  }
+}
+
+var Comment = {
+  view: function(state, props) {
+    state.commentAuthor = props.author
+    state.span = props.text
+  }
+}
+
+var props = {
+  CommentService: CommentService,
+  data: [{
+    "author": "Pete Hunt",
+    "text": "This is one comment"
+  }, {
+    "author": "Michael Glazer",
+    "text": "willLoad & didLoad lifecycle events needed"
+  }]
+}
+
+mag.module("CommentBox", CommentBox, props)
+
+/** Mag.JS - simple messaging component **/
+
+/** inspired by the following **/
+
+//http://callmenick.com/post/javascript-objects-building-javascript-component-part-1
+//http://jsbin.com/cahudumaxe/edit?html,js,output
+
+// Model collection
+var MessageModel = {}
+MessageModel.messages = [];
+MessageModel.getMessages = function() {
+  return MessageModel.messages;
+}
+MessageModel.addMessage = function(data) {
+  MessageModel.messages.push(data)
+}
+MessageModel.removeMessage = function(index) {
+  MessageModel.messages.splice(index, 1);
+}
+
+// component list
+var Messaging = {
+  messageClass: 'simple-alert', // over ride with props
+  controller: function(props) {
+
+    MessageModel.addMessage({
+      message: props.message,
+      className: props.className
+    });
+
+    this.messages = [];
+    // maintain state with our collection
+    this.messageList = MessageModel.getMessages();
+
+    // handler call back
+    props.handleMessageRemove = function(index) {
+      MessageModel.removeMessage(index);
+    }
+  },
+  view: function(state, props, element) {
+    // map our collection to a sub component's clone to array of promises
+    var messages = state.messageList.map(function(mess) {
+
+      //cloning module template returns promise
+      return mag.module("message", Message,
+        // merge mess item with handle function
+        mag.addons.merge({
+          onMessageRemove: props.handleMessageRemove
+        }, mess),
+        // try = clone module template
+        true);
+
+    });
+
+    state.messages = messages;
+
+    // when the async module loading is completed add to state property
+    // mag.addons.sync.call(state, messages, 'messages');
+  }
+};
+
+// component item
+var Message = {
+  view: function(state, props) {
+    state.div = {
+      i: {
+        _onclick: function(Event, index, Element, objData) {
+          // parent component property event handler
+          props.onMessageRemove(objData.index);
+        }
+      },
+      _class: props.className + ' ' + Messaging.messageClass,
+    }
+    state.span = props.message
+  }
+};
+
+// component container
+mag.module("Messaging", {
+  view: function(state, props) {
+    // greedy selector '$' all buttons
+    state.$button = {
+      _onclick: function() {
+        var message = this.className;
+        // initialize component with properties
+        mag.module('messaging', Messaging, {
+          message: message,
+          className: message
+        })
+      }
+    }
+  }
+});
+
+
+
+
+
 // descriptive todos example - no shortcuts
 var todos = {}
 
@@ -16,9 +211,9 @@ todos.controller = function(props) {
       _config: function(node, isNew, context, index) {
         //console.log(isNew, index)
         context.onunload = function() {
-          console.log('unloaded')
-        }
-        //node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
+            console.log('unloaded')
+          }
+          //node.querySelector('input').checked = node.getAttribute('completed') == 'true' ? true : false
       }
     }
     this.todoItem().push(item)
@@ -36,6 +231,7 @@ todos.controller = function(props) {
         return item
       }
     }))
+    console.log('test', this.todoItem().length)
     return false
   }.bind(this)
 }
