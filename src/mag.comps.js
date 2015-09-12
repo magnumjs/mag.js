@@ -1,5 +1,5 @@
 /*
-Mag.JS Components v0.2
+Mag.JS Components v0.3
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -182,7 +182,8 @@ mag.comps.messaging.Messaging = {
   },
   view: function(state, props, element) {
     // map our collection to a sub component's clone to array of promises
-    var messages = state.messageList.map(function(mess) {
+    // when the async module loading is completed add to state property
+    state.messages = state.messageList.map(function(mess) {
 
       //cloning module template returns promise
       return mag.module("message", mag.comps.messaging.Message,
@@ -195,8 +196,6 @@ mag.comps.messaging.Messaging = {
 
     });
 
-    // when the async module loading is completed add to state property
-    mag.addons.sync.call(state, messages, 'messages');
   }
 };
 
