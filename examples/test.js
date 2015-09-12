@@ -11,6 +11,8 @@ mag.module("mathdemo", {
     state.button = {
       _onclick: function() {
         state.result = parseInt(state.num1()) + parseInt(state.num2());
+
+        state.num1(0);
       }
     };
 
@@ -32,6 +34,10 @@ mag.module("mathdemo1", {
           state.result = 'All fields must be filled';
         } else {
           state.result = parseInt(state.num1) + parseInt(state.num2);
+
+          state.num1 = 10;
+
+          console.log(state.num1)
         }
       }
     };
@@ -135,6 +141,53 @@ var props = {
 
 mag.module("mathdemo4", mathdemo4, props);
 
+
+function myfun(comments) {
+  var Deferred = mag.deferred()
+
+  setTimeout(function() {
+
+    Deferred.resolve('tester')
+  })
+
+  return Deferred.promise;
+}
+
+mag.module("mathdemo5", {
+  controller: function() {
+
+    this.willload = function() {
+
+      myfun().then(function() {
+        this.data = 'test'
+      }.bind(this))
+
+
+    }.bind(this)
+  },
+  view: function(state, props) {
+
+    var res = mag.module('mathdemo6', {
+      controller: function() {
+        console.log('init')
+        this.author = '';
+      },
+      view: function(state) {
+        state.add = {
+          _onclick: function(e) {
+            e.preventDefault();
+            console.log(state.author);
+            return false;
+          }
+        }
+      }
+    }, {})
+
+    state.result = res;
+  }
+});
+
+
 var demo = {}
 
 demo.controller = function(p) {
@@ -156,19 +209,19 @@ demo.view = function(s, p) {
     }
   }
 
-  mag.module('CommentList', CommentList, {
+  mag.module('CommentList', CommentList1, {
     data: p.data
   })
 
 }
 
-var CommentList = {
+var CommentList1 = {
   view: function(s, p) {
     //console.log('view', p.data.length)
 
     var promises = p.data.map(function(comment) {
       //console.log('name: ', comment.name)
-      return mag.module('Comment', Comment, {
+      return mag.module('Comment', Comment1, {
         name: comment.name
       }, 1)
 
@@ -185,7 +238,7 @@ var CommentList = {
   }
 }
 
-var Comment = {
+var Comment1 = {
   view: function(s, p) {
     s.span = p.name
   }
