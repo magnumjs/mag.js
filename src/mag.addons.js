@@ -26,7 +26,7 @@ mag.namespace = function (ns, obj) {
   obj = obj || this; //if no object argument supplied declare a global property
   obj[first] = obj[first] || {}; // initialize the "level"
   if (levels.length) { // recursion condition
-    return namespace(levels.join('.'), obj[first]);
+    return mag.namespace(levels.join('.'), obj[first]);
   }
   return obj[first]; // return a reference to the top level object
 }
