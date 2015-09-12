@@ -85,7 +85,7 @@ mag.module("hello", {
 ```
 
 ##Examples
-[Boilerplate JSbin](http://jsbin.com/xadinepimo/edit) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/preview)
+[Boilerplate JSbin](http://jsbin.com/xadinepimo/edit) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/preview) - [Boilerplate Plunker Modular](http://embed.plnkr.co/S1Ks3qNIG6g4SGd7LfBk/preview)
 
 [Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
 (since v0.6.1, auto redraw called on event - mag.prop not necessary) 
