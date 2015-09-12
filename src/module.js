@@ -213,10 +213,32 @@
 
     for (var k in args) {
 
-      if (typeof args[k] === 'object') {
+      var value = args[k]
+
+      if (Array.isArray(value) && value[0] && typeof value[0].then !== 'undefined' && typeof value[0].type != 'fun') {
+
+        Promise.all(value).then(function(args, k, val) {
+          if (val) {
+            args[k] = val
+            mag.redraw()
+          }
+        }.bind(this, args, k))
+
+      } else if (typeof value === 'object' && typeof value.then === 'undefined') {
         // recurse
-        attachToArgs(i + '-' + k, args[k], element);
+        attachToArgs(i + '-' + k, value, element);
       } else {
+
+        if (value && !Array.isArray(value) && typeof value.then !== 'undefined' && typeof value.type != 'fun') {
+          // promise
+          value.then(function(args, k, val) {
+            if (val) {
+              args[k] = val
+              mag.redraw()
+            }
+          }.bind(this, args, k))
+
+        }
 
         //if (!added[i][k]) {
         attacher(i, k, args, element);
