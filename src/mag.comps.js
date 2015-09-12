@@ -9,6 +9,16 @@ var mag = mag || {}
 
 mag.comps ={}
 
+// wrapper function for mag.module
+// var CommentsComponent = mag.comp("CommentBox", CommentBox, props);
+// CommentsComponent()
+mag.comp = function(id, module, props, clone){
+  return function(props2, clone2){
+    // merge props?
+    return mag.module(id, module, props2 || props, clone2 || clone);
+  }
+}
+
 /*
 <div id="passFail">
   <message/>
