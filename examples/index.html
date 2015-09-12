@@ -9,6 +9,36 @@
 
 <body>
 
+
+
+  <div id="CommentBox">
+    <h1>Comments</h1>
+    <div id="CommentList">
+      <div class="comment">
+      </div>
+    </div>
+    <div id="Comment">
+      <h2 class="commentAuthor">
+        </h2>
+      <span></span>
+    </div>
+  </div>
+
+  <div id="Messaging">
+    <h2>Messaging</h2>
+    <button class="default">Show default message</button>
+    <button class="success">Show success message</button>
+    <button class="error">Show error message</button>
+    <div id="messaging">
+      <div class="messages">
+      </div>
+    </div>
+    <div id="message">
+      <div><i></i> <span></span>
+      </div>
+    </div>
+  </div>
+
   <div id="mathdemo">
     <form onsubmit="return false">
       1st Number :
@@ -76,6 +106,18 @@
       <num2></num2> = Sum :
       <result></result>
     </div>
+  </div>
+
+
+  <div id="mathdemo5">
+    inner component
+    <div id="mathdemo6">
+      <input name="author" type="text" placeholder="Your name" />
+      <input name="text" type="text" placeholder="Say something..." />
+      <input class="add" type="submit" value="Post" />
+    </div>
+    <br/> Sum :
+    <result></result>
   </div>
 
   <div id="Comment" class="">
@@ -327,9 +369,10 @@
 
   <script src="//rawgit.com/magnumjs/mag.js/master/src/addons/ajax.js"></script>
   <script src="//rawgit.com/magnumjs/mag.js/master/src/mag.addons.js"></script>
+  <script src="//rawgit.com/magnumjs/mag.js/master/src/mag.comps.js"></script>
   <script src="utils.js"></script>
   <script src="//rawgit.com/magnumjs/mag.js/master/src/addons/route.js"></script>
-  
+
   <script src="test.js"></script>
   <script src="contacts.js"></script>
   <script src="filter.js"></script>
