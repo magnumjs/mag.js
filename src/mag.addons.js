@@ -1,10 +1,36 @@
 /*
-Mag.JS AddOns v0.12
+Mag.JS AddOns v0.12.1
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
 
 var mag = mag || {}
+
+/*
+module library creation with single global namespace / package names
+(function(namespace) {
+
+  var mod = {
+    controller:function(props){
+    },
+    view: function(state, props) {
+    }
+  }
+
+  namespace.CommentBox = mod;
+
+})(mag.namespace('mglazer.mods.comments'));
+*/
+mag.namespace = function (ns, obj) {
+   var   levels = ns.split('.'), first = levels.shift();
+  obj = obj || this; //if no object argument supplied declare a global property
+  obj[first] = obj[first] || {}; // initialize the "level"
+  if (levels.length) { // recursion condition
+    return namespace(levels.join('.'), obj[first]);
+  }
+  return obj[first]; // return a reference to the top level object
+}
+
 
 mag.addons = {};
 // helper function for non proxy supported browser i.e. NOT firefox
