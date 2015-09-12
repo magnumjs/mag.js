@@ -15,7 +15,7 @@ mag.comps ={}
 mag.comp = function(id, module, props, clone){
   return function(props2, clone2){
     // merge props?
-    return mag.module(id, module, props2 || props, clone2 || clone);
+    return mag.module(id, module, props2 || props, typeof clone2 !=='undefined'? clone2 : clone);
   }
 }
 
