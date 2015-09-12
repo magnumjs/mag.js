@@ -195,7 +195,7 @@ mag.module("hello", {
 [Comment Box:]
 (http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
 (https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/tejabayowa/edit?js,output),
-[Take 2](http://jsbin.com/davapupufo/edit?js,output)
+[Take 2](http://jsbin.com/davapupufo/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/ViPC0XAYYhmePnuUCorD/preview)
 
 [Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/preview)
 
