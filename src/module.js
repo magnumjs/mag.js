@@ -159,7 +159,7 @@
   function isInput(items) {
 
     for (var k in items) {
-      if (['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1) {
+      if (items[k] && ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1) {
         return items[k];
       }
     }
