@@ -13,12 +13,12 @@
 
 
   mod.getController = function(module, element, fill) {
-    var controller
+    //var controller
 
     // FireFox support only
     // Removing since we are now native with Object.observe which is only Chrome & Opera
 
-
+    /*
     if (typeof Proxy !== 'undefined') {
       controller = new Proxy(new module.controller, {
         get: function(target, prop) {
@@ -56,8 +56,8 @@
     } else {
       controller = new module.controller
     }
-
-    return controller
+    */
+    return new module.controller
   }
 
   // function deepFreeze(o) {
@@ -126,7 +126,7 @@
   var getElement = function(obj, k, i, parentElement) {
 
     // search within _key if there
-    var parts = i.toString().split('-'),
+    var parts = i.toString().split('.'),
       found;
 
     if (parts.length >= 3) {
@@ -168,7 +168,7 @@
   var attacher = function(i, k, obj, element) {
     var oval = obj[k];
     // if k =='_value' use parent
-    if (k === '_value') k = i.split('-').pop();
+    if (k === '_value') k = i.split('.').pop();
 
     // only for user input fields
     var found = mag.fill.find(element, k);
@@ -215,10 +215,11 @@
 
       var value = args[k]
 
-      if (Array.isArray(value) && value[0] && typeof value[0].then !== 'undefined' && typeof value[0].type != 'fun') {
-
+      if (Array.isArray(value) && value[0] && !value[0].__$$i && typeof value[0].then !== 'undefined' && typeof value[0].type != 'fun') {
+        value[0].__$$i = 1
         Promise.all(value).then(function(args, k, val) {
           if (val) {
+            value[0].__$$i == 0
             args[k] = val
             mag.redraw()
           }
@@ -226,13 +227,14 @@
 
       } else if (typeof value === 'object' && typeof value.then === 'undefined') {
         // recurse
-        attachToArgs(i + '-' + k, value, element);
+        attachToArgs(i + '.' + k, value, element);
       } else {
-
-        if (value && !Array.isArray(value) && typeof value.then !== 'undefined' && typeof value.type != 'fun') {
-          // promise
+        if (value && !Array.isArray(value) && !value.__$$i && typeof value.then !== 'undefined' && typeof value.type != 'fun') {
+          value.__$$i = 1
+            // promise
           value.then(function(args, k, val) {
             if (val) {
+              args[k].__$$i = 0
               args[k] = val
               mag.redraw()
             }
