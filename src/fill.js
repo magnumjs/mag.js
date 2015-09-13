@@ -540,31 +540,40 @@
     if (!node || html == null) return;
 
     // remove all children
-    while (node.firstChild) {
-      node.removeChild(node.firstChild);
-    }
+    // while (node.firstChild) {
+    //   node.removeChild(node.firstChild);
+    // }
+
 
     if (typeof html === FUNCTION && html().nodeType === 1) {
 
-      //console.log(node.children.length, node.id, html().id)
 
       addCloneId(html(), tagIndex)
 
+      // var sp1 = document.createElement("span")
+      // node.appendChild(sp1)
+      // node.replaceChild(html(), sp1);
 
-      var sp1 = document.createElement("span")
-      node.appendChild(sp1)
-      node.replaceChild(html(), sp1);
+      if (node.firstChild) node.replaceChild(html(), node.firstChild)
+      else node.appendChild(html())
 
     } else if (html.nodeType === 1) {
 
       addCloneId(html, tagIndex)
 
-      var sp1 = document.createElement("span")
-      node.appendChild(sp1)
-      node.replaceChild(html, sp1);
+      // var sp1 = document.createElement("span")
+      // node.appendChild(sp1)
+      // node.replaceChild(html, sp1);
+
+      // node.appendChild(html)
+
+      if (node.firstChild) node.replaceChild(html, node.firstChild)
+      else node.appendChild(html)
+
     } else {
       node.innerHTML = html;
     }
+
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
   };
