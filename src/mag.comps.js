@@ -1,5 +1,5 @@
 /*
-Mag.JS Components v0.3
+Mag.JS Components v0.4
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -13,10 +13,34 @@ mag.comps ={}
 // var CommentsComponent = mag.comp("CommentBox", CommentBox, props);
 // CommentsComponent()
 mag.comp = function(id, module, props, clone){
-  return function(props2, clone2){
+  var instance,
+   a =function(id2, props2, clone2){
     // merge props?
-    return mag.module(id, module, props2 || props, typeof clone2 !=='undefined'? clone2 : clone);
+    if(typeof id2!=='string'){
+      clone2=props2
+      props2=[].concat(id2)[0]
+      id2=0
+    }
+
+    instance = mag.module(id2 || id, module, props2 || props, typeof clone2 !=='undefined'? clone2 : clone)
+    return instance;
   }
+  a.toJSON=function(){
+    return instance ? instance() : ''
+  }
+  a.getState =function(){
+    if(instance && instance.data && instance.data.type =='module'){
+      var copyInstance = [].concat(mag.mod.getArgs(instance.data.id))
+      var copyInstanceState = copyInstance[0];
+      var copyInstanceProps = copyInstance[1];
+      return copyInstanceState;
+    }
+  }
+  a.toString=function(){
+    console.log(instance ? instance() : '')
+    return instance ? instance()._html() : ''
+  }
+  return a;
 }
 
 /*
