@@ -225,7 +225,7 @@
           }
         }.bind(this, args, k))
 
-      } else if (typeof value === 'object' && typeof value.then === 'undefined') {
+      } else if (typeof value === 'object' && (!value || typeof value.then === 'undefined')) {
         // recurse
         attachToArgs(i + '.' + k, value, element);
       } else {
