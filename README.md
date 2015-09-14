@@ -620,7 +620,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 ###Performance
 
-[JSPerf](http://jsperf.com/angular-vs-knockout-vs-ember/690)
+[JSPerf](http://jsperf.com/angular-vs-knockout-vs-ember/690) - [JSPerf2](http://jsperf.com/angular-vs-knockout-vs-ember/694) 
 <a href="http://jsperf.com/angular-vs-knockout-vs-ember/690"><img src="https://cloud.githubusercontent.com/assets/5196767/9841719/7b46329a-5a71-11e5-8ab2-2f4a1120d949.png"/></a>
 
 ###Inspired By & cloned from
