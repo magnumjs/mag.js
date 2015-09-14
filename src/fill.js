@@ -537,12 +537,12 @@
   function setChildNode(parent, child, tagIndex) {
     addCloneId(child, tagIndex)
 
-    var sp1 = document.createElement("span")
-    parent.appendChild(sp1)
-    parent.replaceChild(child, sp1);
+    // var sp1 = document.createElement("span")
+    // parent.appendChild(sp1)
+    // parent.replaceChild(child, sp1);
 
-    // if (parent.firstChild) parent.replaceChild(child, parent.firstChild)
-    // else parent.appendChild(child)
+    if (parent.firstChild) parent.replaceChild(child, parent.firstChild)
+    else parent.appendChild(child)
   }
 
   function setHtml(node, html, tagIndex) {
@@ -551,12 +551,12 @@
 
     // var display = node.style.display || 'block';
     // node.style.display = 'none';
-
+    
     // remove all children
-    while (node.firstChild) {
-      node.removeChild(node.firstChild);
-    }
-
+    // while (node.firstChild) {
+    //   node.removeChild(node.firstChild);
+    // }
+    
     if (typeof html === FUNCTION && html().nodeType === 1) {
       setChildNode(node, html(), tagIndex);
 
@@ -567,9 +567,9 @@
     } else {
       node.innerHTML = html;
     }
-
+    
     // node.style.display = display;
-
+    
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
   };
