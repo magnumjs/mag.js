@@ -534,33 +534,47 @@
   }
 
 
+  function setChildNode(parent, child, tagIndex) {
+    addCloneId(child, tagIndex)
+
+    // var sp1 = document.createElement("span")
+    // node.appendChild(sp1)
+    // node.replaceChild(html(), sp1);
+
+    if (parent.firstChild) parent.replaceChild(child, parent.firstChild)
+    else parent.appendChild(child)
+  }
 
   function setHtml(node, html, tagIndex) {
 
     if (!node || html == null) return;
 
+    var display = node.style.display || 'block';
+    node.style.display = 'none';
+
     // remove all children
     // while (node.firstChild) {
     //   node.removeChild(node.firstChild);
     // }
-    
-    var display = node.style.display || 'block';
-    node.style.display = 'none';
+
     if (typeof html === FUNCTION && html().nodeType === 1) {
 
 
-      addCloneId(html(), tagIndex)
+      // addCloneId(html(), tagIndex)
 
       // var sp1 = document.createElement("span")
       // node.appendChild(sp1)
       // node.replaceChild(html(), sp1);
 
-      if (node.firstChild) node.replaceChild(html(), node.firstChild)
-      else node.appendChild(html())
+      // if (node.firstChild) node.replaceChild(html(), node.firstChild)
+      // else node.appendChild(html())
+
+
+      setChildNode(node, html(), tagIndex);
 
     } else if (html.nodeType === 1) {
 
-      addCloneId(html, tagIndex)
+      // addCloneId(html, tagIndex)
 
       // var sp1 = document.createElement("span")
       // node.appendChild(sp1)
@@ -568,8 +582,9 @@
 
       // node.appendChild(html)
 
-      if (node.firstChild) node.replaceChild(html, node.firstChild)
-      else node.appendChild(html)
+      // if (node.firstChild) node.replaceChild(html, node.firstChild)
+      // else node.appendChild(html)
+      setChildNode(node, html, tagIndex);
 
     } else {
       node.innerHTML = html;
