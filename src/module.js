@@ -234,7 +234,7 @@
             // promise
           value.then(function(args, k, val) {
             if (val) {
-              value.__$$i = 0
+              args[k].__$$i = 0
               args[k] = val
               mag.redraw()
             }
