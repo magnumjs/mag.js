@@ -549,14 +549,14 @@
 
     if (!node || html == null) return;
 
-    var display = node.style.display || 'block';
-    node.style.display = 'none';
-    
+    // var display = node.style.display || 'block';
+    // node.style.display = 'none';
+
     // remove all children
     while (node.firstChild) {
       node.removeChild(node.firstChild);
     }
-    
+
     if (typeof html === FUNCTION && html().nodeType === 1) {
       setChildNode(node, html(), tagIndex);
 
@@ -567,9 +567,9 @@
     } else {
       node.innerHTML = html;
     }
-    
-    node.style.display = display;
-    
+
+    // node.style.display = display;
+
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
   };
