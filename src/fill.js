@@ -543,8 +543,9 @@
     // while (node.firstChild) {
     //   node.removeChild(node.firstChild);
     // }
-
-
+    
+    var display = node.style.display || 'block';
+    node.style.display = 'none';
     if (typeof html === FUNCTION && html().nodeType === 1) {
 
 
@@ -573,7 +574,7 @@
     } else {
       node.innerHTML = html;
     }
-
+    node.style.display = display;
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
   };
