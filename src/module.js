@@ -1,7 +1,7 @@
 ;
 (function(mag) {
 
-  "use strict";
+  'use strict';
 
 
 
@@ -91,7 +91,9 @@
       },
       view = function(ctrl, ele) {
         // container element available to sub components
-        module.view._nodeId = ele.id
+        //TODO: removed until valid use case
+        //module.view._nodeId = ele.id
+        
         if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
         module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
       },
