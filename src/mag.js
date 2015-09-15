@@ -151,7 +151,7 @@
 
     //if parent then give info to current
     if (mag.module.caller) {
-      props._parent = mag.module.caller._info
+      props._parentId = mag.module.caller._nodeId
     }
 
     // TODO: should props be frozen or changeable?
