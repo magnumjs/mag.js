@@ -3,6 +3,8 @@
 
   "use strict";
 
+
+
   var mod = {
     modules: [],
     promises: [],
@@ -89,7 +91,7 @@
       },
       view = function(ctrl, ele) {
         // container element available to sub components
-        
+        module.view._info = {node:ele}
         if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
         module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
       },
