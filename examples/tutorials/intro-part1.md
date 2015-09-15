@@ -6,11 +6,11 @@ This is part 1 of a tutorial series. You can view part 2 [here](https://github.c
 
 Mag.js is a small (4kb) and fast, classical MVC JavaScript framework. It encourages an architecture similar to Angular.js, and uses a virtual DOM like React.js, all while avoiding the need for libraries like jQuery. MagJS's small size and API makes it ideal for embedded JavaScript widgets and user interfaces that have high performance requirements.
 
-My personal favorite part about Mithril is that it's just JavaScript. In other words, if you know how JavaScript-the-language works, you can fully apply that knowledge when using MagJS. Oh, and that also includes JavaScript's functional programming features and techniques :)
+My personal favorite part about MagJS is that it's just JavaScript. In other words, if you know how JavaScript-the-language works, you can fully apply that knowledge when using MagJS. Oh, and that also includes JavaScript's functional programming features and techniques :)
 
 ##Tutorial Overview
 
-In this tutorial we are going to walk through building a real-world case study, slightly modified to focus on building the core pieces of a MagJS component. Afterwards we will study the small amount of glue code needed to get MagJS running on page load, and briefly talk about how Mithril keeps the DOM in sync.
+In this tutorial we are going to walk through building a real-world case study, slightly modified to focus on building the core pieces of a MagJS component. Afterwards we will study the small amount of glue code needed to get MagJS running on page load, and briefly talk about how MagJS keeps the DOM in sync.
 
 ##Here's the demo!
 
@@ -38,10 +38,10 @@ MagJS makes it easy to write modular code. In this project we will be writing th
 A contacts component, which will keep track of all the attendees' information entered,
 A total component, which will calculate the final price, and
 A coupon component, which will handle checking the validity of an entered coupon via AJAX.
-A Mithril component is comprised of a Controller and a View:
+A MagJS component is comprised of a Controller and a View:
 
-The controller holds up to two main responsibilies: providing controller actions for the view, and managing component state. In Mithril, the controller is a constructor function.
-The view is what the user sees; it renders based on the view state, and it binds user events to controller actions. In Mithril, the view is a function that returns a virtual DOM element.
+The controller holds up to two main responsibilies: providing controller actions for the view, and managing component state. In MagJS, the controller is a constructor function.
+The view is what the user sees; it renders based on the view state, and it binds user events to controller actions. In MagJS, the view is a function that returns a virtual DOM element.
 In this project, each component will live in its own folder under src/components/. If you cloned the GitHub repo, you'll see skeleton files in each one.
 
 ##Strategy
@@ -56,7 +56,7 @@ Complete the View
 
 ##1. The Contacts Model
 
-Let's begin with the model. You may have noticed that we haven't mentioned the model at all up to this point. That's because Mithril imposes nothing special on your model; you can use whatever design pattern you like.
+Let's begin with the model. You may have noticed that we haven't mentioned the model at all up to this point. That's because MagJS imposes nothing special on your model; you can use whatever design pattern you like.
 
 In this project we will use a simple constructor function:
 ```javascript
@@ -73,7 +73,7 @@ In the above example we initialized the model with default values. This is just 
 
 ##2. The Contacts Controller
 
-Now let's look at the controller. In software design, there is a pattern called the view-model. The view-model is the current state of the user interface. It contains transient data such as the text the user has typed in (but not saved), the index of the active tab, the array of models the user is viewing, and so on. In Mithril (and classical MVC), the view-model is often part of the controller.
+Now let's look at the controller. In software design, there is a pattern called the view-model. The view-model is the current state of the user interface. It contains transient data such as the text the user has typed in (but not saved), the index of the active tab, the array of models the user is viewing, and so on. In MagJS (and classical MVC), the view-model is often part of the controller.
 
 According to our use case, we need to keep track of all entered attendees. We can do this with an array:
 
@@ -127,7 +127,7 @@ The array passed to state.contacts', [...]) represents the children of the .cont
 The object in state.contact.name, {...}) reperesents the html tag attributes of the input element for the name field.
 
 The parts value: contact.name() and value: contact.email() are how we bind the value of the model to the view (we will see how to do the other side of two-way data binding in a later step).
-Note how we're using plain old JavaScript features. This is a big benefit of using Mithril — no preprocessors or build step needed. We can also refactor this code later (if necessary) using standard JavaScript and software design techniques.
+Note how we're using plain old JavaScript features. This is a big benefit of using MagJS — no preprocessors or build step needed. We can also refactor this code later (if necessary) using standard JavaScript and software design techniques.
 
 Here is the resulting HTML:
 ```html
