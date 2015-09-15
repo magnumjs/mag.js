@@ -138,14 +138,8 @@
     if (index < 0 || clone) index = render.roots.length;
 
     //DOM
-    var element
 
-    // search for sub element within parent ?
-    if (mag.viewElement) {
-      element = mag.viewElement.querySelector('#' + domElementId)
-    }
-
-    if (!element) element = document.getElementById(domElementId)
+    var element = document.getElementById(domElementId)
 
     if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
 
