@@ -1,7 +1,7 @@
 ;
 (function(mag, configs, document, undefined) {
 
-  "use strict";
+  'use strict';
 
   var ELEMENT_NODE = 1,
     cached = [],
