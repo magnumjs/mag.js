@@ -1,7 +1,7 @@
 ;
 (function(mag, document, undefined) {
 
-  'use strict';
+  //'use strict';
 
   var module = mag.mod,
     render = mag.render,
@@ -123,8 +123,8 @@
 
   mag.module = function(domElementId, moduleObject, props, clone) {
 
-    var index = render.roots.indexOf(domElementId)
-
+    var index = render.roots.indexOf(domElementId),
+      props = props || {}
 
     //console.log('module called', index, domElementId, render.roots)
 
@@ -132,7 +132,7 @@
     if (index > -1 && reloader(index, domElementId)) return
 
     // clear cache if exists
-    if (props && !props.retain) render.clear(index, domElementId, fill)
+    if (!props.retain) render.clear(index, domElementId, fill)
 
     // create new index on roots
     if (index < 0 || clone) index = render.roots.length;
@@ -149,8 +149,13 @@
     //MODULE
     if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
 
+    //if parent then give info to current
+    if (mag.module.caller) {
+      props._parent = mag.module.caller._info
+    }
+
     // TODO: should props be frozen or changeable?
-    var mod = module.submodule(moduleObject, [props || {}])
+    var mod = module.submodule(moduleObject, [props])
 
     var controller = module.getController(mod, element, fill)
 
