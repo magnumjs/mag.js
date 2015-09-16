@@ -23,8 +23,7 @@ mag.comp = function(id, module, props, clone){
       id2=0
     }
     // merge props - not a deep merge ?
-    mag.addons.merge(props, props2 || {});
-    instance = mag.module(id2 || id, module, props2, typeof clone2 !=='undefined'? clone2 : clone)
+    instance = mag.module(id2 || id, module, mag.addons.merge(props, props2 || {}), typeof clone2 !=='undefined'? clone2 : clone)
     return instance;
   }
   a.toJSON=function(){
