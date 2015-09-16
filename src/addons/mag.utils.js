@@ -56,22 +56,70 @@ console.log(b.getAll())
 mag.utils.localStorageJson = function() {
 
   return {
-    getStore: function(storageKey) {
+    getStore: function(storageKey, defaultData) {
+      
       var storedata = localStorage.getItem(storageKey);
       if (!storedata) {
-        storedata = JSON.stringify(comments)
+        storedata = JSON.stringify(defaultData)
         localStorage.setItem(storageKey, storedata);
       }
-
+     return storedata;
+     
     },
-    addToStore: function(storageKey, plusData) {
+    setStore: function(storageKey, plusData) {
 
       var data = this.getStore(storageKey)
 
       newData = data.concat([plusData]);
 
       localStorage.setItem(storageKey, JSON.stringify(newData))
-      return newData
+      
+      return newData;
     }
   }
 }
+
+
+//local storage JSON promises implementation
+mag.utils.localStorageJsonP = function() {
+
+  return {
+    getStore: function(storageKey, defaultData, cb) {
+
+      var Deferred = mag.deferred()
+
+      setTimeout(function() {
+        var storedata = localStorage.getItem(storageKey);
+ 
+        if (!storedata) {
+          storedata = JSON.stringify(defaultData)
+          localStorage.setItem(storageKey, storedata);
+        }
+        Deferred.resolve(JSON.parse(storedata))
+      })
+
+      return Deferred.promise.then(cb)
+    },
+    setStore: function(storageKey, plusData, cb) {
+
+      var Deferred = mag.deferred()
+
+      setTimeout(function() {
+
+        this.getStore(storageKey).then(function(data) {
+          
+          newData = data.concat([plusData]);
+
+          localStorage.setItem(storageKey, JSON.stringify(newData))
+
+          Deferred.resolve(newData)
+        })
+      })
+
+      return Deferred.promise.then(cb)
+    }
+  }
+}
+
+/****** UTILS STORAGE ******/
+
