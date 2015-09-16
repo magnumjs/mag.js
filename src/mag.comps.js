@@ -251,7 +251,7 @@ mag.comps.messaging.Message = {
 
 
 /*** MagJS - COMP - POPUP ***/
-
+//@Example http://jsbin.com/xatazokexu/1/edit?html,js,output
 /* 
 // HTML template
 
