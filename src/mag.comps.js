@@ -2,6 +2,7 @@
 Mag.JS Components v0.4
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
+@Requires: mag.addons - magnumjs/mag.js/master/src/mag.addons.js
 */
 
 var mag = mag || {}
@@ -247,3 +248,42 @@ mag.comps.messaging.Message = {
     state.span = props.message
   }
 };
+
+
+/*** MagJS - COMP - POPUP ***/
+
+/* 
+// HTML template
+
+   <div id="popup" class="overlay">
+      <div class="popup">
+        <h2 class="popup-header">
+      </h2>
+        <a class="close" href="#">&times;</a>
+        <div class="popup-body">
+        </div>
+      </div>
+    </div>
+    
+    
+    //js init 
+     mag.comps.popup({
+        title: 'YO',
+        content:'Hello'
+    })
+    
+*/
+
+;
+(function(package) {
+
+  var popup = {
+    view: function(state, props) {
+      state['popup-header'] = props.title
+      state['popup-body'] = props.content
+    }
+  }
+  package.popup = mag.comp('popup', popup)
+})(mag.namespace('comps'))
+
+/*** MagJS - COMP - POPUP ***/
