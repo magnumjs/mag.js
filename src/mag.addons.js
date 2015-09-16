@@ -301,10 +301,6 @@ mag.hookin('attributes', 'key', function(data) {
 mag.hookin('attributes', 'className', function(data) {
   data.key = 'class'
 
-  if(!data.value || !data.value.trim()){
-    data.value = null
-    return
-  }
   var newClass = data.value.split(' ')
   data.value = data.node.classList + ''
 
