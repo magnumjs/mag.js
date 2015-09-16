@@ -16,14 +16,15 @@ mag.comps ={}
 mag.comp = function(id, module, props, clone){
   var instance,
    a =function(id2, props2, clone2){
-    // merge props?
+     // using default templateId
     if(typeof id2!=='string'){
       clone2=props2
       props2=[].concat(id2)[0]
       id2=0
     }
-
-    instance = mag.module(id2 || id, module, props2 || props, typeof clone2 !=='undefined'? clone2 : clone)
+    // merge props - not a deep merge ?
+    mag.addons.merge(props, props2 || {});
+    instance = mag.module(id2 || id, module, props2, typeof clone2 !=='undefined'? clone2 : clone)
     return instance;
   }
   a.toJSON=function(){
