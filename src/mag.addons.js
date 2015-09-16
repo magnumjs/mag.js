@@ -299,9 +299,15 @@ mag.hookin('attributes', 'key', function(data) {
 })
 
 mag.hookin('attributes', 'className', function(data) {
+  data.key = 'class'
+
+  if(!data.value || !data.value.trim()){
+    data.value = null
+    return
+  }
   var newClass = data.value.split(' ')
   data.value = data.node.classList + ''
-  
+
   for (var k in newClass) {
     var cls = newClass[k]
 
@@ -314,7 +320,6 @@ mag.hookin('attributes', 'className', function(data) {
   }
   
   data.value = data.value.trim()
-  data.key = 'class'
 })
 
 
