@@ -301,16 +301,22 @@ mag.hookin('attributes', 'key', function(data) {
 mag.hookin('attributes', 'className', function(data) {
   var newClass = data.value.split(' ')
   data.value = data.node.classList + ''
-  for (var k in newClass){
+  
+  for (var k in newClass) {
     var cls = newClass[k]
-    if (cls.trim() && data.node.classList.length >0 && !data.node.classList.contains(cls.trim)) {
-      data.value = data.node.classList + ' ' + cls 
-    } else {
-      data.value = cls
+
+    if (cls.trim() && data.node.classList.length > 0 && !data.node.classList.contains(cls.trim())) {
+      data.value = data.node.classList + ' ' + cls
+      
+    } else if(cls.trim() && data.node.classList.length  == 0) {
+      data.value += cls + ' '
     }
   }
+  
+  data.value = data.value.trim()
   data.key = 'class'
 })
+
 
 
 // disable add to config
