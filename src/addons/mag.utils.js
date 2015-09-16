@@ -108,7 +108,7 @@ mag.utils.localStorageJsonP = function() {
 
         this.getStore(storageKey).then(function(data) {
           
-          newData = data.concat([plusData]);
+          var newData = data.concat([plusData]);
 
           localStorage.setItem(storageKey, JSON.stringify(newData))
 
