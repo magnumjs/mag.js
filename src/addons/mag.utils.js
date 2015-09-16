@@ -10,6 +10,11 @@ var mag = mag || {}
 
 mag.utils ={}
 
+
+/*
+Common reusable minimal Interfaces you can implement
+*/
+
 /****** UTILS COLLECTIONS ******/
 
 mag.utils.collection = function() {
@@ -44,3 +49,29 @@ console.log(b.getAll())
 */
 
 /****** UTILS COLLECTIONS ******/
+
+
+/****** UTILS STORAGE ******/
+
+mag.utils.localStorageJson = function() {
+
+  return {
+    getStore: function(storageKey) {
+      var storedata = localStorage.getItem(storageKey);
+      if (!storedata) {
+        storedata = JSON.stringify(comments)
+        localStorage.setItem(storageKey, storedata);
+      }
+
+    },
+    addToStore: function(storageKey, plusData) {
+
+      var data = this.getStore(storageKey)
+
+      newData = data.concat([plusData]);
+
+      localStorage.setItem(storageKey, JSON.stringify(newData))
+      return newData
+    }
+  }
+}
