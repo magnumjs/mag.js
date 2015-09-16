@@ -17,19 +17,25 @@ Common reusable minimal Interfaces you can implement
 
 /****** UTILS COLLECTIONS ******/
 
-mag.utils.collection = function() {
-  var a = []
-  return {
-    getAll: function() {
-      return a;
-    },
-    addOne: function(item) {
-      a.push(item)
-    },
-    removeOne: function(index) {
-      a.splice(index, 1)
+mag.utils.collection = function (a) {
+    var a = a || []
+    return {
+        getAll: function () {
+            return a;
+        },
+        findByKeyVal: function (key, val) {
+            return a.filter(function (obj) {
+                // coerce both obj.id and id to type ? 
+                return obj[key] == val;
+            })[0];
+        },
+        addOne: function (item) {
+            a.push(item)
+        },
+        removeOne: function (index) {
+            a.splice(index, 1)
+        }
     }
-  }
 }
 
 
