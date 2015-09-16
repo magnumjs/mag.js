@@ -300,21 +300,30 @@ mag.hookin('attributes', 'key', function(data) {
 
 mag.hookin('attributes', 'className', function(data) {
   data.key = 'class'
+  var newClass = data.value
+  
+  if (typeof data.value == 'string') {
+    newClass = data.value.split(' ')
+  } else if(typeof data.value == 'object') {
+    for (var k in newClass) {
+      data.node.classList.toggle(k, newClass[k])
+    }
+    data.value = data.node.classList + ''
+    return
+  }
 
-  var newClass = data.value.split(' ')
   data.value = data.node.classList + ''
 
   for (var k in newClass) {
     var cls = newClass[k]
-
     if (cls.trim() && data.node.classList.length > 0 && !data.node.classList.contains(cls.trim())) {
       data.value = data.node.classList + ' ' + cls
-      
-    } else if(cls.trim() && data.node.classList.length  == 0) {
+
+    } else if (cls.trim() && data.node.classList.length == 0) {
       data.value += cls + ' '
     }
   }
-  
+
   data.value = data.value.trim()
 })
 
