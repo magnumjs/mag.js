@@ -36,7 +36,7 @@ mag.comp = function(id, module, props, clone){
       return copyInstanceState;
     }
   }
-  a.toString=function(){
+  a.toHTML=function(){
     return instance ? instance()._html() : ''
   }
   return a;
