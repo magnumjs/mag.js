@@ -472,8 +472,8 @@ for (var i = 0; i < 5000; i++) {
 }
 //yes, window.innerHeight is a data source, so it goes in the model
 window.addEventListener("scroll", function(e) {
-  app.state.pageY = Math.max(e.pageY || window.pageYOffset, 0);
-  app.state.pageHeight = window.innerHeight;
+  app2.state.pageY = Math.max(e.pageY || window.pageYOffset, 0);
+  app2.state.pageHeight = window.innerHeight;
   mag.redraw(true) //notify view
 })
 //controller
@@ -482,20 +482,20 @@ app2.controller = function() {
 }
 //view
 app2.view = function(ctrl) {
-  var pageY = app.state.pageY
+  var pageY = app2.state.pageY
   var begin = pageY / 31 | 0
   // Add 2 so that the top and bottom of the page are filled with
   // next/prev item, not just whitespace if item not in full view
-  var end = begin + (app.state.pageHeight / 31 | 0 + 2)
+  var end = begin + (app2.state.pageHeight / 31 | 0 + 2)
   var offset = pageY % 31
   ctrl.list = {
     _style: 'height:' + ctrl.items.length * 31 + "px; position: relative; top:" + -offset + "px"
   }
   ctrl.ul = {
-    _style: 'top:' + app.state.pageY + "px"
+    _style: 'top:' + app2.state.pageY + "px"
   }
   ctrl.li = ctrl.items.slice(begin, end).map(function(item) {
-    return item.title
+    return {_text: item.title }
   })
 }
 mag.module("app2", app2)
