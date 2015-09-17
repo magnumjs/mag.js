@@ -58,8 +58,8 @@ mag.utils.events = function(){
       		item(info || {});
       });
     }
-  };
-})
+  }
+}
 
 /****** UTILS EVENT ******/
 
