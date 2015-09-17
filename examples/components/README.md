@@ -10,6 +10,7 @@
 
 A favorite or starred button on a unique article/item.
 
+[Example](http://jsbin.com/fimovetova/edit?js,output)
 
 ```JavaScript
 //Module Definition
