@@ -23,6 +23,12 @@ mag.utils.collection = function (a) {
         getAll: function () {
             return a;
         },
+        findAllByKeyVal: function (key, val) {
+            return a.filter(function (obj) {
+                // coerce both obj.id and id to type ? 
+                return obj[key] == val;
+            });
+        },
         findByKeyVal: function (key, val) {
             return a.filter(function (obj) {
                 // coerce both obj.id and id to type ? 
