@@ -30,7 +30,7 @@ var subscription = mag.utils.events.subscribe('/page/load', function(obj) {
 subscription.remove();
 */
 
-mag.utils.events = function(){
+mag.utils.events = (function(){
   var topics = {};
   var hOP = topics.hasOwnProperty;
 
@@ -59,7 +59,7 @@ mag.utils.events = function(){
       });
     }
   }
-}
+})();
 
 /****** UTILS EVENT ******/
 
