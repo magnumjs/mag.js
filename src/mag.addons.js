@@ -196,10 +196,8 @@ mag.addons.show = function(condition) {
       }
     };
   } else if (typeof condition === 'object') {
-    condition.didload = function(e, n) {
-      n.classList.remove('hide')
-        // both or just if no class hide ..
-        //node.style.display = 'none'
+    condition.willload = function(e, n) {
+      n.style.display = 'none'
     }
   } else if (arguments.length == 0) {
     return function(e, n) {
@@ -214,7 +212,12 @@ mag.addons.hide = function(condition) {
     return {
       _config: function(n) {
         if (condition) n.style.display = 'none';
+        else n.style.display = 'block';
       }
+    }
+  } else if (typeof condition === 'object') {
+    condition.willload = function(e, n) {
+      n.style.display = 'none';
     }
   } else if (arguments.length == 0) {
     return function(e, n) {
