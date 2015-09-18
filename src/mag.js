@@ -14,6 +14,7 @@
       attributes: [],
       elementMatcher: []
     }
+
   mag.redrawing = false
   mag.redraw = function(force) {
     if (mag.redrawing) {
@@ -121,56 +122,12 @@
     render.callLCEvent('onreload', module, index)
   }
 
-  mag.module = function(domElementId, moduleObject, props, clone) {
-
-    var index = render.roots.indexOf(domElementId)
-
-    //console.log('module called', index, domElementId, render.roots)
-
-    //UNLOADERS that exist?
-    if (index > -1 && reloader(index, domElementId)) return
-
-    // clear cache if exists
-    if (props && !props.retain) render.clear(index, domElementId, fill)
-
-    // create new index on roots
-    if (index < 0 || clone) index = render.roots.length;
-
-    //DOM
-
-    var element = document.getElementById(domElementId)
-
-    if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
-
-
-    render.roots[index] = domElementId
-
-    //MODULE
-    if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
-
-    //if parent then give info to current
-    // TODO: removed until valid use case
-    // if (mag.module.caller) {
-    //   props._parentId = mag.module.caller._nodeId
-    // }
-
-    // TODO: should props be frozen or changeable?
-    var mod = module.submodule(moduleObject, [props || {}])
-
-    var controller = module.getController(mod, element, fill)
-
-    module.controllers[index] = controller
+  function runPromise(index, controller, clone) {
 
     if (controller.onunload) render.unloaders.push({
       controller: controller,
       handler: controller.onunload
     })
-
-
-    module.modules[index] = mod
-
-    module.elements[index] = clone ? element.cloneNode(true) : element
-    module.elements[index].cloner = clone
 
     module.promises[index] = new Promise(function(resolve, reject) {
       module.deferreds[index] = arguments
@@ -180,21 +137,6 @@
 
     //INTERPOLATIONS
     mag.redraw()
-
-
-
-
-
-    // call controller unloaders ?
-    // check if was in previous and now not for the same node
-    // add to fill.js
-
-
-    // interpolations haven't occurred yet
-    // return a promise in a settergetter
-
-
-
     return propify(module.promises[index], {
       // _html: fill.cloneNodeWithEvents(module.elements[index])
       _html: mag.prop(module.elements[index])
@@ -205,7 +147,94 @@
       type: 'module',
       id: index
     })
+  }
 
+
+  mag.module = function(domElementId, moduleObject, props, clone) {
+
+    // generate / reuse key for each module call
+
+    var props = props || {}
+
+    var index = render.roots.indexOf(domElementId)
+
+    //UNLOADERS that exist?
+    if (index > -1 && reloader(index, domElementId)) return
+
+
+    // clear cache if exists
+    if (!props.retain) render.clear(index, domElementId, fill)
+
+    if (index > -1 && typeof props.key == 'undefined' && clone) {
+      //console.log(domElementId, index)
+      props.key = (index + 1)
+    }
+
+    var nextIndex;
+
+    // create new index on roots
+    if (index < 0) {
+      nextIndex = render.roots.length;
+      props.key = typeof props.key != 'undefined' ? props.key : nextIndex
+    }
+
+    var rendVal = index > -1 && typeof props.key != 'undefined' ? domElementId + props.key : domElementId + props.key;
+
+
+
+    //console.log(props.key, index, domElementId, rendVal, render.roots)
+
+
+    // already exists
+    if (render.roots.indexOf(rendVal) >= 0) {
+
+      //console.log('REUSING EXISTING', rendVal)
+
+      var index = render.roots.indexOf(rendVal)
+
+      return runPromise(index, module.controllers[index], clone);
+
+    }
+    if (render.roots.indexOf(rendVal) < 0) {
+      if (index < 0) {
+        index = render.roots.length;
+      } else {
+
+        // console.log('CREATE NEW FROM EXISTING', index, props.key)
+
+      }
+      //console.log('CREATING', index, rendVal)
+      var element = document.getElementById(domElementId)
+
+      if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
+
+      render.roots[index] = rendVal
+
+
+      //MODULE
+      if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
+
+      //if parent then give info to current
+      // TODO: removed until valid use case
+      // if (mag.module.caller) {
+      //   props._parentId = mag.module.caller._nodeId
+      // }
+
+      // TODO: should props be frozen or changeable?
+      var mod = module.submodule(moduleObject, [props])
+
+      var controller = module.getController(index, mod, element, fill)
+
+      module.controllers[index] = controller
+
+
+      module.modules[index] = mod
+
+      module.elements[index] = clone ? element.cloneNode(true) : element
+      module.elements[index].cloner = clone
+
+      return runPromise(index, controller, clone);
+    }
   }
 
 })(window.mag || {}, document)
