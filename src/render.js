@@ -111,13 +111,13 @@
           // add configs unloaders
           addConfigUnloaders(module, fill, i)
             //TODO: remove clones
-          if (module.deferreds[i][0]) {
-            delete module.elements[i]
-            delete module.modules[i]
-            delete module.controllers[i]
-            delete module.promises[i]
-            delete module.deferreds[i]
-          }
+            // if (module.deferreds[i][0]) {
+            //   delete module.elements[i]
+            //   delete module.modules[i]
+            //   delete module.controllers[i]
+            //   delete module.promises[i]
+            //   delete module.deferreds[i]
+            // }
         }
       }
     }
@@ -264,7 +264,7 @@
 
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
-      var handler = debounce(callback, 16)
+      var handler = debounce(callback, 8)
       notifySubobjectChanges(obj); // set up recursive observers
       Object.observe(obj, handler);
       Object.unobserve(obj, handler);
