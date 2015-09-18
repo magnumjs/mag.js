@@ -178,6 +178,8 @@ mag.module("hello", {
 [Timer:]
 (http://jsbin.com/cujohoyuwo/edit?js,output)
 
+[TabList - key components](http://jsbin.com/kuwogajexi/edit?js,output)
+
 [Real-time search:]
 (http://jsbin.com/wuzovilaga/edit?js,output)
 [Same with different code style - creative Mag.JS!]
