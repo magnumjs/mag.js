@@ -14,7 +14,7 @@
   }
 
 
-  mod.getController = function(module, element, fill) {
+  mod.getController = function(index, module) {
     //var controller
 
     // FireFox support only
@@ -59,6 +59,12 @@
       controller = new module.controller
     }
     */
+
+    // get if exists
+    if (this.controllers[index]) {
+      return this.controllers[index]
+    }
+
     return new module.controller
   }
 
@@ -93,7 +99,8 @@
         // container element available to sub components
         //TODO: removed until valid use case
         //module.view._nodeId = ele.id
-        
+
+
         if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
         module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
       },
@@ -215,7 +222,6 @@
     // call fill to get and assign
 
     //if (!added[i]) added[i] = [];
-
     for (var k in args) {
 
       var value = args[k]
@@ -254,6 +260,7 @@
       }
     }
   }
+
 
 
   mag.mod = mod
