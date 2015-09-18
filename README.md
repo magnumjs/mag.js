@@ -657,6 +657,11 @@ Other hookins such as key/node value etc.. Coming soon!
 ```html
 <script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
 ```
+* Promise support for IE
+```html
+<!--[if IE]><script src="https://rawgit.com/jakearchibald/es6-promise/master/dist/es6-promise.min.js"></script><![endif]-->
+```
+
 
 ###Performance
 
