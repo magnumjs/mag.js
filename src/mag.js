@@ -151,7 +151,7 @@
 
   mag.count = []
 
-  function getRendVal(domElementId, index, clone, props, parentId) {
+  function getRendVal(domElementId, index, clone, props) {
     if (index > -1 && typeof props.key == 'undefined' && clone) {
       //console.log(domElementId, index)
       //props.key = index
@@ -165,21 +165,22 @@
     // if (mag.module.caller) {
     //   props._parentId = mag.module.caller._nodeId
     // }
-    var fid = domElementId + '.' + parentId;
-    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count[fid]) {
+    //var fid = domElementId + '.' + parentId;
+    var fid = fill.count[domElementId]
+    if (index < 0 && clone && typeof props.key == 'undefined' && fid) {
 
       if (!mag.count[domElementId]) mag.count[domElementId] = {}
       mag.count[domElementId].key++
         //count[domElementId].times++
 
-        if (fill.count[fid] && mag.count[domElementId].size != fill.count[fid]) {
-          console.log('AMOUNT', fill.count[fid])
+        if (fid && mag.count[domElementId].size != fid[0]) {
+          //console.log('AMOUNT', fill.count[fid])
           mag.count[domElementId].key = 0
         }
-      mag.count[domElementId].size = fill.count[fid] && fill.count[fid]
+      mag.count[domElementId].size = fid && fid[0]
       props.key = mag.count[domElementId].key
 
-      console.log(domElementId, props.key)
+      //console.log(domElementId, props.key, fid)
 
       /*
       // search children for first comment with
@@ -222,15 +223,15 @@
     return rendVal
   }
 
-  function findIndex(a, test) {
-    var found = -1
-    a.every(function(n, k) {
-      var index = n.split('.')[0] == test ? 0 : -1
-      index > -1 ? found = k : 0
-      return index < 0;
-    });
-    return found;
-  }
+  // function findIndex(a, test) {
+  //   var found = -1
+  //   a.every(function(n, k) {
+  //     var index = n.split('.')[0] == test ? 0 : -1
+  //     index > -1 ? found = k : 0
+  //     return index < 0;
+  //   });
+  //   return found;
+  // }
 
   mag.module = function(domElementId, moduleObject, props, clone) {
 
@@ -241,10 +242,10 @@
 
     // generate / reuse key for each module call
 
-    var props = props || {},
-      parent = document,
-      parentMod;
+    var props = props || {}
 
+    /*
+    var   parentMod;
     try {
       throw new Error();
     } catch (e) {
@@ -252,21 +253,24 @@
         lines = st.split("\n");
       for (var k in lines) {
         if (lines[k].indexOf && lines[k].indexOf('.view') > -1 && lines[k].indexOf(' ') > -1) {
+          //console.log(lines[k].trim().split(' ')[1])
           parentMod = lines[k].trim().split(' ')[1].split('.')[1]
+            //console.log(parentMod)
           break;
         }
       }
     }
     //get parentmod index
-    //var pindex
-    //if (module.modules && parentMod) {
-    //pindex = findIndex(render.roots, parentMod)
-    //console.log('PARENTMOD', domElementId, parentMod, pindex, module.modules[pindex] ? module.modules[pindex].id : 0)
-
-    //var pid = document.getElementById(parentMod)
-    //  if (pid) parent = pid
-    // }
-
+    var pindex, parentId;
+    if (module.modules && parentMod) {
+      pindex = findIndex(render.roots, parentMod)
+        //console.log('PARENTMOD', domElementId, parentMod, pindex)
+      parentId = module.modules[pindex] ? module.modules[pindex].id : 0
+        // console.log(parentId)
+        //var pid = document.getElementById(parentMod)
+        //  if (pid) parent = pid
+    }
+*/
 
     var index = render.roots.indexOf(domElementId)
 
@@ -277,7 +281,7 @@
     // clear cache if exists
     if (!props.retain) render.clear(index, domElementId, fill)
 
-    var rendVal = getRendVal(domElementId, index, clone, props, parentMod)
+    var rendVal = getRendVal(domElementId, index, clone, props)
 
 
     //console.log(props.key, index, domElementId, rendVal,parentMod)
