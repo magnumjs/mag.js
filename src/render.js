@@ -22,6 +22,8 @@
     var args = module.getArgs(i),
       mod = module.modules[i],
       controller = module.controllers[i]
+    module.modules[i].id = elementClone.id;
+    mag.count = []
 
     if (mod) mod.view(args[0], elementClone)
   }
@@ -142,57 +144,13 @@
 
     callView(elementClone, module, i)
 
-    render.setupWatch(args, fill, elementClone, i, module)
+    //render.setupWatch(args, fill, elementClone, i, module)
 
     fill.fill(elementClone, args[0])
 
     return true
   }
-  var prevId
 
-  render.doWatch = function(fill, ele, i, module, changes, frameId) {
-
-    if (frameId == prevId) return
-    prevId = frameId
-
-    //TODO: return true then skip execution?
-    render.callLCEvent('willupdate', module, i, 1)
-
-    var args = module.getArgs(i)
-      // check if data changed
-    if (iscached(i, args)) {
-      render.callLCEvent('didupdate', module, i)
-      return
-    }
-
-    render.callLCEvent('isupdate', module, i)
-
-    callView(ele, module, i)
-
-    fill.fill(ele, args[0])
-  }
-
-  render.setupWatch = function(args, fill, elementClone, i, module) {
-
-    // console.log('setup', i)
-
-    var observer = function(changes) {
-
-        changes.forEach(function(change) {
-
-          if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
-            // call unloader for module
-            render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
-              //console.log(change.name,change.object[change.name].data, change.oldValue.data)
-          }
-        });
-
-        module.controllers[i] = args[0]
-        throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
-      }
-      // Which we then observe
-    observeNested(args[0], observer);
-  }
   var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
   var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
 
@@ -225,50 +183,96 @@
 
   mag.render = render
 
-  function debounce(func, wait, immediate) {
-    var timeout;
-    return function() {
+  // var prevId
 
-      var obj = this,
-        args = arguments;
+  // render.doWatch = function(fill, ele, i, module, changes, frameId) {
 
-      function delayed() {
-        if (!immediate)
-          func.apply(obj, args);
-        timeout = null;
-      };
+  //   if (frameId == prevId) return
+  //   prevId = frameId
 
-      if (timeout)
-        $cancelAnimationFrame(timeout);
-      else if (immediate)
-        func.apply(obj, args);
+  //   //TODO: return true then skip execution?
+  //   render.callLCEvent('willupdate', module, i, 1)
 
-      timeout = $requestAnimationFrame(delayed, wait);
-    };
-  };
+  //   var args = module.getArgs(i)
+  //     // check if data changed
+  //   if (iscached(i, args)) {
+  //     render.callLCEvent('didupdate', module, i)
+  //     return
+  //   }
 
-  function notifySubobjectChanges(object) {
-    var notifier = Object.getNotifier(object); // get notifier for this object
-    for (var k in object) { // loop over its properties
-      var prop = object[k]; // get property value
-      if (!prop || typeof prop !== 'object') break; // skip over non-objects
-      Object.observe(prop, function(changes) { // observe the property value
-        changes.forEach(function(change) { // and for each change
-          notifier.notify(change);
-        });
-      });
-      notifySubobjectChanges(prop); // repeat for sub-subproperties
-    }
-  }
+  //   render.callLCEvent('isupdate', module, i)
+
+  //   callView(ele, module, i)
+
+  //   fill.fill(ele, args[0])
+  // }
+
+  // render.setupWatch = function(args, fill, elementClone, i, module) {
+
+  //   // console.log('setup', i)
+
+  //   var observer = function(changes) {
+
+  //       changes.forEach(function(change) {
+
+  //         if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
+  //           // call unloader for module
+  //           render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
+  //             //console.log(change.name,change.object[change.name].data, change.oldValue.data)
+  //         }
+  //       });
+
+  //       module.controllers[i] = args[0]
+  //     // throttle(render.doWatch.bind({}, fill, elementClone, i, module, changes))()
+  //     }
+  //     // Which we then observe
+  //   observeNested(args[0], observer);
+  // }
+
+  // function debounce(func, wait, immediate) {
+  //   var timeout;
+  //   return function() {
+
+  //     var obj = this,
+  //       args = arguments;
+
+  //     function delayed() {
+  //       if (!immediate)
+  //         func.apply(obj, args);
+  //       timeout = null;
+  //     };
+
+  //     if (timeout)
+  //       $cancelAnimationFrame(timeout);
+  //     else if (immediate)
+  //       func.apply(obj, args);
+
+  //     timeout = $requestAnimationFrame(delayed, wait);
+  //   };
+  // };
+
+  // function notifySubobjectChanges(object) {
+  //   var notifier = Object.getNotifier(object); // get notifier for this object
+  //   for (var k in object) { // loop over its properties
+  //     var prop = object[k]; // get property value
+  //     if (!prop || typeof prop !== 'object') break; // skip over non-objects
+  //     Object.observe(prop, function(changes) { // observe the property value
+  //       changes.forEach(function(change) { // and for each change
+  //         notifier.notify(change);
+  //       });
+  //     });
+  //     notifySubobjectChanges(prop); // repeat for sub-subproperties
+  //   }
+  // }
 
 
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      var handler = debounce(callback, 8)
-      notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, handler);
-      Object.unobserve(obj, handler);
-    }
-  }
+  // function observeNested(obj, callback) {
+  //   if (obj && typeof Object.observe !== 'undefined') {
+  //     var handler = debounce(callback, 16)
+  //     notifySubobjectChanges(obj); // set up recursive observers
+  //     Object.observe(obj, handler);
+  //     Object.unobserve(obj, handler);
+  //   }
+  // }
 
 })(window.mag || {})
