@@ -176,7 +176,7 @@ mag.module("hello", {
 (http://jsbin.com/patecaronu/edit?js,output)
 
 [Timer:]
-(http://jsbin.com/cujohoyuwo/edit?js,output)
+(http://jsbin.com/zivexomesa/edit?html,output)
 
 [TabList - key components](http://jsbin.com/kuwogajexi/edit?js,output)
 
