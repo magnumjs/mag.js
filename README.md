@@ -132,6 +132,8 @@ mag.module("hello", {
 [Filter list components:]
 (http://jsbin.com/xigipeziqi/edit?js,output)
 
+[Quiz](http://jsbin.com/xuzavunaci/2/edit?js,output)
+
 [Forms - passFail component](http://jsbin.com/cuxijarihi/edit?js,output)
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/BAQQ0vOOK4StAefYaK02/preview)
