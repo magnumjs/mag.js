@@ -1,13 +1,12 @@
 // http://embed.plnkr.co/Gjuycl4GdTj2TJijmpjq/
 /*
-UntitledPreview Edit Code
+
 index.html
 app-init.js
-README.md
 TabList.js
 CountriesComponent.js
 style.css
-style.css
+
 .hide {
   display:none;
 }
@@ -51,15 +50,7 @@ style.css
   
   
   // app-init.js
-  
-  UntitledPreview Edit Code
-index.html
-app-init.js
-README.md
-TabList.js
-CountriesComponent.js
-style.css
-app-init.js
+
 
 
 // initialize mag module reference
@@ -81,15 +72,8 @@ var props = {
  
  
  // countriescomponent.js
- 
- UntitledPreview Edit Code
-index.html
-app-init.js
-README.md
-TabList.js
-CountriesComponent.js
-style.css
-CountriesComponent.js
+
+
 (function(namespace) {
 
   var props = {}
@@ -139,14 +123,6 @@ CountriesComponent.js
 
 // TabList.js
 
-UntitledPreview Edit Code
-index.html
-app-init.js
-README.md
-TabList.js
-CountriesComponent.js
-style.css
-TabList.js
 (function(namespace) {
 
 
