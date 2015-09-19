@@ -180,6 +180,8 @@ mag.module("hello", {
 
 [TabList - key components](http://jsbin.com/kuwogajexi/edit?js,output)
 
+[TabList module pattern - dynamic children keys](http://embed.plnkr.co/Gjuycl4GdTj2TJijmpjq/preview)
+
 [Real-time search:]
 (http://jsbin.com/wuzovilaga/edit?js,output)
 [Same with different code style - creative Mag.JS!]
