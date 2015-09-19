@@ -540,7 +540,8 @@
   function addCloneId(html, index, pId) {
     // change id
     if (html.cloner) {
-      count[html.id + '.' + pId] = index + 1
+      //count[html.id+'.'+pId] = index+1
+      count[html.id] = [index + 1, pId]
         // console.log('PID',  html.id, pId)
         // check if already has
       html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
