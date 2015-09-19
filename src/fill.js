@@ -58,7 +58,10 @@
     return parseInt(s) - 1
   }
 
-
+  function getPathId(p) {
+    //id("mathdemo3")
+    return p && p.split('id("')[1].split('")')[0]
+  }
   var templates = {},
     gkeys = {} // What about nested Lists, which guid?
     //firstRun = false;
@@ -459,7 +462,17 @@
 
     // set html after setting text because html overrides text
     setText(node, attributes.text)
-    setHtml(node, attributes.html, tagIndex)
+
+    // get parent
+
+    //var pId =p && getPathId(p)
+
+    //if(p && pId)console.log('PARENT',p, pId)
+
+
+    setHtml(node, attributes.html, tagIndex, p && getPathId(p))
+
+
   }
 
   function setText(node, text, xpath) {
@@ -522,20 +535,24 @@
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
   }
+  var count = []
 
-  function addCloneId(html, index) {
+  function addCloneId(html, index, pId) {
     // change id
     if (html.cloner) {
-
-      // check if already has
+      count[html.id + '.' + pId] = index + 1
+        // console.log('PID',  html.id, pId)
+        // check if already has
       html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
 
     }
   }
 
+  var tree
 
-  function setChildNode(parent, child, tagIndex) {
-    addCloneId(child, tagIndex)
+  function setChildNode(parent, child, tagIndex, pId) {
+
+    addCloneId(child, tagIndex, pId)
 
     // var sp1 = document.createElement("span")
     // parent.appendChild(sp1)
@@ -545,31 +562,31 @@
     else parent.appendChild(child)
   }
 
-  function setHtml(node, html, tagIndex) {
+  function setHtml(node, html, tagIndex, pId) {
 
     if (!node || html == null) return;
 
     // var display = node.style.display || 'block';
     // node.style.display = 'none';
-    
+
     // remove all children
     // while (node.firstChild) {
     //   node.removeChild(node.firstChild);
     // }
-    
+
     if (typeof html === FUNCTION && html().nodeType === 1) {
-      setChildNode(node, html(), tagIndex);
+      setChildNode(node, html(), tagIndex, pId);
 
     } else if (html.nodeType === 1) {
 
-      setChildNode(node, html, tagIndex);
+      setChildNode(node, html, tagIndex, pId);
 
     } else {
       node.innerHTML = html;
     }
-    
+
     // node.style.display = display;
-    
+
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
   };
@@ -710,6 +727,7 @@
 
   mag.fill = {
     fill: fill,
+    count: count,
     elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
