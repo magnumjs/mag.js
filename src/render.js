@@ -21,8 +21,9 @@
   function callView(elementClone, module, i) {
     var args = module.getArgs(i),
       mod = module.modules[i],
-      controller = module.controllers[i]
-    module.modules[i].id = elementClone.id;
+      controller = module.controllers[i];
+
+    //module.modules[i].id = elementClone.id;
     mag.count = []
 
     if (mod) mod.view(args[0], elementClone)
