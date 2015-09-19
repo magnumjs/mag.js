@@ -251,7 +251,7 @@
       var st = e.stack,
         lines = st.split("\n");
       for (var k in lines) {
-        if (lines[k].indexOf('.view') > -1) {
+        if (lines[k].indexOf && lines[k].indexOf('.view') > -1) {
           parentMod = lines[k].trim().split(' ')[1].split('.')[1]
           break;
         }
