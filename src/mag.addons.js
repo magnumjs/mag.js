@@ -197,7 +197,7 @@ mag.addons.show = function(condition) {
     };
   } else if (typeof condition === 'object') {
     condition.willload = function(e, n) {
-      n.style.display = 'none'
+      n.style.display = 'block'
     }
   } else if (arguments.length == 0) {
     return function(e, n) {
