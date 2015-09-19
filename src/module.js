@@ -103,6 +103,7 @@
 
         if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
         module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
+
       },
       output = {
         controller: controller,
