@@ -149,12 +149,124 @@
     })
   }
 
+  mag.count = []
+
+  function getRendVal(domElementId, index, clone, props, parentId) {
+    if (index > -1 && typeof props.key == 'undefined' && clone) {
+      //console.log(domElementId, index)
+      //props.key = index
+    }
+
+
+
+
+    //if parent then give info to current
+    // TODO: removed until valid use case
+    // if (mag.module.caller) {
+    //   props._parentId = mag.module.caller._nodeId
+    // }
+    var fid = domElementId + '.' + parentId;
+    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count[fid]) {
+
+      if (!mag.count[domElementId]) mag.count[domElementId] = {}
+      mag.count[domElementId].key++
+        //count[domElementId].times++
+
+        if (fill.count[fid] && mag.count[domElementId].size != fill.count[fid]) {
+          console.log('AMOUNT', fill.count[fid])
+          mag.count[domElementId].key = 0
+        }
+      mag.count[domElementId].size = fill.count[fid] && fill.count[fid]
+      props.key = mag.count[domElementId].key
+
+      console.log(domElementId, props.key)
+
+      /*
+      // search children for first comment with
+      var r = parent.querySelectorAll('[id^=__magnum__' + domElementId + ']')
+      // remove items / length that don't have the same parentId at the end of the string
+      var size=0
+      for(var j in r){
+        if(r[j].id && r[j].id.split('.').pop() == parentId){
+          size++
+        }
+      }
+
+      if (!count[domElementId]) count[domElementId] = {
+        size: size,
+        times: 0,
+        keys: 0
+      }
+      count[domElementId].key++
+        count[domElementId].times++
+        if (typeof count[domElementId].size != 'undefined' && count[domElementId].size != r.length) {
+          //console.log('AMOUNT', r.length)
+          count[domElementId].key = 0
+        }
+      count[domElementId].size = r.length
+      props.key = count[domElementId].key
+      */
+      //console.log(count[domElementId].times, domElementId, count[domElementId], props.key)
+
+    }
+    var nextIndex;
+
+    // create new index on roots
+    if (index < 0) {
+      nextIndex = render.roots.length;
+      props.key = typeof props.key != 'undefined' ? props.key : nextIndex
+    }
+
+
+    var rendVal = index > -1 && typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId + '.' + props.key;
+    return rendVal
+  }
+
+  function findIndex(a, test) {
+    var found = -1
+    a.every(function(n, k) {
+      var index = n.split('.')[0] == test ? 0 : -1
+      index > -1 ? found = k : 0
+      return index < 0;
+    });
+    return found;
+  }
 
   mag.module = function(domElementId, moduleObject, props, clone) {
 
+
+    //MODULE
+    if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
+
+
     // generate / reuse key for each module call
 
-    var props = props || {}
+    var props = props || {},
+      parent = document,
+      parentMod;
+
+    try {
+      throw new Error();
+    } catch (e) {
+      var st = e.stack,
+        lines = st.split("\n");
+      for (var k in lines) {
+        if (lines[k].indexOf('.view') > -1) {
+          parentMod = lines[k].trim().split(' ')[1].split('.')[1]
+          break;
+        }
+      }
+    }
+    //get parentmod index
+    //var pindex
+    //if (module.modules && parentMod) {
+    //pindex = findIndex(render.roots, parentMod)
+    //console.log('PARENTMOD', domElementId, parentMod, pindex, module.modules[pindex] ? module.modules[pindex].id : 0)
+
+    //var pid = document.getElementById(parentMod)
+    //  if (pid) parent = pid
+    // }
+
 
     var index = render.roots.indexOf(domElementId)
 
@@ -165,24 +277,10 @@
     // clear cache if exists
     if (!props.retain) render.clear(index, domElementId, fill)
 
-    if (index > -1 && typeof props.key == 'undefined' && clone) {
-      //console.log(domElementId, index)
-      props.key = (index + 1)
-    }
-
-    var nextIndex;
-
-    // create new index on roots
-    if (index < 0) {
-      nextIndex = render.roots.length;
-      props.key = typeof props.key != 'undefined' ? props.key : nextIndex
-    }
-
-    var rendVal = index > -1 && typeof props.key != 'undefined' ? domElementId + props.key : domElementId + props.key;
+    var rendVal = getRendVal(domElementId, index, clone, props, parentMod)
 
 
-
-    //console.log(props.key, index, domElementId, rendVal, render.roots)
+    //console.log(props.key, index, domElementId, rendVal,parentMod)
 
 
     // already exists
@@ -204,21 +302,13 @@
 
       }
       //console.log('CREATING', index, rendVal)
+      // DOM
       var element = document.getElementById(domElementId)
 
       if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
 
       render.roots[index] = rendVal
 
-
-      //MODULE
-      if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
-
-      //if parent then give info to current
-      // TODO: removed until valid use case
-      // if (mag.module.caller) {
-      //   props._parentId = mag.module.caller._nodeId
-      // }
 
       // TODO: should props be frozen or changeable?
       var mod = module.submodule(moduleObject, [props])
