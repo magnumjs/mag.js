@@ -24,7 +24,7 @@
       controller = module.controllers[i];
 
     //module.modules[i].id = elementClone.id;
-    //mag.count = []
+    mag.count = []
 
     if (mod) mod.view(args[0], elementClone)
   }
@@ -251,17 +251,23 @@
       timeout = $requestAnimationFrame(delayed, wait);
     };
   };
+  var exclude = ['add', 'update', 'delete']
 
   function notifySubobjectChanges(object) {
     var notifier = Object.getNotifier(object); // get notifier for this object
+    var handle = function(changes) { // observe the property value
+      changes.forEach(function(change) { // and for each change
+        notifier.notify(change);
+      });
+    }
     for (var k in object) { // loop over its properties
       var prop = object[k]; // get property value
       if (!prop || typeof prop !== 'object') break; // skip over non-objects
-      Object.observe(prop, function(changes) { // observe the property value
-        changes.forEach(function(change) { // and for each change
-          notifier.notify(change);
-        });
-      });
+      if (typeof Array.observe !== 'undefined' && Array.isArray(prop)) {
+        Array.observe(prop, handle, exclude);
+      } else {
+        Object.observe(prop, handle, exclude);
+      }
       notifySubobjectChanges(prop); // repeat for sub-subproperties
     }
   }
@@ -272,7 +278,7 @@
       var handler = debounce(callback, 16)
         // var handler = callback
       notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, handler, ['add', 'update', 'delete']);
+      Object.observe(obj, handler, exclude);
       //Object.unobserve(obj, handler);
     }
   }
