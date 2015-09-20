@@ -149,7 +149,7 @@
     })
   }
 
-  mag.count = []
+  //mag.count = []
 
   function getRendVal(domElementId, index, clone, props) {
     if (index > -1 && typeof props.key == 'undefined' && clone) {
@@ -164,7 +164,8 @@
     //   props._parentId = mag.module.caller._nodeId
     // }
     //var fid = domElementId + '.' + parentId;
-    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count) {
+    /*
+    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count && fill.count[0]) {
 
       var parentId = fill.count[0][0]
       var size = fill.count[0][1]
@@ -186,6 +187,7 @@
         return domElementId + '.' + mag.count[domElementId].key + '.' + parentId
 
     }
+    */
     /*
           if (index < 0 && clone && typeof props.key == 'undefined') {
     //console.log(fill.count)
@@ -222,17 +224,14 @@
     return domElementId + '.' + mag.count[domElementId].key 
         }
     */
-    var nextIndex;
 
     // create new index on roots
     if (index < 0 && (clone || typeof props.key == 'undefined')) {
-      nextIndex = render.roots.length;
-      props.key = typeof props.key != 'undefined' ? props.key : nextIndex
+      props.key = typeof props.key != 'undefined' ? props.key : render.roots.length
     }
 
 
-    var rendVal = typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId;
-    return rendVal
+    return typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId;
   }
 
   // function findIndex(a, test) {
@@ -283,6 +282,7 @@
         //  if (pid) parent = pid
     }
 */
+
 
     var index = render.roots.indexOf(domElementId)
 
