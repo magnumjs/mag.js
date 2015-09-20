@@ -191,7 +191,7 @@
     prevId = frameId
 
     //TODO: return true then skip execution?
-    render.callLCEvent('willupdate', module, i, 1)
+    if (render.callLCEvent('willupdate', module, i, 1)) return
 
     var args = module.getArgs(i)
       // check if data changed
@@ -250,25 +250,16 @@
     };
   };
 
-  function setup(notifier, prop, type) {
-    type.observe && type.observe(prop, function(changes) { // observe the property value
-      changes.forEach(function(change) { // and for each change
-        notifier.notify(change);
-      });
-    });
-  }
-
   function notifySubobjectChanges(object) {
     var notifier = Object.getNotifier(object); // get notifier for this object
     for (var k in object) { // loop over its properties
       var prop = object[k]; // get property value
-      if (Array.isArray(prop)) {
-        setup(notifier, prop, Array)
-      } else if (!prop || typeof prop !== 'object') {
-        break;
-      } else {
-        setup(notifier, prop, Object)
-      }
+      if (!prop || typeof prop !== 'object') break; // skip over non-objects
+      Object.observe(prop, function(changes) { // observe the property value
+        changes.forEach(function(change) { // and for each change
+          notifier.notify(change);
+        });
+      });
       notifySubobjectChanges(prop); // repeat for sub-subproperties
     }
   }
