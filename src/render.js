@@ -196,7 +196,6 @@
     var args = module.getArgs(i)
       // check if data changed
     if (iscached(i, args)) {
-      render.callLCEvent('didupdate', module, i)
       return
     }
 
@@ -205,6 +204,7 @@
     callView(ele, module, i)
 
     fill.fill(ele, args[0])
+    render.callLCEvent('didupdate', module, i)
   }
 
   render.setupWatch = function(args, fill, elementClone, i, module) {
@@ -214,7 +214,11 @@
     var observer = function(changes) {
         changes.forEach(function(change) {
 
-          if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && !change.object[change.name].data) {
+          if (change.type == 'update' 
+          && change.oldValue && change.oldValue.type == 'fun' 
+          && change.oldValue.data && change.oldValue.data.type == 'module' 
+          && change.object[change.name] 
+          && !change.object[change.name].data) {
             // call unloader for module
             render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
               //console.log(change.name,change.object[change.name].data, change.oldValue.data)
