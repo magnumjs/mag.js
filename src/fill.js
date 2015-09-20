@@ -8,7 +8,9 @@
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
-    MAGNUM_KEY = '_key'
+    MAGNUM_KEY = '_key',
+    count = [];
+
 
   // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
@@ -58,10 +60,10 @@
     return parseInt(s) - 1
   }
 
-  // function getPathId(p) {
-  //   //id("mathdemo3")
-  //   return p && p.split('id("')[1].split('")')[0]
-  // }
+  function getPathId(p) {
+    //id("mathdemo3")
+    return p && p.split('id("')[1].split('")')[0]
+  }
   var templates = {},
     gkeys = {} // What about nested Lists, which guid?
     //firstRun = false;
@@ -140,8 +142,8 @@
         return i[MAGNUM_KEY]
       })
 
-
-      // add keys if equal
+      count[0] = [getPathId(key), data.length]
+        // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
 
 
@@ -536,7 +538,6 @@
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
   }
-  //var count = []
 
   function addCloneId(html, index) {
     // change id
@@ -729,7 +730,7 @@
 
   mag.fill = {
     fill: fill,
-    //count: count,
+    count: count,
     elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
