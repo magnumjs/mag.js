@@ -15,7 +15,7 @@
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 
 ###Shortcuts
-<a href="#Examples">Examples</a> - <a href="#Tutorials">Tutorials</a> - <a href="#Videos">Videos</a> - <a href="#Api">Api</a>
+<a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#Videos">Videos</a> - <a href="#Api">Api</a>
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
