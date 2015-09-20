@@ -149,7 +149,7 @@
     })
   }
 
-  mag.count = []
+  //mag.count = []
 
   function getRendVal(domElementId, index, clone, props) {
     if (index > -1 && typeof props.key == 'undefined' && clone) {
@@ -166,6 +166,7 @@
     //   props._parentId = mag.module.caller._nodeId
     // }
     //var fid = domElementId + '.' + parentId;
+    /*
     var fid = fill.count[domElementId]
     if (index < 0 && clone && typeof props.key == 'undefined' && fid) {
 
@@ -174,13 +175,13 @@
         //count[domElementId].times++
 
         if (fid && mag.count[domElementId].size != fid[0]) {
-          //console.log('AMOUNT', fill.count[fid])
+          console.log('AMOUNT', fid[0])
           mag.count[domElementId].key = 0
         }
       mag.count[domElementId].size = fid && fid[0]
       props.key = mag.count[domElementId].key
 
-      //console.log(domElementId, props.key, fid)
+      console.log(domElementId, props.key, fid, mag.count[domElementId])
 
       /*
       // search children for first comment with
@@ -207,9 +208,10 @@
       count[domElementId].size = r.length
       props.key = count[domElementId].key
       */
-      //console.log(count[domElementId].times, domElementId, count[domElementId], props.key)
+    //console.log(count[domElementId].times, domElementId, count[domElementId], props.key)
 
-    }
+    // }
+
     var nextIndex;
 
     // create new index on roots
