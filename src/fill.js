@@ -58,10 +58,10 @@
     return parseInt(s) - 1
   }
 
-  function getPathId(p) {
-    //id("mathdemo3")
-    return p && p.split('id("')[1].split('")')[0]
-  }
+  // function getPathId(p) {
+  //   //id("mathdemo3")
+  //   return p && p.split('id("')[1].split('")')[0]
+  // }
   var templates = {},
     gkeys = {} // What about nested Lists, which guid?
     //firstRun = false;
@@ -470,7 +470,8 @@
     //if(p && pId)console.log('PARENT',p, pId)
 
 
-    setHtml(node, attributes.html, tagIndex, p && getPathId(p))
+    // setHtml(node, attributes.html, tagIndex, p && getPathId(p))
+    setHtml(node, attributes.html, tagIndex)
 
 
   }
@@ -535,15 +536,15 @@
   function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
   }
-  var count = []
+  //var count = []
 
-  function addCloneId(html, index, pId) {
+  function addCloneId(html, index) {
     // change id
     if (html.cloner) {
       //count[html.id+'.'+pId] = index+1
-      count[html.id] = [index + 1, pId]
-        // console.log('PID',  html.id, pId)
-        // check if already has
+      //count[html.id] = [index + 1, pId]
+      // console.log('PID',  html.id, pId, index)
+      // check if already has
       html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
 
     }
@@ -551,9 +552,9 @@
 
   var tree
 
-  function setChildNode(parent, child, tagIndex, pId) {
+  function setChildNode(parent, child, tagIndex) {
 
-    addCloneId(child, tagIndex, pId)
+    addCloneId(child, tagIndex)
 
     // var sp1 = document.createElement("span")
     // parent.appendChild(sp1)
@@ -563,7 +564,7 @@
     else parent.appendChild(child)
   }
 
-  function setHtml(node, html, tagIndex, pId) {
+  function setHtml(node, html, tagIndex) {
 
     if (!node || html == null) return;
 
@@ -576,11 +577,11 @@
     // }
 
     if (typeof html === FUNCTION && html().nodeType === 1) {
-      setChildNode(node, html(), tagIndex, pId);
+      setChildNode(node, html(), tagIndex);
 
     } else if (html.nodeType === 1) {
 
-      setChildNode(node, html, tagIndex, pId);
+      setChildNode(node, html, tagIndex);
 
     } else {
       node.innerHTML = html;
@@ -728,7 +729,7 @@
 
   mag.fill = {
     fill: fill,
-    count: count,
+    //count: count,
     elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
