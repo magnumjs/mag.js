@@ -24,7 +24,7 @@
       controller = module.controllers[i];
 
     //module.modules[i].id = elementClone.id;
-    mag.count = []
+    // mag.count = []
 
     if (mod) mod.view(args[0], elementClone)
   }
