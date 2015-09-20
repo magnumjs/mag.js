@@ -149,7 +149,7 @@
     })
   }
 
-  //mag.count = []
+  mag.count = []
 
   function getRendVal(domElementId, index, clone, props) {
     if (index > -1 && typeof props.key == 'undefined' && clone) {
@@ -158,70 +158,80 @@
     }
 
 
-
-
     //if parent then give info to current
     // TODO: removed until valid use case
     // if (mag.module.caller) {
     //   props._parentId = mag.module.caller._nodeId
     // }
     //var fid = domElementId + '.' + parentId;
-    /*
-    var fid = fill.count[domElementId]
-    if (index < 0 && clone && typeof props.key == 'undefined' && fid) {
+    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count) {
 
-      if (!mag.count[domElementId]) mag.count[domElementId] = {}
-      mag.count[domElementId].key++
+      var parentId = fill.count[0][0]
+      var size = fill.count[0][1]
+
+      if (!mag.count[domElementId]) mag.count[domElementId] = {
+          key: -1
+        }
         //count[domElementId].times++
-
-        if (fid && mag.count[domElementId].size != fid[0]) {
-          console.log('AMOUNT', fid[0])
-          mag.count[domElementId].key = 0
-        }
-      mag.count[domElementId].size = fid && fid[0]
-      props.key = mag.count[domElementId].key
-
-      console.log(domElementId, props.key, fid, mag.count[domElementId])
-
-      /*
-      // search children for first comment with
-      var r = parent.querySelectorAll('[id^=__magnum__' + domElementId + ']')
-      // remove items / length that don't have the same parentId at the end of the string
-      var size=0
-      for(var j in r){
-        if(r[j].id && r[j].id.split('.').pop() == parentId){
-          size++
-        }
+        //console.log(size, mag.count[domElementId].key)
+      if (size == mag.count[domElementId].key) {
+        //console.log('AMOUNT', size)
+        mag.count[domElementId].key = 0
       }
 
-      if (!count[domElementId]) count[domElementId] = {
-        size: size,
-        times: 0,
-        keys: 0
-      }
-      count[domElementId].key++
-        count[domElementId].times++
-        if (typeof count[domElementId].size != 'undefined' && count[domElementId].size != r.length) {
-          //console.log('AMOUNT', r.length)
-          count[domElementId].key = 0
+      //props.key = mag.count[domElementId].key
+      mag.count[domElementId].key++
+
+        //console.log(domElementId, props.key, mag.count[domElementId])
+        return domElementId + '.' + mag.count[domElementId].key + '.' + parentId
+
+    }
+    /*
+          if (index < 0 && clone && typeof props.key == 'undefined') {
+    //console.log(fill.count)
+
+    var parentId = fill.count[0][0]
+    var size1 = fill.count[0][1]
+          // search children for first comment with
+          var r = document.querySelectorAll('[id^=__magnum__' + domElementId + ']')
+          // remove items / length that don't have the same parentId at the end of the string
+          var size=0
+          // for(var j in r){
+          //   if(r[j].id && r[j].id.split('.').pop() == parentId){
+          //     size++
+          //   }
+          // }
+          if (!mag.count[domElementId]) mag.count[domElementId] = {
+            size: size,
+            //times: 0,
+            keys: 0
+          }
+          mag.count[domElementId].key++
+            //mag.count[domElementId].times++
+            console.log(size1, size, r.length,  mag.count[domElementId].size, mag.count[domElementId].key)
+
+            
+            if (typeof mag.count[domElementId].size != 'undefined' && mag.count[domElementId].size != r.length) {
+              //console.log('AMOUNT', r.length)
+              mag.count[domElementId].key = 0
+            }
+          mag.count[domElementId].size = r.length
+         //props._key_ = mag.count[domElementId].key
+          
+        //console.log(mag.count[domElementId].times, domElementId, mag.count[domElementId], props.key)
+    return domElementId + '.' + mag.count[domElementId].key 
         }
-      count[domElementId].size = r.length
-      props.key = count[domElementId].key
-      */
-    //console.log(count[domElementId].times, domElementId, count[domElementId], props.key)
-
-    // }
-
+    */
     var nextIndex;
 
     // create new index on roots
-    if (index < 0) {
+    if (index < 0 && (clone || typeof props.key == 'undefined')) {
       nextIndex = render.roots.length;
       props.key = typeof props.key != 'undefined' ? props.key : nextIndex
     }
 
 
-    var rendVal = index > -1 && typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId + '.' + props.key;
+    var rendVal = typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId;
     return rendVal
   }
 
@@ -282,6 +292,7 @@
 
     // clear cache if exists
     if (!props.retain) render.clear(index, domElementId, fill)
+
 
     var rendVal = getRendVal(domElementId, index, clone, props)
 
