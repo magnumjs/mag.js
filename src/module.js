@@ -229,15 +229,19 @@
 
       if (Array.isArray(value) && value[0] && !value[0].__$$i && typeof value[0].then !== 'undefined' && typeof value[0].type != 'fun') {
         value[0].__$$i = 1
+
         Promise.all(value).then(function(args, k, val) {
           if (val) {
             value[0].__$$i == 0
             args[k] = val
+
             mag.redraw()
           }
         }.bind(this, args, k))
 
-      } else if (typeof value === 'object' && (!value || typeof value.then === 'undefined')) {
+      } else
+
+      if (typeof value === 'object' && (!value || typeof value.then === 'undefined')) {
         // recurse
         attachToArgs(i + '.' + k, value, element);
       } else {
