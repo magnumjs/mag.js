@@ -24,7 +24,7 @@
       controller = module.controllers[i];
 
     //module.modules[i].id = elementClone.id;
-    mag.count = []
+     mag.count = []
 
     if (mod) mod.view(args[0], elementClone)
   }
@@ -190,16 +190,16 @@
     if (frameId == prevId) return
     prevId = frameId
 
-    //TODO: return true then skip execution?
-    if (render.callLCEvent('willupdate', module, i, 1)) return
+    render.callLCEvent('isupdate', module, i)
+
 
     var args = module.getArgs(i)
       // check if data changed
     if (iscached(i, args)) {
       return
     }
-
-    render.callLCEvent('isupdate', module, i)
+    //TODO: return true then skip execution?
+    if (render.callLCEvent('willupdate', module, i, 1)) return
 
     callView(ele, module, i)
 
@@ -219,6 +219,8 @@
             render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
               //console.log(change.name,change.object[change.name].data, change.oldValue.data)
           }
+          //console.log('change', change.type, change.name)
+
         });
 
         module.controllers[i] = args[0]
@@ -268,8 +270,9 @@
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
       var handler = debounce(callback, 16)
+      // var handler = callback
       notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, handler);
+      Object.observe(obj, handler, ['add', 'update', 'delete']);
       //Object.unobserve(obj, handler);
     }
   }
