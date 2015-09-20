@@ -15,7 +15,7 @@
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 
 ###Shortcuts
-<a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#Videos">Videos</a> - <a href="#Api">Api</a>
+<a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#Videos">Videos</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
