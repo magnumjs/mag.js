@@ -14,6 +14,9 @@
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 
+###Shortcuts
+<a href="#Examples">Examples</a> - <a href="#Tutorials">Tutorials</a> - <a href="#Videos">Videos</a> - <a href="#Api">Api</a>
+
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
 alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
@@ -106,7 +109,7 @@ mag.module("hello", {
 (http://jsbin.com/badabiqigu/edit?js,output)
 
 [Hello array lifecycle event:]
-(http://jsbin.com/magumodacu/edit?js,output)
+(http://jsbin.com/xomajizame/edit?js,output)
 
 [Count:]
 (http://jsbin.com/wipaxiguce/edit?js,output)
