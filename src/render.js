@@ -214,11 +214,7 @@
     var observer = function(changes) {
         changes.forEach(function(change) {
 
-          if (change.type == 'update' 
-          && change.oldValue && change.oldValue.type == 'fun' 
-          && change.oldValue.data && change.oldValue.data.type == 'module' 
-          && change.object[change.name] 
-          && !change.object[change.name].data) {
+          if (change.type == 'update' && change.oldValue && change.oldValue.type == 'fun' && change.oldValue.data && change.oldValue.data.type == 'module' && change.object[change.name] && !change.object[change.name].data) {
             // call unloader for module
             render.callLCEvent('onunload', module, change.oldValue.data.id, 1)
               //console.log(change.name,change.object[change.name].data, change.oldValue.data)
@@ -255,7 +251,7 @@
   };
 
   function setup(notifier, prop, type) {
-    type.observe(prop, function(changes) { // observe the property value
+    type.observe && type.observe(prop, function(changes) { // observe the property value
       changes.forEach(function(change) { // and for each change
         notifier.notify(change);
       });
@@ -268,7 +264,7 @@
       var prop = object[k]; // get property value
       if (Array.isArray(prop)) {
         setup(notifier, prop, Array)
-      } else if (typeof prop == 'undefined' || typeof prop !== 'object') {
+      } else if (!prop || typeof prop !== 'object') {
         break;
       } else {
         setup(notifier, prop, Object)
