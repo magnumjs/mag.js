@@ -6,7 +6,10 @@ https://github.com/magnumjs/mag.js
 
 var mag = mag || {}
 
-
+  var type = {}.toString,
+    FUNCTION = 'function',
+    OBJECT = '[object Object]';
+    
 mag.withProp = function(prop, withAttrCallback) {
     return function(e) {
       e = e || event;
