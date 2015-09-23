@@ -33,6 +33,9 @@ License: MIT
 
   mag.module = function(id, mod, props) {
 
+    props = props || {}
+
+
     // already here before?
     if (mag.utils.items.isItem(id)) {
       if (reloader(mag.utils.items.getItem(id), getNode(id))) return;
@@ -227,7 +230,7 @@ License: MIT
     return mag.utils.callLCEvent('onreload', mag.mod.getState(idInstance), node, idInstance)
   }
 
-window.mag = mag
+  window.mag = mag
 
 
 })(window.mag || {}, document);
