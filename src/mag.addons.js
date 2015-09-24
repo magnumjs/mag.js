@@ -6,102 +6,6 @@ https://github.com/magnumjs/mag.js
 
 var mag = mag || {}
 
-  var type = {}.toString,
-    FUNCTION = 'function',
-    OBJECT = '[object Object]';
-    
-mag.withProp = function(prop, withAttrCallback) {
-    return function(e) {
-      e = e || event;
-      var currentTarget = e.currentTarget || this;
-      withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
-    }
-  }
-
-  mag.prop = function(store, custom) {
-
-    if (((store != null && type.call(store) === OBJECT) || typeof store === FUNCTION) && typeof store.then === FUNCTION) {
-      return propify(store, custom)
-    }
-
-    return gettersetter(store, custom)
-  }
-
-  function gettersetter(store, custom) {
-    var prop = function() {
-      if (arguments.length) {
-        store = arguments[0]
-          // too much ?
-      }
-      return store
-    }
-
-
-
-    // do we still need this?
-    // TODO: value hookin?
-    prop.type = 'fun'
-      // extra custom data to pass - used by the unloader event
-    prop.data = custom ? custom : null
-
-    prop.toJSON = function() {
-      // return a copy
-      if (store && store.nodeType) {
-        //make sure no circular references
-        //return store.innerHTML
-        return elementToObject(store)
-      }
-      return store
-    }
-
-    return prop
-  }
-
-
-function elementToObject(el, o) {
-
-    var o = {
-      tag: el.tagName
-    };
-    o['children'] = []
-    if (el.firstChild || el.children[0]) {
-      var item = el.firstChild || el.childNodes[0]
-      var val = item.nodeValue || item.value || item.innerText
-      if (val) val = val.replace(/\u00a0/g, "x").trim()
-      if (val) o['children'].push(val)
-    }
-
-    var i = 0;
-    o['attrs'] = {}
-    for (i; i < el.attributes.length; i++) {
-      o['attrs'][el.attributes[i].name] = el.attributes[i].value;
-    }
-
-    var children = el.children;
-    if (children.length) {
-
-      i = 0;
-      for (i; i < children.length; i++) {
-        var child = children[i];
-        o.children.push(elementToObject(child, o.children))
-      }
-    }
-    return o;
-  }
-
-  function propify(promise, initialValue, custom) {
-    var prop = mag.prop(initialValue, custom);
-    promise.then(prop);
-    //console.log(prop.data, prop()._html.data)
-    prop.then = function(resolve, reject) {
-      return propify(promise.then(resolve, reject), initialValue)
-    };
-    return prop
-  }
-
-
-
-
 /*
 module library creation with single global namespace / package names
 (function(namespace) {
@@ -265,25 +169,10 @@ mag.addons.copy = function(o) {
   return out;
 }
 
-// mag.addons.merge = function(source, destination) {
-//   for (var k in source) destination[k] = source[k]
-//   return destination;
-// }
-
-
-mag.addons.merge = function(destination, source) {
-  for (var p in source) {
-      if ( source[p].constructor == Object ) {
-          if (destination[p]) {
-              mag.addons.merge(destination[p], source[p]);
-              continue;
-          }
-      } 
-      destination[p] = source[p];
-  }
-  return destination
+mag.addons.merge = function(source, destination) {
+  for (var k in source) destination[k] = source[k]
+  return destination;
 }
-
 
 // return object of getter values
 mag.addons.getProp = function(data) {
