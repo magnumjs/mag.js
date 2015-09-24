@@ -1,31 +1,20 @@
-/*
-MagJS v0.17
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-
-(function(mag, configs) {
+;
+(function(mag, configs, document, undefined) {
 
   'use strict';
-
-
-  var fill = {}
-
 
   var ELEMENT_NODE = 1,
     cached = [],
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
-    MAGNUM_KEY = '_key',
-    ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate'],
-    templates = {};
+    MAGNUM_KEY = '_key'
+    //, count = [];
 
 
   // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
-    return {}.toString.call(obj) === '[object Array]'
+    return Object.prototype.toString.call(obj) === '[object Array]'
   }
 
 
@@ -48,32 +37,39 @@ License: MIT
   }
 
   function removeNode(node) {
-    // console.log('read inside removeNode')		
+    // console.log('read inside removeNode')
     var p = getPathTo(node)
-      // remove cache of all children too		
+      // remove cache of all children too
+
     node.parentNode.removeChild(node)
-      // call config unload if any ?		
-      //console.log(p, cached[p])		
+      // call config unload if any ?
+
+    //console.log(p, cached[p])
     if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
-      // what arg to send ?		
+      // what arg to send ?
       cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
     }
   }
-  // TODO: get index from getPathTo function		
+
+  // TODO: get index from getPathTo function
   function getPathIndex(p) {
+
     var s = p && parseInt(p.split('[').pop().slice(0, -1))
+
     if (!s) return 0
     return parseInt(s) - 1
   }
 
-  // function getPathId(p) {		
-  //   //id("mathdemo3")		
-  //   return p && p.split('id("')[1].split('")')[0]		
+  // function getPathId(p) {
+  //   //id("mathdemo3")
+  //   return p && p.split('id("')[1].split('")')[0]
   // }
-
+  var templates = {},
+    gkeys = {} // What about nested Lists, which guid?
+    //firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
-  fill.run = function(nodeList, data, key) {
+  function fill(nodeList, data, key) {
     var node, parent, dataIsArray
 
 
@@ -99,6 +95,7 @@ License: MIT
 
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
+      gkeys[key] = gkeys[key] || 0
 
       if (templates[key] && elements.length === 0) {
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
@@ -106,8 +103,9 @@ License: MIT
       }
 
       if (elements.length === 0) {
-        // should never reach here
-        // cannot fill empty nodeList with an array of data
+        gkeys[key] = 0
+          // should never reach here
+          // cannot fill empty nodeList with an array of data
         return
       }
       // clone the first node if more nodes are needed
@@ -219,7 +217,7 @@ License: MIT
         if (elements[i]) {
 
 
-          fill.run(elements[i], data[i])
+          fill(elements[i], data[i])
 
         }
       } else {
@@ -231,14 +229,10 @@ License: MIT
           elements[i][MAGNUM].dataPass = data
         }
 
-        var tagIndex = getPathIndex(key)
-        fillNode(elements[i], data, tagIndex)
+        fillNode(elements[i], data)
       }
 
     }
-
-
-    // return the original nodeList for jQuery chaining
     return nodeList
   }
 
@@ -251,33 +245,21 @@ License: MIT
     }
   }
 
-  function fillNode(node, data, index) {
-    var attributes;
-    var attrValue;
-
-    var element;
-    var elements;
+  function fillNode(node, data) {
+    var attributes,
+      attrValue,
+      element,
+      elements
 
     // ignore functions
-    if (typeof data === 'function') {
-      var val = data(index)
-      if (val.nodeType && val.nodeType == ELEMENT_NODE) {
-        // attach node to node
-        if (node.firstChild) node.replaceChild(val, node.firstChild)
-        else node.appendChild(val)
-
-
-        return function(id) {
-          // cache function of this instance
-          console.log('called again', id)
-        }.bind({}, val.id)
-      } else {
-        var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
-        var obj = {}
-        obj[type] = val
-        return fillNode(node, obj)
-      }
+    if (typeof data === FUNCTION && typeof data()._html !== FUNCTION) {
+      return
     }
+
+    if (typeof data !== 'object' && typeof data === FUNCTION && typeof data()._html === FUNCTION) return fillNode(node, {
+      _html: data()._html
+    })
+
 
     // if the value is a simple property wrap it in the attributes hash
     if (typeof data !== 'object') return fillNode(node, {
@@ -300,10 +282,14 @@ License: MIT
         })
       }
 
+      //TODO: prepend attributes ? double underscore ??
+
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
+
         attributes = attributes || {}
         attributes[key.substr(1)] = value;
+
       }
     }
 
@@ -311,30 +297,50 @@ License: MIT
 
     // fill in all the attributes
     if (attributes) {
+
+
+
+
       fillAttributes(node, attributes)
+
     }
 
-
-
-    // look for non-attribute keys and recurse into those elements
+    var index = 0,
+      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+      // look for non-attribute keys and recurse into those elements
     for (var key in data) {
-      var value = data[key]
 
       // ignore certain system keys
       if (ignorekeys.indexOf(key) !== -1) continue
+
+      var value = data[key]
 
       // only attributes start with an underscore
       if (key[0] !== '_') {
         elements = matchingElements(node, key);
 
+        // function 
+        if (typeof value === FUNCTION && value.type == 'fun') {
+          // try {
+
+          value = value()
+
+          // } catch (e) {}
+        }
+
+        // if is array make sure we load all elements not just the first for existing lists
+
         if (_isArray(value)) {
           elements = matchingElements(node, '$' + key);
         }
 
-        fill.run(elements, value, p + '/' + key);
+        fill(elements, value, p + '/' + key);
+
+        index++
       }
     }
   }
+
 
   // freeze the NodeList into a real Array so it can't update as DOM changes
   function nodeListToArray(nodeList) {
@@ -361,20 +367,21 @@ License: MIT
     return nodeList;
   }
 
-
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
     var p = getPathTo(node),
       tagIndex = getPathIndex(p)
 
 
+    // attach to topId so can be removed later
+
+    // node._events = node._events || []
 
     // set the rest of the attributes
     for (var attrName in attributes) {
 
       // skip text and html, they've already been set
       if (attrName === 'text' || attrName === 'html') continue
-
 
       // events
       if (attrName.indexOf('on') == 0) {
@@ -393,8 +400,9 @@ License: MIT
               index: parentIndex
             }
           var ret = fun.call(node, e, tagIndex, node, parent)
-            // What if ret is a promise?
-
+            // what ret is a promise
+            //if(ret.then && ret.then == FUNCTION)
+          mag.redraw()
           return ret
         }.bind({}, attributes[attrName], node)
 
@@ -425,7 +433,8 @@ License: MIT
               return data.apply(data, args)
             }
           }
-          configs[p] = callback(attributes[attrName], [node, isNew, context, tagIndex])
+
+          configs.push(callback(attributes[attrName], [node, isNew, context, tagIndex]))
           continue
         }
 
@@ -449,15 +458,25 @@ License: MIT
           node.setAttribute(attrName, attributes[attrName].toString())
         }
 
-
       }
     }
 
+
     // set html after setting text because html overrides text
     setText(node, attributes.text)
-    setHtml(node, attributes.html, tagIndex)
-  }
 
+    // get parent
+
+    //var pId =p && getPathId(p)
+
+    //if(p && pId)console.log('PARENT',p, pId)
+
+
+    // setHtml(node, attributes.html, tagIndex, p && getPathId(p))
+    setHtml(node, attributes.html, tagIndex)
+
+
+  }
 
   function setText(node, text, xpath) {
     var child, children
@@ -503,12 +522,76 @@ License: MIT
       node.value = text.toString();
     }
 
+    // if (node.nodeName === 'SELECT') {
+    //     for(var k in node.childNodes){
+    //       if(node.childNodes[k].innerText){
+    //         node.childNodes[k].setAttribute('value', node.childNodes[k].innerText);
+    //         if(node.childNodes[k].innerText == text.toString()){
+    //           node.childNodes[k].setAttribute('selected',true);
+    //         }
+    //       }
+    //     }
+    //     node.value=text.toString();
+    // }
   }
 
+  function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+  }
 
-  function setHtml(node, html) {
+  function addCloneId(html, index) {
+    // change id
+    if (html.cloner) {
+      //count[html.id+'.'+pId] = index+1
+      //count[html.id] = [index + 1, pId]
+      // console.log('PID',  html.id, pId, index)
+      // check if already has
+      html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
+
+    }
+  }
+
+  var tree
+
+  function setChildNode(parent, child, tagIndex) {
+
+    addCloneId(child, tagIndex)
+
+    // var sp1 = document.createElement("span")
+    // parent.appendChild(sp1)
+    // parent.replaceChild(child, sp1);
+
+    if (parent.firstChild) parent.replaceChild(child, parent.firstChild)
+    else parent.appendChild(child)
+  }
+
+  function setHtml(node, html, tagIndex) {
+
     if (!node || html == null) return;
-    node.innerHTML = html;
+
+    // var display = node.style.display || 'block';
+    // node.style.display = 'none';
+
+    // remove all children
+    // while (node.firstChild) {
+    //   node.removeChild(node.firstChild);
+    // }
+
+    if (typeof html === FUNCTION && html().nodeType === 1) {
+      setChildNode(node, html(), tagIndex);
+
+    } else if (html.nodeType === 1) {
+
+      setChildNode(node, html, tagIndex);
+
+    } else {
+      node.innerHTML = html;
+    }
+
+    // node.style.display = display;
+
+    // CAN'T do below since it will append on every new call
+    // node.insertAdjacentHTML("afterbegin", html)
   };
 
 
@@ -520,6 +603,8 @@ License: MIT
   // when someone is running performance benchmarks.
   //===========================================================================
 
+
+  // find all of the matching elements (breadth-first)
 
   function matchingElements(node, key, nested) {
     var elements = childElements(node)
@@ -603,6 +688,13 @@ License: MIT
     );
   }
 
+  function clear() {
+    //console.log('clear called')
+    //firstRun = true
+    //CLEAR CACHE TOO?
+    //cached=[]
+  }
+
   function elementToObject(el, o) {
 
     var o = {
@@ -635,11 +727,17 @@ License: MIT
   }
 
 
-  fill.elementToObject = elementToObject
-  fill.cached = cached
-  fill.configs = configs
-  fill.find = matchingElements
 
-  mag.fill = fill;
+  mag.fill = {
+    fill: fill,
+    //count: count,
+    elementToObject: elementToObject,
+    cached: cached,
+    find: matchingElements,
+    // clear: clear,
+    // unclear: unclear,
+    configs: configs
+  }
+  window.mag = mag
 
-}(window.mag || {}, []));
+}(window.mag || {}, [], document))
