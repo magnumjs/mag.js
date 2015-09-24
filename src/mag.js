@@ -1,103 +1,87 @@
-/*
-MagJS v0.17
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
+;
 (function(mag, document, undefined) {
 
   'use strict';
 
-  var hookins = {
+  var module = mag.mod,
+    render = mag.render,
+    fill = mag.fill,
+    type = {}.toString,
+    FUNCTION = 'function',
+    OBJECT = '[object Object]',
+    redrawing = false,
+    hookins = {
       attributes: [],
       elementMatcher: []
-    },
-    funqueue = []
+    }
 
+  mag.redrawing = false
+  mag.redraw = function(force) {
+    if (mag.redrawing) {
+      return
+    }
+    mag.redrawing = true
+    render.redraw(module || render.module || {}, fill, force)
+  }
 
-  mag.build = function(id, module, props) {
-    var instance,
-      a = function(id2, props2) {
-        if (typeof id2 !== 'string') {
-          props2 = [].concat(id2)[0]
-          id2 = 0
-        }
-        instance = mag.module(id2 || id, module, mag.utils.copy(mag.utils.merge(props2 || {}, props || {})))
-        return instance;
+  mag.withProp = function(prop, withAttrCallback) {
+    return function(e) {
+      e = e || event;
+      var currentTarget = e.currentTarget || this;
+      withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
+    }
+  }
+
+  mag.prop = function(store, custom) {
+
+    if (((store != null && type.call(store) === OBJECT) || typeof store === FUNCTION) && typeof store.then === FUNCTION) {
+      return propify(store, custom)
+    }
+
+    return gettersetter(store, custom)
+  }
+
+  function gettersetter(store, custom) {
+    var prop = function() {
+      if (arguments.length) {
+        store = arguments[0]
+          // too much ?
+        mag.redraw()
       }
-    a.toJSON = function() {}
-    a.getState = function() {}
-    a.toHTML = function() {}
-    return a;
-  }
-
-  mag.module = function(id, mod, props) {
-
-    props = props || {}
-
-
-    // already here before?
-    if (mag.utils.items.isItem(id)) {
-      if (reloader(mag.utils.items.getItem(id), getNode(id))) return;
+      return store
     }
 
 
-    // get unique instance ID if not exists or with props.key
-    var idInstance = props.key && mag.utils.items.isItem(id + '.'.props.key) || mag.utils.getItemInstanceId(id)
 
+    // do we still need this?
+    // TODO: value hookin?
+    prop.type = 'fun'
+      // extra custom data to pass - used by the unloader event
+    prop.data = custom ? custom : null
 
-    // TODO: cache/ clearable
-    // clear cache if exists
-    // if (!props.retain) cache.clear(idInstance)
-
-    // get unqiue instance ID's module
-    mag.mod.submodule(idInstance, mod, props)
-
-    // NODE
-    var node = getNode(id)
-
-    //WATCH
-    observer(idInstance, id)
-
-    // LIFE CYCLE EVENT
-    if (mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)) return;
-
-    // unloader handlers in controller
-    addControllerUnloaders(idInstance)
-
-
-    // DRAW async
-    mag.redraw(node, idInstance, 1)
-
-    // LIFE CYCLE EVENT
-    mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
-
-
-    // return function to clone create new clone instances ;)
-    return makeClone(idInstance, node, mod, props)
-  }
-
-  mag.redraw = function(node, idInstance, force) {
-
-    // clear existing configs ?
-    // TODO: per idInstance / id ?
-    mag.fill.configs.splice(0, mag.fill.configs.length)
-
-    var fun = makeRedrawFun(node, idInstance, force)
-    funqueue.push(fun)
-
-    if (!mag.utils.throttle.redrawing) {
-      mag.utils.throttle(function() {
-        if (!mag.utils.throttle.redrawing) {
-          console.log('RUN', count++)
-          while (funqueue.length > 0) {
-            (funqueue.shift())();
-          }
-        }
-      })
+    prop.toJSON = function() {
+      // return a copy
+      if (store && store.nodeType) {
+        //make sure no circular references
+        //return store.innerHTML
+        return fill.elementToObject(store)
+      }
+      return store
     }
+
+    return prop
   }
-  var count = 0
+
+  function propify(promise, initialValue, custom) {
+    var prop = mag.prop(initialValue, custom);
+    promise.then(prop);
+    //console.log(prop.data, prop()._html.data)
+    prop.then = function(resolve, reject) {
+      return propify(promise.then(resolve, reject), initialValue)
+    };
+    return prop
+  }
+
 
   mag.hookin = function(name, key, handler) {
     hookins[name].push({
@@ -107,130 +91,257 @@ License: MIT
     })
   }
 
-  mag.hook = function(name, key, data) {
-    for (var i = 0, size = hookins[name].length; i < size; i++) {
-      mag.utils.callHook(hookins, key, name, i, data)
-    }
-  }
-
-
-  var makeClone = function(idInstance, node, mod, props) {
-    return function(id, node, mod, props, index) {
-
-      var cloner = node.cloneNode(1)
-      cloner.id = node.id + '.' + index;
-
-      var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
-
-      // get unqiue instance ID's module
-      mag.mod.submodule(idInstance2, mod, props)
-
-      observer(idInstance2, cloner.id)
-
-      // DRAW
-      mag.redraw(cloner, idInstance2, 1)
-      return cloner
-    }.bind({}, idInstance, node, mod, props)
-  }
-
-  function getNode(id) {
-    var node = document.getElementById(id);
-    if (!node) {
-      throw Error('invalid node id: ' + id);
-    }
-    return node;
-  }
-
-  var observer = function(idInstance, nodeId) {
-    mag.prop.setup(mag.mod.getState(idInstance), function(index, id, change) {
-      mag.redraw(getNode(id), index)
-    }.bind({}, idInstance, nodeId))
-  }
-
-
-  var makeRedrawFun = function(node, idInstance, force) {
-    return function(node, idInstance, force) {
-
-      var state = mag.mod.getState(idInstance)
-
-      // LIFE CYCLE EVENT
-      if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
-
-      // CACHED?
-      if (mag.mod.iscached(idInstance, state) && !force) {
-        return 0;
-      };
-
-      // LIFE CYCLE EVENT
-      if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
-
-      //RUN VIEW FUN
-      mag.mod.callView(node, idInstance);
-
-      //START DOM
-      var display = node.style.display || ''
-      node.style.display = 'none'
-      var node = mag.fill.run(node, state)
-      node.style.display = display
-        // END DOM
-
-
-      //CONFIGS
-      callConfigs(node.id, mag.fill.configs)
-
-      // add configs unloaders
-      addConfigUnloaders(node.id, idInstance)
-
-      // LIFE CYCLE EVENT
-      mag.utils.callLCEvent('didupdate', state, node)
-
-    }.bind({}, node, idInstance, force)
-  }
-
-
-  var callConfigs = function(id, configs) {
-    for (var k in configs) {
-      if (k.indexOf('id("' + id + '")/') > -1) {
-        configs[k]()
+  function callHook(key, name, i, data, before) {
+    data.change = false
+    if (hookins[name][i].key == key) {
+      before = JSON.stringify({
+        v: data.value,
+        k: data.key
+      })
+      hookins[name][i].handler.call(hookins[name][i].context, data)
+        //if any change
+      if (before !== JSON.stringify({
+          v: data.value,
+          k: data.key
+        })) {
+        data.change = true
       }
     }
   }
 
-  var addControllerUnloaders = function(idInstance) {
-    // TODO: controller unloaders
-    var state = mag.mod.getState(idInstance)
-    mag.utils.unloaders[idInstance] = mag.utils.unloaders[idInstance] || []
-    if (state.onunload) mag.utils.unloaders[idInstance].push({
-      controller: state,
-      handler: state.onunload
+  mag.hook = function(name, key, data) {
+    for (var i = 0, size = hookins[name].length; i < size; i++) {
+      callHook(key, name, i, data)
+    }
+  }
+  var reloader = function(index, domElementId) {
+    //console.log('reloaded', index, domElementId)
+    // remove cache ?
+    //delete render.cache[index]
+    //console.log(render.cache[index] ? JSON.parse(render.cache[index]) : 'no cache')
+    render.callLCEvent('onreload', module, index)
+  }
+
+  function runPromise(index, controller, clone) {
+
+    if (controller.onunload) render.unloaders.push({
+      controller: controller,
+      handler: controller.onunload
+    })
+
+    module.promises[index] = new Promise(function(resolve, reject) {
+      module.deferreds[index] = arguments
+        // call onload if present in controller
+        // if (controller.onload && !mag.running) render.callOnload(module)
+    }.bind({}, clone))
+
+    //INTERPOLATIONS
+    mag.redraw()
+    return propify(module.promises[index], {
+      // _html: fill.cloneNodeWithEvents(module.elements[index])
+      _html: mag.prop(module.elements[index])
+        // _html: function() {
+        // return module.elements[index]
+        // }
+    }, {
+      type: 'module',
+      id: index
     })
   }
 
-  var addConfigUnloaders = function(id, index) {
+  //mag.count = []
+
+  function getRendVal(domElementId, index, clone, props) {
+    if (index > -1 && typeof props.key == 'undefined' && clone) {
+      //console.log(domElementId, index)
+      //props.key = index
+    }
 
 
-    for (var k in mag.fill.cached) {
-      //console.log(module.elements[index].id, k)
-      if (k.indexOf('id("' + id + '")/') > -1 && k.indexOf('-config') > -1 && mag.fill.cached[k].configContext) {
-        // console.log(k, mag.fill.cached[k].configContext.onunload)
+    //if parent then give info to current
+    // TODO: removed until valid use case
+    // if (mag.module.caller) {
+    //   props._parentId = mag.module.caller._nodeId
+    // }
+    //var fid = domElementId + '.' + parentId;
+    /*
+    if (index < 0 && clone && typeof props.key == 'undefined' && fill.count && fill.count[0]) {
 
-        mag.utils.unloaders[index] = mag.utils.unloaders[index] || []
+      var parentId = fill.count[0][0]
+      var size = fill.count[0][1]
 
-        mag.utils.unloaders[index].push({
-          controller: mag.fill.cached[k].configContext,
-          handler: mag.fill.cached[k].configContext.onunload
-        })
+      if (!mag.count[domElementId]) mag.count[domElementId] = {
+          key: -1
+        }
+        //count[domElementId].times++
+        //console.log(size, mag.count[domElementId].key)
+      if (size == mag.count[domElementId].key) {
+        //console.log('AMOUNT', size)
+        mag.count[domElementId].key = 0
+      }
+
+      //props.key = mag.count[domElementId].key
+      mag.count[domElementId].key++
+
+        //console.log(domElementId, props.key, mag.count[domElementId])
+        return domElementId + '.' + mag.count[domElementId].key + '.' + parentId
+
+    }
+    */
+    /*
+          if (index < 0 && clone && typeof props.key == 'undefined') {
+    //console.log(fill.count)
+
+    var parentId = fill.count[0][0]
+    var size1 = fill.count[0][1]
+          // search children for first comment with
+          var r = document.querySelectorAll('[id^=__magnum__' + domElementId + ']')
+          // remove items / length that don't have the same parentId at the end of the string
+          var size=0
+          // for(var j in r){
+          //   if(r[j].id && r[j].id.split('.').pop() == parentId){
+          //     size++
+          //   }
+          // }
+          if (!mag.count[domElementId]) mag.count[domElementId] = {
+            size: size,
+            //times: 0,
+            keys: 0
+          }
+          mag.count[domElementId].key++
+            //mag.count[domElementId].times++
+            console.log(size1, size, r.length,  mag.count[domElementId].size, mag.count[domElementId].key)
+
+            
+            if (typeof mag.count[domElementId].size != 'undefined' && mag.count[domElementId].size != r.length) {
+              //console.log('AMOUNT', r.length)
+              mag.count[domElementId].key = 0
+            }
+          mag.count[domElementId].size = r.length
+         //props._key_ = mag.count[domElementId].key
+          
+        //console.log(mag.count[domElementId].times, domElementId, mag.count[domElementId], props.key)
+    return domElementId + '.' + mag.count[domElementId].key 
+        }
+    */
+
+    // create new index on roots
+    if (index < 0 && (clone || typeof props.key == 'undefined')) {
+      props.key = typeof props.key != 'undefined' ? props.key : render.roots.length
+    }
+
+
+    return typeof props.key != 'undefined' ? domElementId + '.' + props.key : domElementId;
+  }
+
+  // function findIndex(a, test) {
+  //   var found = -1
+  //   a.every(function(n, k) {
+  //     var index = n.split('.')[0] == test ? 0 : -1
+  //     index > -1 ? found = k : 0
+  //     return index < 0;
+  //   });
+  //   return found;
+  // }
+
+  mag.module = function(domElementId, moduleObject, props, clone) {
+
+
+    //MODULE
+    if (!moduleObject.view) throw Error('Mag.JS module - requires a view: ' + domElementId + moduleObject)
+
+
+    // generate / reuse key for each module call
+
+    var props = props || {}
+
+    /*
+    var   parentMod;
+    try {
+      throw new Error();
+    } catch (e) {
+      var st = e.stack,
+        lines = st.split("\n");
+      for (var k in lines) {
+        if (lines[k].indexOf && lines[k].indexOf('.view') > -1 && lines[k].indexOf(' ') > -1) {
+          //console.log(lines[k].trim().split(' ')[1])
+          parentMod = lines[k].trim().split(' ')[1].split('.')[1]
+            //console.log(parentMod)
+          break;
+        }
+      }
+    }
+    //get parentmod index
+    var pindex, parentId;
+    if (module.modules && parentMod) {
+      pindex = findIndex(render.roots, parentMod)
+        //console.log('PARENTMOD', domElementId, parentMod, pindex)
+      parentId = module.modules[pindex] ? module.modules[pindex].id : 0
+        // console.log(parentId)
+        //var pid = document.getElementById(parentMod)
+        //  if (pid) parent = pid
+    }
+*/
+
+
+    var index = render.roots.indexOf(domElementId)
+
+    //UNLOADERS that exist?
+    if (index > -1 && reloader(index, domElementId)) return
+
+
+    // clear cache if exists
+    if (!props.retain) render.clear(index, domElementId, fill)
+
+
+    var rendVal = getRendVal(domElementId, index, clone, props)
+
+
+    //console.log(props.key, index, domElementId, rendVal,parentMod)
+
+
+    // already exists
+    if (render.roots.indexOf(rendVal) >= 0) {
+
+      //console.log('REUSING EXISTING', rendVal)
+
+      var index = render.roots.indexOf(rendVal)
+
+      return runPromise(index, module.controllers[index], clone);
+
+    }
+    if (render.roots.indexOf(rendVal) < 0) {
+      if (index < 0) {
+        index = render.roots.length;
+      } else {
+
+        // console.log('CREATE NEW FROM EXISTING', index, props.key)
 
       }
+      //console.log('CREATING', index, rendVal)
+      // DOM
+      var element = document.getElementById(domElementId)
+
+      if (!element) throw Error('Mag.JS Module - invalid node id: ' + domElementId)
+
+      render.roots[index] = rendVal
+
+
+      // TODO: should props be frozen or changeable?
+      var mod = module.submodule(moduleObject, [props])
+
+      var controller = module.getController(index, mod, element, fill)
+
+      module.controllers[index] = controller
+
+
+      module.modules[index] = mod
+
+      module.elements[index] = clone ? element.cloneNode(true) : element
+      module.elements[index].cloner = clone
+
+      return runPromise(index, controller, clone);
     }
   }
 
-
-  var reloader = function(idInstance, node) {
-    return mag.utils.callLCEvent('onreload', mag.mod.getState(idInstance), node, idInstance)
-  }
-
-  window.mag = mag
-
-
-})(window.mag || {}, document);
+})(window.mag || {}, document)
