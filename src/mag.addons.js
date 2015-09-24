@@ -48,13 +48,45 @@ mag.withProp = function(prop, withAttrCallback) {
       // return a copy
       if (store && store.nodeType) {
         //make sure no circular references
-        return store.innerHTML
-        //return fill.elementToObject(store)
+        //return store.innerHTML
+        return elementToObject(store)
       }
       return store
     }
 
     return prop
+  }
+
+
+function elementToObject(el, o) {
+
+    var o = {
+      tag: el.tagName
+    };
+    o['children'] = []
+    if (el.firstChild || el.children[0]) {
+      var item = el.firstChild || el.childNodes[0]
+      var val = item.nodeValue || item.value || item.innerText
+      if (val) val = val.replace(/\u00a0/g, "x").trim()
+      if (val) o['children'].push(val)
+    }
+
+    var i = 0;
+    o['attrs'] = {}
+    for (i; i < el.attributes.length; i++) {
+      o['attrs'][el.attributes[i].name] = el.attributes[i].value;
+    }
+
+    var children = el.children;
+    if (children.length) {
+
+      i = 0;
+      for (i; i < children.length; i++) {
+        var child = children[i];
+        o.children.push(elementToObject(child, o.children))
+      }
+    }
+    return o;
   }
 
   function propify(promise, initialValue, custom) {
@@ -233,10 +265,25 @@ mag.addons.copy = function(o) {
   return out;
 }
 
-mag.addons.merge = function(source, destination) {
-  for (var k in source) destination[k] = source[k]
-  return destination;
+// mag.addons.merge = function(source, destination) {
+//   for (var k in source) destination[k] = source[k]
+//   return destination;
+// }
+
+
+mag.addons.merge = function(destination, source) {
+  for (var p in source) {
+      if ( source[p].constructor == Object ) {
+          if (destination[p]) {
+              mag.addons.merge(destination[p], source[p]);
+              continue;
+          }
+      } 
+      destination[p] = source[p];
+  }
+  return destination
 }
+
 
 // return object of getter values
 mag.addons.getProp = function(data) {
