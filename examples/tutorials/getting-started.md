@@ -328,7 +328,7 @@ mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
 
-[Todo JSBin example](http://jsbin.com/havaqafuqa/edit)
+[Todo JSBin example](http://jsbin.com/havaqafuqa/edit?html,output)
 
 We are binding our list to the class list in the OL - more about lists here:
 
