@@ -101,7 +101,7 @@ mag.module("hello", {
 [Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/bapafacava/edit?js,output)
 
 [Hello world with passFail reusable component:]
-(http://jsbin.com/xemugoyehe/edit?js,output)
+(http://jsbin.com/situranusa/edit?js,output)
 
 [Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
 (http://jsbin.com/badabiqigu/edit?js,output)
