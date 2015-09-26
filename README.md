@@ -131,7 +131,7 @@ mag.module("hello", {
 (http://jsbin.com/kodumalodo/edit?js,output)
 
 [Filter list components:]
-(http://jsbin.com/xigipeziqi/edit?js,output)
+(http://jsbin.com/tuduzapecu/edit?js,output)
 
 [Quiz](http://jsbin.com/xuzavunaci/2/edit?js,output)
 
