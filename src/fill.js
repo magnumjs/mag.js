@@ -1,16 +1,15 @@
 ;
 (function(mag, configs, document, undefined) {
 
-  'use strict';
+  "use strict";
 
   var ELEMENT_NODE = 1,
     cached = [],
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
-    MAGNUM_KEY = '_key'
-    //, count = [];
-
+    MAGNUM_KEY = '_key',
+    ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate'];
 
   // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
@@ -60,10 +59,7 @@
     return parseInt(s) - 1
   }
 
-  // function getPathId(p) {
-  //   //id("mathdemo3")
-  //   return p && p.split('id("')[1].split('")')[0]
-  // }
+
   var templates = {},
     gkeys = {} // What about nested Lists, which guid?
     //firstRun = false;
@@ -92,10 +88,8 @@
 
     dataIsArray = _isArray(data)
 
-
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
-      gkeys[key] = gkeys[key] || 0
 
       if (templates[key] && elements.length === 0) {
         templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
@@ -103,9 +97,8 @@
       }
 
       if (elements.length === 0) {
-        gkeys[key] = 0
-          // should never reach here
-          // cannot fill empty nodeList with an array of data
+        // should never reach here
+        // cannot fill empty nodeList with an array of data
         return
       }
       // clone the first node if more nodes are needed
@@ -142,7 +135,7 @@
         return i[MAGNUM_KEY]
       })
 
-      //count[0] = [getPathId(key),data.length]
+
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
 
@@ -212,7 +205,7 @@
 
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
-      var p = getPathTo(elements[i])
+      //var p = getPathTo(elements[i])
       if (dataIsArray) {
         if (elements[i]) {
 
@@ -229,7 +222,7 @@
           elements[i][MAGNUM].dataPass = data
         }
 
-        fillNode(elements[i], data)
+        fillNode(elements[i], data, elements[i].id +i)
       }
 
     }
@@ -245,7 +238,7 @@
     }
   }
 
-  function fillNode(node, data) {
+  function fillNode(node, data, index) {
     var attributes,
       attrValue,
       element,
@@ -258,13 +251,13 @@
 
     if (typeof data !== 'object' && typeof data === FUNCTION && typeof data()._html === FUNCTION) return fillNode(node, {
       _html: data()._html
-    })
+    }, index)
 
 
     // if the value is a simple property wrap it in the attributes hash
     if (typeof data !== 'object') return fillNode(node, {
       _text: data
-    })
+    }, index)
 
     // find all the attributes
     for (var key in data) {
@@ -293,20 +286,16 @@
       }
     }
 
-    var p = getPathTo(node)
+    //var p = getPathTo(node)
 
     // fill in all the attributes
     if (attributes) {
 
 
-
-
-      fillAttributes(node, attributes)
+      fillAttributes(node, attributes, index)
 
     }
 
-    var index = 0,
-      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
       // look for non-attribute keys and recurse into those elements
     for (var key in data) {
 
@@ -334,9 +323,8 @@
           elements = matchingElements(node, '$' + key);
         }
 
-        fill(elements, value, p + '/' + key);
+        fill(elements, value, index + '/' + key);
 
-        index++
       }
     }
   }
@@ -368,9 +356,8 @@
   }
 
   // fill in the attributes on an element (setting text and html first)
-  function fillAttributes(node, attributes) {
-    var p = getPathTo(node),
-      tagIndex = getPathIndex(p)
+  function fillAttributes(node, attributes, index) {
+
 
 
     // attach to topId so can be removed later
@@ -416,7 +403,8 @@
           // does the element already exist in cache
           // useful to know if this is newly added
           var isNew = true
-
+          var p = getPathTo(node),
+            tagIndex = getPathIndex(p);
           if (!cached[p + '-config']) {
             cached[p + '-config'] = {}
           } else {
@@ -464,18 +452,7 @@
 
     // set html after setting text because html overrides text
     setText(node, attributes.text)
-
-    // get parent
-
-    //var pId =p && getPathId(p)
-
-    //if(p && pId)console.log('PARENT',p, pId)
-
-
-    // setHtml(node, attributes.html, tagIndex, p && getPathId(p))
-    setHtml(node, attributes.html, tagIndex)
-
-
+    setHtml(node, attributes.html, index)
   }
 
   function setText(node, text, xpath) {
@@ -542,19 +519,15 @@
   function addCloneId(html, index) {
     // change id
     if (html.cloner) {
-      //count[html.id+'.'+pId] = index+1
-      //count[html.id] = [index + 1, pId]
-      // console.log('PID',  html.id, pId, index)
+
       // check if already has
       html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
 
     }
   }
 
-  var tree
 
   function setChildNode(parent, child, tagIndex) {
-
     addCloneId(child, tagIndex)
 
     // var sp1 = document.createElement("span")
@@ -730,7 +703,6 @@
 
   mag.fill = {
     fill: fill,
-    //count: count,
     elementToObject: elementToObject,
     cached: cached,
     find: matchingElements,
