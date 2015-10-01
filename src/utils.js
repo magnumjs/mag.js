@@ -1,9 +1,9 @@
  /*
-    MagJS v0.20
-    http://github.com/magnumjs/mag.js
-    (c) Michael Glazer
-    License: MIT
-    */
+     MagJS v0.20
+     http://github.com/magnumjs/mag.js
+     (c) Michael Glazer
+     License: MIT
+     */
 
 
  ;
@@ -126,68 +126,43 @@
 
    mag.utils = utils
 
- }(window.mag || {}));
 
- var $cancelAnimationFrame = window.cancelAnimationFrame || window.clearTimeout;
-
- var $requestAnimationFrame = window.requestAnimationFrame || window.setTimeout;
-
-mag.throttle = function (fn, threshhold, scope) {
-  threshhold || (threshhold = 16);
-  var last,
-      deferTimer;
-  return function () {
-    var context = scope || this;
-    var now = +new Date,
-        args = arguments;
-    if (last && now < last + threshhold) {
-      // hold on to it
-      $cancelAnimationFrame(deferTimer);
-      deferTimer = $requestAnimationFrame(function () {
-        last = now;
-        fn.apply(context, args);
-      }, threshhold);
-    } else {
-      last = now;
-      fn.apply(context, args);
-    }
-  };
-}
-
-
- mag.debounce = function(func, wait, immediate) {
-   wait || (wait = 16)
- var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
- };
-
- mag.prop = function(store) {
-   var prop = function() {
-     if (arguments.length) store = arguments[0];
-     return store;
+   mag.debounce = function(func, wait, immediate) {
+     wait || (wait = 16)
+     var timeout;
+     return function() {
+       var context = this,
+         args = arguments;
+       var later = function() {
+         timeout = null;
+         if (!immediate) func.apply(context, args);
+       };
+       var callNow = immediate && !timeout;
+       clearTimeout(timeout);
+       timeout = setTimeout(later, wait);
+       if (callNow) func.apply(context, args);
+     };
    };
 
-   prop.toJSON = function() {
-     return store;
-   };
-   prop.type = 'fun'
-   return prop;
- };
+   mag.prop = function(store) {
+     var prop = function() {
+       if (arguments.length) store = arguments[0];
+       return store;
+     };
 
- mag.withProp = function(prop, withAttrCallback) {
-   return function(e) {
-     e = e || event;
-     var currentTarget = e.currentTarget || this;
-     withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
+     prop.toJSON = function() {
+       return store;
+     };
+     prop.type = 'fun'
+     return prop;
+   };
+
+   mag.withProp = function(prop, withAttrCallback) {
+     return function(e) {
+       e = e || event;
+       var currentTarget = e.currentTarget || this;
+       withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
+     }
    }
- }
+   
+ }(window.mag || {}));
