@@ -34,17 +34,18 @@ License: MIT
 
   var acceptList = ['add', 'update', 'delete']
 
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      Object.observe(obj, function(changes) {
-        changes.forEach(function(change) {
-          if (typeof obj[change.name] == 'object') {
-            observeNested(obj[change.name], callback);
-          }
-        });
-        callback.apply(this, arguments);
+
+  function observeNested(object, callback) {
+    if (typeof object === 'object' && typeof Object.observe != 'undefined') {
+      Object.observe(object, function(changeRecord) {
+        changeRecord.forEach(callback);
       }, acceptList);
+
+      Object.keys(object).forEach(function(property) {
+        observeNested(object[property], callback);
+      });
     }
+    return object;
   }
 
 
