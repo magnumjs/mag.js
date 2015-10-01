@@ -9,7 +9,9 @@ License: MIT
   'use strict';
 
 
-  var prop = {}, MAGNUM = '__magnum__', cached = []
+  var prop = {},
+    MAGNUM = '__magnum__',
+    cached = []
 
   prop.setup = function(index, callback) {
 
@@ -21,45 +23,27 @@ License: MIT
 
     if (!cached[index]) {
 
-      // Object.unobserve(state, callback, exclude);
-      // Object.unobserve(props, callback, exclude);
-
       observeNested(state, callback)
       observeNested(props, callback)
-      
+
       cached[index] = 1
     }
 
   }
 
 
-  var exclude = ['add', 'update', 'delete']
-
-  function notifySubobjectChanges(object) {
-    var notifier = Object.getNotifier(object); // get notifier for this object
-    var handle = function(changes) { // observe the property value
-      changes.forEach(function(change) { // and for each change
-        notifier.notify(change);
-      });
-    }
-    for (var k in object) { // loop over its properties
-      var prop = object[k]; // get property value
-      if (!prop || typeof prop !== 'object') break; // skip over non-objects
-      if (typeof Array.observe !== 'undefined' && Array.isArray(prop)) {
-        Array.observe(prop, handle, exclude);
-      } else {
-        Object.observe(prop, handle, exclude);
-      }
-      notifySubobjectChanges(prop); // repeat for sub-subproperties
-    }
-  }
-
+  var acceptList = ['add', 'update', 'delete']
 
   function observeNested(obj, callback) {
     if (obj && typeof Object.observe !== 'undefined') {
-      // var handler = callback
-      notifySubobjectChanges(obj); // set up recursive observers
-      Object.observe(obj, callback, exclude);
+      Object.observe(obj, function(changes) {
+        changes.forEach(function(change) {
+          if (typeof obj[change.name] == 'object') {
+            observeNested(obj[change.name], callback);
+          }
+        });
+        callback.apply(this, arguments);
+      }, acceptList);
     }
   }
 
@@ -98,7 +82,7 @@ License: MIT
       var onfocus = function() {
         this[MAGNUM] = this[MAGNUM] || {}
         if (!this[MAGNUM].dirty) {
-          this[MAGNUM].dirty=1
+          this[MAGNUM].dirty = 1
         }
       }
 
@@ -137,8 +121,7 @@ License: MIT
           var founder = founderCall();
 
           // set on focus listener once
-          if (founder && founder.value !== 'undefined' 
-          && (founder[MAGNUM] && founder[MAGNUM].dirty) && founder.value !== oval) {
+          if (founder && founder.value !== 'undefined' && (founder[MAGNUM] && founder[MAGNUM].dirty) && founder.value !== oval) {
             oval = founder.value;
             mag.redraw(element, i)
             return founder.value;
