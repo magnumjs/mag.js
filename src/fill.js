@@ -51,7 +51,7 @@ License: MIT
     if (par) {
       str += 'id("' + par.id + '")';
     }
-    str += '/' + element.tagName + '[' + (ix -1) + ']';
+    str += '/' + element.tagName + '[' + (ix - 1) + ']';
     return str;
   }
 
@@ -171,7 +171,6 @@ License: MIT
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
 
-
         // changes data can cause recursion!
 
         var data = data.map(function(d, i) {
@@ -231,10 +230,6 @@ License: MIT
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
 
-      // create element specific xpath string
-
-
-      var p = getPathTo(elements[i])
       if (dataIsArray) {
         if (elements[i]) {
           fill.run(elements[i], data[i])
@@ -246,7 +241,9 @@ License: MIT
           elements[i][MAGNUM].isChildOfArray = true
           elements[i][MAGNUM].dataPass = data
         }
+        var p = getPathTo(elements[i])
 
+        //var tagIndex = getPathIndex(p)
         fillNode(elements[i], data, p)
       }
 
@@ -279,6 +276,7 @@ License: MIT
 
     // ignore functions
     if (typeof data === 'function') {
+      //index = index?+index.split(MAGNUM)[1]:1
       var par = findParentChild(node)
       if (par) {
         tagIndex = +par.getAttribute('key').split(MAGNUM)[1]
@@ -434,12 +432,18 @@ License: MIT
           var ret = fun.call(node, e, tagIndex, node, parent)
             // What if ret is a promise?
           var id = getPathId(xpath)
+
+
           var nodee = document.getElementById(id)
-          var parentID = findClosestId(nodee);
+          var parentID = findClosestId(nodee.parentNode);
           // get parent id and schedule a draw
 
-          if (parentID) mag.redraw(parentID, mag.utils.items.getItem(parentID.id), 1)
-          if (nodee) mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+          if (parentID) setTimeout(function() {
+            mag.redraw(parentID, mag.utils.items.getItem(parentID.id), 1)
+          })
+          if (nodee) setTimeout(function() {
+              mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+            })
           return ret
         }.bind({}, attributes[attrName], node)
 
@@ -450,8 +454,8 @@ License: MIT
 
         if (attrName == 'config') {
 
-           var p = getPathTo2(node),
-           tagIndex = getPathIndex(p);
+          var p = getPathTo2(node),
+            tagIndex = getPathIndex(p);
 
           // have we been here before?
           // does the element already exist in cache
@@ -503,7 +507,7 @@ License: MIT
 
     // set html after setting text because html overrides text
     setText(node, attributes.text)
-    setHtml(node, attributes.html, tagIndex)
+    setHtml(node, attributes.html)
   }
 
 
@@ -603,7 +607,6 @@ License: MIT
 
     if (!nested && !matches.length) {
       // TODO: mag.hookin for not found matchers
-
       var data = {
         key: key,
         value: matches,
