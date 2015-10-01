@@ -6,7 +6,7 @@
 <hr>
 ##Features
 
-* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & 4KB Gzipped!
+* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & 5KB Gzipped!
 * Valid HTML templates - No virtual/shadow dom or new templating language!
 * Semantic data binding - Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
