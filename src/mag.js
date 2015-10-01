@@ -66,12 +66,14 @@ License: MIT
 
 
     // DRAW async
-    mag.redraw(node, idInstance, 1)
+    setTimeout(function(){
 
-    // LIFE CYCLE EVENT
-    mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
-
-
+      mag.redraw(node, idInstance, 1);
+      
+      // LIFE CYCLE EVENT
+      mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
+    })
+    
     // return function to clone create new clone instances ;)
     return makeClone(idInstance, node, mod, props)
   }
@@ -80,7 +82,6 @@ License: MIT
 
     // verify idInstance
     if (idInstance < 0 || idInstance != mag.utils.items.getItem(nodeId)) {
-
       // if original id is a match
       if (nodeId == mag.mod.getId(idInstance)) return true;
       return false
@@ -95,26 +96,21 @@ License: MIT
 
     // verify idInstance
     if (!isValidId(node.id, idInstance)) {
+      // console.warn('invalid index for node', idInstance, node.id)
       return
     }
 
-    // check for existing frame id then clear it if exists
-
-    var ofid = mag.mod.getFrameId(idInstance)
-    if (ofid) {
-      fastdom.clear(ofid)
-    }
     // clear existing configs ?
     // TODO: per idInstance / id ?
     mag.fill.configs.splice(0, mag.fill.configs.length)
 
     if (force) mag.mod.clear(idInstance)
 
-    var fun = mag.throttle(makeRedrawFun(node, idInstance, force))
-
-
-
-    //ENQUEUE
+    var fun = makeRedrawFun(node, idInstance, force)
+    
+    // check for existing frame id then clear it if exists
+    fastdom.clear(mag.mod.getFrameId(idInstance))
+      //ENQUEUE
     var fid = fastdom.write(fun);
     //save frame id with the instance 
     mag.mod.setFrameId(idInstance, fid)
@@ -181,14 +177,12 @@ License: MIT
     if (nodeCache[id]) return nodeCache[id]
     var node = document.getElementById(id);
     if (node) nodeCache[id] = node
-    if (!node) {
-      // throw Error('invalid node id: ' + id);
-    }
     return node;
   }
 
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id, change) {
+      // console.debug('observer called', index, id)
       if (getNode(id)) {
         mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(nodeId)) {
@@ -199,7 +193,6 @@ License: MIT
         mag.mod.clear(index)
           //observer index
         mag.props.cached.splice(index, 1)
-        //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
     mag.props.setup(idInstance, mag.debounce(callback))
@@ -215,7 +208,6 @@ License: MIT
       }
 
       var state = mag.mod.getState(idInstance)
-
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
