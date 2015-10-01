@@ -323,8 +323,37 @@ It receives 4 arguments:
 
 ### Simple API
 
-#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass, optional boolean toCLoneNode )
-This is the core function to attach a object of instructions to a dom element
+#### mag.create (elementID, Object ModuleDefinition, Optional props) - v0.20
+
+Wraps around `mag.module` to return a reference instance you can call later.
+The reference function can also over write the defaults given in create usually it will onyl over write the props
+
+```javascript
+var myComponent = mag.create('mydomId', {view:noop}) // not executed
+var instance = myComponent({props:[]}) // executed
+
+// instance contains 3 sub methods 
+instance.getId() // returns UID for MagJS
+instance.draw() // redraws that unique instance, wrap in setTimeout for async
+instance.getState() // returns a copy of the current state values of that instance
+
+// instance can be called directly with an index/key to clone the instance, usefull in data arrays
+instance('myUniqueKeyIndex')
+```
+
+#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
+This is the core function to attach a object of instructions to a dom element, when called it is executed
+
+Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID
+
+The function object to create a clone instance requires an index/key in its only parameter for use when in an array for identity
+
+These 3 methods are bound to the exact instance
+
+`getId`
+`draw`
+`getState`
+
 
 ModuleDefinition is the instructions it needs to have a view function:
 ```javascript
@@ -343,7 +372,7 @@ returns a mag.prop promise function settergetter with a default value
 {_html : node.innerHTML}
 which is updated to the latest on promise resolution
 
-#### mag.redraw (optional force Boolean)
+#### mag.redraw (node, idInstance, optional force Boolean)
 inititate a redraw manually
 
 Optional boolean argument to force cache to be cleared
