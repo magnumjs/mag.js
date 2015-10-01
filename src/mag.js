@@ -80,7 +80,7 @@ License: MIT
 
     // verify idInstance
     if (idInstance < 0 || idInstance != mag.utils.items.getItem(nodeId)) {
-      //console.error('invalid index for node', idInstance, nodeId, mag.mod.getId(idInstance))
+
       // if original id is a match
       if (nodeId == mag.mod.getId(idInstance)) return true;
       return false
@@ -95,7 +95,6 @@ License: MIT
 
     // verify idInstance
     if (!isValidId(node.id, idInstance)) {
-      // console.warn('invalid index for node', idInstance, node.id)
       return
     }
 
@@ -103,7 +102,6 @@ License: MIT
 
     var ofid = mag.mod.getFrameId(idInstance)
     if (ofid) {
-      // console.info('clearing existing fid for instance', ofid, idInstance, node.id)
       fastdom.clear(ofid)
     }
     // clear existing configs ?
@@ -112,7 +110,6 @@ License: MIT
 
     if (force) mag.mod.clear(idInstance)
 
-    // console.info('makeredraw create', idInstance, node.id)
     var fun = mag.throttle(makeRedrawFun(node, idInstance, force))
 
 
@@ -121,7 +118,7 @@ License: MIT
     var fid = fastdom.write(fun);
     //save frame id with the instance 
     mag.mod.setFrameId(idInstance, fid)
-      // then if instance already has frame id create new discard old or just retain old
+    // then if instance already has frame id create new discard old or just retain old
   }
 
   mag.hookin = function(name, key, handler) {
@@ -192,7 +189,6 @@ License: MIT
 
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id, change) {
-      // console.debug('observer called', index, id)
       if (getNode(id)) {
         mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(nodeId)) {
@@ -203,7 +199,7 @@ License: MIT
         mag.mod.clear(index)
           //observer index
         mag.props.cached.splice(index, 1)
-          //throw Error('invalid node id ' + id + ' index ' + index)
+        //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
     mag.props.setup(idInstance, mag.debounce(callback))
@@ -215,12 +211,8 @@ License: MIT
 
       // verify idInstance
       if (!isValidId(node.id, idInstance) || !node) {
-        // console.warn('invalid index for node', idInstance, node.id)
         return
       }
-
-      // console.debug('makeredraw exec', idInstance, node.id)
-
 
       var state = mag.mod.getState(idInstance)
 
@@ -242,9 +234,6 @@ License: MIT
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
-      //console.log(node.id, idInstance)
-
-      //console.info(node, idInstance, mag.utils.items.isItem(node.id), mag.utils.items.getItemVal(idInstance))
 
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
@@ -292,9 +281,7 @@ License: MIT
 
 
     for (var k in mag.fill.cached) {
-      //console.log(module.elements[index].id, k)
       if (k.indexOf('id("' + id + '")/') > -1 && k.indexOf('-config') > -1 && mag.fill.cached[k].configContext) {
-        // console.log(k, mag.fill.cached[k].configContext.onunload)
 
         mag.utils.unloaders[index] = mag.utils.unloaders[index] || []
 
