@@ -19,7 +19,6 @@ License: MIT
     var state = mag.mod.getState(index)
     var props = mag.mod.getProps(index)
 
-    //var data = mag.utils.merge(state, props)
 
     if (!cached[index]) {
 
@@ -31,9 +30,7 @@ License: MIT
 
   }
 
-
   var acceptList = ['add', 'update', 'delete']
-
 
   function observeNested(object, callback) {
     if (typeof object === 'object' && typeof Object.observe != 'undefined') {
@@ -45,7 +42,6 @@ License: MIT
         observeNested(object[property], callback);
       });
     }
-    return object;
   }
 
 
