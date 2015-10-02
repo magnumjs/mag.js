@@ -326,7 +326,7 @@ It receives 4 arguments:
 #### mag.create (elementID, Object ModuleDefinition, Optional props) - v0.20
 
 Wraps around `mag.module` to return a reference instance you can call later.
-The reference function can also over write the defaults given in create usually it will onyl over write the props
+The reference function can also over write the defaults given in create usually it will only over write the props
 
 ```javascript
 var myComponent = mag.create('mydomId', {view:noop}) // not executed
