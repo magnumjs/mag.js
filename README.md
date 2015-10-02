@@ -708,7 +708,11 @@ Other hookins such as key/node value etc.. Coming soon!
 
 
 ###Performance
-[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - [JSBin - reversing 1000s of rows](http://jsbin.com/sipekohefu/edit?js,output)
+[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - 
+
+[JSBin - dynamic re-rendering v0.20.2](http://jsbin.com/zapecomugo/edit?js,output) -
+
+[JSBin - reversing 1000s of rows](http://jsbin.com/sipekohefu/edit?js,output)
 
 [JsPerf v0.20.2](http://jsperf.com/react-vs-raw-dom-manipulation/20) - 
 [JsPerf v0.20.2](https://jsperf.com/angular-vs-knockout-vs-ember/758)
