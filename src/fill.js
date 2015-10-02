@@ -3,7 +3,6 @@ MagJS v0.20
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
-Originally authored by : https://github.com/profit-strategies/fill/blob/master/src/fill.js
 */
 
 (function(mag, configs) {
@@ -75,6 +74,7 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
   }
 
   function removeNode(node) {
+
     var p = getPathTo2(node)
       // remove cache of all children too		
     node.parentNode.removeChild(node)
@@ -169,8 +169,10 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
         return i[MAGNUM_KEY]
       })
 
+      //count[0] = [getPathId(key),data.length]
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
+
 
         // changes data can cause recursion!
 
@@ -231,6 +233,9 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
 
+      // create element specific xpath string
+
+
       if (dataIsArray) {
         if (elements[i]) {
           fill.run(elements[i], data[i])
@@ -244,7 +249,6 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
         }
         var p = getPathTo(elements[i])
 
-        //var tagIndex = getPathIndex(p)
         fillNode(elements[i], data, p)
       }
 
@@ -277,7 +281,6 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
 
     // ignore functions
     if (typeof data === 'function') {
-      //index = index?+index.split(MAGNUM)[1]:1
       var par = findParentChild(node)
       if (par) {
         tagIndex = +par.getAttribute('key').split(MAGNUM)[1]
@@ -439,12 +442,15 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
           var parentID = findClosestId(nodee.parentNode);
           // get parent id and schedule a draw
 
-          if (parentID) setTimeout(function() {
+
+          // TODO: Should these be ordered parent first?
+          if (parentID) setTimeout(function(parentID) {
             mag.redraw(parentID, mag.utils.items.getItem(parentID.id), 1)
-          })
-          if (nodee) setTimeout(function() {
-              mag.redraw(nodee, mag.utils.items.getItem(id), 1)
-            })
+          }.bind({}, parentID))
+          if (nodee) setTimeout(function(nodee, id) {
+            mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+          }.bind({}, nodee, id))
+
           return ret
         }.bind({}, attributes[attrName], node)
 
@@ -470,7 +476,6 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
           }
 
           var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
-
 
           // bind
           var callback = function(data, args) {
@@ -641,7 +646,7 @@ Originally authored by : https://github.com/profit-strategies/fill/blob/master/s
     return elements
   }
 
-  // match elements on tag, id, name, class name, data-bind, etc.
+  // match elements on ctag, id, name, class name, data-bind, etc.
   function elementMatcher(element, key) {
     var paddedClass = ' ' + element.className + ' ';
 
