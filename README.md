@@ -717,6 +717,9 @@ Other hookins such as key/node value etc.. Coming soon!
 [JsPerf v0.20.2](http://jsperf.com/react-vs-raw-dom-manipulation/20) - 
 [JsPerf v0.20.2](https://jsperf.com/angular-vs-knockout-vs-ember/758)
 
+[JsPerf v0.20.3](http://jsperf.com/react-vs-raw-dom-manipulation/21) - 
+[JsPerf v0.20.3](https://jsperf.com/angular-vs-knockout-vs-ember/759)
+
 [JSPerf v0.14.4](http://jsperf.com/angular-vs-knockout-vs-ember/690)  
 <a href="http://jsperf.com/angular-vs-knockout-vs-ember/690"><img src="https://cloud.githubusercontent.com/assets/5196767/9841719/7b46329a-5a71-11e5-8ab2-2f4a1120d949.png"/></a>
 
