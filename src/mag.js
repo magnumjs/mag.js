@@ -66,13 +66,10 @@ License: MIT
 
 
     // DRAW async
-    setTimeout(function() {
+    mag.redraw(node, idInstance, 1);
 
-      mag.redraw(node, idInstance, 1);
-
-      // LIFE CYCLE EVENT
-      mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
-    })
+    // LIFE CYCLE EVENT
+    mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
 
     // return function to clone create new clone instances ;)
     return makeClone(idInstance, node, mod, props)
@@ -101,7 +98,8 @@ License: MIT
 
     // clear existing configs ?
     // TODO: per idInstance / id ?
-    mag.fill.configs.splice(0, mag.fill.configs.length)
+    // CHANGED: since the observer will be called and cache changed
+    if(force)mag.fill.configs.splice(0, mag.fill.configs.length)
 
     if (force) mag.mod.clear(idInstance)
 
@@ -113,7 +111,7 @@ License: MIT
     var fid = fastdom.write(fun);
     //save frame id with the instance 
     mag.mod.setFrameId(idInstance, fid)
-      // then if instance already has frame id create new discard old or just retain old
+    // then if instance already has frame id create new discard old or just retain old
   }
 
   mag.hookin = function(name, key, handler) {
@@ -151,6 +149,7 @@ License: MIT
 
       // DRAW
       mag.redraw(cloner, idInstance2, 1)
+
       return cloner
     }.bind({}, idInstance, node, mod, props)
 
@@ -164,8 +163,6 @@ License: MIT
     a.getState = function(ids) {
       return [].concat(mag.mod.getState(ids))[0]
     }.bind({}, idInstance)
-
-    // a.toJSON = function(ids) {}.bind({}, idInstance)
 
     return a
   }
@@ -185,7 +182,7 @@ License: MIT
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id, change) {
       if (getNode(id)) {
-        mag.redraw(getNode(id), index)
+          mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(nodeId)) {
         fastdom.clear(mag.mod.getFrameId(index))
           // remove from indexes
@@ -194,7 +191,7 @@ License: MIT
         mag.mod.clear(index)
           //observer index
         mag.props.cached.splice(index, 1)
-          //throw Error('invalid node id ' + id + ' index ' + index)
+        //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
     mag.props.setup(idInstance, mag.debounce(callback))
@@ -209,37 +206,32 @@ License: MIT
         return
       }
 
+      // get state
       var state = mag.mod.getState(idInstance)
-
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
 
+      //get props
       var props = mag.mod.getProps(idInstance)
 
-
+      // merge state & props
       var data = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props))
-
 
       // CACHED?
       if (mag.mod.iscached(idInstance, data) && !force) {
         return 0;
       };
 
-
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
-    
+
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
 
       //START DOM
-      var display = node.style.display || ''
-      node.style.display = 'none'
-      var node = mag.fill.run(node, state)
-      node.style.display = display
-        // END DOM
-
+      mag.fill.run(node, state)
+      // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
