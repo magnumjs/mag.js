@@ -19,6 +19,7 @@ License: MIT
     var state = mag.mod.getState(index)
     var props = mag.mod.getProps(index)
 
+    //var data = mag.utils.merge(state, props)
 
     if (!cached[index]) {
 
@@ -30,17 +31,19 @@ License: MIT
 
   }
 
+
   var acceptList = ['add', 'update', 'delete']
 
-  function observeNested(object, callback) {
-    if (typeof object === 'object' && typeof Object.observe != 'undefined') {
-      Object.observe(object, function(changeRecord) {
-        changeRecord.forEach(callback);
+  function observeNested(obj, callback) {
+    if (obj && typeof Object.observe !== 'undefined') {
+      Object.observe(obj, function(changes) {
+        changes.forEach(function(change) {
+          if (typeof obj[change.name] == 'object') {
+            observeNested(obj[change.name], callback);
+          }
+        });
+        callback.apply(this, arguments);
       }, acceptList);
-
-      Object.keys(object).forEach(function(property) {
-        observeNested(object[property], callback);
-      });
     }
   }
 
