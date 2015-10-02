@@ -3,6 +3,7 @@ MagJS v0.20
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
+Originally authored by : https://github.com/profit-strategies/fill/blob/master/src/fill.js
 */
 
 (function(mag, configs) {
