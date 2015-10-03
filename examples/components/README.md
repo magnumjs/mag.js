@@ -10,9 +10,8 @@
 
 A favorite or starred button on a unique article/item.
 
-[Example](http://jsbin.com/fimovetova/edit?js,output) - [Full example](http://embed.plnkr.co/N73T98V3mXldaN71SQ8z/preview)
- - [Video tutorial](https://youtu.be/JAYIyW7xw14)
- - 
+[Example](http://jsbin.com/fimovetova/edit?js,output) - [Full example](http://embed.plnkr.co/N73T98V3mXldaN71SQ8z/preview) - [Video tutorial](https://youtu.be/JAYIyW7xw14)
+ 
 ```JavaScript
 //Module Definition
 
