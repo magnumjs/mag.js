@@ -344,6 +344,11 @@ instance.getProps() // returns a copy of the current props values of that instan
 instance('myUniqueKeyIndex')
 ```
 
+When passed to a state object MagJS will create the index for you with or without a key provided in props.
+This includes for arrays.
+
+[JSBin example](http://jsbin.com/piyajitede/edit?html,js,output)
+
 #### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
 This is the core function to attach a object of instructions to a dom element, when called it is executed
 
