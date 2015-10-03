@@ -57,6 +57,7 @@ Mag.JS dom!:
 * [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
 * [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 * [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
+* [Composable components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
 
 ###Hello world!
 
