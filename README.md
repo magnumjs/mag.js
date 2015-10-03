@@ -336,8 +336,9 @@ var instance = myComponent({props:[]}) // executed
 // instance contains 3 sub methods 
 instance.getId() // returns UID for MagJS
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
-// optional boolean to force redraw i.e. clear the instance's cache
-instance.getState() // returns a copy of the current state values of that instance
+// optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
+instance.getState() // returns a copy of the current state values of that instance - state is async for latest use setTimeout
+instance.getProps() // returns a copy of the current props values of that instance
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
 instance('myUniqueKeyIndex')
