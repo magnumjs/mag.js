@@ -44,7 +44,6 @@ License: MIT
       idInstance = mag.utils.getItemInstanceId(props.key ? id + '.' + props.key : id)
     }
 
-
     // TODO: cache/ clearable
     // clear cache if exists
     if (!props.retain) mag.mod.clear(idInstance)
@@ -72,7 +71,7 @@ License: MIT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
 
     // return function to clone create new clone instances ;)
-    return makeClone(idInstance, node, mod, props)
+    return makeClone(idInstance, node, mod, mag.utils.copy(props))
   }
 
   var isValidId = function(nodeId, idInstance) {
@@ -131,6 +130,7 @@ License: MIT
 
 
   var makeClone = function(idInstance, node, mod, props) {
+
     var a = function(id, node, mod, props, index) {
 
       var cloner = node.cloneNode(1)
@@ -164,7 +164,10 @@ License: MIT
     a.getState = function(ids) {
       return [].concat(mag.mod.getState(ids))[0]
     }.bind({}, idInstance)
-
+    a.getProps = function(ids) {
+      return [].concat(mag.mod.getProps(ids))[0]
+    }.bind({}, idInstance)
+    
     return a
   }
   var nodeCache = []
