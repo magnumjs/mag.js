@@ -98,8 +98,9 @@ License: MIT
 
     // clear existing configs ?
     // TODO: per idInstance / id ?
-    // CHANGED: since the observer will be called and cache changed
-    if(force)mag.fill.configs.splice(0, mag.fill.configs.length)
+    // REMOVED: since the observer will be called and cache changed
+    // 
+    if (force) mag.fill.configs.splice(0, mag.fill.configs.length)
 
     if (force) mag.mod.clear(idInstance)
 
@@ -174,7 +175,6 @@ License: MIT
     var node = document.getElementById(id);
     if (node) nodeCache[id] = node
     if (!node) {
-      // throw Error('invalid node id: ' + id);
     }
     return node;
   }
@@ -182,14 +182,14 @@ License: MIT
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id, change) {
       if (getNode(id)) {
-          mag.redraw(getNode(id), index)
+        mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(nodeId)) {
         fastdom.clear(mag.mod.getFrameId(index))
-          // remove from indexes
+        // remove from indexes
         mag.utils.items.removeItem(index)
-          //mag.mod.remove(index)
+        //mag.mod.remove(index)
         mag.mod.clear(index)
-          //observer index
+        //observer index
         mag.props.cached.splice(index, 1)
         //throw Error('invalid node id ' + id + ' index ' + index)
       }
@@ -206,25 +206,25 @@ License: MIT
         return
       }
 
-      // get state
       var state = mag.mod.getState(idInstance)
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
 
-      //get props
       var props = mag.mod.getProps(idInstance)
 
-      // merge state & props
-      var data = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props))
+
+      var data = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state))
 
       // CACHED?
       if (mag.mod.iscached(idInstance, data) && !force) {
         return 0;
       };
 
+
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
+
 
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
@@ -232,6 +232,7 @@ License: MIT
       //START DOM
       mag.fill.run(node, state)
       // END DOM
+
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
@@ -265,7 +266,6 @@ License: MIT
   }
 
   var addConfigUnloaders = function(id, index) {
-
 
     for (var k in mag.fill.cached) {
       if (k.indexOf('id("' + id + '")/') > -1 && k.indexOf('-config') > -1 && mag.fill.cached[k].configContext) {
