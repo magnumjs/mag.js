@@ -345,13 +345,6 @@
 
     raf(function frame(fid) {
       var fn = self.frames.shift();
-      // Run the frame.  Note that
-      // this may throw an error
-      // in user code, but all
-      // fastdom tasks are dealt
-      // with already so the code
-      // will continue to iterate
-      if (fn) fn();
       // If no more frames,
       // stop looping
       if (!self.frames.length) {
@@ -362,8 +355,13 @@
       } else {
         raf(frame);
       }
-
-
+      // Run the frame.  Note that
+      // this may throw an error
+      // in user code, but all
+      // fastdom tasks are dealt
+      // with already so the code
+      // will continue to iterate
+      if (fn) fn();
     });
 
     this.looping = true;
