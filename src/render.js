@@ -123,7 +123,7 @@ License: MIT
           // set on focus listener once
           if (founder && founder.value !== 'undefined' && (founder[MAGNUM] && founder[MAGNUM].dirty) && founder.value !== oval) {
             oval = founder.value;
-            mag.redraw(element, i)
+            mag.redraw(element, i, 1)
             return founder.value;
           }
           return oval;
