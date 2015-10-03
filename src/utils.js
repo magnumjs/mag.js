@@ -1,9 +1,9 @@
  /*
-     MagJS v0.20
-     http://github.com/magnumjs/mag.js
-     (c) Michael Glazer
-     License: MIT
-     */
+ MagJS v0.20
+ http://github.com/magnumjs/mag.js
+ (c) Michael Glazer
+ License: MIT
+ */
 
 
  ;
@@ -73,7 +73,10 @@
 
    utils.merge = function(destination, source) {
      for (var p in source) {
-       if (source[p] && source[p].constructor == Object) {
+       if (source[p] && source[p].constructor == Object && source.hasOwnProperty(p)) {
+         if (typeof destination[p] !== 'object') {
+           destination[p] = {}
+         }
          if (destination[p]) {
            utils.merge(destination[p], source[p]);
            continue;
@@ -83,11 +86,6 @@
      }
      return destination
    }
-
-   // utils.merge = function(source, destination) {
-   //   for (var k in source) destination[k] = source[k]
-   //   return destination;
-   // }
 
    var a = {
      i: [],
@@ -164,5 +162,5 @@
        withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
      }
    }
-   
+
  }(window.mag || {}));
