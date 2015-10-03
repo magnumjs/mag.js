@@ -51,7 +51,7 @@ License: MIT
     if (par) {
       str += 'id("' + par.id + '")';
     }
-    str += '/' + element.tagName + '[' + (ix - 1) + ']';
+    str += '/' + element.tagName + '[' + (ix + 1) + ']';
     return str;
   }
 
@@ -74,7 +74,6 @@ License: MIT
   }
 
   function removeNode(node) {
-
     var p = getPathTo2(node)
       // remove cache of all children too		
     node.parentNode.removeChild(node)
@@ -169,13 +168,11 @@ License: MIT
         return i[MAGNUM_KEY]
       })
 
-      //count[0] = [getPathId(key),data.length]
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
 
 
         // changes data can cause recursion!
-
         var data = data.map(function(d, i) {
 
             if (typeof d === 'object') {
@@ -262,8 +259,8 @@ License: MIT
   var last;
 
   function findParentChild(node) {
-    if (node.parentNode && node.parentNode[MAGNUM] && node.parentNode[MAGNUM].isChildOfArray) {
-      return node.parentNode
+    if (node && node[MAGNUM] && node[MAGNUM].isChildOfArray) {
+      return node
     } else if (node.parentNode) {
       // continue to walk up parent tree 
       return findParentChild(node.parentNode)
@@ -281,7 +278,7 @@ License: MIT
 
     // ignore functions
     if (typeof data === 'function') {
-      var par = findParentChild(node)
+      var par = findParentChild(node.parentNode)
       if (par) {
         tagIndex = +par.getAttribute('key').split(MAGNUM)[1]
       }
@@ -445,12 +442,12 @@ License: MIT
 
           // TODO: Should these be ordered parent first?
           if (parentID) setTimeout(function(parentID) {
-            mag.redraw(parentID, mag.utils.items.getItem(parentID.id), 1)
+            mag.redraw(parentID, mag.utils.items.getItem(parentID.id))
           }.bind({}, parentID))
           if (nodee) setTimeout(function(nodee, id) {
-            mag.redraw(nodee, mag.utils.items.getItem(id), 1)
-          }.bind({}, nodee, id))
-
+              mag.redraw(nodee, mag.utils.items.getItem(id))
+            }.bind({}, nodee, id))
+            
           return ret
         }.bind({}, attributes[attrName], node)
 
@@ -476,6 +473,7 @@ License: MIT
           }
 
           var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
+
 
           // bind
           var callback = function(data, args) {
@@ -646,7 +644,7 @@ License: MIT
     return elements
   }
 
-  // match elements on ctag, id, name, class name, data-bind, etc.
+  // match elements on tag, id, name, class name, data-bind, etc.
   function elementMatcher(element, key) {
     var paddedClass = ' ' + element.className + ' ';
 
