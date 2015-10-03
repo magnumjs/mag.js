@@ -75,3 +75,5 @@ Each should be the following;
 See the existing mag.comps package namespace for example implementations
  
 ###Notes
+
+[Working example v0.2](http://embed.plnkr.co/dCq97T0tifLbdclDzoLQ/)
