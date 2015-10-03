@@ -68,7 +68,6 @@ License: MIT
       }
     modules[index][0] = output.view
     modules[index][1] = new output.controller
-    modules[index][2] = props
     modules[index][3] = id
 
     // register the module
