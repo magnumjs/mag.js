@@ -333,19 +333,46 @@ The reference function can also over write the defaults given in create usually 
 var myComponent = mag.create('mydomId', {view:noop}) // not executed
 var instance = myComponent({props:[]}) // executed
 
-// instance contains 3 sub methods 
+// instance contains 4 sub methods 
 instance.getId() // returns UID for MagJS
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
-instance.getState() // returns a copy of the current state values of that instance - state is async for latest use setTimeout
+instance.getState() // returns a copy of the current state values of that instance - state is async 
 instance.getProps() // returns a copy of the current props values of that instance
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
-instance('myUniqueKeyIndex')
+instance('myUniqueKeyIndex') // Usually not called directly, MagJs will create index when attached to state
+// returns the live node clone
 ```
 
+There's no need to call the instance constructor function directly usually.
 When passed to a state object MagJS will create the index for you with or without a key provided in props.
 This includes for arrays.
+
+```javascript
+state.myELementMatcher = myComponent({
+  props: []
+})
+
+// array
+state.myELementMatcher = [myComponent({
+  props: [3, 2, 1]
+}), myComponent({
+  props: [1, 2, 3]
+})]
+
+//Array object
+state.myELementMatcher = [{
+  item: myComponent({
+    props: [3, 2, 1]
+  })
+}, {
+  item: myComponent({
+    props: [1, 2, 3]
+  })
+}]
+```
+
 
 [JSBin example](http://jsbin.com/piyajitede/edit?html,js,output)
 
@@ -356,12 +383,12 @@ Returns a function Object that can be used to create a clone of the instance and
 
 The function object to create a clone instance requires an index/key in its only parameter for use when in an array for identity
 
-These 3 methods are bound to the exact instance
+These 4 methods are bound to the exact instance
 
 `getId`
 `draw`
 `getState`
-
+`getProps`
 
 ModuleDefinition is the instructions it needs to have a view function:
 ```javascript
@@ -374,14 +401,11 @@ view receives three arguments: state, props and element
 * state is the object used to transpile the dom 
    - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
 * is the optional properties object passed to its mag.module definition
-* element is the node itself whose ID was pass to its mag.module definition
+* element is the node itself whose ID was passed to its mag.module definition
 
-returns a mag.prop promise function settergetter with a default value 
-{_html : node.innerHTML}
-which is updated to the latest on promise resolution
 
-#### mag.redraw (node, idInstance, optional force Boolean)
-inititate a redraw manually
+#### mag.redraw (node Element, idInstance magId, optional force Boolean)
+initiate a redraw manually
 
 Optional boolean argument to force cache to be cleared
 
@@ -389,10 +413,13 @@ Optional boolean argument to force cache to be cleared
 Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins)
 
 #### mag.prop ( setter value)
-Helper setter/getter which calls mag.redraw on every setter
+Helper setter/getter 
 
 #### mag.withProp (propName, functionToCall)
 Helper utility to add a property to a function such as mag.prop
+
+Deprecated: As MagJS will now auto-wire (2-way bind) all user input form elements for you.
+
 e.g. 
 ```javascript
 state.input = { 
