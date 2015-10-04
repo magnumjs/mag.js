@@ -1,5 +1,7 @@
 ###EXAMPLES
 
+[Birthday countdown](http://jsbin.com/xapozurito/edit?html,js,output)
+
 [TabList](http://jsbin.com/rofakiqedi/edit?html,js,output)
 
 [Form select menu and table](http://jsbin.com/bokiqebezo/edit?html,js,output)
