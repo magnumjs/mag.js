@@ -1,6 +1,6 @@
 ###EXAMPLES
 
-[Birthday countdown](http://jsbin.com/xapozurito/edit?html,js,output)
+[Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
 
 [TabList](http://jsbin.com/rofakiqedi/edit?html,js,output)
 
