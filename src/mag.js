@@ -17,7 +17,7 @@ License: MIT
   mag.create = function(id, module, props) {
     return function(id2, props2) {
       if (typeof id2 !== 'string') {
-        props2 = [].concat(id2)[0]
+        props2 = id2
         id2 = 0
       }
       return mag.module(id2 || id, module, mag.utils.merge(props || {}, props2 || {}))
@@ -71,7 +71,7 @@ License: MIT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
 
     // return function to clone create new clone instances ;)
-    return makeClone(idInstance, node, mod, mag.utils.copy(props))
+    return makeClone(idInstance, node, mod, mag.utils.copyFun(props))
   }
 
   var isValidId = function(nodeId, idInstance) {
@@ -128,22 +128,23 @@ License: MIT
     }
   }
 
-
   var makeClone = function(idInstance, node, mod, props) {
-
+    // recursion warning
     var a = function(id, node, mod, props, index) {
 
       var cloner = node.cloneNode(1)
       cloner.id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
 
+      // prevent recursion
+
       // if clone already exists return ?
       if (mag.utils.items.isItem(cloner.id)) {
-        // return
+        //return cloner
       }
 
       var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
 
-      // get unqiue instance ID's module
+      // get unique instance ID's module
       mag.mod.submodule(cloner.id, idInstance2, mod, props)
 
       observer(idInstance2, cloner.id)
@@ -162,10 +163,10 @@ License: MIT
       mag.redraw(node, ids, force)
     }.bind({}, node, idInstance)
     a.getState = function(ids) {
-      return [].concat(mag.mod.getState(ids))[0]
+      return mag.mod.getState(ids)
     }.bind({}, idInstance)
     a.getProps = function(ids) {
-      return [].concat(mag.mod.getProps(ids))[0]
+      return mag.mod.getProps(ids)
     }.bind({}, idInstance)
     
     return a
@@ -215,7 +216,6 @@ License: MIT
       if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
 
       var props = mag.mod.getProps(idInstance)
-
 
       var data = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state))
 
