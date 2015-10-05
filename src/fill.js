@@ -6,7 +6,7 @@ License: MIT
 Originally ported from: https://github.com/profit-strategies/fill/blob/master/src/fill.js
 */
 
-(function(mag, configs) {
+(function(mag, configs, document, undefined) {
 
   'use strict';
 
@@ -47,7 +47,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function getPathTo3(element) {
     var str = '',
       par = findClosestId(element),
-      ix = element.parentNode && [].indexOf.call(element.parentNode.childNodes, element);
+      ix = element.parentNode && [].indexOf.call(element.parentNode.children, element);
 
     if (par) {
       str += 'id("' + par.id + '")';
@@ -176,19 +176,19 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         // changes data can cause recursion!
         var data = data.map(function(d, i) {
 
-            if (typeof d === 'object') {
-              if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-                d[MAGNUM_KEY] = elements[i].__key
-                return d
-              }
-              if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-                d[MAGNUM_KEY] = MAGNUM + i
-              }
-              elements[i].__key = d[MAGNUM_KEY]
+          if (typeof d === 'object') {
+            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = elements[i].__key
+              return d
             }
+            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = MAGNUM + i
+            }
+            elements[i].__key = d[MAGNUM_KEY]
+          }
 
-            return d
-          })
+          return d
+        })
       }
       if (elements.length > data.length) {
         if (data.length === 0 || typeof data[0] !== 'object') {
@@ -209,11 +209,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           var found = []
             // get all data keys
           var m = data.map(function(i) {
-              return i[MAGNUM_KEY]
-            })
+            return i[MAGNUM_KEY]
+          })
           var k = elements.map(function(i) {
-              return i.__key
-            })
+            return i.__key
+          })
 
           var elements = elements.filter(function(ele, i) {
             if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
@@ -257,8 +257,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return nodeList
   }
 
-  var last;
-
   function findParentChild(node) {
     if (node && node[MAGNUM] && node[MAGNUM].isChildOfArray) {
       return node
@@ -266,6 +264,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // continue to walk up parent tree 
       return findParentChild(node.parentNode)
     }
+  }
+
+  function addToNode(node, val){
+      while (node.lastChild) {
+        node.removeChild(node.lastChild)
+      }
+      node.appendChild(val)
   }
 
   function fillNode(node, data, p) {
@@ -277,6 +282,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var tagIndex = getPathIndex(p)
 
+    if (data && data.nodeType == ELEMENT_NODE) {
+      // prevent recursion
+      // throw Error('MagJS - Cannot attach a node! ' + data.id)
+      addToNode(node, data)
+      return;
+    }
+
     // ignore functions
     if (typeof data === 'function') {
       var par = findParentChild(node.parentNode)
@@ -287,13 +299,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var val = data(tagIndex)
       if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
         // remove childs first
-        while (node.lastChild) {
-          node.removeChild(node.lastChild)
-        }
-
-        // attach node to node
-        if (node.lastChild) node.replaceChild(val, node.lastChild)
-        else node.appendChild(val)
+        addToNode(node, val)
 
 
         node[MAGNUM] = node[MAGNUM] || {}
@@ -302,11 +308,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           index: tagIndex
         }
 
-        // TODO: what is this?
-        return function(id) {
-          // cache function of this instance
-        }.bind({}, val.id)
+        return
       } else {
+
+        // TODO: is this a valid use case?
+
         var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
         var obj = {}
         obj[type] = val
@@ -402,6 +408,44 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return nodeList;
   }
 
+  function createEventCall(node, attributes, attrName) {
+    var eventCall = function(fun, node, e) {
+
+      var dataParent = findParentChild(node),
+        path = dataParent && getPathTo2(dataParent),
+        parentIndex = getPathIndex(path),
+        xpath = getPathTo(node),
+        tagIndex = getPathIndex(xpath),
+        parent = {
+          path: path,
+          data: ((dataParent || {})[MAGNUM] || []).dataPass,
+          node: dataParent,
+          index: parentIndex
+        }
+      var ret = fun.call(node, e, tagIndex, node, parent)
+        // What if ret is a promise?
+      var id = getPathId(xpath)
+
+
+      var nodee = document.getElementById(id)
+      var parentID = findClosestId(nodee.parentNode);
+      // get parent id and schedule a draw
+
+
+      // TODO: Should these be ordered parent first?
+      if (parentID) setTimeout(function(parentID) {
+        mag.redraw(parentID, mag.utils.items.getItem(parentID.id))
+      }.bind({}, parentID))
+      if (nodee) setTimeout(function(nodee, id) {
+        mag.redraw(nodee, mag.utils.items.getItem(id))
+      }.bind({}, nodee, id))
+
+      return ret
+    }.bind({}, attributes[attrName], node)
+
+    return eventCall;
+  }
+
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes, p) {
     var tagIndex = getPathIndex(p);
@@ -418,42 +462,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // events
       if (attrName.indexOf('on') == 0) {
 
-        var eventCall = function(fun, node, e) {
-
-          var dataParent = findParentChild(node),
-            path = dataParent && getPathTo2(dataParent),
-            parentIndex = getPathIndex(path),
-            xpath = getPathTo(node),
-            tagIndex = getPathIndex(xpath),
-            parent = {
-              path: path,
-              data: ((dataParent || {})[MAGNUM] || []).dataPass,
-              node: dataParent,
-              index: parentIndex
-            }
-          var ret = fun.call(node, e, tagIndex, node, parent)
-            // What if ret is a promise?
-          var id = getPathId(xpath)
-
-
-          var nodee = document.getElementById(id)
-          var parentID = findClosestId(nodee.parentNode);
-          // get parent id and schedule a draw
-
-
-          // TODO: Should these be ordered parent first?
-          if (parentID) setTimeout(function(parentID) {
-            mag.redraw(parentID, mag.utils.items.getItem(parentID.id))
-          }.bind({}, parentID))
-          if (nodee) setTimeout(function(nodee, id) {
-              mag.redraw(nodee, mag.utils.items.getItem(id))
-            }.bind({}, nodee, id))
-            
-          return ret
-        }.bind({}, attributes[attrName], node)
-
-        node[attrName] = eventCall
-
+        node[attrName] = createEventCall(node, attributes, attrName)
 
       } else {
 
@@ -648,7 +657,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   // match elements on tag, id, name, class name, data-bind, etc.
   function elementMatcher(element, key) {
     var paddedClass = ' ' + element.className + ' ';
-
+c
     return (
       element.id === key ||
       paddedClass.indexOf(' ' + key + ' ') > -1 ||
@@ -667,4 +676,4 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   mag.fill = fill;
 
-}(window.mag || {}, []));
+}(window.mag || {}, [], document));
