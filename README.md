@@ -722,11 +722,11 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
- * Since v0.7.4 optional native Proxy support allows for UI directional bingings to undefined elementMatchers, currently only supported by Firefox (removed in 0.14.9)
+ * config attribute won't work with inner id element, use different element matcher selector
 
-* Since v0.8.5 native support use of Promise is required, polyfill as necessary see below
+* focus requires a delay see add ons.
 
-* Since v0.8.6 Optional native support for Object.observe used or load a polyfill such as the below for more aggressive bindings
+* careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module.
 
 
 ```html
