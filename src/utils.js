@@ -59,7 +59,12 @@ License: MIT
   }
 
   //UTILITY
-  utils.copy = function(o) {
+    utils.copy=function(o){
+      // will strip functions
+      return JSON.parse(JSON.stringify(o))
+    }
+
+  utils.copyFun = function(o) {
     var out, v, key;
     out = Array.isArray(o) ? [] : {};
     for (key in o) {
