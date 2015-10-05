@@ -744,7 +744,7 @@ Other hookins such as key/node value etc.. Coming soon!
 ###Performance
 [JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - 
 
-[JSBin - dynamic re-rendering v0.20.2](http://jsbin.com/zapecomugo/edit?js,output) -
+[JSBin - dynamic re-rendering v0.20.7](http://jsbin.com/jayodatiqa/edit?js,output) -
 
 [JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output)
 
