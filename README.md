@@ -759,6 +759,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 * careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
 
+* object observe support for browsers 
 
 ```html
 <script src="//rawgit.com/MaxArt2501/array-observe/master/array-observe.min.js"></script>
@@ -774,6 +775,8 @@ Other hookins such as key/node value etc.. Coming soon!
 
 ###Performance
 [JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - 
+
+[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview)
 
 [JSBin - dynamic re-rendering v0.20.7](http://jsbin.com/jayodatiqa/edit?js,output) -
 
