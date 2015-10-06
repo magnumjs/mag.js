@@ -331,23 +331,28 @@ The reference function can also over write the defaults given in create usually 
 
 ```javascript
 var myComponent = mag.create('mydomId', {view:noop}) // not executed
+
 var instance = myComponent({props:[]}) // executed
 
 // instance contains 4 sub methods 
+
 instance.getId() // returns UID for MagJS
+
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
+
 instance.getState() // returns a copy of the current state values of that instance - state is async 
+
 instance.getProps() // returns a copy of the current props values of that instance
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
-instance('myUniqueKeyIndex') // Usually not called directly, MagJs will create index when attached to state
+instance('myUniqueKeyIndex') // Usually not called directly, MagJS will create index when attached to state
+
 // returns the live node clone
 ```
 
-There's no need to call the instance constructor function directly usually.
+Normally there's no need to call the instance constructor function directly.
 When passed to a state object MagJS will create the index for you with or without a key provided in props.
-This includes for arrays.
 
 ```javascript
 state.myELementMatcher = myComponent({
