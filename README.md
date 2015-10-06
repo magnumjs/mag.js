@@ -90,9 +90,8 @@ mag.module("hello", {
 ##Examples
 [Boilerplate JSbin](http://jsbin.com/xadinepimo/edit) - [JSbin v0.2](http://jsbin.com/wapuhofone/edit?html,js,output) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/preview) - [Boilerplate Plunker Modular](http://embed.plnkr.co/aGr60lPkHgUdkMO9ew4n/preview) -  [Boilerplate Plunker Modular v0.2](http://embed.plnkr.co/vYBoTXbPMbuHOHln8pyc/preview)
 
-[Hello world](http://jsbin.com/nenotoluvo/edit?js,output)
-(since v0.6.1, auto redraw called on event - mag.prop not necessary) 
-[Hello world, take2](http://jsbin.com/zuquqavoni/edit?js,output)
+[Hello world](http://jsbin.com/karupuhupa/edit?js,output) - 
+[Hello world, take2](http://jsbin.com/mumiyadewe/edit?js,output)
 
 [Basic Math: addition (proxy)](http://jsbin.com/rivolaciri/edit?html,js,output) - 
 [Basic Math: addition (no proxy)](http://jsbin.com/bonivejivu/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?html,js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/regofazoza/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/nidimuvayu/edit?html,js,output)
