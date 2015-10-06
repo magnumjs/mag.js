@@ -327,11 +327,11 @@ It receives 4 arguments:
 
 
 #### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
-This is the core function to attach a object of instructions to a dom element, when called it is executed
+This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
-Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID
+Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID.
 
-The function object to create a clone instance requires an index/key in its only parameter for use when in an array for identity
+The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
 
 These 4 methods are bound to the exact instance
 
@@ -340,18 +340,38 @@ These 4 methods are bound to the exact instance
 `getState`
 `getProps`
 
-ModuleDefinition is the instructions it needs to have a view function:
+ModuleDefinition is the instructions it needs to have a view function, controller is optional:
 ```javascript
 var component = {
-  view:function(){
+  view: function (state, props, element) {
   }
 }
 ```
 view receives three arguments: state, props and element
-* state is the object used to transpile the dom 
+* State is the object used to transpile the dom 
    - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
-* is the optional properties object passed to its mag.module definition
-* element is the node itself whose ID was passed to its mag.module definition
+* Props is the optional properties object passed to its mag.module definition
+* Element is the node itself whose ID was passed to its mag.module definition
+
+The controller function has access to the original props as well as all life cycle events, it is only called once.
+
+```javascript
+var component = {
+  controller: function (props) {
+    this.didupdate = function (Event, Element, newProps) {
+  },
+  view: function (state, props, element) {
+  }
+}
+```
+
+There are 7 life cycle events: willLoad, didLoad, willUpdate, didUpdate, isUpdate, onunload, onreload
+
+They each get the same 3 parameters, their context is the controller no need to bind to `this`:
+
+- Event - can be used to preventDefault - stop continued processing
+- Element is the original module definition ID element
+- newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
 
 
 #### mag.create (elementID, Object ModuleDefinition, Optional props) - v0.20
