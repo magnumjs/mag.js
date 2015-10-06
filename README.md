@@ -326,7 +326,7 @@ It receives 4 arguments:
 ### Simple API
 
 
-#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
+#### mag.module (String domElementID, Object ModuleDefinition, Optional Object Properties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
 Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID.
@@ -374,7 +374,7 @@ They each get the same 3 parameters, their context is the controller no need to 
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
 
 
-#### mag.create (elementID, Object ModuleDefinition, Optional props) - v0.20
+#### mag.create (String elementID, Object ModuleDefinition, Optional Object props) - v0.20
 
 Wraps around `mag.module` to return a reference instance you can call later.
 The reference function can also over write the defaults given in create usually it will only over write the props
