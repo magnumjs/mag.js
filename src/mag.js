@@ -111,7 +111,7 @@ License: MIT
     var fid = fastdom.write(fun);
     //save frame id with the instance 
     mag.mod.setFrameId(idInstance, fid)
-    // then if instance already has frame id create new discard old or just retain old
+      // then if instance already has frame id create new discard old or just retain old
   }
 
   mag.hookin = function(name, key, handler) {
@@ -157,7 +157,7 @@ License: MIT
 
     //BOUND CLONE INSTANCE METHODS
     a.getId = function(ids) {
-      return idInstance
+      return ids
     }.bind({}, idInstance)
     a.draw = function(node, ids, force) {
       mag.redraw(node, ids, force)
@@ -168,7 +168,7 @@ License: MIT
     a.getProps = function(ids) {
       return mag.mod.getProps(ids)
     }.bind({}, idInstance)
-    
+
     return a
   }
   var nodeCache = []
@@ -178,8 +178,7 @@ License: MIT
     if (nodeCache[id]) return nodeCache[id]
     var node = document.getElementById(id);
     if (node) nodeCache[id] = node
-    if (!node) {
-    }
+    if (!node) {}
     return node;
   }
 
@@ -188,19 +187,24 @@ License: MIT
       if (getNode(id)) {
         mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(nodeId)) {
-        fastdom.clear(mag.mod.getFrameId(index))
-        // remove from indexes
-        mag.utils.items.removeItem(index)
-        //mag.mod.remove(index)
-        mag.mod.clear(index)
-        //observer index
-        mag.props.cached.splice(index, 1)
-        //throw Error('invalid node id ' + id + ' index ' + index)
+        mag.clear(index)
+          //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
     mag.props.setup(idInstance, mag.debounce(callback))
   }
 
+  mag.clear = function(index) {
+    fastdom.clear(mag.mod.getFrameId(index))
+      // remove from indexes
+    mag.utils.items.removeItem(index)
+      //mag.mod.remove(index)
+    mag.mod.clear(index)
+      //observer index
+    mag.props.cached.splice(index, 1)
+    // fill data cache
+    mag.fill.clearCache(mag.mod.getId(index))
+  }
 
   var makeRedrawFun = function(node1, idInstance1, force1) {
     return function(node, idInstance, force) {
@@ -233,9 +237,9 @@ License: MIT
       mag.mod.callView(node, idInstance);
 
       //START DOM
+      mag.fill.setId(node.id)
       mag.fill.run(node, state)
-      // END DOM
-
+        // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
@@ -244,7 +248,7 @@ License: MIT
       addConfigUnloaders(node.id, idInstance)
 
       // LIFE CYCLE EVENT
-      mag.utils.callLCEvent('didupdate', state, node)
+      mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
     }.bind({}, node1, idInstance1, force1)
   }
@@ -289,6 +293,7 @@ License: MIT
     return mag.utils.callLCEvent('onreload', mag.mod.getState(idInstance), node, idInstance)
   }
 
+  mag.getNode = getNode
   window.mag = mag
 
 
