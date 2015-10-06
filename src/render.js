@@ -39,6 +39,15 @@ License: MIT
       Object.observe(obj, function(changes) {
         changes.forEach(function(change) {
           if (typeof obj[change.name] == 'object') {
+            
+           // console.log(change)
+          if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+            // call unloader for module
+            var id = change.oldValue.getId()
+            mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id, 1)
+            mag.clear(id)
+          }
+            
             observeNested(obj[change.name], callback);
           }
         });
