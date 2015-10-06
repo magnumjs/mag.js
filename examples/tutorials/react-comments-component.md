@@ -464,4 +464,6 @@ var CommentBox = {
 
 You have just built a comment box in a few simple steps. Learn more about why to use MagJS, or dive into the API reference and start hacking! Good luck!
 
+[MagJS version of James Longs' "why react is awesome"](https://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
+
 [JSBin](http://jsbin.com/tejabayowa/edit?js,output)
