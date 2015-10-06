@@ -197,7 +197,7 @@ mag.module("hello", {
 [FilterableProductTable (Thinking in React tutorial):]
 (http://jsbin.com/bisobeyuci/edit?js,output)
 
-[Occlusion culling](http://embed.plnkr.co/AgTYMqKi5JkYpHFxymGX/preview)
+[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview)
 
 [Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
 
