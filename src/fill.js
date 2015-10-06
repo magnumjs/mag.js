@@ -13,7 +13,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {}
 
-
   var ELEMENT_NODE = 1,
     cached = [],
     MAGNUM = '__magnum__',
@@ -22,6 +21,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     MAGNUM_KEY = '_key',
     ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate'],
     xpathCache = [],
+    dataCache = [],
     templates = {};
 
 
@@ -30,13 +30,25 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return Array.isArray && Array.isArray(obj) || {}.toString.call(obj) === '[object Array]'
   }
 
-
-  function getPathTo(element, clear) {
-    //add UID if not exists
+  function getUid(element, clear) {
     element[MAGNUM] = element[MAGNUM] || {}
     if (!element[MAGNUM].uid || clear) element[MAGNUM].uid = performance.now()
-    if (xpathCache[element[MAGNUM].uid]) return xpathCache[element[MAGNUM].uid]
-    else return xpathCache[element[MAGNUM].uid] = getPathTo3(element)
+    return element[MAGNUM].uid
+  }
+
+  function getPathTo(element, clear) {
+    //add UID if does not exists
+    var uid = getUid(element, clear)
+    if (xpathCache[uid]) return xpathCache[uid]
+    else return xpathCache[uid] = getPathTo3(element)
+  }
+
+  function isCached(element, data, clear) {
+    //add UID if does not exist
+    var uid = getUid(element, clear)
+    dataCache[fill.id] = dataCache[fill.id] || []
+    if (dataCache[fill.id][uid] && dataCache[fill.id][uid] == data) return 1
+    else dataCache[fill.id][uid] = data
   }
 
   function findClosestId(node) {
@@ -266,11 +278,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
-  function addToNode(node, val){
-      while (node.lastChild) {
-        node.removeChild(node.lastChild)
-      }
-      node.appendChild(val)
+  function addToNode(node, val, clear) {
+    if (isCached(node, val.outerHTML, clear)) return
+    while (node.lastChild) {
+      node.removeChild(node.lastChild)
+    }
+    node.appendChild(val)
   }
 
   function fillNode(node, data, p) {
@@ -299,7 +312,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var val = data(tagIndex)
       if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
         // remove childs first
-        addToNode(node, val)
+        addToNode(node, val, 1)
 
 
         node[MAGNUM] = node[MAGNUM] || {}
@@ -462,7 +475,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // events
       if (attrName.indexOf('on') == 0) {
 
-        node[attrName] = createEventCall(node, attributes, attrName)
+        node[attrName.toLowerCase()] = createEventCall(node, attributes, attrName)
 
       } else {
 
@@ -529,7 +542,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var child, children
 
     // make sure that we have a node and text to insert
-    if (!node || text == null) {
+    if (!node || text == null || isCached(node, text)) {
       return
     }
     // cache all of the child nodes
@@ -545,8 +558,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // remove all of the children
     //WHY?
-    while (node.firstChild) {
-      node.removeChild(node.firstChild)
+    while (node.lastChild) {
+      node.removeChild(node.lastChild)
     }
 
     // SELECT|INPUT|TEXTAREA
@@ -573,8 +586,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   function setHtml(node, html) {
-    if (!node || html == null) return;
-    node.innerHTML = html;
+    if (!node || html == null || isCached(node, html)) return;
+    node.innerHTML = html
   };
 
 
@@ -657,7 +670,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   // match elements on tag, id, name, class name, data-bind, etc.
   function elementMatcher(element, key) {
     var paddedClass = ' ' + element.className + ' ';
-c
+
     return (
       element.id === key ||
       paddedClass.indexOf(' ' + key + ' ') > -1 ||
@@ -667,12 +680,15 @@ c
     );
   }
 
-  fill.xpathCache = xpathCache;
-  fill.cached = cached
-  fill.pathTo = getPathTo
-  fill.pathId = getPathId
+
   fill.configs = configs
   fill.find = matchingElements
+  fill.setId = function(id) {
+    fill.id = id
+  }
+  fill.clearCache = function(id) {
+    if (dataCache[id]) delete dataCache[id]
+  }
 
   mag.fill = fill;
 
