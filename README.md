@@ -58,6 +58,8 @@ Mag.JS dom!:
 * [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 * [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 * [Composable components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
+* [MagJS version of James Longs' "why react is awesome"](https://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
+* [More Tutorials..](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
 ###Hello world!
 
