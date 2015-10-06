@@ -329,17 +329,6 @@ It receives 4 arguments:
 #### mag.module (String domElementID, Object ModuleDefinition, Optional Object Properties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
-Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID.
-
-The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
-
-These 4 methods are bound to the exact instance
-
-`getId`
-`draw`
-`getState`
-`getProps`
-
 ModuleDefinition is the instructions it needs to have a view function, controller is optional:
 ```javascript
 var component = {
@@ -373,6 +362,16 @@ They each get the same 3 parameters, their context is the controller no need to 
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
 
+`Returns` a function Object that can be used to create a clone of the instance and the instances information such as InstanceID.
+
+The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
+
+These 4 methods are bound to the exact instance
+
+`getId`
+`draw`
+`getState`
+`getProps`
 
 #### mag.create (String elementID, Object ModuleDefinition, Optional Object props) - v0.20
 
