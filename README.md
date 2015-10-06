@@ -730,11 +730,9 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
- * config attribute won't work with inner id element, use different element matcher selector
+* config attribute won't be called with inner id element matchers, use other element matcher selectors
 
-* focus requires a delay see add ons.
-
-* careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module.
+* careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
 
 
 ```html
