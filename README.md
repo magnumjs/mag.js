@@ -87,10 +87,12 @@ mag.module("hello", {
 })
 ```
 
-##Examples
+##Boilerplates
 [Boilerplate JSbin](http://jsbin.com/xadinepimo/edit) - [JSbin v0.2](http://jsbin.com/wapuhofone/edit?html,js,output) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/preview) - [Boilerplate Plunker Modular](http://embed.plnkr.co/aGr60lPkHgUdkMO9ew4n/preview) -  [Boilerplate Plunker Modular v0.2](http://embed.plnkr.co/vYBoTXbPMbuHOHln8pyc/preview)
 
-[Hello world](http://jsbin.com/karupuhupa/edit?js,output) - 
+##Examples
+
+[Hello world](http://jsbin.com/xovugihuto/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/mumiyadewe/edit?js,output)
 
 [Basic Math: addition (proxy)](http://jsbin.com/rivolaciri/edit?html,js,output) - 
@@ -323,6 +325,35 @@ It receives 4 arguments:
 
 ### Simple API
 
+
+#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
+This is the core function to attach a object of instructions to a dom element, when called it is executed
+
+Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID
+
+The function object to create a clone instance requires an index/key in its only parameter for use when in an array for identity
+
+These 4 methods are bound to the exact instance
+
+`getId`
+`draw`
+`getState`
+`getProps`
+
+ModuleDefinition is the instructions it needs to have a view function:
+```javascript
+var component = {
+  view:function(){
+  }
+}
+```
+view receives three arguments: state, props and element
+* state is the object used to transpile the dom 
+   - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
+* is the optional properties object passed to its mag.module definition
+* element is the node itself whose ID was passed to its mag.module definition
+
+
 #### mag.create (elementID, Object ModuleDefinition, Optional props) - v0.20
 
 Wraps around `mag.module` to return a reference instance you can call later.
@@ -379,33 +410,6 @@ state.myELementMatcher = [{
 
 
 [JSBin example](http://jsbin.com/piyajitede/edit?html,js,output)
-
-#### mag.module ( domElementID, Object Literal ModuleDefinition, Optional Object Properties to pass )
-This is the core function to attach a object of instructions to a dom element, when called it is executed
-
-Returns a function Object that can be used to create a clone of the instance and the instances information such as InstanceID
-
-The function object to create a clone instance requires an index/key in its only parameter for use when in an array for identity
-
-These 4 methods are bound to the exact instance
-
-`getId`
-`draw`
-`getState`
-`getProps`
-
-ModuleDefinition is the instructions it needs to have a view function:
-```javascript
-var component = {
-  view:function(){
-  }
-}
-```
-view receives three arguments: state, props and element
-* state is the object used to transpile the dom 
-   - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
-* is the optional properties object passed to its mag.module definition
-* element is the node itself whose ID was passed to its mag.module definition
 
 
 #### mag.redraw (node Element, idInstance magId, optional force Boolean)
