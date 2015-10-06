@@ -39,7 +39,7 @@ License: MIT
         }
       }
     if (controller && controller[eventName]) {
-      controller[eventName].call({}, event, node)
+      controller[eventName].call(controller, event, node, mag.mod.getProps(index))
       if (once) controller[eventName] = 0
     }
 
