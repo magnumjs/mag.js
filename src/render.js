@@ -32,31 +32,30 @@ License: MIT
   }
 
 
-  var acceptList = ['add', 'update', 'delete']
 
-  function doIt(obj, callback) {
-    obj && typeof obj == 'object' && Object.observe(obj, function(changes) {
-      changes.forEach(function(change) {
-        if (typeof obj[change.name] == 'object') {
-          if (change.type == 'update' && change.oldValue && typeof change.oldValue.getId == 'function' && change.object[change.name] && !change.object[change.name].getId) {
-            // call unloader for module
-            var id = change.oldValue.getId()
-            mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id, 1)
-            mag.clear(id)
-          }
-          observeNested(obj[change.name], callback);
-        }
-      });
-      callback.apply(this, arguments);
-    }, acceptList);
-  }
+  var acceptList = ['add', 'update', 'delete', 'splice']
 
   function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined' && typeof obj == 'object') {
-      doIt(obj, callback)
-      for (var k in obj) {
-        doIt(obj[k], callback)
-      }
+    if (obj && typeof Object.observe !== 'undefined') {
+      Object.observe(obj, function(changes) {
+        changes.forEach(function(change) {
+
+          if (typeof obj[change.name] == 'function' && obj[change.name].type == 'fun' && typeof obj[change.name].toJSON() == 'object') {
+            observeNested(obj[change.name].toJSON(), callback);
+          } else
+          if (typeof obj[change.name] == 'object') {
+
+            if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+              // call unloader for module
+              var id = change.oldValue.getId()
+              mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id, 1)
+              mag.clear(id)
+            }
+            observeNested(obj[change.name], callback);
+          }
+        });
+        callback.apply(this, arguments);
+      }, acceptList);
     }
   }
 
