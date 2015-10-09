@@ -40,7 +40,7 @@ License: MIT
       Object.observe(obj, function(changes) {
         changes.forEach(function(change) {
 
-          if (typeof obj[change.name] == 'function' && obj[change.name].type == 'fun' && typeof obj[change.name].toJSON() == 'object') {
+          if (typeof obj[change.name] == 'function' && typeof obj[change.name].toJSON() == 'object') {
             observeNested(obj[change.name].toJSON(), callback);
           } else
           if (typeof obj[change.name] == 'object') {
