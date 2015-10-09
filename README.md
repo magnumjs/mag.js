@@ -675,8 +675,6 @@ Tiny sub library of reusable simple tools can be found [here](//github.com/magnu
 * namespace
 
 
-```javascript
-
 ####mag.namespace (String namespace, [Optional object Context])
 
 ```javascript
