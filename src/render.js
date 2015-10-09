@@ -34,25 +34,29 @@ License: MIT
 
   var acceptList = ['add', 'update', 'delete']
 
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      Object.observe(obj, function(changes) {
-        changes.forEach(function(change) {
-          if (typeof obj[change.name] == 'object') {
-            
-           // console.log(change)
-          if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+  function doIt(obj, callback) {
+    obj && typeof obj == 'object' && Object.observe(obj, function(changes) {
+      changes.forEach(function(change) {
+        if (typeof obj[change.name] == 'object') {
+          if (change.type == 'update' && change.oldValue && typeof change.oldValue.getId == 'function' && change.object[change.name] && !change.object[change.name].getId) {
             // call unloader for module
             var id = change.oldValue.getId()
             mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id, 1)
             mag.clear(id)
           }
-            
-            observeNested(obj[change.name], callback);
-          }
-        });
-        callback.apply(this, arguments);
-      }, acceptList);
+          observeNested(obj[change.name], callback);
+        }
+      });
+      callback.apply(this, arguments);
+    }, acceptList);
+  }
+
+  function observeNested(obj, callback) {
+    if (obj && typeof Object.observe !== 'undefined' && typeof obj == 'object') {
+      doIt(obj, callback)
+      for (var k in obj) {
+        doIt(obj[k], callback)
+      }
     }
   }
 
