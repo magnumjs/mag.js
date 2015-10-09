@@ -457,7 +457,7 @@ mag.begin(instance.getId())
 // run some long standing process without redrawing the module no matter what the state changes are
 ```
 
-Once called the module will not run a redraw until the the corresponding `mag.end(id)` is called even if `instance.draw()` is called even with the optional `instance.draw(force true)`
+Once called the module will not run a redraw until the corresponding `mag.end(id)` is called even if `instance.draw()` is called and even with the optional `instance.draw(force true)`it will not run.
 
 #### mag.end ( int MagJS uid)
 
