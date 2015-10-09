@@ -358,7 +358,7 @@ var component = {
 }
 ```
 
-There are 7 life cycle events: willLoad, didLoad, willUpdate, didUpdate, isUpdate, onunload, onreload
+There are 7 life cycle events: willload, didload, willupdate, didupdate, isupdate, onunload, onreload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
@@ -669,25 +669,12 @@ arguments :
 Tiny sub library of reusable simple tools can be found [here](//github.com/magnumjs/mag.js/blob/master/src/mag.addons.js)
 
 * router
-* send ajax
-* binds - automatic two way binding
-* toggle visibility
+* ajax
 * Reusable utilities (copy, merge .. )
+* namespace
 
-There are two useful methods available in the comps
-
-####mag.comp (templateComponentId, moduleDefinition, defaultProps, booleanToCloneNode)
-
-It takes the same arguments as mag.module except it doesn't execute instead sends a reference function that can be executed with over writes to the template id, props and clone
-
-[Get it here](//github.com/magnumjs/mag.js/blob/master/src/mag.comps.js)
 
 ```javascript
-// wrapper function for mag.module
-var CommentsComponent = mag.comp("CommentBox", CommentBox, props);
-CommentsComponent({props:'to me'})
-```
-This allows you wrap your module definition in a resuable reference with defaults and over writing
 
 ####mag.namespace (String namespace, [Optional object Context])
 
@@ -704,8 +691,8 @@ This allows you wrap your module definition in a resuable reference with default
 })(mag.namespace('mods.comments'));
 
 
-var CommentsComponent = mag.comp("CommentBox", mag.mod.comments, props);
-CommentsComponent()
+var CommentsComponent = mag.create("CommentBox", mag.mod.comments, props);
+CommentsComponent();
 ```
 
 Allows you to easily add new namespaces to your composable components, useful in the module pattern.
