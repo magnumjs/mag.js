@@ -12,6 +12,23 @@ License: MIT
   var utils = {};
 
 
+  // mag.debounce = function(func, wait, immediate) {
+  //   wait || (wait = 16)
+  //   var timeout;
+  //   return function() {
+  //     var context = this,
+  //       args = arguments;
+  //     var later = function() {
+  //       timeout = null;
+  //       if (!immediate) func.apply(context, args);
+  //     };
+  //     var callNow = immediate && !timeout;
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(later, wait);
+  //     if (callNow) func.apply(context, args);
+  //   };
+  // };
+
   utils.callHook = function(hookins, key, name, i, data, before) {
     data.change = false
     if (hookins[name][i].key == key) {
@@ -59,10 +76,10 @@ License: MIT
   }
 
   //UTILITY
-    utils.copy=function(o){
-      // will strip functions
-      return JSON.parse(JSON.stringify(o))
-    }
+  utils.copy = function(o) {
+    // will strip functions
+    return JSON.parse(JSON.stringify(o))
+  }
 
   utils.copyFun = function(o) {
     var out, v, key;
@@ -127,23 +144,6 @@ License: MIT
 
   mag.utils = utils
 
-
-  mag.debounce = function(func, wait, immediate) {
-    wait || (wait = 16)
-    var timeout;
-    return function() {
-      var context = this,
-        args = arguments;
-      var later = function() {
-        timeout = null;
-        if (!immediate) func.apply(context, args);
-      };
-      var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-      if (callNow) func.apply(context, args);
-    };
-  };
 
   mag.prop = function(store) {
     var prop = function() {
