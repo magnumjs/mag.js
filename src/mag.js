@@ -85,33 +85,53 @@ License: MIT
     return true
   }
 
+  var pendingRequests = []
+
+  mag.begin = function(id) {
+    if (typeof pendingRequests[id] == 'undefined') {
+      pendingRequests[id] = 1;
+    } else {
+      pendingRequests[id]++;
+    }
+  }
+
+  mag.end = function(id) {
+    if (pendingRequests[id] > 1) pendingRequests[id]--;
+    else {
+      pendingRequests[id] = 0;
+      var nid = mag.utils.items.getItemVal(id)
+      mag.redraw(getNode(nid), id);
+    }
+
+  }
   mag.redraw = function(node, idInstance, force) {
-    if (!node || typeof idInstance == 'undefined') {
-      throw Error('Mag.JS - Id or node invalid: ' + node, idInstance);
+    if (!pendingRequests[idInstance]) {
+
+      if (!node || typeof idInstance == 'undefined') {
+        throw Error('Mag.JS - Id or node invalid: ' + idInstance);
+      }
+
+      // verify idInstance
+      if (!isValidId(node.id, idInstance)) {
+        return
+      }
+
+      // clear existing configs ?
+      // TODO: per idInstance / id ?
+      if (force) mag.fill.configs.splice(0, mag.fill.configs.length)
+
+      if (force) mag.mod.clear(idInstance)
+
+      var fun = makeRedrawFun(node, idInstance, force)
+
+      // check for existing frame id then clear it if exists
+      fastdom.clear(mag.mod.getFrameId(idInstance))
+        //ENQUEUE
+      var fid = fastdom.write(fun);
+      //save frame id with the instance 
+      mag.mod.setFrameId(idInstance, fid)
+        // then if instance already has frame id create new discard old or just retain old
     }
-
-    // verify idInstance
-    if (!isValidId(node.id, idInstance)) {
-      return
-    }
-
-    // clear existing configs ?
-    // TODO: per idInstance / id ?
-    // REMOVED: since the observer will be called and cache changed
-    // 
-    if (force) mag.fill.configs.splice(0, mag.fill.configs.length)
-
-    if (force) mag.mod.clear(idInstance)
-
-    var fun = makeRedrawFun(node, idInstance, force)
-
-    // check for existing frame id then clear it if exists
-    fastdom.clear(mag.mod.getFrameId(idInstance))
-      //ENQUEUE
-    var fid = fastdom.write(fun);
-    //save frame id with the instance 
-    mag.mod.setFrameId(idInstance, fid)
-      // then if instance already has frame id create new discard old or just retain old
   }
 
   mag.hookin = function(name, key, handler) {
@@ -149,6 +169,7 @@ License: MIT
 
       observer(idInstance2, cloner.id)
 
+
       // DRAW
       mag.redraw(cloner, idInstance2, 1)
 
@@ -173,9 +194,9 @@ License: MIT
   }
   var nodeCache = []
 
-  function getNode(id) {
+  function getNode(id, clear) {
     //cache nodes?
-    if (nodeCache[id]) return nodeCache[id]
+    if (nodeCache[id] && !clear) return nodeCache[id]
     var node = document.getElementById(id);
     if (node) nodeCache[id] = node
     if (!node) {}
@@ -186,12 +207,17 @@ License: MIT
     var callback = function(index, id, change) {
       if (getNode(id)) {
         mag.redraw(getNode(id), index)
-      } else if (mag.utils.items.isItem(nodeId)) {
+      } else if (mag.utils.items.isItem(id)) {
         mag.clear(index)
           //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
-    mag.props.setup(idInstance, mag.debounce(callback))
+    mag.props.setup(idInstance, 
+    function() {
+      setTimeout(function() {
+        callback()
+      })
+    })
   }
 
   mag.clear = function(index) {
@@ -202,12 +228,14 @@ License: MIT
     mag.mod.clear(index)
       //observer index
     mag.props.cached.splice(index, 1)
-    // fill data cache
+      // fill data cache
     mag.fill.clearCache(mag.mod.getId(index))
   }
 
   var makeRedrawFun = function(node1, idInstance1, force1) {
     return function(node, idInstance, force) {
+
+      getNode(node.id, 1)
 
       // verify idInstance
       if (!isValidId(node.id, idInstance) || !node) {
@@ -239,7 +267,7 @@ License: MIT
       //START DOM
       mag.fill.setId(node.id)
       mag.fill.run(node, state)
-        // END DOM
+      // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
@@ -250,9 +278,22 @@ License: MIT
       // LIFE CYCLE EVENT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
+      // get parent to call
+      if(node && node.parentNode){
+        var parent = findClosestId(node.parentNode)
+        if(parent) {
+          mag.redraw(parent, mag.utils.items.getItem(parent.id))
+        }
+      }
+      
     }.bind({}, node1, idInstance1, force1)
   }
 
+
+  var findClosestId=  function (node) {
+    if (node.id) return node
+    if (node.parentNode) return findClosestId(node.parentNode)
+  }
 
   var callConfigs = function(id, configs) {
     for (var k in configs) {
