@@ -212,12 +212,12 @@ License: MIT
           //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
-    mag.props.setup(idInstance, 
-    function() {
-      setTimeout(function() {
-        callback()
+    mag.props.setup(idInstance,
+      function() {
+        setTimeout(
+          callback
+        )
       })
-    })
   }
 
   mag.clear = function(index) {
@@ -267,7 +267,7 @@ License: MIT
       //START DOM
       mag.fill.setId(node.id)
       mag.fill.run(node, state)
-      // END DOM
+        // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
@@ -279,18 +279,18 @@ License: MIT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
       // get parent to call
-      if(node && node.parentNode){
+      if (node && node.parentNode) {
         var parent = findClosestId(node.parentNode)
-        if(parent) {
+        if (parent) {
           mag.redraw(parent, mag.utils.items.getItem(parent.id))
         }
       }
-      
+
     }.bind({}, node1, idInstance1, force1)
   }
 
 
-  var findClosestId=  function (node) {
+  var findClosestId = function(node) {
     if (node.id) return node
     if (node.parentNode) return findClosestId(node.parentNode)
   }
