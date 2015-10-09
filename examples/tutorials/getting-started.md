@@ -328,9 +328,9 @@ mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
 
-[Todo JSBin example](http://jsbin.com/havaqafuqa/edit?html,output)
+[Todo JSBin example](http://jsbin.com/havaqafuqa/edit?html,output) - [JSBin Example v0.20](http://jsbin.com/wefolokohe/edit?js,output)
 
-We are binding our list to the class list in the OL - more about lists here:
+We are binding our list to the class list in the OL - more about lists [here](//github.com/magnumjs/mag.js#lists):
 
 Lists should have their own container and they are the template for all iterating items.
 
