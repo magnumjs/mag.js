@@ -439,27 +439,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       var id = getPathId(xpath)
       var nodee = document.getElementById(id)
-      //var parentID = findClosestId(nodee.parentNode);
-      // get parent id and schedule a draw
 
-    // if(parentID) mag.begin(mag.utils.items.getItem(parentID.id))
-     // mag.begin(mag.utils.items.getItem(id))
         // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
-      // if(parentID) mag.end(mag.utils.items.getItem(parentID.id))
-      //setTimeout(function(){
-       // mag.end(mag.utils.items.getItem(id))
-     // })
+
 
       // TODO: Should these be ordered parent first?
 
-    // if (nodee) setTimeout(function(nodee, id) {
         mag.redraw(nodee, mag.utils.items.getItem(id), 1)
-      // }.bind({}, nodee, id))
-      
-      ///if (parentID) setTimeout(function(parentID) {
-      //  mag.redraw(parentID, mag.utils.items.getItem(parentID.id))
-     // }.bind({}, parentID))
+
 
       return ret
     }.bind({}, attributes[attrName], node)
