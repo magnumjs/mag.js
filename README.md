@@ -213,6 +213,8 @@ mag.module("hello", {
 
 [Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/preview)
 
+[Employee Directory with tiny Router](http://embed.plnkr.co/ajEhbOZgenhbiMQcjel0/preview) 
+
 ###Angular 2 Mag
 [Order form:]
 (http://jsbin.com/horuxanacu/edit?js,output)
