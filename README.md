@@ -447,28 +447,29 @@ Optional boolean argument to force cache to be cleared
 #### mag.hookin (type, key, handler)
 Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins)
 
-#### mag.prop ( setter value)
-Helper setter/getter 
+**Control redrawing flow**
 
-#### mag.withProp (propName, functionToCall)
-Helper utility to add a property to a function such as mag.prop
-
-Deprecated: As MagJS will now auto-wire (2-way bind) all user input form elements for you.
-
-e.g. 
-```javascript
-state.input = { 
-_oninput : mag.withProp ( 'value', mag.prop | functionToCallWithValueOfPropAsFirstArgument )
-}
-```
+#### mag.begin ( int MagJS uid)
 
 ```javascript
-// A data store
-var name = mag.prop('')
-
-// binding the data store in a view
-state.input = { _oninput: mag.withProp('value', name), _value: name() }
+var instance = mag.module('app', module)
+mag.begin(instance.getId())
+// run some long standing process without redrawing the module no matter what the state changes are
 ```
+
+Once called the module will not run a redraw until the the corresponding `mag.end(id)` is called even if `instance.draw()` is called even with the optional `instance.draw(force true)`
+
+#### mag.end ( int MagJS uid)
+
+```javascript
+// run the redraw for the module
+mag.end(instance.getId())
+```
+This will run the last redraw for the instance assuming the number of begins match the number of ends called.
+
+If you call `mag.begin(id)` for the same instance ID twice you must call `mag.end(id)` the same number of times before it will run the redraw.
+
+This is typically not necessary especially since MagJS runs updates to the module state very efficiently via the rAF (requestAnimationFrame)
 
 ### state object
 
@@ -477,9 +478,9 @@ State is the object that is watched for changes and is used to transpile the rel
 there are 5 ways to reference an element within a module
 * class name
 * tag name
-* data-bind name
+* data-bind attribute value
 * id
-* or name attribute
+* or name attribute value
 
 state.h1 will match the first h1 element within a module (element id or parent node)
 
