@@ -6,9 +6,25 @@ Link: https://github.com/magnumjs/mag.js
 Originally from: https://github.com/ccoenraets/react-employee-directory
 */
 
+/** EXAMPLE **/
+
+/*
+mag.route.addRoute('', function() {
+    this.page = 'home'
+}.bind(this));
+mag.route.addRoute('employees/:id', function(id) {
+    this.page = ''
+    this.selectedEmployeeId = id;
+}.bind(this));
+
+mag.route.start();
+*/
+
+
+
 var mag = mag || {}
 
-mag.route = (function () {
+mag.route = (function (window) {
 
     'use strict';
 
@@ -56,4 +72,4 @@ mag.route = (function () {
         start: start
     };
 
-}());
+}(window));
