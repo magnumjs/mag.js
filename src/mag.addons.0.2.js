@@ -44,8 +44,9 @@ controller:function(props)
   // if props has a property 'isVisible' when true will display entire module on before updates
   mag.show(this,'isVisible')
 }
-http://jsbin.com/miqobiqedu/edit?html,js,output
+http://jsbin.com/fegizubime/edit?html,js,output
 */
+
 mag.show = function(context, conditionName) {
   if (typeof context !== 'object') {
     var obj = {
