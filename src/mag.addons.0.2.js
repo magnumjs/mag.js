@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.20
+Mag.JS AddOns v0.21
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
@@ -32,23 +32,42 @@ mag.namespace = function (ns, obj) {
 }
 
 
-mag.addons = {};
+//UTILITY
+// mag.utils.copy - now in core
+// mag.utils.merge - now in core
 
+mag.copy = mag.utils.copy 
+mag.merge = mag.utils.merge
 
-// mag.debounce - now in core
-
-// bind methods from a model to a controller instance
-//  mag.addons.bindToModel(this, Todo)
-mag.addons.bindToModel = function(context, model) {
-  for (var meth in model) {
-    context[meth] = model[meth].bind(context)
+/*
+controller:function(props)
+  // if props has a property 'isVisible' when true will display entire module on before updates
+  mag.show(this,'isVisible')
+}
+http://jsbin.com/miqobiqedu/edit?html,js,output
+*/
+mag.show = function(context, conditionName) {
+  if (typeof context !== 'object') {
+    var obj = {
+      _config: function(node) {
+        node.style.display = context ? 'block' : 'none'
+      }
+    }
+    if (typeof conditionName == 'object') {
+      mag.merge(conditionName, obj)
+    }
+    return obj
+  } else {
+    context.willupdate = function(event, node, inprops) {
+      node.style.display = inprops[conditionName] ? 'block' : 'none'
+    }
   }
 }
 
 
-//UTILITY
-// mag.utils.copy - now in core
-// mag.utils.merge - now in core
+mag.addons = {};
+
+
 
 // return object of getter values
 mag.addons.getProp = function(data) {
@@ -103,13 +122,6 @@ mag.addons.hide = function(condition) {
   }
 }
 
-// life cycle event helpers
-
-mag.addons.onNextUpdate = function(context, callback) {
-  context.didupdate = function(event, node) {
-    return callback.call(context, event, node)
-  }
-}
 
 // promises
 
@@ -215,7 +227,7 @@ mag.hookin('attributes', 'className', function(data) {
 
 //define context
 // mag.addons.disable.call(this, 'other', this.show);
-
+//TODO: change to mag.ui.disable
 mag.addons.disable = function(selector, condition) {
 
   if (typeof this[selector] !== 'object') {
@@ -235,6 +247,8 @@ mag.addons.disable = function(selector, condition) {
   };
 }
 
+
+// TODO: change to mag.find
 mag.addons.get = function(parentRootId, selector) {
   var parent = document.getElementById(parentRootId);
   return mag.fill.find(parent, selector)
@@ -242,6 +256,7 @@ mag.addons.get = function(parentRootId, selector) {
 
 // mag.addons.toMenu(['one', 'two', 'three'], state.selected())
 // http://jsbin.com/mapuwojumu/3/edit?js,output
+//TODO change to mag.ui.menu
 mag.addons.toMenu = function(maps, selected) {
   return maps.map(function(v, k) {
     return {
