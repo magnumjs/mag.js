@@ -1,5 +1,7 @@
 ###EXAMPLES
 
+[Show/Hide component example](http://jsbin.com/fegizubime/edit?html,js,output)
+
 [Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
 
 [Rot13 encoder app](http://embed.plnkr.co/lAHHz79MG8JrXpA4sNyv/preview)
