@@ -271,3 +271,8 @@ mag.addons.toMenu = function(maps, selected) {
     }
   })
 }
+
+
+/** DEPRECATED - ON THEIR WAY OUT!! **/
+
+mag.prop=function(t){var n=function(){return arguments.length&&(t=arguments[0]),t};return n.toJSON=function(){return t},n.type="fun",n},mag.withProp=function(t,n){return function(r){r=r||event;var e=r.currentTarget||this;n(t in e?e[t]:e.getAttribute(t))}};
