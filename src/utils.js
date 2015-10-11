@@ -1,5 +1,5 @@
 /*
-MagJS v0.20
+MagJS v0.21
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,24 +10,6 @@ License: MIT
   'use strict';
 
   var utils = {};
-
-
-  // mag.debounce = function(func, wait, immediate) {
-  //   wait || (wait = 16)
-  //   var timeout;
-  //   return function() {
-  //     var context = this,
-  //       args = arguments;
-  //     var later = function() {
-  //       timeout = null;
-  //       if (!immediate) func.apply(context, args);
-  //     };
-  //     var callNow = immediate && !timeout;
-  //     clearTimeout(timeout);
-  //     timeout = setTimeout(later, wait);
-  //     if (callNow) func.apply(context, args);
-  //   };
-  // };
 
   utils.callHook = function(hookins, key, name, i, data, before) {
     data.change = false
@@ -55,6 +37,7 @@ License: MIT
           isPrevented = true
         }
       }
+
     if (controller && controller[eventName]) {
       controller[eventName].call(controller, event, node, mag.mod.getProps(index))
       if (once) controller[eventName] = 0
@@ -143,27 +126,5 @@ License: MIT
 
 
   mag.utils = utils
-
-
-  mag.prop = function(store) {
-    var prop = function() {
-      if (arguments.length) store = arguments[0];
-      return store;
-    };
-
-    prop.toJSON = function() {
-      return store;
-    };
-    prop.type = 'fun'
-    return prop;
-  };
-
-  mag.withProp = function(prop, withAttrCallback) {
-    return function(e) {
-      e = e || event;
-      var currentTarget = e.currentTarget || this;
-      withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
-    }
-  }
 
 }(window.mag || {}));
