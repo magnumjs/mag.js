@@ -1,5 +1,7 @@
 ###EXAMPLES
 
+[Product search - filter example](http://jsbin.com/qasitoriyi/edit?html,js,output)
+
 [Show/Hide component example](http://jsbin.com/fegizubime/edit?html,js,output)
 
 [Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
