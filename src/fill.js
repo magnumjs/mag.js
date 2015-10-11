@@ -1,5 +1,5 @@
 /*
-MagJS v0.20
+MagJS v0.21
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -88,7 +88,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function removeNode(node) {
     var p = getPathTo2(node)
-      // remove cache of all children too		
+      //TODO: remove cache of all children too		
     node.parentNode.removeChild(node)
       // call config unload if any ?		
     if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
@@ -348,12 +348,20 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       } else if (value === null && ['onunload'].indexOf(key) === -1) {
         // TODO: delete case
         // special case delete all children if equal to null type  
-        var matches = matchingElements(node, key)
-        matches.forEach(function(item) {
-          removeNode(item)
-        })
-      }
 
+        node[MAGNUM].detached = node[MAGNUM].detached || []
+        
+        node[MAGNUM].detached[key] = 1
+
+        removeChildren(node, key)
+
+      } else if(node[MAGNUM].detached && node[MAGNUM].detached[key]) {
+
+        reattachChildren(node, key)
+        
+        node[MAGNUM].detached[key] = 0
+
+      }
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
         attributes = attributes || {}
@@ -380,12 +388,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (key[0] !== '_') {
         elements = matchingElements(node, key);
 
-
         if (typeof value === FUNCTION && value.toJSON) {
 
           value = value()
 
         }
+
 
         if (_isArray(value)) {
           elements = matchingElements(node, '$' + key);
@@ -394,6 +402,37 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         fill.run(elements, value, p + '/' + key);
       }
     }
+  }
+
+  var childCache = []
+
+  function reattachChildren(node, key) {
+    var matches = matchingElements(node, key)
+    matches.forEach(function(item) {
+      var uid = getUid(item)
+      if (childCache[uid]) {
+        for (var index in childCache[uid]) {
+          item.appendChild(childCache[uid][index])
+        }
+        delete childCache[uid];
+      }
+    })
+  }
+
+  function removeChildren(node, key) {
+    var matches = matchingElements(node, key)
+
+
+    matches.forEach(function(item) {
+      var uid = getUid(item)
+      if (item.children.length) childCache[uid] = nodeListToArray(item.children);
+
+      // remove children
+      while (item.lastChild) {
+        removeNode(item.lastChild)
+          //item.removeChild(item.lastChild)
+      }
+    })
   }
 
   // freeze the NodeList into a real Array so it can't update as DOM changes
@@ -440,13 +479,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var id = getPathId(xpath)
       var nodee = document.getElementById(id)
 
-        // What if ret is a promise?
+      // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
 
-
-      // TODO: Should these be ordered parent first?
-
-        mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+      mag.redraw(nodee, mag.utils.items.getItem(id), 1)
 
 
       return ret
