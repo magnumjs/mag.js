@@ -6,6 +6,10 @@ https://github.com/magnumjs/mag.js
 
 var mag = mag || {}
 
+// helper
+mag.noop = function(){}
+
+
 /*
 module library creation with single global namespace / package names
 (function(namespace) {
