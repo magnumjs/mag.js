@@ -137,7 +137,7 @@ mag.module("hello", {
 [Filter list components:]
 (http://jsbin.com/tuduzapecu/edit?js,output)
 
-[Quiz](http://jsbin.com/xuzavunaci/2/edit?js,output)
+[Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
 
 [Forms - passFail component](http://jsbin.com/cuxijarihi/edit?js,output)
 
