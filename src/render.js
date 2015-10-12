@@ -88,23 +88,23 @@ License: MIT
     // first user input field
     var founder = isInput(found);
     if (founder && !founder.eventOnFocus) {
+      var check = ['radio', 'checkbox'].indexOf(founder.type) > -1;
 
-      var onit = function(parent, event) {
+      var onit = function(parent, check, event) {
 
         this[MAGNUM] = this[MAGNUM] || {}
         if (!this[MAGNUM].dirty) {
           this[MAGNUM].dirty = 1
         }
-        
-        if(['radio','checkbox'].indexOf(this.type)>-1){
-          obj['_checked'] = this.checked;
-          var idx =  mag.utils.items.getItem(parent.id)
-          mag.redraw(parent, idx, 1)
-        }
-      }.bind(founder, parentElement)
 
-      founder.addEventListener("click", onit, false);
-      founder.addEventListener("focus", onit, false);
+        if (check) {
+          obj['_checked'] = this.checked;
+          mag.redraw(parent, mag.utils.items.getItem(parent.id), 1)
+        }
+      }.bind(founder, parentElement, check)
+
+      if (check) founder.addEventListener("click", onit, false);
+      else founder.addEventListener("focus", onit, false);
 
       founder.eventOnFocus = 1;
     }
@@ -134,8 +134,8 @@ License: MIT
     if (typeof oval !== 'function' && founder) {
       var founderCall = getElement.bind({}, obj, k, i, element);
       founderCall();
-      
-      
+
+
       Object.defineProperty(obj, k, {
         configurable: true,
         get: function() {
@@ -145,7 +145,7 @@ License: MIT
 
             oval = founder.value;
             mag.redraw(element, i, 1)
-            
+
             return founder.value;
           }
           return oval;
