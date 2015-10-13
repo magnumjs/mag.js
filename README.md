@@ -215,6 +215,8 @@ mag.module("hello", {
 
 [Employee Directory with tiny Router](http://embed.plnkr.co/ajEhbOZgenhbiMQcjel0/preview) 
 
+[News feed with undo state](http://embed.plnkr.co/2U8v3UrlIMYYPM6X4xYa/preview)
+
 ###Angular 2 Mag
 [Order form:]
 (http://jsbin.com/horuxanacu/edit?js,output)
