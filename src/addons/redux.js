@@ -1,8 +1,9 @@
 (function(window) {
 
   /*
-  from :https://github.com/rackt/redux
+  from: https://github.com/rackt/redux
   converted to plain es5 syntax
+  example: http://jsbin.com/vonudoxabu/edit?js,console
   */
 
   'use strict';
