@@ -63,7 +63,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/vufizohayi/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output)
+[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output)
 
 
 Initial html
@@ -94,7 +94,7 @@ mag.module("hello", {
 
 ##Examples
 
-[Hello world](http://jsbin.com/xovugihuto/edit?js,output) - 
+[Hello world](http://jsbin.com/vufizohayi/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/mumiyadewe/edit?js,output)
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
