@@ -20,4 +20,4 @@
 
 [Movie ticket quantity selection](http://jsbin.com/yigayisapa/edit?html,output)
 
-[Detach & reattach elements](http://jsbin.com/neqasaseko/edit?html,js,output)
+[Detach & reattach elements](http://jsbin.com/zujiyifiya/edit?html,js,output)
