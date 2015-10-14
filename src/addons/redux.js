@@ -341,7 +341,7 @@
 
   function getUnexpectedStateKeyWarningMessage(inputState, outputState, action) {
     var reducerKeys = Object.keys(outputState);
-    var argumentName = action && action.type === _createStore.ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+    var argumentName = action && action.type === ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
 
     if (reducerKeys.length === 0) {
       return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
@@ -364,7 +364,7 @@
     Object.keys(reducers).forEach(function(key) {
       var reducer = reducers[key];
       var initialState = reducer(undefined, {
-        type: _createStore.ActionTypes.INIT
+        type: ActionTypes.INIT
       });
 
       if (typeof initialState === 'undefined') {
@@ -375,7 +375,7 @@
       if (typeof reducer(undefined, {
           type: type
         }) === 'undefined') {
-        throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+        throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
       }
     });
   }
