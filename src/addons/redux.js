@@ -4,6 +4,7 @@
   from: https://github.com/rackt/redux
   converted to plain es5 syntax
   example: http://jsbin.com/vonudoxabu/edit?js,console
+  example2 : http://jsbin.com/wepulufeki/edit?js,console
   */
 
   'use strict';
