@@ -453,6 +453,7 @@
 
 })(window);
 
+/*
 function counter(state, action) {
   switch (action.type) {
     case 'INCREMENT':
@@ -486,3 +487,4 @@ store.dispatch({
   type: 'INCREMENT'
 });
 console.log(store.getState())
+*/
