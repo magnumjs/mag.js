@@ -8,6 +8,7 @@
   example3 : http://jsbin.com/kokeqikebo/edit?js,console
   MagJS Implementation basic : http://embed.plnkr.co/hpeKxjnnT2BxGeZtcuRP/
   MagJS Impl detailed : http://embed.plnkr.co/ngRhKORczy09F8bKyWc7/
+  MagJS Impl detailed w/middleware : http://embed.plnkr.co/yRdpOiIXHVlEPsjjlclh/
   */
 
   'use strict';
