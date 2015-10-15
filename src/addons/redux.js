@@ -6,6 +6,7 @@
   example: http://jsbin.com/vonudoxabu/edit?js,console
   example2 : http://jsbin.com/wepulufeki/edit?js,console
   example3 : http://jsbin.com/kokeqikebo/edit?js,console
+  MagJS Implementation basic : http://embed.plnkr.co/hpeKxjnnT2BxGeZtcuRP/
   */
 
   'use strict';
