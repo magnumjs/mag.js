@@ -772,6 +772,8 @@ Other hookins such as key/node value etc.. Coming soon!
 
 [JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output)
 
+[Dbmon](http://mathieuancelin.github.io/js-repaint-perfs/magjs/)
+
 [JsPerf v0.20.2](http://jsperf.com/react-vs-raw-dom-manipulation/20) - 
 [JsPerf v0.20.2](https://jsperf.com/angular-vs-knockout-vs-ember/758)
 
