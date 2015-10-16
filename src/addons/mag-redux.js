@@ -7,6 +7,15 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2015
 */
 
+/*
+Name: Mag-Redux
+Description: MagJS Redux implementation
+Author: Michael Glazer
+License: MIT
+Homepage: https://github.com/magnumjs/mag.js
+(c) 2015
+*/
+
 
 (function(Redux, mag) {
 
@@ -47,7 +56,7 @@ Homepage: https://github.com/magnumjs/mag.js
 
     if (middleware) {
       //Middleware:
-      var createStoreWithMiddleware = Redux.applyMiddleware(middleware)(Redux.createStore);
+      var createStoreWithMiddleware = Redux.applyMiddleware.apply({},middleware)(Redux.createStore);
 
 
       // Store:
