@@ -447,13 +447,15 @@
 
 
 
+
   window.Redux = {
-    createStore,
-    combineReducers,
-    bindActionCreators,
-    applyMiddleware,
-    compose
+    createStore:createStore,
+    combineReducers:combineReducers,
+    bindActionCreators:bindActionCreators,
+    applyMiddleware:applyMiddleware,
+    compose:compose
   };
+
 
 
 })(window);
