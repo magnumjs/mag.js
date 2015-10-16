@@ -209,13 +209,15 @@ mag.module("hello", {
 [Comment Box:]
 (http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
 (https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/tejabayowa/edit?js,output),
-[Take 2](http://jsbin.com/davapupufo/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/ViPC0XAYYhmePnuUCorD/preview) - [Module Pattern](http://embed.plnkr.co/n2wbvc3jfutMZH1SO5LH/) [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
+[Take 2](http://jsbin.com/davapupufo/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/ViPC0XAYYhmePnuUCorD/) - [Module Pattern](http://embed.plnkr.co/n2wbvc3jfutMZH1SO5LH/) [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
 
-[Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/preview)
+[Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/)
 
-[Employee Directory with tiny Router](http://embed.plnkr.co/ajEhbOZgenhbiMQcjel0/preview) 
+[Employee Directory with tiny Router](http://embed.plnkr.co/ajEhbOZgenhbiMQcjel0/) 
 
-[News feed with undo state](http://embed.plnkr.co/2U8v3UrlIMYYPM6X4xYa/preview)
+[News feed with undo state](http://embed.plnkr.co/2U8v3UrlIMYYPM6X4xYa/)
+
+[Mag Redux implementation](http://embed.plnkr.co/VvZoqFQk8MqDHYThB8eH/)
 
 ###Angular 2 Mag
 [Order form:]
