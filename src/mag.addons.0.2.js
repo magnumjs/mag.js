@@ -1,11 +1,11 @@
 /*
-Mag.JS AddOns v0.21
+Mag.JS AddOns v0.21.1
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
+Requires: MagJS (core) Addons: Ajax , Router
 */
 
-var mag = mag || {}
-
+;(function(mag, window, document, undefined){
 // helper
 mag.noop = function(){}
 
@@ -15,8 +15,6 @@ module library creation with single global namespace / package names
 (function(namespace) {
 
   var mod = {
-    controller:function(props){
-    },
     view: function(state, props) {
     }
   }
@@ -51,8 +49,11 @@ controller:function(props)
 http://jsbin.com/fegizubime/edit?html,js,output
 */
 
+// show hide
+
 mag.show = function(context, conditionName) {
-  if (typeof context !== 'object') {
+  var ctype = typeof context;
+  if (ctype !== 'object') {
     var obj = {
       _config: function(node) {
         node.style.display = context ? 'block' : 'none'
@@ -62,67 +63,13 @@ mag.show = function(context, conditionName) {
       mag.merge(conditionName, obj)
     }
     return obj
+  } else if(ctype == 'object'){
+    context.willload = function(event, node, inprops) {
+      node.style.display = 'block'
+    }    
   } else {
     context.willupdate = function(event, node, inprops) {
       node.style.display = inprops[conditionName] ? 'block' : 'none'
-    }
-  }
-}
-
-
-mag.addons = {};
-
-
-
-// return object of getter values
-mag.addons.getProp = function(data) {
-  var newData = {}
-  Object.keys(data).forEach(function(k) {
-    if (data[k].type == 'fun' && typeof data[k] == 'function') newData[k] = data[k]()
-  })
-  return newData
-}
-
-// show hide
-
-// remove class hide to given context/this
-// show(this) inside controller
-mag.addons.show = function(condition) {
-  if (typeof condition === 'boolean') {
-    return {
-      _config: function(n) {
-        if (!condition) n.style.display = 'none';
-        else n.style.display = 'block';
-      }
-    };
-  } else if (typeof condition === 'object') {
-    condition.willload = function(e, n) {
-      n.style.display = 'block'
-    }
-  } else if (arguments.length == 0) {
-    return function(e, n) {
-      // next didupdate event
-      n.style.display = 'block'
-    }
-  }
-}
-
-mag.addons.hide = function(condition) {
-  if (typeof condition === 'boolean') {
-    return {
-      _config: function(n) {
-        if (condition) n.style.display = 'none';
-        else n.style.display = 'block';
-      }
-    }
-  } else if (typeof condition === 'object') {
-    condition.willload = function(e, n) {
-      n.style.display = 'none';
-    }
-  } else if (arguments.length == 0) {
-    return function(e, n) {
-      // next didupdate event
-      n.style.display = 'none'
     }
   }
 }
@@ -155,13 +102,17 @@ mag.deferred = function() {
   return Deferred
 }
 
-mag.addons.when = function(arrayOfPromises, callback) {
+mag.when = function(arrayOfPromises, callback) {
   Promise.all(arrayOfPromises).then(callback)
 }
 
-mag.addons.requestWithFeedback = function(args) {
+// goes with mag.request for json ajax requests
+/*
+will show and hide all ''.loader' elements in transition
+*/
+mag.requestWithFeedback = function(args) {
   var key = JSON.stringify(args)
-  if (!mag.addons.requestWithFeedback.cache[key]) {
+  if (!mag.requestWithFeedback.cache[key]) {
 
     var loaders = document.querySelectorAll(".loader")
 
@@ -169,24 +120,75 @@ mag.addons.requestWithFeedback = function(args) {
     for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "block"
 
     var expire = function(data) {
-      delete mag.addons.requestWithFeedback.cache[key]
+      delete mag.requestWithFeedback.cache[key]
 
-      if (Object.keys(mag.addons.requestWithFeedback.cache).length == 0) {
+      if (Object.keys(mag.requestWithFeedback.cache).length == 0) {
         //hide icons
         for (var i = 0, loader; loader = loaders[i]; i++) loader.style.display = "none"
       }
       return data
     }
-    mag.addons.requestWithFeedback.cache[key] = mag.request(args).then(expire, function(error) {
+    mag.requestWithFeedback.cache[key] = mag.request(args).then(expire, function(error) {
       expire(error)
       throw error
     })
   }
-  return mag.addons.requestWithFeedback.cache[key]
+  return mag.requestWithFeedback.cache[key]
 }
-mag.addons.requestWithFeedback.cache = {}
+mag.requestWithFeedback.cache = {}
 
 
+
+// disable add to config
+// http://jsbin.com/qutudiqife/3/edit?js,output
+// define condition func
+// this.show = mag.prop(false);
+
+//define context
+// mag.addons.disable.call(this, 'other', this.show);
+//TODO: change to mag.ui.disable
+mag.disable = function(selector, condition) {
+
+  if (typeof this[selector] !== 'object') {
+    // create object
+    this[selector] = {
+      _value: this[selector]
+    };
+  }
+
+  // add or merge to config if not exists
+  var orig = this[selector]._config ? this[selector]._config : function() {};
+
+  this[selector]._config = function(n) {
+    orig.call(this, arguments);
+    if (condition()) n.setAttribute('disabled', 'disabled');
+    else n.removeAttribute('disabled');
+  };
+}
+
+
+// TODO: change to mag.find
+// find a MagJS element Matcher
+mag.find = function(parentRootId, selector) {
+  var parent = document.getElementById(parentRootId);
+  return mag.fill.find(parent, selector)
+}
+
+// mag.addons.toMenu(['one', 'two', 'three'], state.selected())
+// http://jsbin.com/mapuwojumu/3/edit?js,output
+//TODO change to mag.ui.menu
+mag.toMenu = function(maps, selected) {
+  return maps.map(function(v, k) {
+    return {
+      _text: v,
+      _value: k,
+      _selected: selected === k || selected === v ? true : null
+    }
+  })
+}
+
+
+//PLUGINS!
 // hookins
 
 mag.hookin('attributes', 'key', function(data) {
@@ -194,6 +196,7 @@ mag.hookin('attributes', 'key', function(data) {
   //  data.value = null
 })
 
+// _className plugin example
 mag.hookin('attributes', 'className', function(data) {
   data.key = 'class'
   var newClass = data.value
@@ -225,54 +228,25 @@ mag.hookin('attributes', 'className', function(data) {
 
 
 
-// disable add to config
-// http://jsbin.com/qutudiqife/3/edit?js,output
-// define condition func
-// this.show = mag.prop(false);
-
-//define context
-// mag.addons.disable.call(this, 'other', this.show);
-//TODO: change to mag.ui.disable
-mag.addons.disable = function(selector, condition) {
-
-  if (typeof this[selector] !== 'object') {
-    // create object
-    this[selector] = {
-      _value: this[selector]
+  mag.prop = function(store) {
+    var prop = function() {
+      if (arguments.length) store = arguments[0];
+      return store;
     };
-  }
 
-  // add or merge to config if not exists
-  var orig = this[selector]._config ? this[selector]._config : function() {};
-
-  this[selector]._config = function(n) {
-    orig.call(this, arguments);
-    if (condition()) n.setAttribute('disabled', 'disabled');
-    else n.removeAttribute('disabled');
+    prop.toJSON = function() {
+      return store;
+    };
+    prop.type = 'fun'
+    return prop;
   };
-}
 
-
-// TODO: change to mag.find
-mag.addons.get = function(parentRootId, selector) {
-  var parent = document.getElementById(parentRootId);
-  return mag.fill.find(parent, selector)
-}
-
-// mag.addons.toMenu(['one', 'two', 'three'], state.selected())
-// http://jsbin.com/mapuwojumu/3/edit?js,output
-//TODO change to mag.ui.menu
-mag.addons.toMenu = function(maps, selected) {
-  return maps.map(function(v, k) {
-    return {
-      _text: v,
-      _value: k,
-      _selected: selected === k || selected === v ? true : null
+  mag.withProp = function(prop, withAttrCallback) {
+    return function(e) {
+      e = e || event;
+      var currentTarget = e.currentTarget || this;
+      withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
     }
-  })
-}
-
-
-/** DEPRECATED - ON THEIR WAY OUT!! **/
-
-mag.prop=function(t){var n=function(){return arguments.length&&(t=arguments[0]),t};return n.toJSON=function(){return t},n.type="fun",n},mag.withProp=function(t,n){return function(r){r=r||event;var e=r.currentTarget||this;n(t in e?e[t]:e.getAttribute(t))}};
+  }
+	
+})(mag, window, document);
