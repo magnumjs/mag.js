@@ -1,17 +1,31 @@
 /*
-Mag.JS ajax v0.1
+Mag.JS ajax v0.2
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 */
 
-var mag = mag || {}
+/*
+Example: 
+mag.request({
+  url: 'https://api.github.com/users/defunkt'
+ })
+ 
+ 
+var url = 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS';
+//var url = 'https://api.myjson.com/bins/demo';
+mag.request({url:url, deserialize:function(data){
+  return data
+}}).then(function(data){
+  console.log(data)
+}).catch(function(e){
+ console.log(e)
+})
+ 
+*/
 
-var Deferred = function() {
-  return function Deferred(resolve, reject) {
-    Deferred.resolve = resolve
-    Deferred.reject = reject
-  }
-}
+;(function(window, document, mag, undefined){
+
+
 var FUNCTION = 'function'
 var STRING = '[object String]';
 
@@ -122,7 +136,7 @@ function parameterizeUrl(url, data) {
 }
 
 mag.request = function(xhrOptions) {
-  var deferred = new Deferred();
+  var deferred = mag.deferred();
   var isJSONP = xhrOptions.dataType && xhrOptions.dataType.toLowerCase() === "jsonp";
   var serialize = xhrOptions.serialize = isJSONP ? identity : xhrOptions.serialize || JSON.stringify;
   var deserialize = xhrOptions.deserialize = isJSONP ? identity : xhrOptions.deserialize || JSON.parse;
@@ -138,8 +152,9 @@ mag.request = function(xhrOptions) {
     try {
       e = e || event;
       var unwrap = (e.type === "load" ? xhrOptions.unwrapSuccess : xhrOptions.unwrapError) || identity;
-      //console.log(e.target)
+
       var response = unwrap(deserialize(extract(e.target, xhrOptions)), e.target);
+
       if (e.type === "load") {
         if (type.call(response) === ARRAY && xhrOptions.type) {
           for (var i = 0; i < response.length; i++) response[i] = new xhrOptions.type(response[i])
@@ -151,10 +166,8 @@ mag.request = function(xhrOptions) {
     }
   };
   ajax(xhrOptions);
-  //		deferred.promise = propify(deferred.promise, xhrOptions.initialValue);
 
-  var promise = new Promise(deferred)
-  return promise
+  return deferred.promise
 };
 
 function buildQueryString(object, prefix) {
@@ -180,23 +193,5 @@ function buildQueryString(object, prefix) {
   return str.join("&")
 }
 
-function parseQueryString(str) {
-  if (str.charAt(0) === "?") str = str.substring(1);
 
-  var pairs = str.split("&"),
-    params = {};
-  for (var i = 0, len = pairs.length; i < len; i++) {
-    var pair = pairs[i].split("=");
-    var key = decodeURIComponent(pair[0])
-    var value = pair.length == 2 ? decodeURIComponent(pair[1]) : null
-    if (params[key] != null) {
-      if (type.call(params[key]) !== ARRAY) params[key] = [params[key]]
-      params[key].push(value)
-    } else params[key] = value
-  }
-  return params
-}
-
-// mag.request({
-//   url: 'https://api.github.com/users/defunkt'
-// })
+})(window, document, mag)
