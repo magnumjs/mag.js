@@ -112,6 +112,31 @@ Requires: MagJS (core) Addons: Ajax , Router
     Promise.all(arrayOfPromises).then(callback)
   }
 
+  /*
+  mag.request({
+     url: 'https://api.github.com/users/defunkt'
+   })
+  */
+
+  mag.request = function(options) {
+    var deferred = mag.deferred();
+    var client = new XMLHttpRequest();
+    var method = (options.method || 'GET').toUpperCase();
+
+    client.open(method, options.url);
+
+    var data = method === "GET" || !options.data ? "" : options.data
+
+    client.send(data);
+    client.onload = function(e) {
+      deferred.resolve(e.target.responseText)
+    }
+    client.onerror = function(e) {
+      deferred.reject(e)
+    };
+    return deferred.promise
+  }
+
   // goes with mag.request for json ajax requests
   /*
   will show and hide all ''.loader' elements in transition
@@ -195,10 +220,10 @@ Requires: MagJS (core) Addons: Ajax , Router
 
 
 
-//ROUTER:
+  //ROUTER:
 
 
-mag.route = (function (window) {
+  mag.route = (function(window) {
 
     'use strict';
 
@@ -206,47 +231,50 @@ mag.route = (function (window) {
 
     function addRoute(route, handler) {
 
-        routes.push({parts: route.split('/'), handler: handler});
+      routes.push({
+        parts: route.split('/'),
+        handler: handler
+      });
     }
 
     function load(route) {
-        window.location.hash = route;
+      window.location.hash = route;
     }
 
     function start() {
 
-        var path = window.location.hash.substr(1),
-            parts = path.split('/'),
-            partsLength = parts.length;
+      var path = window.location.hash.substr(1),
+        parts = path.split('/'),
+        partsLength = parts.length;
 
-        for (var i = 0; i < routes.length; i++) {
-            var route = routes[i];
-            if (route.parts.length === partsLength) {
-                var params = [];
-                for (var j = 0; j < partsLength; j++) {
-                    if (route.parts[j].substr(0, 1) === ':') {
-                        params.push(parts[j]);
-                    } else if (route.parts[j] !== parts[j]) {
-                        break;
-                    }
-                }
-                if (j === partsLength) {
-                    route.handler.apply(undefined, params);
-                    return;
-                }
+      for (var i = 0; i < routes.length; i++) {
+        var route = routes[i];
+        if (route.parts.length === partsLength) {
+          var params = [];
+          for (var j = 0; j < partsLength; j++) {
+            if (route.parts[j].substr(0, 1) === ':') {
+              params.push(parts[j]);
+            } else if (route.parts[j] !== parts[j]) {
+              break;
             }
+          }
+          if (j === partsLength) {
+            route.handler.apply(undefined, params);
+            return;
+          }
         }
+      }
     }
 
     window.onhashchange = start;
 
     return {
-        addRoute: addRoute,
-        load: load,
-        start: start
+      addRoute: addRoute,
+      load: load,
+      start: start
     };
 
-}(window));
+  }(window));
 
 
   //PLUGINS!
@@ -292,7 +320,7 @@ mag.route = (function (window) {
 
 
 
-/** DEPRECATED - avoid use **/
+  /** DEPRECATED - avoid use **/
 
   mag.prop = function(store) {
     var prop = function() {
