@@ -1,14 +1,5 @@
 /*
-Name: Mag-Redux
-Description: MagJS Redux implementation
-Author: Michael Glazer
-License: MIT
-Homepage: https://github.com/magnumjs/mag.js
-(c) 2015
-*/
-
-/*
-Name: Mag-Redux
+Name: Mag-Redux v0.1
 Description: MagJS Redux implementation
 Author: Michael Glazer
 License: MIT
