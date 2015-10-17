@@ -118,24 +118,30 @@ Requires: MagJS (core) Addons: Ajax , Router
    })
   */
 
-  mag.request = function(options) {
-    var deferred = mag.deferred();
-    var client = new XMLHttpRequest();
-    var method = (options.method || 'GET').toUpperCase();
-
-    client.open(method, options.url);
-
-    var data = method === "GET" || !options.data ? "" : options.data
-
-    client.send(data);
-    client.onload = function(e) {
-      deferred.resolve(e.target.responseText)
+mag.request = function(options) {
+  var deferred = mag.deferred();
+  var client = new XMLHttpRequest();
+  var method = (options.method || 'GET').toUpperCase();
+  var data = method === "GET" || !options.data ? "" : options.data
+  
+  client.onload = function(e) {
+    var ct = client.getResponseHeader("content-type") || "";
+    var data = e.target.responseText;
+    if (ct.indexOf('json') > -1) {
+      data = JSON.parse(data)
     }
-    client.onerror = function(e) {
-      deferred.reject(e)
-    };
-    return deferred.promise
+    deferred.resolve(data)
   }
+  
+  client.onerror = function(e) {
+    deferred.reject(e)
+  };
+  
+  client.open(method, options.url);
+  client.send(data);
+  
+  return deferred.promise
+}
 
   // goes with mag.request for json ajax requests
   /*
