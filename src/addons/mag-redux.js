@@ -1,5 +1,5 @@
 /*
-Name: Mag-Redux
+Name: Mag-Redux v0.21
 Description: MagJS Redux implementation
 Author: Michael Glazer
 License: MIT
@@ -11,6 +11,19 @@ Homepage: https://github.com/magnumjs/mag.js
 ;(function(Redux, mag) {
 
   'use strict';
+
+//Thunk:
+// TODO: put some where else, in redux.js ?
+  Redux.thunkMiddleware = function (_ref) {
+    var dispatch = _ref.dispatch;
+    var getState = _ref.getState;
+    return function (next) {
+      return function (action) {
+        return typeof action === 'function' ? action(dispatch, getState) : next(action);
+      };
+    };
+  }
+
 
   var reduxCreateActions = function(actions) {
     var nactions = {}
@@ -30,6 +43,10 @@ Homepage: https://github.com/magnumjs/mag.js
 
     //Convert actions to functions:
     for (var k in actions) {
+      if(typeof actions[k] == 'function'){
+        nactions[k] = actions[k] 
+        continue;
+      }
       nactions[k] = function(acts) {
         var args = [].slice.call(arguments);
         [].shift.apply(args);
@@ -39,18 +56,6 @@ Homepage: https://github.com/magnumjs/mag.js
     }
 
     return nactions;
-  }
-
-//Thunk:
-  Redux.thunkMiddleware = function (_ref) {
-    var dispatch = _ref.dispatch;
-    var getState = _ref.getState;
-  
-    return function (next) {
-      return function (action) {
-        return typeof action === 'function' ? action(dispatch, getState) : next(action);
-      };
-    };
   }
 
   mag.reduxConnect = function(mapStateToProps, mapDispatchToProps, reducers, middleware) {
