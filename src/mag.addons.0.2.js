@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.1
+Mag.JS AddOns v0.21.2
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -120,28 +120,60 @@ Requires: MagJS (core) Addons: Ajax , Router
 
 mag.request = function(options) {
   var deferred = mag.deferred();
+  
+  var key = JSON.stringify(options)
+  if(options.cache){
+    var cache = mag.cache(key)
+    if(cache){
+      deferred.resolve(cache)
+      return deferred.promise      
+    }
+  }
+  
   var client = new XMLHttpRequest();
   var method = (options.method || 'GET').toUpperCase();
   var data = method === "GET" || !options.data ? "" : options.data
-  
+
   client.onload = function(e) {
     var ct = client.getResponseHeader("content-type") || "";
     var data = e.target.responseText;
     if (ct.indexOf('json') > -1) {
       data = JSON.parse(data)
     }
+      if(options.cache){
+        mag.cache(key, data, options.cacheTime)
+      }
     deferred.resolve(data)
   }
-  
+
   client.onerror = function(e) {
     deferred.reject(e)
   };
-  
+
   client.open(method, options.url);
   client.send(data);
-  
+
   return deferred.promise
 }
+
+
+mag.cache = function(key, data, cacheTime){
+  
+  if(arguments.length ==1) {
+    if(mag.cache.data[key]) return mag.cache.data[key].data;
+    else return 0
+  } 
+    
+  if(mag.cache.data[key] && mag.cache.data[key].id) clearInterval(mag.cache.data[key].id)
+  
+  var intervalID = setInterval(function(key){
+    delete mag.cache.data[key]
+  }.bind({},key), cacheTime || 1000 * 60 * 10); //10 minutes
+ 
+  mag.cache.data[key] = {id:intervalID, data: data }
+}
+
+mag.cache.data={}
 
   // goes with mag.request for json ajax requests
   /*
