@@ -8,7 +8,9 @@ License: MIT
 
   'use strict';
 
+  //Plugins:
   var hookins = {
+    values: [],
     attributes: [],
     elementMatcher: []
   }
