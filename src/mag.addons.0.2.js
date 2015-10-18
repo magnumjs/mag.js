@@ -15,31 +15,6 @@ Requires: MagJS (core) Addons: Ajax , Router
   mag.noop = function() {}
 
 
-  /*
-  module library creation with single global namespace / package names
-  (function(namespace) {
-
-    var mod = {
-      view: function(state, props) {
-      }
-    }
-
-    namespace.CommentBox = mod;
-
-  })(mag.namespace('mglazer.mods.comments'));
-  */
-  mag.namespace = function(ns, obj) {
-    var levels = ns.split('.'),
-      first = levels.shift();
-    obj = obj || this; //if no object argument supplied declare a global property
-    obj[first] = obj[first] || {}; // initialize the "level"
-    if (levels.length) { // recursion condition
-      return mag.namespace(levels.join('.'), obj[first]);
-    }
-    return obj[first]; // return a reference to the top level object
-  }
-
-
   //UTILITY
   // mag.utils.copy - now in core
   // mag.utils.merge - now in core
@@ -256,6 +231,29 @@ mag.cache.data={}
     })
   }
 
+  /*
+  module library creation with single global namespace / package names
+  (function(namespace) {
+
+    var mod = {
+      view: function(state, props) {
+      }
+    }
+
+    namespace.CommentBox = mod;
+
+  })(mag.namespace('mglazer.mods.comments'));
+  */
+  mag.namespace = function(ns, obj) {
+    var levels = ns.split('.'),
+      first = levels.shift();
+    obj = obj || this; //if no object argument supplied declare a global property
+    obj[first] = obj[first] || {}; // initialize the "level"
+    if (levels.length) { // recursion condition
+      return mag.namespace(levels.join('.'), obj[first]);
+    }
+    return obj[first]; // return a reference to the top level object
+  }
 
 
   //ROUTER:
@@ -354,6 +352,26 @@ mag.cache.data={}
   })
 
 
+//Values hookin
+mag.hookin('values', '*', function(data) {
+  var dtype = typeof data.value
+
+  if (data.value == null) {
+
+  } else
+  // allow function to return values
+  if (dtype === 'function' && data.value.toJSON) {
+    data.change = 1
+    data.value = data.value()
+  } else
+  // Allow for promises to be resolved
+  if (dtype == 'object' && typeof data.value.then == 'function') {
+    var mid = mag.utils.items.getItem(mag.fill.id);
+    data.value.then(function(newData) {
+      mag.mod.getState(mid)[data.key] = newData;
+    })
+  }
+})
 
 
 
