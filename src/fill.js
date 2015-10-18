@@ -350,15 +350,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         // special case delete all children if equal to null type  
 
         node[MAGNUM].detached = node[MAGNUM].detached || []
-        
+
         node[MAGNUM].detached[key] = 1
 
         removeChildren(node, key)
 
-      } else if(node[MAGNUM].detached && node[MAGNUM].detached[key]) {
+      } else if (node[MAGNUM].detached && node[MAGNUM].detached[key]) {
 
         reattachChildren(node, key)
-        
+
         node[MAGNUM].detached[key] = 0
 
       }
@@ -388,10 +388,18 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (key[0] !== '_') {
         elements = matchingElements(node, key);
 
-        if (typeof value === FUNCTION && value.toJSON) {
 
-          value = value()
 
+        // hookins
+        var data2 = {
+          key: key,
+          value: value,
+          node: node
+        }
+        mag.hook('values', '*', data2)
+          // change
+        if (data2.change) {
+          value = data.value
         }
 
 
@@ -430,7 +438,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // remove children
       while (item.lastChild) {
         removeNode(item.lastChild)
-          //item.removeChild(item.lastChild)
       }
     })
   }
@@ -481,7 +488,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
-
       mag.redraw(nodee, mag.utils.items.getItem(id), 1)
 
 
@@ -553,10 +559,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           attributes[attrName] = data.value
         }
 
-        //if (cache) continue
         if (attributes[attrName] === null) {
+          // remove property too or just attribute?
           node.removeAttribute(attrName)
         } else {
+          // separate property vs attribute?
+          if (attrName in node) {
+            node[attrName] = attributes[attrName];
+          }
           node.setAttribute(attrName, attributes[attrName].toString())
         }
 
