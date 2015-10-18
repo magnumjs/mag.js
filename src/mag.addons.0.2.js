@@ -95,16 +95,14 @@ Requires: MagJS (core) Addons: Ajax , Router
 
 mag.request = function(options) {
   var deferred = mag.deferred();
-  
   var key = JSON.stringify(options)
-  if(options.cache){
+  if (options.cache) {
     var cache = mag.cache(key)
-    if(cache){
+    if (cache) {
       deferred.resolve(cache)
-      return deferred.promise      
+      return deferred.promise
     }
   }
-  
   var client = new XMLHttpRequest();
   var method = (options.method || 'GET').toUpperCase();
   var data = method === "GET" || !options.data ? "" : options.data
@@ -115,9 +113,9 @@ mag.request = function(options) {
     if (ct.indexOf('json') > -1) {
       data = JSON.parse(data)
     }
-      if(options.cache){
-        mag.cache(key, data, options.cacheTime)
-      }
+    if (options.cache) {
+      mag.cache(key, data, options.cacheTime)
+    }
     deferred.resolve(data)
   }
 
@@ -127,6 +125,10 @@ mag.request = function(options) {
 
   client.open(method, options.url);
   client.send(data);
+  
+    if (options.initialValue) {
+      deferred.promise.initialValue = options.initialValue
+    }
 
   return deferred.promise
 }
