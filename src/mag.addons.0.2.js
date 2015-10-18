@@ -92,6 +92,8 @@ Requires: MagJS (core) Addons: Ajax , Router
      url: 'https://api.github.com/users/defunkt'
    })
   */
+  
+  //TODO: add jsonp support
 
 mag.request = function(options) {
   var deferred = mag.deferred();
@@ -126,28 +128,30 @@ mag.request = function(options) {
   client.open(method, options.url);
   client.send(data);
   
-    if (options.initialValue) {
-      deferred.promise.initialValue = options.initialValue
-    }
+  if (options.initialValue) {
+    deferred.promise.initialValue = options.initialValue
+  }
 
   return deferred.promise
 }
 
+mag.cache = function(key, data, cacheTime) {
 
-mag.cache = function(key, data, cacheTime){
-  
-  if(arguments.length ==1) {
-    if(mag.cache.data[key]) return mag.cache.data[key].data;
+  if (arguments.length == 1) {
+    if (mag.cache.data[key]) return mag.cache.data[key].data;
     else return 0
-  } 
-    
-  if(mag.cache.data[key] && mag.cache.data[key].id) clearInterval(mag.cache.data[key].id)
-  
-  var intervalID = setInterval(function(key){
+  }
+
+  if (mag.cache.data[key] && mag.cache.data[key].id) clearTimeout(mag.cache.data[key].id)
+
+  var intervalID = setTimeout(function(key) {
     delete mag.cache.data[key]
-  }.bind({},key), cacheTime || 1000 * 60 * 10); //10 minutes
- 
-  mag.cache.data[key] = {id:intervalID, data: data }
+  }.bind({}, key), cacheTime || 1000 * 60 * 10); //10 minutes
+
+  mag.cache.data[key] = {
+    id: intervalID,
+    data: data
+  }
 }
 
 mag.cache.data={}
