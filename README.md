@@ -219,6 +219,8 @@ mag.module("hello", {
 
 [Mag Redux implementation](http://embed.plnkr.co/VvZoqFQk8MqDHYThB8eH/)
 
+[Mag Redux Async](http://embed.plnkr.co/YsZSrG9QPGoNyjhu1bf0/)
+
 ###Angular 2 Mag
 [Order form:]
 (http://jsbin.com/horuxanacu/edit?js,output)
