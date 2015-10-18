@@ -399,7 +399,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         mag.hook('values', '*', data2)
           // change
         if (data2.change) {
-          value = data.value
+          value = data2.value
         }
 
 
