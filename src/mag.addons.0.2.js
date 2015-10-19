@@ -87,12 +87,6 @@ Requires: MagJS (core) Addons: Ajax , Router
     Promise.all(arrayOfPromises).then(callback)
   }
 
-  /*
-  mag.request({
-     url: 'https://api.github.com/users/defunkt'
-   })
-  */
-  
   //TODO: add jsonp support
 
 mag.request = function(options) {
@@ -100,8 +94,9 @@ mag.request = function(options) {
     if (options.initialValue) {
       deferred.promise.initialValue = options.initialValue
     }
-
+    //Uid:
     var key = JSON.stringify(options)
+    //Cache:
     if (options.cache) {
       var cache = mag.cache(key)
       if (cache) {
@@ -109,6 +104,15 @@ mag.request = function(options) {
         return deferred.promise
       }
     }
+    
+      //In queue:
+  if (mag.request.queue[key]) {
+    return mag.request.queue[key]
+  }
+  //Add to queue
+  mag.request.queue[key] = deferred.promise;
+    
+    
     var client = new XMLHttpRequest();
     var method = (options.method || 'GET').toUpperCase();
     var data = method === "GET" || !options.data ? "" : options.data
@@ -134,6 +138,7 @@ mag.request = function(options) {
 
     return deferred.promise
   }
+mag.request.queue = {}
 
 mag.cache = function(key, data, cacheTime) {
 
