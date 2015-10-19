@@ -23,3 +23,5 @@
 [Detach & reattach elements](http://jsbin.com/vezofilonu/edit?html,js,output)
 
 [Async & remote json data auto-loading w/caching & initialValues](http://jsbin.com/jujomiciye/edit?html,js,output)
+
+[Web service json request with loading feedback](http://jsbin.com/vudapifehe/edit?js,output)
