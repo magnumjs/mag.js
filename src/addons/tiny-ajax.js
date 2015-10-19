@@ -16,9 +16,10 @@ License MIT
   })
 */
 
+ // promises
+
   /*
   var d = mag.deferred()
-
   d.promise.then(function() {
     console.log('success', arguments)
   }, function() {
@@ -45,54 +46,58 @@ License MIT
     Promise.all(arrayOfPromises).then(callback)
   }
 
-  /*
-  mag.request({
-     url: 'https://api.github.com/users/defunkt'
-   })
-  */
-  
   //TODO: add jsonp support
 
 mag.request = function(options) {
-  var deferred = mag.deferred();
-  var key = JSON.stringify(options)
-  if (options.cache) {
-    var cache = mag.cache(key)
-    if (cache) {
-      deferred.resolve(cache)
-      return deferred.promise
+    var deferred = mag.deferred();
+    if (options.initialValue) {
+      deferred.promise.initialValue = options.initialValue
     }
-  }
-  var client = new XMLHttpRequest();
-  var method = (options.method || 'GET').toUpperCase();
-  var data = method === "GET" || !options.data ? "" : options.data
-
-  client.onload = function(e) {
-    var ct = client.getResponseHeader("content-type") || "";
-    var data = e.target.responseText;
-    if (ct.indexOf('json') > -1) {
-      data = JSON.parse(data)
-    }
+    //Uid:
+    var key = JSON.stringify(options)
+    //Cache:
     if (options.cache) {
-      mag.cache(key, data, options.cacheTime)
+      var cache = mag.cache(key)
+      if (cache) {
+        deferred.resolve(cache)
+        return deferred.promise
+      }
     }
-    deferred.resolve(data)
+    
+      //In queue:
+  if (mag.request.queue[key]) {
+    return mag.request.queue[key]
   }
+  //Add to queue
+  mag.request.queue[key] = deferred.promise;
+    
+    
+    var client = new XMLHttpRequest();
+    var method = (options.method || 'GET').toUpperCase();
+    var data = method === "GET" || !options.data ? "" : options.data
 
-  client.onerror = function(e) {
-    deferred.reject(e)
-  };
+    client.onload = function(e) {
+      var ct = client.getResponseHeader("content-type") || "";
+      var data = e.target.responseText;
+      if (ct.indexOf('json') > -1) {
+        data = JSON.parse(data)
+      }
+      if (options.cache) {
+        mag.cache(key, data, options.cacheTime)
+      }
+      deferred.resolve(data)
+    }
 
-  client.open(method, options.url);
-  client.send(data);
-  
-  if (options.initialValue) {
-    deferred.promise.initialValue = options.initialValue
+    client.onerror = function(e) {
+      deferred.reject(e)
+    };
+
+    client.open(method, options.url);
+    client.send(data);
+
+    return deferred.promise
   }
-
-  return deferred.promise
-}
-
+mag.request.queue = {}
 mag.cache = function(key, data, cacheTime) {
 
   if (arguments.length == 1) {
