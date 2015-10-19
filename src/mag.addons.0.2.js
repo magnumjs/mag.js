@@ -178,7 +178,8 @@ mag.cache.data={}
         }
         return data
       }
-      mag.requestWithFeedback.cache[key] = mag.request(args).then(expire, function(error) {
+      mag.requestWithFeedback.cache[key] = mag.request(args)
+      mag.requestWithFeedback.cache[key] .then(expire, function(error) {
         expire(error)
         throw error
       })
