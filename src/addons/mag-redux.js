@@ -59,20 +59,20 @@ Homepage: https://github.com/magnumjs/mag.js
   }
 
   mag.reduxConnect = function(mapStateToProps, mapDispatchToProps, reducers, middleware) {
-
+  
     var creducers = Redux.combineReducers(reducers);
     var store;
-    
+  
     middleware = middleware || []
     middleware.push(Redux.thunkMiddleware)
-
+  
     //Middleware:
-    var createStoreWithMiddleware = Redux.applyMiddleware.apply({},middleware)(Redux.createStore);
-
-
+    var createStoreWithMiddleware = Redux.applyMiddleware.apply({}, middleware)(Redux.createStore);
+  
+  
     // Store:
     store = createStoreWithMiddleware(creducers);
-
+  
     //Actions to props:
     var props = {},
       stype = typeof mapStateToProps,
@@ -83,21 +83,29 @@ Homepage: https://github.com/magnumjs/mag.js
       mapDispatchToProps = reduxCreateActions(mapDispatchToProps)
       props = Redux.bindActionCreators(mapDispatchToProps, store.dispatch);
     }
-
-
+  
+  
     if (stype == 'object') mag.merge(props, store.getState())
+  
     return function(id, module) {
-
-
-      //Create Mag Instance:
-      var instance = mag.create(id, module, props)
-
+  
+      var instance;
+      if (typeof id == 'string') {
+  
+        //Create Mag Instance:
+        instance = mag.create(id, module, props)
+  
+      } else {
+        instance = id;
+        mag.merge(instance().getProps(), props);
+      }
+  
       store.subscribe(function() {
         var newProps = store.getState()
         if (stype == 'function') {
           newProps = mapStateToProps(store.getState());
         }
-
+  
         mag.merge(instance().getProps(), newProps);
       })
       return instance
