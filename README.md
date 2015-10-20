@@ -217,7 +217,7 @@ mag.module("hello", {
 
 [News feed with undo state](http://embed.plnkr.co/2U8v3UrlIMYYPM6X4xYa/)
 
-[Mag Redux implementation](http://embed.plnkr.co/VvZoqFQk8MqDHYThB8eH/)
+[Mag Redux implementation](http://embed.plnkr.co/39plzYcnwnqEhn5hI4vG/) 
 
 [Mag Redux Async](http://embed.plnkr.co/YsZSrG9QPGoNyjhu1bf0/)
 
