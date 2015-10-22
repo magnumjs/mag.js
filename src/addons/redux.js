@@ -444,7 +444,7 @@
         }
       }
 
-      return finalState;
+      return hasChanged ? finalState : state;
     };
   }
 
