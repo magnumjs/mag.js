@@ -44,7 +44,7 @@ Redux.remoteReducer = (function(window) {
         return {
           types: [types2.SET_STATE_REQUEST, types2.SET_STATE_SUCCESS],
           promise: getData(param),
-          param
+          param : param
         }
       }
     }
