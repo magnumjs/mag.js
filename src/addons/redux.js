@@ -1,7 +1,7 @@
 (function(window) {
 
   /*
-  from: https://github.com/rackt/redux
+  from: https://github.com/rackt/redux v3.0.3
   converted to plain es5 syntax
   example: http://jsbin.com/vonudoxabu/edit?js,console
   example2 : http://jsbin.com/wepulufeki/edit?js,console
@@ -425,13 +425,16 @@
         throw sanityError;
       }
 
+      var hasChanged = false;
       var finalState = mapValues(finalReducers, function(reducer, key) {
-        var newState = reducer(state[key], action);
-        if (typeof newState === 'undefined') {
+        var previousStateForKey = state[key];
+        var nextStateForKey = reducer(previousStateForKey, action);
+        if (typeof nextStateForKey === 'undefined') {
           var errorMessage = getUndefinedStateErrorMessage(key, action);
           throw new Error(errorMessage);
         }
-        return newState;
+        hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
+        return nextStateForKey;
       });
 
       if (true) {
