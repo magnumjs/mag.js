@@ -136,7 +136,7 @@ mag.request = function(options) {
 
   client.open(method, options.url);
     //Headers:
-  if(options.headers.length > 0){
+  if(options.headers){
     for(var i=0;i<options.headers.length;i++){
     	var header = options.headers[i]
       for(var k in header){
