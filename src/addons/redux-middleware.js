@@ -31,8 +31,9 @@ var actions = {
 }
 */
 
+Redux.middle= {}
 
-var readyStatePromise = function readyStatePromise(store) {
+Redux.middle.readyStatePromise = function readyStatePromise(store) {
   return function (next) {
     return function (action) {
       
@@ -57,7 +58,7 @@ var readyStatePromise = function readyStatePromise(store) {
 };
 
 
-var logger = function logger(store) {
+Redux.middle.logger = function logger(store) {
   return function(next) {
     return function(action) {
       console.log('dispatching', action);
