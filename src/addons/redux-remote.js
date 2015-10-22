@@ -146,7 +146,7 @@ Redux.remoteReducer = (function(window) {
     }
 
     return {
-      reducer, actions, types, init, invalidate: function() {
+      reducer:reducer, actions:actions, types:types, init:init, invalidate: function() {
         setCache()
       }
     }
