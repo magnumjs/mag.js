@@ -37,7 +37,7 @@ Redux.remoteReducer = (function(window) {
         return {
           type: types2.SAVE_STATE,
           promise: saveData(lastState),
-          lastState
+          lastState : lastState
         }
       },
       loadState: function(param) {
