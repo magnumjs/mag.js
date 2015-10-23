@@ -25,3 +25,5 @@
 [Async & remote json data auto-loading w/caching & initialValues](http://jsbin.com/gecaniyipi/edit?js,output)
 
 [Web service json request with loading feedback](http://jsbin.com/ronowifoma/edit?js,output)
+
+[Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
