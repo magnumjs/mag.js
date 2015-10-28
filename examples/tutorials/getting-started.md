@@ -367,4 +367,4 @@ If and only if the state has changed will it rerun the view
 On view load it is simply re running the bind method which then sets the defaults it has listed.
 
 If would be nicer if it can be set in the controller
-If it listened to any change and set it directly to that change
+If it listened to any change and set it directly to that change. This is how v0.2 works!
