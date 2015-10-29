@@ -1,0 +1,179 @@
+
+<!-- http://jsbin.com/majasofaco/edit?html,output -->
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+        <title>Hello! | Guide for MagJS</title>
+       
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="http://regularjs.github.io/guide/gitbook/style.css">
+
+
+        
+    <div class="book" data-level="1" data-basepath=".." data-revision="1424935817437">
+    
+
+
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Guide for MagJS</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_433">
+                    
+                        <h1 id="quick-example">Quick Example</h1>
+<p>In this Page, we will create our first component —— <strong>HelloMag</strong> . It is used to show an welcome message for people who login. if people aren&#39;t login yet, the component will prompt an window. For simplicity, only username is required during the login operation.</p>
+<h2 id="1-initialize-template">1. initialize template</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">"hello"</span>&gt;</span>
+  Hello, Guest
+<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!-- include mag.js --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"https://rawgit.com/magnumjs/mag.js/master/dist/mag.0.21.2.min.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+<span class="hljs-comment">//Create your first module:</span>
+<span class="hljs-keyword">var</span> HelloModule = {view:function(){}}
+
+<span class="hljs-comment">//Create Your First Component:</span>
+<span class="hljs-keyword">var</span> HelloMag = mag.create(
+  <span class="hljs-string">'hello'</span>,
+  HelloModule
+);
+
+<span class="hljs-comment">//Initialize component:</span>
+<span class="hljs-keyword">var</span> component = <span class="hljs-keyword"></span> HelloMag({
+  data: {username: <span class="hljs-string">"leeluolee"</span>}
+});
+</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+</code></pre>
+<p><strong>RESULT</strong></p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/3cod88m4/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+
+<ul>
+<li><p><strong><code>mag.create</code></strong></p>
+<p>mag.create will create a Component that can be executed.</p>
+</li>
+<li><p><code>template Id</code></p>
+<p>a Component needs a template to describe its structure.</p>
+</li>
+<li><p><code>data/props</code></p>
+<p>component&#39;s model, but it is just a Plain Object.  the <code>data</code> passed to <code>new Component</code> and the <code>data</code> passed to <code>mag.create</code> are merged.</p>
+</li>
+</ul>
+
+                      
+<h2 id="2-using-__interpolation__-to-show-users-name">2. Using <strong>interpolation</strong> to show user&#39;s name</h2>
+<p>This component only shows static message until now, we should make it live by using <strong>interpolation</strong>.</p>
+<pre><code class="lang-html">  Hello, &lt;username/&gt;
+</code></pre>
+<p><strong>RESULT</strong></p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/ofsz5j6f/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<h2 id="3-using-ifelse-to-show-other-message-if-the-user-is-not-logged-in">3. using <code>if/else</code> to show other message if the user is not logged in</h2>
+<pre><code class="lang-xml">{#if username}
+  Hello, {username}.
+{#else}
+  Sorry, Guest.
+{/if}
+</code></pre>
+<p>it just like we use the other string-based template.</p>
+<p><strong>RESULT</strong></p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/leeluolee/C2Gh9/47/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+
+
+<h2 id="4-implement-the-loginlogout--by-event">4. Implement the <code>Login/Logout</code>  by event</h2>
+<p>In this step , we need to add two event to deal with the <strong>Login</strong> and <strong>Logout</strong> operation.</p>
+<pre><code class="lang-html">{#if username}
+  Hello, {username}. <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">on-click</span>=<span class="hljs-value">{username</span> = ''}&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+{#else}
+  Sorry, Guest. Please <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">hreaf</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">on-click</span>=<span class="hljs-value">{this.login()}</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+{/if}
+</code></pre>
+<blockquote>
+<h5>Tips</h5>
+
+<p>in regular,  the <code>on-</code> prefixed attribute will be considered as <a href="../core/event.html">ui event</a>
+you can also define your custom event like(e.g. <code>on-hold</code> or <code>on-tap</code>) and determine when to trigger it;</p>
+</blockquote>
+<p>we add two operation in the template above:</p>
+<p><strong>Login</strong>: the keyword <code>this</code> in the template just point to the <code>component</code> itself. so we need to add a method named <strong>login</strong> at HelloRegular&#39;s prototype .</p>
+<p><strong>Logout</strong>: the model&#39;s root in template points to <code>component.data</code> . so in this exmaple, we just simply clear the username in <code>component.data</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> HelloRegular = Regular.extend({
+  template: <span class="hljs-string">'#hello'</span>,
+  login: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">this</span>.data; <span class="hljs-comment">// get data</span>
+    data.username = prompt(<span class="hljs-string">"please enter your username"</span>, <span class="hljs-string">""</span>)
+  }
+});
+</code></pre>
+<p><strong>RESULT</strong></p>
+<iframe width="100%" height="300" src="http://jsfiddle.net/leeluolee/C2Gh9/48/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+
+
+<h2 id="5-when-the-components-digest-phase-will-be-triggered">5. when the component&#39;s digest phase will be triggered</h2>
+<p>just like angular. regular&#39;s data-binding is based on dirty-check. some builtin (.e.g event, <a href="../core/use.html#timeout">timeout</a>) will tirgger the component&#39;s digest phase automatically. you can also trigger the digest manually using <a href="../core/binding.html#update">component.$update</a></p>
+<pre><code class="lang-javascript">
+component.data.user.name = <span class="hljs-string">"regularjs"</span>;
+component.$update() <span class="hljs-comment">// enter</span>
+</code></pre>
+<p>just like the example above, the usage of <code>$update</code> is flexible.</p>
+<p><strong><a href="http://fiddle.jshell.net/leeluolee/C2Gh9/50/" target="_blank">|DEMO|</a></strong></p>
+<blockquote>
+<p>no matter how you use the <code>$update</code>. the component will always enter into the &#39;digest&#39; phase.</p>
+</blockquote>
+<h2 id="summary">Summary</h2>
+<p>In this chapter, we create a super simple component named HelloRegular.</p>
+<p>you can consider regular&#39;s component as a small <code>mvvm</code> realization.</p>
+<ul>
+<li>independent lifecycle</li>
+<li>the view based on template</li>
+<li>the model is <strong>Plain Object</strong></li>
+<li>the component itself is just like the viewmodel</li>
+</ul>
+<p>you can also check the more comprehensive example——<a href="" target="_blank">todomvc</a>.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+
+        
+    </body>
+    
+</html>
