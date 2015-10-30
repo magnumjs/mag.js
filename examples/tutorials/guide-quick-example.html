@@ -113,8 +113,8 @@
 you can also define your custom event like(e.g. <code>_onHold</code> or <code>_onTap</code>) and determine when to trigger it;</p>
 </blockquote>
 <p>we add two operation in the template above:</p>
-<p><strong>Login</strong>: the keyword <code>this</code> in the template just point to the <code>component</code> itself. so we need to add a method named <strong>login</strong> at HelloRegular&#39;s prototype .</p>
-<p><strong>Logout</strong>: the model&#39;s root in template points to <code>component.data</code> . so in this exmaple, we just simply clear the username in <code>props</code>.</p>
+<p><strong>Login</strong>: the keyword <code>this</code> in the template just point to the <code>component</code> itself. so we need to add a method named <strong>login</strong> at HelloMag&exmaplerototype .</p>
+<p><strong>Logout</strong>: the model&#39;s root in template points to <code>component.props</code> . so in this example, we just simply clear the username in <code>props</code>.</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> HelloModule = {
   view: function(state, props) {
     if (props.username) {
