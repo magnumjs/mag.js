@@ -237,6 +237,8 @@ mag.module("hello", {
 [Country App - JSON/Routing]
 (http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
 
+[More advanced examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
+
 ##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
 ###Statefullness
