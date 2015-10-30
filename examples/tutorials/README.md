@@ -2,7 +2,7 @@
 
 List of MagJS Tutorials:
 
-- [Guide quick example](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
+- [Guide quick example (1st component)](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
 - [MagJS version of James Longs' "why react is awesome"](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 
 
