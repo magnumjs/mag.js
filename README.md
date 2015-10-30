@@ -215,7 +215,7 @@ mag.module("hello", {
 
 [Employee Directory with tiny Router](http://embed.plnkr.co/ajEhbOZgenhbiMQcjel0/) 
 
-[News feed with undo state](http://embed.plnkr.co/2U8v3UrlIMYYPM6X4xYa/)
+[News feed with undo state](http://embed.plnkr.co/XdMHLiZPxlTwk1mFMjjV/)
 
 [Mag Redux implementation](http://embed.plnkr.co/39plzYcnwnqEhn5hI4vG/) 
 
