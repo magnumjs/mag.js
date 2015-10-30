@@ -1,33 +1,17 @@
-
-<!-- http://jsbin.com/majasofaco/edit?html,output -->
 <!DOCTYPE HTML>
 <html lang="en-US" >
-    
-    <head>
-        
+    <head>        
         <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=11; IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
-        <title>Hello! | Guide for MagJS</title>
-       
+      <link rel="stylesheet" href="//regularjs.github.io/guide/gitbook/style.css">
+        <title>Hello! | Guide for MagJS</title>       
     </head>
     <body>
-        
-        
-<link rel="stylesheet" href="http://regularjs.github.io/guide/gitbook/style.css">
-
-
-        
+   
     <div class="book" data-level="1" data-basepath=".." data-revision="1424935817437">
     
-
-
-
     <div class="book-body">
         <div class="body-inner">
             <div class="book-header">
-
-    
-    
 
     <!-- Title -->
     <h1>
@@ -95,63 +79,84 @@
 
 
 <h2 id="3-using-ifelse-to-show-other-message-if-the-user-is-not-logged-in">3. using <code>if/else</code> to show other message if the user is not logged in</h2>
-<pre><code class="lang-xml">{#if username}
-  Hello, {username}.
-{#else}
-  Sorry, Guest.
-{/if}
+<pre><code class="lang-xml">if(props.username){
+  state.b = props.username
+  state.guest = null;   
+} else {
+  state.user = null;
+}
 </code></pre>
-<p>it just like we use the other string-based template.</p>
+<p>Null removes the element.</p>
 <p><strong>RESULT</strong></p>
-<iframe width="100%" height="300" src="http://jsfiddle.net/leeluolee/C2Gh9/47/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="300" src="http://jsfiddle.net/b02hyay6/1/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 
 
 
 <h2 id="4-implement-the-loginlogout--by-event">4. Implement the <code>Login/Logout</code>  by event</h2>
-<p>In this step , we need to add two event to deal with the <strong>Login</strong> and <strong>Logout</strong> operation.</p>
-<pre><code class="lang-html">{#if username}
-  Hello, {username}. <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">on-click</span>=<span class="hljs-value">{username</span> = ''}&gt;</span>Logout<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
-{#else}
-  Sorry, Guest. Please <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">hreaf</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">on-click</span>=<span class="hljs-value">{this.login()}</span>&gt;</span>Login<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
-{/if}
+<p>In this step , we need to add two events to deal with the <strong>Login</strong> and <strong>Logout</strong> operation.</p>
+<pre><code class="lang-html">&lt;div id="hello"&gt;
+    &lt;div class="user"&gt&lt;span&gtHello, &lt;b&gt{username}&lt;/b&gt. 
+        &lt;a href='#'&gtLogout&lt;/a&gt
+        &lt;/span&gt
+    &lt;/div&gt
+    &lt;div class="guest"&gt&lt;span&gtSorry, Guest. 
+        Please &lt;a href='#'&gtLogin&lt;/a&gt
+        &lt;/span&gt
+    &lt;/div&gt
+&lt;/div&gt
 </code></pre>
 <blockquote>
 <h5>Tips</h5>
 
-<p>in regular,  the <code>on-</code> prefixed attribute will be considered as <a href="../core/event.html">ui event</a>
-you can also define your custom event like(e.g. <code>on-hold</code> or <code>on-tap</code>) and determine when to trigger it;</p>
+<p>in MagJS,  the <code>_on</code> prefixed attribute will be considered as <a href="#">ui event</a>
+you can also define your custom event like(e.g. <code>_onHold</code> or <code>_onTap</code>) and determine when to trigger it;</p>
 </blockquote>
 <p>we add two operation in the template above:</p>
 <p><strong>Login</strong>: the keyword <code>this</code> in the template just point to the <code>component</code> itself. so we need to add a method named <strong>login</strong> at HelloRegular&#39;s prototype .</p>
-<p><strong>Logout</strong>: the model&#39;s root in template points to <code>component.data</code> . so in this exmaple, we just simply clear the username in <code>component.data</code>.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> HelloRegular = Regular.extend({
-  template: <span class="hljs-string">'#hello'</span>,
-  login: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
-    <span class="hljs-keyword">var</span> data = <span class="hljs-keyword">this</span>.data; <span class="hljs-comment">// get data</span>
-    data.username = prompt(<span class="hljs-string">"please enter your username"</span>, <span class="hljs-string">""</span>)
+<p><strong>Logout</strong>: the model&#39;s root in template points to <code>component.data</code> . so in this exmaple, we just simply clear the username in <code>props</code>.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> HelloModule = {
+  view: function(state, props) {
+    if (props.username) {
+      state.user = {
+        a: {
+          _onClick: function() {
+            props.username = ''
+          }
+        }
+      }
+      state.b = props.username
+      state.guest = null;
+    } else {
+      state.guest = {
+        a: {
+          _onClick: function() {
+            props.username = prompt("please enter your username", "")
+          }
+        }
+      }
+      state.user = null;
+    }
   }
-});
+}
 </code></pre>
 <p><strong>RESULT</strong></p>
-<iframe width="100%" height="300" src="http://jsfiddle.net/leeluolee/C2Gh9/48/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+<iframe width="100%" height="300" src="http://jsfiddle.net/8r73ab2p/1/embedded/result,js,html,resources" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 
 
 
-<h2 id="5-when-the-components-digest-phase-will-be-triggered">5. when the component&#39;s digest phase will be triggered</h2>
-<p>just like angular. regular&#39;s data-binding is based on dirty-check. some builtin (.e.g event, <a href="../core/use.html#timeout">timeout</a>) will tirgger the component&#39;s digest phase automatically. you can also trigger the digest manually using <a href="../core/binding.html#update">component.$update</a></p>
-<pre><code class="lang-javascript">
-component.data.user.name = <span class="hljs-string">"regularjs"</span>;
-component.$update() <span class="hljs-comment">// enter</span>
-</code></pre>
-<p>just like the example above, the usage of <code>$update</code> is flexible.</p>
-<p><strong><a href="http://fiddle.jshell.net/leeluolee/C2Gh9/50/" target="_blank">|DEMO|</a></strong></p>
+<h2 id="5-when-the-components-digest-phase-will-be-triggered">5. when the component&#39;s redraw phase will be triggered</h2>
+<p>MagJS&#39;s data-binding is based on observing the state and props objects. some builtin (.e.g event, onClick) will trigger the component&#39;s redraw phase automatically. you can also trigger the redraw manually using <a href="#">component.draw</a></p>
+
+                      
+<p>just like the example above, the usage of <code>state</code> is flexible.</p>
+
 <blockquote>
-<p>no matter how you use the <code>$update</code>. the component will always enter into the &#39;digest&#39; phase.</p>
+<p>no matter how you use the <code>state</code>. the component will always enter into the redraw; phase when props or state is changed.</p>
 </blockquote>
 <h2 id="summary">Summary</h2>
-<p>In this chapter, we create a super simple component named HelloRegular.</p>
+<p>In this chapter, we create a super simple component named HelloMag.</p>
 <p>you can consider regular&#39;s component as a small <code>mvvm</code> realization.</p>
 <ul>
 <li>independent lifecycle</li>
@@ -159,7 +164,7 @@ component.$update() <span class="hljs-comment">// enter</span>
 <li>the model is <strong>Plain Object</strong></li>
 <li>the component itself is just like the viewmodel</li>
 </ul>
-<p>you can also check the more comprehensive example——<a href="" target="_blank">todomvc</a>.</p>
+<p>you can also check the more comprehensive example——<a href="#" target="_blank">todomvc</a>.</p>
 
                     
                     </section>
