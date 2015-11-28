@@ -14,6 +14,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   var fill = {}
 
   var ELEMENT_NODE = 1,
+    TOP_SCORE = 0,
     cached = [],
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
@@ -641,40 +642,17 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   // when someone is running performance benchmarks.
   //===========================================================================
 
-
-  function matchingElements(node, key, nested) {
-    var elements = childElements(node)
-    var matches = []
-    var keyName = key
-
-    // is this cache necessary good useful?
-    // are we losing some dynamism?
-
-
+  function matchingElements(node, key) {
     var globalSearch = key[0] === '$'
 
-    if (keyName[0] === '$') {
-      // bust cache
-      keyName = keyName.substr(1)
+    var matches;
+    if (globalSearch) {
+      matches = matchingElementsAll(node, key.substr(1));
+    } else {
+      matches = selectBestMatchElement(node, key);
     }
 
-    // search all child elements for a match
-    for (var i = 0; i < elements.length; i += 1) {
-      if (elementMatcher(elements[i], keyName)) {
-        matches.push(elements[i]);
-      }
-    }
-
-    // if there is no match, recursively search the childNodes
-    if (!matches.length || globalSearch) {
-      for (var i = 0; i < elements.length; i++) {
-        // NOTE: pass in a flag to prevent recursive calls from logging
-        matches = matches.concat(matchingElements(elements[i], key, true))
-        if (matches.length && !globalSearch) break
-      }
-    }
-
-    if (!nested && !matches.length) {
+    if (!matches.length) {
       // TODO: mag.hookin for not found matchers
       var data = {
         key: key,
@@ -682,16 +660,82 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         node: node
       }
       mag.hook('elementMatcher', key, data)
-        //hookin change
+      //hookin change
       if (data.change) {
         // TODO: return a custom element for unmatched one ?
         matches = data.value
       }
     }
-    return matches
 
+    return matches;
   }
 
+  // return all matched decendant elements for keyName
+  function matchingElementsAll(node, keyName) {
+    var elements = childElements(node)
+    var matches = [];
+
+    // is this cache necessary good useful?
+    // are we losing some dynamism?
+
+    // match with children
+    for (var i = 0; i < elements.length; ++i) {
+      if (scoreElementMatching(elements[i], keyName) !== false) {
+        matches.push(elements[i]);
+      }
+    }
+
+    // match with decendants recursively
+    for (var i = 0; i < elements.length; i++) {
+      matches = matches.concat(matchingElementsAll(elements[i], keyName))
+    }
+
+    return matches
+  }
+
+  // match all decendants elements for keyName and return best match element
+  function selectBestMatchElement(node, keyName, matches, nested) {
+    var elements = childElements(node)
+    matches = matches || [];
+
+    // is this cache necessary good useful?
+    // are we losing some dynamism?
+
+    // match with children
+    for (var i = 0; i < elements.length; ++i) {
+      var score = scoreElementMatching(elements[i], keyName);
+      if (score !== false) {
+        if (score === TOP_SCORE) {
+          // found the best, so just return the best
+          return [elements[i]];
+        } else if (!matches[score]) {
+          // store matched element by score, first-come basis
+          matches[score] = elements[i];
+        }
+      }
+    }
+
+    // if no element gets TOP_SCORE, recursively match with decendants
+    for (var i = 0; i < elements.length; i++) {
+      matches = selectBestMatchElement(elements[i], keyName, matches, true);
+      if (matches[TOP_SCORE]) {
+        // found the best
+        return matches;
+      }
+    }
+
+    if (!nested && matches.length) {
+      // all iterations has done with no TOP_SCORE
+      // so return the secondary best
+      for (var i = 0; i < matches.length; ++i) {
+        if (matches[i]) {
+          return [matches[i]];
+        }
+      }
+    }
+
+    return matches
+  }
 
   // return just the child nodes that are elements
   function childElements(node) {
@@ -709,17 +753,32 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return elements
   }
 
-  // match elements on tag, id, name, class name, data-bind, etc.
-  function elementMatcher(element, key) {
-    var paddedClass = ' ' + element.className + ' ';
+  // match element in order and return its fitness score
+  // - data-bind attribute   (score: 0)
+  // - name attribute        (score: 1)
+  // - id attribute          (score: 2)
+  // - HTML tag              (score: 3)
+  // - class name attribute  (score: 4)
+  // - (no match)            (score: false)
+  function scoreElementMatching(element, key) {
+    // TODO: determine the scoring
+    // while `data-bind` should be the first place, others are not fixed yet
+    if (element.getAttribute('data-bind') === key) {
+      return TOP_SCORE;
 
-    return (
-      element.id === key ||
-      paddedClass.indexOf(' ' + key + ' ') > -1 ||
-      element.name === key ||
-      element.nodeName.toLowerCase() === key.toLowerCase() ||
-      element.getAttribute('data-bind') === key
-    );
+    } else if (element.name === key) {
+      return 1;
+    } else if (element.id === key) {
+      return 2;
+    } else if (element.nodeName.toLowerCase() === key.toLowerCase()) {
+      return 3;
+    } else {
+      var paddedClass = ' ' + element.className + ' ';
+      if (paddedClass.indexOf(' ' + key + ' ') > -1) {
+        return 4;
+      }
+    }
+    return false;
   }
 
 
