@@ -608,7 +608,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     // now add the text
     if (node.nodeName === 'INPUT') {
       // special case for input elements
-      node.setAttribute('value', text.toString());
+      node.value = text.toString();
     } else {
       // create a new text node and stuff in the value
       node.appendChild(node.ownerDocument.createTextNode(text.toString()));
