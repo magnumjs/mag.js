@@ -29,3 +29,5 @@
 [Web service json request with loading feedback](http://jsbin.com/ronowifoma/edit?js,output)
 
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
+
+[HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/)
