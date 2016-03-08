@@ -1,3 +1,13 @@
+/*
+Name: Mag-importer v0.0.1
+Description: similar to html-imports implementation
+Author: Michael Glazer
+License: MIT
+Homepage: https://github.com/magnumjs/mag.js
+@TODO: implement css loader
+@requires mag.js & mag addons
+(c) 2016
+*/
 mag.importer = function(url, eleSelector) {
 
   function checkIfIncluded(file) {
