@@ -28,7 +28,7 @@
 
 [Web service json request with loading feedback](http://jsbin.com/ronowifoma/edit?js,output)
 
-[Redux simple](http://embed.plnkr.co/FEPbjd8OOUjINI07TwcY/) - [Redux Simple w/Mag reduxConnect](http://embed.plnkr.co/OZwx103Z9EFjtm5GCyfP/)
+[Redux simple](http://embed.plnkr.co/FEPbjd8OOUjINI07TwcY/) - [Redux Simple w/Mag reduxConnect](http://embed.plnkr.co/OZwx103Z9EFjtm5GCyfP/) - [ActionCreator map](http://embed.plnkr.co/woxRWVYqN4kAhEPl6DXR/)
 
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
 
