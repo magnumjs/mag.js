@@ -107,7 +107,7 @@ Homepage: https://github.com/magnumjs/mag.js
           newProps = mapStateToProps(store.getState());
         }
   
-        mag.merge(instance().getProps(), newProps);
+        mag.merge(instance(props).getProps(), newProps);
       })
       return instance
     }
