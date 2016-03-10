@@ -1,10 +1,11 @@
 /*
-Name: Mag-Redux v0.21
+Name: Mag-Redux v0.22
 Description: MagJS Redux implementation
 Author: Michael Glazer
 License: MIT
 Homepage: https://github.com/magnumjs/mag.js
-(c) 2015
+(c) 2016
+@REQUIRES: redux.js - Redux & mag.js - mag
 */
 
 
@@ -97,7 +98,7 @@ Homepage: https://github.com/magnumjs/mag.js
   
       } else {
         instance = id;
-        mag.merge(instance().getProps(), props);
+        mag.merge(instance(props).getProps(), props);
       }
   
       store.subscribe(function() {
