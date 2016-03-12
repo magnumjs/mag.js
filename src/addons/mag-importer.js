@@ -68,7 +68,7 @@ mag.importer = function(url, eleSelector) {
 
   mag.request({
       url: url,
-      cache: false
+      cache: true
     })
     .then(function(data) {
       //save data
