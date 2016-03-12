@@ -1,5 +1,5 @@
 /*
-Name: Mag-importer v0.0.1
+Name: Mag-importer v0.1.1
 Description: similar to html-imports implementation
 Author: Michael Glazer
 License: MIT
@@ -28,16 +28,14 @@ mag.importer = function(url, eleSelector) {
     return false;
   }
 
-  function loadInternalScripts(node) {
-    var scripts = node.getElementsByTagName("script");
-    var links = node.getElementsByTagName("link");
-
+  function loadInternalScripts(node, type) {
+    var scripts = node.getElementsByTagName(type);
     // multiple promises
     var promises = [];
     var names = {}
     for (var i = 0; i < scripts.length; i++) {
       // and doesn't already exist
-      var url = scripts[i].attributes.src.value;
+      var url = type == 'script' ? scripts[i].attributes.src.value : scripts[i].attributes.href.value;
       if (url != "") {
 
         if (checkIfIncluded(url)) {
@@ -50,11 +48,14 @@ mag.importer = function(url, eleSelector) {
           mag.importer.namedPromises[url] = names[url] = deferred;
         } else continue;
 
-        var tag = document.createElement("script");
-        tag.src = url;
+        var tag = document.createElement(type);
+        tag[(type == 'script' ? 'src' : 'href')] = url;
+        if (type == 'link') tag.rel = 'stylesheet';
+
         tag.onload = function() {
           deferred.resolve(1);
         }
+
         document.getElementsByTagName("head")[0].appendChild(tag);
         promises.push(deferred.promise);
 
@@ -67,7 +68,7 @@ mag.importer = function(url, eleSelector) {
 
   mag.request({
       url: url,
-      cache: true
+      cache: false
     })
     .then(function(data) {
       //save data
@@ -78,7 +79,9 @@ mag.importer = function(url, eleSelector) {
 
       var node = document.querySelector(eleSelector);
 
-      var promises = loadInternalScripts(newNode);
+      var promises1 = loadInternalScripts(newNode, 'script');
+      var promises2 = loadInternalScripts(newNode, 'link');
+      var promises = mag.merge(promises1, promises2);
 
       mag.when(promises, function() {
         // multiple invocations
