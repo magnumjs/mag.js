@@ -30,6 +30,9 @@
 
 [Redux simple](http://embed.plnkr.co/FEPbjd8OOUjINI07TwcY/) - [Redux Simple w/Mag reduxConnect](http://embed.plnkr.co/OZwx103Z9EFjtm5GCyfP/) - [ActionCreator map](http://embed.plnkr.co/woxRWVYqN4kAhEPl6DXR/)
 
+[Redux Todos](http://embed.plnkr.co/7uDNiWdmqdTsqZywOxWt/)
+
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
 
-[HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/)
+[Mag HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/)
+
