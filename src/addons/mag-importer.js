@@ -81,8 +81,8 @@ mag.importer = function(url, eleSelector) {
       template.innerHTML = data;
       var newNode = template.content.firstChild;
 
-      var promises1 = loadInternalScripts(newNode, 'script');
-      var promises2 = loadInternalScripts(newNode, 'link');
+      var promises1 = loadInternalScripts(newNode, 'link');
+      var promises2 = loadInternalScripts(newNode, 'script');
       var promises = mag.merge(promises1, promises2);
       var deferred = mag.deferred();
 
