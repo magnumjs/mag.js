@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.2
+Mag.JS AddOns v0.21.3
 (c) Michael Glazer
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -84,7 +84,7 @@ mag.deferred = function() {
 }
 
 mag.when = function(arrayOfPromises, callback) {
-  Promise.all(arrayOfPromises).then(callback)
+  return Promise.all(arrayOfPromises).then(callback)
 }
 
 //TODO: add jsonp support
