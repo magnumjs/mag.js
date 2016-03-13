@@ -1,10 +1,9 @@
 /*
-Name: Mag-importer v0.1.1
+Name: Mag-importer v0.1.2
 Description: similar to html-imports implementation
 Author: Michael Glazer
 License: MIT
 Homepage: https://github.com/magnumjs/mag.js
-@TODO: implement css loader
 @requires mag.js & mag addons
 (c) 2016
 */
@@ -26,6 +25,14 @@ mag.importer = function(url, eleSelector) {
     }
 
     return false;
+  }
+
+   function getId(id){
+    if(mag.importer.ids[id]){
+      return id+(++mag.importer.ids[id]);
+    } else {
+      return id+(mag.importer.ids[id]='');
+    }
   }
 
   function loadInternalScripts(node, type) {
@@ -58,15 +65,12 @@ mag.importer = function(url, eleSelector) {
 
         document.getElementsByTagName("head")[0].appendChild(tag);
         promises.push(deferred.promise);
-
       }
     }
     return promises;
   }
 
-  var deferred = mag.deferred();
-
-  mag.request({
+  return mag.request({
       url: url,
       cache: true
     })
@@ -77,21 +81,26 @@ mag.importer = function(url, eleSelector) {
       template.innerHTML = data;
       var newNode = template.content.firstChild;
 
-      var node = document.querySelector(eleSelector);
-
       var promises1 = loadInternalScripts(newNode, 'script');
       var promises2 = loadInternalScripts(newNode, 'link');
       var promises = mag.merge(promises1, promises2);
+      var deferred = mag.deferred();
 
-      mag.when(promises, function() {
+      return mag.when(promises, function() {
         // multiple invocations
-        newNode.children[0].id = eleSelector
-        node.appendChild(newNode.children[0]);
-        deferred.resolve(1);
-      })
-
+        if(eleSelector){
+          var node = document.querySelector(eleSelector);
+          newNode.children[0].id = eleSelector
+          node.appendChild(newNode.children[0]);
+          deferred.resolve(eleSelector);
+        } else {
+          // track incoming ids and increment
+           newNode.children[0].id = getId(newNode.children[0].id)
+           deferred.resolve({_html: newNode.children[0].outerHTML, id: newNode.children[0].id});
+        }
+        return deferred.promise;
+      });
     });
-  return deferred.promise;
 };
-
+mag.importer.ids = {};
 mag.importer.namedPromises = {};
