@@ -1,5 +1,5 @@
 /*
-Name: Mag-importer v0.1.3
+Name: Mag-importer v0.1.4
 Description: similar to html-imports implementation
 Author: Michael Glazer
 License: MIT
@@ -34,10 +34,10 @@ Homepage: https://github.com/magnumjs/mag.js
     }
 
     function getId(id) {
-      if (mag.importer.ids[id]) {
+      if (typeof mag.importer.ids[id] !=='undefined') {
         return id + (++mag.importer.ids[id]);
       } else {
-        return id + (mag.importer.ids[id] = '');
+        return id + (mag.importer.ids[id] = 0);
       }
     }
 
