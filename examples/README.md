@@ -34,5 +34,5 @@
 
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
 
-[Mag HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/) - [Alternate html import call](http://embed.plnkr.co/CjL2eGQOD5SDaIqkY022/)
+[Mag HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/) - [Alternate html import call](http://embed.plnkr.co/CjL2eGQOD5SDaIqkY022/) - [Versatile options for HTML import](http://embed.plnkr.co/RkIZQMgD3RNS36YtixA6/)
 
