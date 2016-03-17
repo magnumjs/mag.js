@@ -53,7 +53,7 @@ Redux.remoteReducer = (function(window) {
     var cache;
 
     function setCache(data) {
-      storageType.setItem(SOURCE_URL, JSON.stringify(cache))
+      storageType.setItem(SOURCE_URL, JSON.stringify(data))
       return cache = data;
     }
 
