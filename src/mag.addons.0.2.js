@@ -1,6 +1,6 @@
 /*
-Mag.JS AddOns v0.21.3
-(c) Michael Glazer
+Mag.JS AddOns v0.21.4
+(c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
 */
@@ -127,7 +127,8 @@ mag.request = function(options) {
       mag.cache(key, data, options.cacheTime, options.cacheType)
     }
     delete mag.request.queue[key];
-    deferred.resolve(data)
+    var headers = client.getAllResponseHeaders();
+    deferred.resolve(data, headers);
   }
 
   client.onerror = function(e) {
