@@ -36,4 +36,4 @@
 
 [Mag HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/) - [Alternate html import call](http://embed.plnkr.co/CjL2eGQOD5SDaIqkY022/) - [Versatile options for HTML import](http://embed.plnkr.co/RkIZQMgD3RNS36YtixA6/)
 
-[Mag.store -remote json api- simple todos](http://embed.plnkr.co/MmR4yo5DLeuXDyGZuUmx/)
+[Mag.store -remote json api- simple todos](http://embed.plnkr.co/MmR4yo5DLeuXDyGZuUmx/) - [Readme](mag-store.md)
