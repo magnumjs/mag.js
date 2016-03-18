@@ -50,7 +50,7 @@ mag.store = function(id, mod, props) {
     var ndata = []
     remote.forEach(function(ritem) {
 
-      var lfound = local.find(function(litem) {
+      var lfound = local && local.find(function(litem) {
         return litem._id === ritem._id
       })
       if (lfound && lfound._time > ritem._time) {
@@ -277,7 +277,7 @@ mag.store = function(id, mod, props) {
     var app;
     props[id] = api;
 
-    if(typeof mod !== 'function'){
+    if (typeof mod !== 'function') {
       app = mag.create(id, mod, props);
     } else {
       app = mod(id, props);
