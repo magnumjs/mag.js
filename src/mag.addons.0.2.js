@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.4
+Mag.JS AddOns v0.21.5
 (c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -416,7 +416,10 @@ mag.hookin('values', '*', function(data) {
 })
 
 
-
+//GetId helper method
+mag.getId =function(instanceId){
+  return mag.utils.items.getItemVal(instanceId);
+};
 
   /** DEPRECATED - avoid use **/
 
