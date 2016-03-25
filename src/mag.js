@@ -148,18 +148,18 @@ License: MIT
       mag.utils.callHook(hookins, key, name, i, data)
     }
   }
+  var cloners = {};
 
   var makeClone = function(idInstance, node, mod, props) {
     // recursion warning
     var a = function(id, node, mod, props, index) {
-
       // prevent recursion?
-      var cloner = this.cloner || {};
       var id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
+      var cloner = cloners[id] || {};
 
       // if clone already exists return ?
       if (!mag.utils.items.isItem(id)) {
-        cloner = this.cloner = node.cloneNode(1);
+        cloners[id] = cloner = node.cloneNode(1);
         cloner.id = id;
       } else {
         cloner.id = id;
