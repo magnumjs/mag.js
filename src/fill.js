@@ -304,7 +304,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // ignore functions
     if (typeof data === 'function') {
-      var par = findParentChild(node.parentNode), key = par.getAttribute('key');
+      var par = findParentChild(node.parentNode), key = par && par.getAttribute('key');
       if (par && key) {
         tagIndex = +key.split(MAGNUM)[1]
       }
