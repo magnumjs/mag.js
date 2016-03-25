@@ -1,5 +1,5 @@
 /*
-MagJS v0.21
+MagJS v0.21.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -153,16 +153,17 @@ License: MIT
     // recursion warning
     var a = function(id, node, mod, props, index) {
 
-      var cloner = node.cloneNode(1)
-      cloner.id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
-
-      // prevent recursion
+      // prevent recursion?
+      var cloner = this.cloner || {};
+      var id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
 
       // if clone already exists return ?
-      if (mag.utils.items.isItem(cloner.id)) {
-        //return cloner
+      if (!mag.utils.items.isItem(id)) {
+        cloner = this.cloner = node.cloneNode(1);
+        cloner.id = id;
+      } else {
+        cloner.id = id;
       }
-
       var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
 
       // get unique instance ID's module
@@ -170,11 +171,12 @@ License: MIT
 
       observer(idInstance2, cloner.id)
 
+      if (cloner instanceof HTMLElement) {
+        // DRAW
+        mag.redraw(cloner, idInstance2, 1)
 
-      // DRAW
-      mag.redraw(cloner, idInstance2, 1)
-
-      return cloner
+        return cloner
+      }
     }.bind({}, idInstance, node, mod, props)
 
     //BOUND CLONE INSTANCE METHODS
@@ -213,7 +215,7 @@ License: MIT
           //throw Error('invalid node id ' + id + ' index ' + index)
       }
     }.bind({}, idInstance, nodeId)
-    mag.props.setup(idInstance,  callback)
+    mag.props.setup(idInstance, callback)
   }
 
   mag.clear = function(index) {
@@ -263,7 +265,7 @@ License: MIT
       //START DOM
       mag.fill.setId(node.id)
       mag.fill.run(node, state)
-      // END DOM
+        // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
@@ -275,18 +277,18 @@ License: MIT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
       // get parent to call
-      if(node && node.parentNode){
+      if (node && node.parentNode) {
         var parent = findClosestId(node.parentNode)
-        if(parent) {
+        if (parent) {
           mag.redraw(parent, mag.utils.items.getItem(parent.id))
         }
       }
-      
+
     }.bind({}, node1, idInstance1, force1)
   }
 
 
-  var findClosestId=  function (node) {
+  var findClosestId = function(node) {
     if (node.id) return node
     if (node.parentNode) return findClosestId(node.parentNode)
   }
