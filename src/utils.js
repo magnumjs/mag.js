@@ -1,5 +1,5 @@
 /*
-MagJS v0.21
+MagJS v0.21.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -64,7 +64,9 @@ License: MIT
     return JSON.parse(JSON.stringify(o))
   }
 
-  utils.copyFun = function(o) {
+  utils.copyFun = function(o, clone) {
+    if(Object.assign && !clone) return Object.assign(o);
+    if(Object.create && clone) return Object.create(o);
     var out, v, key;
     out = Array.isArray(o) ? [] : {};
     for (key in o) {
