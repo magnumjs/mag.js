@@ -1,5 +1,5 @@
 /*
-MagJS v0.21
+MagJS v0.21.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -304,9 +304,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // ignore functions
     if (typeof data === 'function') {
-      var par = findParentChild(node.parentNode)
-      if (par) {
-        tagIndex = +par.getAttribute('key').split(MAGNUM)[1]
+      var par = findParentChild(node.parentNode), key = par.getAttribute('key');
+      if (par && key) {
+        tagIndex = +key.split(MAGNUM)[1]
       }
 
       var val = data(tagIndex)
