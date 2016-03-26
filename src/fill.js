@@ -1,5 +1,5 @@
 /*
-MagJS v0.21.4
+MagJS v0.21.4.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -312,7 +312,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var val = data(tagIndex)
       if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
         // remove childs first
-        addToNode(node, val, 1)
+        addToNode(node, val);
 
 
         node[MAGNUM] = node[MAGNUM] || {}
