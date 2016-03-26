@@ -1,5 +1,5 @@
 /*
-MagJS v0.21.4
+MagJS v0.21.4.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -156,22 +156,21 @@ License: MIT
       // prevent recursion?
       var id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
       var cloner = cloners[id] || {};
-
+      cloner.id = id;
       // if clone already exists return ?
       if (!mag.utils.items.isItem(id)) {
         cloners[id] = cloner = node.cloneNode(1);
         cloner.id = id;
-      } else {
-        cloner.id = id;
       }
-      var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
-
-      // get unique instance ID's module
-      mag.mod.submodule(cloner.id, idInstance2, mod, props)
-
-      observer(idInstance2, cloner.id)
-
       if (cloner instanceof HTMLElement) {
+
+        var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
+
+        // get unique instance ID's module
+        mag.mod.submodule(cloner.id, idInstance2, mod, props)
+
+        observer(idInstance2, cloner.id)
+
         // DRAW
         mag.redraw(cloner, idInstance2, 1)
 
