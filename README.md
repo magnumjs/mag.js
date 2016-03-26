@@ -757,8 +757,7 @@ Other hookins such as key/node value etc.. Coming soon!
 * object observe support for browsers 
 
 ```html
-<script src="//rawgit.com/MaxArt2501/array-observe/master/array-observe.min.js"></script>
-<script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
+<script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe-lite.min.js"></script>
 ```
 
 * Promise support for IE
