@@ -1,12 +1,12 @@
 /*
-MagJS v0.22
+MagJS v0.22.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
 (function(mag, document, undefined) {
 
-  'use strict';
+  //'use strict';
 
   //Plugins:
   var hookins = {
@@ -153,6 +153,9 @@ License: MIT
   var makeClone = function(idInstance, node, mod, props) {
     // recursion warning
     var a = function(id, node, mod, props, index) {
+      //TODO: what is this use case? if no index?
+      index = index || 0
+
       // prevent recursion?
       var id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
       var cloner = cloners[id] || {};
