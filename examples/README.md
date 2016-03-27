@@ -6,7 +6,7 @@
 
 [Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
 
-[Inner Modules swapping](http://jsbin.com/nupatajoyi/edit?html,js,output) - [Take2](http://jsbin.com/yaqucataji/edit?html,js,output)
+[Inner Modules swapping](http://jsbin.com/nupatajoyi/edit?html,js,output) - [Take2](http://jsbin.com/vojabasihi/edit?html,js,output)
 
 [Rot13 encoder app](http://embed.plnkr.co/pgex5sa3czk3TsPbjqP2/preview)
 
