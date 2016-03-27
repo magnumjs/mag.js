@@ -1,5 +1,5 @@
 /*
-MagJS v0.21
+MagJS v0.22.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -67,13 +67,61 @@ License: MIT
         view: view
       }
     modules[index][0] = output.view
-    modules[index][1] = new output.controller
+    modules[index][1] = getController(output.controller, index, id)
     modules[index][3] = id
 
     // register the module
     return modules[index]
   }
 
+  var ignorekeys = ['Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate'];
+
+
+  function getController(ctrl, index, id) {
+    var controller, element = document.getElementById(id);
+    if (typeof Proxy !== 'undefined') {
+      controller = new Proxy(new ctrl, {
+        get: function(target, prop) {
+          //more default props like willload, didload, willupdate, didupdate, isupdate
+          if (target[prop] === undefined && !~ignorekeys.indexOf(prop.toString())) {
+            // get value of property from DOM
+            // might be hierarchical?
+            var a = mag.fill.find(element, prop),
+              greedy = prop[0] === '$',
+              v, // can be an array, object or string
+              // for each
+              tmp = [];
+
+            a.reverse().forEach(function(item, index) {
+              if (a[index]) {
+                if (a[index].value && a[index].value.length > 0) {
+                  v = a[index].value
+                  if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
+                    v = {
+                      _text: v,
+                      _checked: a[index].checked
+                    }
+                    tmp.push(v)
+                  }
+                } else if (a[index].innerText && a[index].innerText.length > 0) {
+                  v = a[index].innerText
+                } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
+                  v = a[index].innerHTML
+                }
+              }
+            })
+            if (tmp.length > 0 && greedy) return tmp
+            return v
+          }
+          return target[prop]
+        }
+      })
+    } else {
+      controller = new ctrl
+    }
+
+    return controller;
+  }
 
   mod.iscached = function(key, data) {
     if (mod.cache[key] && mod.cache[key] === JSON.stringify(data)) {
