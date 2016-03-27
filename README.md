@@ -754,7 +754,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 * careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
 
-* object observe support for browsers 
+* object observe support for browsers (v0.22 uses native Proxy to observe)
 
 ```html
 <script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe-lite.min.js"></script>
