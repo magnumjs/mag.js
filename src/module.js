@@ -82,10 +82,11 @@ License: MIT
     if (typeof Proxy !== 'undefined') {
       controller = new Proxy(new ctrl, {
         get: function(target, prop) {
-          //more default props like willload, didload, willupdate, didupdate, isupdate
           if (target[prop] === undefined && !~ignorekeys.indexOf(prop.toString())) {
+            // prop might be hierarchical?
+            // getparent Object property chain?
+            
             // get value of property from DOM
-            // might be hierarchical?
             var a = mag.fill.find(element, prop),
               greedy = prop[0] === '$',
               v, // can be an array, object or string
@@ -98,7 +99,7 @@ License: MIT
                   v = a[index].value
                   if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
                     v = {
-                      _text: v,
+                      _value: v,
                       _checked: a[index].checked
                     }
                     tmp.push(v)
