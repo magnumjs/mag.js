@@ -38,13 +38,6 @@ License: MIT
 
   }
 
-  function functionReplacer(key, value) {
-    if (typeof(value) === 'function') {
-      return value.toString();
-    }
-    return value;
-  }
-
   function proxyAssign(obj, cb) {
     var last = [];
 
@@ -54,7 +47,7 @@ License: MIT
         return delete proxy[name];
       },
       set: function(proxy, name, value) {
-        if (JSON.stringify(value, functionReplacer) !== JSON.stringify(proxy[name], functionReplacer)) {
+        if (JSON.stringify(value) !== JSON.stringify(proxy[name])) {
           last[name] = proxy[name] && mag.utils.copyFun(proxy[name], 1);
         }
 
