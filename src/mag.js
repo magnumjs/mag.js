@@ -1,5 +1,5 @@
 /*
-MagJS v0.21.4.3
+MagJS v0.22
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -192,6 +192,14 @@ License: MIT
       return mag.mod.getProps(ids)
     }.bind({}, idInstance)
 
+    a.toJSON = function() {
+      return {
+        id: this.getId(),
+        props: this.getProps(),
+        state: this.getState()
+      }
+    }
+
     return a
   }
   var nodeCache = []
@@ -206,7 +214,7 @@ License: MIT
   }
 
   var observer = function(idInstance, nodeId) {
-    var callback = function(index, id, change) {
+    var callback = function(index, id) {
       if (getNode(id)) {
         mag.redraw(getNode(id), index)
       } else if (mag.utils.items.isItem(id)) {
