@@ -25,7 +25,7 @@ License: MIT
           mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
           mag.clear(id);
         }
-        callback(change);
+        callback();
       });
       var proxProps = proxyObject(props, callback);
       var proxProps = proxyObject(props, callback);
