@@ -22,7 +22,7 @@
 
 [Movie ticket quantity selection](http://jsbin.com/yigayisapa/edit?html,output)
 
-[Detach & reattach elements](http://jsbin.com/juloyoreji/edit?js,output)
+[Detach & reattach elements](http://jsbin.com/bacilatihe/edit?js,output)
 
 [Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/)
 
