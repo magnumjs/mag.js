@@ -1,13 +1,12 @@
 /*
-MagJS v0.21
+MagJS v0.22
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
-(function(mag) {
+(function(mag, global) {
 
   'use strict';
-
 
   var prop = {},
     MAGNUM = '__magnum__',
@@ -15,47 +14,93 @@ License: MIT
 
   prop.setup = function(index, callback) {
 
-
-    var state = mag.mod.getState(index)
-    var props = mag.mod.getProps(index)
-
-    //var data = mag.utils.merge(state, props)
-
     if (!cached[index]) {
+      var state = mag.mod.getState(index)
+      var props = mag.mod.getProps(index)
 
-      observeNested(state, callback)
-      observeNested(props, callback)
+      var proxState = proxyObject(state, function(change) {
+        if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+          // call unloader for module
+          var id = change.oldValue.getId()
+          mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
+          mag.clear(id);
+        }
+        callback(change);
+      });
+      var proxProps = proxyObject(props, callback);
+      var proxProps = proxyObject(props, callback);
+
+      mag.mod.setState(index, proxState);
+      mag.mod.setProps(index, proxProps);
 
       cached[index] = 1
     }
 
   }
 
-
-
-  var acceptList = ['add', 'update', 'delete', 'splice']
-
-  function observeNested(obj, callback) {
-    if (obj && typeof Object.observe !== 'undefined') {
-      Object.observe(obj, function(changes) {
-        changes.forEach(function(change) {
-
-          if (typeof obj[change.name] == 'object') {
-
-            if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
-              // call unloader for module
-              var id = change.oldValue.getId()
-              mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id, 1)
-              mag.clear(id)
-            }
-            observeNested(obj[change.name], callback);
-          }
-        });
-        callback.apply(this, arguments);
-      }, acceptList);
+  function functionReplacer(key, value) {
+    if (typeof(value) === 'function') {
+      return value.toString();
     }
+    return value;
   }
 
+  function proxyAssign(obj, cb) {
+    var last = [];
+
+    return new Proxy(obj, {
+      deleteProperty: function(proxy, name) {
+        cb();
+        return delete proxy[name];
+      },
+      set: function(proxy, name, value) {
+        if (JSON.stringify(value, functionReplacer) !== JSON.stringify(proxy[name], functionReplacer)) {
+          last[name] = proxy[name] && mag.utils.copyFun(proxy[name], 1);
+        }
+
+        cb({
+          type: 'update',
+          name: name,
+          object: proxy,
+          oldValue: last[name]
+        });
+        proxy[name] = value;
+
+        return true;
+      }
+    });
+
+  }
+
+  function observer(obj, cb) {
+    for (var k in obj) {
+      if (Array.isArray(obj[k])) {
+        // assign 
+        obj[k] = proxyAssign(obj[k], cb)
+      }
+    }
+
+    var p = proxyAssign(obj, cb)
+    return p;
+  }
+
+  function proxyObject(obj, callback) {
+    var p1 = {};
+    if (obj && global.Proxy) {
+
+      var handler = function(change) {
+
+        if (typeof change.object[change.name] == 'object') {
+          change.object[change.name] = proxyObject(change.object[change.name], callback);
+        }
+
+        callback(change);
+      };
+
+      p1 = observer(obj, handler);
+      return p1;
+    }
+  }
 
   var getParent = function(parts, parentElement) {
     for (var i = 1; i < parts.length; i += 2) {
@@ -180,4 +225,4 @@ License: MIT
   prop.cached = cached
   mag.props = prop
 
-}(window.mag || {}));
+}(window.mag || {}, window));
