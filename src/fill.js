@@ -1,5 +1,5 @@
 /*
-MagJS v0.21.4.3
+MagJS v0.22
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -279,11 +279,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function addToNode(node, val, clear) {
-    if (isCached(node, val.outerHTML, clear)) return
-    while (node.lastChild) {
-      node.removeChild(node.lastChild)
+    //TODO: finer grain diffing, attach once
+    if (isCached(node, val.outerHTML, clear)) return;
+    if (!document.getElementById(val.id)) {
+      while (node.lastChild) {
+        node.removeChild(node.lastChild)
+      }
+      node.appendChild(val)
+    } else {
+      // already exists
     }
-    node.appendChild(val)
   }
 
   function fillNode(node, data, p) {
@@ -304,13 +309,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // ignore functions
     if (typeof data === 'function') {
-      var par = findParentChild(node.parentNode), key = par && par.getAttribute('key');
+      var par = findParentChild(node.parentNode),
+        key = par && par.getAttribute('key');
       if (par && key) {
         tagIndex = +key.split(MAGNUM)[1]
       }
 
       var val = data(tagIndex)
       if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
+
         // remove childs first
         addToNode(node, val);
 
