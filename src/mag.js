@@ -148,7 +148,7 @@ License: MIT
       mag.utils.callHook(hookins, key, name, i, data)
     }
   }
-  var cloners = {};
+  var cloners = {}, prevState = [];
 
   var makeClone = function(idInstance, node, mod, props) {
     // recursion warning
@@ -181,7 +181,7 @@ License: MIT
       }
     }.bind({}, idInstance, node, mod, props)
 
-    //BOUND CLONE INSTANCE METHODS
+    //BIND CLONE INSTANCE METHODS
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance)
@@ -193,6 +193,17 @@ License: MIT
     }.bind({}, idInstance)
     a.getProps = function(ids) {
       return mag.mod.getProps(ids)
+    }.bind({}, idInstance);
+    a.subscribe = function(ids, handler) {
+      // call handler on each new change to state or props
+      mag.utils.onLCEvent('didupdate', ids, function(state, props) {
+        var current = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props));
+
+        if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
+          prevState[ids] = current;
+            handler(state, props, prevState[ids]);
+        }
+      })
     }.bind({}, idInstance);
 
     return a
