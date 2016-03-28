@@ -1,5 +1,5 @@
 /*
-MagJS v0.22
+MagJS v0.22.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,7 +10,8 @@ License: MIT
 
   var prop = {},
     MAGNUM = '__magnum__',
-    cached = []
+    cached = [],
+    timers = [];
 
   prop.setup = function(index, callback) {
 
@@ -25,7 +26,11 @@ License: MIT
           mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
           mag.clear(id);
         }
-        callback();
+        //debounce
+        clearTimeout(timers[index]);
+        timers[index] = setTimeout(function() {
+          callback();
+        });
       });
       var proxProps = proxyObject(props, callback);
       var proxProps = proxyObject(props, callback);
