@@ -60,37 +60,11 @@ License: MIT
 
   //UTILITY
   utils.copy = function(o) {
-    // will strip functions
-    return JSON.parse(JSON.stringify(o))
-  }
-
-  utils.copyFun = function(o, clone) {
-    if(typeof o !='object') return o;
-    if(Object.assign && !clone) return Object.assign(o);
-    if(Object.create && clone) return Object.create(o);
-    var out, v, key;
-    out = Array.isArray(o) ? [] : {};
-    for (key in o) {
-      v = o[key];
-      out[key] = (typeof v === "object") ? utils.copy(v) : typeof v == 'function' && v.type == 'fun' ? mag.prop(v()) : v;
-    }
-    return out;
+    return Object.assign({}, o);
   }
 
   utils.merge = function(destination, source) {
-    for (var p in source) {
-      if (source[p] && source[p].constructor == Object && source.hasOwnProperty(p)) {
-        if (typeof destination[p] !== 'object') {
-          destination[p] = {}
-        }
-        if (destination[p]) {
-          utils.merge(destination[p], source[p]);
-          continue;
-        }
-      }
-      destination[p] = source[p];
-    }
-    return destination
+    return Object.assign(destination, source);
   }
 
   var a = {
