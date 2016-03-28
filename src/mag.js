@@ -72,7 +72,7 @@ License: MIT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
 
     // return function to clone create new clone instances ;)
-    return makeClone(idInstance, node, mod, mag.utils.copyFun(props))
+    return makeClone(idInstance, node, mod, mag.utils.copy(props))
   }
 
   var isValidId = function(nodeId, idInstance) {
@@ -193,15 +193,7 @@ License: MIT
     }.bind({}, idInstance)
     a.getProps = function(ids) {
       return mag.mod.getProps(ids)
-    }.bind({}, idInstance)
-
-    a.toJSON = function() {
-      return {
-        id: this.getId(),
-        props: this.getProps(),
-        state: this.getState()
-      }
-    }
+    }.bind({}, idInstance);
 
     return a
   }
