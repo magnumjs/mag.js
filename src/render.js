@@ -48,7 +48,7 @@ License: MIT
       },
       set: function(proxy, name, value) {
         if (JSON.stringify(value) !== JSON.stringify(proxy[name])) {
-          last[name] = proxy[name] && mag.utils.copyFun(proxy[name], 1);
+          last[name] = proxy[name] && mag.utils.copy(proxy[name]);
         }
 
         cb({
