@@ -768,7 +768,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 
 ###Performance
-[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?js,output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output)
+[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?js,output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?js,output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/nojafadiqa/edit?html,js)
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview)
 
