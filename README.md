@@ -727,7 +727,7 @@ mag.hookin('attributes', 'className', function(data) {
 })
 ```
 
-The above is in the [MagJS addons library](//github.com/magnumjs/mag.js/blob/master/src/mag.addons.js)
+The above is in the [MagJS addons library](https://github.com/magnumjs/mag.js/blob/master/src/mag.addons.0.2.js)
 
 **Another example**
 
