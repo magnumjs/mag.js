@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.1
+MagJS v0.22.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -65,6 +65,19 @@ License: MIT
     return isPrevented
   }
 
+
+
+  utils.debounce = function(fn, delay) {
+    var timer = null;
+    return function() {
+      var context = this,
+        args = arguments;
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function() {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
 
   //UTILITY
   utils.copy = function(o) {
