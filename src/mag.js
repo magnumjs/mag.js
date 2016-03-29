@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.1
+MagJS v0.22.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -105,11 +105,12 @@ License: MIT
     }
 
   }
+  var timers = [];
   mag.redraw = function(node, idInstance, force) {
     if (!pendingRequests[idInstance]) {
 
       if (!node || typeof idInstance == 'undefined') {
-        throw Error('Mag.JS - Id or node invalid: ' + idInstance);
+        throw Error('Mag.JS - Id or node invalid: ' + mag.utils.items.getItemVal(idInstance));
       }
 
       // verify idInstance
@@ -126,12 +127,12 @@ License: MIT
       var fun = makeRedrawFun(node, idInstance, force)
 
       // check for existing frame id then clear it if exists
-      fastdom.clear(mag.mod.getFrameId(idInstance))
-        //ENQUEUE
-      var fid = fastdom.write(fun);
+      //ENQUEUE
+      //debounce
+      cancelAnimationFrame(timers[idInstance]);
+      timers[idInstance] = requestAnimationFrame(fun);
       //save frame id with the instance 
-      mag.mod.setFrameId(idInstance, fid)
-        // then if instance already has frame id create new discard old or just retain old
+      // then if instance already has frame id create new discard old or just retain old
     }
   }
 
@@ -148,7 +149,8 @@ License: MIT
       mag.utils.callHook(hookins, key, name, i, data)
     }
   }
-  var cloners = {}, prevState = [];
+  var cloners = {},
+    prevState = [];
 
   var makeClone = function(idInstance, node, mod, props) {
     // recursion warning
@@ -197,13 +199,14 @@ License: MIT
     a.subscribe = function(ids, handler) {
       // call handler on each new change to state or props
       mag.utils.onLCEvent('didupdate', ids, function(state, props) {
-        var current = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props));
+          var current = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props));
 
-        if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
-          prevState[ids] = current;
+          if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
+            prevState[ids] = current;
             handler(state, props, prevState[ids]);
-        }
-      })
+          }
+        })
+        //TODO: return `dispose` function to remove handler
     }.bind({}, idInstance);
 
     return a
@@ -221,24 +224,25 @@ License: MIT
 
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id) {
-      if (getNode(id)) {
-        mag.redraw(getNode(id), index)
-      } else if (mag.utils.items.isItem(id)) {
-        mag.clear(index)
-          //throw Error('invalid node id ' + id + ' index ' + index)
-      }
-    }.bind({}, idInstance, nodeId)
-    mag.props.setup(idInstance, callback)
+        if (getNode(id)) {
+          mag.redraw(getNode(id), index)
+        } else if (mag.utils.items.isItem(id)) {
+          mag.clear(index)
+            //throw Error('invalid node id ' + id + ' index ' + index)
+        }
+      }.bind({}, idInstance, nodeId)
+    mag.mod.setFrameId(idInstance, callback);
   }
 
   mag.clear = function(index) {
-    fastdom.clear(mag.mod.getFrameId(index))
+    cancelAnimationFrame(timers[index]);
+    mag.mod.setFrameId(index, null)
       // remove from indexes
     mag.utils.items.removeItem(index)
       //mag.mod.remove(index)
     mag.mod.clear(index)
-      //observer index
-    mag.props.cached.splice(index, 1)
+      //observer index ?
+
       // fill data cache
     mag.fill.clearCache(mag.mod.getId(index))
   }
