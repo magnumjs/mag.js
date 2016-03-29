@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.1
+MagJS v0.22.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -9,95 +9,7 @@ License: MIT
   'use strict';
 
   var prop = {},
-    MAGNUM = '__magnum__',
-    cached = [],
-    timers = [];
-
-  prop.setup = function(index, callback) {
-
-    if (!cached[index]) {
-      var state = mag.mod.getState(index)
-      var props = mag.mod.getProps(index)
-
-      var proxState = proxyObject(state, function(change) {
-        if (change.type == 'update' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
-          // call unloader for module
-          var id = change.oldValue.getId()
-          mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
-          mag.clear(id);
-        }
-        //debounce
-        clearTimeout(timers[index]);
-        timers[index] = setTimeout(function() {
-          callback();
-        });
-      });
-      var proxProps = proxyObject(props, callback);
-
-      mag.mod.setState(index, proxState);
-      mag.mod.setProps(index, proxProps);
-
-      cached[index] = 1
-    }
-
-  }
-
-  function proxyAssign(obj, cb) {
-    var last = [];
-
-    return new Proxy(obj, {
-      deleteProperty: function(proxy, name) {
-        cb();
-        return delete proxy[name];
-      },
-      set: function(proxy, name, value) {
-        if (JSON.stringify(value) !== JSON.stringify(proxy[name])) {
-          last[name] = proxy[name] && mag.utils.copy(proxy[name]);
-        }
-
-        cb({
-          type: 'update',
-          name: name,
-          object: proxy,
-          oldValue: last[name]
-        });
-        proxy[name] = value;
-
-        return true;
-      }
-    });
-
-  }
-
-  function observer(obj, cb) {
-    for (var k in obj) {
-      if (Array.isArray(obj[k])) {
-        // assign 
-        obj[k] = proxyAssign(obj[k], cb)
-      }
-    }
-
-    var p = proxyAssign(obj, cb)
-    return p;
-  }
-
-  function proxyObject(obj, callback) {
-    var p1 = {};
-    if (obj && global.Proxy) {
-
-      var handler = function(change) {
-
-        if (typeof change.object[change.name] == 'object') {
-          change.object[change.name] = proxyObject(change.object[change.name], callback);
-        }
-
-        callback(change);
-      };
-
-      p1 = observer(obj, handler);
-      return p1;
-    }
-  }
+    MAGNUM = '__magnum__';
 
   var getParent = function(parts, parentElement) {
     for (var i = 1; i < parts.length; i += 2) {
@@ -219,7 +131,6 @@ License: MIT
     }
   }
   prop.attachToArgs = attachToArgs
-  prop.cached = cached
   mag.props = prop
 
 }(window.mag || {}, window));
