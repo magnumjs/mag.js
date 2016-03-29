@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.1
+MagJS v0.22.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -56,8 +56,8 @@ License: MIT
     }
     modules[index] = [0, 0, 0, 0, 0]
     mod.setProps(index, props)
-    var controller = function() {
-        return (module.controller || function() {}).call(this, mod.getProps(index)) || this
+    var controller = function(context) {
+        return (module.controller || function() {}).call(context, mod.getProps(index)) || context
       },
       view = function(index, state, ele) {
         module.view.call(module, state, mod.getProps(index), ele)
@@ -74,51 +74,92 @@ License: MIT
     return modules[index]
   }
 
-  var ignorekeys = ['Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate'];
+  var timers = [];
+  var prevs = [];
 
+  function findMissing(change, element) {
+    var prop = change.name;
+    if (change.object[change.name] == 'undefined' && !~mag.fill.ignorekeys.indexOf(prop.toString())) {
+      // prop might be hierarchical?
+      // getparent Object property chain?
+
+      // get value of property from DOM
+      var a = mag.fill.find(element, prop),
+        greedy = prop[0] === '$',
+        v, // can be an array, object or string
+        // for each
+        tmp = [];
+
+      a.reverse().forEach(function(item, index) {
+        if (a[index]) {
+          if (a[index].value && a[index].value.length > 0) {
+            v = a[index].value
+            if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
+              v = {
+                _value: v,
+                _checked: a[index].checked
+              }
+              tmp.push(v)
+            }
+          } else if (a[index].innerText && a[index].innerText.length > 0) {
+            v = a[index].innerText
+          } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
+            v = a[index].innerHTML
+          }
+        }
+      })
+      if (tmp.length > 0 && greedy) return tmp
+      return v
+    }
+  }
 
   function getController(ctrl, index, id) {
     var controller, element = document.getElementById(id);
     if (typeof Proxy !== 'undefined') {
-      controller = new Proxy(new ctrl, {
-        get: function(target, prop) {
-          if (target[prop] === undefined && !~ignorekeys.indexOf(prop.toString())) {
-            // prop might be hierarchical?
-            // getparent Object property chain?
-            
-            // get value of property from DOM
-            var a = mag.fill.find(element, prop),
-              greedy = prop[0] === '$',
-              v, // can be an array, object or string
-              // for each
-              tmp = [];
 
-            a.reverse().forEach(function(item, index) {
-              if (a[index]) {
-                if (a[index].value && a[index].value.length > 0) {
-                  v = a[index].value
-                  if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
-                    v = {
-                      _value: v,
-                      _checked: a[index].checked
-                    }
-                    tmp.push(v)
-                  }
-                } else if (a[index].innerText && a[index].innerText.length > 0) {
-                  v = a[index].innerText
-                } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
-                  v = a[index].innerHTML
-                }
-              }
-            })
-            if (tmp.length > 0 && greedy) return tmp
-            return v
-          }
-          return target[prop]
+      var handler = function(type, index, change) {
+
+        var current = JSON.stringify(change.object);
+        if (current === prevs[index]) {
+          return;
         }
-      })
+        prevs[index] = current;
+
+        if (change.type == 'get' && type != 'props') {
+          return findMissing(change, element);
+
+        } else 
+        if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+
+          // call unloader for module
+          var id = change.oldValue.getId()
+          mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
+          mag.clear(id);
+        }
+
+
+        //console.log('change', change.object)
+        // call setup handler
+        var fun = mod.getFrameId(index);
+        if (typeof fun == 'function') {
+
+          //debounce
+          cancelAnimationFrame(timers[index]);
+          timers[index] = requestAnimationFrame(fun);
+
+        }
+
+      };
+
+      var base = mod.getProps(index);
+      var baseP = mag.proxy(base, handler.bind({}, 'props', index));
+      mod.setProps(index, baseP);
+
+      var p = mag.proxy({}, handler.bind({}, 'state', index));
+ 
+      controller = new ctrl(p);
     } else {
-      controller = new ctrl
+      controller = new ctrl({})
     }
 
     return controller;
