@@ -33,7 +33,6 @@ License: MIT
         });
       });
       var proxProps = proxyObject(props, callback);
-      var proxProps = proxyObject(props, callback);
 
       mag.mod.setState(index, proxState);
       mag.mod.setProps(index, proxProps);
