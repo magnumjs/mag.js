@@ -679,7 +679,7 @@ arguments :
 
 #### Mag.JS AddOns!
 
-Tiny sub library of reusable simple tools can be found [here](//github.com/magnumjs/mag.js/blob/master/src/mag.addons.js)
+Tiny sub library of reusable simple tools can be found [here](https://github.com/magnumjs/mag.js/blob/master/src/mag.addons.0.2.js)
 
 * router
 * ajax
