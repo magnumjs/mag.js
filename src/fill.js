@@ -1,5 +1,5 @@
 /*
-MagJS v0.22
+MagJS v0.22.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,7 +11,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   'use strict';
 
 
-  var fill = {}
+  var fill = {
+    ignorekeys: ['Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+  }
 
   var ELEMENT_NODE = 1,
     cached = [],
@@ -19,7 +21,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
     MAGNUM_KEY = '_key',
-    ignorekeys = ['onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate'],
     xpathCache = [],
     dataCache = [],
     templates = {};
@@ -389,7 +390,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var value = data[key]
 
       // ignore certain system keys
-      if (ignorekeys.indexOf(key) !== -1) continue
+      if (~fill.ignorekeys.indexOf(key)) continue;
 
       // only attributes start with an underscore
       if (key[0] !== '_') {
