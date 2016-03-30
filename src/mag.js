@@ -185,7 +185,7 @@ License: MIT
 
         clones.push({
           instanceId: idInstance2,
-          id: cloner.id,
+          id: cloner.id, // TODO: remove, use mag.getId(instanceId)
           subscribe: handler.bind({}, idInstance2)
         });
 
@@ -250,7 +250,6 @@ License: MIT
 
   mag.clear = function(index) {
     cancelAnimationFrame(timers[index]);
-    mag.mod.setFrameId(index, null)
       // remove from indexes
     mag.utils.items.removeItem(index)
       //mag.mod.remove(index)
