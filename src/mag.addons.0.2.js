@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.5
+Mag.JS AddOns v0.21.6
 (c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -220,31 +220,32 @@ mag.cache.data = {}
 
 
   // disable add to config
-  // http://jsbin.com/qutudiqife/3/edit?js,output
+  // http://jsbin.com/zepacabile/edit?js,output
   // define condition func
   // this.show = mag.prop(false);
 
   //define context
-  // mag.addons.disable.call(this, 'other', this.show);
+  //   this.input = mag.disable(this.show)
+  // OR mag.disable(this.show, this.input={})
   //TODO: change to mag.ui.disable
-  mag.disable = function(selector, condition) {
+ mag.disable = function(condition, obj) {
 
-    if (typeof this[selector] !== 'object') {
-      // create object
-      this[selector] = {
-        _value: this[selector]
-      };
-    }
+  // add or merge to config if not exists
+  var orig = obj && obj._config ? obj._config : function() {};
 
-    // add or merge to config if not exists
-    var orig = this[selector]._config ? this[selector]._config : function() {};
-
-    this[selector]._config = function(n) {
+  var tmp = {
+    _config: function(n) {
       orig.call(this, arguments);
       if (condition()) n.setAttribute('disabled', 'disabled');
       else n.removeAttribute('disabled');
-    };
+    }
   }
+  if (obj) {
+    mag.merge(obj, tmp);
+  }
+  return tmp;
+
+}
 
 
   // TODO: change to mag.find
