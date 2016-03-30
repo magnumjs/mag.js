@@ -154,7 +154,8 @@ License: MIT
     handler = function(ids, handler) {
       // call handler on each new change to state or props
       mag.utils.onLCEvent('didupdate', ids, function(state, props) {
-          var current = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props));
+
+          var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
 
           if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
             prevState[ids] = current;
