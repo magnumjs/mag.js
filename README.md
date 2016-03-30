@@ -777,7 +777,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/)
 
-[JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output)
+[JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo)
 
 [Dbmon Repaint rate](http://mathieuancelin.github.io/js-repaint-perfs/magjs/)
 
