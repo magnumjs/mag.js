@@ -63,7 +63,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/nilizehuha/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output) - [v0.2](http://jsbin.com/sifeliwuxe/1/edit?html,js,output)
+[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output) - [v0.2](http://jsbin.com/sifeliwuxe/1/edit?html,js,output)
 
 Initial html
 ```html
