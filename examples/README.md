@@ -4,7 +4,7 @@
 
 [Show/Hide component example](http://jsbin.com/fegizubime/edit?html,js,output)
 
-[Disable field AddOn](http://jsbin.com/zepacabile/edit?js,output)
+[Disable field AddOn](http://jsbin.com/zepacabile/edit?js,output) - [As Existing Object](http://jsbin.com/ziritohiqi/edit?js,output)
 
 [Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
 
