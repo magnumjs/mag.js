@@ -63,7 +63,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output) - [v0.2](http://jsbin.com/sifeliwuxe/1/edit?html,js,output)
+[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/bejizesebu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output)
 
 Initial html
 ```html
@@ -401,14 +401,16 @@ var instance = myComponent({props:[]}) // executed
 
 // instance contains 4 sub methods 
 
-instance.getId() // returns UID for MagJS
+instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the node id
 
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
 
-instance.getState() // returns a copy of the current state values of that instance - state is async 
+instance.getState([Optional instanceId]) // returns a copy of the current state values of that instance - state is async 
 
-instance.getProps() // returns a copy of the current props values of that instance
+instance.getProps([Optional instanceId]) // returns a copy of the current props values of that instance, defaults to bound instance
+
+instance.clones() //v0.22.6 returns list of any clones with their associated instanceId, nodeId and its own subscribe handler.
 
 instance.subscribe(function(state, props, previous){
 }); //v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
