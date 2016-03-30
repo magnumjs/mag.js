@@ -235,7 +235,7 @@ mag.cache.data = {}
 
   var tmp = {
     _config: function(n) {
-      orig.call(this, arguments);
+      orig.apply(this, arguments);
       if (condition()) n.setAttribute('disabled', 'disabled');
       else n.removeAttribute('disabled');
     }
