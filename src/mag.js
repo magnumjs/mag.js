@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.5
+MagJS v0.22.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -42,7 +42,7 @@ License: MIT
     if (props.key && mag.utils.items.isItem(id + '.' + props.key)) {
       idInstance = mag.utils.items.getItem(id + '.' + props.key)
     } else {
-      idInstance = mag.utils.getItemInstanceId(props.key ? id + '.' + props.key : id)
+      idInstance = mag.utils.getItemInstanceId(props.key ? id + '.' + props.key : id);
     }
 
     // TODO: cache/ clearable
@@ -150,53 +150,8 @@ License: MIT
     }
   }
   var cloners = {},
-    prevState = [];
-
-  var makeClone = function(idInstance, node, mod, props) {
-    // recursion warning
-    var a = function(id, node, mod, props, index) {
-      //TODO: what is this use case? if no index?
-      index = index || 0
-
-      // prevent recursion?
-      var id = node.id + (props.key ? '.' + props.key : '') + '.' + index;
-      var cloner = cloners[id] || {};
-      cloner.id = id;
-      // if clone already exists return ?
-      if (!mag.utils.items.isItem(id)) {
-        cloners[id] = cloner = node.cloneNode(1);
-        cloner.id = id;
-      }
-      if (cloner instanceof HTMLElement) {
-
-        var idInstance2 = mag.utils.getItemInstanceId(cloner.id)
-
-        // get unique instance ID's module
-        mag.mod.submodule(cloner.id, idInstance2, mod, props)
-
-        observer(idInstance2, cloner.id)
-
-        // DRAW
-        mag.redraw(cloner, idInstance2, 1)
-
-        return cloner
-      }
-    }.bind({}, idInstance, node, mod, props)
-
-    //BIND CLONE INSTANCE METHODS
-    a.getId = function(ids) {
-      return ids
-    }.bind({}, idInstance)
-    a.draw = function(node, ids, force) {
-      mag.redraw(node, ids, force)
-    }.bind({}, node, idInstance)
-    a.getState = function(ids) {
-      return mag.mod.getState(ids)
-    }.bind({}, idInstance)
-    a.getProps = function(ids) {
-      return mag.mod.getProps(ids)
-    }.bind({}, idInstance);
-    a.subscribe = function(ids, handler) {
+    prevState = [],
+    handler = function(ids, handler) {
       // call handler on each new change to state or props
       mag.utils.onLCEvent('didupdate', ids, function(state, props) {
           var current = mag.utils.merge(mag.utils.copy(state), mag.utils.copy(props));
@@ -207,11 +162,69 @@ License: MIT
           }
         })
         //TODO: return `dispose` function to remove handler
+    };
+  var makeClone = function(idInstance, node, mod, props) {
+    // recursion warning
+    var clones = [];
+    var a = function(id, node, mod, props, index) {
+      //TODO: what is this use case? if no index?
+
+      // prevent recursion?
+      var id = node.id + (props.key ? '.' + props.key : '') + '.' + (index || 0);
+      var cloner = cloners[id] || {};
+      cloner.id = id;
+      // if clone already exists return ?
+      if (!mag.utils.items.isItem(id)) {
+        cloners[id] = cloner = node.cloneNode(1);
+        cloner.id = id;
+      }
+      if (cloner instanceof HTMLElement) {
+
+        var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
+
+        clones.push({
+          instanceId: idInstance2,
+          id: cloner.id,
+          subscribe: handler.bind({}, idInstance2)
+        });
+
+        // get unique instance ID's module
+        mag.mod.submodule(cloner.id, idInstance2, mod, props)
+
+        observer(idInstance2, cloner.id)
+
+        // DRAW
+        mag.redraw(cloner, idInstance2, 1)
+
+        return cloner;
+      }
+
+    }.bind({}, idInstance, node, mod, props)
+
+    a.clones = function() {
+      return clones
+    };
+
+    //BIND CLONE INSTANCE METHODS
+    a.getId = function(ids) {
+      return ids
+    }.bind({}, idInstance);
+    a.draw = function(node, ids, force) {
+      mag.redraw(node, ids, force)
+    }.bind({}, node, idInstance)
+    a.getState = function(ids, id) {
+      return mag.mod.getState(id || ids)
+    }.bind({}, idInstance)
+    a.getProps = function(ids, id) {
+      return mag.mod.getProps(id || ids)
     }.bind({}, idInstance);
 
-    return a
-  }
-  var nodeCache = []
+    a.subscribe = handler.bind({}, idInstance);
+
+    return a;
+  };
+
+  var nodeCache = [];
 
   function getNode(id, clear) {
     //cache nodes?
@@ -224,13 +237,13 @@ License: MIT
 
   var observer = function(idInstance, nodeId) {
     var callback = function(index, id) {
-        if (getNode(id)) {
-          mag.redraw(getNode(id), index)
-        } else if (mag.utils.items.isItem(id)) {
-          mag.clear(index)
-            //throw Error('invalid node id ' + id + ' index ' + index)
-        }
-      }.bind({}, idInstance, nodeId)
+      if (getNode(id)) {
+        mag.redraw(getNode(id), index)
+      } else if (mag.utils.items.isItem(id)) {
+        mag.clear(index)
+          //throw Error('invalid node id ' + id + ' index ' + index)
+      }
+    }.bind({}, idInstance, nodeId)
     mag.mod.setFrameId(idInstance, callback);
   }
 
@@ -243,7 +256,7 @@ License: MIT
     mag.mod.clear(index)
       //observer index ?
 
-      // fill data cache
+    // fill data cache
     mag.fill.clearCache(mag.mod.getId(index))
   }
 
