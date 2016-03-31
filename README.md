@@ -125,7 +125,7 @@ mag.module("hello", {
 (http://jsbin.com/ralutazaka/edit?js,output)
 
 [Tiny filter:]
-(http://jsbin.com/hukukaxije/edit?js,output)
+(http://jsbin.com/reqigohete/edit?js,output)
 
 [Filter list:]
 (http://jsbin.com/lojobiqudi/edit?js,output)
