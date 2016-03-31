@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.6
+MagJS v0.22.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -164,47 +164,67 @@ License: MIT
         })
         //TODO: return `dispose` function to remove handler
     };
+
+  var clones = [];
+
+  var run = function(cloner, id, props2, mod, clear) {
+    mag.mod.submodule(cloner.id, mag.utils.items.getItem(id), mod, props2)
+
+    observer(mag.utils.items.getItem(id), cloner.id)
+
+    // DRAW
+    mag.redraw(cloner, mag.utils.items.getItem(id), clear);
+  };
+
   var makeClone = function(idInstance, node, mod, props) {
     // recursion warning
-    var clones = [];
-    var a = function(id, node, mod, props, index) {
+    clones[idInstance] = clones[idInstance] || [];
+    var a = function(ids, node, mod, props2, index) {
       //TODO: what is this use case? if no index?
 
+      if (typeof index == 'object') {
+        props2 = mag.utils.merge(props2 || {}, index);
+        index = 0;
+      }
+
       // prevent recursion?
-      var id = node.id + (props.key ? '.' + props.key : '') + '.' + (index || 0);
+      var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
       var cloner = cloners[id] || {};
       cloner.id = id;
-      // if clone already exists return ?
+      // if clone already exists return & rerun draw ?
       if (!mag.utils.items.isItem(id)) {
-        cloners[id] = cloner = node.cloneNode(1);
+        cloners[id] = cloner = node.cloneNode(true);
         cloner.id = id;
+      } else {
+        // call redraw on 
+        // get unique instance ID's module
+        run(cloner, id, props2, mod);
+
+        return cloner;
       }
       if (cloner instanceof HTMLElement) {
 
         var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
 
-        clones.push({
+        // repeated similar clones?
+        // Check if instanceId in clones already?
+        clones[ids].push({
           instanceId: idInstance2,
-          id: cloner.id, // TODO: remove, use mag.getId(instanceId)
+          //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
           subscribe: handler.bind({}, idInstance2)
         });
 
         // get unique instance ID's module
-        mag.mod.submodule(cloner.id, idInstance2, mod, props)
-
-        observer(idInstance2, cloner.id)
-
-        // DRAW
-        mag.redraw(cloner, idInstance2, 1)
+        run(cloner, id, props2, mod, 1);
 
         return cloner;
       }
 
     }.bind({}, idInstance, node, mod, props)
 
-    a.clones = function() {
-      return clones
-    };
+    a.clones = function(ids) {
+      return clones[ids]
+    }.bind({}, idInstance);
 
     //BIND CLONE INSTANCE METHODS
     a.getId = function(ids) {
@@ -229,10 +249,9 @@ License: MIT
 
   function getNode(id, clear) {
     //cache nodes?
-    if (nodeCache[id] && !clear) return nodeCache[id]
+    if (nodeCache[id] && !clear) return nodeCache[id];
     var node = document.getElementById(id);
-    if (node) nodeCache[id] = node
-    if (!node) {}
+    if (node) nodeCache[id] = node;
     return node;
   }
 
@@ -250,7 +269,7 @@ License: MIT
 
   mag.clear = function(index) {
     cancelAnimationFrame(timers[index]);
-      // remove from indexes
+    // remove from indexes
     mag.utils.items.removeItem(index)
       //mag.mod.remove(index)
     mag.mod.clear(index)
@@ -310,6 +329,7 @@ License: MIT
       if (node && node.parentNode) {
         var parent = findClosestId(node.parentNode)
         if (parent) {
+          //recursive HELL very likely here!
           mag.redraw(parent, mag.utils.items.getItem(parent.id))
         }
       }
