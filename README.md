@@ -110,10 +110,10 @@ mag.module("hello", {
 (http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output)
 
 [Hello array lifecycle event:]
-(http://jsbin.com/xomajizame/edit?js,output)
+(http://jsbin.com/webucanulu/edit?js,output)
 
 [Count:]
-(http://jsbin.com/wipaxiguce/edit?js,output)
+(http://jsbin.com/tufomejepi/edit?js,output)
 
 [List:] 
 (http://jsbin.com/tefitefotu/edit?js,output)
