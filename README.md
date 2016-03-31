@@ -131,7 +131,7 @@ mag.module("hello", {
 (http://jsbin.com/jokugejosa/edit?js,output)
 
 [Filter list sort:]
-(http://jsbin.com/kodumalodo/edit?js,output)
+(http://jsbin.com/zikayihapo/edit?js,output)
 
 [Filter list components:]
 (http://jsbin.com/tuduzapecu/edit?js,output)
