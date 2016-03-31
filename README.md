@@ -149,7 +149,7 @@ mag.module("hello", {
 (http://jsbin.com/yuyapesede/edit?js,output)
 
 [Modal with select menu:]
-(http://jsbin.com/yilixaleci/edit?js,output)
+(http://jsbin.com/temuxonane/edit?js,output)
 
 [Forms - composable components - link manager](http://jsbin.com/cipezuyusu/edit?js,output)
 
