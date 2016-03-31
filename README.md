@@ -128,7 +128,7 @@ mag.module("hello", {
 (http://jsbin.com/reqigohete/edit?js,output)
 
 [Filter list:]
-(http://jsbin.com/lojobiqudi/edit?js,output)
+(http://jsbin.com/jokugejosa/edit?js,output)
 
 [Filter list sort:]
 (http://jsbin.com/kodumalodo/edit?js,output)
