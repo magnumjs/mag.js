@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.5
+MagJS v0.22.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -153,7 +153,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       if (!templates[key]) {
         templates[key] = {
-          node: elements[0].cloneNode(true).outerHTML,
+          node: elements[0].cloneNode(1).outerHTML,
           parent: parent
         }
       }
@@ -164,7 +164,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           parent.insertAdjacentHTML("beforeend", templates[key].node)
           node = parent.lastChild
         } else {
-          node = elements[0].cloneNode(true)
+          node = elements[0].cloneNode(1)
         }
 
         elements.push(node)
@@ -179,7 +179,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       })
 
       var keys = data.map(function(i) {
-        return i[MAGNUM_KEY]
+        return i && i[MAGNUM_KEY]
       })
 
       // add keys if equal
@@ -286,7 +286,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
-      node.appendChild(val)
+      node.appendChild(val);
     } else {
       // already exists
     }
@@ -329,7 +329,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           index: tagIndex
         }
 
-        return
+        return;
       } else {
 
         // TODO: is this a valid use case?
