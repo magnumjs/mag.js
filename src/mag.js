@@ -193,7 +193,7 @@ License: MIT
       cloner.id = id;
       // if clone already exists return & rerun draw ?
       if (!mag.utils.items.isItem(id)) {
-        cloners[id] = cloner = node.cloneNode(true);
+        cloners[id] = cloner = node.cloneNode(1);
         cloner.id = id;
       } else {
         // call redraw on 
