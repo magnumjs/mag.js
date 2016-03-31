@@ -166,7 +166,7 @@ mag.module("hello", {
 (http://jsbin.com/mixasihoye/edit?js,output) - [Take 2](http://jsbin.com/diwevicibe/edit?js,output)
 
 [Async:]
-(http://jsbin.com/yajugavibe/edit?js,output)
+(http://jsbin.com/qukanukuko/edit?js,output)
 
 [Async - Geo Location](http://jsbin.com/giquhayepe/edit?html,js,output)
 
