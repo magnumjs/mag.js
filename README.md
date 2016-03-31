@@ -99,7 +99,7 @@ mag.module("hello", {
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
 [Basic Math: addition (no auto binding)](http://jsbin.com/bonivejivu/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?html,js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/regofazoza/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/nidimuvayu/edit?html,js,output)
 
-[Auto wiring - select menu](http://jsbin.com/rayotexedi/edit?js,output)
+[Auto wiring - select menu](http://jsbin.com/yokozusiva/edit?js,output)
 
 [Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/bapafacava/edit?js,output)
 
