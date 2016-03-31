@@ -381,13 +381,14 @@ var instance = mag.module ('myElementId', component);
 
 The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
 
-These 5 methods are bound to the exact instance
+These 6 methods are bound to the exact instance
 
 `getId`
 `draw`
 `getState`
 `getProps`
 `subscribe` v0.22.1
+`clones` v0.22.6
 
 #### mag.create (String elementID, Object ModuleDefinition, Optional Object props) - v0.20
 
@@ -399,7 +400,7 @@ var myComponent = mag.create('mydomId', {view:noop}) // not executed
 
 var instance = myComponent({props:[]}) // executed
 
-// instance contains 4 sub methods 
+// instance contains 6 sub methods 
 
 instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the node id
 
