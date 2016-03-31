@@ -116,7 +116,7 @@ mag.module("hello", {
 (http://jsbin.com/tufomejepi/edit?js,output)
 
 [List:] 
-(http://jsbin.com/tefitefotu/edit?js,output)
+(http://jsbin.com/sewomabihe/edit?js,output)
 
 [More lists:]
 (http://jsbin.com/ruzoyakene/edit?js,output)
