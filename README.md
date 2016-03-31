@@ -119,7 +119,7 @@ mag.module("hello", {
 (http://jsbin.com/sewomabihe/edit?js,output)
 
 [More lists:]
-(http://jsbin.com/ruzoyakene/edit?js,output)
+(http://jsbin.com/mefefozaxe/edit?js,output)
 
 [Sortable List:]
 (http://jsbin.com/taducutoru/edit?js,output)
