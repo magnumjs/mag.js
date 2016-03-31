@@ -122,7 +122,7 @@ mag.module("hello", {
 (http://jsbin.com/mefefozaxe/edit?js,output)
 
 [Sortable List:]
-(http://jsbin.com/taducutoru/edit?js,output)
+(http://jsbin.com/ralutazaka/edit?js,output)
 
 [Tiny filter:]
 (http://jsbin.com/hukukaxije/edit?js,output)
