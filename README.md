@@ -146,7 +146,7 @@ mag.module("hello", {
 (http://jsbin.com/payewiqasi/edit?js,output) - [Take2](http://jsbin.com/jutuvukiwe/edit?html,js,output)
 
 [Modal component:]
-(http://jsbin.com/kemowayego/edit?js,output)
+(http://jsbin.com/yuyapesede/edit?js,output)
 
 [Modal with select menu:]
 (http://jsbin.com/vihudibabe/edit?js,output)
