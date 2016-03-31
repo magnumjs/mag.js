@@ -195,6 +195,9 @@ mag.module("hello", {
 [Same with different code style - creative Mag.JS!]
 (http://jsbin.com/yegibecumu/edit?js,output)
 
+[FilterableProductTable/static version (Thinking in React tutorial):]
+(http://jsbin.com/firevuzege/edit?js,output)
+
 [FilterableProductTable (Thinking in React tutorial):]
 (http://jsbin.com/bisobeyuci/edit?js,output)
 
