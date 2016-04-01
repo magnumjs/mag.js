@@ -151,7 +151,7 @@ mag.module("hello", {
 [Modal with select menu:]
 (http://jsbin.com/yiyivasega/edit?js,output)
 
-[Forms - composable components - link manager](http://jsbin.com/cipezuyusu/edit?js,output)
+[Forms - composable components - link manager](http://jsbin.com/faqisutezo/edit?js,output)
 
 [Todos:]
 (http://jsbin.com/bihubarogi/edit?js,output) [Take2](http://jsbin.com/rafemapivi/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output)
