@@ -181,7 +181,7 @@ mag.module("hello", {
 
 ###React 2 Mag
 [Navigation menu:]
-(http://jsbin.com/patecaronu/edit?js,output)
+(http://jsbin.com/fajobahaja/edit?js,output)
 
 [Timer:]
 (http://jsbin.com/zivexomesa/edit?html,output)
