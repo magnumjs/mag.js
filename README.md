@@ -143,7 +143,7 @@ mag.module("hello", {
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/BAQQ0vOOK4StAefYaK02/preview)
 
 [Tab component:]
-(http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/jutuvukiwe/edit?html,js,output)
+(http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
 
 [Modal component:]
 (http://jsbin.com/yuyapesede/edit?js,output)
