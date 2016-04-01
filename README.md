@@ -140,7 +140,7 @@ mag.module("hello", {
 
 [Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output)
 
-[Form & list - model - comps - boilerplate](http://embed.plnkr.co/BAQQ0vOOK4StAefYaK02/preview)
+[Form & list - model - comps - boilerplate](http://embed.plnkr.co/w3BSEEp0w5iWzM7B7QIw/)
 
 [Tab component:]
 (http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
