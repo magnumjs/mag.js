@@ -193,7 +193,7 @@ mag.module("hello", {
 [Real-time search:]
 (http://jsbin.com/wuzovilaga/edit?js,output)
 [Same with different code style - creative Mag.JS!]
-(http://jsbin.com/yegibecumu/edit?js,output)
+(http://jsbin.com/vulujetesi/edit?js,output)
 
 [FilterableProductTable/static version (Thinking in React tutorial):]
 (http://jsbin.com/firevuzege/edit?js,output)
