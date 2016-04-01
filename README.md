@@ -103,8 +103,8 @@ mag.module("hello", {
 
 [Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/vafovoguka/edit?html,js,output)
 
-[Hello world with passFail reusable component:]
-(http://jsbin.com/sopitoneyu/edit?js,output)
+[Hello world with passFail reusable component]
+(http://jsbin.com/moziseporo/edit?js,output)
 
 [Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
 (http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output)
@@ -138,7 +138,7 @@ mag.module("hello", {
 
 [Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
 
-[Forms - passFail component](http://jsbin.com/cuxijarihi/edit?js,output)
+[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output)
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/BAQQ0vOOK4StAefYaK02/preview)
 
