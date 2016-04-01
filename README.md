@@ -191,7 +191,7 @@ mag.module("hello", {
 [TabList module pattern - dynamic children keys](http://embed.plnkr.co/Gjuycl4GdTj2TJijmpjq/preview) - [Video Tutorial](https://www.youtube.com/watch?v=0XvXxw_S-fU&index=15&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 
 [Real-time search:]
-(http://jsbin.com/wuzovilaga/edit?js,output)
+(http://jsbin.com/secozicofa/edit?js,output) 
 [Same with different code style - creative Mag.JS!]
 (http://jsbin.com/vulujetesi/edit?js,output)
 
