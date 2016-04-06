@@ -15,7 +15,7 @@ It'll also have a few neat features:
 
 ##Want to skip all this and just see the source?
 
-[JSBin](http://jsbin.com/tejabayowa/edit?js,output)
+[JSBin](http://jsbin.com/totuxamale/edit?js,output)
 
 ##Getting started
 
@@ -466,4 +466,4 @@ You have just built a comment box in a few simple steps. Learn more about why to
 
 [MagJS version of James Longs' "why react is awesome"](https://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 
-[JSBin](http://jsbin.com/tejabayowa/edit?js,output)
+[JSBin](http://jsbin.com/totuxamale/edit?js,output)
