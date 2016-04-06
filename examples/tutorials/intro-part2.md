@@ -4,7 +4,7 @@ Welcome to part 2 of this tutorial series! In [part 1](https://github.com/magnum
 
 ##Here's the demo!
 
-Anxious? You can view the [code here](http://embed.plnkr.co/L2AN3YYchOMdqLOB3hPI/preview),
+Anxious? You can view the [code here](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/),
 Before we dive back in, let's review our user stories:
 
 ##Project User Stories
