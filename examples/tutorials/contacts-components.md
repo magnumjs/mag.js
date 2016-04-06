@@ -3,7 +3,7 @@
 Components are versatile tools to organize code and can be used in a variety of ways.
 
 ###Want to skip all this and just see the source?
-[JSBIn example](http://jsbin.com/mewasovine/edit)
+[JSBIn example](http://jsbin.com/zohoqenemu/edit)
 
 First we have our html that we will be using:
 
@@ -164,4 +164,4 @@ In addition, components can be reused in different contexts. Notice that the Con
 
 This architecture can yield highly flexible and reusable code, but flexibility can also increase the cognitive load of the system (for example, you need to look at both the top-level module and ContactList in order to know what is the data being displayed (and how it's being filtered, etc). In addition, having a deeply nested tree of components can result in a lot of intermediate "pass-through" arguments and event handlers.
 
-[JSBin example](http://jsbin.com/mewasovine/edit)
+[JSBin example](http://jsbin.com/zohoqenemu/edit)
