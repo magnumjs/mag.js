@@ -76,4 +76,4 @@ See the existing mag.comps package namespace for example implementations
  
 ###Notes
 
-[Full example v0.2](http://embed.plnkr.co/dCq97T0tifLbdclDzoLQ/) - [Video tutorial](https://youtu.be/JAYIyW7xw14)
+[Full example v0.2](http://embed.plnkr.co/BtxtlFBfebPuOiAnOP3z/) - [Video tutorial](https://youtu.be/JAYIyW7xw14)
