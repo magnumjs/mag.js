@@ -173,7 +173,7 @@ mag.module("hello", {
 ###Mithril 2 Mag
 [Rotate Links](http://jsbin.com/fejumuhoji/edit?html,js,output)
 
-[Pagination](http://embed.plnkr.co/9VjZ6807pXbu0GETgk1u/preview)
+[Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
 [Volunteer form application](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/)
 
