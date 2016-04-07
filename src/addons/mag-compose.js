@@ -17,7 +17,7 @@ mag.compose = function(handlerFunc) {
     // modify component controller to watch updates
     //save original
 
-    var orig = new (component.controller || mag.noop);
+    var orig = new (component.controller || mag.noop)();
 
     component.controller = function(props) {
 
