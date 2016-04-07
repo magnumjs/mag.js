@@ -52,7 +52,7 @@ mag.compose = function(handlerFunc) {
 
     };
 
-    var mod = mag.create(id, component)
+    var mod = mag.create(id, component, props);
 
     return mod;
 
