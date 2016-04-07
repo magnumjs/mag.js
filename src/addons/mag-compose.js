@@ -1,5 +1,15 @@
+/*
+Name: mag-compose v0.1.1
+Description: remote json api
+Author: Michael Glazer
+License: MIT
+Homepage: https://github.com/magnumjs/mag.js
+@requires mag.js & mag addons
+(c) 2016
+*/
 
 //Example: http://embed.plnkr.co/3cpw0dTJH033loC098rU/
+
 mag.compose = function(handlerFunc) {
 
   return function(id, component, props) {
