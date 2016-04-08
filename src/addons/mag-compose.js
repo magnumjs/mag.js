@@ -9,6 +9,7 @@ Homepage: https://github.com/magnumjs/mag.js
 */
 
 //Example: http://embed.plnkr.co/qHPO1brJWe4R4t6PcnRB/
+//Simple: without mag.compose http://jsbin.com/jixewaziha/edit?js,output
 
 mag.compose = function(handlerFunc) {
 
