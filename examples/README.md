@@ -28,6 +28,8 @@
 
 [Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/)
 
+[Login/Logout Modular w/router](http://embed.plnkr.co/HiAdOHLW65x1Lf1zwmeP/)
+
 [Async & remote json data auto-loading w/caching & initialValues](http://jsbin.com/gecaniyipi/edit?js,output)
 
 [Web service json request with loading feedback](http://jsbin.com/ronowifoma/edit?js,output)
