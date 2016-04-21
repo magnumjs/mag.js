@@ -122,7 +122,7 @@ License: MIT
         var current = JSON.stringify(change.object);
         if (current === prevs[index]) {
           if (change.type == 'get' && type != 'props' && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
-            return findMissing(change, element);
+            return findMissing(change, element || document.getElementById(mod.getId(index)));
           }
           return;
         }
