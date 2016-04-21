@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.5
+MagJS v0.22.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -14,7 +14,7 @@ License: MIT
         var retval = proxy[name],
           val = cb({
             type: 'get',
-            object: {},
+            object: mag.utils.copy(proxy[name]),
             name: name,
             oldValue: last[name]
           })
@@ -32,7 +32,7 @@ License: MIT
       },
       set: function(proxy, name, value) {
         if (JSON.stringify(value) !== JSON.stringify(proxy[name])) {
-          last[name] = proxy[name] && mag.utils.copy(proxy[name]);
+          last[name] = mag.utils.copy(proxy[name]);
         }
 
         cb({
