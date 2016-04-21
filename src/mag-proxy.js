@@ -18,7 +18,7 @@ License: MIT
             name: name,
             oldValue: last[name]
           })
-        if (typeof val != 'undefined') retval = val;
+        if (typeof val != 'undefined') retval =proxy[name]=val;
         return retval;
       },
       deleteProperty: function(proxy, name) {
