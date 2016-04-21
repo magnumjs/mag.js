@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.7
+MagJS v0.22.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -79,7 +79,7 @@ License: MIT
 
   function findMissing(change, element) {
     var prop = change.name;
-    if (change.object[change.name] == 'undefined' && !~mag.fill.ignorekeys.indexOf(prop.toString())) {
+    if (typeof change.object[change.name] == 'undefined' && !~mag.fill.ignorekeys.indexOf(prop.toString())) {
       // prop might be hierarchical?
       // getparent Object property chain?
 
@@ -121,14 +121,13 @@ License: MIT
 
         var current = JSON.stringify(change.object);
         if (current === prevs[index]) {
+          if (change.type == 'get' && type != 'props' && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+            return findMissing(change, element);
+          }
           return;
         }
         prevs[index] = current;
 
-        if (change.type == 'get' && type != 'props') {
-          return findMissing(change, element);
-
-        } else
         if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
 
           // call unloader for module
@@ -136,19 +135,16 @@ License: MIT
           mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
           mag.clear(id);
           // remove clones
-          change.oldValue.clones().length=0;
+          change.oldValue.clones().length = 0;
         }
 
 
-        //console.log('change', change.object)
         // call setup handler
         var fun = mod.getFrameId(index);
-        if (typeof fun == 'function') {
-
+        if (typeof fun == 'function' && change.type == 'set') {
           //debounce
           cancelAnimationFrame(timers[index]);
           timers[index] = requestAnimationFrame(fun);
-
         }
 
       };
@@ -171,7 +167,7 @@ License: MIT
     if (mod.cache[key] && mod.cache[key] === JSON.stringify(data)) {
       return true
     }
-    mod.cache[key] = JSON.stringify(data)
+    mod.cache[key] = JSON.stringify(data);
   }
 
   mod.clear = function(key) {
