@@ -79,7 +79,7 @@ License: MIT
 
   function findMissing(change, element) {
     var prop = change.name;
-    if (typeof change.object[change.name] == 'undefined' && !~mag.fill.ignorekeys.indexOf(prop.toString())) {
+    if (typeof change.object[change.name] == 'undefined') {
       // prop might be hierarchical?
       // getparent Object property chain?
 
@@ -114,20 +114,24 @@ License: MIT
   }
 
   function getController(ctrl, index, id) {
-    var controller, element = document.getElementById(id);
+    var controller;
     if (typeof Proxy !== 'undefined') {
 
       var handler = function(type, index, change) {
 
         var current = JSON.stringify(change.object);
-        if (current === prevs[index]) {
-          if (change.type == 'get' && type != 'props' && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
-            return findMissing(change, element || document.getElementById(mod.getId(index)));
-          }
+        if (current === prevs[index+String(change.name)]) {
           return;
         }
-        prevs[index] = current;
+        prevs[index+String(change.name)]  =current;
 
+        if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+          var res = findMissing(change, document.getElementById(mod.getId(index)));
+              if(typeof res != 'undefined'){
+                  cached[index] = 0;
+                  return res;
+              }
+        } else 
         if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
 
           // call unloader for module
@@ -175,6 +179,7 @@ License: MIT
       mod.cache.splice(key, 1)
     }
   }
+
   var cached = []
   mod.callView = function(node, index) {
 
