@@ -1,5 +1,8 @@
 // http://jsbin.com/bohuniquha/edit
 
+//v0.22 native Proxy support
+//http://jsbin.com/yebalabenu/edit
+
 var todo = {};
 
 todo.controller = function(props) {
