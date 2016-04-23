@@ -1,4 +1,4 @@
-[basic route example](http://jsbin.com/huwesiwuma/edit)
+[basic route example](http://jsbin.com/lojimitecu/edit)
 
 [route with modules](http://jsbin.com/citejiculi/edit) [Take 2](http://jsbin.com/jemijawedi/edit)
 
