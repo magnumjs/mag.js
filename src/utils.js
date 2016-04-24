@@ -53,7 +53,7 @@ License: MIT
     if (isPrevented) {
       // unloading
 
-      for (var i = 0, unloader; unloader = utils.unloaders[index][i]; i++) {
+      for (var i = 0, unloader, objects = utils.unloaders[index]; unloader = objects && objects[i]; i++) {
 
         if (unloader.controller.onunload) {
           unloader.handler.call(unloader.controller, node)
@@ -63,20 +63,6 @@ License: MIT
     }
 
     return isPrevented
-  }
-
-
-
-  utils.debounce = function(fn, delay) {
-    var timer = null;
-    return function() {
-      var context = this,
-        args = arguments;
-      cancelAnimationFrame(timer);
-      timer = requestAnimationFrame(function() {
-        fn.apply(context, args);
-      }, delay);
-    };
   }
 
   //UTILITY
