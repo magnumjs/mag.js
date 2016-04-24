@@ -120,10 +120,11 @@ License: MIT
       var handler = function(type, index, change) {
 
         var current = JSON.stringify(change.object);
-        if (current === prevs[index+String(change.name)]) {
+        var sname = String(change.name);
+        if (current === prevs[index+sname]) {
           return;
         }
-        prevs[index+String(change.name)]  =current;
+        prevs[index+sname]  =current;
 
         if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
           var res = findMissing(change, document.getElementById(mod.getId(index)));
