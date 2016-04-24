@@ -183,7 +183,7 @@ License: MIT
       //TODO: what is this use case? if no index?
 
       if (typeof index == 'object') {
-        props2 = mag.utils.merge(props2 || {}, index);
+        props2 = mag.utils.merge(mag.utils.copy(props2) || {}, index);
         index = 0;
       }
 
