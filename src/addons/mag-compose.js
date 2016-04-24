@@ -1,6 +1,6 @@
 /*
-Name: mag-compose v0.1.1
-Description: remote json api
+Name: mag-compose v0.1.2
+Description: side loading props based on react-komposer
 Author: Michael Glazer
 License: MIT
 Homepage: https://github.com/magnumjs/mag.js
@@ -18,7 +18,43 @@ mag.compose = function(handlerFunc) {
     // modify component controller to watch updates
     //save original
 
-    var orig = new (component.controller || mag.noop)();
+    var orig = new(component.controller || mag.noop)();
+    
+    var cleanup, loading = true,
+      mod,
+      error;
+    
+    var _subscribe = function(newProps) {
+      // unsubscribe first?
+      if (cleanup) cleanup();
+
+      prevProps = mag.copy(newProps);
+      cleanup = handlerFunc(newProps, function(newestProps) {
+
+        // if empty then set loading flag
+        if (!Boolean(newestProps)) loading = false;
+
+        if (loading) {
+          // show loading component default or over ridden one
+        }
+        if (error) {
+          //same as above
+        }
+
+        // foreach clones update for id
+        mag.merge(newProps, newestProps);
+        // attach to object
+        mag.merge(mod().getProps(), newProps);
+
+        mod().clones().length && mod().clones().forEach(function(clone) {
+          // runner
+          mod().getState(clone.instanceId).__i = 0;
+          // attach to object
+          mag.merge(mod().getProps(clone.instanceId), newProps);
+        });
+
+      });
+    };
 
     component.controller = function(props) {
 
@@ -30,33 +66,26 @@ mag.compose = function(handlerFunc) {
 
       var prevProps;
       this.willload = function(e, node, newProps) {
-        prevProps = mag.copy(newProps);
-        handlerFunc(newProps, function(newestProps) {
-
-          mag.merge(newProps, newestProps);
-          // attach to object
-          mag.merge(mod().getProps(), newProps);
-        });
-        if (orig.willload) orig.willload(e, node, newProps)
+        _subscribe(newProps);
+        if (orig.willload) orig.willload.apply(this, arguments);
       }
 
       this.willupdate = function(e, node, newProps) {
-
+        _subscribe(newProps);
         if (JSON.stringify(prevProps) === JSON.stringify(newProps)) {
           e.preventDefault();
         } else {
           prevProps = mag.copy(newProps);
         }
-        if (orig.willupdate) orig.willupdate(e, node, newProps)
+        if (orig.willupdate) orig.willupdate.apply(this, arguments);
 
       }
 
     };
 
-    var mod = mag.create(id, component, props);
+    mod = mag.create(id, component, props);
 
     return mod;
-
   }
 
 }
