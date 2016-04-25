@@ -1,5 +1,5 @@
 /*
-Name: mag-compose v0.1.2
+Name: mag-compose v0.1.3
 Description: side loading props based on react-komposer
 Author: Michael Glazer
 License: MIT
@@ -19,11 +19,17 @@ mag.compose = function(handlerFunc) {
     //save original
 
     var orig = new(component.controller || mag.noop)();
-    
+    var view = component.view || mag.noop;
+    var LOADINGID = performance.now();
+    var loadingHtml = '<div id="' + LOADINGID + '">Loading ...</div>';
     var cleanup, loading = true,
       mod,
       error;
-    
+
+
+    var _isLoading = function() {
+      return loading;
+    };
     var _subscribe = function(newProps) {
       // unsubscribe first?
       if (cleanup) cleanup();
@@ -32,30 +38,43 @@ mag.compose = function(handlerFunc) {
       cleanup = handlerFunc(newProps, function(newestProps) {
 
         // if empty then set loading flag
-        if (!Boolean(newestProps)) loading = false;
+        if (Boolean(newestProps)) loading = false;
 
-        if (loading) {
-          // show loading component default or over ridden one
-        }
-        if (error) {
+
+        if (newestProps instanceof Error) {
           //same as above
         }
 
         // foreach clones update for id
         mag.merge(newProps, newestProps);
         // attach to object
-        mag.merge(mod().getProps(), newProps);
-
-        mod().clones().length && mod().clones().forEach(function(clone) {
-          // runner
-          mod().getState(clone.instanceId).__i = 0;
-          // attach to object
-          mag.merge(mod().getProps(clone.instanceId), newProps);
-        });
-
+        mag.merge(mod.getProps(), newProps);
       });
+
     };
 
+    var cleaners = [];
+
+    function _runClones() {
+
+      mod.clones().length && mod.clones().forEach(function(clone) {
+
+        var newProps = mod.getProps(clone.instanceId);
+        cleaners[clone.instanceId] && cleaners[clone.instanceId]();
+
+        cleaners[clone.instanceId] = handlerFunc(newProps, function(id, newestProps) {
+
+          // if change from previous then force draw
+          mod.getState(id).$$i = performance.now();
+
+          // attach to object
+          mag.merge(newProps, newestProps);
+          // attach to object
+          mag.merge(mod.getProps(id), newProps);
+        }.bind({}, clone.instanceId));
+
+      });
+    }
     component.controller = function(props) {
 
       // add other orig functions to this
@@ -66,12 +85,17 @@ mag.compose = function(handlerFunc) {
 
       var prevProps;
       this.willload = function(e, node, newProps) {
+        // if (_isLoading()) {
+        //   node.insertAdjacentHTML('afterbegin', loadingHtml);
+        // }
         _subscribe(newProps);
         if (orig.willload) orig.willload.apply(this, arguments);
-      }
+      };
 
       this.willupdate = function(e, node, newProps) {
         _subscribe(newProps);
+        _runClones();
+
         if (JSON.stringify(prevProps) === JSON.stringify(newProps)) {
           e.preventDefault();
         } else {
@@ -83,7 +107,14 @@ mag.compose = function(handlerFunc) {
 
     };
 
-    mod = mag.create(id, component, props);
+    // component.view = function(state) {
+
+    //   if (!_isLoading()) {
+    //     state[LOADINGID] = null;
+    //   }
+    //   view.apply(this, arguments);
+    // }
+    mod = mag.module(id, component, props);
 
     return mod;
   }
