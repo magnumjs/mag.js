@@ -24,6 +24,8 @@
 
 [Movie ticket quantity selection](http://jsbin.com/ciyucapazi/edit?html,output)
 
+[Component with alternate children](http://jsbin.com/puyutiniyu/edit?js,output)
+
 [Detach & reattach elements](http://jsbin.com/bacilatihe/edit?js,output)
 
 [Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/)
