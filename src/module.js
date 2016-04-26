@@ -1,10 +1,10 @@
 /*
-MagJS v0.22.8
+MagJS v0.22.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
-(function(mag) {
+(function(mag, document) {
 
   'use strict';
 
@@ -66,9 +66,9 @@ License: MIT
         controller: controller,
         view: view
       }
-    modules[index][0] = output.view
-    modules[index][1] = getController(output.controller, index, id)
-    modules[index][3] = id
+    modules[index][0] = output.view;
+    modules[index][3] = id;
+    modules[index][1] = getController(output.controller, index, id);
 
     // register the module
     return modules[index]
@@ -82,7 +82,6 @@ License: MIT
     if (typeof change.object[change.name] == 'undefined') {
       // prop might be hierarchical?
       // getparent Object property chain?
-
       // get value of property from DOM
       var a = mag.fill.find(element, prop),
         greedy = prop[0] === '$',
@@ -197,4 +196,4 @@ License: MIT
   mag.mod = mod;
 
 
-}(window.mag || {}));
+}(window.mag || {}, document));
