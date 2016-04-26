@@ -26,7 +26,7 @@
 
 [Component with alternate children](http://jsbin.com/puyutiniyu/edit?js,output)
 
-[Simple HoC](http://jsbin.com/vicenuseki/edit?js,output) - [HoC - Higher-Order Component](http://jsbin.com/wiyitayebu/edit?js,output)
+[Simple HoC](http://jsbin.com/vicenuseki/edit?js,output) - [HoC - Higher-Order Component](http://jsbin.com/wiyitayebu/edit?js,output) - [HoC example](http://jsbin.com/lepucesijo/edit?js,output)
 
 [Detach & reattach elements](http://jsbin.com/bacilatihe/edit?js,output)
 
