@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.8
+MagJS v0.22.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -34,7 +34,7 @@ License: MIT
   utils.onLCEvent = function(eventName, index, handler) {
     handlers[eventName + '-' + index] = handler
   }
-  utils.callLCEvent = function(eventName, controller, node, index, once) {
+  utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented = false,
       event = {
         preventDefault: function() {
@@ -43,7 +43,7 @@ License: MIT
       }
 
     if (controller && controller[eventName]) {
-      controller[eventName].call(controller, event, node, mag.mod.getProps(index))
+      controller[eventName].call(controller, event, node, mag.mod.getProps(index), extra)
       if (once) controller[eventName] = 0
     }
 
