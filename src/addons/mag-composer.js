@@ -8,6 +8,9 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2016
 */
 
+
+//Example: http://embed.plnkr.co/CfLJXUDnTmRc9xu3Pc48/
+
 mag.composer = function(handlerFunc) {
   return function(id, ComposedComponent, oprops) {
     var orig = new(ComposedComponent.controller || mag.noop)();
