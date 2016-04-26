@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.7
+MagJS v0.22.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -184,6 +184,7 @@ License: MIT
 
       if (typeof index == 'object') {
         props2 = mag.utils.merge(mag.utils.copy(props2) || {}, index);
+        mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), node, ids, 0, props2);
         index = 0;
       }
 
