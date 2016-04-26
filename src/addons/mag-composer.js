@@ -71,6 +71,6 @@ mag.composer = function(handlerFunc) {
       }
     };
 
-    return mag.create('container', hoc, oprops);
+    return mag.create('mag-composer', hoc, oprops);
   }
 };
