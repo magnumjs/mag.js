@@ -26,7 +26,7 @@
 
 [Component with alternate children](http://jsbin.com/puyutiniyu/edit?js,output)
 
-[Simple HoC](http://jsbin.com/lipavazale/edit?js,output) - [HoC example](http://jsbin.com/dacoyoneho/edit?js,output) - [HoC - Higher-Order Component](http://jsbin.com/kenexiyoqe/edit?js,output) 
+[Simple clean HoC](https://jsbin.com/jotimiduxo/1/edit?html,js,output) - [Simple dirty HoC](http://jsbin.com/lipavazale/edit?js,output) - [HoC dirty example](http://jsbin.com/dacoyoneho/edit?js,output) - [HoC - Higher-Order Component injection](http://jsbin.com/kenexiyoqe/edit?js,output) 
 
 [Detach & reattach elements](http://jsbin.com/bacilatihe/edit?js,output)
 
