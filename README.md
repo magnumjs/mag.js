@@ -368,13 +368,14 @@ var component = {
 }
 ```
 
-There are 7 life cycle events: willload, didload, willupdate, didupdate, isupdate, onunload, onreload
+There are 8 life cycle events: willload, willgetprops(v0.22.9), didload, willupdate, didupdate, isupdate, onunload, onreload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
 - Event - can be used to preventDefault - stop continued processing
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
+- [extra (4th argument in willgetprops, contains the next props)]
 
 ```javascript
 var instance = mag.module ('myElementId', component);
@@ -646,13 +647,14 @@ event (e, index, node, data) default context is node
 
 Life cycle events in controller:
 
-* willload (event, node)
-* didload (event, node)
-* willupdate (event, node)
-* didupdate (event, node)
-* isupdate (event, node)
-* onunload (event, node)
-* onreload (event, node)
+* willload (event, node, props)
+* willgetprops (event, node, props, nextProps)
+* didload (event, node, props)
+* willupdate (event, node, props)
+* didupdate (event, node, props)
+* isupdate (event, node, props)
+* onunload (event, node, props)
+* onreload (event, node, props)
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
