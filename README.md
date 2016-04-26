@@ -107,7 +107,7 @@ mag.module("hello", {
 (http://jsbin.com/moziseporo/edit?js,output)
 
 [Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
-(http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output) [v0.22.8](http://jsbin.com/dosobawire/edit) - [v0.22.9](http://jsbin.com/futilahuni/edit?js,output)
+(http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output) [v0.22.8](http://jsbin.com/dosobawire/edit) - [v0.22.9](http://jsbin.com/zemuzifidi/edit?js,output)
 
 [Hello array lifecycle event:]
 (http://jsbin.com/webucanulu/edit?js,output)
