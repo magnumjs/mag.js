@@ -9,7 +9,9 @@ Homepage: https://github.com/magnumjs/mag.js
 */
 
 
-//Example: http://embed.plnkr.co/CfLJXUDnTmRc9xu3Pc48/
+//Examples: 
+// http://embed.plnkr.co/CfLJXUDnTmRc9xu3Pc48/
+// http://embed.plnkr.co/3dacvj5HWyn6OAwTniuZ/
 
 mag.composer = function(handlerFunc) {
   return function(id, ComposedComponent, oprops) {
