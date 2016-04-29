@@ -225,7 +225,7 @@ mag.module("hello", {
 
 ###Angular 2 Mag
 [Order form:]
-(http://jsbin.com/horuxanacu/edit?js,output)
+(http://jsbin.com/ziguzidayi/edit?js,output)
 
 [Navigation menu:]
 (http://jsbin.com/kasuyupufa/edit?js,output)
