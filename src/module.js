@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.9
+MagJS v0.22.10
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -82,6 +82,7 @@ License: MIT
     if (typeof change.object[change.name] == 'undefined') {
       // prop might be hierarchical?
       // getparent Object property chain?
+
       // get value of property from DOM
       var a = mag.fill.find(element, prop),
         greedy = prop[0] === '$',
@@ -90,20 +91,22 @@ License: MIT
         tmp = [];
 
       a.reverse().forEach(function(item, index) {
-        if (a[index]) {
-          if (a[index].value && a[index].value.length > 0) {
-            v = a[index].value
-            if (a[index].type && (a[index].type == 'checkbox' || a[index].type == 'radio')) {
+        if (item) {
+          if (item.value && item.value.length > 0) {
+            v = item.value
+            if (item.type && (item.type == 'checkbox' || item.type == 'radio')) {
               v = {
-                _value: v,
-                _checked: a[index].checked
-              }
+                _value: v
+              };
+              if(item.checked) v._checked = true
               tmp.push(v)
             }
-          } else if (a[index].innerText && a[index].innerText.length > 0) {
-            v = a[index].innerText
-          } else if (a[0].innerHTML && a[index].innerHTML.length > 0) {
-            v = a[index].innerHTML
+          } else if (item.innerText && item.innerText.length > 0) {
+            v = item.innerText
+          } else if (item.innerHTML && item.innerHTML.length > 0) {
+            v = item.innerHTML
+          } else if(!item.value && item.tagName == 'INPUT'){
+            v =''
           }
         }
       })
