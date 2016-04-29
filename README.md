@@ -234,7 +234,7 @@ mag.module("hello", {
 (http://jsbin.com/seyadifimu/edit?js,output)
 
 [Contact Manager application:]
-(http://jsbin.com/dedahasoda/edit?js,output) - [Take 2](http://jsbin.com/wevazabiwi/edit?js,output)
+(http://jsbin.com/quviresiva/edit?js,output) - [Take 2](http://jsbin.com/wevazabiwi/edit?js,output)
 
 [Country App - JSON/Routing]
 (http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
