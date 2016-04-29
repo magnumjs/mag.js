@@ -206,7 +206,7 @@ mag.module("hello", {
 [Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
 
 [Weather App:]
-(http://jsbin.com/matediqixo/edit?js,output) [Take 2](http://jsbin.com/zihuwelete/edit?js,output)
+(http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/zihuwelete/edit?js,output)
 
 [Comment Box:]
 (http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
