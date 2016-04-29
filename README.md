@@ -228,7 +228,7 @@ mag.module("hello", {
 (http://jsbin.com/ziguzidayi/edit?js,output)
 
 [Navigation menu:]
-(http://jsbin.com/kasuyupufa/edit?js,output)
+(http://jsbin.com/dedahasoda/edit?js,output)
 
 [Switchable Grid:]
 (http://jsbin.com/seyadifimu/edit?js,output)
