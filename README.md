@@ -163,7 +163,7 @@ mag.module("hello", {
 (http://jsbin.com/lukuwabaso/edit?js,output)
 
 [Contacts:]
-(http://jsbin.com/logikijuke/edit?js,output) - [Take 2](http://jsbin.com/diwevicibe/edit?js,output)
+(http://jsbin.com/logikijuke/edit?js,output) - [Take 2](http://jsbin.com/gupebetati/edit?js,output)
 
 [Async:]
 (http://jsbin.com/qukanukuko/edit?js,output)
