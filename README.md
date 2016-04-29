@@ -156,8 +156,8 @@ mag.module("hello", {
 [Todos:]
 (http://jsbin.com/mijixinuxu/edit?js,output) [Take2](http://jsbin.com/pexigilofo/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output)
 
-[Todo proxy (firefox)]
-(http://jsbin.com/bohuniquha/edit?js,output)
+[Todo Proxy]
+(http://jsbin.com/qajezepage/edit?js,output)
 
 [Todos (expanded):]
 (http://jsbin.com/lukuwabaso/edit?js,output)
