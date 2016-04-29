@@ -160,7 +160,7 @@ mag.module("hello", {
 (http://jsbin.com/qajezepage/edit?js,output)
 
 [Todos (expanded):]
-(http://jsbin.com/lukuwabaso/edit?js,output)
+(http://jsbin.com/yimozefuma/edit?js,output)
 
 [Contacts:]
 (http://jsbin.com/logikijuke/edit?js,output) - [Take 2](http://jsbin.com/gupebetati/edit?js,output)
