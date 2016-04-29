@@ -168,10 +168,10 @@ mag.module("hello", {
 [Async:]
 (http://jsbin.com/qukanukuko/edit?js,output)
 
-[Async - Geo Location](http://jsbin.com/giquhayepe/edit?html,js,output)
+[Async - Geo Location](http://jsbin.com/giquhayepe/edit?js,output)
 
 ###Mithril 2 Mag
-[Rotate Links](http://jsbin.com/xufibituhu/edit?html,js,output)
+[Rotate Links](http://jsbin.com/xufibituhu/edit?js,output) - [v0.22](http://jsbin.com/kobajixowu/edit?js,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
