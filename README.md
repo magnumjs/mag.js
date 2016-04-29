@@ -209,7 +209,7 @@ mag.module("hello", {
 (http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/hexalehujo/edit?js,output)
 
 [Comment Box:]
-(http://jsbin.com/licerahipi/edit?js,output) - [Video tutorial:]
+(http://jsbin.com/ginuzisogi/edit?js,output) - [Video tutorial:]
 (https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/tejabayowa/edit?js,output),
 [Take 2](http://jsbin.com/davapupufo/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/ViPC0XAYYhmePnuUCorD/) - [Module Pattern](http://embed.plnkr.co/n2wbvc3jfutMZH1SO5LH/) [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
 
