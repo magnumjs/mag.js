@@ -171,7 +171,7 @@ mag.module("hello", {
 [Async - Geo Location](http://jsbin.com/giquhayepe/edit?html,js,output)
 
 ###Mithril 2 Mag
-[Rotate Links](http://jsbin.com/fejumuhoji/edit?html,js,output)
+[Rotate Links](http://jsbin.com/yupawayevi/edit?html,js,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
