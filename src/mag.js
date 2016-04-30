@@ -1,19 +1,20 @@
 /*
-MagJS v0.22.9
+MagJS v0.22.11
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
 (function(mag, document, undefined) {
 
-  //'use strict';
+  'use strict';
 
   //Plugins:
   var hookins = {
     values: [],
     attributes: [],
     elementMatcher: []
-  }
+  };
+  var nodeCache = [];
 
   mag.create = function(id, module, props) {
     return function(id2, props2) {
@@ -28,7 +29,15 @@ License: MIT
   mag.module = function(id, mod, props) {
 
     props = props || {}
-
+    
+    //Allow for dom elements to be passed instead of string IDs
+    if (id instanceof HTMLElement) {
+      // get id if exists or create one
+      if (!id.id) id.id = performance.now();
+      //Add to cache for access via getNode(id)
+      nodeCache[id.id] = id;
+      id = id.id;
+    }
 
     // already here before?
     if (mag.utils.items.isItem(id)) {
@@ -159,7 +168,7 @@ License: MIT
 
           if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
             prevState[ids] = current;
-            handler(state, props, prevState[ids]);
+            handler(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
           }
         })
         //TODO: return `dispose` function to remove handler
@@ -246,14 +255,13 @@ License: MIT
     return a;
   };
 
-  var nodeCache = [];
 
   function getNode(id, clear) {
     //cache nodes?
     if (nodeCache[id] && !clear) return nodeCache[id];
     var node = document.getElementById(id);
     if (node) nodeCache[id] = node;
-    return node;
+    return nodeCache[id];
   }
 
   var observer = function(idInstance, nodeId) {
@@ -314,8 +322,8 @@ License: MIT
 
       //START DOM
       mag.fill.setId(node.id)
-      mag.fill.run(node, state)
-        // END DOM
+      mag.fill.run(node, state);
+      // END DOM
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
