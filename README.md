@@ -115,8 +115,8 @@ mag.module("hello", {
 [Count:]
 (http://jsbin.com/tufomejepi/edit?js,output)
 
-[List:] 
-(http://jsbin.com/sewomabihe/edit?js,output)
+[List] 
+(http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
 [More lists:]
 (http://jsbin.com/mefefozaxe/edit?js,output)
