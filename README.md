@@ -340,7 +340,7 @@ It receives 4 arguments:
 ### Simple API
 
 
-#### mag.module (String domElementID, Object ModuleDefinition, Optional Object Properties )
+#### mag.module (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
 ModuleDefinition is the instructions it needs to have a view function, controller is optional:
@@ -354,7 +354,7 @@ view receives three arguments: state, props and element
 * State is the object used to transpile the dom 
    - e.g. state.h1 ='Hello' converts the first h1 tag in the element to that value
 * Props is the optional properties object passed to its mag.module definition
-* Element is the node itself whose ID was passed to its mag.module definition
+* Element is the node itself whose ID/Node was passed to its mag.module definition
 
 The controller function has access to the original props as well as all life cycle events, it is only called once.
 
@@ -378,7 +378,7 @@ They each get the same 3 parameters, their context is the controller no need to 
 - [extra (4th argument in willgetprops, contains the next props)]
 
 ```javascript
-var instance = mag.module ('myElementId', component);
+var instance = mag.module ('myElementId'|Element Node, component);
 ```
 
 `Returns` a function Object that can be used to create a clone of the instance and the instances information such as InstanceID.
@@ -406,7 +406,7 @@ var instance = myComponent({props:[]}) // executed
 
 // instance contains 6 sub methods 
 
-instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the node id
+instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
 
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
@@ -415,9 +415,9 @@ instance.getState([Optional instanceId]) // returns a copy of the current state 
 
 instance.getProps([Optional instanceId]) // returns a copy of the current props values of that instance, defaults to bound instance
 
-instance.clones() //v0.22.6 returns list of any clones with their associated instanceId, nodeId and its own subscribe handler.
+instance.clones() //v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
 
-instance.subscribe(function(state, props, previous){
+instance.subscribe(function(state, props, node, previous){
 }); //v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
 
 
