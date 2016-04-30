@@ -167,8 +167,8 @@ License: MIT
           var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
 
           if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
-            prevState[ids] = current;
             handler(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
+            prevState[ids] = current;
           }
         })
         //TODO: return `dispose` function to remove handler
