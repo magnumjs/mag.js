@@ -4,10 +4,45 @@ JSONML2 utilities
 JSONML -> toHtml (String)
 JSONML -> toDom (DOM)
 
+DOM -> fromDom (JSONML)
+
 2016 (c) Michael GLazer GPL
 */
-var jsonml = jsonml || {};
 
+(function(jsonml){
+  
+jsonml.fromDom = function(el) {
+
+  var a = [];
+
+  var tag = el.tagName.toLowerCase();
+  var attrs = {};
+  var val = el.nodeValue;
+  var children = el.children;
+
+  for (var i = 0, size = el.attributes.length; i < size; i++) {
+    attrs[el.attributes[i].name] = el.attributes[i].value;
+  }
+
+  if (el.firstChild || el.children[0]) {
+    var item = el.firstChild || el.childNodes[0]
+    val = item.nodeValue || item.value
+    if (val) val = val.replace(/\u00a0/g, "x")
+  }
+
+  if (tag) a[0] = tag;
+  if (Object.keys(attrs).length !== 0) a[1] = attrs;
+  if (val) a[a.length] = val;
+
+  if (children.length > 0) {
+    for (var i = 0, size = children.length; i < size; i++) {
+      a[a.length] = jsonml.fromDom(children[i]);
+    }
+  }
+
+  return a;
+
+};
 
 function convertObject(obj) {
   if (typeof obj !== 'object') return obj;
@@ -151,3 +186,5 @@ jsonml.toDom = function(ar /*array*/ , p /* parent */ ,
 
   return null;
 };
+
+})(jsonml || {});
