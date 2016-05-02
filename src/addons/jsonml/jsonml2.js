@@ -1,39 +1,12 @@
 /*
 JSONML2 utilities
-toJsonml converts a html-parser html string object into jsonml
-toHtml (String)
-toDom (DOM)
+
+JSONML -> toHtml (String)
+JSONML -> toDom (DOM)
+
 2016 (c) Michael GLazer GPL
 */
 var jsonml = jsonml || {};
-
-var toJsonml = function(obj) {
-  //tagName, attributes, children
-  var a = []
-  for (var i in obj) {
-    var item = obj[i];
-    var tag = item.tagName;
-    var attrs = item.attributes;
-    var attrsSize = attrs && Object.keys(attrs).length > 0;
-    var childs = item.children;
-    var type = item.type.toLowerCase();
-    a[0] = tag;
-    if (attrsSize) a[1] = attrs;
-    if (type == 'text' && attrsSize === 0) a[1] = item.content;
-    if (type == 'text' && attrsSize > 0) a[2] = item.content;
-    if (childs && childs.length > 0) {
-      for (var k in childs) {
-        var sitem = childs[k]
-        if (!sitem.tagName) {
-          a[a.length] = sitem.content;
-        } else {
-          a[a.length] = toJsonml([childs[k]]);
-        }
-      }
-    }
-  }
-  return a;
-}
 
 
 function convertObject(obj) {
