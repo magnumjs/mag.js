@@ -10,7 +10,7 @@ XMLString -> fromXml(xmlString) -> JSONML
 
 2016 (c) Michael Glazer
 Url: https://github.com/magnumjs/mag.js
-License: GPL
+License: MIT
 */
 
 (function(jsonml){
