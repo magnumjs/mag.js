@@ -26,7 +26,7 @@
 
 [Component with alternate children](http://jsbin.com/puyutiniyu/edit?js,output)
 
-[Dynamic node with css selector generation](http://jsbin.com/xibejamoni/edit?js,output)
+[Dynamic node with css selector generation](http://jsbin.com/povupokaza/edit?js,output)
 
 [Simple clean HoC](https://jsbin.com/jotimiduxo/1/edit?html,js,output) - [Simple dirty HoC](http://jsbin.com/lipavazale/edit?js,output) - [HoC dirty example](http://jsbin.com/dacoyoneho/edit?js,output) - [HoC dirty injection](http://jsbin.com/kenexiyoqe/edit?js,output) - [HoC injection clean](https://jsbin.com/zucajutiya/edit?js,output)
 
