@@ -1,15 +1,34 @@
 /*
 JSONML2 utilities
 
-JSONML -> toHtml (String)
-JSONML -> toDom (DOM)
+JSONML -> toHtml(jsonML) -> HtmlString
+JSONML -> toDom(jsonMl) -> DomElement
 
-DOM -> fromDom (JSONML)
+DOM -> fromDom(domElement) -> JSONML
+HTMLString -> fromHtml(htmlString) -> JSONML
+XMLString -> fromXml(xmlString) -> JSONML
 
-2016 (c) Michael GLazer GPL
+2016 (c) Michael Glazer
+Url: https://github.com/magnumjs/mag.js
+License: GPL
 */
 
 (function(jsonml){
+  
+jsonml.fromHtml = function(htmlString) {
+  var wrapper = document.createElement('div');
+  wrapper.innerHTML = htmlString;
+  var div = wrapper.firstChild;
+  return jsonml.fromDom(div);
+};
+
+
+jsonml.fromXml = function(xmlString) {
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(xmlString, "text/xml");
+  return jsonml.fromDom(doc.firstChild);
+};
+  
   
 jsonml.fromDom = function(el) {
 
