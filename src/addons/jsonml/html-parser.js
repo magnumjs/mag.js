@@ -1,10 +1,14 @@
-/* Himalaya is a pure JavaScript HTML parser that converts HTML into JSON, which can then be further manipulated by other modules. */
-//From: https://github.com/andrejewski/himalaya
-//Example: himalaya.parse(htmlString)
+/*
+Himalaya is a pure JavaScript HTML parser that converts HTML into JSON, which can then be further manipulated by other modules.
+2016 (c) GPL- Michael Glazer
+Modified: added fromHtml conversion to JSONML
 
-(function() {
+Originally From: https://github.com/andrejewski/himalaya
 
-  var root = this;
+Example: jsonml.fromHtml (htmlString) -> JSONML
+*/
+
+(function(global) {
 
   var tagStart = '<';
   var tagEnd = '>';
@@ -284,6 +288,44 @@
   };
 
 
-  root.himalaya = himalaya;
+  var toJsonml = function(obj) {
+    //tagName, attributes, children
+    var a = []
+    for (var i in obj) {
+      var item = obj[i];
+      var tag = item.tagName;
+      var attrs = item.attributes;
+      var attrsSize = attrs && Object.keys(attrs).length > 0;
+      var childs = item.children;
+      var type = item.type.toLowerCase();
+      a[0] = tag;
+      if (attrsSize) a[1] = attrs;
+      if (type == 'text' && attrsSize === 0) a[1] = item.content;
+      if (type == 'text' && attrsSize > 0) a[2] = item.content;
+      if (childs && childs.length > 0) {
+        for (var k in childs) {
+          var sitem = childs[k]
+          if (!sitem.tagName) {
+            a[a.length] = sitem.content;
+          } else {
+            a[a.length] = toJsonml([childs[k]]);
+          }
+        }
 
-}).call(this);
+      }
+
+    }
+
+    return a;
+  }
+
+
+  jsonml = global.jsonml || {};
+
+  jsonml.fromHtml = function(htmlString) {
+
+    return toJsonml(parse(htmlString));
+
+  };
+
+})(window);
