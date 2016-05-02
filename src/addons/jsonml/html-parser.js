@@ -1,6 +1,7 @@
 /*
 Himalaya is a pure JavaScript HTML parser that converts HTML into JSON, which can then be further manipulated by other modules.
-2016 (c) GPL- Michael Glazer
+2016 (c) Michael Glazer
+License MIT
 Modified: added fromHtml conversion to JSONML
 
 Originally From: https://github.com/andrejewski/himalaya
