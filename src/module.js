@@ -1,10 +1,10 @@
 /*
-MagJS v0.22.10
+MagJS v0.23
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
-(function(mag, document) {
+(function(mag) {
 
   'use strict';
 
@@ -98,15 +98,15 @@ License: MIT
               v = {
                 _value: v
               };
-              if(item.checked) v._checked = true
+              if (item.checked) v._checked = true
               tmp.push(v)
             }
           } else if (item.innerText && item.innerText.length > 0) {
             v = item.innerText
           } else if (item.innerHTML && item.innerHTML.length > 0) {
             v = item.innerHTML
-          } else if(!item.value && item.tagName == 'INPUT'){
-            v =''
+          } else if (!item.value && item.tagName == 'INPUT') {
+            v = ''
           }
         }
       })
@@ -123,18 +123,18 @@ License: MIT
 
         var current = JSON.stringify(change.object);
         var sname = String(change.name);
-        if (current === prevs[index+sname]) {
+        if (current === prevs[index + sname]) {
           return;
         }
-        prevs[index+sname]  =current;
+        prevs[index + sname] = current;
 
         if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
-          var res = findMissing(change, document.getElementById(mod.getId(index)));
-              if(typeof res != 'undefined'){
-                  cached[index] = 0;
-                  return res;
-              }
-        } else 
+          var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
+          if (typeof res != 'undefined') {
+            cached[index] = 0;
+            return res;
+          }
+        } else
         if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
 
           // call unloader for module
@@ -199,4 +199,4 @@ License: MIT
   mag.mod = mod;
 
 
-}(window.mag || {}, document));
+}(window.mag || {}));
