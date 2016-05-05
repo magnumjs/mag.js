@@ -1,18 +1,18 @@
 /*
-MagJS v0.22.7
+MagJS v0.23
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 Originally ported from: https://github.com/profit-strategies/fill/blob/master/src/fill.js
 */
 
-(function(mag, configs, document, undefined) {
+(function(mag, configs, undefined) {
 
   'use strict';
 
 
   var fill = {
-    ignorekeys: ['Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['willgetprops', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -72,7 +72,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function getPathTo2(element) {
     if (element.id !== '')
       return 'id("' + element.id + '")';
-    if (element === document.body)
+    if (element === mag.doc.body)
       return element.tagName;
 
     var ix = 0;
@@ -282,7 +282,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function addToNode(node, val, clear) {
     //TODO: finer grain diffing, attach once
     if (isCached(node, val.outerHTML, clear)) return;
-    if (!document.getElementById(val.id)) {
+    if (!mag.doc.getElementById(val.id)) {
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
@@ -317,8 +317,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
 
       var val = data(tagIndex)
-      if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
 
+      if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
         // remove childs first
         addToNode(node, val);
 
@@ -328,7 +328,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         node[MAGNUM].dataPass = {
           index: tagIndex
         }
-
+        data.draw();
         return;
       } else {
 
@@ -492,11 +492,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
 
       var id = getPathId(xpath)
-      var nodee = document.getElementById(id)
+      var nodee = mag.doc.getElementById(id)
 
       // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
-      mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+      mag.redraw(nodee, mag.utils.items.getItem(id))
 
 
       return ret
@@ -742,4 +742,4 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   mag.fill = fill;
 
-}(window.mag || {}, [], document));
+}(window.mag || {}, []));
