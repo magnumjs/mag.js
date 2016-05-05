@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.11
+MagJS v0.23
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -7,6 +7,10 @@ License: MIT
 (function(mag, document, undefined) {
 
   'use strict';
+
+  // set document
+  
+  mag.doc = document;
 
   //Plugins:
   var hookins = {
@@ -29,7 +33,7 @@ License: MIT
   mag.module = function(id, mod, props) {
 
     props = props || {}
-    
+
     //Allow for dom elements to be passed instead of string IDs
     if (id instanceof HTMLElement) {
       // get id if exists or create one
@@ -75,7 +79,7 @@ License: MIT
 
 
     // DRAW async
-    mag.redraw(node, idInstance, 1);
+    mag.redraw(node, idInstance);
 
     // LIFE CYCLE EVENT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
@@ -259,7 +263,7 @@ License: MIT
   function getNode(id, clear) {
     //cache nodes?
     if (nodeCache[id] && !clear) return nodeCache[id];
-    var node = document.getElementById(id);
+    var node = mag.doc.getElementById(id);
     if (node) nodeCache[id] = node;
     return nodeCache[id];
   }
@@ -334,14 +338,8 @@ License: MIT
       // LIFE CYCLE EVENT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
-      // get parent to call
-      if (node && node.parentNode) {
-        var parent = findClosestId(node.parentNode)
-        if (parent) {
-          //recursive HELL very likely here!
-          mag.redraw(parent, mag.utils.items.getItem(parent.id))
-        }
-      }
+      //reset cache
+      mag.mod.iscached(idInstance, mag.utils.merge(mag.utils.copy(mag.mod.getProps(idInstance)), mag.mod.getState(idInstance)));
 
     }.bind({}, node1, idInstance1, force1)
   }
