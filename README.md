@@ -394,6 +394,10 @@ These 6 methods are bound to the exact instance
 `subscribe` v0.22.1
 `clones` v0.22.6
 
+v0.23.1 For inner reflection this.instanceID or state.instanceID is available, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
+
+`mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
+
 #### mag.create (String elementID, Object ModuleDefinition, Optional Object props) - v0.20
 
 Wraps around `mag.module` to return a reference instance you can call later.
