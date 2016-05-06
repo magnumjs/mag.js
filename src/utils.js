@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.9
+MagJS v0.23.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -43,7 +43,7 @@ License: MIT
       }
 
     if (controller && controller[eventName]) {
-      controller[eventName].call(controller, event, node, mag.mod.getProps(index), extra)
+      controller[eventName].call(controller, event, node, mag.mod.getProps(index), index, extra)
       if (once) controller[eventName] = 0
     }
 
