@@ -1,5 +1,5 @@
 /*
-MagJS v0.23
+MagJS v0.22.11
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -307,12 +307,8 @@ License: MIT
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('isupdate', state, node, idInstance)) return;
 
-      var props = mag.mod.getProps(idInstance)
-
-      var data = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state))
-
       // CACHED?
-      if (mag.mod.iscached(idInstance, data) && !force) {
+      if (mag.mod.iscached(idInstance) && !force) {
         return 0;
       };
 
@@ -339,7 +335,7 @@ License: MIT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
       //reset cache
-      mag.mod.iscached(idInstance, mag.utils.merge(mag.utils.copy(mag.mod.getProps(idInstance)), mag.mod.getState(idInstance)));
+      mag.mod.iscached(idInstance);
 
     }.bind({}, node1, idInstance1, force1)
   }
