@@ -1,5 +1,5 @@
 /*
-MagJS v0.23
+MagJS v0.23.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -69,7 +69,6 @@ License: MIT
     modules[index][0] = output.view;
     modules[index][3] = id;
     modules[index][1] = getController(output.controller, index, id);
-
     // register the module
     return modules[index]
   }
@@ -161,7 +160,7 @@ License: MIT
       mod.setProps(index, baseP);
 
       var p = mag.proxy({}, handler.bind({}, 'state', index));
-
+      p.instanceID = index;
       controller = new ctrl(p);
     } else {
       controller = new ctrl({})
