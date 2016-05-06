@@ -43,5 +43,5 @@ mag.module('demo', {
 
 I am using `mag.affix` as quick way to generate dynamic DOM elements with CSS selectors
 
-[Simple reusable component with HoC](http://jsbin.com/fidenayali/edit?html,output)
+[Simple reusable component with HoC](http://jsbin.com/fidenayali/edit?html,output) - 
 [Complete Example](http://jsbin.com/gawakuloko/edit?html,output)
