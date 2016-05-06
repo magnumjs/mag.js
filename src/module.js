@@ -170,7 +170,8 @@ License: MIT
     return controller;
   }
 
-  mod.iscached = function(key, data) {
+  mod.iscached = function(key) {
+    var data = mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key));
     if (mod.cache[key] && mod.cache[key] === JSON.stringify(data)) {
       return true
     }
