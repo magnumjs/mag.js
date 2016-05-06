@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.11
+MagJS v0.23.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -9,7 +9,7 @@ License: MIT
   'use strict';
 
   // set document
-  
+
   mag.doc = document;
 
   //Plugins:
@@ -181,12 +181,16 @@ License: MIT
   var clones = [];
 
   var run = function(cloner, id, props2, mod, clear) {
-    mag.mod.submodule(cloner.id, mag.utils.items.getItem(id), mod, props2)
+    var ids = mag.utils.items.getItem(id);
+    mag.mod.submodule(cloner.id, ids, mod, props2)
 
-    observer(mag.utils.items.getItem(id), cloner.id)
+    mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2);
+
+
+    observer(ids, cloner.id)
 
     // DRAW
-    mag.redraw(cloner, mag.utils.items.getItem(id), clear);
+    mag.redraw(cloner, ids, clear);
   };
 
   var makeClone = function(idInstance, node, mod, props) {
@@ -197,7 +201,6 @@ License: MIT
 
       if (typeof index == 'object') {
         props2 = mag.utils.merge(mag.utils.copy(props2) || {}, index);
-        mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), node, ids, 0, props2);
         index = 0;
       }
 
@@ -338,12 +341,6 @@ License: MIT
       mag.mod.iscached(idInstance);
 
     }.bind({}, node1, idInstance1, force1)
-  }
-
-
-  var findClosestId = function(node) {
-    if (node.id) return node
-    if (node.parentNode) return findClosestId(node.parentNode)
   }
 
   var callConfigs = function(id, configs) {
