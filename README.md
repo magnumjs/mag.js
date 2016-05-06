@@ -394,7 +394,7 @@ These 6 methods are bound to the exact instance
 `subscribe` v0.22.1
 `clones` v0.22.6
 
-v0.23.1 For inner reflection this.instanceID or state.instanceID is available, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
+v0.23.1 For inner reflection the instanceID is available in all lifecycle methods, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
 
 `mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
 
@@ -651,14 +651,14 @@ event (e, index, node, data) default context is node
 
 Life cycle events in controller:
 
-* willload (event, node, props)
-* willgetprops (event, node, props, nextProps)
-* didload (event, node, props)
-* willupdate (event, node, props)
-* didupdate (event, node, props)
-* isupdate (event, node, props)
-* onunload (event, node, props)
-* onreload (event, node, props)
+* willload (event, node, props, instanceID)
+* willgetprops (event, node, props, instanceID, nextProps)
+* didload (event, node, props, instanceID)
+* willupdate (event, node, props, instanceID)
+* didupdate (event, node, props, instanceID)
+* isupdate (event, node, props, instanceID)
+* onunload (event, node, props, instanceID)
+* onreload (event, node, props, instanceID)
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
