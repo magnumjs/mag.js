@@ -160,7 +160,7 @@ License: MIT
       mod.setProps(index, baseP);
 
       var p = mag.proxy({}, handler.bind({}, 'state', index));
-      p.instanceID = index;
+
       controller = new ctrl(p);
     } else {
       controller = new ctrl({})
