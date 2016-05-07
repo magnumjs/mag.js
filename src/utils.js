@@ -70,8 +70,8 @@ License: MIT
     return Object.assign({}, o);
   }
 
-  utils.merge = function(destination, source) {
-    return Object.assign(destination, source);
+  utils.merge = function() {
+    return Object.assign.apply({}, arguments);
   }
 
   var a = {
