@@ -49,8 +49,8 @@ License: MIT
   mod.submodule = function(id, index, module, props) {
     if (modules[index]) {
       // new call to existing
-      // update props
-      mod.setProps(index, props)
+      // update props, merge with existing
+      mag.utils.merge(mod.getProps(index), props);
         // reinitialize the controller ?
       return modules[index]
     }
@@ -159,9 +159,8 @@ License: MIT
       var baseP = mag.proxy(base, handler.bind({}, 'props', index));
       mod.setProps(index, baseP);
 
-      var p = mag.proxy({}, handler.bind({}, 'state', index));
 
-      controller = new ctrl(p);
+      controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
     } else {
       controller = new ctrl({})
     }
