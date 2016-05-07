@@ -77,3 +77,5 @@ See the existing mag.comps package namespace for example implementations
 ###Notes
 
 [Full example v0.2](http://embed.plnkr.co/BtxtlFBfebPuOiAnOP3z/) - [Video tutorial](https://youtu.be/JAYIyW7xw14)
+
+[Random Message (parent-child component)](http://jsbin.com/fidulexiha/edit?js,output)
