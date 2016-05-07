@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.1
+MagJS v0.23.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -50,8 +50,8 @@ License: MIT
     if (modules[index]) {
       // new call to existing
       // update props, merge with existing
-      mag.utils.merge(mod.getProps(index), props);
-        // reinitialize the controller ?
+      mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
+      // reinitialize the controller ?
       return modules[index]
     }
     modules[index] = [0, 0, 0, 0, 0]
@@ -118,7 +118,7 @@ License: MIT
     var controller;
     if (typeof Proxy !== 'undefined') {
 
-      var handler = function(type, index, change) {
+      var handler = function(index, change) {
 
         var current = JSON.stringify(change.object);
         var sname = String(change.name);
@@ -127,22 +127,23 @@ License: MIT
         }
         prevs[index + sname] = current;
 
-        if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+        if (change.type == 'get' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
           var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
           if (typeof res != 'undefined') {
             cached[index] = 0;
             return res;
           }
-        } else
-        if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
-
-          // call unloader for module
-          var id = change.oldValue.getId()
-          mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
-          mag.clear(id);
-          // remove clones
-          change.oldValue.clones().length = 0;
         }
+        
+        // else if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+
+        //   // call unloader for module
+        //   var id = change.oldValue.getId()
+        //   mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
+        //   mag.clear(id);
+        //   // remove clones
+        //   change.oldValue.clones().length = 0;
+        // }
 
 
         // call setup handler
@@ -155,12 +156,12 @@ License: MIT
 
       };
 
-      var base = mod.getProps(index);
-      var baseP = mag.proxy(base, handler.bind({}, 'props', index));
-      mod.setProps(index, baseP);
+      // var base = mod.getProps(index);
+      // var baseP = mag.proxy(base, handler.bind({}, 'props', index));
+      // mod.setProps(index, baseP);
 
 
-      controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
+      controller = new ctrl(mag.proxy({}, handler.bind({}, index)));
     } else {
       controller = new ctrl({})
     }
