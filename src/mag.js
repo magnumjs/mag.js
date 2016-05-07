@@ -184,7 +184,7 @@ License: MIT
     var ids = mag.utils.items.getItem(id);
     mag.mod.submodule(cloner.id, ids, mod, props2)
 
-    mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2);
+    if(mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
 
 
     observer(ids, cloner.id)
