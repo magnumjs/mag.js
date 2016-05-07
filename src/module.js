@@ -134,17 +134,6 @@ License: MIT
             return res;
           }
         }
-        
-        // else if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
-
-        //   // call unloader for module
-        //   var id = change.oldValue.getId()
-        //   mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
-        //   mag.clear(id);
-        //   // remove clones
-        //   change.oldValue.clones().length = 0;
-        // }
-
 
         // call setup handler
         var fun = mod.getFrameId(index);
@@ -155,11 +144,6 @@ License: MIT
         }
 
       };
-
-      // var base = mod.getProps(index);
-      // var baseP = mag.proxy(base, handler.bind({}, 'props', index));
-      // mod.setProps(index, baseP);
-
 
       controller = new ctrl(mag.proxy({}, handler.bind({}, index)));
     } else {
