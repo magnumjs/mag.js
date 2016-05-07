@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.1
+MagJS v0.23.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -77,9 +77,8 @@ License: MIT
     // unloader handlers in controller
     addControllerUnloaders(idInstance)
 
-
     // DRAW async
-    mag.redraw(node, idInstance);
+    mag.redraw(node, idInstance, 1);
 
     // LIFE CYCLE EVENT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
@@ -215,7 +214,7 @@ License: MIT
       } else {
         // call redraw on 
         // get unique instance ID's module
-        run(cloner, id, props2, mod);
+        run(cloner, id, props2, mod, 1);
 
         return cloner;
       }
@@ -342,6 +341,8 @@ License: MIT
 
     }.bind({}, node1, idInstance1, force1)
   }
+
+
 
   var callConfigs = function(id, configs) {
     for (var k in configs) {
