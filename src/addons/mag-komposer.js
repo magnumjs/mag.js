@@ -1,3 +1,14 @@
+/*
+Name: mag-komposer v0.1.0
+Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
+Author: Michael Glazer
+License: MIT
+Homepage: https://github.com/magnumjs/mag.js
+@requires mag.js(v0.23.3) & mag addons
+(c) 2016
+Example: 
+*/
+
 mag.komposer = function(handlerFunc, loadingComp, errorComp) {
   return function(composed) {
     var lnode = document.createElement('div');
