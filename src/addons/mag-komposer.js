@@ -6,7 +6,7 @@ License: MIT
 Homepage: https://github.com/magnumjs/mag.js
 @requires mag.js(v0.23.3) & mag addons
 (c) 2016
-Example: 
+Example: http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/
 */
 
 mag.komposer = function(handlerFunc, loadingComp, errorComp) {
