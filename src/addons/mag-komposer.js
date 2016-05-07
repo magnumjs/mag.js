@@ -1,6 +1,7 @@
 /*
 Name: mag-komposer v0.1.0
 Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
+Let's compose MagJS containers and feed data into components. 
 Author: Michael Glazer
 License: MIT
 Homepage: https://github.com/magnumjs/mag.js
