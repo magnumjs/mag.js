@@ -184,7 +184,7 @@ mag.module("hello", {
 (http://jsbin.com/fajobahaja/edit?js,output)
 
 [Timer]
-(http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/tomawutuqo/edit?html,output)
+(http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/zaqawiredi/edit?html,output)
 
 [TabList - key components](http://jsbin.com/gucitesohi/edit?html,js,output)
 
