@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.3
+MagJS v0.23.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -49,8 +49,12 @@ License: MIT
   mod.submodule = function(id, index, module, props) {
     if (modules[index]) {
       // new call to existing
-      // update props, merge with existing
-      mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
+      // update props, merge with existing if same key
+      if (props.key && props.key === mod.getProps(index).key) {
+        mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
+      } else {
+        mod.setProps(index, props);
+      }
       // reinitialize the controller ?
       return modules[index]
     }
@@ -135,6 +139,17 @@ License: MIT
           }
         }
 
+        // else if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
+
+        //   // call unloader for module
+        //   var id = change.oldValue.getId()
+        //   mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
+        //   mag.clear(id);
+        //   // remove clones
+        //   change.oldValue.clones().length = 0;
+        // }
+
+
         // call setup handler
         var fun = mod.getFrameId(index);
         if (typeof fun == 'function' && change.type == 'set') {
@@ -144,6 +159,11 @@ License: MIT
         }
 
       };
+
+      // var base = mod.getProps(index);
+      // var baseP = mag.proxy(base, handler.bind({}, 'props', index));
+      // mod.setProps(index, baseP);
+
 
       controller = new ctrl(mag.proxy({}, handler.bind({}, index)));
     } else {
