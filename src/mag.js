@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.3
+MagJS v0.23.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -183,7 +183,7 @@ License: MIT
     var ids = mag.utils.items.getItem(id);
     mag.mod.submodule(cloner.id, ids, mod, props2)
 
-    if(mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
+    if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
 
 
     observer(ids, cloner.id)
@@ -203,46 +203,52 @@ License: MIT
         index = 0;
       }
 
+
+
+
       // prevent recursion?
       var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
-      var cloner = cloners[id] || {};
+      var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
       cloner.id = id;
       // if clone already exists return & rerun draw ?
-      if (!mag.utils.items.isItem(id)) {
-        cloners[id] = cloner = node.cloneNode(1);
-        cloner.id = id;
-      } else {
+      if (mag.utils.items.isItem(id)) {
         // call redraw on 
         // get unique instance ID's module
         run(cloner, id, props2, mod, 1);
-
         return cloner;
       }
-      if (cloner instanceof HTMLElement) {
 
-        var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
+      var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
 
-        // repeated similar clones?
-        // Check if instanceId in clones already?
-        clones[ids].push({
-          instanceId: idInstance2,
-          //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
-          subscribe: handler.bind({}, idInstance2)
-        });
+      // repeated similar clones?
+      // Check if instanceId in clones already?
+      clones[ids].push({
+        instanceId: idInstance2,
+        //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
+        subscribe: handler.bind({}, idInstance2)
+      });
 
-        // get unique instance ID's module
-        run(cloner, id, props2, mod, 1);
+      // get unique instance ID's module
+      run(cloner, id, props2, mod, 1);
 
-        return cloner;
-      }
+      return cloner;
+
 
     }.bind({}, idInstance, node, mod, props)
+
+
+    //BIND CLONE INSTANCE METHODS
 
     a.clones = function(ids) {
       return clones[ids]
     }.bind({}, idInstance);
 
-    //BIND CLONE INSTANCE METHODS
+    //TODO: implement
+    // a.destroy=function(ids){
+    // destroy node
+    // callback config unloaders etc...
+    //   mag.clear(ids);
+    // }.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance);
@@ -289,7 +295,6 @@ License: MIT
       //mag.mod.remove(index)
     mag.mod.clear(index)
       //observer index ?
-
     // fill data cache
     mag.fill.clearCache(mag.mod.getId(index))
   }
