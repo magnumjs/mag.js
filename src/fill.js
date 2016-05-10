@@ -1,5 +1,5 @@
 /*
-MagJS v0.23
+MagJS v0.23.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -12,11 +12,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   var fill = {
+     cached: [],
     ignorekeys: ['willgetprops', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
-    cached = [],
+  cached = fill.cached,
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
@@ -70,7 +71,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function getPathTo2(element) {
-    if (element.id !== '')
+    if (element.id)
       return 'id("' + element.id + '")';
     if (element === mag.doc.body)
       return element.tagName;
@@ -81,20 +82,24 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     for (var i = 0; i < siblings.length; i++) {
       var sibling = siblings[i];
       if (sibling === element)
-        return getPathTo2(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+        return getPathTo2(element.parentNode) + (element.tagName ? '/' + element.tagName + '[' + (ix + 1) + ']' : '');
       if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
         ix++;
     }
   }
 
   function removeNode(node) {
-    var p = getPathTo2(node)
-      //TODO: remove cache of all children too		
+    var p = getPathTo2(node);
+
+    //TODO: remove cache of all children too		
     node.parentNode.removeChild(node)
       // call config unload if any ?		
-    if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
+    if (node && cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
       // what arg to send ?		
       cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
+        // remove self when done?
+      delete cached[p + '-config'];
+      delete mag.fill.configs[p];
     }
   }
   // TODO: get index from getPathTo function		
@@ -310,6 +315,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // ignore functions
     if (typeof data === 'function') {
+
       var par = findParentChild(node.parentNode),
         key = par && par.getAttribute('key');
       if (par && key) {
@@ -319,6 +325,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var val = data(tagIndex)
 
       if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
+
         // remove childs first
         addToNode(node, val);
 
@@ -346,6 +353,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       _text: data
     }, p)
 
+    //TODO: should be a default plugin hookin not jsut another if
+    // check for unloaded inner modules then call unload
+    if (mag.mod.innerMods[fill.id] && data[mag.mod.innerMods[fill.id][0]] && !data[mag.mod.innerMods[fill.id][0]].draw) {
+      // call destroy handler
+      mag.mod.innerMods[fill.id][1].destroy();
+    }
     // find all the attributes
     for (var key in data) {
       var value = data[key]
@@ -729,7 +742,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       element.getAttribute('data-bind') === key
     );
   }
-
 
   fill.configs = configs
   fill.find = matchingElements
