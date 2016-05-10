@@ -239,7 +239,7 @@ mag.module("hello", {
 (http://jsbin.com/quviresiva/edit?js,output) - [Take 2](http://jsbin.com/hofoxodofa/edit?js,output)
 
 [Country App - JSON/Routing]
-(http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
+(http://embed.plnkr.co/sWe3JEMnBHp272dNzb1N/)
 
 [More advanced examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
