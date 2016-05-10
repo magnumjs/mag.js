@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.1
+MagJS v0.23.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -49,18 +49,6 @@ License: MIT
 
     // on Handlers
     handlers[eventName + '-' + index] && handlers[eventName + '-' + index](mag.mod.getState(index), mag.mod.getProps(index));
-
-    if (isPrevented) {
-      // unloading
-
-      for (var i = 0, unloader, objects = utils.unloaders[index]; unloader = objects && objects[i]; i++) {
-
-        if (unloader.controller.onunload) {
-          unloader.handler.call(unloader.controller, node)
-          unloader.controller.onunload = 0
-        }
-      }
-    }
 
     return isPrevented
   }
