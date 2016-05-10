@@ -180,7 +180,7 @@ mag.module("hello", {
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 ###React 2 Mag
-[Getting startd with React example](http://jsbin.com/xatixeraza/edit?js,output)
+[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output)
 
 [Navigation menu:]
 (http://jsbin.com/fajobahaja/edit?js,output)
