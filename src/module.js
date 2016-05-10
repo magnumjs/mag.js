@@ -157,11 +157,6 @@ License: MIT
 
       };
 
-      // var base = mod.getProps(index);
-      // var baseP = mag.proxy(base, handler.bind({}, 'props', index));
-      // mod.setProps(index, baseP);
-
-
       controller = new ctrl(mag.proxy({}, handler.bind({}, index)));
     } else {
       controller = new ctrl({})
