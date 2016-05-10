@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.4
+MagJS v0.23.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -73,9 +73,6 @@ License: MIT
 
     // LIFE CYCLE EVENT
     if (mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)) return;
-
-    // unloader handlers in controller
-    addControllerUnloaders(idInstance)
 
     // DRAW async
     mag.redraw(node, idInstance, 1);
@@ -233,7 +230,6 @@ License: MIT
 
       return cloner;
 
-
     }.bind({}, idInstance, node, mod, props)
 
 
@@ -244,11 +240,18 @@ License: MIT
     }.bind({}, idInstance);
 
     //TODO: implement
-    // a.destroy=function(ids){
-    // destroy node
-    // callback config unloaders etc...
-    //   mag.clear(ids);
-    // }.bind({}, idInstance);
+    a.destroy = function(ids) {
+      var node = mag.getNode(mag.mod.getId(ids));
+      //destroy node
+      //callback config unloaders etc...
+      mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids);
+      mag.clear(ids);
+      // call unloaders
+      callUnloaders(ids);
+      // remove clones
+      a.clones(ids).length = 0;
+      //mag.fill.removeNode(node);
+    }.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance);
@@ -295,7 +298,7 @@ License: MIT
       //mag.mod.remove(index)
     mag.mod.clear(index)
       //observer index ?
-    // fill data cache
+      // fill data cache
     mag.fill.clearCache(mag.mod.getId(index))
   }
 
@@ -357,16 +360,6 @@ License: MIT
     }
   }
 
-  var addControllerUnloaders = function(idInstance) {
-    // TODO: controller unloaders
-    var state = mag.mod.getState(idInstance)
-    mag.utils.unloaders[idInstance] = mag.utils.unloaders[idInstance] || []
-    if (state.onunload) mag.utils.unloaders[idInstance].push({
-      controller: state,
-      handler: state.onunload
-    })
-  }
-
   var addConfigUnloaders = function(id, index) {
 
     for (var k in mag.fill.cached) {
@@ -382,6 +375,17 @@ License: MIT
       }
     }
   }
+
+  var callUnloaders = function(index) {
+
+    for (var i = 0, unloader, objects = mag.utils.unloaders[index]; unloader = objects && objects[i]; i++) {
+
+      if (unloader.controller.onunload) {
+        unloader.handler.call(unloader.controller, node)
+        unloader.controller.onunload = 0
+      }
+    }
+  };
 
 
   var reloader = function(idInstance, node) {
