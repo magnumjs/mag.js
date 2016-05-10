@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.4
+MagJS v0.23.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,6 +13,7 @@ License: MIT
     controllers = []
 
   var mod = {
+    innerMods: [],
     cache: []
   }
 
@@ -137,17 +138,13 @@ License: MIT
             cached[index] = 0;
             return res;
           }
+        } else if (change.type == 'set' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
+
+          // setting a state prop to a module
+
+          // call unloader for module
+          mod.innerMods[mod.getId(index)] = [change.name, change.object[change.name]];
         }
-
-        // else if (change.type == 'set' && change.oldValue && typeof change.oldValue.draw == 'function' && change.object[change.name] && !change.object[change.name].draw) {
-
-        //   // call unloader for module
-        //   var id = change.oldValue.getId()
-        //   mag.utils.callLCEvent('onunload', mag.mod.getState(id), mag.getNode(mag.mod.getId(id)), id);
-        //   mag.clear(id);
-        //   // remove clones
-        //   change.oldValue.clones().length = 0;
-        // }
 
 
         // call setup handler
