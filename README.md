@@ -387,7 +387,7 @@ var instance = mag.module ('myElementId'|Element Node, component);
 
 The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
 
-These 6 methods are bound to the exact instance
+These 7 methods are bound to the exact instance
 
 `getId`
 `draw`
@@ -395,6 +395,7 @@ These 6 methods are bound to the exact instance
 `getProps`
 `subscribe` v0.22.1
 `clones` v0.22.6
+`destroy` v0.23.5
 
 v0.23.1 For inner reflection the instanceID is available in all lifecycle methods, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
 
