@@ -29,7 +29,6 @@ License: MIT
     }
   }
 
-  utils.unloaders = []
   var handlers = []
   utils.onLCEvent = function(eventName, index, handler) {
     handlers[eventName + '-' + index] = handler
