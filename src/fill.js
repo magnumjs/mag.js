@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.5
+MagJS v0.23.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -392,7 +392,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
     // fill in all the attributes
-    if (attributes) {
+    if (!isCached(node, JSON.stringify(data)) && attributes) {
       fillAttributes(node, attributes, p)
     }
 
@@ -605,7 +605,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var child, children
 
     // make sure that we have a node and text to insert
-    if (!node || text == null || isCached(node, text)) {
+    if (!node || text == null) {
       return
     }
     // cache all of the child nodes
@@ -649,7 +649,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   function setHtml(node, html) {
-    if (!node || html == null || isCached(node, html)) return;
+    if (!node || html == null) return;
     node.innerHTML = html
   };
 
