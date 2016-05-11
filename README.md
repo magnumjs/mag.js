@@ -170,6 +170,8 @@ mag.module("hello", {
 
 [Async - Geo Location](http://jsbin.com/giquhayepe/edit?js,output)
 
+[Infinity scroll](http://jsbin.com/muvefireru/edit?html,output)
+
 ###Mithril 2 Mag
 [Rotate Links](http://jsbin.com/xufibituhu/edit?js,output) - [v0.22](http://jsbin.com/seloluhifo/edit?js,output)
 
