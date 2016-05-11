@@ -4,7 +4,9 @@ http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
-(function(mag, document, undefined) {
+(function(globals, document, undefined) {
+
+  globals.mag = mag = {};
 
   'use strict';
 
@@ -201,8 +203,6 @@ License: MIT
       }
 
 
-
-
       // prevent recursion?
       var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
       var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
@@ -240,17 +240,18 @@ License: MIT
     }.bind({}, idInstance);
 
     //TODO: implement
-    a.destroy = function(ids) {
+    a.destroy = function(ids, remove) {
       var node = mag.getNode(mag.mod.getId(ids));
       //destroy node
       //callback config unloaders etc...
       mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids);
       mag.clear(ids);
       // call unloaders
-      callUnloaders(ids);
+      callUnloaders(ids, node);
       // remove clones
       a.clones(ids).length = 0;
-      //mag.fill.removeNode(node);
+      if (remove) mag.fill.removeNode(node);
+      mag.utils.unloaders.splice(ids, 1);
     }.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
@@ -361,13 +362,14 @@ License: MIT
   }
 
   var addConfigUnloaders = function(id, index) {
+    mag.utils.unloaders[index] = []
 
     for (var k in mag.fill.cached) {
       if (k.indexOf('id("' + id + '")/') > -1 && k.indexOf('-config') > -1 && mag.fill.cached[k].configContext) {
 
-        mag.utils.unloaders[index] = mag.utils.unloaders[index] || []
 
         mag.utils.unloaders[index].push({
+          path: k.split('-config')[0],
           controller: mag.fill.cached[k].configContext,
           handler: mag.fill.cached[k].configContext.onunload
         })
@@ -376,12 +378,12 @@ License: MIT
     }
   }
 
-  var callUnloaders = function(index) {
+  var callUnloaders = function(index, node) {
 
     for (var i = 0, unloader, objects = mag.utils.unloaders[index]; unloader = objects && objects[i]; i++) {
 
       if (unloader.controller.onunload) {
-        unloader.handler.call(unloader.controller, node)
+        unloader.handler.call(unloader.controller, node, unloader.path)
         unloader.controller.onunload = 0
       }
     }
@@ -393,7 +395,6 @@ License: MIT
   }
 
   mag.getNode = getNode
-  window.mag = mag
 
 
-})(window.mag || {}, document);
+})(window, document);
