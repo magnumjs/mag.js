@@ -12,12 +12,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   var fill = {
-     cached: [],
+    cached: [],
     ignorekeys: ['willgetprops', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
-  cached = fill.cached,
+    cached = fill.cached,
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
@@ -743,6 +743,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     );
   }
 
+  fill.removeNode = removeNode;
   fill.configs = configs
   fill.find = matchingElements
   fill.setId = function(id) {
