@@ -401,7 +401,7 @@ v0.23.1 For inner reflection the instanceID is available in all lifecycle method
 
 `mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
 
-#### mag.create (String elementID, Object ModuleDefinition, Optional Object props) - v0.20
+#### mag.create (String elementID|Element Node, Object ModuleDefinition, Optional Object props) - v0.20
 
 Wraps around `mag.module` to return a reference instance you can call later.
 The reference function can also over write the defaults given in create usually it will only over write the props
@@ -409,7 +409,8 @@ The reference function can also over write the defaults given in create usually 
 ```javascript
 var myComponent = mag.create('mydomId', {view:noop}) // not executed
 
-var instance = myComponent({props:[]}) // executed
+var instance = myComponent({props:[]}) // executed 
+//add a props.key for a unique component instance or else each call reuses existing.
 
 // instance contains 6 sub methods 
 
@@ -427,6 +428,8 @@ instance.clones() //v0.22.6 returns list of any clones with their associated ins
 instance.subscribe(function(state, props, node, previous){
 }); //v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
 
+instance.destroy([Optional RemoveBoolean]) // v0.23.5 - if optional remove boolean is true the entire node is removed.
+// this calls all nodes config unloaders and the controllers onunload event which can preventDefault.
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
 instance('myUniqueKeyIndex') // Usually not called directly, MagJS will create index when attached to state
