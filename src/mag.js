@@ -244,7 +244,7 @@ License: MIT
       var node = mag.getNode(mag.mod.getId(ids));
       //destroy node
       //callback config unloaders etc...
-      mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids);
+      if (mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids)) return;
       mag.clear(ids);
       // call unloaders
       callUnloaders(ids, node);
