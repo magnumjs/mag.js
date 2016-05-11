@@ -172,6 +172,8 @@ mag.module("hello", {
 
 [Infinity scroll](http://jsbin.com/muvefireru/edit?html,output)
 
+[CSS transitions](http://jsbin.com/tasesohiku/edit?html,output)
+
 ###Mithril 2 Mag
 [Rotate Links](http://jsbin.com/xufibituhu/edit?js,output) - [v0.22](http://jsbin.com/seloluhifo/edit?js,output)
 
