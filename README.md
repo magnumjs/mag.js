@@ -412,7 +412,7 @@ var myComponent = mag.create('mydomId', {view:noop}) // not executed
 var instance = myComponent({props:[]}) // executed 
 //add a props.key for a unique component instance or else each call reuses existing.
 
-// instance contains 6 sub methods 
+// instance contains 7 sub methods 
 
 instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
 
