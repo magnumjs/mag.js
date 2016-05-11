@@ -251,7 +251,6 @@ License: MIT
       // remove clones
       a.clones(ids).length = 0;
       if (remove) mag.fill.removeNode(node);
-      mag.utils.unloaders.splice(ids, 1);
     }.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
@@ -339,9 +338,6 @@ License: MIT
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
 
-      // add configs unloaders
-      addConfigUnloaders(node.id, idInstance)
-
       // LIFE CYCLE EVENT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
@@ -362,13 +358,12 @@ License: MIT
   }
 
   var addConfigUnloaders = function(id, index) {
-    mag.utils.unloaders[index] = []
+    var arr = []
 
     for (var k in mag.fill.cached) {
       if (k.indexOf('id("' + id + '")/') > -1 && k.indexOf('-config') > -1 && mag.fill.cached[k].configContext) {
 
-
-        mag.utils.unloaders[index].push({
+        arr.push({
           path: k.split('-config')[0],
           controller: mag.fill.cached[k].configContext,
           handler: mag.fill.cached[k].configContext.onunload
@@ -376,11 +371,15 @@ License: MIT
 
       }
     }
+    return arr;
   }
 
   var callUnloaders = function(index, node) {
 
-    for (var i = 0, unloader, objects = mag.utils.unloaders[index]; unloader = objects && objects[i]; i++) {
+    // add configs unloaders
+    var arr = addConfigUnloaders(node.id, index);
+
+    for (var i = 0, unloader, objects = arr; unloader = objects && objects[i]; i++) {
 
       if (unloader.controller.onunload) {
         unloader.handler.call(unloader.controller, node, unloader.path)
