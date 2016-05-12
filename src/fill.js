@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.6
+MagJS v0.23.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -396,8 +396,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       fillAttributes(node, attributes, p)
     }
 
-
-
     // look for non-attribute keys and recurse into those elements
     for (var key in data) {
       var value = data[key]
@@ -546,12 +544,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // have we been here before?
           // does the element already exist in cache
           // useful to know if this is newly added
-          var isNew = true
 
           if (!cached[p + '-config']) {
-            cached[p + '-config'] = {}
-          } else {
-            isNew = false
+            cached[p + '-config'] = {
+              isNew: true
+            }
           }
 
           var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
@@ -560,10 +557,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // bind
           var callback = function(data, args) {
             return function() {
-              return data.apply(data, args)
+              var ret = data.apply(data, args);
+              if (args[1]) {
+                cached[p + '-config'].isNew = args[1] = 0
+              }
+              return ret;
             }
           }
-          configs[p] = callback(attributes[attrName], [node, isNew, context, tagIndex])
+          configs[p] = callback(attributes[attrName], [node, true, context, tagIndex])
           continue
         }
 
@@ -755,4 +756,4 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   mag.fill = fill;
 
-}(window.mag || {}, []));
+}(mag, []));
