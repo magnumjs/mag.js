@@ -308,7 +308,7 @@ You can see that the first one when clicked nothing is changed while the second 
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
 
 Here's an alternative approach to the above that only uses a view method and no controller for a similar result:
-http://jsbin.com/fojuzesuso/edit?html,output
+http://jsbin.com/xayobawuxo/edit?html,output
 
 Example with config and without controller 
 
