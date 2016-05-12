@@ -643,7 +643,7 @@ Will render
   </li>
 </ul>
 ```
-[JsBin Example](http://jsbin.com/piriducice/edit?js,output)
+[JsBin Example](http://jsbin.com/coyemiwupu/edit?html,output)
   
 ####Attributes
 _html, _text, _on[EVENT], _config->context.onunload
