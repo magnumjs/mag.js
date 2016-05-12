@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.5
+MagJS v0.23.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -133,4 +133,4 @@ License: MIT
   prop.attachToArgs = attachToArgs
   mag.props = prop
 
-}(window.mag || {}, window));
+}(mag));
