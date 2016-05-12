@@ -170,7 +170,7 @@ mag.module("hello", {
 
 [Async - Geo Location](http://jsbin.com/giquhayepe/edit?js,output)
 
-[Infinity scroll](http://jsbin.com/muvefireru/edit?html,output)
+[Infinity scroll](http://jsbin.com/zalalajobe/edit?html,output)
 
 [CSS transitions](http://jsbin.com/tasesohiku/edit?html,output)
 
