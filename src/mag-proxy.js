@@ -1,5 +1,5 @@
 /*
-MagJS v0.22.8
+MagJS v0.23.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -31,6 +31,8 @@ License: MIT
         return delete proxy[name]
       },
       set: function(proxy, name, value) {
+        //prevent recursion
+        if(last[name] === value) return true;
         if (JSON.stringify(value) !== JSON.stringify(proxy[name])) {
           last[name] = mag.utils.copy(proxy[name]);
         }
@@ -77,4 +79,4 @@ License: MIT
     }
   }
 
-}(window.mag || {}, window));
+}(mag, window || global || this));
