@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.5
+MagJS v0.23.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -157,9 +157,10 @@ License: MIT
 
   mag.hook = function(name, key, data) {
     for (var i = 0, size = hookins[name].length; i < size; i++) {
-      mag.utils.callHook(hookins, key, name, i, data)
+      mag.utils.callHook(hookins, key, name, i, data);
     }
   }
+
   var cloners = {},
     prevState = [],
     handler = function(ids, handler) {
@@ -305,6 +306,7 @@ License: MIT
   var makeRedrawFun = function(node1, idInstance1, force1) {
     return function(node, idInstance, force) {
 
+      // clear node cache new run
       getNode(node.id, 1)
 
       // verify idInstance
@@ -342,7 +344,7 @@ License: MIT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
       //reset cache
-      mag.mod.iscached(idInstance);
+      if(!force) mag.mod.iscached(idInstance);
 
     }.bind({}, node1, idInstance1, force1)
   }
