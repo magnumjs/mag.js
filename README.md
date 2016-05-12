@@ -302,7 +302,7 @@ mag.module('lister', {
 ```
 
 This link displays both for comparison:
-http://jsbin.com/yigoleyemu/edit?js,output
+http://jsbin.com/fopunubogi/edit?html,output
 
 You can see that the first one when clicked nothing is changed while the second is dynamic.
 The reasons is simply because the controller is called once while the view is called on every redraw/action/state change.
