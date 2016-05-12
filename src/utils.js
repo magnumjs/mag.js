@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.7
+MagJS v0.23.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,19 +11,13 @@ License: MIT
 
   var utils = {};
 
-  utils.callHook = function(hookins, key, name, i, data, before) {
-    data.change = false
+  utils.callHook = function (hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
-      before = JSON.stringify({
-        v: data.value,
-        k: data.key
-      })
-      hookins[name][i].handler.call(hookins[name][i].context, data)
+      before = data.value
+      data.change = false;
+      hookins[name][i].handler.call(hookins[name][i].context, data);
         //if any change
-      if (before !== JSON.stringify({
-          v: data.value,
-          k: data.key
-        })) {
+      if (before !==  data.value) {
         data.change = true
       }
     }
