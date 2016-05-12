@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.5
+MagJS v0.23.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -98,4 +98,4 @@ License: MIT
 
   mag.utils = utils
 
-}(window.mag || {}));
+}(mag));
