@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.5
+MagJS v0.23.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,7 +13,7 @@ License: MIT
     controllers = []
 
   var mod = {
-    innerMods: [],
+    innerMods :[],
     cache: []
   }
 
@@ -132,18 +132,19 @@ License: MIT
         }
         prevs[index + sname] = current;
 
-        if (change.type == 'get' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+        if (change.type == 'get'  && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
           var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
           if (typeof res != 'undefined') {
             cached[index] = 0;
             return res;
           }
-        } else if (change.type == 'set' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
+        }
+        else if (change.type == 'set' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
 
           // setting a state prop to a module
 
           // call unloader for module
-          mod.innerMods[mod.getId(index)] = [change.name, change.object[change.name]];
+          mod.innerMods[mod.getId(index)] = [change.name,change.object[change.name]];
         }
 
 
@@ -195,4 +196,4 @@ License: MIT
   mag.mod = mod;
 
 
-}(window.mag || {}));
+}(mag));
