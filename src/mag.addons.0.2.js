@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.6
+Mag.JS AddOns v0.21.7
 (c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -353,10 +353,32 @@ mag.cache.data = {}
   //PLUGINS!
   // hookins
 
-  mag.hookin('attributes', 'key', function(data) {
-    // remove system key from being added to attributes in html
-    //  data.value = null
-  })
+function forEach(obj, fn) {
+  var keys = Object.keys(obj);
+  for (var i = 0, l = keys.length; i < l; ++i) {
+    var key = keys[i];
+    fn(key, obj[key]);
+  }
+}
+
+
+mag.hookin('attributes', 'key', function(data) {
+  // remove system key from being added to attributes in html
+  data.value = null
+});
+
+mag.hookin('attributes', 'style', function(data) {
+
+  //convert from object
+  if (typeof data.value === 'object') {
+    // get current styles not overwrite existing?
+    var style = data.node.getAttribute('style') || '';
+    forEach(data.value, function(key, value) {
+      style += key + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
+    });
+    data.value = style;
+  }
+});
 
   // _className plugin example
   mag.hookin('attributes', 'className', function(data) {
