@@ -4,11 +4,11 @@ http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
-(function(globals, document, undefined) {
-
-  globals.mag = mag = {};
+(function(global, document, undefined) {
 
   'use strict';
+
+  global.mag = {};
 
   // set document
 
@@ -347,8 +347,6 @@ License: MIT
     }.bind({}, node1, idInstance1, force1)
   }
 
-
-
   var callConfigs = function(id, configs) {
     for (var k in configs) {
       if (k.indexOf('id("' + id + '")/') > -1) {
@@ -395,5 +393,4 @@ License: MIT
 
   mag.getNode = getNode
 
-
-})(window, document);
+})(window || global || this, document);
