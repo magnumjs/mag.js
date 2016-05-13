@@ -13,11 +13,11 @@ License: MIT
 
   utils.callHook = function (hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
-      before = data.value
+      before = {v: data.value, k: data.key}
       data.change = false;
       hookins[name][i].handler.call(hookins[name][i].context, data);
         //if any change
-      if (before !==  data.value) {
+      if (before !==  {v: data.value, k: data.key}) {
         data.change = true
       }
     }
