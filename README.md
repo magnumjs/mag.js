@@ -730,7 +730,7 @@ CommentsComponent();
 
 Allows you to easily add new namespaces to your composable components, useful in the module pattern.
 
-[Example of component Module Pattern](http://embed.plnkr.co/n2wbvc3jfutMZH1SO5LH/) - [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
+[Example of component Module Pattern](http://embed.plnkr.co/iCPpw4NxQEK2ddyqwJ0U/) - [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
 
 #### Custom plugins
 
