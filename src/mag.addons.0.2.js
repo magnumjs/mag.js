@@ -462,7 +462,7 @@ mag.prop = function(store) {
   prop.toJSON = function() {
     return store;
   };
-  prop.type = 'fun'
+
   return prop;
 };
 
