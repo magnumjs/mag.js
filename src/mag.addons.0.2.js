@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.7
+Mag.JS AddOns v0.21.8
 (c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -369,14 +369,22 @@ mag.hookin('attributes', 'key', function(data) {
 
 mag.hookin('attributes', 'style', function(data) {
 
+
   //convert from object
   if (typeof data.value === 'object') {
     // get current styles not overwrite existing?
-    var style = data.node.getAttribute('style') || '';
+
+    var ostyle = data.node.getAttribute('style') || '';
+
+    // make sure not already in styles
+    var nstyle = ''
     forEach(data.value, function(key, value) {
-      style += key + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
+     nstyle += key + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
     });
-    data.value = style;
+
+    if(ostyle && ~ostyle.indexOf(nstyle)) data.value=ostyle;
+    else data.value = ostyle+nstyle;
+    
   }
 });
 
@@ -444,27 +452,26 @@ mag.getId =function(instanceId){
   return mag.utils.items.getItemVal(instanceId);
 };
 
-  /** DEPRECATED - avoid use **/
 
-  mag.prop = function(store) {
-    var prop = function() {
-      if (arguments.length) store = arguments[0];
-      return store;
-    };
-
-    prop.toJSON = function() {
-      return store;
-    };
-    prop.type = 'fun'
-    return prop;
+mag.prop = function(store) {
+  var prop = function() {
+    if (arguments.length) store = arguments[0];
+    return store;
   };
 
-  mag.withProp = function(prop, withAttrCallback) {
-    return function(e) {
-      e = e || event;
-      var currentTarget = e.currentTarget || this;
-      withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
-    }
-  }
+  prop.toJSON = function() {
+    return store;
+  };
+  prop.type = 'fun'
+  return prop;
+};
 
-})(mag, window, document);
+mag.withProp = function(prop, withAttrCallback) {
+  return function(e) {
+    e = e || event;
+    var currentTarget = e.currentTarget || this;
+    withAttrCallback(prop in currentTarget ? currentTarget[prop] : currentTarget.getAttribute(prop))
+  }
+}
+
+})(mag, window || global || this, document);
