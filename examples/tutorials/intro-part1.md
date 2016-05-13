@@ -14,7 +14,7 @@ In this tutorial we are going to walk through building a real-world case study, 
 
 ##Here's the demo!
 
-> Anxious? You can view the [code here](http://embed.plnkr.co/L2AN3YYchOMdqLOB3hPI/preview).
+> Anxious? You can view the [code here](http://embed.plnkr.co/c59H2wmSu2LPfcXoViGe/).
 
 This tutorial only covers the front-end; there will be no server-side code snippets.
 
