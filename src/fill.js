@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.7
+MagJS v0.23.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -392,7 +392,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
     // fill in all the attributes
-    if (!isCached(node, JSON.stringify(data)) && attributes) {
+    if (attributes) {
       fillAttributes(node, attributes, p)
     }
 
@@ -520,7 +520,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function fillAttributes(node, attributes, p) {
     var tagIndex = getPathIndex(p);
 
-
+    cached[getUid(node)] = cached[getUid(node)] || [];
 
     // set the rest of the attributes
     for (var attrName in attributes) {
@@ -545,10 +545,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // does the element already exist in cache
           // useful to know if this is newly added
 
+          var isNew = true
+
           if (!cached[p + '-config']) {
-            cached[p + '-config'] = {
-              isNew: true
-            }
+            cached[p + '-config'] = {}
+          } else {
+            isNew = false
           }
 
           var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
@@ -557,14 +559,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // bind
           var callback = function(data, args) {
             return function() {
-              var ret = data.apply(data, args);
-              if (args[1]) {
-                cached[p + '-config'].isNew = args[1] = 0
-              }
-              return ret;
+              return data.apply(data, args)
             }
           }
-          configs[p] = callback(attributes[attrName], [node, true, context, tagIndex])
+          configs[p] = callback(attributes[attrName], [node, isNew, context, tagIndex])
           continue
         }
 
@@ -574,25 +572,29 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           value: attributes[attrName],
           node: node
         }
-        mag.hook('attributes', attrName, data)
-          // change
+        mag.hook('attributes', attrName, data);
+
+        //   // change
         if (data.change) {
           attrName = data.key
           attributes[attrName] = data.value
         }
 
+        // cache atrtibutes and compare
+        if (cached[getUid(node)] && cached[getUid(node)][attrName] == attributes[attrName]) continue;
+
         if (attributes[attrName] === null) {
           // remove property too or just attribute?
           node.removeAttribute(attrName)
         } else {
+
           // separate property vs attribute?
           if (attrName in node) {
             node[attrName] = attributes[attrName];
           }
-          node.setAttribute(attrName, attributes[attrName].toString())
+          node.setAttribute(attrName, attributes[attrName].toString());
         }
-
-
+        cached[getUid(node)][attrName] = attributes[attrName];
       }
     }
 
@@ -606,7 +608,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var child, children
 
     // make sure that we have a node and text to insert
-    if (!node || text == null) {
+    if (!node || text == null || isCached(node, text)) {
       return
     }
     // cache all of the child nodes
@@ -650,7 +652,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   function setHtml(node, html) {
-    if (!node || html == null) return;
+    if (!node || html == null || isCached(node, html)) return;
     node.innerHTML = html
   };
 
