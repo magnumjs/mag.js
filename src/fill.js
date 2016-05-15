@@ -604,7 +604,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
 
-  function setText(node, text, xpath) {
+  function setText(node, text) {
     var child, children
 
     // make sure that we have a node and text to insert
