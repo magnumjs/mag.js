@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.7
+MagJS v0.23.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -123,7 +123,7 @@ License: MIT
     var controller;
     if (typeof Proxy !== 'undefined') {
 
-      var handler = function(index, change) {
+      var handler = function(type, index, change) {
 
         var current = JSON.stringify(change.object);
         var sname = String(change.name);
@@ -132,14 +132,14 @@ License: MIT
         }
         prevs[index + sname] = current;
 
-        if (change.type == 'get'  && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+        if (change.type == 'get' && type!='props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
           var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
           if (typeof res != 'undefined') {
             cached[index] = 0;
             return res;
           }
         }
-        else if (change.type == 'set' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
+        else if (change.type == 'set' && type!='props' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
 
           // setting a state prop to a module
 
@@ -158,7 +158,13 @@ License: MIT
 
       };
 
-      controller = new ctrl(mag.proxy({}, handler.bind({}, index)));
+      var base = mod.getProps(index);
+      var baseP = mag.proxy(base, handler.bind({}, 'props', index));
+      mod.setProps(index, baseP);
+
+      var p = mag.proxy({}, handler.bind({}, 'state', index));
+
+      controller = new ctrl(p);
     } else {
       controller = new ctrl({})
     }
