@@ -23,6 +23,8 @@ alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 > *"There is no JavaScript code in the HTML and there is no HTML code in the JavaScript!"*
 
+###Hello MagJS!
+
 ```javascript
 Initial dom:
 <div id="hello">
@@ -61,9 +63,10 @@ Mag.JS dom!:
 * [MagJS version of James Longs' "why react is awesome"](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 * [More Tutorials..](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
+
 ###Hello world!
 
-[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output) - [Proxy](http://jsbin.com/kanumojuto/edit?js,output) [No view only controller](http://jsbin.com/madogoviro/edit?html,js,output)
+[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output) - [Proxy](http://jsbin.com/kanumojuto/edit?js,output) - [No view only controller](http://jsbin.com/madogoviro/edit?html,js,output)
 
 Initial html
 ```html
