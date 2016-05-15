@@ -5,7 +5,7 @@
 ### Intuitive, tiny, fast, JavaScript 2 HTML component templating library.
 <hr>
 ##Features
-
+ 
 * Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & 5KB Gzipped!
 * Valid HTML templates - No virtual/shadow dom or new templating language!
 * Semantic data binding - Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
@@ -113,7 +113,7 @@ mag.module("hello", {
 (http://jsbin.com/webucanulu/edit?js,output)
 
 [Count]
-(http://jsbin.com/tufomejepi/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/qucohazici/edit?html,output)
+(http://jsbin.com/tufomejepi/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/xalakilivi/edit?html,output)
 
 [List] 
 (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
