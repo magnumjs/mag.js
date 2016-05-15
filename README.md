@@ -114,7 +114,7 @@ mag.module("hello", {
 
 [Count]
 (http://jsbin.com/tufomejepi/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output)
-
+- [With shared state](http://jsbin.com/qucohazici/edit?html,output)
 [List] 
 (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
