@@ -52,7 +52,7 @@ License: MIT
       // new call to existing
       // update props, merge with existing if same key
       if (props.key && props.key === mod.getProps(index).key) {
-        mod.setProps(index, mag.utils.merge(mod.getProps(index), props));
+        mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
       } else {
         mod.setProps(index, props);
       }
@@ -159,13 +159,9 @@ License: MIT
 
       };
 
-      var base = mod.getProps(index);
-      var baseP = mag.proxy(base, handler.bind({}, 'props', index));
-      mod.setProps(index, baseP);
+      mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index)));
 
-      var p = mag.proxy({}, handler.bind({}, 'state', index));
-
-      controller = new ctrl(p);
+      controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
     } else {
       controller = new ctrl({})
     }
