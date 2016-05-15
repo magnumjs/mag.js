@@ -52,6 +52,19 @@ Mag.JS dom!:
  2. If the <code>props</code> have changed a new view redraw will run if triggered.
  2. <code>props</code> is passed from the parent and is set by <code>mag.module()</code>
  
+ 
+###Dynamic node example with controller
+
+```javascript
+mag.module(document.body, {
+  controller: function() {
+    this.h2 = 'Hello MagJS World!';
+  }
+});
+```
+Controllers are only called once vs views which are re-run on every change to the state.
+[Example](http://jsbin.com/ripexiyavi/edit?html,js,output)
+
 ##Tutorials
 
 * [Introduction Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
