@@ -52,10 +52,11 @@ License: MIT
       // new call to existing
       // update props, merge with existing if same key
       if (props.key && props.key === mod.getProps(index).key) {
-        mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
+        mod.setProps(index, mag.utils.merge(mod.getProps(index), props));
       } else {
         mod.setProps(index, props);
       }
+
       // reinitialize the controller ?
       return modules[index]
     }
