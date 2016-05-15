@@ -66,7 +66,7 @@ License: MIT
         return (module.controller || function() {}).call(context, mod.getProps(index)) || context
       },
       view = function(index, state, ele) {
-        module.view.call(module, state, mod.getProps(index), ele)
+        module.view && module.view.call(module, state, mod.getProps(index), ele)
       }.bind({}, index),
       output = {
         controller: controller,
@@ -158,6 +158,7 @@ License: MIT
         }
 
       };
+
 
       mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index)));
 
