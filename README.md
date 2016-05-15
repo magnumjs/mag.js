@@ -63,7 +63,7 @@ Mag.JS dom!:
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output) - [Proxy](http://jsbin.com/kanumojuto/edit?js,output)
+[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output) - [Proxy](http://jsbin.com/kanumojuto/edit?js,output) [No view only controller](http://jsbin.com/madogoviro/edit?html,js,output)
 
 Initial html
 ```html
@@ -349,7 +349,7 @@ It receives 4 arguments:
 #### mag.module (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
-ModuleDefinition is the instructions it needs to have a view function, controller is optional:
+ModuleDefinition is the instructions it needs to have a view function, controller is optional: (v0.22.9 view no longer required) 
 ```javascript
 var component = {
   view: function (state, props, element) {
