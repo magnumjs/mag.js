@@ -46,11 +46,11 @@ Mag.JS dom!:
 
 *View receives 2 arguments, "state" & "props"* 
 
-1. <code>state</code> is the DOM element(s) we want to set - the element Matchers and their controls
+1. <code>state</code> is the DOM element(s) we want to set/get - the element Matchers and their controls
   1. Any change to the <code>state</code> object will trigger a redraw of the view - it is observed.
 2. <code>props</code> is what we want the DOM element(s) to be set to - the data
  2. If the <code>props</code> have changed a new view redraw will run if triggered.
- 2. <code>props</code> is passed from the parent and is set by <code>mag.module()</code>
+ 2. <code>props</code> is passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
  
  
 ###Dynamic node example with controller
