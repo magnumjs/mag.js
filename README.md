@@ -191,7 +191,7 @@ mag.module("hello", {
 [CSS transitions](http://jsbin.com/tasesohiku/edit?html,output)
 
 ###Mithril 2 Mag
-[Rotate Links](http://jsbin.com/xufibituhu/edit?js,output) - [v0.22](http://jsbin.com/seloluhifo/edit?js,output)
+[Rotate Links](http://jsbin.com/xufibituhu/edit?js,output) - [v0.22](http://jsbin.com/seloluhifo/edit?js,output) - [v0.23](http://jsbin.com/nugobeqeha/edit?html,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
