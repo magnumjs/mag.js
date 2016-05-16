@@ -13,7 +13,7 @@ License: MIT
     controllers = []
 
   var mod = {
-    innerMods :[],
+    innerMods: [],
     cache: []
   }
 
@@ -120,45 +120,45 @@ License: MIT
     }
   }
 
+
+  var handler = function(type, index, change) {
+
+    var current = JSON.stringify(change.object);
+    var sname = String(change.name);
+    if (current === prevs[index + sname]) {
+      return;
+    }
+    prevs[index + sname] = current;
+
+    if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
+      var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
+      if (typeof res != 'undefined') {
+        cached[index] = 0;
+        return res;
+      }
+    } else if (change.type == 'set' && type != 'props' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
+
+      // setting a state prop to a module
+
+      // call unloader for module
+      mod.innerMods[mod.getId(index)] = [change.name, change.object[change.name]];
+    }
+
+
+    // call setup handler
+    var fun = mod.getFrameId(index);
+    if (typeof fun == 'function' && change.type == 'set') {
+      //debounce
+      cancelAnimationFrame(timers[index]);
+      timers[index] = requestAnimationFrame(fun);
+    }
+
+  };
+
+
   function getController(ctrl, index, id) {
     var controller;
     if (typeof Proxy !== 'undefined') {
-
-      var handler = function(type, index, change) {
-
-        var current = JSON.stringify(change.object);
-        var sname = String(change.name);
-        if (current === prevs[index + sname]) {
-          return;
-        }
-        prevs[index + sname] = current;
-
-        if (change.type == 'get' && type!='props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
-          var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
-          if (typeof res != 'undefined') {
-            cached[index] = 0;
-            return res;
-          }
-        }
-        else if (change.type == 'set' && type!='props' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
-
-          // setting a state prop to a module
-
-          // call unloader for module
-          mod.innerMods[mod.getId(index)] = [change.name,change.object[change.name]];
-        }
-
-
-        // call setup handler
-        var fun = mod.getFrameId(index);
-        if (typeof fun == 'function' && change.type == 'set') {
-          //debounce
-          cancelAnimationFrame(timers[index]);
-          timers[index] = requestAnimationFrame(fun);
-        }
-
-      };
-
 
       mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index)));
 
