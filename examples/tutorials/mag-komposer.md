@@ -27,3 +27,5 @@ You simply tell it how to get data and clean up resources.
 Then it'll do the hard work you.
 
 This is a universal project and work with any kind of data source, whether it's based Promises, Rx.JS observables or even Meteor's Tracker.
+
+[Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
