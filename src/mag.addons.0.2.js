@@ -367,6 +367,10 @@ mag.hookin('attributes', 'key', function(data) {
   data.value = null
 });
 
+function camelDash (val) {
+	return val.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
 mag.hookin('attributes', 'style', function(data) {
 
 
@@ -379,7 +383,7 @@ mag.hookin('attributes', 'style', function(data) {
     // make sure not already in styles
     var nstyle = ''
     forEach(data.value, function(key, value) {
-     nstyle += key + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
+     nstyle += camelDash(key) + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
     });
 
     if(ostyle && ~ostyle.indexOf(nstyle)) data.value=ostyle;
