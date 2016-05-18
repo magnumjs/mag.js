@@ -1,6 +1,6 @@
 ##mag-komposer
 
-Let's Compose MagJS Containers
+Let's Compose MagJS Containers (inspired by [React-Komposer](https://github.com/kadirahq/react-komposer))
 
 Let's compose MagJS containers and feed data into components. 
 
@@ -70,7 +70,8 @@ That's it. Now render the clock to the DOM.
 mag.module(document.body,{view: (state) => { Clock() }});
 ```
 
-See this live: <http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/>
+See this live: <http://jsbin.com/wuvokaguki/edit?js,output>
 
+[Simple example](http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/)
 
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
