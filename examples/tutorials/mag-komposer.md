@@ -28,4 +28,51 @@ Then it'll do the hard work you.
 
 This is a universal project and work with any kind of data source, whether it's based Promises, Rx.JS observables or even Meteor's Tracker.
 
+## Basic Usage
+
+Let's say we need to build a clock. First let's create a component to show the time.
+
+```js
+const Timer = {view: (state, props)  => { state.time = props.time } };
+```
+```html
+<div id="timer">
+  <b>Time: </b>
+  <time></time>
+</div>
+```
+
+Now let's define how to fetch data for this:
+
+```js
+const onPropsChange = (props, onData) => {
+  const handle = setInterval(() => {
+    const time = Date();
+    onData(null, {time});
+  }, 1000);
+
+  const cleanup = () => clearInterval(handle);
+  return cleanup;
+};
+```
+
+On the above function, we get data for every seconds and send it via `onData`. Additionally, we return a cleanup function from the function to cleanup it's resources.
+
+Okay. Now it's time to create the clock:
+
+```js
+const Clock = mag.komposer(onPropsChange)(mag.create('timer', Time));
+```
+
+That's it. Now render the clock to the DOM.
+
+```js
+Clock();
+```
+
+See this in live: <>
+
+
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
+
+
