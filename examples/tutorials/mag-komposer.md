@@ -67,7 +67,7 @@ const Clock = mag.komposer(onPropsChange)(mag.create('timer', Timer));
 That's it. Now render the clock to the DOM.
 
 ```js
-mag.module(document.body,{view: (state) => { Clock() }});
+mag.module(document.body,{view: () => { Clock() }});
 ```
 
 See this live: <http://jsbin.com/wuvokaguki/edit?js,output>
