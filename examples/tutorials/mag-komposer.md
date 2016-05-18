@@ -33,7 +33,7 @@ This is a universal project and work with any kind of data source, whether it's 
 Let's say we need to build a clock. First let's create a component to show the time.
 
 ```js
-const Timer = {view: (state, props)  => { state.time = props.time } };
+const Timer = {view: (state, props) => { state.time = props.time }};
 ```
 ```html
 <div id="timer">
@@ -48,7 +48,7 @@ Now let's define how to fetch data for this:
 const onPropsChange = (props, onData) => {
   const handle = setInterval(() => {
     const time = Date();
-    onData(null, {time});
+    onData({time});
   }, 1000);
 
   const cleanup = () => clearInterval(handle);
@@ -61,18 +61,16 @@ On the above function, we get data for every seconds and send it via `onData`. A
 Okay. Now it's time to create the clock:
 
 ```js
-const Clock = mag.komposer(onPropsChange)(mag.create('timer', Time));
+const Clock = mag.komposer(onPropsChange)(mag.create('timer', Timer));
 ```
 
 That's it. Now render the clock to the DOM.
 
 ```js
-Clock();
+mag.module(document.body,{view: (state) => { Clock() }});
 ```
 
-See this in live: <>
+See this live: <http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/>
 
 
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
-
-
