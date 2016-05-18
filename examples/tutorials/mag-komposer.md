@@ -74,6 +74,8 @@ See this live: <http://jsbin.com/powimuxuxa/edit?js,output>
 
 With loading container: <http://jsbin.com/yabolokiqo/edit?js,output>
 
+As dynamic node: <http://jsbin.com/josifakitu/edit?html,js,output>
+
 [Simple example](http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/)
 
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
