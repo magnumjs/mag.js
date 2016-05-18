@@ -81,4 +81,4 @@ As dynamic node: <http://jsbin.com/josifakitu/edit?html,js,output>
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
 <hr>
 
-[Tutorials](https://github.com/magnumjs/mag.js/tree/master/examples/tutorials]
+[Tutorials](https://github.com/magnumjs/mag.js/tree/master/examples/tutorials)
