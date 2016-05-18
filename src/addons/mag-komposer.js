@@ -7,7 +7,7 @@ License: MIT
 Homepage: https://github.com/magnumjs/mag.js
 @requires mag.js(v0.23.3) & mag addons
 (c) 2016
-Simple Example: 
+Simple Example: http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/
 Full Example: http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/
 */
 
