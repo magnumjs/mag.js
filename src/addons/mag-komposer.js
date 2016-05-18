@@ -1,5 +1,5 @@
 /*
-Name: mag-komposer v0.1.0
+Name: mag-komposer v0.2.0
 Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
 Let's compose MagJS containers and feed data into components. 
 Author: Michael Glazer
@@ -7,7 +7,8 @@ License: MIT
 Homepage: https://github.com/magnumjs/mag.js
 @requires mag.js(v0.23.3) & mag addons
 (c) 2016
-Example: http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/
+Simple Example: 
+Full Example: http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/
 */
 
 mag.komposer = function(handlerFunc, loadingComp, errorComp) {
@@ -25,7 +26,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
     var enode = document.createElement('div');
     enode.appendChild(enode.cloneNode());
 
-    errorComp = errorComp ||  mag.create(enode, {
+    errorComp = errorComp || mag.create(enode, {
       view: function(state, props) {
         state.div = {
           _text: props.message,
@@ -40,6 +41,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
     var _subscribe = function(props, instanceID) {
       if (cleaners[props.key]) cleaners[props.key]();
       cleaners[props.key] = handlerFunc(props, function(key, ids, nprops) {
+
         loading[key] = false;
         var cp = composed().getProps(ids);
 
@@ -56,7 +58,9 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         }
 
         requestAnimationFrame(function() {
-          mag.redraw(mag.getNode(mag.getId(ids)), ids);
+          if (mag.getNode(mag.getId(ids))) {
+            mag.redraw(mag.getNode(mag.getId(ids)), ids);
+          }
         })
       }.bind({}, props.key, instanceID));
     };
@@ -64,14 +68,20 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
     var prevProps = [];
     var hoc = {
       controller: function(props) {
+        if (!props.key) props.key = performance.now();
         loading[props.key] = true;
+
+        this.willload = function() {
+          _subscribe(arguments[2], arguments[3])
+        };
 
         this.willgetprops = function() {
           _subscribe(arguments[4], arguments[3])
-        }
+        };
         this.willupdate = function(e, node, newProps) {
           // prevent layout thrashing on init when no props
-          if (Object.keys(newProps).length < 1) e.preventDefault();
+          //TODO: real use case?
+          // if (Object.keys(newProps).length < 1) e.preventDefault();
 
           //don't rerun when unecessary
           if (newProps.key && JSON.stringify(prevProps[newProps.key]) === JSON.stringify(newProps)) {
@@ -82,6 +92,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         }
       },
       view: function(state, props) {
+
         if (loading[props.key]) {
           state.div = loadingComp(props);
           return;
