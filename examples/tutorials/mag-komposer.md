@@ -79,3 +79,6 @@ As dynamic node: <http://jsbin.com/josifakitu/edit?html,js,output>
 [Simple example](http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/)
 
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
+<hr>
+
+[Tutorials](https://github.com/magnumjs/mag.js/tree/master/examples/tutorials]
