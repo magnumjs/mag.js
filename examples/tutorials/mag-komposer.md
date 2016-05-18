@@ -72,6 +72,8 @@ mag.module(document.body,{view: () => { Clock() }});
 
 See this live: <http://jsbin.com/powimuxuxa/edit?js,output>
 
+With loading container: <http://jsbin.com/yabolokiqo/edit?js,output>
+
 [Simple example](http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/)
 
 [Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
