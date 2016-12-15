@@ -155,7 +155,7 @@ mag.module("hello", {
 
 [Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
 
-[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output)
+[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete](http://jsbin.com/ponidujogo/edit?html,output)
 
 [Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output)
 
