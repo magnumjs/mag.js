@@ -143,8 +143,7 @@ mag.module("hello", {
 [Tiny filter:]
 (http://jsbin.com/reqigohete/edit?js,output)
 
-[Filter list:]
-(http://jsbin.com/jokugejosa/edit?js,output)
+[Filter list](http://jsbin.com/jokugejosa/edit?js,output) - [Leaderboard](http://jsbin.com/sivicahewo/edit?js,output)
 
 [Filter list sort:]
 (http://jsbin.com/dedoferoqu/edit?js,output)
