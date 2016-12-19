@@ -155,7 +155,7 @@ mag.module("hello", {
 
 [Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete](http://jsbin.com/ponidujogo/edit?html,output)
 
-[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output)
+[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/jevopekobi/edit?html,output)
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/w3BSEEp0w5iWzM7B7QIw/)
 
