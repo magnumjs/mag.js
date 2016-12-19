@@ -392,7 +392,7 @@ var component = {
 }
 ```
 
-There are 8 life cycle events: willload, willgetprops(v0.22.9), didload, willupdate, didupdate, isupdate, onunload, onreload
+There are 9 life cycle events: willload, willgetprops(v0.22.9), didload, willupdate, didupdate, isupdate, onbeforeunload (v0.24), onunload, onreload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
@@ -400,6 +400,7 @@ They each get the same 3 parameters, their context is the controller no need to 
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
 - [extra (4th argument in willgetprops, contains the next props)]
+- [done (5th argument in onbeforeunload, function to call when completed)]
 
 ```javascript
 var instance = mag.module ('myElementId'|Element Node, component);
