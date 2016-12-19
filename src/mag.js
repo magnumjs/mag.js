@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.8
+MagJS v0.24
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -243,15 +243,28 @@ License: MIT
     //TODO: implement
     a.destroy = function(ids, remove) {
       var node = mag.getNode(mag.mod.getId(ids));
-      //destroy node
-      //callback config unloaders etc...
-      if (mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids)) return;
-      mag.clear(ids);
-      // call unloaders
-      callUnloaders(ids, node);
-      // remove clones
-      a.clones(ids).length = 0;
-      if (remove) mag.fill.removeNode(node);
+      var onremove = function() {
+        //destroy node
+
+        //callback config unloaders etc...
+        if (mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids)) return;
+        mag.clear(ids);
+        // call unloaders
+        callUnloaders(ids, node);
+        // remove clones
+        a.clones(ids).length = 0;
+        if (remove) mag.fill.removeNode(node);
+      };
+      //chek if onbeforeunload exists
+      if (mag.mod.getState(ids).onbeforeunload) {
+        //call first
+        //TODO: call children nodes with hooks too
+        mag.utils.callLCEvent('onbeforeunload', mag.mod.getState(ids), node, ids, 0, function() {
+          onremove();
+        })
+      } else {
+        onremove();
+      }
     }.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
@@ -344,14 +357,14 @@ License: MIT
       mag.utils.callLCEvent('didupdate', state, node, idInstance)
 
       //reset cache
-      if(!force) mag.mod.iscached(idInstance);
+      if (!force) mag.mod.iscached(idInstance);
 
     }.bind({}, node1, idInstance1, force1)
   }
 
   var callConfigs = function(id, configs) {
     for (var k in configs) {
-      if (k.indexOf('id("' + id + '")/') > -1) {
+      if (k.startsWith('id("' + id + '")/')) {
         configs[k]()
       }
     }
