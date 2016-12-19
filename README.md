@@ -120,7 +120,7 @@ mag.module("hello", {
 
 [Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/vafovoguka/edit?html,js,output) - [v0.23](http://jsbin.com/pubebewolo/edit?js,output)
 
-[Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
+[Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component w/CSS Transitions](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
 
 [Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
 (http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output) [v0.22.8](http://jsbin.com/dosobawire/edit) - [v0.22.9](http://jsbin.com/zemuzifidi/edit?js,output) - [Take2](http://jsbin.com/tifinomigi/edit?js,output)
