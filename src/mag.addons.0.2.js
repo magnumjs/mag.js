@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.21.8
+Mag.JS AddOns v0.21.9
 (c) Michael Glazer 2016
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -392,10 +392,12 @@ mag.hookin('attributes', 'style', function(data) {
   }
 });
 
-  // _className plugin example
+ // _className plugin example
   mag.hookin('attributes', 'className', function(data) {
-    data.key = 'class'
+    data.key = 'class';
+
     var newClass = data.value
+    var origClass = data.node.classList + ''
 
     if (typeof data.value == 'string') {
       newClass = data.value.split(' ')
@@ -419,6 +421,9 @@ mag.hookin('attributes', 'style', function(data) {
       }
     }
 
+    if(data.value.trim() !== origClass) {
+      data.change = 1;
+    }
     data.value = data.value.trim()
   })
 
