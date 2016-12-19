@@ -13,7 +13,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {
     cached: [],
-    ignorekeys: ['willgetprops', 'onbeforeunload','Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -101,6 +101,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       delete cached[p + '-config'];
       delete mag.fill.configs[p];
     }
+
+
   }
   // TODO: get index from getPathTo function		
   function getPathIndex(p) {
@@ -447,18 +449,56 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function removeChildren(node, key) {
-    var matches = matchingElements(node, key)
 
+    var called = 0,
+      expected = 1;
+    var continuation = function(item) {
+      if (++called === expected) {
+          // remove children
+        while (item.lastChild) {
+          removeNode(item.lastChild)
+        }
+      }
+    }
+
+    var checkForMod = function(node, onremove) {
+      var instanceID;
+      if (node.id && mag.utils.items.isItem(node.id)) {
+        instanceID = mag.utils.items.getItem(node.id);
+      }
+      // chek if onbeforeunload exists
+      if (instanceID && mag.mod.getState(instanceID).onbeforeunload) {
+        expected++;
+        //call first
+        //TODO: call children nodes with hooks too
+        mag.utils.callLCEvent('onbeforeunload', mag.mod.getState(instanceID), node, instanceID, 0, function() {
+          if (instanceID) mag.utils.callLCEvent('onunload', mag.mod.getState(instanceID), node, instanceID);
+          onremove();
+        })
+      } else {
+        if (instanceID) mag.utils.callLCEvent('onunload', mag.mod.getState(instanceID), node, instanceID);
+        onremove();
+      }
+    }
+
+    var matches = matchingElements(node, key);
 
     matches.forEach(function(item) {
-      var uid = getUid(item)
+      var uid = getUid(item);
       if (item.children.length) childCache[uid] = nodeListToArray(item.children);
 
-      // remove children
-      while (item.lastChild) {
-        removeNode(item.lastChild)
+      var called = 0;
+      // check child cache for unloaders
+      for (var k in childCache[uid]) {
+        var child = childCache[uid][k];
+        checkForMod(child, function() {
+          continuation(item);
+        });
       }
-    })
+      continuation(item);
+    });
+
+
   }
 
   // freeze the NodeList into a real Array so it can't update as DOM changes
