@@ -341,7 +341,7 @@ License: MIT
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
 
-
+      var activeEle = document.activeElement;
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
 
@@ -349,6 +349,10 @@ License: MIT
       mag.fill.setId(node.id)
       mag.fill.run(node, state);
       // END DOM
+
+      if (activeEle !== document.activeElement) {
+        activeEle.focus();
+      }
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
