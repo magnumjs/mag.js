@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.9
+MagJS v0.24
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,7 +13,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {
     cached: [],
-    ignorekeys: ['willgetprops', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['willgetprops', 'onbeforeunload','Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -591,8 +591,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // separate property vs attribute?
           if (attrName in node) {
             node[attrName] = attributes[attrName];
+          } else {
+            node.setAttribute(attrName, attributes[attrName].toString());
           }
-          node.setAttribute(attrName, attributes[attrName].toString());
         }
         cached[getUid(node)][attrName] = attributes[attrName];
       }
