@@ -454,7 +454,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       expected = 1;
     var continuation = function(item) {
       if (++called === expected) {
-          // remove children
+        // remove children
         while (item.lastChild) {
           removeNode(item.lastChild)
         }
@@ -632,7 +632,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           if (attrName in node) {
             node[attrName] = attributes[attrName];
           } else {
-            node.setAttribute(attrName, attributes[attrName].toString());
+            node.setAttribute(attrName, String(attributes[attrName]));
           }
         }
         cached[getUid(node)][attrName] = attributes[attrName];
@@ -646,31 +646,31 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   function setText(node, text) {
-    var child, children
 
     // make sure that we have a node and text to insert
     if (!node || text == null || isCached(node, text)) {
-      return
+      return;
     }
+
+    var val = String(text);
 
     // SELECT|INPUT|TEXTAREA
     // now add the text
     if (node.nodeName === 'INPUT') {
       // special case for input elements
-      node.value = text.toString();
-    } else {
-      // if not exists create a new text node and stuff in the value
-
-      if(node.firstChild){
-      node.firstChild.textContent = text.toString();
+      node.value = val;
+    } else if (node.nodeName !== 'SELECT') {
+      // create a new text node and stuff in the value
+      if (node.firstChild) {
+        node.firstChild.textContent = val;
       } else {
-        node.appendChild(node.ownerDocument.createTextNode(text.toString()));
+        node.appendChild(node.ownerDocument.createTextNode(val));
       }
-      
+
     }
 
-    if (node.nodeName === 'SELECT') {
-      node.value = text.toString();
+    if (node.nodeName === 'SELECT' && val) {
+      node.value = val;
     }
 
   }
