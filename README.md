@@ -143,7 +143,7 @@ mag.module("hello", {
 [Tiny filter:]
 (http://jsbin.com/reqigohete/edit?js,output)
 
-[Filter list](http://jsbin.com/jokugejosa/edit?js,output) - [Leaderboard](http://jsbin.com/sivicahewo/edit?js,output)
+[Filter list](http://jsbin.com/jokugejosa/edit?js,output) - [Leaderboard](http://jsbin.com/qatukoyuxu/edit?js,output)
 
 [Filter list sort:]
 (http://jsbin.com/dedoferoqu/edit?js,output)
@@ -153,9 +153,9 @@ mag.module("hello", {
 
 [Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
 
-[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete](http://jsbin.com/ponidujogo/edit?html,output)
+[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete](http://jsbin.com/wovavehudi/edit?html,output)
 
-[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/dekekigetu/edit?html,output)
+[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/voracezayu/edit?html,output)
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/w3BSEEp0w5iWzM7B7QIw/)
 
