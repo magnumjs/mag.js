@@ -1,5 +1,5 @@
 /*
-MagJS v0.24
+MagJS v0.24.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -652,22 +652,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     if (!node || text == null || isCached(node, text)) {
       return
     }
-    // cache all of the child nodes
-    if (!children) {
-      children = [];
-      for (var i = 0; i < node.childNodes.length; i += 1) {
-        child = node.childNodes[i];
-        if (child.nodeType === ELEMENT_NODE) {
-          children.push(child)
-        }
-      }
-    }
-
-    // remove all of the children
-    //WHY?
-    while (node.lastChild) {
-      node.removeChild(node.lastChild)
-    }
 
     // SELECT|INPUT|TEXTAREA
     // now add the text
@@ -675,15 +659,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // special case for input elements
       node.value = text.toString();
     } else {
-      // create a new text node and stuff in the value
-      node.appendChild(node.ownerDocument.createTextNode(text.toString()));
-    }
+      // if not exists create a new text node and stuff in the value
 
-    // reattach all the child nodes
-    for (var i = 0; i < children.length; i += 1) {
-      node.appendChild(children[i]);
+      if(node.firstChild){
+      node.firstChild.textContent = text.toString();
+      } else {
+        node.appendChild(node.ownerDocument.createTextNode(text.toString()));
+      }
+      
     }
-
 
     if (node.nodeName === 'SELECT') {
       node.value = text.toString();
