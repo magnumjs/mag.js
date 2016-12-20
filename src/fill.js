@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.1
+MagJS v0.24.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -179,12 +179,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
       // loop thru to make sure no undefined keys
 
-
-
-      var ekeys = elements.map(function(i) {
-        return i.__key
-      })
-
       var keys = data.map(function(i) {
         return i && i[MAGNUM_KEY]
       })
@@ -194,17 +188,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
         // changes data can cause recursion!
-        var data = data.map(function(d, i) {
+        data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = elements[i].__key
-              return d
-            }
-            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = MAGNUM + i
-            }
-            elements[i].__key = d[MAGNUM_KEY]
+            elements[i].__key = d[MAGNUM_KEY] = MAGNUM + i
           }
 
           return d
@@ -231,11 +218,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           var m = data.map(function(i) {
             return i[MAGNUM_KEY]
           })
-          var k = elements.map(function(i) {
-            return i.__key
-          })
 
-          var elements = elements.filter(function(ele, i) {
+          elements = elements.filter(function(ele, i) {
             if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
               found.push(ele.__key)
               removeNode(ele)
@@ -533,7 +517,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var dataParent = findParentChild(node),
         path = dataParent && getPathTo2(dataParent),
         parentIndex = getPathIndex(path),
-        xpath = getPathTo(node),
+        xpath = getPathTo(node, 1),
         tagIndex = getPathIndex(xpath),
         parent = {
           path: path,
@@ -651,7 +635,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     if (!node || text == null || isCached(node, text)) {
       return;
     }
-
+    
     var val = String(text);
 
     // SELECT|INPUT|TEXTAREA
