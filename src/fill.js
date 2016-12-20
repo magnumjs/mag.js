@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.2
+MagJS v0.24.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -165,6 +165,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       }
 
+      if (elements.length != data.length) {
+        //remove 'view' cache due to dom change
+        mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
+      }
+
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
@@ -178,6 +183,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         if (parent) parent.appendChild(node)
       }
       // loop thru to make sure no undefined keys
+
+
 
       var keys = data.map(function(i) {
         return i && i[MAGNUM_KEY]
@@ -216,8 +223,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           var found = []
             // get all data keys
           var m = data.map(function(i) {
-            return i[MAGNUM_KEY]
-          })
+              return i[MAGNUM_KEY]
+            })
 
           elements = elements.filter(function(ele, i) {
             if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
@@ -231,6 +238,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
         }
       }
+
     }
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
@@ -635,7 +643,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     if (!node || text == null || isCached(node, text)) {
       return;
     }
-    
+
     var val = String(text);
 
     // SELECT|INPUT|TEXTAREA
