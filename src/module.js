@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.9
+MagJS v0.24.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -133,7 +133,7 @@ License: MIT
     if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
       var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
       if (typeof res != 'undefined') {
-        cached[index] = 0;
+        mod.cached[index] = 0;
         return res;
       }
     } else if (change.type == 'set' && type != 'props' && change.object[change.name] && change.object[change.name].draw && typeof change.object[change.name].draw == 'function') {
@@ -180,20 +180,18 @@ License: MIT
 
   mod.clear = function(key) {
     if (key > -1 && mod.cache[key]) {
-      mod.cache.splice(key, 1)
+      mod.cache.splice(key, 1);
     }
   }
 
-  var cached = []
+  mod.cached = [];
   mod.callView = function(node, index) {
 
-    var module = mod.getView(index)
-
-    if (!cached[index]) {
+    if (!mod.cached[index]) {
       mag.props.attachToArgs(index, mod.getState(index), node)
-      cached[index] = 1
+      mod.cached[index] = 1
     }
-    module(mod.getState(index), node)
+    mod.getView(index)(mod.getState(index), node)
   }
 
 
