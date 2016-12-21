@@ -153,7 +153,7 @@ mag.module("hello", {
 
 [Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
 
-[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete w/spinner](http://jsbin.com/mecahagage/edit?html,output)
+[Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete w/spinner](http://jsbin.com/mecahagage/edit?html,output) - [Select menu](http://jsbin.com/goxejiqeso/edit?html,output)
 
 [Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/voracezayu/edit?html,output)
 
