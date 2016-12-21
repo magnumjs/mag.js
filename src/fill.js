@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.3
+MagJS v0.24.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -101,6 +101,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     //TODO: remove cache of all children too		
     node.parentNode.removeChild(node);
+
+    //remove 'view' cache due to dom change ? recursion
+    mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
+
   }
   // TODO: get index from getPathTo function		
   function getPathIndex(p) {
@@ -194,7 +198,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            elements[i].__key = d[MAGNUM_KEY] = MAGNUM + i
+            elements[i].__key = d[MAGNUM_KEY] = MAGNUM + i;
           }
 
           return d
