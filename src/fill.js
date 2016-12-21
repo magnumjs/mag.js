@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.4
+MagJS v0.24.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -71,7 +71,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function getPathTo2(element) {
-    if (element.id)
+    if (element.id && fill.id === element.id)
       return 'id("' + element.id + '")';
     if (element === mag.doc.body)
       return element.tagName;
@@ -244,8 +244,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     for (var i = 0; i < elements.length; i++) {
 
       // create element specific xpath string
-
-
       if (dataIsArray) {
         if (elements[i]) {
           fill.run(elements[i], data[i])
