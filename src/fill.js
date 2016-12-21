@@ -90,10 +90,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function removeNode(node) {
     var p = getPathTo2(node);
-
-    //TODO: remove cache of all children too		
-    node.parentNode.removeChild(node)
-      // call config unload if any ?		
+    // call config unload if any ?		
     if (node && cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
       // what arg to send ?		
       cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
@@ -102,7 +99,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       delete mag.fill.configs[p];
     }
 
-
+    //TODO: remove cache of all children too		
+    node.parentNode.removeChild(node);
   }
   // TODO: get index from getPathTo function		
   function getPathIndex(p) {
@@ -183,8 +181,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         if (parent) parent.appendChild(node)
       }
       // loop thru to make sure no undefined keys
-
-
 
       var keys = data.map(function(i) {
         return i && i[MAGNUM_KEY]
