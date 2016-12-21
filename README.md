@@ -247,6 +247,9 @@ mag.module("hello", {
 [Mag Redux Async](http://embed.plnkr.co/YsZSrG9QPGoNyjhu1bf0/)
 
 ###Angular 2 Mag
+
+[Todos](http://jsbin.com/leregacehe/edit?html,js,output)
+
 [Order form:]
 (http://jsbin.com/ziguzidayi/edit?js,output)
 
