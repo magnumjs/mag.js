@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.6
+MagJS v0.24.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -84,37 +84,39 @@ License: MIT
 
   function findMissing(change, element) {
     var prop = change.name;
-    if (typeof change.object[change.name] == 'undefined' && prop[0] !== '_') {
+    if (typeof change.object[change.name] == 'undefined') {
       // prop might be hierarchical?
       // getparent Object property chain?
 
       // get value of property from DOM
       var a = mag.fill.find(element, prop),
         greedy = prop[0] === '$',
-         // can be an array, object or string
+        v, // can be an array, object or string
         // for each
         tmp = [];
 
-      a.forEach(function(item, index) {
-        var i;
+      a.reverse().forEach(function(item, index) {
         if (item) {
-          if (item.value) {
-            i = {
-              _value: item.value
-            };
+          if (item.value && item.value.length > 0) {
+            v = item.value
             if (item.type && (item.type == 'checkbox' || item.type == 'radio')) {
+              v = {
+                _value: v
+              };
               if (item.checked) v._checked = true
+              tmp.push(v)
             }
-          } else if (item.childNodes[0] && item.childNodes[0].nodeType == 3 && item.childNodes[0].textContent.trim()) {
-            i = {_text: item.childNodes[0].textContent}
-          } else if (item.innerHTML && item.innerHTML.trim()) {
-            i = {_html: item.innerHTML}
+          } else if (item.innerText && item.innerText.length > 0) {
+            v = item.innerText
+          } else if (item.innerHTML && item.innerHTML.length > 0) {
+            v = item.innerHTML
+          } else if (!item.value && item.tagName == 'INPUT') {
+            v = ''
           }
-          tmp.push(i)
         }
       })
-      if (greedy) return tmp
-      else return tmp[0] && tmp[0]._value ? tmp[0]._value: tmp[0]
+      if (tmp.length > 0 && greedy) return tmp
+      return v
     }
   }
 
