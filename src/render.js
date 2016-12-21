@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.7
+MagJS v0.24.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -120,13 +120,15 @@ License: MIT
 
   var attachToArgs = function(i, args, element) {
     for (var k in args) {
-      var value = args[k]
+      if (args.hasOwnProperty(k)) {
+        var value = args[k]
 
-      if (typeof value === 'object') {
-        // recurse
-        attachToArgs(i + '.' + k, value, element);
-      } else {
-        attacher.bind({}, i, k, args, element)();
+        if (typeof value === 'object') {
+          // recurse
+          attachToArgs(i + '.' + k, value, element);
+        } else {
+          attacher.bind({}, i, k, args, element)();
+        }
       }
     }
   }
