@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.5
+MagJS v0.24.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -701,6 +701,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     for (var i = 0; i < elements.length; i += 1) {
       if (elementMatcher(elements[i], keyName)) {
         matches.push(elements[i]);
+        if(!globalSearch) break;
       }
     }
 
