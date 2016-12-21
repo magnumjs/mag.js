@@ -123,7 +123,7 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (typeof value === 'object') {
+        if (typeof value === 'object' && !(value instanceof HTMLElement)) {
           // recurse
           attachToArgs(i + '.' + k, value, element);
         } else {
