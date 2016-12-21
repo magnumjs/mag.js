@@ -688,15 +688,16 @@ Life cycle events in controller:
 * willupdate (event, node, props, instanceID)
 * didupdate (event, node, props, instanceID)
 * isupdate (event, node, props, instanceID)
+* onbeforeunload  (event, node, props, instanceID, done)
 * onunload (event, node, props, instanceID)
 * onreload (event, node, props, instanceID)
 
 event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
-controller -> this.willload
-state.matcher._onclick = function(e, index, node, data) 
+controller -> this.willload 
 
 ###Native events: parameters - 
+```state.matcher._onclick = function(e, index, node, data)```
 
 * the event
 * the x path based 0 index
@@ -798,7 +799,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
-* config attribute won't be called with inner id element matchers, use other element matcher selectors
+* config attribute won't be called with inner id element matchers, use other element matcher selectors. Fixed in v0.25.5 [Example](http://jsbin.com/lamijigogo/edit?js,output)
 
 * careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
 
