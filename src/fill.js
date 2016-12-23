@@ -13,7 +13,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {
     cached: [],
-    ignorekeys: ['willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -223,8 +223,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           var found = []
             // get all data keys
           var m = data.map(function(i) {
-              return i[MAGNUM_KEY]
-            })
+            return i[MAGNUM_KEY]
+          })
 
           elements = elements.filter(function(ele, i) {
             if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
