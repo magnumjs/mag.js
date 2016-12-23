@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.3
+MagJS v0.24.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -80,58 +80,55 @@ License: MIT
   }
 
   var timers = [];
-  var prevs = [];
 
   function findMissing(change, element) {
     var prop = change.name;
-    if (typeof change.object[change.name] == 'undefined') {
+    if (typeof change.object[change.name] == 'undefined' && prop[0] !== '_') {
       // prop might be hierarchical?
       // getparent Object property chain?
 
       // get value of property from DOM
       var a = mag.fill.find(element, prop),
         greedy = prop[0] === '$',
-        v, // can be an array, object or string
+        // can be an array, object or string
         // for each
         tmp = [];
-
-      a.reverse().forEach(function(item, index) {
-        if (item) {
+      a.forEach(function(item, index) {
+        var i;
+        if (item && item.type && !~['submit', 'button'].indexOf(item.type)) {
           if (item.value && item.value.length > 0) {
-            v = item.value
-            if (item.type && (item.type == 'checkbox' || item.type == 'radio')) {
-              v = {
-                _value: v
-              };
-              if (item.checked) v._checked = true
-              tmp.push(v)
+            i = {
+              _value: item.value
+            };
+            if (item.type == 'checkbox' || item.type == 'radio') {
+              if (item.checked) i._checked = true;
             }
-          } else if (item.innerText && item.innerText.length > 0) {
-            v = item.innerText
-          } else if (item.innerHTML && item.innerHTML.length > 0) {
-            v = item.innerHTML
-          } else if (!item.value && item.tagName == 'INPUT') {
-            v = ''
           }
+          tmp.push(i)
+        } else if (item && !~['submit', 'button'].indexOf(item.type) && item.childNodes.length == 1 && item.childNodes[0].textContent.trim()) {
+          i = {
+            _text: item.childNodes[0].textContent.trim()
+          };
+          tmp.push(i)
         }
       })
-      if (tmp.length > 0 && greedy) return tmp
-      return v
+      if (tmp.length == 0) return;
+      else if (greedy) return tmp
+      else {
+        return tmp[0] && tmp[0]._value ? tmp[0]._value : tmp[0] && tmp[0]._text ? tmp[0]._text : tmp[0]
+      }
     }
   }
 
 
   var handler = function(type, index, change) {
 
-    var current = JSON.stringify(change.object);
-    var sname = String(change.name);
-    if (current === prevs[index + sname]) {
-      return;
-    }
-    prevs[index + sname] = current;
+    if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined') {
 
-    if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined' && Object.keys(change.object).length === 0) {
       var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
+      if (typeof res != 'undefined' && typeof res == 'object' && change.object) {
+        mag.utils.merge(res, change.object[change.name]);
+      }
       if (typeof res != 'undefined') {
         mod.cached[index] = 0;
         return res;
