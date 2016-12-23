@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.1
+MagJS v0.24.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -344,10 +344,15 @@ License: MIT
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
 
+      var active = document.activeElement
+
       //START DOM
       mag.fill.setId(node.id)
       mag.fill.run(node, state);
       // END DOM
+
+      if (document.activeElement !== active) active.focus()
+
 
       //CONFIGS
       callConfigs(node.id, mag.fill.configs)
