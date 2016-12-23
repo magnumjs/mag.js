@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.4
+MagJS v0.24.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -57,8 +57,9 @@ License: MIT
         }
       }.bind(founder, parentElement, check)
 
-      if (check) founder.addEventListener("click", onit, false);
-      else founder.addEventListener("focus", onit, false);
+      founder.addEventListener("click", onit, false);
+      founder.addEventListener("change", onit, false);
+      founder.addEventListener("focus", onit, false);
 
       founder.eventOnFocus = 1;
     }
@@ -69,7 +70,7 @@ License: MIT
   function isInput(items) {
 
     for (var k in items) {
-      if (items[k] && ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1) {
+      if (items[k] && ~['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName)) {
         return items[k];
       }
     }
