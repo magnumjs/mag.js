@@ -194,7 +194,7 @@ mag.module("hello", {
 [Movie plotter service](http://jsbin.com/qurinixihu/edit?html,output) - [Plot selection](http://jsbin.com/batatopini/edit?html,output)
 
 ###Mithril 2 Mag
-[Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output)
+[Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output) - [Web service](http://jsbin.com/fogajilocu/edit?html,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
