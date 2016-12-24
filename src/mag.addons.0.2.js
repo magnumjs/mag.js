@@ -446,6 +446,7 @@ mag.hookin('values', '*', function(data) {
 
     data.value.then(function(newData) {
       mag.mod.getState(mid)[data.key] = newData;
+      mag.redraw(mag.getNode(mag.fill.id), mid, 1);
     })
 
     if (data.value.initialValue) {
