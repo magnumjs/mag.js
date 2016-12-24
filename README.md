@@ -65,6 +65,25 @@ mag.module(document.body, {
 Controllers are only called once vs views which are re-run on every change to the state.
 [Example](http://jsbin.com/ripexiyavi/edit?html,js,output)
 
+###Two way binding
+
+```javascript
+/* Mag.JS v0.24 - Hello world example! */
+
+var Component = {
+  controller: function(props) {
+    this.$hello = '';
+    this.input = {
+      _onInput: () => {}
+    }
+  }
+}
+
+mag.module('HelloWorld', Component);
+```
+Only needed to define the default value of the property to bind and the event when the change is bound
+[Example](http://jsbin.com/soluwomuhi/edit?js,output)
+
 ##Tutorials
 
 * [Introduction Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
