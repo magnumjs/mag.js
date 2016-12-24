@@ -68,21 +68,17 @@ Controllers are only called once vs views which are re-run on every change to th
 ###Two way binding
 
 ```javascript
-/* Mag.JS v0.24 - Hello world example! */
-
 var Component = {
   controller: function(props) {
     this.$hello = '';
-    this.input = {
+    this.hello = {
       _onInput: () => {}
     }
   }
 }
-
-mag.module('HelloWorld', Component);
 ```
 Only needed to define the default value of the property to bind and the event when the change is bound
-[Example](http://jsbin.com/soluwomuhi/edit?js,output)
+[Example](http://jsbin.com/yacigibara/edit?js,output)
 
 ##Tutorials
 
