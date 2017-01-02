@@ -816,7 +816,7 @@ Other hookins such as key/node value etc.. Coming soon!
 
 #### Notes
 
-* config attribute won't be called with inner id element matchers, use other element matcher selectors. Fixed in v0.25.5 [Example](http://jsbin.com/lamijigogo/edit?js,output)
+* config attribute won't be called with inner id element matchers, use other element matcher selectors. Fixed in v0.25.5 [Example](http://jsbin.com/qoxuvahake/edit?js,output)
 
 * careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
 
