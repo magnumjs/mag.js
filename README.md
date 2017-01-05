@@ -418,8 +418,8 @@ They each get the same 3 parameters, their context is the controller no need to 
 - Event - can be used to preventDefault - stop continued processing
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
-- [extra (4th argument in willgetprops, contains the next props)]
-- [done (5th argument in onbeforeunload, function to call when completed)]
+- [nextProps (4th argument in willgetprops, contains the next props)]
+- [done() (4th argument in onbeforeunload, function to call when completed)]
 
 ```javascript
 var instance = mag.module ('myElementId'|Element Node, component);
