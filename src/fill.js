@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.6
+MagJS v0.24.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,7 +13,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {
     cached: [],
-    ignorekeys: ['hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['draw', 'then', 'hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -124,7 +124,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var node, parent, dataIsArray
 
 
-
     // there is nothing to do if there is nothing to fill
     if (!nodeList) return
 
@@ -198,7 +197,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            elements[i].__key = d[MAGNUM_KEY] = MAGNUM + i;
+            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = elements[i].__key
+              return d
+            }
+            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = MAGNUM + i
+            }
+            elements[i].__key = d[MAGNUM_KEY]
           }
 
           return d
@@ -249,13 +255,18 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           fill.run(elements[i], data[i])
         }
       } else {
+        var p = getPathTo(elements[i])
+
         //TODO: is this a child of an array?
-        if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+        if (data && typeof data === "object") {
           elements[i][MAGNUM] = elements[i][MAGNUM] || {}
+         
+         if( Object.keys(data).indexOf(MAGNUM_KEY) !== -1){
           elements[i][MAGNUM].isChildOfArray = true
           elements[i][MAGNUM].dataPass = data
+         }
+          elements[i][MAGNUM].xpath = p;
         }
-        var p = getPathTo(elements[i])
 
         fillNode(elements[i], data, p)
       }
@@ -648,7 +659,23 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     // now add the text
     if (node.nodeName === 'INPUT') {
       // special case for input elements
-      node.value = val;
+      if (~['radio', 'checkbox'].indexOf(node.type)) {
+        //might be in a group		
+        // search fill.id for name	
+        //TODO: should be only within parent node in DATA path NOT root ID
+        var items = mag.getNode(fill.id).querySelectorAll('[name=' + node.name + ']');
+        if (items.length > 1) {
+          // select item with matching value		
+          for (var item of items) {
+            if (item.value == val) {
+              item.checked = true;
+              break;
+            }
+          }
+        }
+      } else {
+        node.value = val;
+      }
     } else if (node.nodeName !== 'SELECT') {
       // create a new text node and stuff in the value
       if (node.firstChild) {
