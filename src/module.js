@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.6
+MagJS v0.24.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,6 +10,7 @@ License: MIT
 
 
   var modules = [],
+    MAGNUM = '__magnum__',
     controllers = []
 
   var mod = {
@@ -93,29 +94,62 @@ License: MIT
         // can be an array, object or string
         // for each
         tmp = [];
-      a.forEach(function(item, index) {
+      a.forEach(function(item) {
+
         var i;
         if (item && item.type && !~['submit', 'button'].indexOf(item.type)) {
           if (item.value && item.value.length > 0) {
-            i = {
-              _value: item.value
-            };
+
             if (item.type == 'checkbox' || item.type == 'radio') {
-              if (item.checked) i._checked = true;
+
+              if (item.checked) {
+                i = {};
+                i._checked = true;
+              }
+              if (!greedy) {
+                //if grouped name item
+                var items = element.querySelectorAll('[name=' + item.name + ']');
+                if (items.length) {
+                  for (var sitem of items) {
+                    if (sitem.checked) {
+                      if (i) {
+                        i._value = sitem.value;
+                      } else {
+                        i = {
+                          _value: sitem.value
+                        };
+                      }
+                    }
+                  }
+                }
+              } else {
+                if (i) {
+                  i._value = item.value;
+                } else {
+                  i = {
+                    _value: item.value
+                  };
+                }
+              }
+            } else {
+              i = {
+                _value: item.value
+              };
             }
           }
-          tmp.push(i)
-        } else if (item && !~['submit', 'button'].indexOf(item.type) && item.childNodes.length == 1 && item.childNodes[0].textContent.trim()) {
+        } else if ((typeof change.oldValue == 'undefined' && typeof change.object[change.name] == 'undefined') && item && !~['submit', 'button'].indexOf(item.type) && item.childNodes.length == 1 && item.childNodes[0].textContent.trim()) {
           i = {
             _text: item.childNodes[0].textContent.trim()
           };
-          tmp.push(i)
         }
-      })
-      if (tmp.length == 0) return;
-      else if (greedy) return tmp
+        if (i) tmp.push(i)
+      });
+
+      if (tmp.length === 0) return;
+      else if (greedy) return tmp;
       else {
-        return tmp[0] && tmp[0]._value ? tmp[0]._value : tmp[0] && tmp[0]._text ? tmp[0]._text : tmp[0]
+        // console.log(prop, JSON.stringify(tmp));
+        return tmp[0] && typeof tmp[0]._value != 'undefined' ? tmp[0]._value : tmp[0] && tmp[0]._text ? tmp[0]._text : tmp[0]
       }
     }
   }
@@ -125,7 +159,10 @@ License: MIT
 
     if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined') {
 
+      //TODO: get parent correct parent not just root!?
+      
       var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
+      
       if (typeof res != 'undefined' && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
