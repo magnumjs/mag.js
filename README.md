@@ -131,7 +131,7 @@ mag.module("hello", {
 [Simple Component Container values](http://jsbin.com/xuxuboluyi/edit?js,output)
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
-[Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?html,js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/regofazoza/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/dafurufawa/edit?html,js,output)
+[Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/mosagojopa/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/kezodakoxe/edit?js,output)
 
 [Auto wiring - select menu](http://jsbin.com/yokozusiva/edit?js,output)
 
