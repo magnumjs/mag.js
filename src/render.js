@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.6
+MagJS v0.24.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,14 +11,23 @@ License: MIT
   var prop = {},
     MAGNUM = '__magnum__';
 
+
+  //TODO: make recursive and clean!
   var getParent = function(parts, parentElement) {
-    for (var i = 1; i < parts.length; i += 2) {
+    for (var i = 1; i < parts.length; i++) {
       var key = parts[i];
       var index = parts[i + 1];
-      parentElement = mag.fill.find(parentElement, key);
-      parentElement = parentElement[index];
+      var found = mag.fill.find(Array.isArray(parentElement) ? parentElement[0] : parentElement, key);
+
+      if (index && !isNaN(Number(index))) {
+        parentElement = found[index];
+      } else if (found && found.length && index) {
+        parentElement = mag.fill.find(found[0], index);
+      } else if(found && found.length) {
+        parentElement = found
+      }
     }
-    return parentElement;
+    return Array.isArray(parentElement) ? parentElement[0] : parentElement;
   };
 
   var getElement = function(obj, k, i, parentElement) {
@@ -42,6 +51,7 @@ License: MIT
     // first user input field
     var founder = isInput(found);
     if (founder && !founder.eventOnFocus) {
+
       var check = ['radio', 'checkbox'].indexOf(founder.type) > -1;
 
       var onit = function(parent, check, event) {
@@ -87,6 +97,7 @@ License: MIT
     var founder = isInput(found);
 
     if (typeof oval !== 'function' && founder) {
+
       var founderCall = getElement.bind({}, obj, k, i, element);
       founderCall();
 
@@ -95,6 +106,7 @@ License: MIT
         configurable: true,
         get: function() {
           var founder = founderCall();
+          
           // set on focus listener once
           if (founder && founder.value !== 'undefined' && (founder[MAGNUM] && founder[MAGNUM].dirty) && founder.value !== oval) {
 
