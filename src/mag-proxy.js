@@ -1,12 +1,12 @@
 /*
-MagJS v0.24.7
+MagJS v0.24.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
 */
 (function(mag, global) {
 
-  function proxyAssign(obj, cb) {
+  function proxyAssign(obj, cb, type, path) {
     var last = [];
     var proxies = new WeakSet();
 
@@ -24,16 +24,19 @@ License: MIT
         if (typeof retval === 'object' && typeof retval !== 'symbol' && retval !== null && typeof retval !== 'function' && !Array.isArray(retval) && retval.toString() == '[object Object]' && !retval.then && !retval.draw) {
 
           if (!isProxy(retval)) {
-            // console.info('INNER', name, retval);
             proxies.add(retval);
-            return mag.proxy(retval, cb);
+            return mag.proxy(retval, cb, type, path + '/' + name);
           }
+        } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type) {
+          //Not for properties!?
+          retval = mag.proxy({}, cb, type, path + '/' + name);
         }
 
         var val = cb({
           type: 'get',
           object: mag.utils.copy(proxy),
           name: name,
+          path: path,
           oldValue: last[name]
         })
         if (typeof val != 'undefined') retval = val;
@@ -49,8 +52,7 @@ License: MIT
         return delete proxy[name]
       },
       set: function(proxy, name, value) {
-
-        //prevent recursion
+        //prevent recursion?
         if (last[name] === value && name !== 'length') return true;
         if (name !== 'length' && JSON.stringify(value) !== JSON.stringify(proxy[name])) {
           last[name] = mag.utils.copy(proxy[name]);
@@ -62,6 +64,7 @@ License: MIT
           object: proxy,
           oldValue: last[name]
         });
+
         proxy[name] = value;
         return true;
       }
@@ -69,7 +72,7 @@ License: MIT
 
   }
 
-  function observer(obj, cb) {
+  function observer(obj, cb, type, path) {
     //TODO: too expensive maybe on small objects?
 
     for (var k in obj) {
@@ -78,27 +81,27 @@ License: MIT
         // assign
         obj[k] = proxyAssign(obj[k], cb)
       } else if (stype == 'object' && obj[k] !== null && typeof k != 'symbol' && stype != 'symbol' && typeof k != 'symbol' && stype != 'function' && obj[k].toString() == '[object Object]') {
-        obj[k] = mag.proxy(obj[k], cb);
+        obj[k] = mag.proxy(obj[k], cb, type, path + '/' + k);
       }
     }
 
-    return proxyAssign(obj, cb)
+    return proxyAssign(obj, cb, type, path || '/')
   }
 
-  mag.proxy = function(obj, callback) {
-    if (obj && global.Proxy) {
+  mag.proxy = function(obj, callback, type, path) {
+    //if (obj && global.Proxy) {
 
-      var handler = function(change) {
+    var handler = function(change) {
 
-        // if (typeof change.object[change.name] == 'object') {
-        //   change.object[change.name] = mag.proxy(change.object[change.name], callback);
-        // }
+      // if (typeof change.object[change.name] == 'object') {
+      //   change.object[change.name] = mag.proxy(change.object[change.name], callback);
+      // }
 
-        return callback(change);
-      };
+      return callback(change);
+    };
 
-      return observer(obj, handler);
-    }
+    return observer(obj, handler, type, path);
+    //  }
   }
 
 }(mag, window || global || this));
