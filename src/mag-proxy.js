@@ -89,19 +89,12 @@ License: MIT
   }
 
   mag.proxy = function(obj, callback, type, path) {
-    //if (obj && global.Proxy) {
 
     var handler = function(change) {
-
-      // if (typeof change.object[change.name] == 'object') {
-      //   change.object[change.name] = mag.proxy(change.object[change.name], callback);
-      // }
-
       return callback(change);
     };
 
     return observer(obj, handler, type, path);
-    //  }
   }
 
 }(mag, window || global || this));
