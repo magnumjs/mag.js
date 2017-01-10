@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.7
+MagJS v0.24.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -148,21 +148,39 @@ License: MIT
       if (tmp.length === 0) return;
       else if (greedy) return tmp;
       else {
-        // console.log(prop, JSON.stringify(tmp));
         return tmp[0] && typeof tmp[0]._value != 'undefined' ? tmp[0]._value : tmp[0] && tmp[0]._text ? tmp[0]._text : tmp[0]
       }
     }
   }
 
+  var findParentNodeWithPath = function(node, path) {
+    var snode = node;
+    var parts = path.split('/');
+
+    for (var prop of parts) {
+      if (prop) {
+        var a = mag.fill.find(snode, prop);
+        if (a.length) {
+          snode = a[0];
+        }
+      }
+    }
+    return snode
+  };
 
   var handler = function(type, index, change) {
 
     if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined') {
 
-      //TODO: get parent correct parent not just root!?
-      
-      var res = findMissing(change, mag.doc.getElementById(mod.getId(index)));
-      
+      var rootNode = mag.doc.getElementById(mod.getId(index));
+
+      //Get parent correct parent not just root!?
+
+      if (change.path && change.path[0] == '/') var fnode = findParentNodeWithPath(rootNode, change.path)
+
+      var res = findMissing(change, fnode ? fnode : rootNode);
+
+
       if (typeof res != 'undefined' && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
@@ -192,14 +210,10 @@ License: MIT
 
   function getController(ctrl, index, id) {
     var controller;
-    if (typeof Proxy !== 'undefined') {
 
-      mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index)));
+    mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
 
-      controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
-    } else {
-      controller = new ctrl({})
-    }
+    controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
 
     return controller;
   }
