@@ -209,6 +209,7 @@ mag.module("hello", {
 [CSS transitions](http://jsbin.com/tasesohiku/edit?html,output)
 
 [Movie plotter service](http://jsbin.com/qurinixihu/edit?html,output) - [Plot selection](http://jsbin.com/batatopini/edit?html,output)
+ - [v0.24.7 - radio selection](http://jsbin.com/wofeniruba/edit?html,output)
 
 ###Mithril 2 Mag
 [Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output) - [Web service](http://jsbin.com/fogajilocu/edit?html,output)
