@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.7
+MagJS v0.24.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,7 +13,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var fill = {
     cached: [],
-    ignorekeys: ['draw', 'then', 'hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
+    ignorekeys: ['toString', 'draw', 'then', 'hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'onreload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
   var ELEMENT_NODE = 1,
@@ -197,14 +197,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         data = data.map(function(d, i) {
 
           if (typeof d === 'object') {
-            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = elements[i].__key
+            elements[i][MAGNUM] = elements[i][MAGNUM] || {};
+            if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = elements[i][MAGNUM].__key
               return d
             }
             if (typeof d[MAGNUM_KEY] === UNDEFINED) {
               d[MAGNUM_KEY] = MAGNUM + i
             }
-            elements[i].__key = d[MAGNUM_KEY]
+            elements[i][MAGNUM].__key = d[MAGNUM_KEY]
           }
 
           return d
@@ -233,12 +234,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           })
 
           elements = elements.filter(function(ele, i) {
-            if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
-              found.push(ele.__key)
+            if (m.indexOf(ele[MAGNUM].__key) === -1 || found.indexOf(ele[MAGNUM].__key) !== -1) {
+              found.push(ele[MAGNUM].__key)
               removeNode(ele)
               return false
             }
-            found.push(ele.__key)
+            found.push(ele[MAGNUM].__key)
             return true
           })
 
@@ -257,14 +258,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       } else {
         var p = getPathTo(elements[i])
 
-        //TODO: is this a child of an array?
         if (data && typeof data === "object") {
           elements[i][MAGNUM] = elements[i][MAGNUM] || {}
-         
-         if( Object.keys(data).indexOf(MAGNUM_KEY) !== -1){
-          elements[i][MAGNUM].isChildOfArray = true
-          elements[i][MAGNUM].dataPass = data
-         }
+
+          if (Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+            elements[i][MAGNUM].isChildOfArray = true
+            elements[i][MAGNUM].dataPass = data
+          }
           elements[i][MAGNUM].xpath = p;
         }
 
@@ -387,7 +387,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       }
       // anything that starts with an underscore is an attribute
-      if (key[0] === '_') {
+      if (key[0] === '_' && key[1] !== '_') {
         attributes = attributes || {}
         attributes[key.substr(1)] = value;
       }
@@ -654,6 +654,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     var val = String(text);
+
+
 
     // SELECT|INPUT|TEXTAREA
     // now add the text
