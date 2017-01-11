@@ -128,7 +128,7 @@ mag.module("hello", {
 [Hello world](http://jsbin.com/vufizohayi/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/mumiyadewe/edit?js,output) - [With dynamic Node](http://jsbin.com/gexobuyuhi/edit?js,output)
 
-[Simple Component Container values](http://jsbin.com/xuxuboluyi/edit?js,output)
+[Simple Component Container values](http://jsbin.com/diqadisuka/edit?js,output)
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
 [Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/mosagojopa/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/kezodakoxe/edit?js,output)
