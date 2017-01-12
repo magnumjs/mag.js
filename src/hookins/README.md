@@ -29,4 +29,4 @@ mag.hookin('attributes', 'bind', function(data) {
 
 ###Examples
 
-* Bind Attribute
+* [Bind Attribute](https://github.com/magnumjs/mag.js/blob/master/src/hookins/mag.bind.js)
