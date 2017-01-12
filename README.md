@@ -818,7 +818,7 @@ mag.hookin('elementMatcher', 'testme', function(data) {
 
 Other hookins such as key/node value!
 
-###[check out the Hookins](https://github.com/magnumjs/mag.js/tree/master/src/hookins)
+###[Check out the Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
 
 #### Notes
 
