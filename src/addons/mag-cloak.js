@@ -1,6 +1,6 @@
 //Example: http://jsbin.com/yepaqewucu/edit?html,js,output 
 
-/* MagJS Example - mag.cloak */
+//Example with large data set: http://jsbin.com/muxisecaxa/edit?html,js,output
 
 /* MagJS Example - mag.cloak */
 
