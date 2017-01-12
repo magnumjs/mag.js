@@ -2,14 +2,16 @@
 
 /* MagJS Example - mag.cloak */
 
+/* MagJS Example - mag.cloak */
+
 mag.cloak = function(id, key) {
 
   var cloak = function(node, index) {
 
     node.style.display = 'none';
-    
-    mag.utils.onLCEvent('didupdate', index, function(vnode) {
-      vnode.style.display = 'block'
+
+    mag.utils.onLCEvent('willupdate', index, function(vnode) {
+      if (vnode.style.display == 'none') vnode.style.display = 'block'
     }.bind({}, node));
 
   };
@@ -44,4 +46,3 @@ mag.cloak = function(id, key) {
     });
   }
 }
-
