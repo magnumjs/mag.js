@@ -10,3 +10,23 @@ These hookins are for:
 - values
 
 Simple Api
+```javascript
+
+//Hookin for attributes matching on '_bind'
+mag.hookin('attributes', 'bind', function(data) {
+
+  //the node
+  data.node;
+  // the selector key
+  data.key;
+  //the selector value
+  data.value;
+  
+  
+});
+```
+
+
+###Examples
+
+* Bind Attribute
