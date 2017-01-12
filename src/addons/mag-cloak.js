@@ -1,8 +1,6 @@
-//Example: http://jsbin.com/fojipicifo/1/edit?html,js,output
+//Example: http://jsbin.com/yepaqewucu/edit?html,js,output 
 
 /* MagJS Example - mag.cloak */
-
-
 
 mag.cloak = function(id, key) {
 
