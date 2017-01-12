@@ -78,7 +78,7 @@ var Component = {
 }
 ```
 Only needed to define the default value of the property to bind and the event when the change is bound
-[Example](http://jsbin.com/yacigibara/edit?js,output) - [Multiple fields](http://jsbin.com/pojozeyaxa/edit?js,output) - [Custom attribute bind hookin](http://jsbin.com/rilenacalu/edit?html,output)
+[Example](http://jsbin.com/yacigibara/edit?js,output) - [Multiple fields](http://jsbin.com/pojozeyaxa/edit?js,output) - [Custom attribute bind hookin](http://jsbin.com/kigelinomu/edit?html,output)
 
 ##Tutorials
 
@@ -749,6 +749,7 @@ Tiny sub library of reusable simple tools can be found [here](https://github.com
 * ajax
 * Reusable utilities (copy, merge .. )
 * namespace
+* hookins
 
 
 ####mag.namespace (String namespace, [Optional object Context])
@@ -815,7 +816,9 @@ mag.hookin('elementMatcher', 'testme', function(data) {
 })
 ```
 
-Other hookins such as key/node value etc.. Coming soon!
+Other hookins such as key/node value!
+
+###[check out the Hookins](https://github.com/magnumjs/mag.js/new/master/src/hookins)
 
 #### Notes
 
