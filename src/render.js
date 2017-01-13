@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.7
+MagJS v0.24.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -9,7 +9,7 @@ License: MIT
   'use strict';
 
   var prop = {},
-    MAGNUM = '__magnum__';
+    MAGNUM = mag.MAGNUM;
 
 
   //TODO: make recursive and clean!
@@ -23,7 +23,7 @@ License: MIT
         parentElement = found[index];
       } else if (found && found.length && index) {
         parentElement = mag.fill.find(found[0], index);
-      } else if(found && found.length) {
+      } else if (found && found.length) {
         parentElement = found
       }
     }
@@ -48,39 +48,73 @@ License: MIT
       found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
     }
 
-    // first user input field
-    var founder = isInput(found);
-    if (founder && !founder.eventOnFocus) {
 
-      var check = ['radio', 'checkbox'].indexOf(founder.type) > -1;
+    return syncUIWatcher(found, obj, k, parentElement);
+  }
 
-      var onit = function(parent, check, event) {
+  function syncUIWatcher(found, obj, k, parentElement) {
 
-        this[MAGNUM] = this[MAGNUM] || {}
+    var items = []
+    for (var i in found) {
+
+      var founder = found[i];
+
+      if (isDynaInput(founder)) {
+        // add to return list
+        items.push(founder);
+        addEvent(founder, obj, k, parentElement);
+      }
+    }
+
+    if (items.length) {
+      if (items.length == 1) {
+        return items[0]
+      }
+      return items;
+    }
+    return false;
+  }
+
+  function addEvent(founder, obj, k, parentElement) {
+
+    founder[MAGNUM] = founder[MAGNUM] || {}
+
+    if (!founder[MAGNUM].eventOnFocus) {
+
+      var onit = function(parent, obj, k, event) {
+
+        var check = ~['radio', 'checkbox'].indexOf(founder.type);
+
         if (!this[MAGNUM].dirty) {
           this[MAGNUM].dirty = 1
         }
 
         if (check) {
-          obj['_checked'] = this.checked;
-          mag.redraw(parent, mag.utils.items.getItem(parent.id), 1)
+          if ('_checked' in obj || '_value' in obj) {
+            obj['_checked'] = this.checked;
+          } else if (this.checked) {
+            obj[k] = this.value;
+          }
+          mag.redraw(parent, mag.utils.items.getItem(parent.id), 1);
         }
-      }.bind(founder, parentElement, check)
+      }.bind(founder, parentElement, obj, k);
 
       founder.addEventListener("click", onit, false);
       founder.addEventListener("change", onit, false);
       founder.addEventListener("focus", onit, false);
 
-      founder.eventOnFocus = 1;
+      founder[MAGNUM].eventOnFocus = 1;
     }
-    return founder;
   }
 
+  function isDynaInput(item) {
+    return item && ~['INPUT', 'SELECT', 'TEXTAREA'].indexOf(item.tagName);
+  }
 
   function isInput(items) {
 
     for (var k in items) {
-      if (items[k] && ~['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName)) {
+      if (isDynaInput(items[k])) {
         return items[k];
       }
     }
@@ -90,7 +124,7 @@ License: MIT
   var attacher = function(i, k, obj, element) {
     var oval = obj[k];
     // if k =='_value' use parent
-    if (k === '_value') k = i.split('.').pop();
+    if (~['_value', '_checked'].indexOf(k)) k = i.split('.').pop();
 
     // only for user input fields
     var found = mag.fill.find(element, k);
@@ -106,7 +140,7 @@ License: MIT
         configurable: true,
         get: function() {
           var founder = founderCall();
-          
+
           // set on focus listener once
           if (founder && founder.value !== 'undefined' && (founder[MAGNUM] && founder[MAGNUM].dirty) && founder.value !== oval) {
 
