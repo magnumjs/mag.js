@@ -13,7 +13,7 @@
 
 mag.cloak = function(id, key) {
   
-  var classHide =mag.cloak.classHideName= 'cloak';
+  var classHide = mag.cloak.classHideName || 'cloak';
   
   var cloak = function(node, index) {
     
