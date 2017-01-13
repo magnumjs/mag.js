@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.6
+MagJS v0.24.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -8,7 +8,9 @@ License: MIT
 
   'use strict';
 
-  global.mag = {};
+  global.mag = {
+    MAGNUM: '__magnum__'
+  };
 
   // set document
 
