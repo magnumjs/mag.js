@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.8
+MagJS v0.24.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -18,7 +18,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var ELEMENT_NODE = 1,
     cached = fill.cached,
-    MAGNUM = '__magnum__',
+    MAGNUM = mag.MAGNUM,
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
     MAGNUM_KEY = '_key',
