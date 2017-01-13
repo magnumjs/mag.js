@@ -1,5 +1,5 @@
 /*
-MagJS v0.23.8
+MagJS v0.24.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,13 +11,19 @@ License: MIT
 
   var utils = {};
 
-  utils.callHook = function (hookins, key, name, i, data, before) {
+  utils.callHook = function(hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
-      before = {v: data.value, k: data.key}
+      before = {
+        v: data.value,
+        k: data.key
+      }
       data.change = false;
       hookins[name][i].handler.call(hookins[name][i].context, data);
-        //if any change
-      if (before !==  {v: data.value, k: data.key}) {
+      //if any change
+      if (before !== {
+          v: data.value,
+          k: data.key
+        }) {
         data.change = true
       }
     }
@@ -41,7 +47,9 @@ License: MIT
     }
 
     // on Handlers
-    handlers[eventName + '-' + index] && handlers[eventName + '-' + index](mag.mod.getState(index), mag.mod.getProps(index));
+    handlers[eventName + '-' + index] && handlers[eventName + '-' + index](mag.mod.getState(index), mag.mod.getProps(index), function() {
+      handlers[eventName + '-' + index] = 0;
+    });
 
     return isPrevented
   }
