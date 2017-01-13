@@ -7,7 +7,9 @@
 
 //Example: http://jsbin.com/kocodalaqu/edit?html,js,output 
 
-//Example with large data set: http://jsbin.com/muxisecaxa/edit?html,js,output
+//Example1 with large data set: http://jsbin.com/muxisecaxa/edit?html,js,output
+
+//Example2: http://jsbin.com/ponowimeri/edit?html,js,output 
 
 /* MagJS Example - mag.cloak */
 
