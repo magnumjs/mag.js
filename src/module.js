@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.8
+MagJS v0.24.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,7 +10,7 @@ License: MIT
 
 
   var modules = [],
-    MAGNUM = '__magnum__',
+    MAGNUM = mag.MAGNUM,
     controllers = []
 
   var mod = {
@@ -234,7 +234,8 @@ License: MIT
 
   mod.cached = [];
   mod.callView = function(node, index) {
-
+    //TODO: ASYNC, promises .. ?
+    mod.runningViewInstance = index;
     if (!mod.cached[index]) {
       mag.props.attachToArgs(index, mod.getState(index), node)
       mod.cached[index] = 1
