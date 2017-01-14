@@ -626,7 +626,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           // separate property vs attribute?
           if (attrName in node) {
-            node[attrName] = attributes[attrName];
+            if (attrName == 'style') node[attrName].cssText = attributes[attrName]
+            else node[attrName] = attributes[attrName];
           } else {
             node.setAttribute(attrName, String(attributes[attrName]));
           }
