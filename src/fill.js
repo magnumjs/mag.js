@@ -166,11 +166,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       }
 
-      if (elements.length != data.length) {
-        //remove 'view' cache due to dom change
-        mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
-      }
-
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
