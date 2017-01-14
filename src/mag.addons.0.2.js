@@ -21,17 +21,17 @@ Requires: MagJS (core) Addons: Ajax , Router
 	mag.copy = mag.utils.copy
 	mag.merge = mag.utils.merge
 
-	mag.isEmpty = function(x) {
+	mag.isEmpty = function(val) {
 			// undefined, '', null, 0, empty array
-			if (!x || 0 == x.length) return true
+			if (!val || 0 == val.length) return true
 			// empty {}
-		  if ('Object]' == x.toString().substr(-7)) {
-					for (var n in x)
-							if (x.hasOwnProperty(n)) return false
+		  if ('Object]' == val.toString().substr(-7)) {
+					for (var n in val)
+							if (val.hasOwnProperty(n)) return false
 					return true
 			}
 			// convert to string and match single non-space character
-			return !(x + '').match(/S/)
+			return !(val + '').match(/S/)
 	};
 
 	/*
