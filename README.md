@@ -97,7 +97,7 @@ Only needed to define the default value of the property to bind and the event wh
 
 ###Hello world!
 
-[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [v0.2](http://jsbin.com/zuwajaheji/edit?js,output) - [Proxy](http://jsbin.com/wedotavaja/edit?js,output) - [No view only controller](http://jsbin.com/madogoviro/edit?html,js,output)
+[JSBin](http://jsbin.com/regofevuvu/edit?js,output) - [Take 2](http://jsbin.com/gefanapuvi/edit?js,output) - [Take3](http://jsbin.com/leyuxohago/edit?js,output) - [Take 4](http://jsbin.com/boziqevuka/edit?js,output) - [Take 5](http://jsbin.com/xatabagezu/edit?js,output) - [Merge Props](http://jsbin.com/junexinuka/edit?js,output) - [Proxy](http://jsbin.com/perorutexe/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output)
 
 Initial html
 ```html
