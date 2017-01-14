@@ -22,7 +22,15 @@ Requires: MagJS (core) Addons: Ajax , Router
 	mag.merge = mag.utils.merge
 
 	mag.isEmpty = function(x) {
-		return Object.keys(x).length === 0;
+		// undefined, '', null, 0, empty array
+		if (!x || 0 == x.length) return true
+			// empty {}
+		if ('Object]' == x.toString().substr(-7)) {
+			for (var n in x)
+				if (x.hasOwnProperty(n)) return false
+			return true
+		}
+		//TODO:? convert to string and match single non-space character
 	};
 
 	/*
