@@ -87,7 +87,8 @@ Only needed to define the default value of the property to bind and the event wh
 * [Introduction Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
 * [Introduction Part2](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md)
 * [mag-komposer - Compose MagJS Containers](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/mag-komposer.md)
-* [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
+* [Comments Components from 
+](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
 * [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 * [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 * [Composable components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
@@ -224,7 +225,7 @@ mag.module("hello", {
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 ###React 2 Mag
-[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/zudunajisa/edit?html,output) - [Controller default](http://jsbin.com/xegibemima/edit?js,output)
+[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/zudunajisa/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
 [Navigation menu:]
 (http://jsbin.com/fajobahaja/edit?js,output)
