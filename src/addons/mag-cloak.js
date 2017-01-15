@@ -14,20 +14,18 @@
 /* MagJS Example - mag.cloak */
 
 mag.cloak = function(id, key) {
-  
+
   var classHide = mag.cloak.classHideName || 'cloak';
-  
+
   var cloak = function(node, index) {
-    
+
     // should be already hidden at this point before code is run on page load class="cloak|hide"
-    //node.style.display = 'none';
-    //TODO: only onload? run only once then remove handler?
-    
+
     mag.utils.onLCEvent('willupdate', index, function(vnode) {
-     //Check self
-     if(vnode.classList.contains(classHide)){
-       vnode.classList.remove(classHide)
-     }
+      //Check self
+      if (vnode.classList.contains(classHide)) {
+        vnode.classList.remove(classHide)
+      }
       //class based for all sub nodes
       var nodes = vnode.getElementsByClassName(classHide);
       if (nodes.length) {
@@ -36,8 +34,9 @@ mag.cloak = function(id, key) {
           item.classList.remove(classHide);
         }
       }
-      //if (vnode.style.display == 'none') vnode.style.display = 'block'
-    }.bind({}, node));
+      //Remove handler only run once onload
+      arguments[3]();
+    }.bind(null, node));
 
   };
 
