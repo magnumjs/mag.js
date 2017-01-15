@@ -224,7 +224,7 @@ mag.module("hello", {
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 ###React 2 Mag
-[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output)
+[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/zudunajisa/edit?html,output) - [Controller default](http://jsbin.com/xegibemima/edit?js,output)
 
 [Navigation menu:]
 (http://jsbin.com/fajobahaja/edit?js,output)
