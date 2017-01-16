@@ -29,7 +29,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
-    return Array.isArray && Array.isArray(obj) || {}.toString.call(obj) === '[object Array]'
+    return Array.isArray(obj)
   }
 
   function getUid(element, clear) {
@@ -121,7 +121,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   // this is the entry point for this module, to fill the dom with data
   fill.run = function(nodeList, data, key) {
-    var node, parent, dataIsArray
+    var node, dataIsArray
 
 
     // there is nothing to do if there is nothing to fill
@@ -146,6 +146,17 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
 
+      if (templates[key] && elements.length === 0) {
+        templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
+        elements = nodeListToArray(templates[key].parent.children)
+      }
+
+      if (!elements.length) {
+        // should never reach here
+        // cannot fill empty nodeList with an array of data
+        return
+      }
+
       handleDataArray(node, data, elements, templates, key);
 
     }
@@ -155,18 +166,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   function handleDataArray(node, data, elements, templates, key) {
-    if (templates[key] && elements.length === 0) {
-      templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
-      elements = nodeListToArray(templates[key].parent.children)
-    }
 
-    if (elements.length === 0) {
-      // should never reach here
-      // cannot fill empty nodeList with an array of data
-      return
-    }
     // clone the first node if more nodes are needed
-    parent = elements[0].parentNode
+    var parent = elements[0].parentNode;
 
     if (!templates[key]) {
       templates[key] = {
@@ -219,8 +221,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (data.length === 0 || typeof data[0] !== 'object') {
 
         while (elements.length > data.length) {
-          node = elements.pop()
-          parent = node.parentNode
+          node = elements.pop();
+          parent = node.parentNode;
           if (parent) {
             removeNode(node)
           }
