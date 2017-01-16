@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.1
+MagJS v0.25.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -94,6 +94,9 @@ License: MIT
         // can be an array, object or string
         // for each
         tmp = [];
+        
+        if(!a.length) return '__';
+        
       a.forEach(function(item) {
         var i;
         if (item && item.type && !~['submit', 'button'].indexOf(item.type)) {
