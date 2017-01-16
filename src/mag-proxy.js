@@ -6,6 +6,7 @@ License: MIT
 */
 (function(mag, global) {
 
+  var pathSeparator = '/';
   function proxyAssign(obj, cb, type, path) {
     var proxies = new WeakSet();
 
@@ -23,11 +24,11 @@ License: MIT
 
           if (!isProxy(retval)) {
             proxies.add(retval);
-            return mag.proxy(retval, cb, type, path + '/' + name);
+            return mag.proxy(retval, cb, type, path + pathSeparator + name);
 
           }
         } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type && name[0] != '_') {
-          retval = mag.proxy({}, cb, type, path + '/' + name);
+          retval = mag.proxy({}, cb, type, path + pathSeparator + name);
         }
 
         var val = cb({
@@ -39,7 +40,7 @@ License: MIT
         })
         if (typeof val != 'undefined') {
           //special case where node is found but no children or value given
-          retval = val == '__' ? undefined : val;
+          retval = val == mag.MAGNUM ? undefined : val;
         }
 
         return retval;
@@ -54,14 +55,15 @@ License: MIT
         return Reflect.deleteProperty(proxy, name);
       },
       set: function(proxy, name, value, receiver) {
+        var oldVal = Reflect.get(proxy, name, receiver);
         //prevent recursion?
-        if (Reflect.get(proxy, name, receiver) === value && name !== 'length') return true;
+        if (oldVal === value && name !== 'length') return true;
 
         cb({
           type: 'set',
           name: name,
           object: proxy,
-          oldValue: Reflect.get(proxy, name, receiver)
+          oldValue: oldVal
         });
 
         return Reflect.set(proxy, name, value, receiver);
@@ -79,11 +81,11 @@ License: MIT
         // assign
         obj[k] = proxyAssign(obj[k], cb)
       } else if (stype == 'object' && obj[k] !== null && typeof k != 'symbol' && stype != 'symbol' && typeof k != 'symbol' && stype != 'function' && obj[k].toString() == '[object Object]') {
-        obj[k] = mag.proxy(obj[k], cb, type, path + '/' + k);
+        obj[k] = mag.proxy(obj[k], cb, type, path + pathSeparator + k);
       }
     }
 
-    return proxyAssign(obj, cb, type, path || '/')
+    return proxyAssign(obj, cb, type, path || pathSeparator)
   }
 
 }(mag, window || global || this));
