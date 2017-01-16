@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.9
+MagJS v0.25.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -256,7 +256,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         if (data && typeof data === "object") {
           elements[i][MAGNUM] = elements[i][MAGNUM] || {}
 
-          if (Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
+          if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
             elements[i][MAGNUM].dataPass = data
           }
