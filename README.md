@@ -78,8 +78,8 @@ var Component = {
 }
 ```
 Only needed to define the default value of the property to bind and the event when the change is bound.
-- [Example](http://jsbin.com/yacigibara/edit?js,output) 
-- [Multiple fields](http://jsbin.com/pojozeyaxa/edit?js,output) 
+- [Example](http://jsbin.com/maxulalasa/edit?js,output) 
+- [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
 
 ##Tutorials
