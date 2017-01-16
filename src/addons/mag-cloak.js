@@ -1,5 +1,5 @@
 /**
- * There are various use cases for hidng content on load
+ * There are various use cases for hiding content on load
  * 1. on initial load to hide placeholder strings that will be interpolated
  * 2. large data set load that might change and or flicker the content when loaded
  * 3. async data loading, loading icon and reloading icon
