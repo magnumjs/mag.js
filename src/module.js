@@ -95,7 +95,7 @@ License: MIT
         // for each
         tmp = [];
         
-        if(!a.length) return '__';
+        if(!a.length) return MAGNUM;
         
       a.forEach(function(item) {
         var i;
@@ -146,7 +146,7 @@ License: MIT
         }
         if (i) tmp.push(i);
         else if(item && !item.hasChildNodes()){
-          tmp.push('__')
+          tmp.push(MAGNUM)
         }
 
       });
