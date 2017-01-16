@@ -216,7 +216,7 @@ mag.module("hello", {
  - [With spinner](http://jsbin.com/fanuvegapi/edit?html,output)
 
 ###Mithril 2 Mag
-[Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output) - [Web service](http://jsbin.com/fogajilocu/edit?html,output)
+[Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output) - [Web service](http://jsbin.com/fogajilocu/edit?html,output) - [Loader](http://jsbin.com/mizicojubi/edit?html,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
