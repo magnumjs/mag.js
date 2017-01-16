@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.1
+MagJS v0.25.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -146,103 +146,113 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
 
-      if (templates[key] && elements.length === 0) {
-        templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
-        elements = nodeListToArray(templates[key].parent.children)
-      }
-
-      if (elements.length === 0) {
-        // should never reach here
-        // cannot fill empty nodeList with an array of data
-        return
-      }
-      // clone the first node if more nodes are needed
-      parent = elements[0].parentNode
-
-      if (!templates[key]) {
-        templates[key] = {
-          node: elements[0].cloneNode(1).outerHTML,
-          parent: parent
-        }
-      }
-
-      //Adding
-      while (elements.length < data.length) {
-        if (templates[key]) {
-          parent.insertAdjacentHTML("beforeend", templates[key].node)
-          node = parent.lastChild
-        } else {
-          node = elements[0].cloneNode(1)
-        }
-
-        elements.push(node)
-        if (parent) parent.appendChild(node)
-      }
-      // loop thru to make sure no undefined keys
-
-      var keys = data.map(function(i) {
-        return i && i[MAGNUM_KEY]
-      })
-
-      // add keys if equal
-      if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-
-
-        // changes data can cause recursion!
-        data = data.map(function(d, i) {
-
-          if (typeof d === 'object') {
-            elements[i][MAGNUM] = elements[i][MAGNUM] || {};
-            if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = elements[i][MAGNUM].__key
-              return d
-            }
-            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-              d[MAGNUM_KEY] = MAGNUM + i
-            }
-            elements[i][MAGNUM].__key = d[MAGNUM_KEY]
-          }
-
-          return d
-        })
-      }
-      if (elements.length > data.length) {
-        if (data.length === 0 || typeof data[0] !== 'object') {
-
-          while (elements.length > data.length) {
-            node = elements.pop()
-            parent = node.parentNode
-            if (parent) {
-              removeNode(node)
-            }
-          }
-
-
-        } else {
-          // more elements than data
-          // remove elements that don't have matching data keys
-
-          var found = []
-            // get all data keys
-          var m = data.map(function(i) {
-            return i[MAGNUM_KEY]
-          })
-
-          elements = elements.filter(function(ele, i) {
-            if (m.indexOf(ele[MAGNUM].__key) === -1 || found.indexOf(ele[MAGNUM].__key) !== -1) {
-              found.push(ele[MAGNUM].__key)
-              removeNode(ele)
-              return false
-            }
-            found.push(ele[MAGNUM].__key)
-            return true
-          })
-
-        }
-      }
+      handleDataArray(node, data, elements, templates, key);
 
     }
     // now fill each node with the data
+    fillNodes(data, elements, dataIsArray)
+  }
+
+
+  function handleDataArray(node, data, elements, templates, key) {
+    if (templates[key] && elements.length === 0) {
+      templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
+      elements = nodeListToArray(templates[key].parent.children)
+    }
+
+    if (elements.length === 0) {
+      // should never reach here
+      // cannot fill empty nodeList with an array of data
+      return
+    }
+    // clone the first node if more nodes are needed
+    parent = elements[0].parentNode
+
+    if (!templates[key]) {
+      templates[key] = {
+        node: elements[0].cloneNode(1).outerHTML,
+        parent: parent
+      }
+    }
+
+    //Adding
+    while (elements.length < data.length) {
+      if (templates[key]) {
+        parent.insertAdjacentHTML("beforeend", templates[key].node)
+        node = parent.lastChild
+      } else {
+        node = elements[0].cloneNode(1)
+      }
+
+      elements.push(node)
+      if (parent) parent.appendChild(node)
+    }
+    // loop thru to make sure no undefined keys
+
+    var keys = data.map(function(i) {
+      return i && i[MAGNUM_KEY]
+    })
+
+    // add keys if equal
+    if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
+
+
+      // changes data can cause recursion!
+      data = data.map(function(d, i) {
+
+        if (typeof d === 'object') {
+          elements[i][MAGNUM] = elements[i][MAGNUM] || {};
+          if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+            d[MAGNUM_KEY] = elements[i][MAGNUM].__key
+            return d
+          }
+          if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+            d[MAGNUM_KEY] = MAGNUM + i
+          }
+          elements[i][MAGNUM].__key = d[MAGNUM_KEY]
+        }
+
+        return d
+      })
+    }
+    if (elements.length > data.length) {
+      if (data.length === 0 || typeof data[0] !== 'object') {
+
+        while (elements.length > data.length) {
+          node = elements.pop()
+          parent = node.parentNode
+          if (parent) {
+            removeNode(node)
+          }
+        }
+
+
+      } else {
+        // more elements than data
+        // remove elements that don't have matching data keys
+
+        var found = []
+          // get all data keys
+        var m = data.map(function(i) {
+          return i[MAGNUM_KEY]
+        })
+
+        elements = elements.filter(function(ele, i) {
+          if (m.indexOf(ele[MAGNUM].__key) === -1 || found.indexOf(ele[MAGNUM].__key) !== -1) {
+            found.push(ele[MAGNUM].__key)
+            removeNode(ele)
+            return false
+          }
+          found.push(ele[MAGNUM].__key)
+          return true
+        })
+
+      }
+    }
+  }
+
+
+  function fillNodes(data, elements, dataIsArray) {
     for (var i = 0; i < elements.length; i++) {
 
       // create element specific xpath string
@@ -265,12 +275,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
         fillNode(elements[i], data, p)
       }
-
     }
-
-
-    // return the original nodeList for jQuery chaining
-    return nodeList
   }
 
   function findParentChild(node) {
@@ -294,6 +299,79 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // already exists
     }
   }
+
+
+  function findAllAttributes(node, data) {
+    var attributes;
+
+    for (var key in data) {
+      var value = data[key]
+
+      // null values are treated like empty strings
+      if (value === undefined) {
+        value = ''
+      } else if (value === null && ['onunload'].indexOf(key) === -1) {
+        // TODO: delete case
+        // special case delete all children if equal to null type  
+
+        node[MAGNUM].detached = node[MAGNUM].detached || []
+
+        node[MAGNUM].detached[key] = 1
+
+        removeChildren(node, key)
+
+      } else if (node[MAGNUM].detached && node[MAGNUM].detached[key]) {
+
+        reattachChildren(node, key)
+
+        node[MAGNUM].detached[key] = 0
+
+      }
+      // anything that starts with an underscore is an attribute
+      if (key[0] === '_' && key[1] !== '_') {
+        attributes = attributes || {}
+        attributes[key.substr(1)] = value;
+      }
+    }
+    return attributes;
+  }
+
+  function findNonAttributes(node, data, p) {
+    var elements;
+
+    for (var key in data) {
+      var value = data[key]
+
+      // ignore certain system keys
+      if (~fill.ignorekeys.indexOf(key)) continue;
+
+      // only attributes start with an underscore
+      if (key[0] !== '_') {
+        elements = matchingElements(node, key);
+
+
+        // hookins
+        var data2 = {
+          key: key,
+          value: value,
+          node: node
+        }
+        mag.hook('values', '*', data2)
+          // change
+        if (data2.change) {
+          value = data2.value
+        }
+
+
+        if (_isArray(value)) {
+          elements = matchingElements(node, '$' + key);
+        }
+
+        fill.run(elements, value, p + '/' + key);
+      }
+    }
+  }
+
 
   function fillNode(node, data, p) {
     var attributes;
@@ -351,43 +429,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       _text: data
     }, p)
 
-    //TODO: should be a default plugin hookin not jsut another if
+    //TODO: should be a default plugin hookin not just another if
     // check for unloaded inner modules then call unload
     if (mag.mod.innerMods[fill.id] && data[mag.mod.innerMods[fill.id][0]] && !data[mag.mod.innerMods[fill.id][0]].draw) {
       // call destroy handler
       mag.mod.innerMods[fill.id][1].destroy();
     }
     // find all the attributes
-    for (var key in data) {
-      var value = data[key]
-
-      // null values are treated like empty strings
-      if (value === undefined) {
-        value = ''
-      } else if (value === null && ['onunload'].indexOf(key) === -1) {
-        // TODO: delete case
-        // special case delete all children if equal to null type  
-
-        node[MAGNUM].detached = node[MAGNUM].detached || []
-
-        node[MAGNUM].detached[key] = 1
-
-        removeChildren(node, key)
-
-      } else if (node[MAGNUM].detached && node[MAGNUM].detached[key]) {
-
-        reattachChildren(node, key)
-
-        node[MAGNUM].detached[key] = 0
-
-      }
-      // anything that starts with an underscore is an attribute
-      if (key[0] === '_' && key[1] !== '_') {
-        attributes = attributes || {}
-        attributes[key.substr(1)] = value;
-      }
-    }
-
+    attributes = findAllAttributes(node, data);
 
     // fill in all the attributes
     if (attributes) {
@@ -395,38 +444,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     // look for non-attribute keys and recurse into those elements
-    for (var key in data) {
-      var value = data[key]
-
-      // ignore certain system keys
-      if (~fill.ignorekeys.indexOf(key)) continue;
-
-      // only attributes start with an underscore
-      if (key[0] !== '_') {
-        elements = matchingElements(node, key);
-
-
-
-        // hookins
-        var data2 = {
-          key: key,
-          value: value,
-          node: node
-        }
-        mag.hook('values', '*', data2)
-          // change
-        if (data2.change) {
-          value = data2.value
-        }
-
-
-        if (_isArray(value)) {
-          elements = matchingElements(node, '$' + key);
-        }
-
-        fill.run(elements, value, p + '/' + key);
-      }
-    }
+    findNonAttributes(node, data, p);
   }
 
   var childCache = []
