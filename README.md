@@ -149,7 +149,7 @@ mag.module("hello", {
 (http://jsbin.com/webucanulu/edit?js,output)
 
 [Count]
-(http://jsbin.com/tufomejepi/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
+(http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
 
 [List] 
 (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
@@ -225,7 +225,7 @@ mag.module("hello", {
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 ###React 2 Mag
-[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/zudunajisa/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
+[Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/watopumitu/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
 [Navigation menu:]
 (http://jsbin.com/fajobahaja/edit?js,output)
