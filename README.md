@@ -246,7 +246,7 @@ mag.module("hello", {
 (http://jsbin.com/firevuzege/edit?js,output)
 
 [FilterableProductTable (Thinking in React tutorial):]
-(http://jsbin.com/kaciguqecu/edit?html,output)
+(http://jsbin.com/bidomewequ/edit?html,output)
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/)
 
