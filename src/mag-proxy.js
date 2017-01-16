@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.1
+MagJS v0.25.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -7,14 +7,13 @@ License: MIT
 (function(mag, global) {
 
   function proxyAssign(obj, cb, type, path) {
-    var last = [];
     var proxies = new WeakSet();
 
     function isProxy(obj) {
       return proxies.has(obj);
     }
     return new Proxy(obj, {
-      get: function(proxy, name) {
+      get: function(proxy, name, receiver) {
         var retval = proxy[name];
 
         if (typeof name == 'symbol') return retval;
@@ -27,22 +26,21 @@ License: MIT
             return mag.proxy(retval, cb, type, path + '/' + name);
 
           }
-        } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type && name[0] !='_') {
-          //TODO: not for properties!
+        } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type && name[0] != '_') {
           retval = mag.proxy({}, cb, type, path + '/' + name);
         }
 
         var val = cb({
           type: 'get',
-          object: mag.utils.copy(proxy),
+          object: proxy,
           name: name,
           path: path,
-          oldValue: last[name]
+          oldValue: Reflect.get(proxy, name, receiver)
         })
-        if (typeof val != 'undefined'){
+        if (typeof val != 'undefined') {
           //special case where node is found but no children or value given
-          retval =val == '__' ? undefined: val;
-        } 
+          retval = val == '__' ? undefined : val;
+        }
 
         return retval;
       },
@@ -51,32 +49,28 @@ License: MIT
           type: 'delete',
           name: name,
           object: proxy,
-          oldValue: last[name]
+          oldValue: Reflect.get(proxy, name)
         })
-        return delete proxy[name]
+        return Reflect.deleteProperty(proxy, name);
       },
-      set: function(proxy, name, value) {
+      set: function(proxy, name, value, receiver) {
         //prevent recursion?
-        if (last[name] === value && name !== 'length') return true;
-        if (name !== 'length' && JSON.stringify(value) !== JSON.stringify(proxy[name])) {
-          last[name] = mag.utils.copy(proxy[name]);
-        }
+        if (Reflect.get(proxy, name, receiver) === value && name !== 'length') return true;
 
         cb({
           type: 'set',
           name: name,
           object: proxy,
-          oldValue: last[name]
+          oldValue: Reflect.get(proxy, name, receiver)
         });
 
-        proxy[name] = value;
-        return true;
+        return Reflect.set(proxy, name, value, receiver);
       }
     });
 
   }
 
-  function observer(obj, cb, type, path) {
+  mag.proxy = function(obj, cb, type, path) {
     //TODO: too expensive maybe on small objects?
 
     for (var k in obj) {
@@ -92,8 +86,4 @@ License: MIT
     return proxyAssign(obj, cb, type, path || '/')
   }
 
-  mag.proxy = function(obj, callback, type, path) {
-    return observer(obj, callback, type, path);
-  }
-
-}(mag, window || global || this));;
+}(mag, window || global || this));
