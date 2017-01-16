@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.8
+MagJS v0.25.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -19,16 +19,16 @@ License: MIT
 
         if (typeof name == 'symbol') return retval;
 
-
         //check for sub objects
         if (typeof retval === 'object' && typeof retval !== 'symbol' && retval !== null && typeof retval !== 'function' && !Array.isArray(retval) && retval.toString() == '[object Object]' && !retval.then && !retval.draw) {
 
           if (!isProxy(retval)) {
             proxies.add(retval);
             return mag.proxy(retval, cb, type, path + '/' + name);
+
           }
-        } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type) {
-          //Not for properties!?
+        } else if (!(name in proxy) && !~mag.fill.ignorekeys.indexOf(name.toString()) && !type && name[0] !='_') {
+          //TODO: not for properties!
           retval = mag.proxy({}, cb, type, path + '/' + name);
         }
 
@@ -39,7 +39,11 @@ License: MIT
           path: path,
           oldValue: last[name]
         })
-        if (typeof val != 'undefined') retval = val;
+        if (typeof val != 'undefined'){
+          //special case where node is found but no children or value given
+          retval =val == '__' ? undefined: val;
+        } 
+
         return retval;
       },
       deleteProperty: function(proxy, name) {
@@ -89,12 +93,7 @@ License: MIT
   }
 
   mag.proxy = function(obj, callback, type, path) {
-
-    var handler = function(change) {
-      return callback(change);
-    };
-
-    return observer(obj, handler, type, path);
+    return observer(obj, callback, type, path);
   }
 
-}(mag, window || global || this));
+}(mag, window || global || this));;
