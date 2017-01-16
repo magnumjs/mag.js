@@ -4,7 +4,7 @@
 
 * A MagJS component is a fully functional self contained mag.module.
 
-* It can be executed on any matching element id html template
+* It can be executed on any matching element id html template (or node reference)
 
 ###Component Example
 
