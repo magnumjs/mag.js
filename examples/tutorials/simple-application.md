@@ -489,9 +489,9 @@ var Layout = function(comp) {
 }
 ```
 
-This component is fairly straightforward, it has a `<nav>` with a link to the list of users. Similar to what we did to the `/edit` links, this link uses `m.route.link` to activate routing behavior in the link.
+This component is fairly straightforward, it has a `<nav>` with a link to the list of users. Similar to what we did to the `/edit` links, this link activates routing behavior in the link.
 
-Notice there's also a `<section>` element with `vnode.children` as children. `vnode` is a reference to the vnode that represents an instance of the Layout component (i.e. the vnode returned by a `m(Layout)` call). Therefore, `vnode.children` refer to any children of that vnode.
+Notice there's also a `<section>` element with `comp` as children. `node` is a reference to the node that represents an instance of the Layout component (i.e. the node returned by a `Layout` call). Therefore, `comp` refer to any children of that node.
 
 Let's add some styles:
 
@@ -549,11 +549,11 @@ mag.route.addRoute('/edit/:id', function(id) {
 mag.route.load('/list');
 ```
 
-We replaced each component with a [RouteResolver](route.md#routeresolver) (basically, an object with a `render` method). The `render` methods can be written in the same way as regular component views would be, by nesting `m()` calls.
+We replaced each component with a RouteResolver (basically, an object with a `handler` method). The `handler` methods can be written in the same way as regular functions would be.
 
-The interesting thing to pay attention to is how components can be used instead of a selector string in a `m()` call. Here, in the `/list` route, we have `m(Layout, m(UserList))`. This means there's a root vnode that represents an instance of `Layout`, which has a `UserList` vnode as its only child.
+The interesting thing to pay attention to is how components can be used instead of a selector string in a `state` call. Here, in the `/list` route, we have `Layout(UserList)`. This means there's a root node that represents an instance of `Layout`, which has a `UserList` node as its only child.
 
-In the `/edit/:id` route, there's also a `vnode` argument that carries the route parameters into the `UserForm` component. So if the URL is `/edit/1`, then `vnode.attrs` in this case is `{id: 1}`, and this `m(UserForm, vnode.attrs)` is equivalent to `m(UserForm, {id: 1})`. The equivalent JSX code would be `<UserForm id={vnode.attrs} />`.
+In the `/edit/:id` route, the argument that carries the route parameters into the `UserForm` component. So if the URL is `/edit/1`, then `props` in this case is `{id: 1}`, and this `UserForm(props)` is equivalent to `UserForm({id: 1})`.
 
 Refresh the page in the browser and now you'll see the global navigation on every page in the app.
 
