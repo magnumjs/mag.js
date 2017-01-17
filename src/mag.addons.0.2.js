@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.2
+Mag.JS AddOns v0.22.3
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -439,7 +439,7 @@ module library creation with single global namespace / package names
     data.value = data.value.trim()
   })
 
-
+  var queue = [];
   //Values hookin:
   mag.hookin('values', '*', function(data) {
     var dtype = typeof data.value
@@ -454,24 +454,27 @@ module library creation with single global namespace / package names
     } else
     // Allow for promises to be resolved
     if (dtype == 'object' && typeof data.value.then == 'function') {
+      if (!queue[mag.fill.id + data.key]) {
+        queue[mag.fill.id + data.key] = 1;
+        data.value.then(function(fillId, dataKey, newData) {
+          if (fillId) {
+            var mid = mag.utils.items.getItem(fillId);
 
-      data.value.then(function(fillId, newData) {
-        if (fillId) {
-          var mid = mag.utils.items.getItem(fillId);
-
-          if (~mid) {
-            mag.mod.getState(mid)[data.key] = newData;
-            mag.redraw(mag.getNode(fillId), mid, 1);
+            if (~mid) {
+              mag.mod.getState(mid)[dataKey] = newData;
+              mag.redraw(mag.getNode(fillId), mid, 1);
+              queue[fillId + data.key] = 0;
+            }
           }
-        }
-      }.bind(null, mag.fill.id))
-
+          return newData;
+        }.bind(null, mag.fill.id, data.key));
+      }
       if (data.value.initialValue) {
-        data.change = 1
-        data.value = data.value.initialValue
+        data.change = 1;
+        data.value = data.value.initialValue;
       }
     }
-  })
+  });
 
 
 
