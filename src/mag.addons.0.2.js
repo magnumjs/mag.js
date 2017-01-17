@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.1
+Mag.JS AddOns v0.22.2
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -23,7 +23,7 @@ Requires: MagJS (core) Addons: Ajax , Router
   mag.isEmpty = function(x) {
     // undefined, '', null, 0, empty array
     if (!x || 0 == x.length) return true
-    // empty {}
+      // empty {}
     if ('Object]' == x.toString().substr(-7)) {
       for (var n in x)
         if (x.hasOwnProperty(n)) return false
@@ -107,7 +107,7 @@ d.resolve({
     }
     //Uid:
     var key = JSON.stringify(options)
-    //Cache:
+      //Cache:
     if (options.cache) {
       var cache = mag.cache(key)
       if (cache) {
@@ -147,7 +147,7 @@ d.resolve({
     };
 
     client.open(method, options.url);
-	  if (options.withCredentials) client.withCredentials = options.withCredentials
+    if (options.withCredentials) client.withCredentials = options.withCredentials
 
     //Headers:
     if (options.headers) {
@@ -447,26 +447,32 @@ module library creation with single global namespace / package names
     if (data.value == null) {
 
     } else
-      // allow function to return values
-      if (dtype === 'function' && data.value.toJSON) {
-        data.change = 1
-        data.value = data.value()
-      } else
-        // Allow for promises to be resolved
-        if (dtype == 'object' && typeof data.value.then == 'function') {
-          var mid = mag.utils.items.getItem(mag.fill.id);
+    // allow function to return values
+    if (dtype === 'function' && data.value.toJSON) {
+      data.change = 1
+      data.value = data.value()
+    } else
+    // Allow for promises to be resolved
+    if (dtype == 'object' && typeof data.value.then == 'function') {
 
-          data.value.then(function(newData) {
+      data.value.then(function(fillId, newData) {
+        if (fillId) {
+          var mid = mag.utils.items.getItem(fillId);
+
+          if (~mid) {
             mag.mod.getState(mid)[data.key] = newData;
-            mag.redraw(mag.getNode(mag.fill.id), mid, 1);
-          })
-
-          if (data.value.initialValue) {
-            data.change = 1
-            data.value = data.value.initialValue
+            mag.redraw(mag.getNode(fillId), mid, 1);
           }
         }
+      }.bind(null, mag.fill.id))
+
+      if (data.value.initialValue) {
+        data.change = 1
+        data.value = data.value.initialValue
+      }
+    }
   })
+
 
 
   //GetId helper method
