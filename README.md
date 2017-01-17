@@ -226,6 +226,8 @@ mag.module("hello", {
 
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
+[Web service - user list](https://embed.plnkr.co/Ci0CNC1121nEqqQpwVEH/)
+
 ###React 2 Mag
 [Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Latest](http://jsbin.com/watopumitu/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
