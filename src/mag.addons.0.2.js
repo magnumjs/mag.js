@@ -147,6 +147,8 @@ d.resolve({
     };
 
     client.open(method, options.url);
+	  if (options.withCredentials) client.withCredentials = options.withCredentials
+
     //Headers:
     if (options.headers) {
       for (var i = 0; i < options.headers.length; i++) {
