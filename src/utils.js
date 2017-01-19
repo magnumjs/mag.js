@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.9
+MagJS v0.25.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -29,9 +29,12 @@ License: MIT
     }
   }
 
+
   var handlers = []
   utils.onLCEvent = function(eventName, index, handler) {
-    handlers[eventName + '-' + index] = handler
+    var eventer = eventName + '-' + index;
+    handlers[eventer] = handlers[eventer] || []
+    handlers[eventer].push(handler);
   }
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented = false,
@@ -47,10 +50,12 @@ License: MIT
     }
 
     // on Handlers
-    handlers[eventName + '-' + index] && handlers[eventName + '-' + index](mag.mod.getState(index), mag.mod.getProps(index), function() {
-      handlers[eventName + '-' + index] = 0;
-    });
-
+    var eventer = eventName + '-' + index;
+    if (handlers[eventer]) {
+      for (var handle of handlers[eventer]) {
+        handle(mag.mod.getState(index), mag.mod.getProps(index));
+      }
+    }
     return isPrevented
   }
 
