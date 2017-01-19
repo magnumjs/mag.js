@@ -1,5 +1,5 @@
 /*
-MagJS v0.24.9
+MagJS v0.25.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -183,10 +183,12 @@ License: MIT
 
   var run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
-    mag.mod.submodule(cloner.id, ids, mod, props2)
-
-    if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
-
+    
+    if (mag.mod.exists(ids)) {
+      if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
+    }
+    mag.mod.submodule(cloner.id, ids, mod, props2);
+    
 
     observer(ids, cloner.id)
 
