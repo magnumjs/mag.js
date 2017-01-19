@@ -1,6 +1,6 @@
 /*
 Name: Mag-template v0.1.1
-Description: run mag.module by html url, returns instance in promise
+Description: run mag.create by html url
 Example:
 
 var promise = mag.template(
@@ -18,13 +18,18 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2017
 */
 
-//TODO: what about within a module, mag.create or attach to a specific node?
-
 ;
 (function(mag, document) {
 
   'use strict';
   var attached = [];
+
+  var getParentNode = function(parentInstance) {
+    var parentId = mag.getId(parentInstance);
+    var parentNode = mag.getNode(parentId);
+    return parentNode;
+  };
+
   mag.template = function(url, component, props) {
 
     return mag.request({
@@ -39,14 +44,18 @@ Homepage: https://github.com/magnumjs/mag.js
         var newNode = template.content.children[0];
         var id = newNode.id;
         var instance = mag.module(newNode, component, props);
-        
-        instance.subscribe(function() {
-          //only once
+
+        var parentInstance = mag.mod.runningViewInstance;
+
+        instance.subscribe(function(parentInst) {
+            //only once
           if (!attached[id]) {
-            document.body.appendChild(newNode);
+            var parentNode = getParentNode(parentInst);
+            //Attach to parent instance if available
+            (document || parentNode).body.appendChild(newNode);
             attached[id] = 1;
           }
-        })
+        }.bind(null, parentInstance))
         return instance;
       });
   };
