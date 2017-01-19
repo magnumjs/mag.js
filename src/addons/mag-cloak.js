@@ -34,8 +34,8 @@ mag.cloak = function(id, key) {
           item.classList.remove(classHide);
         }
       }
-      //Remove handler only run once onload
-      arguments[3]();
+      //TODO: Remove handler only run once onload?
+      //remove();
     }.bind(null, node));
 
   };
