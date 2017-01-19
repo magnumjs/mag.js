@@ -42,17 +42,19 @@ Homepage: https://github.com/magnumjs/mag.js
         var template = document.createElement('template');
         template.innerHTML = data;
         var newNode = template.content.children[0];
+        newNode.id = newNode.id || performance.now();
         var id = newNode.id;
         var instance = mag.module(newNode, component, props);
 
         var parentInstance = mag.mod.runningViewInstance;
 
         instance.subscribe(function(parentInst) {
+          console.log('called')
             //only once
           if (!attached[id]) {
             var parentNode = getParentNode(parentInst);
             //Attach to parent instance if available
-            (document || parentNode).body.appendChild(newNode);
+            (parentNode || document).body.appendChild(newNode);
             attached[id] = 1;
           }
         }.bind(null, parentInstance))
