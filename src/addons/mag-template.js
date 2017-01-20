@@ -1,5 +1,5 @@
 /*
-Name: Mag-template v0.1.1
+Name: Mag-template v0.1.2
 Description: run mag.create by html url
 Example:
 
@@ -8,8 +8,10 @@ var promise = mag.template(
   component, 
   props)
   .then((magInstance) => {
-    magInstance(newProps)
-  });
+    magInstance.subscribe(function(state, props, node){
+      console.log('updated')
+    })
+});
 
 Author: Michael Glazer
 License: MIT
@@ -43,20 +45,24 @@ Homepage: https://github.com/magnumjs/mag.js
         template.innerHTML = data;
         var newNode = template.content.children[0];
         newNode.id = newNode.id || performance.now();
+        //If no node id default with performance props.key becomes redudant.
+        newNode.id = newNode.id + (props.key || '');
         var id = newNode.id;
         var instance = mag.module(newNode, component, props);
 
         var parentInstance = mag.mod.runningViewInstance;
 
         instance.subscribe(function(parentInst, nid) {
+
           //only once
           if (!attached[nid]) {
             var parentNode = getParentNode(parentInst);
             //Attach to parent instance if available
-            (parentNode || document).body.appendChild(newNode);
+            (parentNode || mag.doc.body).appendChild(newNode);
             attached[nid] = 1;
           }
         }.bind(null, parentInstance, id))
+
         return instance;
       });
   };
