@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.3
+Mag.JS AddOns v0.22.4
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -462,7 +462,7 @@ module library creation with single global namespace / package names
 
             if (~mid) {
               mag.mod.getState(mid)[dataKey] = newData;
-              mag.redraw(mag.getNode(fillId), mid, 1);
+              mag.redraw(mag.getNode(fillId), mid);
               queue[fillId + data.key] = 0;
             }
           }
