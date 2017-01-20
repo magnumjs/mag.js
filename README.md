@@ -135,7 +135,7 @@ mag.module("hello", {
 
 [Simple Wrapped component - HoC](http://jsbin.com/cojidiwuye/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/tezabisose/edit?html,output) - [Flicker free](http://jsbin.com/watisegudi/edit?html,output)
 
-[Simple tabbed content](http://jsbin.com/favuyiquno/edit?html,output)
+[Simple tabbed content](http://jsbin.com/barukocucu/edit?html,output)
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
 [Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/mosagojopa/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/nogupefuga/edit?js,output)
