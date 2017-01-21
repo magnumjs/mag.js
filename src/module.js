@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.2
+MagJS v0.25.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -62,7 +62,7 @@ License: MIT
       return modules[index]
     }
     modules[index] = [0, 0, 0, 0, 0]
-    mod.setProps(index, props)
+    mod.setProps(index, mag.utils.copy(props))
     var controller = function(context) {
         return (module.controller || function() {}).call(context, mod.getProps(index)) || context
       },
