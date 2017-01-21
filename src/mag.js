@@ -228,9 +228,9 @@ License: MIT
 
     if (mag.mod.exists(ids)) {
       if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
-      if (JSON.stringify(props2) != JSON.stringify(mag.mod.getProps(ids))) {
+      if (!clear && JSON.stringify(props2) != JSON.stringify(mag.mod.getProps(ids))) {
         clear = 1
-      } else {
+      } else if(!clear) {
         return;
       }
     }
@@ -263,7 +263,7 @@ License: MIT
       if (mag.utils.items.isItem(id)) {
         // call redraw on 
         // get unique instance ID's module
-        mag._run(cloner, id, props2, mod);
+        mag._run(cloner, id, props2, mod, 1);
         return cloner;
       }
 
@@ -278,7 +278,7 @@ License: MIT
       });
 
       // get unique instance ID's module
-      mag._run(cloner, id, props2, mod);
+      mag._run(cloner, id, props2, mod, 1);
 
       return cloner;
 
