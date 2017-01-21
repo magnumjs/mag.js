@@ -48,7 +48,7 @@ Requires: MagJS (core) Addons: Ajax , Router
         var magme = node[mag.MAGNUM] = node[mag.MAGNUM] || {};
         magme.uid = magme.uid || performance.now()
         var idInstance = magme.idInstance;
-        var finalProps = mag.utils.merge(mag.utils.copy(defaultProps) || {}, mag.utils.copy(props) || {});
+        var finalProps = mag.merge(mag.copy(defaultProps) || {}, mag.copy(props) || {});
         var cnoder;
         if (!idInstance) {
           var id = template.id + magme.uid;
@@ -77,7 +77,7 @@ Requires: MagJS (core) Addons: Ajax , Router
           draw: function(node, ids, force){
             mag.redraw(node, ids, force)
           }.bind({}, cnoder, idInstance),
-          destroy: mag._destroyerHandler.bind({}, idInstance),
+          destroy: mag._destroyerHandler.bind({}, idInstance, 0),
           subscribe: mag._subscriberHandler.bind({}, idInstance)
         };
         Deferred.resolve(res);
