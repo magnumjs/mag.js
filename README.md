@@ -448,6 +448,10 @@ this.willgetprops = function(node, currentProps, instanceId, nextProps) {
 }
 ```
 
+##Reflection
+
+Use the live instance or an instance ID
+
 ```javascript
 var instance = mag.module ('myElementId'|Element Node, component);
 ```
@@ -462,7 +466,7 @@ These 7 methods are bound to the exact instance
 `draw`
 `getState`
 `getProps`
-`subscribe` v0.22.1
+`subscribe` v0.22.1 - multiple subscribers allowed!
 `clones` v0.22.6
 `destroy` v0.23.5
 
