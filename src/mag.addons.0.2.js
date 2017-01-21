@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.5
+Mag.JS AddOns v0.23.1
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -20,6 +20,78 @@ Requires: MagJS (core) Addons: Ajax , Router
   mag.copy = mag.utils.copy
   mag.merge = mag.utils.merge
 
+  //create unrun component instance
+  //Like mag.create but never runs until called for instance
+  //instance can be called with props
+  //TODO: Add to core? remove the makeCloner from core?
+  mag.maker = function(nodeOrId, component, defaultProps) {
+
+    /*
+    Node is a template copy it
+    component is a template copy it
+    */
+    nodeOrId = mag._isNode(nodeOrId);
+    var template = mag.getNode(nodeOrId);
+
+    //attach all data per node
+
+    return function(props) {
+
+      var Deferred = {}
+      Deferred.promise = new Promise(function(resolve, reject) {
+        Deferred.resolve = resolve
+        Deferred.reject = reject
+      })
+
+      var magger = function(node) {
+
+        var magme = node[mag.MAGNUM] = node[mag.MAGNUM] || {};
+        magme.uid = magme.uid || performance.now()
+        var idInstance = magme.idInstance;
+        var finalProps = mag.utils.merge(mag.utils.copy(defaultProps) || {}, mag.utils.copy(props) || {});
+        var cnoder;
+        if (!idInstance) {
+          var id = template.id + magme.uid;
+          idInstance = mag.utils.getItemInstanceId(id);
+          magme.idInstance = idInstance;
+
+          cnoder = template.cloneNode(1);
+          cnoder.id = id;
+          node.appendChild(cnoder);
+
+          mag._setup(finalProps, idInstance, component, id);
+
+        } else {
+
+          var nid = mag.utils.items.getItemVal(idInstance);
+          cnoder = mag.getNode(nid)
+          mag._run(cnoder, nid, finalProps, component, 1)
+        }
+
+        var res = {
+          getId: () => {
+            return idInstance
+          },
+          getState: () => mag.mod.getState(idInstance),
+          getProps: () => mag.mod.getProps(idInstance),
+          draw: function(node, ids, force){
+            mag.redraw(node, ids, force)
+          }.bind({}, cnoder, idInstance),
+          destroy: mag._destroyerHandler.bind({}, idInstance),
+          subscribe: mag._subscriberHandler.bind({}, idInstance)
+        };
+        Deferred.resolve(res);
+        return res;
+      }
+      magger[mag.MAGNUM] = 1;
+      //TODO: return instance?
+      //subscribe etc..?
+      magger.promise = Deferred.promise;
+
+      return magger;
+    }
+  }
+	
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
     return function(id2, props2) {
