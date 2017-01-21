@@ -426,6 +426,8 @@ var component = {
 }
 ```
 
+##Lifecycle methods
+
 There are 9 life cycle events: willload, willgetprops(v0.22.9), didload, willupdate, didupdate, isupdate, onbeforeunload (v0.24), onunload, onreload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
@@ -474,7 +476,7 @@ v0.23.1 For inner reflection the instanceID is available in all lifecycle method
 
 `mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
 
-#### mag.create (String elementID|Element Node, Object ModuleDefinition, Optional Object props) - v0.20
+#### mag.create (String elementID|Element Node, Object ModuleDefinition, Optional Object props) - Addons
 
 Wraps around `mag.module` to return a reference instance you can call later.
 The reference function can also over write the defaults given in create usually it will only over write the props
