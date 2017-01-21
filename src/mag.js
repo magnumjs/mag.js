@@ -86,7 +86,7 @@ License: MIT
     if (mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)) return;
 
     // DRAW async
-    mag.redraw(node, idInstance);
+    mag.redraw(node, idInstance, 1);
 
     // LIFE CYCLE EVENT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
