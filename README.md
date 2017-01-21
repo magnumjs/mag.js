@@ -124,14 +124,14 @@ mag.module("hello", {
 ```
 
 ##Boilerplates
-[Boilerplate JSbin](http://jsbin.com/yapifujuku/edit?js,output) - [Latest](http://jsbin.com/pizoxiyeki/edit?html,output) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/) - [Boilerplate Plunker Modular](http://embed.plnkr.co/0VJoUfBC6uayPPWw5krr/) -  [Boilerplate Plunker Modular v0.2](http://embed.plnkr.co/amqDNol7ibvKHrW6J6LK/)
+[Boilerplate JSbin](http://jsbin.com/setenutebu/edit?js,output) - [Latest](http://jsbin.com/pizoxiyeki/edit?html,output) - [Boilerplate Plunker](http://embed.plnkr.co/Rk9IsJqEjtKPrCSLsFs5/) - [Boilerplate Plunker Modular](http://embed.plnkr.co/0VJoUfBC6uayPPWw5krr/) -  [Boilerplate Plunker Modular v0.2](http://embed.plnkr.co/amqDNol7ibvKHrW6J6LK/)
 
 ##Examples
 
 [Hello world](http://jsbin.com/vufizohayi/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/mumiyadewe/edit?js,output) - [With dynamic Node](http://jsbin.com/gexobuyuhi/edit?js,output)
 
-[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock components)[http://jsbin.com/daleyolosu/edit?html,output]
+[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock components)[http://jsbin.com/cayofezupe/edit?html,output]
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cibovafehu/edit?html,output) - [Flicker free](http://jsbin.com/linucuroro/edit?html,output)
 
