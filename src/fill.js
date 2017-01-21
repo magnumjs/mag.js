@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.2
+MagJS v0.25.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -297,9 +297,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         node.removeChild(node.lastChild)
       }
       node.appendChild(val);
-    } else {
-      // already exists
     }
+    // already exists
   }
 
 
@@ -364,7 +363,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           value = data2.value
         }
 
-
         if (_isArray(value)) {
           elements = matchingElements(node, '$' + key);
         }
@@ -374,6 +372,45 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
+  var functionHandler = function(data, node, tagIndex, p) {
+
+    //HOOKIN?
+    if (data[mag.MAGNUM]) {
+      return data(node)
+    }
+
+    var par = findParentChild(node.parentNode),
+      key = par && par.getAttribute('key');
+    if (par && key) {
+      tagIndex = +key.split(MAGNUM)[1]
+    }
+
+    var val = data(tagIndex)
+
+    if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
+
+      // remove childs first
+      addToNode(node, val);
+
+
+      node[MAGNUM] = node[MAGNUM] || {}
+      node[MAGNUM].isChildOfArray = true
+      node[MAGNUM].dataPass = {
+        index: tagIndex
+      }
+      data.draw();
+      return;
+    } else {
+
+      // TODO: is this a valid use case?
+
+      var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
+      var obj = {}
+      obj[type] = val
+      return fillNode(node, obj, p)
+    }
+
+  }
 
   function fillNode(node, data, p) {
     var attributes;
@@ -391,39 +428,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       return;
     }
 
-    // ignore functions
     if (typeof data === 'function') {
-
-      var par = findParentChild(node.parentNode),
-        key = par && par.getAttribute('key');
-      if (par && key) {
-        tagIndex = +key.split(MAGNUM)[1]
-      }
-
-      var val = data(tagIndex)
-
-      if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
-
-        // remove childs first
-        addToNode(node, val);
-
-
-        node[MAGNUM] = node[MAGNUM] || {}
-        node[MAGNUM].isChildOfArray = true
-        node[MAGNUM].dataPass = {
-          index: tagIndex
-        }
-        data.draw();
-        return;
-      } else {
-
-        // TODO: is this a valid use case?
-
-        var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
-        var obj = {}
-        obj[type] = val
-        return fillNode(node, obj, p)
-      }
+      // ignore functions
+      return functionHandler(data, node, tagIndex, p);
     }
 
     // if the value is a simple property wrap it in the attributes hash
