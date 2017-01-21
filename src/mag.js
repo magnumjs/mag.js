@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.4
+MagJS v0.25.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -8,9 +8,11 @@ License: MIT
 
   'use strict';
 
-  global.mag = {
-    MAGNUM: '__magnum__'
-  };
+  global.mag = function() {
+    return mag.maker && mag.maker.apply(this, arguments)
+  }
+
+  mag.MAGNUM = '__magnum__';
 
   // set document
 
@@ -24,21 +26,7 @@ License: MIT
   };
   var nodeCache = [];
 
-  mag.create = function(id, module, props) {
-    return function(id2, props2) {
-      if (typeof id2 !== 'string') {
-        props2 = id2
-        id2 = 0
-      }
-      return mag.module(id2 || id, module, mag.utils.merge(props || {}, props2 || {}))
-    }
-  }
-
-  mag.module = function(id, mod, props) {
-
-    props = props || {}
-
-    //Allow for dom elements to be passed instead of string IDs
+  mag._isNode = function(id) {
     if (id instanceof HTMLElement) {
       // get id if exists or create one
       if (!id.id) id.id = performance.now();
@@ -46,6 +34,15 @@ License: MIT
       nodeCache[id.id] = id;
       id = id.id;
     }
+    return id;
+  }
+
+  mag.module = function(id, mod, props) {
+
+    props = props || {}
+
+    //Allow for dom elements to be passed instead of string IDs
+    id = mag._isNode(id);
 
     // already here before?
     if (mag.utils.items.isItem(id)) {
@@ -62,6 +59,16 @@ License: MIT
       idInstance = mag.utils.getItemInstanceId(props.key ? id + '.' + props.key : id);
     }
 
+    var node = mag._setup(props, idInstance, mod, id);
+    if (!node) return;
+
+    //TODO: remove! uneccessarily complex!
+    //TODO: return ONLY the instance not a cloning device!
+    // return function to create new clone instances ;)
+    return makeClone(idInstance, node, mod, mag.utils.copy(props))
+  }
+
+  mag._setup = function(props, idInstance, mod, id) {
     // TODO: cache/ clearable
     // clear cache if exists
     if (!props.retain) mag.mod.clear(idInstance)
@@ -79,13 +86,12 @@ License: MIT
     if (mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)) return;
 
     // DRAW async
-    mag.redraw(node, idInstance, 1);
+    mag.redraw(node, idInstance);
 
     // LIFE CYCLE EVENT
     mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
 
-    // return function to clone create new clone instances ;)
-    return makeClone(idInstance, node, mod, mag.utils.copy(props))
+    return node;
   }
 
   var isValidId = function(nodeId, idInstance) {
@@ -165,36 +171,69 @@ License: MIT
 
   var cloners = {},
     prevState = [],
-    handlers = [],
-    handler = function(ids, handler) {
-      //collect handlers
-      handlers[ids] = handlers[ids] || [];
-      handlers[ids].push(handler);
-      // call handler on each new change to state or props
-      mag.utils.onLCEvent('didupdate', ids, function(state, props) {
+    handlers = [];
 
-          var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
+  mag._destroyerHandler = function(ids, remove) {
+    var node = mag.getNode(mag.mod.getId(ids));
+    var onremove = function() {
+      //destroy node
 
-          if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
-            for (var handle of handlers[ids]) {
-              handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
-            }
-            prevState[ids] = current;
-          }
-        })
-        //TODO: return `dispose` function to remove handler
+      //callback config unloaders etc...
+      if (mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids)) return;
+      mag.clear(ids);
+      // call unloaders
+      callUnloaders(ids, node);
+      // remove clones
+      a.clones(ids).length = 0;
+      if (remove) mag.fill.removeNode(node);
     };
+    //chek if onbeforeunload exists
+    if (mag.mod.getState(ids).onbeforeunload) {
+      //call first
+      //TODO: call children nodes with hooks too
+      mag.utils.callLCEvent('onbeforeunload', mag.mod.getState(ids), node, ids, 0, function() {
+        onremove();
+      })
+    } else {
+      onremove();
+    }
+  }
+
+  mag._subscriberHandler = function(ids, handler) {
+    //collect handlers
+    handlers[ids] = handlers[ids] || [];
+    handlers[ids].push(handler);
+    // call handler on each new change to state or props
+    mag.utils.onLCEvent('didupdate', ids, function(state, props) {
+
+        var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
+
+        if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
+          for (var handle of handlers[ids]) {
+            handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
+          }
+          prevState[ids] = current;
+        }
+      })
+      //TODO: return `dispose` function to remove handler
+  }
 
   var clones = [];
 
-  var run = function(cloner, id, props2, mod, clear) {
+  mag._run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
 
     if (mag.mod.exists(ids)) {
       if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
+      if (JSON.stringify(props2) != JSON.stringify(mag.mod.getProps(ids))) {
+        clear = 1
+      } else {
+        return;
+      }
     }
-    mag.mod.submodule(cloner.id, ids, mod, props2);
 
+
+    mag.mod.submodule(cloner.id, ids, mod, props2);
 
     observer(ids, cloner.id)
 
@@ -213,7 +252,6 @@ License: MIT
         index = 0;
       }
 
-
       // prevent recursion?
       var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
       var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
@@ -222,7 +260,7 @@ License: MIT
       if (mag.utils.items.isItem(id)) {
         // call redraw on 
         // get unique instance ID's module
-        run(cloner, id, props2, mod, 1);
+        mag._run(cloner, id, props2, mod);
         return cloner;
       }
 
@@ -233,11 +271,11 @@ License: MIT
       clones[ids].push({
         instanceId: idInstance2,
         //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
-        subscribe: handler.bind({}, idInstance2)
+        subscribe: mag._subscriberHandler.bind({}, idInstance2)
       });
 
       // get unique instance ID's module
-      run(cloner, id, props2, mod, 1);
+      mag._run(cloner, id, props2, mod);
 
       return cloner;
 
@@ -251,31 +289,7 @@ License: MIT
     }.bind({}, idInstance);
 
     //TODO: implement
-    a.destroy = function(ids, remove) {
-      var node = mag.getNode(mag.mod.getId(ids));
-      var onremove = function() {
-        //destroy node
-
-        //callback config unloaders etc...
-        if (mag.utils.callLCEvent('onunload', mag.mod.getState(ids), node, ids)) return;
-        mag.clear(ids);
-        // call unloaders
-        callUnloaders(ids, node);
-        // remove clones
-        a.clones(ids).length = 0;
-        if (remove) mag.fill.removeNode(node);
-      };
-      //chek if onbeforeunload exists
-      if (mag.mod.getState(ids).onbeforeunload) {
-        //call first
-        //TODO: call children nodes with hooks too
-        mag.utils.callLCEvent('onbeforeunload', mag.mod.getState(ids), node, ids, 0, function() {
-          onremove();
-        })
-      } else {
-        onremove();
-      }
-    }.bind({}, idInstance);
+    a.destroy = mag._destroyerHandler.bind({}, idInstance);
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance);
@@ -288,8 +302,7 @@ License: MIT
     a.getProps = function(ids, id) {
       return mag.mod.getProps(id || ids)
     }.bind({}, idInstance);
-
-    a.subscribe = handler.bind({}, idInstance);
+    a.subscribe = mag._subscriberHandler.bind({}, idInstance);
 
     return a;
   };
@@ -345,7 +358,7 @@ License: MIT
       // CACHED?
       if (mag.mod.iscached(idInstance) && !force) {
         return 0;
-      };
+      }
 
 
       // LIFE CYCLE EVENT
