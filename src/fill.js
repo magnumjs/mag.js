@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.5
+MagJS v0.25.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -700,6 +700,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         node.value = val;
+        //reset selection cursor from dynamic changes if diff
+        if (node[MAGNUM].fieldPost) {
+          node.setSelectionRange(node[MAGNUM].fieldPost.start, node[MAGNUM].fieldPost.end);
+        }
       }
     } else if (node.nodeName !== 'SELECT') {
       // create a new text node and stuff in the value
