@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.23.1
+Mag.JS AddOns v0.22.5
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
