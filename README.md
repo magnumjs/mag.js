@@ -133,7 +133,7 @@ mag.module("hello", {
 
 [Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output)
 
-[Simple Wrapped component - HoC](http://jsbin.com/cojidiwuye/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/tezabisose/edit?html,output) - [Flicker free](http://jsbin.com/watisegudi/edit?html,output)
+[Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cibovafehu/edit?html,output) - [Flicker free](http://jsbin.com/linucuroro/edit?html,output)
 
 [Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output)
 
