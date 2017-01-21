@@ -173,7 +173,7 @@ License: MIT
     prevState = [],
     handlers = [];
 
-  mag._destroyerHandler = function(ids, remove) {
+  mag._destroyerHandler = function(ids, clones, remove) {
     var node = mag.getNode(mag.mod.getId(ids));
     var onremove = function() {
       //destroy node
@@ -183,8 +183,11 @@ License: MIT
       mag.clear(ids);
       // call unloaders
       callUnloaders(ids, node);
-      // remove clones
-      a.clones(ids).length = 0;
+
+      if(clones){
+        // remove clones?
+        clones(ids).length = 0;
+      }
       if (remove) mag.fill.removeNode(node);
     };
     //chek if onbeforeunload exists
@@ -289,7 +292,7 @@ License: MIT
     }.bind({}, idInstance);
 
     //TODO: implement
-    a.destroy = mag._destroyerHandler.bind({}, idInstance);
+    a.destroy = mag._destroyerHandler.bind({}, idInstance, a.clones);
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance);
