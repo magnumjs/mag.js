@@ -430,11 +430,23 @@ There are 9 life cycle events: willload, willgetprops(v0.22.9), didload, willupd
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
-- Event - can be used to preventDefault - stop continued processing
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
+- instance ID - Internal Mag.JS ID, can be used for reflection
 - [nextProps (4th argument in willgetprops, contains the next props)]
 - [done() (4th argument in onbeforeunload, function to call when completed)]
+
+To prevent default from any Life Cycle method- stop continued processing
+`return false`
+
+
+```javascript
+this.willgetprops = function(node, currentProps, instanceId, nextProps) {
+  if (currentProps === nextProps) {
+    return false
+  }
+}
+```
 
 ```javascript
 var instance = mag.module ('myElementId'|Element Node, component);
