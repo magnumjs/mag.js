@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.5
+Mag.JS AddOns v0.22.6
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -74,7 +74,7 @@ Requires: MagJS (core) Addons: Ajax , Router
           },
           getState: () => mag.mod.getState(idInstance),
           getProps: () => mag.mod.getProps(idInstance),
-          draw: function(node, ids, force){
+          draw: function(node, ids, force) {
             mag.redraw(node, ids, force)
           }.bind({}, cnoder, idInstance),
           destroy: mag._destroyerHandler.bind({}, idInstance, 0),
@@ -91,7 +91,7 @@ Requires: MagJS (core) Addons: Ajax , Router
       return magger;
     }
   }
-	
+
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
     return function(id2, props2) {
@@ -102,7 +102,7 @@ Requires: MagJS (core) Addons: Ajax , Router
       return mag.module(id2 || id, module, mag.merge(mag.copy(props) || {}, mag.copy(props2) || {}))
     }
   }
-	
+
   mag.isEmpty = function(x) {
     // undefined, '', null, 0, empty array
     if (!x || 0 == x.length) return true
@@ -139,11 +139,11 @@ http://jsbin.com/fegizubime/edit?html,js,output
       }
       return obj
     } else if (ctype == 'object') {
-      context.willload = function(event, node, inprops) {
+      context.willload = function(node, inprops) {
         node.style.display = 'block'
       }
     } else {
-      context.willupdate = function(event, node, inprops) {
+      context.willupdate = function(node, inprops) {
         node.style.display = inprops[conditionName] ? 'block' : 'none'
       }
     }
