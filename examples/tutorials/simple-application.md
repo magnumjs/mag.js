@@ -21,7 +21,7 @@ First let's create an entry point for the application. Create a file `index.html
 </html>
 ```
 
-[Full working example](https://embed.plnkr.co/ennFAg8slrlqDMoGrTpP/)
+[Full working example](https://embed.plnkr.co/OVRbv4bH3GmGxvBRuZWd/)
 
 The `<!doctype html>` line indicates this is an HTML 5 document. The first `charset` meta tag indicates the encoding of the document and the `viewport` meta tag dictates how mobile browsers should scale the page. The `title` tag contains the text to be displayed on the browser tab for this application, and the `script` tag indicates what is the path to the Javascript file that controls the application.
 
@@ -557,7 +557,7 @@ In the `/edit/:id` route, the argument that carries the route parameters into th
 
 Refresh the page in the browser and now you'll see the global navigation on every page in the app.
 
-[Full working example](https://embed.plnkr.co/ennFAg8slrlqDMoGrTpP/)
+[Full working example](https://embed.plnkr.co/OVRbv4bH3GmGxvBRuZWd/)
 
 ---
 
