@@ -732,17 +732,19 @@ event (e, index, node, data) default context is node
 
 Life cycle events in controller:
 
-* willload (event, node, props, instanceID)
-* willgetprops (event, node, props, instanceID, nextProps)
-* didload (event, node, props, instanceID)
-* willupdate (event, node, props, instanceID)
-* didupdate (event, node, props, instanceID)
-* isupdate (event, node, props, instanceID)
-* onbeforeunload  (event, node, props, instanceID, done)
-* onunload (event, node, props, instanceID)
-* onreload (event, node, props, instanceID)
+* willload (node, props, instanceID)
+* willgetprops (node, props, instanceID, nextProps)
+* didload (node, props, instanceID)
+* willupdate (node, props, instanceID)
+* didupdate (node, props, instanceID)
+* isupdate (node, props, instanceID)
+* onbeforeunload  (node, props, instanceID, done)
+* onunload (node, props, instanceID)
+* onreload (node, props, instanceID)
 
-event.preventDefault() - will skip further execution and call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
+`return false` - will skip further execution.
+
+It will call any onunload handlers in the current module (includes inner modules and _config onunloaders that are currently  assigned)
 
 controller -> this.willload 
 
