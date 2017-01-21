@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.5
+MagJS v0.25.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -228,13 +228,7 @@ License: MIT
 
     if (mag.mod.exists(ids)) {
       if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
-      if (!clear && JSON.stringify(props2) != JSON.stringify(mag.mod.getProps(ids))) {
-        clear = 1
-      } else if(!clear) {
-        return;
-      }
     }
-
 
     mag.mod.submodule(cloner.id, ids, mod, props2);
 
