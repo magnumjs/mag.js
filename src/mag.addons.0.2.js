@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.6
+Mag.JS AddOns v0.22.8
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -33,6 +33,24 @@ Requires: MagJS (core) Addons: Ajax , Router
     nodeOrId = mag._isNode(nodeOrId);
     var template = mag.getNode(nodeOrId);
 
+    var createClone = function(node, template, component, magme, id, finalProps) {
+      var idInstance = mag._uniqueInstance(id, finalProps.key);
+
+      magme.idInstance = idInstance;
+
+      var cnoder = template.cloneNode(1);
+      cnoder.id = id;
+
+      if (!mag.doc.getElementById(id)) {
+        while (node.lastChild) {
+          node.removeChild(node.lastChild)
+        }
+        node.appendChild(cnoder);
+      }
+
+      mag._setup(finalProps, idInstance, component, id);
+    };
+
     //attach all data per node
 
     return function(props) {
@@ -50,22 +68,20 @@ Requires: MagJS (core) Addons: Ajax , Router
         var idInstance = magme.idInstance;
         var finalProps = mag.merge(mag.copy(defaultProps) || {}, mag.copy(props) || {});
         var cnoder;
-        if (!idInstance) {
-          var id = template.id + magme.uid;
-          idInstance = mag.utils.getItemInstanceId(id);
-          magme.idInstance = idInstance;
+        var id = template.id + '-' + magme.uid;
 
-          cnoder = template.cloneNode(1);
-          cnoder.id = id;
-          node.appendChild(cnoder);
-
-          mag._setup(finalProps, idInstance, component, id);
-
+        if (~idInstance) {
+          createClone(node, template, component, magme, id, finalProps);
         } else {
 
           var nid = mag.utils.items.getItemVal(idInstance);
           cnoder = mag.getNode(nid)
-          mag._run(cnoder, nid, finalProps, component, 1)
+
+          if (!cnoder) {
+            createClone(node, template, component, magme, id, finalProps);
+          } else {
+            mag._run(cnoder, nid, finalProps, component, 1);
+          }
         }
 
         var res = {
