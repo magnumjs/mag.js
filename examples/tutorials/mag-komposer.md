@@ -76,9 +76,9 @@ With loading container: <http://jsbin.com/nedekepane/edit?js,output>
 
 As dynamic node: <http://jsbin.com/xacudopege/edit?html,js,output>
 
-[Simple example](http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/)
+[Simple example](http://embed.plnkr.co/RkCuy0xoyUZyMjSPRKeH/)
 
-[Full working example](http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/)
+[Full working example](http://embed.plnkr.co/LoI7vOx1KAZkaA8dZSJX/)
 <hr>
 
 [Tutorials](https://github.com/magnumjs/mag.js/tree/master/examples/tutorials) - [Addons](https://github.com/magnumjs/mag.js/tree/master/src/addons)
