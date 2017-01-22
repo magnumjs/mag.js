@@ -71,28 +71,27 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         if (!props.key) props.key = performance.now();
         loading[props.key] = true;
 
-        this.willload = function() {
-          _subscribe(arguments[1], arguments[2])
+        this.willload = function(node, cprops, instanceId) {
+          _subscribe(cprops, instanceId)
         };
 
-        this.willgetprops = function() {
-          _subscribe(arguments[3], arguments[2])
+        this.willgetprops = function(node, cprops, instanceId, nprops) {
+          _subscribe(nprops, cprops)
         };
         this.willupdate = function(node, newProps) {
           // prevent layout thrashing on init when no props
           //TODO: real use case?
-          // if (Object.keys(newProps).length < 1) e.preventDefault();
 
           //don't rerun when unecessary
           if (newProps.key && JSON.stringify(prevProps[newProps.key]) === JSON.stringify(newProps)) {
-            e.preventDefault();
+            return false;
           } else {
-            prevProps[newProps.key] = mag.utils.copy(newProps);
+            prevProps[newProps.key] = mag.copy(newProps);
           }
         }
       },
       view: function(state, props) {
-
+        //is loading?
         if (loading[props.key]) {
           state.div = loadingComp(props);
           return;
@@ -102,7 +101,6 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           state.div = errorComp(props);
           return;
         }
-        //is loading?
         state.div = composed(props);
       }
     };
