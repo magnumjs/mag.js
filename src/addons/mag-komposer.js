@@ -75,8 +75,8 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           _subscribe(cprops, instanceId)
         };
 
-        this.willgetprops = function(node, cprops, instanceId, nprops) {
-          _subscribe(nprops, cprops)
+        this.isupdate = function(node, cprops, instanceId) {
+          _subscribe(nprops, instanceId)
         };
         this.willupdate = function(node, newProps) {
           // prevent layout thrashing on init when no props
