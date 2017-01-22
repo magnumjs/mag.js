@@ -699,11 +699,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           }
         }
       } else {
+        var start = node.selectionStart;
         node.value = val;
         //reset selection cursor from dynamic changes if diff
-        if (node[MAGNUM].fieldPost) {
-          node.selectionEnd = node[MAGNUM].fieldPost.start;
-        }
+        node.selectionEnd = start;
       }
     } else if (node.nodeName !== 'SELECT') {
       // create a new text node and stuff in the value
