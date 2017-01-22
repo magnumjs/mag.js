@@ -70,9 +70,9 @@ That's it. Now render the clock to the DOM.
 mag.module(document.body,{view: () => { Clock() }});
 ```
 
-See this live: <http://jsbin.com/powimuxuxa/edit?js,output>
+See this live: <http://jsbin.com/howojexali/edit?js,output>
 
-With loading container: <http://jsbin.com/yabolokiqo/edit?js,output>
+With loading container: <http://jsbin.com/nedekepane/edit?js,output>
 
 As dynamic node: <http://jsbin.com/josifakitu/edit?html,js,output>
 
