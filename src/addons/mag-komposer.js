@@ -1,5 +1,5 @@
 /*
-Name: mag-komposer v0.2.1
+Name: mag-komposer v0.2.2
 Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
 Let's compose MagJS containers and feed data into components. 
 Author: Michael Glazer
@@ -39,7 +39,9 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       errors = [],
       loading = [];
     var _subscribe = function(props, instanceID) {
+      //why is this here, onunload?
       if (cleaners[props.key]) cleaners[props.key]();
+
       cleaners[props.key] = handlerFunc(props, function(key, ids, nprops) {
 
         loading[key] = false;
@@ -57,11 +59,10 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           mag.merge(cp, nprops);
         }
 
-        requestAnimationFrame(function() {
-          if (mag.getNode(mag.getId(ids))) {
-            mag.redraw(mag.getNode(mag.getId(ids)), ids);
-          }
-        })
+        if (mag.getNode(mag.getId(ids))) {
+          mag.redraw(mag.getNode(mag.getId(ids)), ids);
+        }
+
       }.bind({}, props.key, instanceID));
     };
 
@@ -75,7 +76,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           _subscribe(cprops, instanceId)
         };
 
-        this.isupdate = function(node, cprops, instanceId) {
+        this.willgetprops = function(node, cprops, instanceId) {
           _subscribe(cprops, instanceId)
         };
         this.willupdate = function(node, newProps) {
