@@ -97,19 +97,12 @@ License: MIT
           }
 
           mag.redraw(parent, mag.utils.items.getItem(parent.id), 1);
-        } else {
-          var target = event.target,
-            start = target.selectionStart,
-            end = target.selectionEnd; // Capture initial position
-          this[MAGNUM].fieldPost = {
-            start: start,
-            end: end
-          };
         }
+
       }.bind(founder, parentElement, obj, k);
 
       founder.addEventListener("click", onit, false);
-      founder.addEventListener("input", onit, false);
+      founder.addEventListener("change", onit, false);
       founder.addEventListener("focus", onit, false);
 
       founder[MAGNUM].eventOnFocus = 1;
