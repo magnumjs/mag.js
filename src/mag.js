@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.6
+MagJS v0.25.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -37,6 +37,19 @@ License: MIT
     return id;
   }
 
+  mag._uniqueInstance = function(id, key) {
+    // get unique instance ID if not exists or with props.key
+    var idInstance;
+    var item = key ? id + '-' + key : id;
+    // get unique instance ID if not exists or with props.key
+    if (mag.utils.items.isItem(item)) {
+      idInstance = mag.utils.items.getItem(item)
+    } else {
+      idInstance = mag.utils.getItemInstanceId(item);
+    }
+    return idInstance;
+  }
+
   mag.module = function(id, mod, props) {
 
     props = props || {}
@@ -49,15 +62,7 @@ License: MIT
       if (reloader(mag.utils.items.getItem(id), getNode(id))) return;
     }
 
-
-    // get unique instance ID if not exists or with props.key
-    var idInstance;
-    // get unique instance ID if not exists or with props.key
-    if (props.key && mag.utils.items.isItem(id + '.' + props.key)) {
-      idInstance = mag.utils.items.getItem(id + '.' + props.key)
-    } else {
-      idInstance = mag.utils.getItemInstanceId(props.key ? id + '.' + props.key : id);
-    }
+    var idInstance = mag._uniqueInstance(id, props.key);
 
     var node = mag._setup(props, idInstance, mod, id);
     if (!node) return;
@@ -184,7 +189,7 @@ License: MIT
       // call unloaders
       callUnloaders(ids, node);
 
-      if(clones){
+      if (clones) {
         // remove clones?
         clones(ids).length = 0;
       }
