@@ -70,7 +70,7 @@ Requires: MagJS (core) Addons: Ajax , Router
         var cnoder;
         var id = template.id + '-' + magme.uid;
 
-        if (~idInstance) {
+        if (!~idInstance) {
           createClone(node, template, component, magme, id, finalProps);
         } else {
 
