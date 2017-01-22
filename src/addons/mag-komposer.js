@@ -59,8 +59,9 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           mag.merge(cp, nprops);
         }
 
-        if (mag.getNode(mag.getId(ids))) {
-          mag.redraw(mag.getNode(mag.getId(ids)), ids);
+        var rnode = mag.getNode(mag.getId(ids));
+        if (rnode) {
+          mag.redraw(rnode, ids);
         }
 
       }.bind({}, props.key, instanceID));
@@ -71,10 +72,6 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       controller: function(props) {
         if (!props.key) props.key = performance.now();
         loading[props.key] = true;
-
-        this.willload = function(node, cprops, instanceId) {
-          _subscribe(cprops, instanceId)
-        };
 
         this.willgetprops = function(node, cprops, instanceId) {
           _subscribe(cprops, instanceId)
