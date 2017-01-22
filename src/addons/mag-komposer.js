@@ -1,12 +1,12 @@
 /*
-Name: mag-komposer v0.2.0
+Name: mag-komposer v0.2.1
 Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
 Let's compose MagJS containers and feed data into components. 
 Author: Michael Glazer
 License: MIT
 Homepage: https://github.com/magnumjs/mag.js
-@requires mag.js(v0.23.3) & mag addons
-(c) 2016
+@requires mag.js(v0.25.7) & mag addons 0.22.5
+(c) 2017
 Simple Example: http://embed.plnkr.co/j4HjdnopEqw0LHZI5151/
 Full Example: http://embed.plnkr.co/YZq93tsHKiIUPSBFtdPI/
 */
@@ -72,13 +72,13 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         loading[props.key] = true;
 
         this.willload = function() {
-          _subscribe(arguments[2], arguments[3])
+          _subscribe(arguments[1], arguments[2])
         };
 
         this.willgetprops = function() {
-          _subscribe(arguments[4], arguments[3])
+          _subscribe(arguments[3], arguments[2])
         };
-        this.willupdate = function(e, node, newProps) {
+        this.willupdate = function(node, newProps) {
           // prevent layout thrashing on init when no props
           //TODO: real use case?
           // if (Object.keys(newProps).length < 1) e.preventDefault();
