@@ -702,7 +702,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         node.value = val;
         //reset selection cursor from dynamic changes if diff
         if (node[MAGNUM].fieldPost) {
-          node.setSelectionRange(node[MAGNUM].fieldPost.start, node[MAGNUM].fieldPost.end);
+          node.selectionEnd = node[MAGNUM].fieldPost.start;
         }
       }
     } else if (node.nodeName !== 'SELECT') {
