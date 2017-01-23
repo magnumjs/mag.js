@@ -34,17 +34,9 @@ License: MIT
   utils.onLCEvent = function(eventName, index, handler) {
     var eventer = eventName + '-' + index;
     handlers[eventer] = handlers[eventer] || []
-    handlers[eventer].push(handler);
-    return function(){
-      // remove self
-      for(var k in handlers[eventer]){
-        var item = handlers[eventer][k]
-        if(item === handler){
-           handlers[eventer].splice(k, 1);
-           return true;
-        }
-      }
-      return false;
+    var size = handlers[eventer].push(handler);
+    return function() {
+      return handlers[eventer].splice(size - 1, 1)
     }
   }
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
@@ -62,7 +54,7 @@ License: MIT
         handle(mag.mod.getState(index), mag.mod.getProps(index));
       }
     }
-    if(isPrevented === false) return true;
+    if (isPrevented === false) return true;
   }
 
   //UTILITY
