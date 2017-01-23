@@ -35,6 +35,7 @@ License: MIT
     var eventer = eventName + '-' + index;
     handlers[eventer] = handlers[eventer] || []
     var size = handlers[eventer].push(handler);
+    //Remove self:
     return function() {
       return handlers[eventer].splice(size - 1, 1)
     }
