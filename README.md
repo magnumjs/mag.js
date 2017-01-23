@@ -179,7 +179,7 @@ mag.module("hello", {
 
 [Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete w/spinner](http://jsbin.com/nukedikode/edit?html,output) - [Select menu](http://jsbin.com/goxejiqeso/edit?html,output) - [Select addon](http://jsbin.com/bamogobine/edit?html,output)
 
-[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/wineqowovo/edit?html,output)
+[Forms - passFail component](http://jsbin.com/sopitoneyu/edit?js,output) - [Search Highlight](http://jsbin.com/zurajutobu/edit?html,output)
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/w3BSEEp0w5iWzM7B7QIw/)
 
