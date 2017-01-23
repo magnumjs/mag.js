@@ -419,12 +419,41 @@ The controller function has access to the original props as well as all life cyc
 ```javascript
 var component = {
   controller: function (props) {
-    this.didupdate = function (Event, Element, newProps) {
+    this.didupdate = function (Event, Element, currentProps) {
   },
-  view: function (state, props, element) {
+  view: function (state, props, Element) {
   }
 }
 ```
+
+## mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties)
+
+This is a shortcut method to the internal makeClone function returned by `mag.module`
+
+`returns` a function to run the module and template with given props.
+
+```javascript
+//Define Component:
+var CounterComponent = {
+  view: function(state, props) {
+    state.div = "Count: " + props.count;
+  }
+}
+
+//Wire it:
+var Counter = mag('counter', CounterComponent);
+
+//Run:
+var Element = Counter({count: state.count});
+
+//Attach to state:
+state.counter = Counter({count: state.count});
+
+//Reflect on the component
+Counter.getProps() ..
+```
+
+[Example](http://jsbin.com/tamemaqogo/edit?js,output)
 
 ##Lifecycle methods
 
@@ -468,9 +497,17 @@ These 7 methods are bound to the exact instance
 `draw`
 `getState`
 `getProps`
-`subscribe` - multiple subscribers allowed!
 `clones`
 `destroy`
+`subscribe` - multiple subscribers allowed!
+
+##Inner Reflection
+
+`removeSelfFunc = mag.mod.onLCEvent('didupdate', instanceId, handlerFunc)`
+
+Available on all life cycle methods for any instanceId multiple handlers per event and instanceID are accepted.
+
+`returns` a remover function, call to stop the handler from being executed.
 
 For inner reflection the instanceID is available in all lifecycle methods, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
 
