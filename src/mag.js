@@ -210,20 +210,24 @@ License: MIT
   var subscriberHandler = function(ids, handler) {
     //collect handlers
     handlers[ids] = handlers[ids] || [];
-    handlers[ids].push(handler);
+    var size = handlers[ids].push(handler);
+
     // call handler on each new change to state or props
     mag.utils.onLCEvent('didupdate', ids, function(state, props) {
 
-        var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
+      var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
 
-        if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
-          for (var handle of handlers[ids]) {
-            handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
-          }
-          prevState[ids] = current;
+      if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
+        for (var handle of handlers[ids]) {
+          handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
         }
-      })
-      //TODO: return `dispose` function to remove handler
+        prevState[ids] = current;
+      }
+    });
+    //return `dispose` function to remove handler
+    return function() {
+      return handlers[ids].splice(size - 1, 1)
+    }
   }
 
   var clones = [];
@@ -267,14 +271,17 @@ License: MIT
       }
 
       var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
-
-      // repeated similar clones?
-      // Check if instanceId in clones already?
-      clones[ids].push({
-        instanceId: idInstance2,
-        //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
-        subscribe: subscriberHandler.bind({}, idInstance2)
-      });
+      if (ids < 0) {
+        ids = a._id = idInstance2;
+        // repeated similar clones?
+        // Check if instanceId in clones already?
+      } else {
+        clones[ids].push({
+          instanceId: idInstance2,
+          //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
+          subscribe: subscriberHandler.bind({}, idInstance2)
+        });
+      }
 
       // get unique instance ID's module
       run(cloner, id, props2, mod, 1);
@@ -286,25 +293,30 @@ License: MIT
 
     //BIND CLONE INSTANCE METHODS
 
-    a.clones = function(ids) {
-      return clones[ids]
-    }.bind({}, idInstance);
+    a._id = idInstance;
+    a.clones = function() {
+      return clones[a._id]
+    };
 
     //TODO: implement
-    a.destroy = destroyerHandler.bind({}, idInstance, a.clones);
-    a.getId = function(ids) {
-      return ids
-    }.bind({}, idInstance);
-    a.draw = function(node, ids, force) {
-      mag.redraw(node, ids, force)
-    }.bind({}, node, idInstance)
-    a.getState = function(ids, id) {
-      return mag.mod.getState(id || ids)
-    }.bind({}, idInstance)
-    a.getProps = function(ids, id) {
-      return mag.mod.getProps(id || ids)
-    }.bind({}, idInstance);
-    a.subscribe = subscriberHandler.bind({}, idInstance);
+    a.destroy = function(remove) {
+      destroyerHandler(a._id, a.clones, remove);
+    }
+    a.getId = function() {
+      return a._id
+    };
+    a.draw = function(force) {
+      mag.redraw(node, a._id, force)
+    }
+    a.getState = function() {
+      return mag.mod.getState(a._id)
+    }
+    a.getProps = function() {
+      return mag.mod.getProps(a._id)
+    };
+    a.subscribe = function(handler) {
+      return subscriberHandler(a._id, handler);
+    }
 
     return a;
   };
