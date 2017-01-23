@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.8
+MagJS v0.25.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -8,8 +8,8 @@ License: MIT
 
   'use strict';
 
-  global.mag = function() {
-    return mag.maker && mag.maker.apply(this, arguments)
+  global.mag = function(idOrNode, mod, props) {
+    return makeClone(-1, getNode(idOrNode), mod, props);
   }
 
   mag.MAGNUM = '__magnum__';
@@ -26,7 +26,7 @@ License: MIT
   };
   var nodeCache = [];
 
-  mag._isNode = function(id) {
+  var isNode = function(id) {
     if (id instanceof HTMLElement) {
       // get id if exists or create one
       if (!id.id) id.id = performance.now();
@@ -37,7 +37,7 @@ License: MIT
     return id;
   }
 
-  mag._uniqueInstance = function(id, key) {
+  var uniqueInstance = function(id, key) {
     // get unique instance ID if not exists or with props.key
     var idInstance;
     var item = key ? id + '-' + key : id;
@@ -55,16 +55,16 @@ License: MIT
     props = props || {}
 
     //Allow for dom elements to be passed instead of string IDs
-    id = mag._isNode(id);
+    id = isNode(id);
 
     // already here before?
     if (mag.utils.items.isItem(id)) {
       if (reloader(mag.utils.items.getItem(id), getNode(id))) return;
     }
 
-    var idInstance = mag._uniqueInstance(id, props.key);
+    var idInstance = uniqueInstance(id, props.key);
 
-    var node = mag._setup(props, idInstance, mod, id);
+    var node = setup(props, idInstance, mod, id);
     if (!node) return;
 
     //TODO: remove! uneccessarily complex!
@@ -73,12 +73,12 @@ License: MIT
     return makeClone(idInstance, node, mod, mag.utils.copy(props))
   }
 
-  mag._setup = function(props, idInstance, mod, id) {
+  var setup = function(props, idInstance, mod, id) {
     // TODO: cache/ clearable
     // clear cache if exists
     if (!props.retain) mag.mod.clear(idInstance)
 
-    // get unqiue instance ID's module
+    // get unique instance ID's module
     mag.mod.submodule(id, idInstance, mod, props)
 
     // NODE
@@ -178,7 +178,7 @@ License: MIT
     prevState = [],
     handlers = [];
 
-  mag._destroyerHandler = function(ids, clones, remove) {
+  var destroyerHandler = function(ids, clones, remove) {
     var node = mag.getNode(mag.mod.getId(ids));
     var onremove = function() {
       //destroy node
@@ -207,7 +207,7 @@ License: MIT
     }
   }
 
-  mag._subscriberHandler = function(ids, handler) {
+  var subscriberHandler = function(ids, handler) {
     //collect handlers
     handlers[ids] = handlers[ids] || [];
     handlers[ids].push(handler);
@@ -228,7 +228,7 @@ License: MIT
 
   var clones = [];
 
-  mag._run = function(cloner, id, props2, mod, clear) {
+  var run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
 
     if (mag.mod.exists(ids)) {
@@ -262,7 +262,7 @@ License: MIT
       if (mag.utils.items.isItem(id)) {
         // call redraw on 
         // get unique instance ID's module
-        mag._run(cloner, id, props2, mod, 1);
+        run(cloner, id, props2, mod, 1);
         return cloner;
       }
 
@@ -273,11 +273,11 @@ License: MIT
       clones[ids].push({
         instanceId: idInstance2,
         //id: cloner.id, // TODO: remove, use mag.getId(instanceId)
-        subscribe: mag._subscriberHandler.bind({}, idInstance2)
+        subscribe: subscriberHandler.bind({}, idInstance2)
       });
 
       // get unique instance ID's module
-      mag._run(cloner, id, props2, mod, 1);
+      run(cloner, id, props2, mod, 1);
 
       return cloner;
 
@@ -291,7 +291,7 @@ License: MIT
     }.bind({}, idInstance);
 
     //TODO: implement
-    a.destroy = mag._destroyerHandler.bind({}, idInstance, a.clones);
+    a.destroy = destroyerHandler.bind({}, idInstance, a.clones);
     a.getId = function(ids) {
       return ids
     }.bind({}, idInstance);
@@ -304,7 +304,7 @@ License: MIT
     a.getProps = function(ids, id) {
       return mag.mod.getProps(id || ids)
     }.bind({}, idInstance);
-    a.subscribe = mag._subscriberHandler.bind({}, idInstance);
+    a.subscribe = subscriberHandler.bind({}, idInstance);
 
     return a;
   };
