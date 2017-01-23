@@ -428,7 +428,7 @@ var component = {
 
 ##Lifecycle methods
 
-There are 9 life cycle events: willload, willgetprops(v0.22.9), didload, willupdate, didupdate, isupdate, onbeforeunload (v0.24), onunload, onreload
+There are 9 life cycle events: willload, willgetprops, didload, willupdate, didupdate, isupdate, onbeforeunload, onunload, onreload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
@@ -468,11 +468,11 @@ These 7 methods are bound to the exact instance
 `draw`
 `getState`
 `getProps`
-`subscribe` v0.22.1 - multiple subscribers allowed!
-`clones` v0.22.6
-`destroy` v0.23.5
+`subscribe` - multiple subscribers allowed!
+`clones`
+`destroy`
 
-v0.23.1 For inner reflection the instanceID is available in all lifecycle methods, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
+For inner reflection the instanceID is available in all lifecycle methods, Note that this is not the elementID but instead the internal MagJS ID for each component includes clones, example:
 
 `mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
 
