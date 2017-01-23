@@ -62,7 +62,7 @@ License: MIT
       return modules[index]
     }
     modules[index] = [0, 0, 0, 0, 0]
-    mod.setProps(index, mag.utils.copy(props))
+    mod.setProps(index, props);
     var controller = function(context) {
         return (module.controller || function() {}).call(context, mod.getProps(index)) || context
       },
