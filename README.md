@@ -426,7 +426,7 @@ var component = {
 }
 ```
 
-## mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties)
+#### mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties)
 
 This is a shortcut method to the internal makeClone function returned by `mag.module`
 
