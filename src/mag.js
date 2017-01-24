@@ -9,7 +9,8 @@ License: MIT
   'use strict';
 
   global.mag = function(idOrNode, mod, props) {
-    var node = findNode(idOrNode);
+    idOrNode = isNode(idOrNode)
+    var node = getNode(idOrNode);
     return makeClone(-1, node, mod, props || {});
   }
 
@@ -27,22 +28,7 @@ License: MIT
   };
   var nodeCache = [];
 
-  var findNode =function(namer){
-    //1. is live node
-    namer = isNode(namer)
-
-    //2. is template url?
-    //return promise
-
-    //3. is ID/cache
-    return getNode(namer);
-
-    //4. is tagNames 
-    //5. forEach tag create instance 
-        //A. give different ID if not already
-        //B. return multiple instances for more than 1
-  }
-  var inc=0;
+  var inc = 0;
   var isNode = function(id) {
     if (id instanceof HTMLElement) {
       // get id if exists or create one
