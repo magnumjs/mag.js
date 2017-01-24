@@ -464,8 +464,14 @@ state.counter = Counter({count: state.count});
 //Reflect on the component
 Counter.getProps() ..
 ```
-
 [Example](http://jsbin.com/tamemaqogo/edit?js,output)
+
+Note: There are subtle differences between `mag()` and `mag.module|mag.create.`
+
+ - `mag()` defaults to a reference and does not create unique keys for you automatically. [Example](http://jsbin.com/bomevigave/edit?js,output)
+ - In order to reuse one instance uniquely you must pass a key via props. [Example](http://jsbin.com/pesuqacobe/edit?js,output)
+ - Or simply call `mag()` again. [Example](http://jsbin.com/honolebuho/edit?js,output) - [List](http://jsbin.com/vexihanuwi/edit?js,output) - [Defined](http://jsbin.com/dijedajego/edit?js,output) - [Button Factory](http://jsbin.com/teyemomahu/edit?js,output)
+
 
 ##Lifecycle methods
 
