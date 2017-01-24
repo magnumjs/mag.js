@@ -137,7 +137,7 @@ mag.module("hello", {
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cibovafehu/edit?html,output) - [Flicker free](http://jsbin.com/jamihebaho/edit?html,output)
 
-[Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/budotosese/edit?js,output)
+[Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output)
 
 *Forms*
 
