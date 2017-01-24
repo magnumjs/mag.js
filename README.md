@@ -131,7 +131,9 @@ mag.module("hello", {
 [Hello world](http://jsbin.com/gavijobuxu/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/juwijubima/edit?js,output) - [With dynamic Node](http://jsbin.com/gezewacibo/edit?js,output)
 
-[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/peyomipara/edit?html,output)
+*Components*
+
+[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/peyomipara/edit?html,output) - [Master detail](http://jsbin.com/wekunakoqo/edit?js,output)
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cibovafehu/edit?html,output) - [Flicker free](http://jsbin.com/jamihebaho/edit?html,output)
 
