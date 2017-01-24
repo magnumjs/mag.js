@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.9
+MagJS v0.26.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -46,7 +46,7 @@ License: MIT
     if (controller && controller[eventName]) {
       isPrevented = controller[eventName].call(controller, node, mag.mod.getProps(index), index, extra)
       if (once) controller[eventName] = 0
-    }
+    } else { return }
 
     // on Handlers
     var eventer = eventName + '-' + index;
@@ -70,7 +70,7 @@ License: MIT
   var a = {
     i: [],
     isItem: function(id) {
-      return a.i.indexOf(id) > -1
+      return ~a.i.indexOf(id)
     },
     setItem: function(id) {
       a.i[a.i.length] = id
