@@ -238,6 +238,8 @@ mag.module("hello", {
 
 [Volunteer form application](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/)
 
+[StopWatch](http://jsbin.com/viruwefami/edit?html,output)
+
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 [REM API - User list](https://embed.plnkr.co/Ci0CNC1121nEqqQpwVEH/)
