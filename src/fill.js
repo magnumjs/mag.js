@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.9
+MagJS v0.26.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -31,10 +31,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function _isArray(obj) {
     return Array.isArray(obj)
   }
+  var inc = 0;
 
   function getUid(element, clear) {
     element[MAGNUM] = element[MAGNUM] || {}
-    if (!element[MAGNUM].uid || clear) element[MAGNUM].uid = performance.now()
+    if (!element[MAGNUM].uid || clear) element[MAGNUM].uid = ++inc
     return element[MAGNUM].uid
   }
 
