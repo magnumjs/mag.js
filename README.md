@@ -478,7 +478,7 @@ Note: There are subtle differences between `mag()` and `mag.module|mag.create.`
 
 ##Lifecycle methods
 
-There are 9 life cycle events: willload, willgetprops, didload, willupdate, didupdate, isupdate, onbeforeunload, onunload, onreload
+There are 8 life cycle events: willload, willgetprops, didload, willupdate, didupdate, isupdate, onbeforeunload, onunload
 
 They each get the same 3 parameters, their context is the controller no need to bind to `this`:
 
@@ -799,7 +799,6 @@ Life cycle events in controller:
 * isupdate (node, props, instanceID)
 * onbeforeunload  (node, props, instanceID, done)
 * onunload (node, props, instanceID)
-* onreload (node, props, instanceID)
 
 `return false` - will skip further execution.
 
