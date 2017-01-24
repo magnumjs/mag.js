@@ -513,7 +513,7 @@ For inner reflection the instanceID is available in all lifecycle methods, Note 
 
 `mag.redraw(mag.getNode(mag.getId(instanceID)), instanceID, 1);`
 
-#### mag.create (String elementID|Element Node, Object ModuleDefinition, Optional Object props) - Addons
+#### mag.create (String elementID|Element Node, Object ModuleDefinition, Optional Object props) - In the [Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md)
 
 Wraps around `mag.module` to return a reference instance you can call later.
 The reference function can also over write the defaults given in create usually it will only over write the props
@@ -586,7 +586,8 @@ initiate a redraw manually
 Optional boolean argument to force cache to be cleared
 
 #### mag.hookin (type, key, handler)
-Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins)
+Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins) 
+Examples: Promise, binding, custom attributes and elements.. [Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
 
 **Control redrawing flow**
 
