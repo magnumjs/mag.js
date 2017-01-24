@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.8
+Mag.JS AddOns v0.22.9
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -9,17 +9,25 @@ Requires: MagJS (core) Addons: Ajax , Router
 
   'use strict';
 
-  // helper
-  mag.noop = function() {}
 
 
-  //UTILITY
-  // mag.utils.copy - now in core
-  // mag.utils.merge - now in core
+  var findNode = function(idOrNode) {
+    //1. IF is live node?
+    //A. single HTMLElement
+    //B. HTMLNodeList ?
+    idOrNode = isNode(idOrNode)
 
-  mag.copy = mag.utils.copy
-  mag.merge = mag.utils.merge
+    //2. IF is template url?
+    //return promise
 
+    //3. IF is ID/cache
+    var node = mag.getNode(idOrNode);
+
+    //4. IF is tagNames 
+    //5. forEach tag create instance 
+    //A. give different ID if not already
+    //B. return multiple instances for more than 1
+  }
 
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
@@ -31,6 +39,16 @@ Requires: MagJS (core) Addons: Ajax , Router
       return mag.module(id2 || id, module, mag.merge(mag.copy(props) || {}, mag.copy(props2) || {}))
     }
   }
+
+
+  //UTILITY
+  // mag.utils.copy - now in core
+  // mag.utils.merge - now in core
+
+  // helper
+  mag.noop = function() {}
+  mag.copy = mag.utils.copy
+  mag.merge = mag.utils.merge
 
   mag.isEmpty = function(x) {
     // undefined, '', null, 0, empty array
