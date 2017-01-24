@@ -116,7 +116,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function getPathId(p) {
     //id("mathdemo3")		
-    return p && p.indexOf('id(') > -1 && p.split('id("')[1].split('")')[0]
+    return p && ~p.indexOf('id(') && p.split('id("')[1].split('")')[0]
   }
 
 
@@ -812,7 +812,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     return (
       element.id === key ||
-      paddedClass.indexOf(' ' + key + ' ') > -1 ||
+      ~paddedClass.indexOf(' ' + key + ' ') ||
       element.name === key ||
       element.nodeName.toLowerCase() === key.toLowerCase() ||
       element.getAttribute('data-bind') === key
