@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.7
+MagJS v0.25.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -688,13 +688,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         //might be in a group		
         // search fill.id for name	
         //TODO: should be only within parent node in DATA path NOT root ID
-        var items = mag.getNode(fill.id).querySelectorAll('[name=' + node.name + ']');
-        if (items.length > 1) {
-          // select item with matching value		
-          for (var item of items) {
-            if (item.value == val) {
-              item.checked = true;
-              break;
+        if (node.name) {
+          var items = mag.getNode(fill.id).querySelectorAll('[name=' + node.name + ']');
+          if (items.length > 1) {
+            // select item with matching value		
+            for (var item of items) {
+              if (item.value == val) {
+                item.checked = true;
+                break;
+              }
             }
           }
         }
