@@ -46,7 +46,7 @@ License: MIT
     if (controller && controller[eventName]) {
       isPrevented = controller[eventName].call(controller, node, mag.mod.getProps(index), index, extra)
       if (once) controller[eventName] = 0
-    } else { return }
+    }
 
     // on Handlers
     var eventer = eventName + '-' + index;
