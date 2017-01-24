@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.9
+MagJS v0.26.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -9,7 +9,8 @@ License: MIT
   'use strict';
 
   global.mag = function(idOrNode, mod, props) {
-    return makeClone(-1, getNode(idOrNode), mod, props || {});
+    var node = findNode(idOrNode);
+    return makeClone(-1, node, mod, props || {});
   }
 
   mag.MAGNUM = '__magnum__';
@@ -26,10 +27,26 @@ License: MIT
   };
   var nodeCache = [];
 
+  var findNode =function(namer){
+    //1. is live node
+    namer = isNode(namer)
+
+    //2. is template url?
+    //return promise
+
+    //3. is ID/cache
+    return getNode(namer);
+
+    //4. is tagNames 
+    //5. forEach tag create instance 
+        //A. give different ID if not already
+        //B. return multiple instances for more than 1
+  }
+  var inc=0;
   var isNode = function(id) {
     if (id instanceof HTMLElement) {
       // get id if exists or create one
-      if (!id.id) id.id = performance.now();
+      if (!id.id) id.id = ++inc;
       //Add to cache for access via getNode(id)
       nodeCache[id.id] = id;
       id = id.id;
