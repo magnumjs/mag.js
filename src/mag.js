@@ -59,9 +59,7 @@ License: MIT
     id = isNode(id);
 
     // already here before?
-    if (mag.utils.items.isItem(id)) {
-      if (reloader(mag.utils.items.getItem(id), getNode(id))) return;
-    }
+    //REMOVED reloader life cycle, unless Use Case?
 
     var idInstance = uniqueInstance(id, props.key);
 
@@ -89,13 +87,15 @@ License: MIT
     observer(idInstance, id)
 
     // LIFE CYCLE EVENT
-    if (mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)) return;
+    if (willloader(idInstance, node)) return;
 
     // DRAW async
     mag.redraw(node, idInstance, 1);
+    //TODO:?redraw returns promise for resolving
 
     // LIFE CYCLE EVENT
-    mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1);
+    //TODO: call with mag.redraw resolved promise
+    if (didloader(idInstance, node)) return;
 
     return node;
   }
@@ -242,6 +242,8 @@ License: MIT
 
     mag.mod.submodule(cloner.id, ids, mod, props2);
 
+    if (willloader(ids, cloner)) return;
+
     observer(ids, cloner.id)
 
     // DRAW
@@ -273,6 +275,7 @@ License: MIT
 
       var idInstance2 = mag.utils.getItemInstanceId(cloner.id);
       if (ids < 0) {
+        //call will and did load events
         ids = a._id = idInstance2;
         // repeated similar clones?
         // Check if instanceId in clones already?
@@ -286,6 +289,8 @@ License: MIT
 
       // get unique instance ID's module
       run(cloner, id, props2, mod, 1);
+      //DIDLOAD?
+      if (didloader(ids, cloner)) return;
 
       return cloner;
 
@@ -443,9 +448,12 @@ License: MIT
     }
   };
 
+  var willloader = function(idInstance, node) {
+    return mag.utils.callLCEvent('willload', mag.mod.getState(idInstance), node, idInstance, 1)
+  }
 
-  var reloader = function(idInstance, node) {
-    return mag.utils.callLCEvent('onreload', mag.mod.getState(idInstance), node, idInstance)
+  var didloader = function(idInstance, node) {
+    return mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
   }
 
   mag.getNode = getNode
