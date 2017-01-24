@@ -9,7 +9,7 @@ License: MIT
   'use strict';
 
   global.mag = function(idOrNode, mod, props) {
-    return makeClone(-1, getNode(idOrNode), mod, props);
+    return makeClone(-1, getNode(idOrNode), mod, props || {});
   }
 
   mag.MAGNUM = '__magnum__';
