@@ -234,6 +234,8 @@ mag.module("hello", {
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
 
+[Function composition - Todos](http://jsbin.com/yukofukele/edit?html,output)
+
 [Volunteer form application](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/)
 
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
