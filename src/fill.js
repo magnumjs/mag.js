@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.1
+MagJS v0.26.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -291,8 +291,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function addToNode(node, val, clear) {
+
     //TODO: finer grain diffing, attach once
-    if (isCached(node, val.outerHTML, clear)) return;
+    if (isCached(node, val.outerHTML, clear)) {
+      return;
+    }
     if (!mag.doc.getElementById(val.id)) {
       while (node.lastChild) {
         node.removeChild(node.lastChild)
@@ -374,11 +377,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   var functionHandler = function(data, node, tagIndex, p) {
-
-    //HOOKIN?
-    if (data[mag.MAGNUM]) {
-      return data(node)
-    }
 
     var par = findParentChild(node.parentNode),
       key = par && par.getAttribute('key');
