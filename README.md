@@ -135,7 +135,7 @@ mag.module("hello", {
 
 [Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/peyomipara/edit?html,output) - [Master detail](http://jsbin.com/narakisule/edit?js,output)
 
-[Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cibovafehu/edit?html,output) - [Flicker free](http://jsbin.com/tifapuhasi/edit?html,output)
+[Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/tifapuhasi/edit?html,output)
 
 [Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output)
 
