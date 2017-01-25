@@ -238,7 +238,7 @@ mag.module("hello", {
 
 [Volunteer form application](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/)
 
-[StopWatch](http://jsbin.com/viruwefami/edit?html,output)
+[StopWatch](http://jsbin.com/fuqupoqaju/edit?html,output)
 
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
