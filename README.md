@@ -255,7 +255,7 @@ mag.module("hello", {
 [Timer]
 (http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/zaqawiredi/edit?html,output)
 
-[TabList - key components](http://jsbin.com/huvujakami/edit?html,js,output)
+[TabList - key components](http://jsbin.com/kikujecevu/edit?html,js,output)
 
 [TabList module pattern - dynamic children keys](http://embed.plnkr.co/BBqYUo2Vq7H3FoUB3QA8/) - [Video Tutorial](https://www.youtube.com/watch?v=0XvXxw_S-fU&index=15&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 
