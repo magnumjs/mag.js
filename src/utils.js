@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.1
+MagJS v0.26.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -30,6 +30,24 @@ License: MIT
   }
 
 
+  var scheduled = false;
+  var queue = [];
+
+  utils.scheduleFlush = function(fun) {
+    queue.push(fun)
+    if (!scheduled) {
+      scheduled = true;
+      requestAnimationFrame(function() {
+        var task;
+        while (task = queue.shift()) task();
+        scheduled = false;
+
+        //WHY? If the batch errored we may still have tasks queued
+        //if (queue.length) scheduleFlush();
+      })
+    }
+  }
+
   var handlers = []
   utils.onLCEvent = function(eventName, index, handler) {
     var eventer = eventName + '-' + index;
@@ -54,6 +72,7 @@ License: MIT
       for (var handle of handlers[eventer]) {
         handle(mag.mod.getState(index), mag.mod.getProps(index));
       }
+      if (once) handlers[eventName] = 0
     }
     if (isPrevented === false) return true;
   }
