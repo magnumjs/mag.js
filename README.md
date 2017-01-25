@@ -124,7 +124,7 @@ mag.module("hello", {
 ```
 
 ##Boilerplates
-[Boilerplate JSbin](http://jsbin.com/fecikarivu/edit?js,output) - [JSbin cloner](http://jsbin.com/pizoxiyeki/edit?html,output) - [Boilerplate Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) - [Boilerplate Plunker Modular](http://embed.plnkr.co/0VJoUfBC6uayPPWw5krr/) -  [Boilerplate Plunker Modular v0.2](http://embed.plnkr.co/amqDNol7ibvKHrW6J6LK/)
+[JSbin](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Addons](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/)
 
 ##Examples
 
