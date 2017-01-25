@@ -158,8 +158,8 @@ mag.module("hello", {
 
 [Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component w/CSS Transitions](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
 
-[Hello world (proxy support/Firefox since v0.7.4+, polyfill object.observe since v0.8.6):]
-(http://jsbin.com/badabiqigu/edit?js,output) - [native v0.22](http://jsbin.com/wonivehuve/edit?html,js,output) [v0.22.8](http://jsbin.com/dosobawire/edit) - [v0.22.9](http://jsbin.com/zemuzifidi/edit?js,output) - [Take2](http://jsbin.com/tifinomigi/edit?js,output)
+[Hello world (proxy w/Config):]
+(http://jsbin.com/livavofubo/edit?js,output) - [Without controller](http://jsbin.com/favuburowu/edit) - [Without config or controller](http://jsbin.com/havihakuku/edit?js,output) - [Take2](http://jsbin.com/zifadowoza/edit?js,output)
 
 [Hello array lifecycle event:]
 (http://jsbin.com/webucanulu/edit?js,output)
