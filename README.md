@@ -240,6 +240,8 @@ mag.module("hello", {
 
 [StopWatch](http://jsbin.com/fuqupoqaju/edit?html,output)
 
+[Shopping Cart](https://embed.plnkr.co/NQ9U8cmo304vfPIy4iHs/)
+
 [Ajax Github Api](http://jsbin.com/noqibividi/edit)
 
 [REM API - User list](https://embed.plnkr.co/Ci0CNC1121nEqqQpwVEH/)
