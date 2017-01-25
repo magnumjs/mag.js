@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.1
+MagJS v0.26.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -122,15 +122,15 @@ License: MIT
   }
 
   mag.end = function(id) {
-    if (pendingRequests[id] > 1) pendingRequests[id]--;
-    else {
-      pendingRequests[id] = 0;
-      var nid = mag.utils.items.getItemVal(id)
-      mag.redraw(getNode(nid), id);
-    }
+      if (pendingRequests[id] > 1) pendingRequests[id]--;
+      else {
+        pendingRequests[id] = 0;
+        var nid = mag.utils.items.getItemVal(id)
+        mag.redraw(getNode(nid), id);
+      }
 
-  }
-  var timers = [];
+    }
+    // var timers = [];
   mag.redraw = function(node, idInstance, force) {
     if (!pendingRequests[idInstance]) {
 
@@ -154,8 +154,13 @@ License: MIT
       // check for existing frame id then clear it if exists
       //ENQUEUE
       //debounce
-      cancelAnimationFrame(timers[idInstance]);
-      timers[idInstance] = requestAnimationFrame(fun);
+
+      // cancelAnimationFrame(timers[idInstance]);
+      // timers[idInstance] = requestAnimationFrame(fun);
+
+      //This is slower than above but steadier i.e. smoother
+      mag.utils.scheduleFlush(fun)
+
       //save frame id with the instance 
       // then if instance already has frame id create new discard old or just retain old
     }
@@ -349,7 +354,8 @@ License: MIT
   }
 
   mag.clear = function(index) {
-    cancelAnimationFrame(timers[index]);
+    //TODO: Remove from schedule batch?
+    // cancelAnimationFrame(timers[index]);
     // remove from indexes
     mag.utils.items.removeItem(index)
       //mag.mod.remove(index)
@@ -383,6 +389,7 @@ License: MIT
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
+      //fastdom.measure(function() {
 
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
@@ -390,7 +397,7 @@ License: MIT
       var active = document.activeElement
 
       //START DOM
-      mag.fill.setId(node.id)
+      mag.fill.setId(node.id);
       mag.fill.run(node, state);
       // END DOM
 
@@ -406,8 +413,11 @@ License: MIT
       //reset cache
       if (!force) mag.mod.iscached(idInstance);
 
+
     }.bind({}, node1, idInstance1, force1)
   }
+
+
 
   var callConfigs = function(id, configs) {
     for (var k in configs) {
