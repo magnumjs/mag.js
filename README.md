@@ -307,6 +307,8 @@ mag.module("hello", {
 [Switchable Grid:]
 (http://jsbin.com/vinopakoze/edit?html,output)
 
+[Phone Gallery](https://embed.plnkr.co/S2h3iL3ynp5iyXQc2Y8k/)
+
 [Contact Manager application:]
 (http://jsbin.com/quviresiva/edit?js,output) - [Take 2](http://jsbin.com/hofoxodofa/edit?js,output)
 
