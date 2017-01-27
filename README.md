@@ -161,8 +161,14 @@ mag.module("hello", {
 [Hello world (proxy w/Config):]
 (http://jsbin.com/livavofubo/edit?js,output) - [Without controller](http://jsbin.com/favuburowu/edit) - [Without config or controller](http://jsbin.com/havihakuku/edit?js,output) - [Take2](http://jsbin.com/zifadowoza/edit?js,output)
 
+
+*Events*
+
 [Hello array lifecycle event:]
 (http://jsbin.com/webucanulu/edit?js,output)
+
+
+[Parent Eventing](http://jsbin.com/mireyonija/edit?js,output)
 
 [Count]
 (http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
