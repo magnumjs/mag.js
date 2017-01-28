@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.5
+MagJS v0.26.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -94,9 +94,9 @@ License: MIT
         // can be an array, object or string
         // for each
         tmp = [];
-        
-        if(!a.length) return MAGNUM;
-        
+
+      if (!a.length) return MAGNUM;
+
       a.forEach(function(item) {
         var i;
         if (item && item.type && !~['submit', 'button'].indexOf(item.type)) {
@@ -145,7 +145,7 @@ License: MIT
           };
         }
         if (i) tmp.push(i);
-        else if(item && !item.hasChildNodes()){
+        else if (item && !item.hasChildNodes()) {
           tmp.push(MAGNUM)
         }
 
@@ -231,8 +231,13 @@ License: MIT
     mod.cache[key] = JSON.stringify(data);
   }
 
+  mod.remove = function(key) {
+    //remove mod completely
+    if (modules[key]) modules[key] = 0
+  }
+
   mod.clear = function(key) {
-    if (key > -1 && mod.cache[key]) {
+    if (~key && mod.cache[key]) {
       mod.cache.splice(key, 1);
     }
   }
