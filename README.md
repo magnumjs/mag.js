@@ -506,7 +506,7 @@ To prevent default from any Life Cycle method- stop continued processing
 
 ```javascript
 this.willgetprops = function(node, currentProps, instanceId, nextProps) {
-  if (currentProps === nextProps) {
+  if (currentProps == nextProps) {
     return false
   }
 }
