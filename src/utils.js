@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.2
+MagJS v0.26.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,6 +10,10 @@ License: MIT
   'use strict';
 
   var utils = {};
+
+  utils.isObject = function(obj) {
+    return '' + obj === '[object Object]';
+  }
 
   utils.callHook = function(hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
@@ -34,18 +38,20 @@ License: MIT
   var queue = [];
 
   utils.scheduleFlush = function(fun) {
-    queue.push(fun)
-    if (!scheduled) {
-      scheduled = true;
-      requestAnimationFrame(function() {
-        var task;
-        while (task = queue.shift()) task();
-        scheduled = false;
-
-        //WHY? If the batch errored we may still have tasks queued
-        //if (queue.length) scheduleFlush();
-      })
-    }
+    return new Promise(function(resolve) {
+      queue.push(fun)
+      if (!scheduled) {
+        scheduled = true;
+        requestAnimationFrame(function() {
+          var task;
+          while (task = queue.shift()) task();
+          scheduled = false;
+          resolve();
+          //WHY? If the batch errored we may still have tasks queued
+          //if (queue.length) scheduleFlush();
+        })
+      }
+    })
   }
 
   var handlers = []
