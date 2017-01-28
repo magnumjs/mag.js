@@ -331,7 +331,7 @@ The scope of a components state is limited to its template `elementId`
 
 A nested component, child of a parent, will not be effected by the parent's state element selectors.
 
-[Example](http://jsbin.com/lidamajawe/edit?html,output)
+[Example](http://jsbin.com/cemujisuga/edit?html,output)
 
 ###Statefullness
 When redrawing the view method is called.
