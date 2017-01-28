@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.2
+MagJS v0.26.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -787,6 +787,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   }
 
+  function notIsolate(node) {
+    return !mag.utils.items.isItem(node.id);
+  }
+
 
   // return just the child nodes that are elements
   function childElements(node) {
@@ -795,7 +799,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var children = node.childNodes
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
-          if (children[i].nodeType === ELEMENT_NODE) {
+          if (children[i].nodeType === ELEMENT_NODE && notIsolate(children[i])) {
             elements.push(children[i])
           }
         }
