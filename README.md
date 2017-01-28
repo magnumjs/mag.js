@@ -325,6 +325,14 @@ mag.module("hello", {
 
 ##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
+###State Scope
+
+The scope of a components state is limited to its template `elementId`
+
+A nested component, child of a parent, will not be effected by the parent's state element selectors.
+
+[Example](http://jsbin.com/lidamajawe/edit?html,output)
+
 ###Statefullness
 When redrawing the view method is called.
 To maintain statefulness we can use the controller method.
