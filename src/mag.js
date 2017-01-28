@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.2
+MagJS v0.26.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -90,12 +90,11 @@ License: MIT
     if (willloader(idInstance, node)) return;
 
     // DRAW async
-    mag.redraw(node, idInstance, 1);
-    //TODO:?redraw returns promise for resolving
-
-    // LIFE CYCLE EVENT
-    //TODO: call with mag.redraw resolved promise
-    if (didloader(idInstance, node)) return;
+    // DRAW async
+    mag.redraw(node, idInstance, 1)
+      .then(function() {
+        didloader(idInstance, node)
+      })
 
     return node;
   }
@@ -158,8 +157,8 @@ License: MIT
       // cancelAnimationFrame(timers[idInstance]);
       // timers[idInstance] = requestAnimationFrame(fun);
 
-      //This is slower than above but steadier i.e. smoother
-      mag.utils.scheduleFlush(fun)
+      //returns promise
+      return mag.utils.scheduleFlush(fun)
 
       //save frame id with the instance 
       // then if instance already has frame id create new discard old or just retain old
@@ -200,6 +199,7 @@ License: MIT
         clones(ids).length = 0;
       }
       if (remove) mag.fill.removeNode(node);
+      mag.mod.remove(ids);
     };
     //chek if onbeforeunload exists
     if (mag.mod.getState(ids).onbeforeunload) {
@@ -251,8 +251,8 @@ License: MIT
 
     observer(ids, cloner.id)
 
-    // DRAW
-    mag.redraw(cloner, ids, clear);
+    // DRAW, return Promise
+    return mag.redraw(cloner, ids, clear);
   };
 
   var makeClone = function(idInstance, node, mod, props) {
@@ -260,14 +260,20 @@ License: MIT
     clones[idInstance] = clones[idInstance] || [];
     var a = function(ids, node, mod, props2, index) {
       //TODO: what is this use case? if no index?
-
+      props2 = props2 || {}
       if (typeof index == 'object') {
-        props2 = mag.utils.merge(mag.utils.copy(props2) || {}, index);
+        props2 = mag.utils.merge(mag.utils.copy(props2), index);
         index = 0;
       }
 
       // prevent recursion?
       var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
+
+      //TODO: add key when props key not used?
+      if (cloners[id] && !props2.key && !~a._id) {
+        id += ++inc;
+      }
+
       var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
       cloner.id = id;
       // if clone already exists return & rerun draw ?
@@ -293,9 +299,11 @@ License: MIT
       }
 
       // get unique instance ID's module
-      run(cloner, id, props2, mod, 1);
-      //DIDLOAD?
-      if (didloader(ids, cloner)) return;
+      run(cloner, id, props2, mod, 1)
+        .then(function() {
+          //DIDLOAD?
+          didloader(ids, cloner)
+        })
 
       return cloner;
 
@@ -317,7 +325,7 @@ License: MIT
       return a._id
     };
     a.draw = function(force) {
-      mag.redraw(node, a._id, force)
+      return mag.redraw(node, a._id, force)
     }
     a.getState = function() {
       return mag.mod.getState(a._id)
@@ -394,14 +402,14 @@ License: MIT
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
 
-      var active = document.activeElement
+      var active = mag.doc.activeElement
 
       //START DOM
       mag.fill.setId(node.id);
       mag.fill.run(node, state);
       // END DOM
 
-      if (document.activeElement !== active) active.focus()
+      if (mag.doc.activeElement !== active) active.focus()
 
 
       //CONFIGS
