@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.22.9
+Mag.JS AddOns v0.23.1
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -9,25 +9,6 @@ Requires: MagJS (core) Addons: Ajax , Router
 
   'use strict';
 
-
-
-  var findNode = function(idOrNode) {
-    //1. IF is live node?
-    //A. single HTMLElement
-    //B. HTMLNodeList ?
-    idOrNode = isNode(idOrNode)
-
-    //2. IF is template url?
-    //return promise
-
-    //3. IF is ID/cache
-    var node = mag.getNode(idOrNode);
-
-    //4. IF is tagNames 
-    //5. forEach tag create instance 
-    //A. give different ID if not already
-    //B. return multiple instances for more than 1
-  }
 
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
@@ -131,6 +112,11 @@ d.resolve({
   //TODO: add jsonp support
 
   mag.request = function(options) {
+    if (typeof options == 'string') {
+      var url = options;
+      options = {}
+      options.url = url;
+    }
     var deferred = mag.deferred();
     if (options.initialValue) {
       deferred.promise.initialValue = options.initialValue
