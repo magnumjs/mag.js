@@ -433,7 +433,7 @@ It receives 4 arguments:
 #### mag.module (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
-ModuleDefinition is the instructions it needs to have a view function, controller is optional: (v0.22.9 view no longer required) 
+ModuleDefinition is the instructions it can have a controller and a view function.
 ```javascript
 var component = {
   view: function (state, props, element) {
