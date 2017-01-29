@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.4
+MagJS v0.26.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -241,8 +241,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         })
 
         elements = elements.filter(function(ele, i) {
-          if (m.indexOf(ele[MAGNUM].__key) === -1 || found.indexOf(ele[MAGNUM].__key) !== -1) {
+          var remove;
+          if (typeof ele[MAGNUM] == UNDEFINED) {
+            remove = 1
+          } else 
+          if (!~m.indexOf(ele[MAGNUM].__key) || ~found.indexOf(ele[MAGNUM].__key)) {
             found.push(ele[MAGNUM].__key)
+            remove = 1
+          }
+          if (remove) {
             removeNode(ele)
             return false
           }
