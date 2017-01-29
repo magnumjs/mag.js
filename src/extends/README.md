@@ -40,3 +40,5 @@ mag.module('template-app', {
   }
 });
 ```
+
+[Example](http://embed.plnkr.co/Gw9EbeKizZTBKeytWtWt/)
