@@ -3,7 +3,7 @@
 @author Michael Glazer (c)
 @License MIT
 @date January 29th, 2017
-@description allows for existign functionality in Mag.JS to include template Urls
+@description allows for existing functionality in Mag.JS to include template Urls
 @example mag|mag.module|mag.create('templateFile.html', Module)
 @example mag|mag.module|mag.create({templateUrl: 'template.html', view: function(state){}} )
 @requires - Mag.JS - addons and core latest
