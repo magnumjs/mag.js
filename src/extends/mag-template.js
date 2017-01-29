@@ -29,7 +29,7 @@ mag = (function(_super) {
     return mag.request(url)
       .then(function(data) {
 
-        var template = document.createElement('template');
+        var template = mag.doc.createElement('template');
         template.innerHTML = data;
 
         return orig(mag.getNode(mag._isNode(template.content.children[0])), mod, props || {});
@@ -48,7 +48,7 @@ mag = (function(_super) {
     return findIdTemplate(idOrNode, mod, props, fun)
   }
 
-  Object.assign(extended, _super)
+  mag.merge(extended, _super)
 
   return extended
 
