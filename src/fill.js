@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.3
+MagJS v0.26.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -97,7 +97,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
         // remove self when done?
       delete cached[p + '-config'];
-      delete mag.fill.configs[p];
+      delete fill.configs[p];
     }
 
     //TODO: remove cache of all children too		
@@ -302,7 +302,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
       node.appendChild(val);
     }
-    // already exists
   }
 
 
@@ -387,7 +386,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var val = data(tagIndex)
 
     if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
-
       // remove childs first
       addToNode(node, val);
 
@@ -421,8 +419,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var tagIndex = getPathIndex(p)
 
     if (data && data.nodeType == ELEMENT_NODE) {
-      // prevent recursion
-      // throw Error('MagJS - Cannot attach a node! ' + data.id)
       addToNode(node, data)
       return;
     }
