@@ -930,6 +930,12 @@ Other hookins such as key/node value!
 
 ###[Check out the Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
 
+##Extends
+
+Example of extending the core Mag.JS functionality seamlessly
+
+###[Check out the core Extends](https://github.com/magnumjs/mag.js/blob/master/src/extends/README.md)
+
 #### Notes
 
 * config attribute won't be called with inner id element matchers, use other element matcher selectors. Fixed in v0.25.5 [Example](http://jsbin.com/qoxuvahake/edit?js,output)
