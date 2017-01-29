@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.3
+MagJS v0.26.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -9,7 +9,7 @@ License: MIT
   'use strict';
 
   global.mag = function(idOrNode, mod, props) {
-    return makeClone(-1, getNode(isNode(idOrNode)), mod, props || {});
+    return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
   }
 
   mag.MAGNUM = '__magnum__';
@@ -27,7 +27,7 @@ License: MIT
   var nodeCache = [];
 
   var inc = 0;
-  var isNode = function(id) {
+  mag._isNode = function(id) {
     if (id instanceof HTMLElement) {
       // get id if exists or create one
       if (!id.id) id.id = ++inc;
@@ -56,7 +56,7 @@ License: MIT
     props = props || {}
 
     //Allow for dom elements to be passed instead of string IDs
-    id = isNode(id);
+    id = mag._isNode(id);
 
     // already here before?
     //REMOVED reloader life cycle, unless Use Case?
@@ -147,6 +147,11 @@ License: MIT
       if (force) mag.fill.configs.splice(0, mag.fill.configs.length)
 
       if (force) mag.mod.clear(idInstance)
+
+
+      if (mag.mod.runningViewInstance == idInstance) {
+        throw Error('Mag.JS - recursive call: ' + idInstance)
+      }
 
       var fun = makeRedrawFun(node, idInstance, force)
 
@@ -260,7 +265,6 @@ License: MIT
     clones[idInstance] = clones[idInstance] || [];
     var a = function(ids, node, mod, props2, index) {
       //TODO: what is this use case? if no index?
-      props2 = props2 || {}
       if (typeof index == 'object') {
         props2 = mag.utils.merge(mag.utils.copy(props2), index);
         index = 0;
