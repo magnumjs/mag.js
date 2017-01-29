@@ -451,7 +451,7 @@ The controller function has access to the original props as well as all life cyc
 ```javascript
 var component = {
   controller: function (props) {
-    this.didupdate = function (Event, Element, currentProps) {
+    this.didupdate = function (Element, currentProps, instanceId) {
   },
   view: function (state, props, Element) {
   }
@@ -486,10 +486,10 @@ Counter.getProps() ..
 ```
 [Example](http://jsbin.com/tamemaqogo/edit?js,output)
 
-Note: There are subtle differences between `mag()` and `mag.module|mag.create.`
+Note: There are subtle differences between `mag()` and `mag.module.`
 
-- *Skips `mag.module|mag.create` setup*
-  - The major difference is that the normal setup in `mag.module|mag.create` is not run on the template node.
+- *Skips `mag.module` setup*
+  - The major difference is that the normal setup in `mag.module` is not run on the template node.
   - This means there is no pre-loading and caching in the UI and that it only runs on the template clone not the template itself.
 - *Each call to `mag()` with the same ID/Node reuses it by default*
  - `mag()` defaults to a reference and does not create unique keys for you automatically. [Example](http://jsbin.com/bomevigave/edit?js,output)
@@ -535,12 +535,12 @@ The function object to create a clone instance requires an index/key in its only
 These 7 methods are bound to the exact instance
 
 `getId`
-`draw`
+`draw` 
 `getState`
 `getProps`
 `clones`
 `destroy`
-`subscribe` - multiple subscribers allowed!
+`subscribe` - multiple subscribers allowed! `returns` a remove function
 
 ##Inner Reflection
 
@@ -571,10 +571,11 @@ instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to 
 
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
+// `returns` a Promise resolved on rAF
 
-instance.getState([Optional instanceId]) // returns a copy of the current state values of that instance - state is async 
+instance.getState() // returns a copy of the current state values of that instance - state is async 
 
-instance.getProps([Optional instanceId]) // returns a copy of the current props values of that instance, defaults to bound instance
+instance.getProps() // returns a copy of the current props values of that instance, defaults to bound instance
 
 instance.clones() //v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
 
@@ -625,6 +626,8 @@ state.myELementMatcher = [{
 initiate a redraw manually
 
 Optional boolean argument to force cache to be cleared
+
+`returns` a Promise which is resolved when the requestAnimationFrame is run.
 
 #### mag.hookin (type, key, handler)
 Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins) 
