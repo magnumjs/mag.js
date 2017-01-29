@@ -847,7 +847,7 @@ arguments :
 
 * context is a empty object you can use to pass to itself
 
-   - context.onunload - will be attached to the current modules onunloaders and called if any lifecycle event triggers e.preventDefault()
+   - context.onunload - will be attached to the current modules onunloaders and called if any lifecycle event triggers a stop by returning false
 
 * index is 0 based on xpath of the matcher
 
