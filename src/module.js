@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.3
+MagJS v0.26.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -224,11 +224,11 @@ License: MIT
   }
 
   mod.iscached = function(key) {
-    var data = mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key));
-    if (mod.cache[key] && mod.cache[key] === JSON.stringify(data)) {
+    var data = JSON.stringify(mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key)));
+    if (mod.cache[key] && mod.cache[key] == data) {
       return true
     }
-    mod.cache[key] = JSON.stringify(data);
+    mod.cache[key] = data;
   }
 
   mod.remove = function(key) {
@@ -251,6 +251,8 @@ License: MIT
       mod.cached[index] = 1
     }
     mod.getView(index)(mod.getState(index), node)
+    mod.runningViewInstance = -1;
+
   }
 
 
