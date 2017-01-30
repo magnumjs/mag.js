@@ -128,8 +128,8 @@ Note: If you prefer external templates you can do that too, [it's possible via a
 mag.module('template.html', {view: ()});
 mag('template.html', {view: ()});
 
-mag.module({templateUrl: 'template.html, view: ()});
-mag({templateUrl: 'template.html, view: ()});
+mag.module({templateUrl: 'template.html', view: ()});
+mag({templateUrl: 'template.html', view: ()});
 ```
 
 ---
@@ -149,7 +149,7 @@ var Hello = {
 }
 ```
 
-To activate the component, we use `m.mount`.
+To activate the component, we use `mag.module.`.
 
 ```javascript
 mag.module(root, Hello)
@@ -261,7 +261,7 @@ var Hello = {
 	}
 }
 ```
-[Example](http://jsbin.com/royowadaqa/edit?html,output
+[Example](http://jsbin.com/royowadaqa/edit?html,output)
 
 Clicking the button should now update the count.
 
