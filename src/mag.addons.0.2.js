@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.23.1
+Mag.JS AddOns v0.23.2
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -8,7 +8,6 @@ Requires: MagJS (core) Addons: Ajax , Router
 (function(mag, window, document, undefined) {
 
   'use strict';
-
 
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
@@ -21,6 +20,28 @@ Requires: MagJS (core) Addons: Ajax , Router
     }
   }
 
+  mag.getTags = function(tagName) {
+    var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
+    var parentNode = mag.getNode(parentID);
+    var nodes = (parentNode || mag.doc).getElementsByTagName(tagName);
+
+    var elements = [].slice.call(nodes);
+    return elements;
+  }
+
+  //wrapper around mag.module|mag.create for getting node(s) by tagName
+  mag.tag = function(tagName, module, props, type) {
+    var elements = mag.getTags(tagName);
+    var instances = [];
+    type = type || 'module' // create?
+
+    if (elements.length) {
+      for (var node of elements) {
+        instances.push(mag[type](node, module, props));
+      }
+    }
+    return instances.length == 1 ? instances[0] : instances;
+  }
 
   //UTILITY
   // mag.utils.copy - now in core
