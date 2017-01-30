@@ -14,7 +14,7 @@
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 
-##[Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
+##[Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md#getting-started) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
