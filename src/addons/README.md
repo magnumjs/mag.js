@@ -8,6 +8,8 @@ Core addons include:
 
 *Extends core*
 * mag.create
+* mag.tag
+* mag.getTags
 * mag.find
 * mag.getId
 
