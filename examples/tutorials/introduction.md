@@ -233,7 +233,7 @@ mag.route.addRoute('/hello', Hello);
 mag.route.start();
 ```
 
-The `mag.route` function still has the same auto-redrawing functionality that `mag.module` does, and it also enables URL awareness; in other words, it lets Amg.JS know what to do when it sees a `#!` in the URL.
+The `mag.route` function still has the same auto-redrawing functionality that `mag.module` does, and it also enables URL awareness; in other words, it lets Mag.JS know what to do when it sees a `#!` in the URL.
 
 The `"/splash"` right after `root` means that's the default route, i.e. if the hashbang in the URL doesn't point to one of the defined routes (`/splash` and `/hello`, in our case), then Mag.JS redirects to the default route. So if you open the page in a browser and your URL is `http://localhost`, then you get redirected to `http://localhost/#!/splash`.
 
