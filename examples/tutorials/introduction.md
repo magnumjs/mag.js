@@ -240,7 +240,7 @@ var increment = function() {
 	mag.request({
 		method: "PUT",
 		url: "http://rem-rest-api.herokuapp.com/api/tutorial/1",
-		data: JSON.stringify({count: count + 1}),
+		data: {count: count + 1},
 		withCredentials: true,
 	})
 	.then(function(data) {
@@ -263,7 +263,7 @@ var Hello = {
 	}
 }
 ```
-[Example](http://jsbin.com/hurixokeno/edit?html,output)
+[Example](http://jsbin.com/jokanaweze/edit?html,output)
 
 Clicking the button should now update the count.
 
