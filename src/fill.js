@@ -572,8 +572,18 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
-      mag.redraw(nodee, mag.utils.items.getItem(id))
-
+      var redraw = function(){
+        mag.redraw(nodee, mag.utils.items.getItem(id))
+      }
+      if(ret && ret.then){
+        //Node outdated?
+        ret.then(function(res){
+          redraw();
+          return res;
+        });
+      } else {
+        redraw()
+      }
 
       return ret
     }.bind({}, attributes[attrName], node)
