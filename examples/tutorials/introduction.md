@@ -263,7 +263,7 @@ var Hello = {
 	}
 }
 ```
-[Example](http://jsbin.com/jokanaweze/edit?html,output) - [Without state](http://jsbin.com/pahukirido/edit?html,output)
+[Example](http://jsbin.com/pahukirido/edit?html,output) - [With state](http://jsbin.com/jokanaweze/edit?html,output)
 
 Clicking the button should now update the count.
 
