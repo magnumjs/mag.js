@@ -191,7 +191,8 @@ If you're wondering about performance, it turns out Mag.JS is very fast at rende
 
 ---
 
-### Routing - in ([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md))
+### Routing
+([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md))
 
 Routing just means going from one screen to another in an application with several screens.
 
@@ -224,7 +225,8 @@ Also, as you would expect, clicking on the link on the splash page takes you to 
 
 ---
 
-### XHR - in ([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md))
+### XHR
+([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md))
 
 Basically, XHR is just a way to talk to a server.
 
