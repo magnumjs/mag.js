@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.23.2
+Mag.JS AddOns v0.23.3
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -163,7 +163,7 @@ d.resolve({
 
     var client = new XMLHttpRequest();
     var method = (options.method || 'GET').toUpperCase();
-    var data = method === "GET" || !options.data ? "" : options.data
+    var data = method === "GET" || !options.data ? "" : typeof options.data === 'object' ? JSON.stringify(options.data) : options.data 
 
     client.onload = function(e) {
       var ct = client.getResponseHeader("content-type") || "";
