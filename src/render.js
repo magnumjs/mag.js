@@ -1,5 +1,5 @@
 /*
-MagJS v0.25.7
+MagJS v0.26.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -95,14 +95,13 @@ License: MIT
           } else if (this.checked) {
             obj[k] = this.value;
           }
-
-          mag.redraw(parent, mag.utils.items.getItem(parent.id), 1);
         }
+        mag.redraw(parent, mag.utils.items.getItem(parent.id));
 
       }.bind(founder, parentElement, obj, k);
 
       founder.addEventListener("click", onit, false);
-      founder.addEventListener("change", onit, false);
+      founder.addEventListener("input", onit, false);
       founder.addEventListener("focus", onit, false);
 
       founder[MAGNUM].eventOnFocus = 1;
