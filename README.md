@@ -938,6 +938,16 @@ Other hookins such as key/node value!
 
 Example of extending the core Mag.JS functionality seamlessly
 
+*Allow for external template loading:*
+
+```javascript
+//Syntax via mag.template extends
+mag.module('template.html', {view: ()});
+mag('template.html', {view: ()});
+
+mag.module({templateUrl: 'template.html', view: ()});
+mag({templateUrl: 'template.html', view: ()});
+```
 ###[Check out the core Extends](https://github.com/magnumjs/mag.js/blob/master/src/extends/README.md)
 
 #### Notes
