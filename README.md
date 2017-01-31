@@ -69,16 +69,14 @@ Controllers are only called once vs views which are re-run on every change to th
 
 ```javascript
 var Component = {
-  controller: function(props) {
-    this.$hello = '';
-    this.hello = {
-      _onInput: () => {}
-    }
+  controller: function() {
+    this.yourName = '';
   }
 }
 ```
-Only needed to define the default value of the property to bind and the event when the change is bound.
-- [Example](http://jsbin.com/maxulalasa/edit?js,output) 
+Just define the default value of the selector to bind.
+- [Example](http://jsbin.com/nozibugiju/edit?js,output) 
+- [Greedy selector](http://jsbin.com/fejagatuha/edit?js,output) 
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
 
