@@ -75,7 +75,7 @@ var Component = {
 }
 ```
 Just define the default value of the selector to bind.
-- [Example](http://jsbin.com/pinixuzepe/edit?js,output) 
+- [Example](http://jsbin.com/xofinojedo/edit?js,output) 
 - [Greedy selector](http://jsbin.com/fejagatuha/edit?js,output) 
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
