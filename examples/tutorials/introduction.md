@@ -149,7 +149,7 @@ var Hello = {
 }
 ```
 
-To activate the component, we use `mag.module.`.
+To activate the component, we use `mag.module`.
 
 ```javascript
 mag.module(root, Hello)
