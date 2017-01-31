@@ -168,20 +168,36 @@ The `state` object is Proxied, and instead of rendering some HTML only once, it 
 To understand what that means, let's add some events:
 
 ```javascript
+var count = 0 // added a variable
+
+var Hello = {
+  view: function(state) {
+    state.main = {
+      h1: {_class: "title", _text: "My first app"},
+      // changed the next line
+      button: {_onclick: () => count++, _text: count + " clicks"}
+    }
+  }
+}
+```
+[Example](http://jsbin.com/nuvequmiwi/edit?html,output)
+
+*With state*
+```javascript
 var Hello = {
   view: function(state) {
     state.count = state.count || 0 // added a variable
     state.main = {
       h1: {_class: "title", _text: "My first app"},
       // changed the next line
-      button: {_onclick: () =>state.count++, _text: state.count + " clicks"}
+      button: {_onclick: () => state.count++, _text: state.count + " clicks"}
     }
   }
 }
 
 mag.module(root, Hello)
 ```
-[Example](http://jsbin.com/peluxitibi/edit?html,output)
+[With state](http://jsbin.com/peluxitibi/edit?html,output)
 
 We defined an `onclick` event on the button, which increments a variable `count` (which was declared at the top). We are now also rendering the value of that variable in the button label.
 
