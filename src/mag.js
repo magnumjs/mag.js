@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.4
+MagJS v0.26.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -203,8 +203,10 @@ License: MIT
         // remove clones?
         clones(ids).length = 0;
       }
-      if (remove) mag.fill.removeNode(node);
-      mag.mod.remove(ids);
+      if (remove) {
+        mag.fill.removeNode(node);
+        mag.mod.remove(ids);
+      }
     };
     //chek if onbeforeunload exists
     if (mag.mod.getState(ids).onbeforeunload) {
