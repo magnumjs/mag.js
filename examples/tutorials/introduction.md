@@ -205,6 +205,8 @@ You can now update the label of the button by clicking the button. Since we used
 
 If you're wondering about performance, it turns out Mag.JS is very fast at rendering updates, because it only touches the parts of the DOM it absolutely needs to. So in our example above, when you click the button, the text in it is the only part of the DOM Mag.JS actually updates.
 
+[Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md) are useful when constructing the UI.
+
 ---
 
 ### Routing
@@ -289,4 +291,5 @@ We covered how to create and update HTML, how to create components, routes for a
 
 This should be enough to get you started writing the frontend for a real application. Now that you are comfortable with the basics of the Mag.JS API, [be sure to check out the simple application tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/simple-application.md), which walks you through building a realistic application.
 
+Learn more about the basic building blocks in Mag.JS such as 
 [Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)
