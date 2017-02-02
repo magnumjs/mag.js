@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.6
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -8,8 +8,47 @@ License: MIT
 
   'use strict';
 
+  var find = function(selector) {
+    if (typeof selector == 'string') {
+      var found = mag.doc.querySelector(selector);
+      if (found) return found;
+    }
+    return selector;
+  }
+
   global.mag = function(idOrNode, mod, props) {
-    return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
+    idOrNode = find(idOrNode)
+    mod = find(mod)
+
+    if (mag.isHTMLElment(mod) && mag.isHTMLElment(idOrNode)) {
+      //attach to node once
+      if (!mod[mag.MAGNUM]) {
+        mag.fill.run(mod, idOrNode);
+      }
+    } else
+    //what if mod is a function?
+    if (typeof mod == 'function' && mag.isHTMLElment(idOrNode)) {
+      var clones = [],
+        clone = idOrNode.cloneNode(1),
+        last;
+      return function(props) {
+        var node = idOrNode
+        if (props) {
+          var key = props.key;
+          if (key && !clones[key]) {
+            node = clones[key] = clone.cloneNode(1);
+          }
+        }
+        if (!last || !props || last != JSON.stringify(props)) {
+          last = JSON.stringify(props);
+          //parse template clone and return html with original func and new props
+          mag.fill.run(node, mod(props));
+        }
+        return node;
+      }
+    } else {
+      return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
+    }
   }
 
   mag.MAGNUM = '__magnum__';
@@ -17,6 +56,10 @@ License: MIT
   // set document
 
   mag.doc = document;
+
+  mag.isHTMLElment = function(item) {
+    return item && item.nodeType && item.nodeType == 1;
+  }
 
   //Plugins:
   var hookins = {
@@ -28,7 +71,7 @@ License: MIT
 
   var inc = 0;
   mag._isNode = function(id) {
-    if (id instanceof HTMLElement) {
+    if (mag.isHTMLElment(id)) {
       // get id if exists or create one
       if (!id.id) id.id = ++inc;
       //Add to cache for access via getNode(id)
@@ -408,14 +451,14 @@ License: MIT
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
 
-      var active = mag.doc.activeElement
+      // var active = mag.doc.activeElement
 
       //START DOM
       mag.fill.setId(node.id);
       mag.fill.run(node, state);
       // END DOM
 
-      if (mag.doc.activeElement !== active) active.focus()
+      // if (mag.doc.activeElement !== active) active.focus()
 
 
       //CONFIGS
