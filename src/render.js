@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.6
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -171,7 +171,7 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (typeof value === 'object' && !(value instanceof HTMLElement)) {
+        if (typeof value === 'object' && !mag.isHTMLElment(value)) {
           // recurse
           attachToArgs(i + '.' + k, value, element);
         } else {
