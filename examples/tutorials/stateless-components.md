@@ -10,15 +10,16 @@ The easiest way to try out Mag.JS is to include it from a CDN, and follow this t
 
 Let's create an HTML file to follow along:
 
-```lavascript
+```javascript
 <body></body>
-<script src="//rawgit.com/magnumjs/mag.js/master/dist/mag.0.26.7.min.js"></script>
+<script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
 var root = document.body
 
 // your code goes here!
 </script>
 ```
+[Example](http://jsbin.com/tubafuhepu/edit?html,output)
 
 ##Hello World
 
@@ -39,7 +40,7 @@ var comp = mag(root, fun);
 //Run:
 comp();
 ```
-[Example](http://jsbin.com/kakofakipo/edit?html,output) - [With props](http://jsbin.com/lagosonimu/edit?html,output)
+[Example](http://jsbin.com/bilevolayo/edit?html,output) - [With props](http://jsbin.com/vonamutano/edit?html,output)
 
 Now, let's change the text to something else. Add this line of code under the previous one:
 
@@ -48,7 +49,7 @@ var App = function(){
   return "My first app"
 }
 ```
-[Example](http://jsbin.com/vazubuyoxo/edit?html,output)
+[Example](http://jsbin.com/wixopufafa/edit?html,output)
 
 As you can see, you use the same code to both create and update HTML. Mithril automatically figures out the most efficient way of updating the text, rather than blindly recreating it from scratch.
 
@@ -59,7 +60,7 @@ Let's wrap our text in an `<h1>` tag.
 ```javascript
 return {h1: "Hello world"}
 ```
-[Example](http://jsbin.com/puyebigiwo/edit?html,output)
+[Example](http://jsbin.com/fuzulutuqu/edit?html,output)
 
 
 ##Props
@@ -80,7 +81,7 @@ var WelcomeComp = mag(root, Welcome);
 //Run:
 WelcomeComp({name: 'Mike'});
 ```
-[Example](http://jsbin.com/nojonizome/edit?html,output)
+[Example](http://jsbin.com/xukidaxive/edit?html,output)
 
 
 ##Composing Components
@@ -112,4 +113,4 @@ var WelcomeComp = mag('body', App);
 //Run:
 WelcomeComp();
 ```
-[Example](http://jsbin.com/coletevame/edit?html,output)
+[Example](http://jsbin.com/tuyimabogi/edit?html,output)
