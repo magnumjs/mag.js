@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.5
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -16,8 +16,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     ignorekeys: ['toString', 'draw', 'then', 'hasOwnProperty', 'willgetprops', 'onbeforeunload', 'Symbol(Symbol.toStringTag)', 'nodeType', 'toJSON', 'onunload', 'willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
   }
 
-  var ELEMENT_NODE = 1,
-    cached = fill.cached,
+  var cached = fill.cached,
     MAGNUM = mag.MAGNUM,
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
@@ -244,7 +243,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           var remove;
           if (typeof ele[MAGNUM] == UNDEFINED) {
             remove = 1
-          } else 
+          } else
           if (!~m.indexOf(ele[MAGNUM].__key) || ~found.indexOf(ele[MAGNUM].__key)) {
             found.push(ele[MAGNUM].__key)
             remove = 1
@@ -278,7 +277,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
-            elements[i][MAGNUM].dataPass = data
+            if (mag.isHTMLElment(data)) {
+              elements[i][MAGNUM].dataPass = data[MAGNUM]
+            } else {
+              elements[i][MAGNUM].dataPass = data
+            }
           }
           elements[i][MAGNUM].xpath = p;
         }
@@ -299,11 +302,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function addToNode(node, val, clear) {
 
+
     //TODO: finer grain diffing, attach once
     if (isCached(node, val.outerHTML, clear)) {
       return;
     }
-    if (!mag.doc.getElementById(val.id)) {
+    if ((!val.id && !node.childNodes[0]) || (node.childNodes[0] && val.childNodes.length != node.childNodes[0].length) || (val.id && !mag.doc.getElementById(val.id)) || (node.childNodes[0] && !node.childNodes[0].isEqualNode(val))) {
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
@@ -392,7 +396,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var val = data(tagIndex)
 
-    if (val && val.nodeType && val.nodeType == ELEMENT_NODE) {
+    if (val && mag.isHTMLElment(val)) {
       // remove childs first
       addToNode(node, val);
 
@@ -425,7 +429,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var tagIndex = getPathIndex(p)
 
-    if (data && data.nodeType == ELEMENT_NODE) {
+    if (data && mag.isHTMLElment(data)) {
       addToNode(node, data)
       return;
     }
@@ -572,12 +576,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // What if ret is a promise?
       var ret = fun.call(node, e, tagIndex, node, parent)
-      var redraw = function(){
+      var redraw = function() {
         mag.redraw(nodee, mag.utils.items.getItem(id), 1)
       }
-      if(ret && ret.then){
+      if (ret && ret.then) {
         //Node outdated?
-        ret.then(function(res){
+        ret.then(function(res) {
           redraw();
           return res;
         });
@@ -812,7 +816,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var children = node.childNodes
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
-          if (children[i].nodeType === ELEMENT_NODE && notIsolate(children[i])) {
+          if (mag.isHTMLElment(children[i]) && notIsolate(children[i])) {
             elements.push(children[i])
           }
         }
