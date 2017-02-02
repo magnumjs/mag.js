@@ -10,7 +10,9 @@ License: MIT
 
   var find = function(selector) {
     if (typeof selector == 'string') {
-      var found = mag.doc.querySelector(selector);
+      var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
+      var parentNode = mag.getNode(parentID);
+      var found = (parentNode || mag.doc).querySelector(selector);
       if (found) return found;
     }
     return selector;
