@@ -1,0 +1,115 @@
+##Mag.JS - Stateless Components
+
+Components let you split the UI into independent, reusable pieces, and think about each piece in isolation.
+
+Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called "props") and return elements describing what should appear on the screen.
+
+##Getting started
+
+The easiest way to try out Mag.JS is to include it from a CDN, and follow this tutorial.
+
+Let's create an HTML file to follow along:
+
+```lavascript
+<body></body>
+<script src="//rawgit.com/magnumjs/mag.js/master/dist/mag.0.26.7.min.js"></script>
+<script>
+var root = document.body
+
+// your code goes here!
+</script>
+```
+
+##Hello World
+
+Let's start as small as well can: render some text on screen. Copy the code below into your file (and by copy, I mean type it out - you'll learn better)
+
+```javascript
+//Template:
+var root = document.body
+
+//Component:
+var fun = function(){
+  return "Hello world"
+}
+
+//Attach:
+var comp = mag(root, fun);
+
+//Run:
+comp();
+```
+[Example](http://jsbin.com/kakofakipo/edit?html,output) - [With props](http://jsbin.com/lagosonimu/edit?html,output)
+
+Now, let's change the text to something else. Add this line of code under the previous one:
+
+```javascript
+var App = function(){
+  return "My first app"
+}
+```
+[Example](http://jsbin.com/vazubuyoxo/edit?html,output)
+
+As you can see, you use the same code to both create and update HTML. Mithril automatically figures out the most efficient way of updating the text, rather than blindly recreating it from scratch.
+
+##DOM Elements
+
+Let's wrap our text in an `<h1>` tag.
+
+```javascript
+return {h1: "Hello world"}
+```
+[Example](http://jsbin.com/puyebigiwo/edit?html,output)
+
+
+##Props
+When Mag.JS sees an element representing a user-defined component, it passes attributes to this component as a single object.
+We call this object "props".
+
+For example, this code renders "Hello, Mike" on the page:
+
+```javascript
+//Component:
+function Welcome(props) {
+  return {h1: 'Hello, '+props.name};
+}
+
+//Attach:
+var WelcomeComp = mag(root, Welcome);
+
+//Run:
+WelcomeComp({name: 'Mike'});
+```
+[Example](http://jsbin.com/nojonizome/edit?html,output)
+
+
+##Composing Components
+
+Components can refer to other components in their output. 
+This lets us use the same component abstraction for any level of detail. 
+A button, a form, a dialog, a screen: in Mag.JS apps, all those are commonly expressed as components.
+
+For example, we can create an App component that renders Welcome many times:
+
+```javascript
+//Component:
+function Welcome(props) {
+  return {h1: 'Hello, '+props.name};
+}
+
+function App(){
+  return {div: [
+      Welcome({name:"Sara"}),
+      Welcome({name:"Cahal"}),
+      Welcome({name:"Edite"})
+    ]
+  }
+}
+  
+//Attach:
+var WelcomeComp = mag('body', App);
+
+//Run:
+WelcomeComp();
+```
+[Example](http://jsbin.com/coletevame/edit?html,output)
