@@ -26,21 +26,18 @@ var root = document.body
 Let's start as small as well can: render some text on screen. Copy the code below into your file (and by copy, I mean type it out - you'll learn better)
 
 ```javascript
-//Template:
-var root = document.body
-
 //Component:
-var fun = function(){
+var Hello = function(){
   return "Hello world"
 }
 
 //Attach:
-var comp = mag(root, fun);
+var HelloComp = mag(root, Hello);
 
 //Run:
-comp();
+HelloComp();
 ```
-[Example](http://jsbin.com/bilevolayo/edit?html,output) - [With props](http://jsbin.com/vonamutano/edit?html,output)
+[Example](http://jsbin.com/damazuwopo/edit?html,output) - [With props](http://jsbin.com/vonamutano/edit?html,output)
 
 Now, let's change the text to something else. Add this line of code under the previous one:
 
