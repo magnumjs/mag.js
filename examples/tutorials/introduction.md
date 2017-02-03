@@ -157,7 +157,7 @@ mag.module(root, Hello)
 
 As you would expect, doing so results in this markup:
 
-```markup
+```html
 <main>
 	<h1 class="title">My first app</h1>
 	<button>A button</button>
