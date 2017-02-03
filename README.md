@@ -131,7 +131,7 @@ mag.module("hello", {
 
 *Components*
 
-[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/mubixecodi/edit?html,output) - [Master detail](http://jsbin.com/letakipozo/edit?js,output) - [Stateless components perf](http://jsbin.com/xericimopi/edit?html,output)
+[Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/mubixecodi/edit?html,output) - [Master detail](http://jsbin.com/letakipozo/edit?js,output) - [Stateless components perf](http://jsbin.com/xuwabevenu/edit?html,output)
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/jaruwamiho/edit?html,output)
 
