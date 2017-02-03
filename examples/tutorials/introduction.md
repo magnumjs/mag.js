@@ -26,7 +26,7 @@ It'll cover the majority of the API surface (including routing and XHR) but it'l
 
 Let's create an HTML file to follow along:
 
-```markup
+```html
 <body></body>
 <script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
