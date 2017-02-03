@@ -65,13 +65,12 @@ The component has the instructions for which html element matchers within our mo
 
 Element Matchers are the instructions of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
 
-There are 5 ways to reference an element within a module
+There are 5 ways to reference an element within a module:
 * class name
 * tag name
 * data-bind attribute value
 * id
 * or name attribute value
-
 
 ##Props
 When Mag.JS sees an element representing a user-defined component, it passes attributes to this component as a single object.
