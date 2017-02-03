@@ -18,6 +18,34 @@ License: MIT
     return selector;
   }
 
+  var runFun = function(idOrNode, mod) {
+    var clones = [],
+      clone = idOrNode.cloneNode(1),
+      cache = [],
+      last;
+    return function(props) {
+      var node = idOrNode
+      if (props) {
+        var key = props.key;
+        if (key && !clones[key]) {
+          node = clones[key] = clone.cloneNode(1);
+        }
+      }
+      if (!last || !props || last != JSON.stringify(props)) {
+        last = JSON.stringify(props);
+        var cached;
+        if (last in cache) {
+          cached = cache[last];
+        } else {
+          cached = cache[last] = mod(props);
+        }
+        //parse template clone and return html with original func and new props
+        mag.fill.run(node, cached);
+      }
+      return node;
+    }
+  }
+
   global.mag = function(idOrNode, mod, props) {
     idOrNode = find(idOrNode)
     mod = find(mod)
@@ -30,24 +58,7 @@ License: MIT
     } else
     //what if mod is a function?
     if (typeof mod == 'function' && mag.isHTMLElment(idOrNode)) {
-      var clones = [],
-        clone = idOrNode.cloneNode(1),
-        last;
-      return function(props) {
-        var node = idOrNode
-        if (props) {
-          var key = props.key;
-          if (key && !clones[key]) {
-            node = clones[key] = clone.cloneNode(1);
-          }
-        }
-        if (!last || !props || last != JSON.stringify(props)) {
-          last = JSON.stringify(props);
-          //parse template clone and return html with original func and new props
-          mag.fill.run(node, mod(props));
-        }
-        return node;
-      }
+      return runFun(idOrNode, mod);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
     }
