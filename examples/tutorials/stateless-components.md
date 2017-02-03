@@ -37,7 +37,7 @@ var HelloComp = mag(root, Hello);
 //Run:
 HelloComp();
 ```
-[Example](http://jsbin.com/damazuwopo/edit?html,output) - [With props](http://jsbin.com/vonamutano/edit?html,output)
+[Example](http://jsbin.com/damazuwopo/edit?html,output) - [With props](http://jsbin.com/vonamutano/edit?html,output) - [Simple syntax](http://jsbin.com/pomolafeli/edit?html,output)
 
 Now, let's change the text to something else. Add this line of code under the previous one:
 
