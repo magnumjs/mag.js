@@ -10,7 +10,7 @@ The easiest way to try out Mag.JS is to include it from a CDN, and follow this t
 
 Let's create an HTML file to follow along:
 
-```javascript
+```html
 <body></body>
 <script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
