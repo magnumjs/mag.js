@@ -57,7 +57,20 @@ Let's wrap our text in an `<h1>` tag.
 ```javascript
 return {h1: "Hello world"}
 ```
-[Example](http://jsbin.com/migukexede/edit?html,output)
+[Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/rudamikoxo/edit?html,output)
+
+###Element Matchers
+
+The component has the instructions for which html element matchers within our module element we want to interpolate and to what.
+
+Element Matchers are the instructions of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
+
+There are 5 ways to reference an element within a module
+* class name
+* tag name
+* data-bind name
+* id
+* or name attribute
 
 
 ##Props
