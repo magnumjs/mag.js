@@ -68,9 +68,9 @@ Element Matchers are the instructions of the component. Preferably, only attach 
 There are 5 ways to reference an element within a module
 * class name
 * tag name
-* data-bind name
+* data-bind attribute value
 * id
-* or name attribute
+* or name attribute value
 
 
 ##Props
