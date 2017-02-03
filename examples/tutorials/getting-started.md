@@ -176,7 +176,7 @@ The component has the instructions for which html element matchers within our mo
 
 Element Matchers are the "state" of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
 
-There are 5 ways to reference an element within a module
+There are 5 ways to reference an element within a module:
 * class name
 * tag name
 * data-bind attribute value
