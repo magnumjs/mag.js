@@ -179,9 +179,9 @@ Element Matchers are the "state" of the component. Preferably, only attach dynam
 There are 5 ways to reference an element within a module
 * class name
 * tag name
-* data-bind name
+* data-bind attribute value
 * id
-* or name attribute
+* or name attribute value
 
 ##Data bindings
 
