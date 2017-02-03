@@ -468,7 +468,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var matches = matchingElements(node, key)
     matches.forEach(function(item) {
       var uid = getUid(item)
-      if (childCache[uid]) {
+      if (uid in childCache) {
         for (var index in childCache[uid]) {
           item.appendChild(childCache[uid][index])
         }
