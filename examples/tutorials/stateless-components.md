@@ -57,7 +57,7 @@ Let's wrap our text in an `<h1>` tag.
 ```javascript
 return {h1: "Hello world"}
 ```
-[Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/rudamikoxo/edit?html,output)
+[Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/famuxuyebo/edit?html,output)
 
 **Element Matchers**
 
