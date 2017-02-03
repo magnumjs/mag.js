@@ -139,7 +139,7 @@ mag.module("hello", {
 
 *Stateless*
 
-[Timer](https://embed.plnkr.co/zW3oZdH9b8v4kSVJGw1e/)
+[Timer](https://embed.plnkr.co/zW3oZdH9b8v4kSVJGw1e/) - [Counter](http://jsbin.com/ropasotone/edit?js,output)
 
 *Forms*
 
