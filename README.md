@@ -137,6 +137,10 @@ mag.module("hello", {
 
 [Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output) - [Communication](http://jsbin.com/gocotigece/edit?html,output) - [TagName](http://jsbin.com/deyoxohino/edit?html,output) - [Multiple](http://jsbin.com/zogopuximi/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
 
+*Stateless*
+
+[Timer](https://embed.plnkr.co/zW3oZdH9b8v4kSVJGw1e/)
+
 *Forms*
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
