@@ -55,9 +55,9 @@ As you can see, you use the same code to both create and update HTML. Mithril au
 Let's wrap our text in an `<h1>` tag.
 
 ```javascript
-return {h1: "Hello world"}
+{h1: "Hello world"}
 ```
-[Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/famuxuyebo/edit?html,output)
+[Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/famuxuyebo/edit?html,output) - [With props](http://jsbin.com/wadogayijo/edit?html,output)
 
 **Element Matchers**
 
