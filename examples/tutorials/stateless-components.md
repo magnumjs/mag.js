@@ -59,7 +59,7 @@ return {h1: "Hello world"}
 ```
 [Example](http://jsbin.com/migukexede/edit?html,output) - [Simple syntax](http://jsbin.com/rudamikoxo/edit?html,output)
 
-###Element Matchers
+**Element Matchers**
 
 The component has the instructions for which html element matchers within our module element we want to interpolate and to what.
 
