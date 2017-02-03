@@ -83,6 +83,19 @@ mag.module(root, {view: (state)=> {
 ```
 [Example](http://jsbin.com/pidicezeki/edit?html,output)
 
+###Element Matchers
+
+The component has the instructions for which html element matchers within our module element we want to interpolate and to what.
+
+Element Matchers are the instructions of the component. Preferably, only attach dynamic values that will be matched to html and via props for componentization.
+
+There are 5 ways to reference an element within a module:
+* class name
+* tag name
+* data-bind attribute value
+* id
+* or name attribute value
+
 The `mag()` function can be used to reference any HTML element you want. Either by its element ID or the Node itself:
 The main difference between `mag` and `mag.module` is that `mag` uses the template indirectly while `mag.module` uses it directly.
 
