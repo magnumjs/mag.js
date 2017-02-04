@@ -488,6 +488,9 @@ Counter.getProps() ..
 ```
 [Example](http://jsbin.com/tamemaqogo/edit?js,output)
 
+`mag` can also be used to create [stateless components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)  
+Which are helpful in constructing the UI.
+
 Note: There are subtle differences between `mag()` and `mag.module.`
 
 - *Skips `mag.module` setup*
