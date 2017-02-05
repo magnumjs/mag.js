@@ -141,6 +141,10 @@ mag.module("hello", {
 
 [Timer](https://embed.plnkr.co/zW3oZdH9b8v4kSVJGw1e/) - [Counter](http://jsbin.com/ropasotone/edit?js,output)
 
+*State*
+
+[Shared across modules](http://jsbin.com/fomosanavu/edit?js,output)
+
 *Forms*
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
