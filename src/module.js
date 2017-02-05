@@ -225,7 +225,7 @@ License: MIT
 
   mod.iscached = function(key) {
     var data = JSON.stringify(mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key)));
-    if (mod.cache[key] && mod.cache[key] == data) {
+    if (key in mod.cache && mod.cache[key] == data) {
       return true
     }
     mod.cache[key] = data;
