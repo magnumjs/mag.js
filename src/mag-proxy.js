@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.3
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -7,7 +7,6 @@ License: MIT
 (function(mag, global) {
 
   var pathSeparator = '/';
-
   function proxyAssign(obj, cb, type, path) {
     var proxies = new WeakSet();
 
@@ -81,7 +80,7 @@ License: MIT
       if (Array.isArray(obj[k]) && obj[k].length < 101) {
         // assign
         obj[k] = proxyAssign(obj[k], cb)
-      } else if (stype == 'object' && obj[k] !== null && typeof k != 'symbol' && stype != 'symbol' && typeof k != 'symbol' && stype != 'function' && mag.utils.isObject(obj[k])) {
+      } else if (stype == 'object' && obj[k] !== null && typeof k != 'symbol' && stype != 'symbol' && stype != 'function' && mag.utils.isObject(obj[k])) {
         obj[k] = mag.proxy(obj[k], cb, type, path + pathSeparator + k);
       }
     }
