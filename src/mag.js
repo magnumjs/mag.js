@@ -8,11 +8,26 @@ License: MIT
 
   'use strict';
 
+  var KEY = 'KEY';
+  var selectors = ['#' + KEY, '.' + KEY, KEY];
+
+  var findInSelectors = function(node, key) {
+    var found;
+    //methods to search
+    for (var k in selectors) {
+      var search = selectors[k].replace(KEY, key);
+      found = node.querySelector(search);
+      if (found) break;
+    }
+    return found;
+  }
+
   var find = function(selector) {
     if (typeof selector == 'string') {
       var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
       var parentNode = mag.getNode(parentID);
-      var found = (parentNode || mag.doc).querySelector(selector);
+      //5 Element Matchers
+      var found = findInSelectors(parentNode || mag.doc, selector)
       if (found) return found;
     }
     return selector;
@@ -50,14 +65,14 @@ License: MIT
     idOrNode = find(idOrNode)
     mod = find(mod)
 
-    if (mag.isHTMLElment(mod) && mag.isHTMLElment(idOrNode)) {
+    if (mag.utils.isHTMLElment(mod) && mag.utils.isHTMLElment(idOrNode)) {
       //attach to node once
       if (!mod[mag.MAGNUM]) {
         mag.fill.run(mod, idOrNode);
       }
     } else
-    //what if mod is a function?
-    if (typeof mod == 'function' && mag.isHTMLElment(idOrNode)) {
+    //If mod is a function?
+    if (typeof mod == 'function' && mag.utils.isHTMLElment(idOrNode)) {
       return runFun(idOrNode, mod);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
@@ -70,10 +85,6 @@ License: MIT
 
   mag.doc = document;
 
-  mag.isHTMLElment = function(item) {
-    return item && item.nodeType && item.nodeType == 1;
-  }
-
   //Plugins:
   var hookins = {
     values: [],
@@ -84,7 +95,7 @@ License: MIT
 
   var inc = 0;
   mag._isNode = function(id) {
-    if (mag.isHTMLElment(id)) {
+    if (mag.utils.isHTMLElment(id)) {
       // get id if exists or create one
       if (!id.id) id.id = ++inc;
       //Add to cache for access via getNode(id)
