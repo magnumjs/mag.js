@@ -15,6 +15,10 @@ License: MIT
     //For Safari
     return obj.toString().substr(-7) == 'Object]';
   }
+  
+    utils.isHTMLElment = function(item) {
+    return item && item.nodeType && item.nodeType == 1;
+  }
 
   utils.callHook = function(hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
