@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.3
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -12,7 +12,8 @@ License: MIT
   var utils = {};
 
   utils.isObject = function(obj) {
-    return '' + obj === '[object Object]';
+    //For Safari
+    return obj.toString().substr(-7) == 'Object]';
   }
 
   utils.callHook = function(hookins, key, name, i, data, before) {
