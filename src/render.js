@@ -171,7 +171,7 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (typeof value === 'object' && !mag.isHTMLElment(value)) {
+        if (typeof value === 'object' && !mag.utils.isHTMLElment(value)) {
           // recurse
           attachToArgs(i + '.' + k, value, element);
         } else {
