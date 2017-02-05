@@ -277,7 +277,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
-            if (mag.isHTMLElment(data)) {
+            if (mag.utils.isHTMLElment(data)) {
               elements[i][MAGNUM].dataPass = data[MAGNUM]
             } else {
               elements[i][MAGNUM].dataPass = data
@@ -396,7 +396,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var val = data(tagIndex)
 
-    if (val && mag.isHTMLElment(val)) {
+    if (val && mag.utils.isHTMLElment(val)) {
       // remove childs first
       addToNode(node, val);
 
@@ -429,7 +429,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var tagIndex = getPathIndex(p)
 
-    if (data && mag.isHTMLElment(data)) {
+    if (data && mag.utils.isHTMLElment(data)) {
       addToNode(node, data)
       return;
     }
@@ -816,7 +816,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var children = node.childNodes
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
-          if (mag.isHTMLElment(children[i]) && notIsolate(children[i])) {
+          if (mag.utils.isHTMLElment(children[i]) && notIsolate(children[i])) {
             elements.push(children[i])
           }
         }
