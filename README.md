@@ -215,7 +215,7 @@ mag.module("hello", {
 [Modal with select menu]
 (http://jsbin.com/yiyivasega/edit?js,output)
 
-[Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/)
+[Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/) - [Alternate with Addons vs Extends](https://embed.plnkr.co/H6RAodlcLD3yAbzAWZYf/)
 
 [Forms - composable components - link manager](http://jsbin.com/faqisutezo/edit?js,output)
 
