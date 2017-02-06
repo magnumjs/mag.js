@@ -20,15 +20,15 @@ Requires: MagJS (core) Addons: Ajax , Router
     }
   }
   
-  mag.template = function(url, cb){
+  mag.template = function(url, cb) {
     return mag.request(url)
       .then(function(data) {
 
         var template = mag.doc.createElement('template');
         template.innerHTML = data;
-	cb && cb(template)
-        return template;
-      })  
+        cb && cb(template.content.children[0])
+        return template.content.children[0];
+      })
   }
 
   mag.getTags = function(tagName) {
