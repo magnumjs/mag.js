@@ -19,6 +19,17 @@ Requires: MagJS (core) Addons: Ajax , Router
       return mag.module(id2 || id, module, mag.merge(mag.copy(props) || {}, mag.copy(props2) || {}))
     }
   }
+  
+  mag.template = function(url, cb){
+    return mag.request(url)
+      .then(function(data) {
+
+        var template = mag.doc.createElement('template');
+        template.innerHTML = data;
+	cb && cb(template)
+        return template;
+      })  
+  }
 
   mag.getTags = function(tagName) {
     var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
