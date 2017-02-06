@@ -184,22 +184,24 @@ mag.module("hello", {
 [SImple List] 
 (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
-[More lists:]
+[More lists]
 (http://jsbin.com/mefefozaxe/edit?js,output)
 
-[Sortable List:]
+[Sortable List]
 (http://jsbin.com/ralutazaka/edit?js,output)
 
-[Tiny filter:]
+[Tiny filter]
 (http://jsbin.com/reqigohete/edit?js,output)
 
 [Filter list](http://jsbin.com/jokugejosa/edit?js,output) - [Leaderboard](http://jsbin.com/qatukoyuxu/edit?js,output)
 
-[Filter list sort:]
+[Filter list sort]
 (http://jsbin.com/dedoferoqu/edit?js,output)
 
-[Filter list components:]
+[Filter list components]
 (http://jsbin.com/tuduzapecu/edit?js,output)
+
+[List of Lists of items](https://embed.plnkr.co/VQkt0edRAy8AdIVUjvj8/)
 
 *Modals*
 
