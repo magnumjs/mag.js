@@ -142,7 +142,7 @@ mag.module("hello", {
 
 [Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output)
 
-*State*
+*App State*
 
 [Shared across modules](http://jsbin.com/fomosanavu/edit?js,output)
 
@@ -206,14 +206,16 @@ mag.module("hello", {
 
 *Modals*
 
-[Tab component:]
+[Tab component]
 (http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
 
-[Modal component:]
+[Modal component]
 (http://jsbin.com/yuyapesede/edit?js,output)
 
-[Modal with select menu:]
+[Modal with select menu]
 (http://jsbin.com/yiyivasega/edit?js,output)
+
+[Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/)
 
 [Forms - composable components - link manager](http://jsbin.com/faqisutezo/edit?js,output)
 
