@@ -12,7 +12,7 @@ Requires: MagJS (core) Addons: Ajax , Router
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
     return function(id2, props2) {
-      if (typeof id2 !== 'string' && !mag.utils.isHTMLElement(id2)) {
+      if (typeof id2 !== 'string' && !mag.utils.isHTMLElment(id2)) {
         props2 = id2
         id2 = 0
       }
