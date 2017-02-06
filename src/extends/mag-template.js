@@ -43,12 +43,12 @@ mag = (function(_super) {
     return findIdTemplate(idOrNode, mod, props, fun)
   };
 
+  mag.merge(extended, _super)
+
   extended.module = function(idOrNode, mod, props) {
     var fun = _super.module;
     return findIdTemplate(idOrNode, mod, props, fun)
   }
-
-  mag.merge(extended, _super)
 
   return extended
 
