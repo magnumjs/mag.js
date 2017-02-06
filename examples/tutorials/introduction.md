@@ -13,7 +13,7 @@
 ### What is Mag.JS?
 
 Mag.JS is an simple intuitive Javascript library for component templating.  
-It's small (< 6kb gzip), fast and provides routing and XHR utilities out of the box ([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md)).
+It's small (< 7kb gzip), fast and provides routing and XHR utilities out of the box ([Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md)).
 
 Mag.JS is used for quickly prototyping UI templates. It focuses on the clean and unobtrusive separation of HTML and JavaScript. 
 While keeping the interaction between the two effortless and fun!
