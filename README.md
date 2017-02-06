@@ -6,13 +6,14 @@
 <hr>
 ##Features
  
-* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & 5KB Gzipped!
+* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & <7KB Gzip!
 * Valid HTML templates - No virtual/shadow dom or new templating language!
 * Semantic data binding - Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * Collection rendering - No need for hand-written loops. Write templates as a part of the HTML, in plain HTML
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
+* Automatically adds observable capabilities to existing data structures like objects, arrays for state & props reactivity
 
 ##[Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
 
