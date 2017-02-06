@@ -26,7 +26,10 @@ Requires: MagJS (core) Addons: Ajax , Router
 
         var template = mag.doc.createElement('template');
         template.innerHTML = data;
-        cb && cb(template.content.children[0])
+        document.body.appendChild(template);
+        
+	      cb && cb(template.content.children[0])
+        
         return template.content.children[0];
       })
   }
