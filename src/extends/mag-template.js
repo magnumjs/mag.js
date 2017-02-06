@@ -2,7 +2,7 @@
 @name mag-templater
 @author Michael Glazer (c)
 @License MIT
-@date January 29th, 2017
+@date January 29th, 2017, updated February 6th, 2017
 @description allows for existing functionality in Mag.JS to include template Urls
 @example mag|mag.module|mag.create('templateFile.html', Module)
 @example mag|mag.module|mag.create({templateUrl: 'template.html', view: function(state){}} )
@@ -43,10 +43,16 @@ mag = (function(_super) {
     return findIdTemplate(idOrNode, mod, props, fun)
   };
 
-  mag.merge(extended, _super)
+  mag.utils.merge(extended, _super)
 
+  //Redundant - reuse above func?
   extended.module = function(idOrNode, mod, props) {
     var fun = _super.module;
+    return findIdTemplate(idOrNode, mod, props, fun)
+  }  
+  //Should this be here since in Addons not core?
+  extended.create = function(idOrNode, mod, props) {
+    var fun = _super.create;
     return findIdTemplate(idOrNode, mod, props, fun)
   }
 
