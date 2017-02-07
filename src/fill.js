@@ -308,6 +308,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       return;
     }
     if ((!val.id && !node.childNodes[0]) || (node.childNodes[0] && val.childNodes.length != node.childNodes[0].length) || (val.id && !mag.doc.getElementById(val.id)) || (node.childNodes[0] && !node.childNodes[0].isEqualNode(val))) {
+      if(node.firstChild && node.firstChild.innerHTML == val.innerHTML) return;
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
