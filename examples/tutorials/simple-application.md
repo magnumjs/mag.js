@@ -172,7 +172,7 @@ Let's render the view from the entry point file `app.js` we created earlier:
 ```javascript
 // app.js
 
-var UserList = require("./views/UserList")
+var UserList = ..
 
 mag.module(document.body, UserList)
 ```
