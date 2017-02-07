@@ -10,7 +10,6 @@ License: MIT
 
   var KEY = 'KEY';
   var selectors = ['#' + KEY, '.' + KEY, KEY];
-
   var findInSelectors = function(node, key) {
     var found;
     //methods to search
@@ -65,14 +64,14 @@ License: MIT
     idOrNode = find(idOrNode)
     mod = find(mod)
 
-    if (mag.utils.isHTMLElment(mod) && mag.utils.isHTMLElment(idOrNode)) {
+    if (mag.utils.isHTMLEle(mod) && mag.utils.isHTMLEle(idOrNode)) {
       //attach to node once
       if (!mod[mag.MAGNUM]) {
         mag.fill.run(mod, idOrNode);
       }
     } else
     //If mod is a function?
-    if (typeof mod == 'function' && mag.utils.isHTMLElment(idOrNode)) {
+    if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
       return runFun(idOrNode, mod);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
@@ -95,7 +94,7 @@ License: MIT
 
   var inc = 0;
   mag._isNode = function(id) {
-    if (mag.utils.isHTMLElment(id)) {
+    if (mag.utils.isHTMLEle(id)) {
       // get id if exists or create one
       if (!id.id) id.id = ++inc;
       //Add to cache for access via getNode(id)
