@@ -48,7 +48,7 @@ var App = function(){
 ```
 [Example](http://jsbin.com/wixopufafa/edit?html,output)
 
-As you can see, you use the same code to both create and update HTML. Mithril automatically figures out the most efficient way of updating the text, rather than blindly recreating it from scratch.
+As you can see, you use the same code to both create and update HTML. Mag.JS automatically figures out the most efficient way of updating the text, rather than blindly recreating it from scratch.
 
 ##DOM Elements
 
