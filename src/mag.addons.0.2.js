@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.23.3
+Mag.JS AddOns v0.23.4
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -12,7 +12,7 @@ Requires: MagJS (core) Addons: Ajax , Router
   //Create wrapper for function call to mag.module with over riding default props	
   mag.create = function(id, module, props) {
     return function(id2, props2) {
-      if (typeof id2 !== 'string' && !mag.utils.isHTMLElment(id2)) {
+      if (typeof id2 !== 'string' && !mag.utils.isHTMLEle(id2)) {
         props2 = id2
         id2 = 0
       }
