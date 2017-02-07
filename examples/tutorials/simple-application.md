@@ -189,7 +189,7 @@ Regardless of what CSS convention/library you choose, a good rule of thumb is to
 
 To add styles, let's first create a file called `styles.css` and include it in the `index.html` file:
 
-```markup
+```html
 <!doctype html>
 <html>
 	<head>
