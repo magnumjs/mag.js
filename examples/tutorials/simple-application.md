@@ -7,7 +7,7 @@ Let's develop a simple application that covers some of the major aspects of Sing
 
 First let's create an entry point for the application. Create a file `index.html`:
 
-```markup
+```html
 <!doctype html>
 <html>
 	<head>
