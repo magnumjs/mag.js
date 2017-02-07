@@ -15,8 +15,8 @@ License: MIT
     //For Safari
     return obj.toString().substr(-7) == 'Object]';
   }
-  
-    utils.isHTMLElment = function(item) {
+
+  utils.isHTMLEle = function(item) {
     return item && item.nodeType && item.nodeType == 1;
   }
 
