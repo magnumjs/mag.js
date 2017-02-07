@@ -215,7 +215,7 @@ mag.module("hello", {
 [Modal with select menu]
 (http://jsbin.com/yiyivasega/edit?js,output)
 
-[Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/) - [Alternate with create](https://embed.plnkr.co/SjYWZRJMG8GaDFHp9OZn/) - [Alternate with Addons vs Extends](https://embed.plnkr.co/H6RAodlcLD3yAbzAWZYf/)
+[Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/) - [Alternate with create](https://embed.plnkr.co/SjYWZRJMG8GaDFHp9OZn/) - [Addons vs Extends](https://embed.plnkr.co/H6RAodlcLD3yAbzAWZYf/) - [mag.template](https://embed.plnkr.co/N4xt0Z2cB3S8Qqqlvmfp/)
 
 [Forms - composable components - link manager](http://jsbin.com/faqisutezo/edit?js,output)
 
