@@ -277,7 +277,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
-            if (mag.utils.isHTMLElment(data)) {
+            if (mag.utils.isHTMLEle(data)) {
               elements[i][MAGNUM].dataPass = data[MAGNUM]
             } else {
               elements[i][MAGNUM].dataPass = data
@@ -303,12 +303,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function addToNode(node, val, clear) {
 
 
-    //TODO: finer grain diffing, attach once
+   //TODO: finer grain diffing, attach once
     if (isCached(node, val.outerHTML, clear)) {
       return;
     }
-    if ((!val.id && !node.childNodes[0]) || (node.childNodes[0] && val.childNodes.length != node.childNodes[0].length) || (val.id && !mag.doc.getElementById(val.id)) || (node.childNodes[0] && !node.childNodes[0].isEqualNode(val))) {
-      if(node.firstChild && node.firstChild.innerHTML == val.innerHTML) return;
+    if ((!val.id && !node.childNodes[0]) || (val.id && !mag.doc.getElementById(val.id)) || (node.firstChild && !node.firstChild.isEqualNode(val))) {
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
@@ -397,7 +396,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var val = data(tagIndex)
 
-    if (val && mag.utils.isHTMLElment(val)) {
+    if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
 
@@ -430,7 +429,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     var tagIndex = getPathIndex(p)
 
-    if (data && mag.utils.isHTMLElment(data)) {
+    if (data && mag.utils.isHTMLEle(data)) {
       addToNode(node, data)
       return;
     }
@@ -817,7 +816,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var children = node.childNodes
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
-          if (mag.utils.isHTMLElment(children[i]) && notIsolate(children[i])) {
+          if (mag.utils.isHTMLEle(children[i]) && notIsolate(children[i])) {
             elements.push(children[i])
           }
         }
