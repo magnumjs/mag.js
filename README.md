@@ -13,7 +13,7 @@
 * Collection rendering - No need for hand-written loops. Write templates as a part of the HTML, in plain HTML
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
-* Automatically adds observable capabilities to existing data structures like objects, arrays for state & props reactivity
+* Built-in observables on existing data structures like objects, arrays for state and props reactivity
 
 ##[Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
 
