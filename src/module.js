@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.4
+MagJS v0.26.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -250,8 +250,11 @@ License: MIT
       mag.props.attachToArgs(index, mod.getState(index), node)
       mod.cached[index] = 1
     }
-    mod.getView(index)(mod.getState(index), node)
-    mod.runningViewInstance = -1;
+    try {
+      mod.getView(index)(mod.getState(index), node)
+    } finally {
+      mod.runningViewInstance = -1;
+    }
 
   }
 
