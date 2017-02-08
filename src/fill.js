@@ -157,111 +157,100 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         return
       }
 
-      handleDataArray(node, data, elements, templates, key);
+      // clone the first node if more nodes are needed
+      var parent = elements[0].parentNode;
 
-    }
-    // now fill each node with the data
-    fillNodes(data, elements, dataIsArray)
-  }
-
-
-  function handleDataArray(node, data, elements, templates, key) {
-
-    // clone the first node if more nodes are needed
-    var parent = elements[0].parentNode;
-
-    if (!templates[key]) {
-      templates[key] = {
-        node: elements[0].cloneNode(1).outerHTML,
-        parent: parent
-      }
-    }
-
-    //Adding
-    while (elements.length < data.length) {
-      if (templates[key]) {
-        parent.insertAdjacentHTML("beforeend", templates[key].node)
-        node = parent.lastChild
-      } else {
-        node = elements[0].cloneNode(1)
+      if (!templates[key]) {
+        templates[key] = {
+          node: elements[0].cloneNode(1).outerHTML,
+          parent: parent
+        }
       }
 
-      elements.push(node)
-      if (parent) parent.appendChild(node)
-    }
-    // loop thru to make sure no undefined keys
-
-    var keys = data.map(function(i) {
-      return i && i[MAGNUM_KEY]
-    })
-
-    // add keys if equal
-    if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-
-
-      // changes data can cause recursion!
-      data = data.map(function(d, i) {
-
-        if (typeof d === 'object') {
-          elements[i][MAGNUM] = elements[i][MAGNUM] || {};
-          if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-            d[MAGNUM_KEY] = elements[i][MAGNUM].__key
-            return d
-          }
-          if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-            d[MAGNUM_KEY] = MAGNUM + i
-          }
-          elements[i][MAGNUM].__key = d[MAGNUM_KEY]
+      //Adding
+      while (elements.length < data.length) {
+        if (templates[key]) {
+          parent.insertAdjacentHTML("beforeend", templates[key].node)
+          node = parent.lastChild
+        } else {
+          node = elements[0].cloneNode(1)
         }
 
-        return d
+        elements.push(node)
+        if (parent) parent.appendChild(node)
+      }
+      // loop thru to make sure no undefined keys
+
+      var keys = data.map(function(i) {
+        return i && i[MAGNUM_KEY]
       })
-    }
-    if (elements.length > data.length) {
-      if (data.length === 0 || typeof data[0] !== 'object') {
 
-        while (elements.length > data.length) {
-          node = elements.pop();
-          parent = node.parentNode;
-          if (parent) {
-            removeNode(node)
+      // add keys if equal
+      if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
+
+
+        // changes data can cause recursion!
+        data = data.map(function(d, i) {
+
+          if (typeof d === 'object') {
+            elements[i][MAGNUM] = elements[i][MAGNUM] || {};
+            if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = elements[i][MAGNUM].__key
+              return d
+            }
+            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = MAGNUM + i
+            }
+            elements[i][MAGNUM].__key = d[MAGNUM_KEY]
           }
-        }
 
-
-      } else {
-        // more elements than data
-        // remove elements that don't have matching data keys
-
-        var found = []
-          // get all data keys
-        var m = data.map(function(i) {
-          return i[MAGNUM_KEY]
+          return d
         })
+      }
+      if (elements.length > data.length) {
+        if (data.length === 0 || typeof data[0] !== 'object') {
 
-        elements = elements.filter(function(ele, i) {
-          var remove;
-          if (typeof ele[MAGNUM] == UNDEFINED) {
-            remove = 1
-          } else
-          if (!~m.indexOf(ele[MAGNUM].__key) || ~found.indexOf(ele[MAGNUM].__key)) {
+          while (elements.length > data.length) {
+            node = elements.pop();
+            parent = node.parentNode;
+            if (parent) {
+              removeNode(node)
+            }
+          }
+
+
+        } else {
+          // more elements than data
+          // remove elements that don't have matching data keys
+
+          var found = []
+            // get all data keys
+          var m = data.map(function(i) {
+            return i[MAGNUM_KEY]
+          })
+
+          elements = elements.filter(function(ele, i) {
+            var remove;
+            if (typeof ele[MAGNUM] == UNDEFINED) {
+              remove = 1
+            } else
+            if (!~m.indexOf(ele[MAGNUM].__key) || ~found.indexOf(ele[MAGNUM].__key)) {
+              found.push(ele[MAGNUM].__key)
+              remove = 1
+            }
+            if (remove) {
+              removeNode(ele)
+              return false
+            }
             found.push(ele[MAGNUM].__key)
-            remove = 1
-          }
-          if (remove) {
-            removeNode(ele)
-            return false
-          }
-          found.push(ele[MAGNUM].__key)
-          return true
-        })
+            return true
+          })
 
+        }
       }
     }
-  }
 
-
-  function fillNodes(data, elements, dataIsArray) {
+    // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
 
       // create element specific xpath string
@@ -277,19 +266,22 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
-            if (mag.utils.isHTMLEle(data)) {
+            
+           // if (mag.utils.isHTMLEle(data)) {
               elements[i][MAGNUM].dataPass = data[MAGNUM]
-            } else {
-              elements[i][MAGNUM].dataPass = data
-            }
+            //} else {
+             // elements[i][MAGNUM].dataPass = data
+            //}
           }
           elements[i][MAGNUM].xpath = p;
         }
 
         fillNode(elements[i], data, p)
       }
+
     }
   }
+
 
   function findParentChild(node) {
     if (node && node[MAGNUM] && node[MAGNUM].isChildOfArray) {
@@ -303,7 +295,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function addToNode(node, val, clear) {
 
 
-   //TODO: finer grain diffing, attach once
+    //TODO: finer grain diffing, attach once
     if (isCached(node, val.outerHTML, clear)) {
       return;
     }
