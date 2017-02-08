@@ -140,7 +140,7 @@ mag.module("hello", {
 
 *Stateless*
 
-[Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output) - [Interaction with state](http://jsbin.com/deyawowoli/edit?html,output)
+[Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output) - [Interaction with state](http://jsbin.com/lukowekoye/edit?html,output)
 
 *App State*
 
