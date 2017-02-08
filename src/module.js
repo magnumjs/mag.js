@@ -14,6 +14,7 @@ License: MIT
     controllers = []
 
   var mod = {
+    runningViewInstance: -1,
     innerMods: [],
     cache: []
   }
