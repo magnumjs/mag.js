@@ -123,7 +123,7 @@ mag.module("hello", {
 ```
 
 ##Boilerplates
-[JSbin](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Addons](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/)
+[JSbin](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - (Plunker Template)[https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/
 
 ##Examples
 
