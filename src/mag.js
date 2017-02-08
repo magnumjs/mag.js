@@ -21,10 +21,15 @@ License: MIT
     return found;
   }
 
+  var getParent = function(instanceID) {
+    var parentID = mag.utils.items.getItemVal(instanceID);
+    var parentNode = mag.getNode(parentID);
+    return parentNode;
+  }
+
   var find = function(selector) {
     if (typeof selector == 'string') {
-      var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
-      var parentNode = mag.getNode(parentID);
+      var parentNode = getParent(~mag.mod.runningViewInstance || mag.utils.runningEventInstance)
       //5 Element Matchers
       var found = findInSelectors(parentNode || mag.doc, selector)
       if (found) return found;
@@ -54,7 +59,11 @@ License: MIT
           cached = cache[last] = mod(props);
         }
         //parse template clone and return html with original func and new props
-        mag.fill.run(node, cached);
+        //next tick?
+        //return promise?
+        mag.utils.scheduleFlush(function() {
+          mag.fill.run(node, cached);
+        })
       }
       return node;
     }
@@ -67,6 +76,7 @@ License: MIT
     if (mag.utils.isHTMLEle(mod) && mag.utils.isHTMLEle(idOrNode)) {
       //attach to node once
       if (!mod[mag.MAGNUM]) {
+        //Add to scheduleFlush, nextTick?
         mag.fill.run(mod, idOrNode);
       }
     } else
