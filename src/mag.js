@@ -334,12 +334,17 @@ License: MIT
 
     mag.mod.submodule(cloner.id, ids, mod, props2);
 
-    if (willloader(ids, cloner)) return;
 
     observer(ids, cloner.id)
 
+    if (willloader(ids, cloner)) return;
+
     // DRAW, return Promise
-    return mag.redraw(cloner, ids, clear);
+    mag.redraw(cloner, ids, clear)
+      .then(function() {
+        //DIDLOAD?
+        didloader(ids, cloner)
+      })
   };
 
   var makeClone = function(idInstance, node, mod, props) {
@@ -386,11 +391,6 @@ License: MIT
 
       // get unique instance ID's module
       run(cloner, id, props2, mod, 1)
-        .then(function() {
-          //DIDLOAD?
-          didloader(ids, cloner)
-        })
-
       return cloner;
 
     }.bind({}, idInstance, node, mod, props)
