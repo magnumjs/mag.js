@@ -30,7 +30,7 @@ License: MIT
   var find = function(selector) {
     if (typeof selector == 'string') {
       var parentNode = getParent(~mag.mod.runningViewInstance || mag.utils.runningEventInstance)
-      //5 Element Matchers
+        //5 Element Matchers
       var found = findInSelectors(parentNode || mag.doc, selector)
       if (found) return found;
     }
@@ -61,9 +61,13 @@ License: MIT
         //parse template clone and return html with original func and new props
         //next tick?
         //return promise?
-        mag.utils.scheduleFlush(function() {
+        if (~mag.mod.runningViewInstance) {
+          mag.utils.scheduleFlush(function() {
+            mag.fill.run(node, cached);
+          })
+        } else {
           mag.fill.run(node, cached);
-        })
+        }
       }
       return node;
     }
