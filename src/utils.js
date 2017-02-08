@@ -55,6 +55,8 @@ License: MIT
           //WHY? If the batch errored we may still have tasks queued
           //if (queue.length) scheduleFlush();
         })
+      } else {
+        resolve()
       }
     })
   }
