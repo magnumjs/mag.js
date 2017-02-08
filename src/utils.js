@@ -71,6 +71,7 @@ License: MIT
   }
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented;
+    utils.runningEventInstance = index;
 
     if (controller && controller[eventName]) {
       isPrevented = controller[eventName].call(controller, node, mag.mod.getProps(index), index, extra)
@@ -85,6 +86,7 @@ License: MIT
       }
       if (once) handlers[eventName] = 0
     }
+    utils.runningEventInstance = -1;
     if (isPrevented === false) return true;
   }
 
