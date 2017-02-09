@@ -266,12 +266,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
           if (data[MAGNUM_KEY] !== undefined) {
             elements[i][MAGNUM].isChildOfArray = true
-            
-           // if (mag.utils.isHTMLEle(data)) {
-              elements[i][MAGNUM].dataPass = data[MAGNUM]
-            //} else {
-             // elements[i][MAGNUM].dataPass = data
-            //}
+
+            // if (mag.utils.isHTMLEle(data)) {
+            elements[i][MAGNUM].dataPass = data[MAGNUM]
+              //} else {
+              // elements[i][MAGNUM].dataPass = data
+              //}
           }
           elements[i][MAGNUM].xpath = p;
         }
@@ -709,10 +709,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           }
         }
       } else {
-        var start = node.selectionStart;
-        node.value = val;
-        //reset selection cursor from dynamic changes if diff
-        node.selectionEnd = start;
+        // var start=-1, end=-1;
+        // if (~node.type.indexOf(['text', 'search', 'password', 'tel', 'url'])) {
+        //   start = node.selectionStart;
+        //   end = node.selectionEnd;
+        // }
+
+        //&& mag.doc.activeElement !=node ?
+        if (val != node.value) node.value = val;
+        //reset selection cursor from dynamic changes if diff & allowed type
+        //if(~start) node.setSelectionRange(start, end);
       }
     } else if (node.nodeName !== 'SELECT') {
       // create a new text node and stuff in the value
