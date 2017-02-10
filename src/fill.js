@@ -100,7 +100,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     //TODO: remove cache of all children too		
-    node.parentNode.removeChild(node);
+    node.parentNode && node.parentNode.removeChild(node);
 
     //remove 'view' cache due to dom change ? recursion
     mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
