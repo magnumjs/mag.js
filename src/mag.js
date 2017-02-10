@@ -327,6 +327,7 @@ License: MIT
 
   var run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
+    didloader(ids, cloner)
 
     if (mag.mod.exists(ids)) {
       if (mag.utils.callLCEvent('willgetprops', mag.mod.getState(ids), cloner, ids, 0, props2)) return;
@@ -557,7 +558,11 @@ License: MIT
   }
 
   var didloader = function(idInstance, node) {
-    return mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
+    // only if attached
+    var id = mag.utils.items.getItemVal(idInstance)
+    if (getNode(id)) {
+      return mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
+    }
   }
 
   mag.getNode = getNode
