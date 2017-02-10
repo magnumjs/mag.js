@@ -37,17 +37,12 @@ License: MIT
     return selector;
   }
 
-  var runFun = function(idOrNode, mod, oprops) {
+  var runFun = function(idOrNode, mod) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
       cache = [],
       last;
     return function(props) {
-      if (~props && typeof props != 'object') {
-        var key = props;
-        props = oprops || {}
-        props.key = props.key ? props.key : key;
-      }
       var node = idOrNode
       if (props) {
         var key = props.key;
@@ -91,7 +86,7 @@ License: MIT
     } else
     //If mod is a function?
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
-      return runFun(idOrNode, mod, props);
+      return runFun(idOrNode, mod);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
     }
@@ -284,9 +279,9 @@ License: MIT
       // call unloaders
       callUnloaders(ids, node);
 
-      if (clones) {
+      if (clones[ids]) {
         // remove clones?
-        clones(ids).length = 0;
+        clones[ids].length = 0;
       }
       if (remove) {
         mag.fill.removeNode(node);
