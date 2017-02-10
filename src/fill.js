@@ -398,7 +398,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       node[MAGNUM].dataPass = {
         index: tagIndex
       }
-      data.draw();
+      data.draw && data.draw();
       return;
     } else {
 
