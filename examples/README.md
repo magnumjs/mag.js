@@ -1,5 +1,11 @@
 ###EXAMPLES
 
+*Complete Application*
+
+[Application structure, nested components, web services, promises...](https://embed.plnkr.co/kfMGDLvKUlsOBuoXcbAL/)
+
+*Templating*
+
 [Product search - filter example](http://jsbin.com/decahikihu/edit?html,js,output)
 
 [Show/Hide component example](http://jsbin.com/bipiyivudi/edit?html,js,output)
@@ -24,6 +30,8 @@
 
 [Movie ticket quantity selection](http://jsbin.com/ciyucapazi/edit?html,output)
 
+*Components*
+
 [Component with alternate children](http://jsbin.com/gibufajobe/edit?js,output)
 
 [Dynamic node with css selector generation](http://jsbin.com/wuwalinefo/edit?js,output)
@@ -39,6 +47,8 @@
 [Async & remote json data auto-loading w/caching & initialValues](http://jsbin.com/bagudupego/edit?js,output)
 
 [Web service json request with loading feedback](http://jsbin.com/xatulutana/edit?js,output)
+
+*Advanced*
 
 [Redux simple](http://embed.plnkr.co/FEPbjd8OOUjINI07TwcY/) - [Redux Simple w/Mag reduxConnect](http://embed.plnkr.co/OZwx103Z9EFjtm5GCyfP/) - [ActionCreator map](http://embed.plnkr.co/woxRWVYqN4kAhEPl6DXR/)
 
