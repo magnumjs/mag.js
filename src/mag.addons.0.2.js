@@ -1,5 +1,5 @@
 /*
-Mag.JS AddOns v0.23.4
+Mag.JS AddOns v0.23.5
 (c) Michael Glazer 2017
 https://github.com/magnumjs/mag.js
 Requires: MagJS (core) Addons: Ajax , Router
@@ -19,7 +19,7 @@ Requires: MagJS (core) Addons: Ajax , Router
       return mag.module(id2 || id, module, mag.merge(mag.copy(props) || {}, mag.copy(props2) || {}))
     }
   }
-  
+
   mag.template = function(url, cb) {
     return mag.request(url)
       .then(function(data) {
@@ -27,8 +27,8 @@ Requires: MagJS (core) Addons: Ajax , Router
         var template = mag.doc.createElement('template');
         template.innerHTML = data;
 
-	cb && cb(template.content.children[0])
-        
+        cb && cb(template.content.children[0])
+
         return template.content.children[0];
       })
   }
@@ -176,7 +176,7 @@ d.resolve({
 
     var client = new XMLHttpRequest();
     var method = (options.method || 'GET').toUpperCase();
-    var data = method === "GET" || !options.data ? "" : typeof options.data === 'object' ? JSON.stringify(options.data) : options.data 
+    var data = method === "GET" || !options.data ? "" : typeof options.data === 'object' ? JSON.stringify(options.data) : options.data
 
     client.onload = function(e) {
       var ct = client.getResponseHeader("content-type") || "";
@@ -433,24 +433,32 @@ module library creation with single global namespace / package names
     return val.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
   }
 
-  mag.hookin('attributes', 'style', function(data) {
+  var unitlessProps = {
+    opacity: 1,
+    zIndex: 1,
+    float: 1,
+    fontWeight: 1,
+    gridColumn: 1,
+    lineHeight: 1,
+    transform: 1,
+    zoom: 1
+  }
 
+  mag.hookin('attributes', 'style', function(data) {
 
     //convert from object
     if (typeof data.value === 'object') {
       // get current styles not overwrite existing?
-
       var ostyle = data.node.getAttribute('style') || '';
 
       // make sure not already in styles
       var nstyle = ''
       forEach(data.value, function(key, value) {
-        nstyle += camelDash(key) + ':' + (!isNaN(value) ? (value + "px") : value) + ';';
+        nstyle += camelDash(key) + ':' + (!isNaN(value) && !(key in unitlessProps) ? (value + "px") : value) + ';';
       });
 
       if (ostyle && ~ostyle.indexOf(nstyle)) data.value = ostyle;
       else data.value = ostyle + nstyle;
-
     }
   });
 
