@@ -37,12 +37,17 @@ License: MIT
     return selector;
   }
 
-  var runFun = function(idOrNode, mod) {
+  var runFun = function(idOrNode, mod, oprops) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
       cache = [],
       last;
     return function(props) {
+      if (~props && typeof props != 'object') {
+        var key = props;
+        props = oprops || {}
+        props.key = props.key ? props.key : key;
+      }
       var node = idOrNode
       if (props) {
         var key = props.key;
@@ -86,7 +91,7 @@ License: MIT
     } else
     //If mod is a function?
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
-      return runFun(idOrNode, mod);
+      return runFun(idOrNode, mod, props);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
     }
