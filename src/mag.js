@@ -48,6 +48,8 @@ License: MIT
         var key = props.key;
         if (key && !clones[key]) {
           node = clones[key] = clone.cloneNode(1);
+        } else if(key && clones[key]){
+          node = clones[key];
         }
       }
       if (!last || !props || last != JSON.stringify(props)) {
@@ -61,13 +63,13 @@ License: MIT
         //parse template clone and return html with original func and new props
         //next tick?
         //return promise?
-        if (~mag.mod.runningViewInstance) {
-          mag.utils.scheduleFlush(function() {
-            mag.fill.run(node, cached);
-          })
-        } else {
+        // if (~mag.mod.runningViewInstance) {
+        //   mag.utils.scheduleFlush(function() {
+        //     mag.fill.run(node, cached);
+        //   })
+        // } else {
           mag.fill.run(node, cached);
-        }
+        // }
       }
       return node;
     }
