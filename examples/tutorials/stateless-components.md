@@ -130,4 +130,4 @@ WelcomeComp();
 
 *No state events*
 
-[Pure rendering](http://jsbin.com/simikupayu/edit?html,output)
+[Pure rendering](http://jsbin.com/simikupayu/edit?html,output) - [Async nested components](http://jsbin.com/yecihowopi/edit?html,output)
