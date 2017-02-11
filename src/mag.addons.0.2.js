@@ -473,7 +473,7 @@ module library creation with single global namespace / package names
       newClass = data.value.split(' ')
     } else if (typeof data.value == 'object') {
       for (var k in newClass) {
-        data.node.classList.toggle(k, newClass[k])
+        data.node.classList.toggle(k, typeof newClass[k] !== 'undefined' && newClass[k])
       }
       data.value = data.node.classList + ''
       return
