@@ -122,4 +122,10 @@ var WelcomeComp = mag('body', App);
 //Run:
 WelcomeComp();
 ```
-[Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output) - [Interaction with state](http://jsbin.com/lazegucafu/edit?html,output) - [Reusing modules uniquely](http://jsbin.com/najalimoko/edit?html,output) - [With template](http://jsbin.com/tawovoliju/edit?html,output)
+[Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output)
+
+*State interaction*
+[Interaction with state](http://jsbin.com/lazegucafu/edit?html,output) - [Reusing modules uniquely](http://jsbin.com/najalimoko/edit?html,output) - [With template](http://jsbin.com/tawovoliju/edit?html,output)
+
+*No state events*
+[Pure rendering](http://jsbin.com/simikupayu/edit?html,output)
