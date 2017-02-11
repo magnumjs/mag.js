@@ -126,9 +126,12 @@ WelcomeComp();
 
 *State interaction*
 
-[Interaction with state](http://jsbin.com/lazegucafu/edit?html,output) - [Reusing modules uniquely](http://jsbin.com/najalimoko/edit?html,output) - [With template](http://jsbin.com/tawovoliju/edit?html,output)
+- [Interaction with state](http://jsbin.com/lazegucafu/edit?html,output) 
+- [Reusing modules uniquely](http://jsbin.com/najalimoko/edit?html,output) 
+- [With template](http://jsbin.com/tawovoliju/edit?html,output)
 
 *No state events*
 
-[Pure rendering](http://jsbin.com/simikupayu/edit?html,output) - [Async nested components](http://jsbin.com/becucovasa/edit?html,output)
+- [Pure rendering](http://jsbin.com/simikupayu/edit?html,output) 
+- [Async nested components](http://jsbin.com/becucovasa/edit?html,output)
 - [Fadein FadeOut](http://jsbin.com/sogecujeta/edit?html,output)
