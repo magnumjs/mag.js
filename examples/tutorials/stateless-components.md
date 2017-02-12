@@ -135,3 +135,6 @@ WelcomeComp();
 - [Pure rendering](http://jsbin.com/simikupayu/edit?html,output) 
 - [Async nested components](http://jsbin.com/becucovasa/edit?html,output)
 - [Fadein FadeOut](http://jsbin.com/sogecujeta/edit?html,output)
+
+*Composition*
+ - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output)
