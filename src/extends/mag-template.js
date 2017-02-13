@@ -2,7 +2,8 @@
 @name mag-templater
 @author Michael Glazer (c)
 @License MIT
-@date January 29th, 2017, updated February 6th, 2017
+@version 0.1.3
+@date January 29th, 2017, updated February 6th, 2017, updated February 13th, 2017
 @description allows for existing functionality in Mag.JS to include template Urls
 @example mag|mag.module|mag.create('templateFile.html', Module)
 @example mag|mag.module|mag.create({templateUrl: 'template.html', view: function(state){}} )
@@ -26,7 +27,14 @@ mag = (function(_super) {
   }
 
   var getTemplate = function(url, mod, props, orig) {
-    return mag.request(url)
+    
+    var req = url;
+    
+    //cache for prod?
+    if(mag.ENV == 'prod'){
+      req = {url: url, cache: 1}
+    }  
+    return mag.request(req)
       .then(function(data) {
 
         var template = mag.doc.createElement('template');
