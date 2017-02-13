@@ -21,18 +21,29 @@ Requires: MagJS (core) Addons: Ajax , Router
   }
 
   mag.template = function(url, cb) {
-    return mag.request(url)
+    var req = url;
+    
+    //cache for prod?
+    if(mag.ENV == 'prod'){
+      req = {url: url, cache: 1}
+    }  
+    return mag.request(req)
       .then(function(data) {
+      
+        var dom = mag.html2dom(data);
+      
+        cb && cb(dom)
 
-        var template = mag.doc.createElement('template');
-        template.innerHTML = data;
-
-        cb && cb(template.content.children[0])
-
-        return template.content.children[0];
+        return dom;
       })
   }
 
+  mag.html2dom = function(htmlString){
+    var template = mag.doc.createElement('template');
+    template.innerHTML = htmlString;
+    return template.content.children[0];
+  }
+  
   mag.getTags = function(tagName) {
     var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
     var parentNode = mag.getNode(parentID);
@@ -51,7 +62,7 @@ Requires: MagJS (core) Addons: Ajax , Router
     if (elements.length) {
       for (var node of elements) {
         instances.push(mag[type](node, module, props));
-      }
+      } 
     }
     return instances.length == 1 ? instances[0] : instances;
   }
