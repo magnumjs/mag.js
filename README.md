@@ -240,7 +240,9 @@ mag.module("hello", {
 
 [Infinity scroll](http://jsbin.com/tetazujeti/edit?html,output)
 
-[CSS transitions](http://jsbin.com/tasesohiku/edit?html,output) - [Animation, FadeIn, FadeOut](http://jsbin.com/seyiyarura/edit?html,js,output)
+*Animation*
+
+[CSS transitions](http://jsbin.com/tasesohiku/edit?html,output) - [Animation, FadeIn, FadeOut](http://jsbin.com/seyiyarura/edit?html,js,output) - [Message Fader Component](http://jsbin.com/kewecamato/edit?html,output)
 
 [Movie plotter service](http://jsbin.com/cayepomuhu/edit?html,output) - [Plot selection](http://jsbin.com/qacimaquju/edit?html,output)
  - [Radio selection](http://jsbin.com/boxukuqisu/edit?html,output)
