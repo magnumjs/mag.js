@@ -2,7 +2,7 @@
 
 *Complete Application*
 
-[Application structure, nested components, web services, promises...](https://embed.plnkr.co/kfMGDLvKUlsOBuoXcbAL/)
+[Application structure, nested components, web services, animation, promises...](https://embed.plnkr.co/Ld6Mq2ReDCZLN02X9OWv/)
 
 *Templating*
 
