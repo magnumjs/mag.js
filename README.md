@@ -4,7 +4,7 @@
 
 ### Intuitive, tiny, fast, JavaScript 2 HTML component templating library.
 <hr>
-##Features
+## Features
  
 * Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & <7KB Gzip!
 * Valid HTML templates - No virtual/shadow dom or new templating language!
@@ -15,7 +15,7 @@
 * Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 * Built-in observables on existing data structures like objects, arrays for state and props reactivity
 
-##[Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
+## [Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=xdjPez4oOTA
 " target="_blank"><img src="http://img.youtube.com/vi/xdjPez4oOTA/0.jpg" 
@@ -54,7 +54,7 @@ Mag.JS dom!:
  2. <code>props</code> is passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
  
  
-###Dynamic node example with controller
+### Dynamic node example with controller
 
 ```javascript
 mag.module(document.body, {
@@ -66,7 +66,7 @@ mag.module(document.body, {
 Controllers are only called once vs views which are re-run on every change to the state.
 [Example](http://jsbin.com/foduyagimi/edit?js,output) - [Prevent initial placeholder flicker](http://jsbin.com/xezuwiyuke/edit?js,output)
 
-###Two way binding
+### Two way binding
 
 ```javascript
 var Component = {
@@ -81,7 +81,7 @@ Just define the default value of the selector to bind.
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
 
-##Tutorials
+## Tutorials
 
 * [Introduction Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
 * [Introduction Part2](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md)
@@ -95,7 +95,7 @@ Just define the default value of the selector to bind.
 * [More Tutorials..](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
 
-###Hello world!
+### Hello world!
 
 [JSBin](http://jsbin.com/ticalamuse/edit?js,output) - [Ternary](http://jsbin.com/xixifilehu/edit?js,output) - [Controller](http://jsbin.com/mozeyikozo/edit?js,output) - [Handler](http://jsbin.com/sumuvoyoma/edit?js,output) - [Merge props](http://jsbin.com/jiguwavote/edit?js,output) - [Subscribe](http://jsbin.com/xejupidoni/edit?js,output) - [Proxy](http://jsbin.com/howasicuba/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output)
 
@@ -122,10 +122,10 @@ mag.module("hello", {
 })
 ```
 
-##Boilerplates
+## Boilerplates
 [JSbin](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/)
 
-##Examples
+## Examples
 
 [Hello world](http://jsbin.com/gavijobuxu/edit?js,output) - 
 [Hello world, take2](http://jsbin.com/juwijubima/edit?js,output) - [With dynamic Node](http://jsbin.com/gezewacibo/edit?js,output)
@@ -182,7 +182,7 @@ mag.module("hello", {
 
 *Lists*
 
-[SImple List] 
+[Simple List] 
 (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
 [More lists]
@@ -248,7 +248,7 @@ mag.module("hello", {
  - [Radio selection](http://jsbin.com/boxukuqisu/edit?html,output)
  - [With spinner](http://jsbin.com/fanuvegapi/edit?html,output)
 
-###Mithril 2 Mag
+### Mithril 2 Mag
 [Rotate Links](http://jsbin.com/tajogozite/edit?js,output) - [Alternate](http://jsbin.com/mabibixufu/edit?html,output) - [Web service](http://jsbin.com/fogajilocu/edit?html,output) - [Loader](http://jsbin.com/mizicojubi/edit?html,output)
 
 [Pagination](http://embed.plnkr.co/sPbwAzVKD69ZVOW3yDg7/)
@@ -267,7 +267,7 @@ mag.module("hello", {
 
 [Simple Application](https://embed.plnkr.co/OVRbv4bH3GmGxvBRuZWd/) - [Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/simple-application.md)
 
-###React 2 Mag
+### React 2 Mag
 [Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Affix](http://jsbin.com/yiwafonene/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
 [Navigation menu:]
@@ -313,7 +313,7 @@ mag.module("hello", {
 
 [Mag Redux Async](http://embed.plnkr.co/YsZSrG9QPGoNyjhu1bf0/)
 
-###Angular 2 Mag
+### Angular 2 Mag
 
 [Todos](http://jsbin.com/locohovucu/edit?html,js,output)
 
@@ -336,9 +336,9 @@ mag.module("hello", {
 
 [More advanced examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
-##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
+## [Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
 
-###State Scope
+### State Scope
 
 The scope of a components state is limited to its template `elementId`
 
@@ -512,7 +512,7 @@ Note: There are subtle differences between `mag()` and `mag.module.`
  - In order to reuse one instance uniquely you must pass a key via props. [Example](http://jsbin.com/pesuqacobe/edit?js,output)
  - Or simply call `mag()` again. [Example](http://jsbin.com/honolebuho/edit?js,output) - [List](http://jsbin.com/vexihanuwi/edit?js,output) - [Defined](http://jsbin.com/dijedajego/edit?js,output) - [Button Factory](http://jsbin.com/kexekamozu/edit?js,output)
 
-##Lifecycle methods
+## Lifecycle methods
 
 There are 8 life cycle events: willload, willgetprops, didload, willupdate, didupdate, isupdate, onbeforeunload, onunload
 
@@ -536,7 +536,7 @@ this.willgetprops = function(node, currentProps, instanceId, nextProps) {
 }
 ```
 
-##Reflection
+## Reflection
 
 Use the live instance or an instance ID
 
@@ -558,7 +558,7 @@ These 7 methods are bound to the exact instance
 `destroy`
 `subscribe` - multiple subscribers allowed! `returns` a remove function
 
-##Inner Reflection
+## Inner Reflection
 
 `removeSelfFunc = mag.mod.onLCEvent('didupdate', instanceId, handlerFunc)`
 
@@ -732,7 +732,7 @@ Will render
 </ul>
 ```
 
-###Lists of Objects
+### Lists of Objects
 ```html
 <ul><li class="item-template">People: <b class="name"></b></li></ul>
 ```
@@ -749,7 +749,7 @@ Will render
   </li>
 </ul>
 ```
-###Nested Lists
+### Nested Lists
 ```html
 <ul>
   <li class="item-template">Project: <b class="projectName"></b>
@@ -814,7 +814,7 @@ Will render
 ```
 [JsBin Example](http://jsbin.com/coyemiwupu/edit?html,output)
   
-####Attributes
+#### Attributes
 _html, _text, _on[EVENT], _config->context.onunload
 
 to not overwrite an existing attribute use: 
@@ -827,7 +827,7 @@ event (e, index, node, data) default context is the target element
 * data is the index data of the parent if in a list (map{path,data,node,index})
 * if promise is returned it will defere redraw until resolved
 
-####Events
+#### Events
 
 Life cycle events in controller:
 
@@ -846,7 +846,7 @@ It will call any onunload handlers in the current module (includes inner modules
 
 controller -> this.willload 
 
-###Native events: parameters - 
+### Native events: parameters - 
 ```state.matcher._onclick = function(e, index, node, data)```
 
 * the event
