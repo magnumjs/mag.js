@@ -166,76 +166,58 @@ mag.module("hello", {
 
 [Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component w/CSS Transitions](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
 
-[Hello world (proxy w/Config):]
-(http://jsbin.com/livavofubo/edit?js,output) - [Without controller](http://jsbin.com/favuburowu/edit) - [Without config or controller](http://jsbin.com/havihakuku/edit?js,output) - [Take2](http://jsbin.com/zifadowoza/edit?js,output)
+[Hello world (proxy w/Config)](http://jsbin.com/livavofubo/edit?js,output) - [Without controller](http://jsbin.com/favuburowu/edit) - [Without config or controller](http://jsbin.com/havihakuku/edit?js,output) - [Take2](http://jsbin.com/zifadowoza/edit?js,output)
 
 
 *Events*
 
-[Hello array lifecycle event:]
-(http://jsbin.com/webucanulu/edit?js,output)
-
+[Hello array lifecycle event](http://jsbin.com/webucanulu/edit?js,output)
 
 [Parent Eventing](http://jsbin.com/mireyonija/edit?js,output) - [Node switching](https://jsbin.com/goheyakiro/edit?js,output)
 
-[Count]
-(http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
+[Count](http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
 
 *Lists*
 
-[Simple List] 
-(http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
+[Simple List] (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
-[More lists]
-(http://jsbin.com/mefefozaxe/edit?js,output)
+[More lists](http://jsbin.com/mefefozaxe/edit?js,output)
 
-[Sortable List]
-(http://jsbin.com/ralutazaka/edit?js,output)
+[Sortable List](http://jsbin.com/ralutazaka/edit?js,output)
 
-[Tiny filter]
-(http://jsbin.com/reqigohete/edit?js,output)
+[Tiny filter](http://jsbin.com/reqigohete/edit?js,output)
 
 [Filter list](http://jsbin.com/jokugejosa/edit?js,output) - [Leaderboard](http://jsbin.com/qatukoyuxu/edit?js,output)
 
-[Filter list sort]
-(http://jsbin.com/dedoferoqu/edit?js,output)
+[Filter list sort](http://jsbin.com/dedoferoqu/edit?js,output)
 
-[Filter list components]
-(http://jsbin.com/tuduzapecu/edit?js,output)
+[Filter list components](http://jsbin.com/tuduzapecu/edit?js,output)
 
 [List of Lists of items](https://embed.plnkr.co/VQkt0edRAy8AdIVUjvj8/)
 
 *Modals*
 
-[Tab component]
-(http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
+[Tab component](http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
 
-[Modal component]
-(http://jsbin.com/yuyapesede/edit?js,output)
+[Modal component](http://jsbin.com/yuyapesede/edit?js,output)
 
-[Modal with select menu]
-(http://jsbin.com/yiyivasega/edit?js,output)
+[Modal with select menu](http://jsbin.com/yiyivasega/edit?js,output)
 
 [Modal with external template shared appState](https://embed.plnkr.co/XquSnR8zDxZQflUIQb49/) - [Alternate with mag](https://embed.plnkr.co/IfMg4pEAUiIVU3YnA6wo/) - [Alternate with create](https://embed.plnkr.co/SjYWZRJMG8GaDFHp9OZn/) - [Addons vs Extends](https://embed.plnkr.co/H6RAodlcLD3yAbzAWZYf/) - [mag.template](https://embed.plnkr.co/N4xt0Z2cB3S8Qqqlvmfp/)
 
 [Forms - composable components - link manager](http://jsbin.com/faqisutezo/edit?js,output)
 
-[Todos:]
-(http://jsbin.com/mijixinuxu/edit?js,output) [Take2](http://jsbin.com/pexigilofo/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output) - [v0.24](http://jsbin.com/votisiwire/edit?html,output)
+[Todos](http://jsbin.com/mijixinuxu/edit?js,output) [Take2](http://jsbin.com/pexigilofo/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output) - [v0.24](http://jsbin.com/votisiwire/edit?html,output)
 
 *Todos*
 
-[Todo Proxy]
-(http://jsbin.com/jotapujeho/edit?js,output)
+[Todo Proxy](http://jsbin.com/jotapujeho/edit?js,output)
 
-[Todos (expanded):]
-(http://jsbin.com/yimozefuma/edit?js,output)
+[Todos (expanded)](http://jsbin.com/yimozefuma/edit?js,output)
 
-[Contacts:]
-(http://jsbin.com/logikijuke/edit?js,output) - [Take 2](http://jsbin.com/gupebetati/edit?js,output)
+[Contacts](http://jsbin.com/logikijuke/edit?js,output) - [Take 2](http://jsbin.com/gupebetati/edit?js,output)
 
-[Async:]
-(http://jsbin.com/qukanukuko/edit?js,output)
+[Async](http://jsbin.com/qukanukuko/edit?js,output)
 
 [Async - Geo Location](http://jsbin.com/giquhayepe/edit?js,output)
 
@@ -271,36 +253,29 @@ mag.module("hello", {
 ### React 2 Mag
 [Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Affix](http://jsbin.com/yiwafonene/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
-[Navigation menu:]
-(http://jsbin.com/fajobahaja/edit?js,output)
+[Navigation menu](http://jsbin.com/fajobahaja/edit?js,output)
 
-[Timer]
-(http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/zaqawiredi/edit?html,output)
+[Timer](http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/zaqawiredi/edit?html,output)
 
 [TabList - key components](http://jsbin.com/kikujecevu/edit?html,js,output)
 
 [TabList module pattern - dynamic children keys](http://embed.plnkr.co/BBqYUo2Vq7H3FoUB3QA8/) - [Video Tutorial](https://www.youtube.com/watch?v=0XvXxw_S-fU&index=15&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 
-[Real-time search:]
-(http://jsbin.com/secozicofa/edit?js,output) 
-[Same with different code style - creative Mag.JS!]
-(http://jsbin.com/vulujetesi/edit?js,output)
+[Real-time search](http://jsbin.com/secozicofa/edit?js,output) 
+[Same with different code style - creative Mag.JS!](http://jsbin.com/vulujetesi/edit?js,output)
 
-[FilterableProductTable/static version (Thinking in React tutorial):]
-(http://jsbin.com/firevuzege/edit?js,output)
+[FilterableProductTable/static version (Thinking in React tutorial)](http://jsbin.com/firevuzege/edit?js,output)
 
-[FilterableProductTable (Thinking in React tutorial):]
-(http://jsbin.com/puxafumibu/edit?html,output)
+[FilterableProductTable (Thinking in React tutorial)](http://jsbin.com/puxafumibu/edit?html,output)
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/)
 
 [Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
 
-[Weather App:]
+[Weather App]
 (http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/hexalehujo/edit?js,output)
 
-[Comment Box:]
-(http://jsbin.com/ginuzisogi/edit?js,output) - [Video tutorial:]
+[Comment Box](http://jsbin.com/ginuzisogi/edit?js,output) - [Video tutorial]
 (https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/wusuluvoki/edit?js,output),
 [Take 2](http://jsbin.com/kuyaxamoru/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/PY1KzIPwDiUpE4vyraeC/) - [Module Pattern](http://embed.plnkr.co/Yqe7q3y1ST5wu2yt1OpR/) [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
 
@@ -318,22 +293,17 @@ mag.module("hello", {
 
 [Todos](http://jsbin.com/locohovucu/edit?html,js,output)
 
-[Order form:]
-(http://jsbin.com/ziguzidayi/edit?js,output)
+[Order form](http://jsbin.com/ziguzidayi/edit?js,output)
 
-[Navigation menu:]
-(http://jsbin.com/dedahasoda/edit?js,output)
+[Navigation menu](http://jsbin.com/dedahasoda/edit?js,output)
 
-[Switchable Grid:]
-(http://jsbin.com/vinopakoze/edit?html,output)
+[Switchable Grid](http://jsbin.com/vinopakoze/edit?html,output)
 
 [Phone Gallery](https://embed.plnkr.co/S2h3iL3ynp5iyXQc2Y8k/)
 
-[Contact Manager application:]
-(http://jsbin.com/quviresiva/edit?js,output) - [Take 2](http://jsbin.com/hofoxodofa/edit?js,output)
+[Contact Manager application](http://jsbin.com/quviresiva/edit?js,output) - [Take 2](http://jsbin.com/hofoxodofa/edit?js,output)
 
-[Country App - JSON/Routing]
-(http://embed.plnkr.co/sWe3JEMnBHp272dNzb1N/)
+[Country App - JSON/Routing](http://embed.plnkr.co/sWe3JEMnBHp272dNzb1N/)
 
 [More advanced examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
