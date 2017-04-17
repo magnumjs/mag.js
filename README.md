@@ -4,6 +4,7 @@
 
 ### Intuitive, tiny, fast, JavaScript 2 HTML component templating library.
 <hr>
+
 ## Features
  
 * Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & <7KB Gzip!
@@ -985,7 +986,7 @@ mag({templateUrl: 'template.html', view: ()});
 ```
 
 
-###Performance
+### Performance
 [JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/sononayaro/edit?output)
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/)
