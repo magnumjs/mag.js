@@ -25,7 +25,7 @@ alt="Mag.JS - Elegant DOM Bindings" width="774" height="480" border="10" /></a>
 
 > *"There is no JavaScript code in the HTML and there is no HTML code in the JavaScript!"*
 
-###Hello MagJS!
+### Hello MagJS!
 
 ```javascript
 Initial dom:
@@ -347,7 +347,7 @@ A nested component, child of a parent, will not be effected by the parent's stat
 
 [Example](http://jsbin.com/cemujisuga/edit?html,output)
 
-###Statefullness
+### Statefullness
 When redrawing the view method is called.
 To maintain statefulness we can use the controller method.
 Plainly these are default values.
@@ -855,7 +855,7 @@ controller -> this.willload
 * the node itself (default context)
 * the data of the closest parent list item (In nested lists, the first parent with data).
 
-##Config (DOM hookin)
+## Config (DOM hookin)
 _config (node, isNew, context, index)
 
 Available on all matchers to hookin to the DOM 
@@ -883,7 +883,7 @@ Tiny sub library of reusable simple tools can be found [here](https://github.com
 * hookins
 
 
-####mag.namespace (String namespace, [Optional object Context])
+#### mag.namespace (String namespace, [Optional object Context])
 
 ```javascript
 //module library creation with single global namespace / package names
@@ -949,9 +949,9 @@ mag.hookin('elementMatcher', 'testme', function(data) {
 
 Other hookins such as key/node value!
 
-###[Check out the Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
+### [Check out the Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
 
-##Extends
+## Extends
 
 Example of extending the core Mag.JS functionality seamlessly
 
@@ -965,7 +965,7 @@ mag('template.html', {view: ()});
 mag.module({templateUrl: 'template.html', view: ()});
 mag({templateUrl: 'template.html', view: ()});
 ```
-###[Check out the core Extends](https://github.com/magnumjs/mag.js/blob/master/src/extends/README.md)
+### [Check out the core Extends](https://github.com/magnumjs/mag.js/blob/master/src/extends/README.md)
 
 #### Notes
 
