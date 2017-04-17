@@ -272,11 +272,10 @@ mag.module("hello", {
 
 [Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
 
-[Weather App]
-(http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/hexalehujo/edit?js,output)
+[Weather App](http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/hexalehujo/edit?js,output)
 
-[Comment Box](http://jsbin.com/ginuzisogi/edit?js,output) - [Video tutorial]
-(https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/wusuluvoki/edit?js,output),
+[Comment Box](http://jsbin.com/ginuzisogi/edit?js,output) - 
+[Video tutorial](https://youtube.com/watch?v=QEnyWHSsMFg) - [Take1](http://jsbin.com/wusuluvoki/edit?js,output),
 [Take 2](http://jsbin.com/kuyaxamoru/edit?js,output) - [Take3 - MagJS v0.14](http://embed.plnkr.co/PY1KzIPwDiUpE4vyraeC/) - [Module Pattern](http://embed.plnkr.co/Yqe7q3y1ST5wu2yt1OpR/) [Video tutorial](https://www.youtube.com/watch?v=89TCVe0WyaI)
 
 [Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/)
