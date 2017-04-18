@@ -467,7 +467,7 @@ state.counter = Counter({count: state.count});
 //Reflect on the component
 Counter.getProps() ..
 ```
-[Example](http://jsbin.com/tamemaqogo/edit?js,output)
+[Example](http://jsbin.com/tamemaqogo/edit?js,output) - [Stateless](http://jsbin.com/denunilaba/edit?js,output)
 
 `mag` can also be used to create [stateless components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)  
 Which are helpful in constructing the UI.
