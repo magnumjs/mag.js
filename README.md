@@ -173,13 +173,15 @@ mag.module("hello", {
 
 [Hello array lifecycle event](http://jsbin.com/webucanulu/edit?js,output)
 
+[Lifecycle Disable & re-render](http://jsbin.com/toyubivuho/edit?js,output)
+
 [Parent Eventing](http://jsbin.com/mireyonija/edit?js,output) - [Node switching](https://jsbin.com/goheyakiro/edit?js,output)
 
 [Count](http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
 
 *Lists*
 
-[Simple List] (http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
+[Simple List](http://jsbin.com/sewomabihe/edit?js,output) - [Reverse list](http://jsbin.com/samolezocu/edit?js,output)
 
 [More lists](http://jsbin.com/mefefozaxe/edit?js,output)
 
