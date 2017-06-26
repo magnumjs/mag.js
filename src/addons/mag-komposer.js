@@ -1,5 +1,5 @@
 /*
-Name: mag-komposer v0.2.2
+Name: mag-komposer v0.2.3
 Description: side loading props based on react-komposer (https://github.com/kadirahq/react-komposer)
 Let's compose MagJS containers and feed data into components. 
 Author: Michael Glazer
@@ -45,7 +45,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       cleaners[props.key] = handlerFunc(props, function(key, ids, nprops) {
 
         loading[key] = false;
-        var cp = composed().getProps(ids);
+        var cp = mag.mod.getProps(ids);
 
         if (nprops instanceof Error) {
           errors[key] = true;
@@ -53,11 +53,12 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
           Object.getOwnPropertyNames(nprops).forEach(function(skey) {
             error[skey] = nprops[skey];
           });
-          mag.merge(cp, error);
+          mag.mod.setProps(ids, mag.merge(cp, error))
 
         } else {
-          mag.merge(cp, nprops);
+          mag.mod.setProps(ids, mag.merge(cp, nprops))
         }
+        
 
         var rnode = mag.getNode(mag.getId(ids));
         if (rnode) {
@@ -73,20 +74,13 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         if (!props.key) props.key = performance.now();
         loading[props.key] = true;
 
+        this.didload = function(node, cprops, instanceId) {
+          _subscribe(cprops, instanceId);
+        };
+
         this.willgetprops = function(node, cprops, instanceId) {
           _subscribe(cprops, instanceId)
         };
-        this.willupdate = function(node, newProps) {
-          // prevent layout thrashing on init when no props
-          //TODO: real use case?
-
-          //don't rerun when unecessary
-          if (newProps.key && JSON.stringify(prevProps[newProps.key]) === JSON.stringify(newProps)) {
-            return false;
-          } else {
-            prevProps[newProps.key] = mag.copy(newProps);
-          }
-        }
       },
       view: function(state, props) {
         //is loading?
