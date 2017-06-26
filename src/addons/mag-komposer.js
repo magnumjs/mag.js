@@ -68,7 +68,6 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       }.bind({}, props.key, instanceID));
     };
 
-    var prevProps = [];
     var hoc = {
       controller: function(props) {
         if (!props.key) props.key = performance.now();
