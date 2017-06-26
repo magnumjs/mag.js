@@ -1,4 +1,4 @@
-#Mag.SJ Addons!
+# Mag.SJ Addons!
 
 
 [AddOns Core source](https://github.com/magnumjs/mag.js/blob/master/src/mag.addons.0.2.js) - [Dist-minified](https://github.com/magnumjs/mag.js/blob/master/dist/mag.addons.0.22.min.js)
@@ -29,7 +29,7 @@ Core addons include:
 
 [Independent AddOns](https://github.com/magnumjs/mag.js/tree/master/src/addons)
 
-####Some tests:
+#### Some tests:
 
 [basic route example](http://jsbin.com/lojimitecu/edit)
 
