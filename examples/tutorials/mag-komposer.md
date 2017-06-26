@@ -1,10 +1,10 @@
-##mag-komposer
+## mag-komposer
 
 Let's Compose MagJS Containers (inspired by [React-Komposer](https://github.com/kadirahq/react-komposer))
 
 Let's compose MagJS containers and feed data into components. 
 
-###Why?
+### Why?
 
 Lately, in MagJS we tried to avoid states as possible we can and use props to pass data and actions.
 So, we call these components Dumb Components or UI components.
