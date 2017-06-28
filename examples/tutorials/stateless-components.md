@@ -1,10 +1,10 @@
-##Mag.JS - Stateless Components
+## Mag.JS - Stateless Components
 
 Components let you split the UI into independent, reusable pieces, and think about each piece in isolation.
 
 Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called "props") and return elements describing what should appear on the screen.
 
-##Getting started
+## Getting started
 
 The easiest way to try out Mag.JS is to include it from a CDN, and follow this tutorial.
 
@@ -21,7 +21,7 @@ var root = document.body
 ```
 [Example](http://jsbin.com/tubafuhepu/edit?html,output)
 
-##Hello World
+## Hello World
 
 Let's start as small as well can: render some text on screen. Copy the code below into your file (and by copy, I mean type it out - you'll learn better)
 
@@ -50,7 +50,7 @@ var App = function(){
 
 As you can see, you use the same code to both create and update HTML. Mag.JS automatically figures out the most efficient way of updating the text, rather than blindly recreating it from scratch.
 
-##DOM Elements
+## DOM Elements
 
 Let's wrap our text in an `<h1>` tag.
 
@@ -72,7 +72,7 @@ There are 5 ways to reference an element within a module:
 * id
 * or name attribute value
 
-##Props
+## Props
 When Mag.JS sees an element representing a user-defined component, it passes attributes to this component as a single object.
 We call this object "props".
 
@@ -93,7 +93,7 @@ WelcomeComp({name: 'Mike'});
 [Example](http://jsbin.com/xukidaxive/edit?html,output)
 
 
-##Composing Components
+## Composing Components
 
 Components can refer to other components in their output. 
 This lets us use the same component abstraction for any level of detail. 
