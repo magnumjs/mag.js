@@ -45,7 +45,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       cleaners[props.key] = handlerFunc(props, function(key, ids, nprops) {
 
         loading[key] = false;
-        var cp = composed().getProps(ids);
+        var cp = mag.mod.getProps(ids);
 
         if (nprops instanceof Error) {
           errors[key] = true;
