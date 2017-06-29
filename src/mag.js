@@ -221,7 +221,7 @@ License: MIT
 
       // verify idInstance
       if (!isValidId(node.id, idInstance)) {
-        return
+        return {then: ()=>{}};
       }
 
       // clear existing configs ?
