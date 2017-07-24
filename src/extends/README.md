@@ -1,4 +1,4 @@
-###Extends
+### Extends
 
 Extends mag core functionality such as
 
@@ -7,9 +7,9 @@ Extends mag core functionality such as
 `mag.module`
 
 
-##Example
+## Example
 
-###mag.template
+### mag.template
 
 Enables core functions to include a template url in either the first argument or the Object component itself
 
