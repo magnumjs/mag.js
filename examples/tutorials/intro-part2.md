@@ -409,7 +409,7 @@ Here is where we show the discounted amount, but only if a discount is present. 
 
 If you're coding along, refresh the page and enter happy as a coupon code. You should now see the discounted amount appear after validation :)
 
-##Conclusion
+## Conclusion
 
 We have written four components in a top-down component architecture. VolunteerForm is a parent component that has three child components:
 
@@ -422,7 +422,7 @@ At the end of the day, MagJS's component features gives us a lot of flexibility 
 
 In part 3 (not yet released), we will handle submission and validation of the entire form, as well as handle some new user stories that involve changing the UX. Until next time!
 
-##Further Reading
+## Further Reading
 
 [MagJS's Components documentation](https://github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
 
