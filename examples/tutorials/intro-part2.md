@@ -1,13 +1,13 @@
-#Mag.JS: A Tutorial Introduction (Part2)
+# Mag.JS: A Tutorial Introduction (Part2)
 
 Welcome to part 2 of this tutorial series! In [part 1](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md) we implemented the Contacts component. In part 2 we will first refactor the Contacts component to take advantage of MagJS's stellar component features. Then we will implement both the Total component and the Coupon component, all of which will be managed by MagJS algorithm under one parent component.
 
-##Here's the demo!
+## Here's the demo!
 
 Anxious? You can view the [code here](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/),
 Before we dive back in, let's review our user stories:
 
-##Project User Stories
+## Project User Stories
 
 As a user, I want to sign up for an event.
 As a user, I want to sign up multiple people at once. (Covered by part 1)
@@ -26,7 +26,7 @@ If you want to code along, check out the Plunker link above and start in the fir
 
 Keep in mind that the purpose of this project is to teach MagJS concepts, so it uses some non-best practices. In a real project you would minimize the use of DOM ids, concatenate and minify your JavaScript files, wrap your code in anonymous function scopes, and so on.
 
-##Strategy
+## Strategy
 
 As it turns out, MagJS has stellar support for nesting components. Because other components are about to enter the mix, we will refactor the Contacts component to make it easier to nest.
 
@@ -40,7 +40,7 @@ Build the Total component and nest it in VolunteerForm
 Build the Coupon component and also nest it in VolunteerForm
 Enough talk, let's get started!
 
-##1. The Moderate Refactor
+## 1. The Moderate Refactor
 
 When a MagJS component is nested, its parent can send extra options to its controller and view. Let's update the Contacts component so it "imports" its contacts data from these extra options:
 
@@ -66,7 +66,7 @@ Second, instead of creating our array of contacts, we receive it from the parent
 
 Notice how this component is mutating props.contacts directly. Because of this, we can say this is a mutative component; it mutates the data of its parent. This is by no means the only way to design a component; you will see other types later in the post.
 
-##A Small View Tweak
+## A Small View Tweak
 
 In the Contacts view, remove the following line:
 
@@ -76,7 +76,7 @@ state.h3 =  'Please enter your contact information:'
 
 Because we intend this component to be reusable, we leave the responsibility of labeling it to the parent (you'll see this in the next section).
 
-##2. The VolunteerForm Component
+## 2. The VolunteerForm Component
 
 It's time write the parent VolunteerForm component. If you're coding along, create a folder and the following new file. Let's look at both the controller and view at once:
 
@@ -111,7 +111,7 @@ And here is where we actually nest the Contacts component! Here we use mag.modul
 
 Note that nested components play by the same rules as other components: controllers initialize once, and the view (eventually) runs many times.
 
-##Mounting the Parent
+## Mounting the Parent
 
 Now that we're using a top-down component architecture, we need to update index.html to include our new file and mount VolunteerForm instead of Contacts.
 
@@ -126,7 +126,7 @@ mag.module('app', VolunteerForm)
 
 Our refactor is complete. If you refresh the page, you should see everything work as it did before.
 
-##3. The Total Component
+## 3. The Total Component
 
 Now let's write the Total component. This component will display the total amount the user needs to donate for the signup application. Let's begin with the view:
 
@@ -173,7 +173,7 @@ As you can see, we do not define Total.controller at all. This is because MagJS 
 
 As an aside, the nice thing about writing Total as its own component is we now have one place to go to if we need to modify anything total-related, whether it's changing how it looks on the page (Total.view) or changing the business logic (Total.calcPrice). Of course, if this file starts getting too big, you can always split it up into multiple files, while keeping everything in the same components/total/ folder.
 
-##Nesting Total in VolunteerForm
+## Nesting Total in VolunteerForm
 
 Now we need to put the Total component on the page. To do so, there are two tasks to complete:
 
@@ -210,7 +210,7 @@ We made ctrl.discount an mag.prop in preparation for the Coupon component, which
 
 If you're coding along, refresh the page now. You should see the total update as you add and remove attendees.
 
-##4. The Coupon Component
+## 4. The Coupon Component
 
 Lastly, let's implement the Coupon component. As mentioned in part 1, this tutorial will not cover server-side code. Instead, we will hard code some logic and take note of what would normally go on the server side.
 
@@ -275,7 +275,7 @@ Finally, we return the promise so that other code (such as the Coupon controller
 
 In general, mocking allows us to simulate an AJAX request without actually touching a server. This allows us to continue developing as if we did have a server, postponing the work of writing one until later.
 
-##II. The Coupon View
+## II. The Coupon View
 
 As it turns out, the view is quite straightforward:
 
@@ -299,7 +299,7 @@ The one new thing we haven't seen before is binding a controller action to a for
 
 By the time the user submits, ctrl.code will contain the user's input due to the two-way data binding between it and the input field.
 
-##III. Including Coupon in VolunteerForm
+## III. Including Coupon in VolunteerForm
 
 Revisiting the VolunteerForm view, we can now nest the Coupon component:
 
@@ -377,7 +377,7 @@ Do you see the ternary? The pattern condition ? [content] : '' is a good practic
 
 If you're coding along, refresh the page, type in an invalid coupon code, and submit. See the error message? Now try submitting happy. Cool! Not only does the discount apply, but the error message also disappears :)
 
-##V. Showing the discounted amount
+## V. Showing the discounted amount
 
 The last thing we will do (in part 2) is show the user how much money they're "saving" with their coupon. Intuitively, we will do this in the Total component's view. In fact, we won't have to touch the Coupon component at all :)
 
