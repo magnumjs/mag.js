@@ -77,7 +77,7 @@ You do not have to return. You can call a tree of components that you (or someon
 
 mag.module() instantiates the root component, starts the framework, and injects the transpilations into the associated DOM element, provided as the second argument.
 
-##Composing components
+## Composing components
 
 Let's build skeletons for CommentList and CommentForm which will, again, be simple div tags:
 
