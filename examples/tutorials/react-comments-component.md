@@ -428,7 +428,7 @@ var CommentBox = {
   view: function() {
 ````
 
-##Optimization: optimistic updates
+## Optimization: optimistic updates
 
 Our application is now feature complete but it feels slow to have to wait for the request to complete before your comment appears in the list. We can optimistically add this comment to the list to make the app feel faster.
 
