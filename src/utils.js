@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.7
+MagJS v0.26.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -13,7 +13,7 @@ License: MIT
 
   utils.isObject = function(obj) {
     //For Safari
-    return obj.toString().substr(-7) == 'Object]';
+    return Object.prototype.toString.call(obj).substr(-7) == 'Object]';
   }
 
   utils.isHTMLEle = function(item) {
@@ -53,7 +53,7 @@ License: MIT
           scheduled = false;
           resolve();
           //WHY? If the batch errored we may still have tasks queued
-          //if (queue.length) scheduleFlush();
+          // if (queue.length) scheduleFlush();
         })
       } else {
         resolve()
