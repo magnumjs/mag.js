@@ -1,4 +1,4 @@
-#Tutorial
+# Tutorial
 
 We'll be building a simple but realistic comments box that you can drop into a blog, a basic version of the realtime comments offered by Disqus, LiveFyre or Facebook comments.
 
@@ -13,7 +13,7 @@ It'll also have a few neat features:
 * **Optimistic commenting:** comments appear in the list before they're saved on the server so it feels fast.
 * **Live updates:** other users' comments are popped into the comment view in real time.
 
-##Want to skip all this and just see the source?
+## Want to skip all this and just see the source?
 
 [JSBin](http://jsbin.com/totuxamale/edit?js,output)
 
@@ -36,7 +36,7 @@ For this tutorial, we'll use the latest prebuilt JavaScript file. Open up your f
 </html>
 ```
 
-##Your first component
+## Your first component
 
 MagJS is all about modular, composable components. For our comment box example, we'll have the following component structure:
 
@@ -132,7 +132,7 @@ var CommentBox = {
 
 Notice how we're mixing HTML tags and components we've built. HTML components are regular MagJS components, just like the ones you define, with one difference. The fill compiler will automatically render HTML results of the components into its new container. This is to prevent the pollution of the global namespace.
 
-##Using props
+## Using props
 
 Let's create the Comment component, which will depend on data passed in from its parent. Data passed in from a parent component is available as a 'property' on the child component. These 'properties' are accessed through "props". Using props, we will be able to read the data passed to the Comment from the CommentList, and render some markup:
 
@@ -154,7 +154,7 @@ var Comment = {
 
 Don't be fooled by the braces, these are just placeholders there is NO templating syntax to learn in MagJS. You can drop text or MagJS components into the tree. We access named attributes passed to the component as keys on "props" and any nested elements.
 
-##Component Properties
+## Component Properties
 
 Now that we have defined the Comment component, we will want to pass it the author name and comment text. This allows us to reuse the same code for each unique comment. Now let's add some comments within our CommentList:
 
@@ -177,7 +177,7 @@ var CommentList = {
 
 Note that we have passed some data from the parent CommentList component to the child Comment components. For example, we passed Mike Glazer (via an attribute) and This is one comment (via an XML-like child node) to the first Comment. As noted above, the Comment component will access these 'properties' through props.author, and props.comment.
 
-##Hook up the data model
+## Hook up the data model
 
 So far we've been inserting the comments directly in the source code. Instead, let's render a blob of JSON data into the comment list. Eventually this will come from the server, but for now, write it in your source:
 
@@ -228,11 +228,11 @@ var CommentList = {
 ```
 That's it!
 
-##Fetching from the server
+## Fetching from the server
 
 Let's replace the hard-coded data with some dynamic data from the server. We will remove the data prop and replace it with a URL to fetch:
 
-##Reactive state
+## Reactive state
 
 So far, each component has rendered itself once based on its props. props are immutable: they are passed from the parent and are "owned" by the parent. To implement interactions, we introduce mutable state to the component. state is private to the component and can be changed by calling "state". When the state is updated, the component re-renders itself.
 
@@ -263,7 +263,7 @@ var CommentBox = {
 
 controller() executes exactly once during the lifecycle of the component and sets up the initial state of the component.
 
-##Updating state
+## Updating state
 
 When the component is first created, we want to GET some JSON from the server and update the state to reflect the latest data. In a real application this would be a dynamic endpoint, but for this example, we will use a static JSON with setTimeout to keep things simple:
 
@@ -299,7 +299,7 @@ mag.module('CommentBox','CommentBox',{data:data})
 
 Here, controller is a method called automatically by MagJS when a component is loaded. The key to dynamic updates is the attachement to the state object which is the "this" in the controller. We replace the old array of comments with the new one from the server and the UI automatically updates itself. Because of this reactivity, it is only a minor change to add live updates. We can use simple polling or you could easily use WebSockets or other technologies.
 
-##Adding new comments
+## Adding new comments
 
 Now it's time to build the form. Our CommentForm component should ask the user for their name and comment text and send a request to the service to save the comment.
 
@@ -460,7 +460,7 @@ var CommentBox = {
   view: function() {
 ````
 
-##Congrats!
+## Congrats!
 
 You have just built a comment box in a few simple steps. Learn more about why to use MagJS, or dive into the API reference and start hacking! Good luck!
 
