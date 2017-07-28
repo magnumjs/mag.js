@@ -17,7 +17,7 @@ It'll also have a few neat features:
 
 [JSBin](http://jsbin.com/totuxamale/edit?js,output)
 
-##Getting started
+## Getting started
 
 For this tutorial, we'll use the latest prebuilt JavaScript file. Open up your favorite editor and create a new HTML document:
 
