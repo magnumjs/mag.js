@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.7
+MagJS v0.26.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -221,6 +221,7 @@ License: MIT
 
       // verify idInstance
       if (!isValidId(node.id, idInstance)) {
+        // reschedule?
         return {then: ()=>{}};
       }
 
