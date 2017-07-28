@@ -52,7 +52,8 @@ Mag.JS dom!:
   1. Any change to the <code>state</code> object will trigger a redraw of the view - it is observed.
 2. <code>props</code> is what we want the DOM element(s) to be set to - the data
  2. If the <code>props</code> have changed a new view redraw will run if triggered.
- 2. <code>props</code> is passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
+ 2. <code>props</code> are passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
+ 2. Components use the special children prop to pass children elements directly into their output: `props.children`
  
  
 ### Dynamic node example with controller
