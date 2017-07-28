@@ -135,6 +135,8 @@ mag.module("hello", {
 
 [Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/mubixecodi/edit?html,output) - [Master detail](http://jsbin.com/letakipozo/edit?js,output) - [Stateless components perf](http://jsbin.com/yugefafifu/edit?html,output)
 
+[Access children of placeholder from inner module](http://jsbin.com/hakikerusi/edit?js,output)
+
 [Reusable Tooltip Component](http://jsbin.com/fewutudise/edit?js,output) - [Controller only](http://jsbin.com/gebezelehu/edit?js,output)
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/jaruwamiho/edit?html,output)
