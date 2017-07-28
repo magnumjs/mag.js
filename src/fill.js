@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.7
+MagJS v0.26.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -294,12 +294,18 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function addToNode(node, val, clear) {
 
-
     //TODO: finer grain diffing, attach once
     if (isCached(node, val.outerHTML, clear)) {
       return;
     }
+
     if ((!val.id && !node.childNodes[0]) || (val.id && !mag.doc.getElementById(val.id)) || (node.firstChild && !node.firstChild.isEqualNode(val))) {
+      // take children and add to properties
+      var index = mag.utils.items.getItem(val.id);
+      if(!mag.mod.getProps(index).children){
+        mag.mod.getProps(index).children = node.innerHTML;
+      }
+      //remove
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
