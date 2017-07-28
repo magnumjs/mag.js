@@ -203,7 +203,7 @@ mag.module("hello", {
 
 [Tab component](http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
 
-[Modal component](http://jsbin.com/yuyapesede/edit?js,output)
+[Modal component](http://jsbin.com/yuyapesede/edit?js,output) - [Reusable Modal Component](http://jsbin.com/hayiparoko/edit?js,output)
 
 [Modal with select menu](http://jsbin.com/yiyivasega/edit?js,output)
 
