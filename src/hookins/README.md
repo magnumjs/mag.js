@@ -1,4 +1,4 @@
-##MagJS Hookins!
+## MagJS Hookins!
 
 Examples of simple and powerful hookins to the MagJS library
 
@@ -27,6 +27,6 @@ mag.hookin('attributes', 'bind', function(data) {
 ```
 
 
-###Examples
+### Examples
 
 * [Bind Attribute](https://github.com/magnumjs/mag.js/blob/master/src/hookins/mag.bind.js)
