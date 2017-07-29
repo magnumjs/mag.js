@@ -53,7 +53,7 @@ Mag.JS dom!:
 2. <code>props</code> is what we want the DOM element(s) to be set to - the data
  2. If the <code>props</code> have changed a new view redraw will run if triggered.
  2. <code>props</code> are passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
- 2. Components use the special children prop to pass children elements directly into their output: `props.children`
+ 2. Components can use the special children prop to pass children elements directly into their output: `props.children`
  
  
 ### Dynamic node example with controller
@@ -87,6 +87,7 @@ Just define the default value of the selector to bind.
 
 * [Introduction Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
 * [Introduction Part2](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md)
+* [Compositional Inheritance](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
 * [mag-komposer - Compose MagJS Containers](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/mag-komposer.md)
 * [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
 * [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
