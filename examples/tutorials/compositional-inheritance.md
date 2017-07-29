@@ -156,6 +156,6 @@ mag.module('root', {
 
 [Try it on JSBin](http://jsbin.com/zorihiyefi/edit?js,output)
 
-This article was inspired by [React Composition](https://facebook.github.io/react/docs/composition-vs-inheritance.html)
-
 [More Tutorials](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
+
+This tutorial was inspired by [React Composition](https://facebook.github.io/react/docs/composition-vs-inheritance.html)
