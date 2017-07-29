@@ -1,12 +1,12 @@
-###Composable components
+### Composable components
 
-##Basics for composing MagJS components
+## Basics for composing MagJS components
 
 * A MagJS component is a fully functional self contained mag.module.
 
 * It can be executed on any matching element id html template (or node reference)
 
-###Component Example
+### Component Example
 
 A favorite or starred button on a unique article/item.
 
@@ -61,7 +61,7 @@ mag.namespace('comps.articles.favorite') = mag.comp(templateId, articleFavorite,
 
 Our component can now be used in all relative places to the article such as a list of article or in the detailed article view or even perhaps in a list of the user favorited articles etc...
 
-###Component definition
+### Component definition
 
 Each should be the following;
 
@@ -70,11 +70,11 @@ Each should be the following;
 * maintains its own state
 * events can be bubbled up via props handlers callbacks
 
-###Best practices
+### Best practices
  
 See the existing mag.comps package namespace for example implementations
  
-###Notes
+### Notes
 
 [Full example v0.2](http://embed.plnkr.co/BtxtlFBfebPuOiAnOP3z/) - [Video tutorial](https://youtu.be/JAYIyW7xw14)
 
