@@ -1,8 +1,9 @@
-##Tutorials
+## Tutorials
 
 List of MagJS Tutorials:
 
 - [Guide quick example (1st component)](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
+- [Composing Components](//github.com/magnumjs/mag.js/edit/master/examples/tutorials/compositional-inheritance.md)
 - [Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)
 - [MagJS version of James Longs' "why react is awesome"](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 - [Dave's Guide - converted to MagJS](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/daves-guide.html)
