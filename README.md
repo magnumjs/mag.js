@@ -53,7 +53,7 @@ Mag.JS dom!:
 2. <code>props</code> is what we want the DOM element(s) to be set to - the data
  2. If the <code>props</code> have changed a new view redraw will run if triggered.
  2. <code>props</code> are passed from the parent and is set by <code>mag.module()</code> or an instance `instance (props)`
- 2. Components can reference others Components in props to pass children elements directly into their output: `props.children`
+ 2. Components can reference others Components in props to pass children elements directly into their output: `props.children = mag()`
  
  
 ### Dynamic node example with controller
@@ -136,7 +136,7 @@ mag.module("hello", {
 
 [Simple Component Container](http://jsbin.com/cajepafuzo/edit?js,output) - [Reusable Clock component](http://jsbin.com/mubixecodi/edit?html,output) - [Master detail](http://jsbin.com/letakipozo/edit?js,output) - [Stateless components perf](http://jsbin.com/yugefafifu/edit?html,output)
 
-[Component Composition containment](http://jsbin.com/moyekonuva/edit?js,output) - [Component composition specialization](http://jsbin.com/zorihiyefi/edit?js,output) - [Access static children of placeholder from inner module](http://jsbin.com/hakikerusi/edit?js,output)
+[Component Composition containment](http://jsbin.com/moyekonuva/edit?js,output) - [Component composition specialization](http://jsbin.com/zorihiyefi/edit?js,output)
 
 [Reusable Tooltip Component](http://jsbin.com/fewutudise/edit?js,output) - [Controller only](http://jsbin.com/gebezelehu/edit?js,output)
 
