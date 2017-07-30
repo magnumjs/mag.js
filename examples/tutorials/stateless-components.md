@@ -124,6 +124,9 @@ WelcomeComp();
 ```
 [Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output)
 
+[Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+
+
 *State interaction*
 
 - [Interaction with state](http://jsbin.com/lazegucafu/edit?html,output) 
