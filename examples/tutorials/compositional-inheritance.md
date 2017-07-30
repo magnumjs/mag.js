@@ -154,7 +154,7 @@ mag.module('root', {
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/zorihiyefi/edit?js,output)
+[Try it on JSBin](http://jsbin.com/zorihiyefi/edit?js,output) - [Alternate Welcome](http://jsbin.com/tayeviwise/edit?js,output)
 
 ## Alternate
 
