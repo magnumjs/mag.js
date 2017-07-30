@@ -158,7 +158,7 @@ mag.module('root', {
 
 ## Alternate
 
-Here's is an optional alternative way for component inertiance compisition and specialization, using props.children:
+Here is an alternative way for component inertiance composition and specialization, using props.children:
 
 ```html
 <div id="root">
