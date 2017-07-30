@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.9
+MagJS v0.26.91
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -292,6 +292,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
+  var sharedIsolates = [];
+
   function addToNode(node, val, clear) {
 
     //TODO: finer grain diffing, attach once
@@ -317,8 +319,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
-
         var pvindex = mag.utils.items.getItem(fill.id);
+        sharedIsolates.push(pvindex + ',' + val[MAGNUM]['childof']);
         mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(val[MAGNUM]['childof']));
       } else {
         node.appendChild(val);
@@ -826,7 +828,17 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   }
 
+  function inSharedIsolate(index, pindex) {
+    return ~sharedIsolates.indexOf(index + ',' + pindex);
+  }
+
   function notIsolate(node) {
+
+    // if in sharedIsolate ignore
+    if (node.id == fill.id || inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
+      return true;
+    }
+
     return !mag.utils.items.isItem(node.id);
   }
 
@@ -838,7 +850,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var children = node.childNodes
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
-          if (mag.utils.isHTMLEle(children[i]) && notIsolate(children[i])) {
+
+          if (children[i].nodeType === 1 && notIsolate(children[i])) {
             elements.push(children[i])
           }
         }
