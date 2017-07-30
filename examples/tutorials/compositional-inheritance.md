@@ -69,7 +69,7 @@ mag.module('root', {
 ```
 
 
-[Try it on JSBin](http://jsbin.com/teheqareci/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
+[Try it on JSBin](http://jsbin.com/teheqareci/edit?js,output) - [Alternate](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
 
 # Specialization
 
