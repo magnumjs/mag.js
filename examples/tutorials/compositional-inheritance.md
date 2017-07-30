@@ -156,6 +156,72 @@ mag.module('root', {
 
 [Try it on JSBin](http://jsbin.com/zorihiyefi/edit?js,output)
 
+## Alternate
+
+Here's is an optional alternative way for component inertiance compisition and specialization, using props.children:
+
+```html
+<div id="root">
+
+  <mydialog>
+    <input>
+    <button>Sign Me Up!</button>
+  </mydialog>
+
+  <div class="hide">
+    <div id="dialog">
+      <h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+      <children></children>
+    </div>
+  </div>
+
+</div>
+```
+
+
+```js
+var Dialog = {
+  controller: function(props) {
+    mag.utils.merge(this, props)
+  },
+  view: function(state, props) {
+    state.children = {
+      _html: props.children
+    };
+  }
+};
+```
+
+```js
+var CustomDialog = mag('dialog', Dialog);
+
+mag.module('root', {
+  view: function(state, props) {
+    state.mydialog = CustomDialog({
+      key: 1,
+      input: {
+        _onChange: function(e) {
+          state.login = e.target.value;
+        }
+      },
+      button: {
+        _onClick: function() {
+          alert('Welcome ' + state.login + "!")
+        }
+      }
+    });
+  }
+});
+```
+
+[Try it on JSBin](http://jsbin.com/sefugaroni/edit?js,output))
+
+
 [More Tutorials](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
 This tutorial was inspired by [React Composition](https://facebook.github.io/react/docs/composition-vs-inheritance.html)
