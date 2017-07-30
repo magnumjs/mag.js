@@ -219,7 +219,7 @@ mag.module('root', {
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/sefugaroni/edit?js,output))
+[Try it on JSBin](http://jsbin.com/sefugaroni/edit?js,output) - [With props.children](http://jsbin.com/quwebofose/edit?js,output)
 
 
 [More Tutorials](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
