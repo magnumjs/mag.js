@@ -42,7 +42,7 @@ var FancyBorder = {
     state.div = {
       _class: 'FancyBorder FancyBorder-' + props.color
     };
-    state.children = props.children;
+    state.children = props.content;
   }
 }
 ```
@@ -62,14 +62,14 @@ mag.module('root', {
   controller: function() {
     this.mydialog = mag('fancy-border', FancyBorder, {
       color: 'blue',
-      children: mag('dialog', Dialog)
+      content: mag('dialog', Dialog)
     });
   }
 });
 ```
 
 
-[Try it on JSBin](http://jsbin.com/teheqareci/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
+[Try it on JSBin](http://jsbin.com/qekigixebu/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
 
 # Specialization
 
@@ -117,7 +117,7 @@ var FancyBorder = {
     state.div = {
       _class: 'FancyBorder FancyBorder-' + props.color
     };
-    state.children = props.children;
+    state.children = props.content;
   }
 }
 
@@ -125,7 +125,7 @@ var Dialog = {
   controller: function(props) {
     this.h1 = props.title;
     this.p = props.message;
-    this.children = props.children;
+    this.children = props.content;
   }
 }
 
@@ -146,15 +146,15 @@ mag.module('root', {
   controller: function() {
     this.mydialog = mag('fancy-border', FancyBorder, {
       color: 'blue',
-      children: mag('dialog', Dialog, {
-        children: mag('signup', SignUp)
+      content: mag('dialog', Dialog, {
+        content: mag('signup', SignUp)
       })
     });
   }
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/zorihiyefi/edit?js,output) - [Alternate Welcome](http://jsbin.com/tayeviwise/edit?js,output) - [Welcome with props](http://jsbin.com/gubaloyalu/edit?js,output)
+[Try it on JSBin](http://jsbin.com/togihenuzi/edit?js,output) - [Alternate Welcome](http://jsbin.com/tayeviwise/edit?js,output) - [Welcome with props](http://jsbin.com/gubaloyalu/edit?js,output)
 
 ## Alternate
 
