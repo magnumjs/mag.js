@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.8
+MagJS v0.26.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -303,15 +303,30 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // take children and add to properties
       var index = mag.utils.items.getItem(val.id);
-      mag.mod.getProps(index).children = node.innerHTML;
-
+      if (~index) {
+        var pindex = mag.utils.items.getItem(fill.id);
+        var clone = node.cloneNode(1);
+        clone[MAGNUM] = {
+          'childof': pindex
+        };
+        mag.mod.getProps(index).children = clone;
+      }
       //remove
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
-      node.appendChild(val);
+      if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
+        node.innerHTML = val.innerHTML;
+
+        var pvindex = mag.utils.items.getItem(fill.id);
+        mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(val[MAGNUM]['childof']));
+      } else {
+        node.appendChild(val);
+      }
     }
   }
+
+
 
 
   function findAllAttributes(node, data) {
@@ -748,7 +763,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function setHtml(node, html) {
     if (!node || html == null || isCached(node, html)) return;
-    node.innerHTML = html
+    node.innerHTML = mag.utils.isHTMLEle(html) ? html.innerHTML : html
   };
 
 
