@@ -71,6 +71,7 @@ mag.module('root', {
 
 [Try it on JSBin](http://jsbin.com/qekigixebu/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
 
+
 While this is less common, sometimes you might need multiple "holes" in a component. In such cases you may come up with your own convention instead of using children:
 
 ```js
@@ -95,6 +96,9 @@ mag.module('root', App)
 ```
 
 [Try it on JSBin](http://jsbin.com/tifodopebi/edit?js,output)
+
+MagJS components like `Contacts` and `Chat` are just Function objects, so you can pass them as props like any other data.
+
 
 # Specialization
 
