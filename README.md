@@ -138,6 +138,8 @@ mag.module("hello", {
 
 [Component Composition containment](http://jsbin.com/moyekonuva/edit?js,output) - [Component composition specialization](http://jsbin.com/zorihiyefi/edit?js,output)
 
+[props.children accessor](http://jsbin.com/nitewoxose/edit?js,output) - [Access static children of placeholder from inner module](http://jsbin.com/hakikerusi/edit?js,output)
+
 [Reusable Tooltip Component](http://jsbin.com/fewutudise/edit?js,output) - [Controller only](http://jsbin.com/gebezelehu/edit?js,output)
 
 [Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/jaruwamiho/edit?html,output)
