@@ -71,6 +71,31 @@ mag.module('root', {
 
 [Try it on JSBin](http://jsbin.com/qekigixebu/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output)
 
+While this is less common, sometimes you might need multiple "holes" in a component. In such cases you may come up with your own convention instead of using children:
+
+```js
+var Contacts = mag('contacts', {});
+
+var Chat = mag('chat', {});
+
+var SplitPane = mag.create('split-pane', {
+  controller: function(props){
+    this.right = props.right;
+    this.left =props.left;
+  }
+});
+
+var App = {
+  controller: function(){
+    SplitPane({left: Contacts(), right: Chat()});
+  }
+}
+
+mag.module('root', App)
+```
+
+[Try it on JSBin](http://jsbin.com/tifodopebi/edit?js,output)
+
 # Specialization
 
 Sometimes we think about components as being "special cases" of other components. For example, we might say that a `WelcomeDialog` is a special case of `Dialog`.
