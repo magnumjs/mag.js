@@ -300,6 +300,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     if ((!val.id && !node.childNodes[0]) || (val.id && !mag.doc.getElementById(val.id)) || (node.firstChild && !node.firstChild.isEqualNode(val))) {
+      
+        // take children and add to properties
+       var index = mag.utils.items.getItem(val.id);
+       if(!mag.mod.getProps(index).children){
+         mag.mod.getProps(index).children = node.innerHTML;
+       }
       //remove
       while (node.lastChild) {
         node.removeChild(node.lastChild)
