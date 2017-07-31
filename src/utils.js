@@ -39,18 +39,16 @@ License: MIT
   }
 
 
-  var scheduled = false;
   var queue = [];
 
   utils.scheduleFlush = function(fun) {
     return new Promise(function(resolve) {
       queue.push(fun)
       if (!scheduled) {
-        scheduled = true;
-        requestAnimationFrame(function() {
+        var scheduled = requestAnimationFrame(function() {
           var task;
           while (task = queue.shift()) task();
-          scheduled = false;
+          scheduled = 0;
           resolve();
           //WHY? If the batch errored we may still have tasks queued
           // if (queue.length) scheduleFlush();
