@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.91
+MagJS v0.27.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -317,11 +317,23 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
+
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
+
         var pvindex = mag.utils.items.getItem(fill.id);
-        sharedIsolates.push(pvindex + ',' + val[MAGNUM]['childof']);
-        mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(val[MAGNUM]['childof']));
+        var cid = val[MAGNUM]['childof'];
+
+        mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
+        //subscribe once to the parent to notify the child of changes to the state
+        //only once
+        if (!inSharedIsolate(pvindex, cid)) {
+          mag.utils.onLCEvent('willupdate', val[MAGNUM]['childof'], function() {
+            mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
+          });
+          sharedIsolates.push(pvindex + ',' + cid);
+        }
+
       } else {
         node.appendChild(val);
       }
@@ -412,9 +424,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var val = data(tagIndex)
 
     if (val && mag.utils.isHTMLEle(val)) {
-      // remove childs first
+        // remove childs first
       addToNode(node, val);
-
 
       node[MAGNUM] = node[MAGNUM] || {}
       node[MAGNUM].isChildOfArray = true
