@@ -971,7 +971,7 @@ mag({templateUrl: 'template.html', view: ()});
 
 [JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo)
 
-[Dbmon Repaint rate](http://mathieuancelin.github.io/js-repaint-perfs/magjs/) - [v0.23](http://embed.plnkr.co/4wi2bXj2WxeUe27yoXOS/) - [Latest](http://embed.plnkr.co/1R1d8DvnlsooN03DTSqP/)
+[Dbmon Repaint rate](http://mathieuancelin.github.io/js-repaint-perfs/magjs/) - [v0.23](http://embed.plnkr.co/4wi2bXj2WxeUe27yoXOS/) - [Latest](http://embed.plnkr.co/CPSsEzNFM1hr0aO1j5oF/)
 
 [JsPerf v0.20.2](http://jsperf.com/react-vs-raw-dom-manipulation/20) - 
 [JsPerf v0.20.2](https://jsperf.com/angular-vs-knockout-vs-ember/758)
