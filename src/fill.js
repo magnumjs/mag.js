@@ -305,7 +305,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // take children and add to properties
       var index = mag.utils.items.getItem(val.id);
-      if (~index) {
+      if (~index && node.hasChildNodes()) {
         var pindex = mag.utils.items.getItem(fill.id);
         var clone = node.cloneNode(1);
         clone[MAGNUM] = {
@@ -324,7 +324,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         var pvindex = mag.utils.items.getItem(fill.id);
         var cid = val[MAGNUM]['childof'];
 
-        mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
         //subscribe once to the parent to notify the child of changes to the state
         //only once
         if (!inSharedIsolate(pvindex, cid)) {
@@ -332,6 +331,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
             mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
           });
           sharedIsolates.push(pvindex + ',' + cid);
+          sharedIsolates.push(cid + ',' + pvindex);
+          mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
         }
 
       } else {
@@ -424,7 +425,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var val = data(tagIndex)
 
     if (val && mag.utils.isHTMLEle(val)) {
-        // remove childs first
+      // remove childs first
       addToNode(node, val);
 
       node[MAGNUM] = node[MAGNUM] || {}
@@ -843,14 +844,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return ~sharedIsolates.indexOf(index + ',' + pindex);
   }
 
-  function notIsolate(node) {
-
+  function isInIsolate(node) {
     // if in sharedIsolate ignore
-    if (node.id == fill.id || inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
-      return true;
+    if (node.id && node.id != fill.id && mag.utils.items.isItem(node.id) && !inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
+      return 0;
+    } else {
+      return 1;
     }
-
-    return !mag.utils.items.isItem(node.id);
   }
 
 
@@ -862,7 +862,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
 
-          if (children[i].nodeType === 1 && notIsolate(children[i])) {
+          if (children[i].nodeType === 1 && isInIsolate(children[i])) {
             elements.push(children[i])
           }
         }
