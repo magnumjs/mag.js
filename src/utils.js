@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.8
+MagJS v0.26.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -39,13 +39,13 @@ License: MIT
   }
 
 
-  var queue = [];
+  var queue = [], scheduled=0;
 
   utils.scheduleFlush = function(fun) {
     return new Promise(function(resolve) {
       queue.push(fun)
       if (!scheduled) {
-        var scheduled = requestAnimationFrame(function() {
+        scheduled = requestAnimationFrame(function() {
           var task;
           while (task = queue.shift()) task();
           scheduled = 0;
