@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.1
+MagJS v0.26.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -39,31 +39,22 @@ License: MIT
   }
 
 
-  var queue = [],
-    scheduled = 0;
-
-
+  var queue = [], scheduled=0;
 
   utils.scheduleFlush = function(fun) {
     return new Promise(function(resolve) {
       queue.push(fun)
       if (!scheduled) {
-        scheduled = requestAnimationFrame(function(now) {
+        scheduled = requestAnimationFrame(function() {
           var task;
-          while (task = queue.shift()) {
-            task();
-            // calculate how many millisends we have
-            if ((performance.now() - now) >= 16.6) {
-              break;
-            }
-          }
+          while (task = queue.shift()) task();
           scheduled = 0;
           resolve();
           //WHY? If the batch errored we may still have tasks queued
-          // if (queue.length) {
-          //   utils.scheduleFlush();
-          // }
+          // if (queue.length) scheduleFlush();
         })
+      } else {
+        resolve()
       }
     })
   }
