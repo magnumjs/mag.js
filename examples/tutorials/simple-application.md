@@ -1,4 +1,4 @@
-#Mag.JS
+# Mag.JS
 
 
 # Simple application
