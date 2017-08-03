@@ -754,7 +754,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         // }
 
         //&& mag.doc.activeElement !=node ?
-        if (val != node.value) node.value = val;
+        if (val != node.value && mag.doc.activeElement != node) node.value = val;
         //reset selection cursor from dynamic changes if diff & allowed type
         //if(~start) node.setSelectionRange(start, end);
       }
