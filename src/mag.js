@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.8
+MagJS v0.27.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -48,7 +48,7 @@ License: MIT
         var key = props.key;
         if (key && !clones[key]) {
           node = clones[key] = clone.cloneNode(1);
-        } else if(key && clones[key]){
+        } else if (key && clones[key]) {
           node = clones[key];
         }
       }
@@ -68,7 +68,7 @@ License: MIT
         //     mag.fill.run(node, cached);
         //   })
         // } else {
-          mag.fill.run(node, cached);
+        mag.fill.run(node, cached);
         // }
       }
       return node;
@@ -211,7 +211,7 @@ License: MIT
       }
 
     }
-    // var timers = [];
+    //var timers = [];
   mag.redraw = function(node, idInstance, force) {
     if (!pendingRequests[idInstance]) {
 
@@ -222,7 +222,9 @@ License: MIT
       // verify idInstance
       if (!isValidId(node.id, idInstance)) {
         // reschedule?
-        return {then: ()=>{}};
+        return {
+          then: (cb) => cb()
+        };
       }
 
       // clear existing configs ?
@@ -243,10 +245,15 @@ License: MIT
       //debounce
 
       // cancelAnimationFrame(timers[idInstance]);
-      // timers[idInstance] = requestAnimationFrame(fun);
+      // return new Promise(function(resolve) {
+      //   timers[idInstance] = requestAnimationFrame(function() {
+      //     fun();
+      //     resolve();
+      //   });
+      // })
 
       //returns promise
-      return mag.utils.scheduleFlush(fun)
+      return mag.utils.scheduleFlush(idInstance, fun)
 
       //save frame id with the instance 
       // then if instance already has frame id create new discard old or just retain old
