@@ -39,24 +39,16 @@ License: MIT
   }
 
 
-  var queue = [],
-    scheduled = [];
+  var scheduled = [];
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-      queue.push(fun);
-      if (!scheduled[id]) {
-        scheduled[id] = requestAnimationFrame(function() {
-          scheduled[id] = 0;
-          var task;
-          while (task = queue.shift()) task();
-          resolve();
-          //WHY? If the batch errored we may still have tasks queued
-          // if (queue.length) scheduleFlush();
-        })
-      } else {
-        resolve()
-      }
+      cancelAnimationFrame(scheduled[id]);
+      scheduled[id] = requestAnimationFrame(function() {
+        fun();
+        resolve();
+      })
+
     })
   }
 
