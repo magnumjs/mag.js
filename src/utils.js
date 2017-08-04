@@ -17,7 +17,7 @@ License: MIT
   }
 
   utils.isHTMLEle = function(item) {
-    return item && item.nodeType && item.nodeType == 1;
+    return item && item.nodeType === 1;
   }
 
   utils.callHook = function(hookins, key, name, i, data, before) {
@@ -39,16 +39,32 @@ License: MIT
   }
 
 
-  var scheduled = [];
+  var queue = [],
+    scheduled = [];
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-      cancelAnimationFrame(scheduled[id]);
-      scheduled[id] = requestAnimationFrame(function() {
-        fun();
-        resolve();
-      })
-
+      if (mag.rafBounce) {
+        cancelAnimationFrame(scheduled[id]);
+        scheduled[id] = requestAnimationFrame(function() {
+          fun();
+          resolve();
+        })
+      } else {
+        queue.push(fun);
+        if (!scheduled[id]) {
+          scheduled[id] = requestAnimationFrame(function() {
+            scheduled[id] = 0;
+            var task;
+            while (task = queue.shift()) task();
+            resolve();
+            //WHY? If the batch errored we may still have tasks queued
+            // if (queue.length) utils.scheduleFlush();
+          })
+        } else {
+          resolve()
+        }
+      }
     })
   }
 
