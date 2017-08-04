@@ -211,7 +211,7 @@ License: MIT
       }
 
     }
-    //var timers = [];
+    // var timers = [];
   mag.redraw = function(node, idInstance, force) {
     if (!pendingRequests[idInstance]) {
 
@@ -238,8 +238,6 @@ License: MIT
         throw Error('Mag.JS - recursive call: ' + idInstance)
       }
 
-      var fun = makeRedrawFun(node, idInstance, force)
-
       // check for existing frame id then clear it if exists
       //ENQUEUE
       //debounce
@@ -252,8 +250,9 @@ License: MIT
       //   });
       // })
 
+
       //returns promise
-      return mag.utils.scheduleFlush(idInstance, fun)
+      return mag.utils.scheduleFlush(idInstance, makeRedrawFun(node, idInstance, force))
 
       //save frame id with the instance 
       // then if instance already has frame id create new discard old or just retain old
