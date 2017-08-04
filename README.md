@@ -622,6 +622,9 @@ initiate a redraw manually
 
 Optional boolean argument to force cache to be cleared
 
+Optional global mag boolean (defaults to false) `mag.rafBounce` this will effect the `utils.scheduleFlush`
+If set to `true` performance/speed in rendering is enhanced but there can be a loss of smoothness in the dom painting such as jerky rendering.
+
 `returns` a Promise which is resolved when the requestAnimationFrame is run.
 
 #### mag.hookin (type, key, handler)
