@@ -423,15 +423,12 @@ License: MIT
     a.rafBounce = function(bounce) {
       if (bounce) {
         //add
-        mag.rafBounceIds.push(a._id);
+        mag.rafBounceIds[a._id]=1;
       } else if (bounce === false) {
         //remove
-        var index = mag.rafBounceIds.indexOf(a._id);
-        if (~index) {
-          mag.rafBounceIds.splice(index, 1);
-        }
+        mag.rafBounceIds[a._id]=0;
       }
-      return ~mag.rafBounceIds.indexOf(a._id) ? true : false;
+      return mag.rafBounceIds[a._id] ? true : false;
     };
     a.draw = function(force) {
       return mag.redraw(node, a._id, force)
