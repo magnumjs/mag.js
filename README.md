@@ -955,7 +955,7 @@ mag({templateUrl: 'template.html', view: ()});
 
 * config attribute won't be called with inner id element matchers, use other element matcher selectors. Fixed in v0.25.5 [Example](http://jsbin.com/qoxuvahake/edit?js,output)
 
-* careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples
+* careful with module instance constructor, can stack overflow if circular reference. Don't call instance from within itself or on state, use separate module. See examples. Fixed: MagJS will throw a Error if it detects recursivity (a instance call within an instance call) - [Try it on JSBin](http://jsbin.com/gakirunila/edit?js,output)
 
 * object observe support for browsers (v0.22 uses native Proxy to observe)
 
