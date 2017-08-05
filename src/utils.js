@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.1
+MagJS v0.27.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -44,7 +44,7 @@ License: MIT
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-      if (mag.rafBounce) {
+      if (mag.rafBounce || ~mag.rafBounceIds.indexOf(id)) {
         cancelAnimationFrame(scheduled[id]);
         scheduled[id] = requestAnimationFrame(function() {
           fun();
@@ -59,7 +59,7 @@ License: MIT
             while (task = queue.shift()) task();
             resolve();
             //WHY? If the batch errored we may still have tasks queued
-            // if (queue.length) utils.scheduleFlush();
+            // if (queue.length) utils.scheduleFlush(id);
           })
         } else {
           resolve()
