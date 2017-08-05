@@ -44,11 +44,12 @@ License: MIT
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-      if (mag.rafBounce || ~mag.rafBounceIds.indexOf(id)) {
+      if (mag.rafBounce || mag.rafBounceIds[id]) {
         cancelAnimationFrame(scheduled[id]);
         scheduled[id] = requestAnimationFrame(function() {
           fun();
           resolve();
+          scheduled[id]=0;
         })
       } else {
         queue.push(fun);
