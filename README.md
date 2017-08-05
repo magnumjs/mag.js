@@ -619,22 +619,14 @@ state.myELementMatcher = [{
 
 [JSBin example](http://jsbin.com/piyajitede/edit?html,js,output)
 
+**Control redrawing flow**
 
 #### mag.redraw (node Element, idInstance magId, optional force Boolean)
 initiate a redraw manually
 
 Optional boolean argument to force cache to be cleared
 
-Optional global mag boolean (defaults to false) `mag.rafBounce` this will effect the `utils.scheduleFlush`
-If set to `true` performance/speed in rendering is enhanced but there can be a loss of smoothness in the dom painting such as jerky rendering.
-
 `returns` a Promise which is resolved when the requestAnimationFrame is run.
-
-#### mag.hookin (type, key, handler)
-Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins) 
-Examples: Promise, binding, custom attributes and elements.. [Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
-
-**Control redrawing flow**
 
 #### mag.begin ( int MagJS uid)
 
@@ -657,6 +649,17 @@ This will run the last redraw for the instance assuming the number of begins mat
 If you call `mag.begin(id)` for the same instance ID twice you must call `mag.end(id)` the same number of times before it will run the redraw.
 
 This is typically not necessary especially since MagJS runs updates to the module state very efficiently via the rAF (requestAnimationFrame)
+
+** `mag.rafBounce` AND `instance.rafBounce()` **
+
+Optional global mag boolean (defaults to false) `mag.rafBounce` this will effect the `utils.scheduleFlush`
+
+If set to `true` performance/speed in rendering is enhanced but there can be a loss of smoothness in the dom painting such as jerky rendering.
+
+You can also set per `instance.rafBounce(Boolean)` the desired rAF, `true` is the debounce, `false` (default) is to throttle. 
+Returns the current instance's boolean value.
+
+[Try it on JSBin](http://jsbin.com/xinokibuce/edit?js,output)
 
 ### state object
 
@@ -855,6 +858,10 @@ arguments :
    - context.onunload - will be attached to the current modules onunloaders and called if any lifecycle event triggers a stop by returning false
 
 * index is 0 based on xpath of the matcher
+
+#### mag.hookin (type, key, handler)
+Allows for custom definitions, see examples [below](//github.com/magnumjs/mag.js/blob/master/README.md#custom-plugins) 
+Examples: Promise, binding, custom attributes and elements.. [Hookins](https://github.com/magnumjs/mag.js/blob/master/src/hookins/README.md)
 
 #### Mag.JS AddOns!
 
