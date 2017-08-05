@@ -662,7 +662,7 @@ You can also set per `instance.rafBounce(Boolean)` the desired rAF, `true` is th
 
 `Returns` the current instance's boolean value.
 
-[Try it on JSBin](http://jsbin.com/xinokibuce/edit?output)
+[Try it on JSBin](http://jsbin.com/cayiweloxu/edit?output)
 
 ### state object
 
@@ -981,7 +981,7 @@ mag({templateUrl: 'template.html', view: ()});
 
 
 ### Performance
-[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/sononayaro/edit?output) - [Latest](http://jsbin.com/tilujedala/edit?js,output) - [Toggle rAF (Throttle vs Debounce)](http://jsbin.com/xinokibuce/edit?output)
+[JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/sononayaro/edit?output) - [Latest](http://jsbin.com/tilujedala/edit?js,output) - [Toggle rAF (Throttle vs Debounce)](http://jsbin.com/cayiweloxu/edit?output)
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/)
 
