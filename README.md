@@ -527,7 +527,7 @@ var instance = mag.module ('myElementId'|Element Node, component);
 
 The function object to create a clone instance requires an index/key in its only parameter. When assigned to a `state` elementMatcher, MagJS does that for you.
 
-These 7 methods are bound to the exact instance
+These 8 methods are bound to the exact instance
 
 `getId`
 `draw` 
@@ -536,6 +536,7 @@ These 7 methods are bound to the exact instance
 `clones`
 `destroy`
 `subscribe` - multiple subscribers allowed! `returns` a remove function
+`rafBounce([Optional  Boolean])` returns Boolean - Use to change the rendering default engine of rAF throttle to rAF debounce
 
 ## Inner Reflection
 
@@ -579,6 +580,8 @@ instance.subscribe(function(state, props, node, previous){
 
 instance.destroy([Optional RemoveBoolean]) // v0.23.5 - if optional remove boolean is true the entire node is removed.
 // this calls all nodes config unloaders and the controllers onunload event which can preventDefault.
+
+ instance.rafBounce([Optional  Boolean]) //v0.27.2 - returns Boolean flag - used to change the rendering default engine of raf throttle to raf debounce
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
 instance('myUniqueKeyIndex') // Usually not called directly, MagJS will create index when attached to state
