@@ -332,7 +332,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           });
           sharedIsolates.push(pvindex + ',' + cid);
           sharedIsolates.push(cid + ',' + pvindex);
-          mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
         }
 
       } else {
