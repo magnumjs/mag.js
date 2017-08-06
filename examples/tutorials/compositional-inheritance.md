@@ -248,7 +248,7 @@ mag.module('root', {
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/sefugaroni/edit?js,output) - [Alternative using children](http://jsbin.com/bogubayihe/edit?js,output) - [Static with props.children](http://jsbin.com/quwebofose/edit?js,output)
+[Try it on JSBin](http://jsbin.com/sefugaroni/edit?js,output) - [Alternative using children](http://jsbin.com/bogubayihe/edit?js,output) - [Static with props.children](http://jsbin.com/quwebofose/edit?js,output) - [Shared state](http://jsbin.com/dumiqomefa/edit?js,output)
 
 
 [More Tutorials](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
