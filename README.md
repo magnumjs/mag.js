@@ -536,7 +536,7 @@ These 8 methods are bound to the exact instance
 `clones`
 `destroy`
 `subscribe` - multiple subscribers allowed! `returns` a remove function
-`rafBounce([Optional  Boolean])` returns Boolean - Use to change the rendering default engine of rAF throttle to rAF debounce
+`rafBounce([Optional  Boolean])` - returns Boolean. Use to change the rendering default engine of rAF throttle to rAF debounce
 
 ## Inner Reflection
 
@@ -564,24 +564,27 @@ var instance = myComponent({props:[]}) // executed
 // instance contains 7 sub methods 
 
 instance.getId();
-// returns instance UID for MagJS use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
+//returns instance UID for MagJS
+//Use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
 
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
 // `returns` a Promise resolved on rAF
 
-instance.getState() // returns a copy of the current state values of that instance - state is async 
+instance.getState();
+//Returns a copy of the current state values of that instance - state is async 
 
-instance.getProps() // returns a copy of the current props values of that instance, defaults to bound instance
+instance.getProps();
+//Returns a copy of the current props values of that instance, defaults to bound instance
 
 instance.clones();
 //v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
 
-instance.subscribe(function(state, props, node, previous){
-});
+instance.subscribe(function(state, props, node, previous){});
 //v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
 
-instance.destroy([Optional RemoveBoolean]) // v0.23.5 - if optional remove boolean is true the entire node is removed.
+instance.destroy([Optional RemoveBoolean]);
+//v0.23.5 - if optional remove boolean is true the entire node is removed.
 // this calls all nodes config unloaders and the controllers onunload event which can preventDefault.
 
  instance.rafBounce([Optional  Boolean]);
