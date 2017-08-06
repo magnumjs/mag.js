@@ -563,7 +563,8 @@ var instance = myComponent({props:[]}) // executed
 
 // instance contains 7 sub methods 
 
-instance.getId() // returns instance UID for MagJS use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
+instance.getId();
+// returns instance UID for MagJS use mag.getId(instanceId) to get the Node id and mag.getNode(ID) to get the Node itself
 
 instance.draw() // redraws that unique instance, wrap in setTimeout for async
 // optional boolean to force redraw i.e. clear the instance's cache instance.draw(true)
@@ -573,15 +574,18 @@ instance.getState() // returns a copy of the current state values of that instan
 
 instance.getProps() // returns a copy of the current props values of that instance, defaults to bound instance
 
-instance.clones() //v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
+instance.clones();
+//v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
 
 instance.subscribe(function(state, props, node, previous){
-}); //v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
+});
+//v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
 
 instance.destroy([Optional RemoveBoolean]) // v0.23.5 - if optional remove boolean is true the entire node is removed.
 // this calls all nodes config unloaders and the controllers onunload event which can preventDefault.
 
- instance.rafBounce([Optional  Boolean]) //v0.27.2 - returns Boolean flag - used to change the rendering default engine of raf throttle to raf debounce
+ instance.rafBounce([Optional  Boolean]);
+ //v0.27.2 - returns Boolean flag - used to change the rendering default engine of raf throttle to raf debounce
 
 // instance can be called directly with an index/key to clone the instance, usefull in data arrays
 instance('myUniqueKeyIndex') // Usually not called directly, MagJS will create index when attached to state
@@ -617,7 +621,7 @@ state.myELementMatcher = [{
 ```
 
 
-[JSBin example](http://jsbin.com/piyajitede/edit?html,js,output)
+[JSBin example](http://jsbin.com/vamoguqiho/edit?html,output)
 
 **Control redrawing flow**
 
