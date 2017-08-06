@@ -82,9 +82,9 @@ License: MIT
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented;
     utils.runningEventInstance = index;
-
+    var props =  mag.mod.getProps(index);
     if (controller && controller[eventName]) {
-      isPrevented = controller[eventName].call(controller, node, mag.mod.getProps(index), index, extra)
+      isPrevented = controller[eventName].call(controller, node, props, index, extra)
       if (once) controller[eventName] = 0
     }
 
@@ -92,9 +92,9 @@ License: MIT
     var eventer = eventName + '-' + index;
     if (handlers[eventer]) {
       for (var handle of handlers[eventer]) {
-        handle(mag.mod.getState(index), mag.mod.getProps(index));
+        handle(controller, props);
       }
-      if (once) handlers[eventName] = 0
+      if (once) handlers[eventer] = 0
     }
     utils.runningEventInstance = -1;
     if (isPrevented === false) return true;
