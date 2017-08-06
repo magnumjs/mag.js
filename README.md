@@ -581,7 +581,7 @@ instance.clones();
 //v0.22.6 returns list of any clones with their associated instanceId, and its own subscribe handler.
 
 instance.subscribe(function(state, props, node, previous){});
-//v0.22.1 assign a handler to a given instance to get notified on unqiue changes after life cycle event `didupdate`
+//v0.22.1 assign handler to an instance to be notified on unqiue changes after life cycle event `didupdate`
 
 instance.destroy([Optional RemoveBoolean]);
 //v0.23.5 - if optional remove boolean is true the entire node is removed.
