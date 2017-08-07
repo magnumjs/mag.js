@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.2
+MagJS v0.27.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -423,10 +423,10 @@ License: MIT
     a.rafBounce = function(bounce) {
       if (bounce) {
         //add
-        mag.rafBounceIds[a._id]=1;
+        mag.rafBounceIds[a._id] = 1;
       } else if (bounce === false) {
         //remove
-        mag.rafBounceIds[a._id]=0;
+        mag.rafBounceIds[a._id] = 0;
       }
       return mag.rafBounceIds[a._id] ? true : false;
     };
@@ -503,7 +503,6 @@ License: MIT
 
       // LIFE CYCLE EVENT
       if (mag.utils.callLCEvent('willupdate', state, node, idInstance)) return;
-      //fastdom.measure(function() {
 
       //RUN VIEW FUN
       mag.mod.callView(node, idInstance);
@@ -513,6 +512,8 @@ License: MIT
       //START DOM
       mag.fill.setId(node.id);
       mag.fill.run(node, state);
+      mag.fill.setId(0);
+
       // END DOM
 
       // if (mag.doc.activeElement !== active) active.focus()
