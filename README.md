@@ -161,7 +161,7 @@ mag.module("hello", {
 
 [Auto wiring - select menu](http://jsbin.com/roriyisilo/edit?js,output) - [Single form create/edit](https://embed.plnkr.co/h5g9QrRjRAuJdnIW8dkt/)
 
-[Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output)
+[Quiz](http://jsbin.com/wacoqufeho/edit?html,js,output) - [Instant validation](http://jsbin.com/zenuxezuju/edit?js,output)
 
 [Forms - input handling](http://jsbin.com/yeburizuro/edit?js,output) - [AutoComplete w/spinner](http://jsbin.com/nukedikode/edit?html,output) - [Select menu](http://jsbin.com/goxejiqeso/edit?html,output) - [Select addon](http://jsbin.com/bamogobine/edit?html,output)
 
