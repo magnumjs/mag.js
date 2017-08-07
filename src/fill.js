@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.2
+MagJS v0.27.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -845,7 +845,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function isInIsolate(node) {
     // if in sharedIsolate ignore
-    if (node.id && node.id != fill.id && mag.utils.items.isItem(node.id) && !inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
+    if (fill.id && node.id && node.id != fill.id && mag.utils.items.isItem(node.id) && !inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
       return 0;
     } else {
       return 1;
