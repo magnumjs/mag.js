@@ -175,7 +175,7 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (typeof value === 'object' && !mag.utils.isHTMLEle(value)) {
+        if (mag.utils.isObject(value) && !mag.utils.isHTMLEle(value)) {
           if (mag.utils.isEmpty(value)) {
             value._value = ''
           }
