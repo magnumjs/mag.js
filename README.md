@@ -281,6 +281,8 @@ mag.module("hello", {
 
 [Tab state (From Why React is Awesome)](http://embed.plnkr.co/zI0gNs6ijxcSUQTuM377/preview)
 
+[Board Switcher](http://jsbin.com/lazupeququ/edit?js,output)
+
 [Weather App](http://jsbin.com/yigarawudi/edit?js,output) [Take 2](http://jsbin.com/hexalehujo/edit?js,output)
 
 [Comment Box](http://jsbin.com/ginuzisogi/edit?js,output) - 
