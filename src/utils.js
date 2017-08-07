@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.2
+MagJS v0.27.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -14,6 +14,13 @@ License: MIT
   utils.isObject = function(obj) {
     //For Safari
     return Object.prototype.toString.call(obj).substr(-7) == 'Object]';
+  }
+
+  utils.isEmpty = function(obj) {
+    for (var k in obj) {
+      if (obj.hasOwnProperty(k)) return 0;
+    }
+    return 1;
   }
 
   utils.isHTMLEle = function(item) {
@@ -49,9 +56,10 @@ License: MIT
         scheduled[id] = requestAnimationFrame(function() {
           fun();
           resolve();
-          scheduled[id]=0;
+          scheduled[id] = 0;
         })
       } else {
+        // queue[id] = queue[id] || [];
         queue.push(fun);
         if (!scheduled[id]) {
           scheduled[id] = requestAnimationFrame(function() {
@@ -60,7 +68,7 @@ License: MIT
             while (task = queue.shift()) task();
             resolve();
             //WHY? If the batch errored we may still have tasks queued
-            // if (queue.length) utils.scheduleFlush(id);
+            // if (queue[id].length) utils.scheduleFlush(id);
           })
         } else {
           resolve()
@@ -82,7 +90,7 @@ License: MIT
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented;
     utils.runningEventInstance = index;
-    var props =  mag.mod.getProps(index);
+    var props = mag.mod.getProps(index);
     if (controller && controller[eventName]) {
       isPrevented = controller[eventName].call(controller, node, props, index, extra)
       if (once) controller[eventName] = 0
