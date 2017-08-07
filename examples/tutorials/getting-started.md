@@ -1,5 +1,5 @@
-#Getting Started
-##What is MagJS?
+# Getting Started
+## What is MagJS?
 
 MagJS is a very simple and intuitive javascript templating library.
 
@@ -14,12 +14,13 @@ It does not put html code in your JS and it does not put JS code in your html.
 There is no special templating syntax or special JS way in which to code.
 <hr/>
 
-##Download
+## Download
+
 ```html
 <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
 ```
 
-##A Simple Application
+## A Simple Application
 Getting started is fairly trivial.
 
 [Boilerplates](//github.com/magnumjs/mag.js#boilerplates)
@@ -40,7 +41,7 @@ var myComponent = {
     view: function() {}
 }
 ```
-##Model/service
+## Model/service
 
 Typically, model entities are reusable and live outside of components (e.g. var User = ...). 
 They can be seen as services to your data (find, getAll, save ..) not the presentation of it.
@@ -122,7 +123,7 @@ We can break apart this html component into at least two separate ones within ou
 
 For this simple example we will only use the parent module.
 
-##Module definition
+## Module definition
 
 A mag.module defines the control and transpilation that should occur in the html element.
 
@@ -183,7 +184,7 @@ There are 5 ways to reference an element within a module:
 * id
 * or name attribute value
 
-##Data bindings
+## Data bindings
 
 Fortunately, bindings can also be bi-directional: that is, they can be coded in such a way that, in addition to setting the DOM value, it's also possible to read it as a user types, and then update the description getter-setter in the view-model.
 
@@ -197,7 +198,7 @@ Here's the most basic way of implementing the view-to-model part of the binding:
 
 The code bound to the onchange can be read like this: "with the attribute value, set state.text".
 
-##Flow control
+## Flow control
 
 To manipulate how the DOM will render our data list of objects we simply use javascript map function
 
@@ -224,7 +225,7 @@ In the code above, the todo list is an Array, and map is one of its native funct
 
 The view is re-run every time there is a change to the state object that is different than the previous state. It can also be redrawn manually by calling mag.redraw() and optionally to clear the cache; mag.redraw(true)
 
-##Summary
+## Summary
 
 Here's the application code in its entirety:
 
@@ -334,7 +335,8 @@ We are binding our list to the class list in the OL - more about lists [here](//
 
 Lists should have their own container and they are the template for all iterating items.
 
-###Further reading:
+### Further reading:
+
 [Introductory section on Components](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 
 [Introductory section on Lists](//github.com/magnumjs/mag.js/blob/master/README.md#lists)
@@ -343,7 +345,7 @@ Lists should have their own container and they are the template for all iteratin
 
 [James Long Why React is Awesome - converted to MagJS!](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 
-##Implementation Examples
+## Implementation Examples
 
 [Example code] (https://github.com/magnumjs/mag.js/blob/master/README.md#examples)
 
@@ -363,7 +365,7 @@ Lists should have their own container and they are the template for all iteratin
 [Composing things](http://jsbin.com/sajemubole/edit?html,js,output) - 
 [Plunker](http://embed.plnkr.co/EHPeCyExJOYB1hVesr9B/preview) - [Take 2](http://embed.plnkr.co/VUXucg3ZNAZWfEbNCpux/preview)
 
-###Notes
+### Notes
 
 This works by Mag.js listening to changes to state
 If and only if the state has changed will it rerun the view
