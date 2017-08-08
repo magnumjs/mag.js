@@ -61,4 +61,4 @@ mag.module("app", {
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/doroqiquqo/edit?js,output)
+[Try it on JSBin](http://jsbin.com/powinofune/edit?js,output)
