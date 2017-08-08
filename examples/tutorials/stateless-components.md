@@ -124,6 +124,13 @@ WelcomeComp();
 ```
 [Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output)
 
+**Notes**
+
+For nested stateless templates do NOT use IDs. 
+IDs should be unique and they are not manipulated in any way similarly to modules.
+
+Example
+
 [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
 
 
