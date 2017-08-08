@@ -130,7 +130,7 @@ WelcomeComp();
 - IDs should be unique and they are not manipulated in any way similarly to statefull components/modules.
 - You must also pass a unique `key` in props when creating unique clones.
 
-[List of nested stateless templates](http://jsbin.com/zaqabaludo/edit?output) - [Stateless within statefull](http://jsbin.com/vubojilaqi/edit?html,output)
+[List of nested stateless templates](http://jsbin.com/zaqabaludo/edit?html,output) - [Stateless within statefull](http://jsbin.com/vubojilaqi/edit?html,output) - [Dynamic List](http://jsbin.com/fudataguso/edit?html,output)
 
 **Further Reading**
 
