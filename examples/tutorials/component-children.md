@@ -23,7 +23,7 @@ mag.module("app", {
 
 [Try it on JSBin](http://jsbin.com/doroqiquqo/edit?js,output)
 
-##props.children
+## props.children
 
 If you look at the transform, you'll find that XML children are appended as arguments to the component. 
 These extra arguments are passed to the component via `props.children`.
@@ -37,7 +37,28 @@ Instead of working with `props.children` directly, use Plain JS Node utilities t
 In this example, we create a component that takes its children and renders a list, wrapping each child in an `<li>`.
 
 ```js
+var ListComponent = mag('ListComponent', {
+  view: function(state, props) {
 
+    var children = [].slice.call(props.children.children);
+    props.children.innerHTML = '';
+
+    children.map((child) => {
+      var li = document.createElement('li');
+      li.appendChild(child);
+      props.children.appendChild(li);
+    })
+
+    state.ul = props.children;
+  }
+})
+
+
+mag.module("app", {
+  controller: function(props) {
+    this.ListComponentInst = ListComponent();
+  }
+});
 ```
 
-[Try it on JSBin]()
+[Try it on JSBin](http://jsbin.com/doroqiquqo/edit?js,output)
