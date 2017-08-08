@@ -126,14 +126,17 @@ WelcomeComp();
 
 **Notes**
 
-For nested stateless templates do NOT use IDs. 
-IDs should be unique and they are not manipulated in any way similarly to modules.
-You must also pass a unique `key` in props when creating clones.
+- For nested stateless templates lists do NOT use IDs. 
+- IDs should be unique and they are not manipulated in any way similarly to statefull components/modules.
+- You must also pass a unique `key` in props when creating unique clones.
 
-[Example](http://jsbin.com/zaqabaludo/edit?output)
+[List of nested stateless templates](http://jsbin.com/zaqabaludo/edit?output) - [Stateless within statefull](http://jsbin.com/vubojilaqi/edit?html,output)
+
+**Further Reading**
 
 [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
 
+**Examples**
 
 *State interaction*
 
