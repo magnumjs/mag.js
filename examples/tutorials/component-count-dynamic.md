@@ -1,16 +1,16 @@
-##Simple component count example
+## Simple component count example
 
-###Using dynamic container node & independent component
+### Using dynamic container node & independent component
 
-[Example JSBin](http://jsbin.com/minaqineki/edit?html,output)
+[Example JSBin](http://jsbin.com/cuninubera/edit?output)
 
 First the html
 ```html
 <div id="demo">
   <h2>Boilerplate <span></span></h2>
   <button>COUNTER
-    <count/>
-  </button>
+    <count>0</count>
+  </button>
   <div id="counter">
     <b>HOWDY!</b>
     <h1></h1>
