@@ -20,7 +20,7 @@ Oh look, your first exercise!
 Give MagJS some personality by sprucing up this hello message. Perhaps some French to make it more romantic?
 
 ```js
-mag('root', ()=>"Hello World!")()
+mag("root", ()=>"Hello World!")()
 ```
 
 [Try it on JSBin](http://jsbin.com/pafufemito/edit?js,output)
