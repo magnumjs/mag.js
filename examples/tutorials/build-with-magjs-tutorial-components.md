@@ -85,4 +85,4 @@ Then try doing it in the 3 different components variations mentioned above.
 
 What fun is a static page? Add events to make it interactive and all sorts of other buzzy adjectives!
 
-[Continue]()
+[Continue](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-events.md)
