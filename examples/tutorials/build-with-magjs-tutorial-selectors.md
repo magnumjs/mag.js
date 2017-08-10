@@ -58,8 +58,8 @@ The above gets interpolated to the following HTML.
   <h1>Scores</h1>
   <Scoreboard>
     <ul class="score results">
-      <li data-bind="player1>2<li>
-      <li data-bind="player2>5<li>
+      <li data-bind="player1">2<li>
+      <li data-bind="player2">5<li>
     </ul>
   </ScoreBoard>
 </DashboardUnit>
