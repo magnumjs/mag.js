@@ -18,9 +18,9 @@ There are 5 element Matchers for selectors and they can be nested.
 
 Selectors work in their own Isolate, the current Element scope.
 
-Selectors can also be greedy `$` selected.
+Selectors can also be greedy `$` selected: `state.$input={_value: "Name?"}`
 
-Selectors can also have attributes denoted by the  leading underscore `_`
+Selectors can also have attributes denoted by the  leading underscore `_`: `state.input = {_disabled: true}`
 
 Selector events are just attributes that start with and `_on` such as `_onClick`: `state.h1 = {_onClick()=>alert('Hi')}`
 
