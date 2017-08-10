@@ -15,7 +15,7 @@ Learn MagJS quickly with this interactive tutorial.
 
 - [Introduction](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-intro.md)
 - [Selectors](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-selectors.md)
-- Components
+- [Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-components.md)
 - Events
 - State
 - Under the Hood
