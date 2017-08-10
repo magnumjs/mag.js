@@ -10,6 +10,7 @@ Three ways to create components:
 
 1. `mag.module()` is the most common way. It will execute the Object methods on the Element: `mag.module(Element | ID, Object{controller, view})`
 Note: it only accepts Object Components and IDs or the Element itself. It is statefull and efficient (rAF & caching).
+Returns the Components instance with access to internal methods such as `getProps()`, `getid()` .. [See API](https://github.com/magnumjs/mag.js#simple-api)
 
 2. `mag()` is more versatile but does not execute immediately. Instead it returns a function that can be called with `props` to pass: 
 `var component = mag('container', {controller, view}); component()`
@@ -35,7 +36,7 @@ Create a new component using `mag.module`.
 Components have one requirement; they must implement view, a function that tells the component what to... view.
 I honestly couldn't think of another word.
 
-[Try it on JSBin](http://jsbin.com/sogumihade/edit?js,output) - [Without instance](http://jsbin.com/gadebucaje/edit?js,output)
+[Try it on JSBin](http://jsbin.com/sogumihade/edit?js,output) - [Without instance](http://jsbin.com/gadebucaje/edit?js,output) - [Stateless](http://jsbin.com/qagegoyeba/edit?js,output)
 
 ## Props
 
