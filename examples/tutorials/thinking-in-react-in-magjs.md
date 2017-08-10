@@ -62,13 +62,105 @@ Now that we've identified the components in our mock, let's arrange them into a 
 ## Step 2: Build A Static Version in MagJS
 
 ```html
+<div id="FilterableProductTable">
+  <SearchBar></SearchBar>
+  <ProductTable></ProductTable>
+</div>
 
+<div id="SearchBar">
+  <form>
+    <input type="text" placeholder="Search..." />
+    <label>
+      <input type="checkbox" />
+      <span class="checkable">Only show products in stock</span>
+    </label>
+  </form>
+</div>
+
+<div class="ProductRow">
+  <div class="row">
+    <div class="row-cell name">NAME</div>
+    <div class="row-cell price">PRICE</div>
+  </div>
+</div>
+
+<div class="ProductCategoryRow">
+  <div class="row row-header">
+    <category></category>
+  </div>
+</div>
+
+
+<div class="ProductTable">
+  <div class="row row-header">
+    <div>Name</div>
+    <div>Price</div>
+  </div>
+  <div class="row rows"></div>
+</div>
 ```
 
 ```js
+var  SearchBar = mag('SearchBar', {});
 
+var  ProductTable = mag('ProductTable', ({products})=>{
+  
+  var lastCategory = null, rows=[];
+    if (products) {
+
+      products.forEach(function(product, i) {
+        if (product.category !== lastCategory) {
+          rows.push(ProductCategoryRow({
+            category: product.category,
+            key: product.category + i
+          }));
+        }
+        rows.push(ProductRow({
+          product: product,
+          key: product.name
+        }));
+        lastCategory = product.category;
+      });
+    }
+  
+  return {rows};
+ 
+});
+
+var ProductCategoryRow  = mag('ProductCategoryRow', ({category})=>({category: category}))
+var ProductRow  = mag('ProductRow', (props)=>{
+ 
+      var name = props.product.stocked ?
+      props.product.name : {
+        _style: 'color: red',
+        _text: props.product.name
+      };
+
+    var price = props.product.price;
+  return {name, price};
+})
+
+var  FilterableProductTable = mag('FilterableProductTable',({products})=>({
+  SearchBar: SearchBar(),
+  ProductTable:  ProductTable({products: products})
+}));
+
+
+var PRODUCTS = [
+  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
+  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
+  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
+  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
+  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
+  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
+];
+ 
+
+var container = mag('container', FilterableProductTable);
+
+container({products: PRODUCTS});
 ```
-[Try it on JSBin]()
+[Try it on JSBin](http://jsbin.com/jihugusumo/edit?js,output)
 
 Now that you have your component hierarchy, it's time to implement your app. 
 The easiest way is to build a version that takes your data model and renders the UI but has no interactivity. 
