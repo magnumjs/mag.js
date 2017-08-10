@@ -1,4 +1,4 @@
-# Thinking in MagJS
+# Thinking in React in MagJS
 
 MagJS is, in our opinion, the premier way to build big, fast template prototypes in JavaScript. 
 
