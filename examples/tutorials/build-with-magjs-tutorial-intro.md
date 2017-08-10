@@ -36,4 +36,4 @@ Excited? Scared? Let's get started!
 
 HTML selectors in JavaScript? We'll start by getting familiar with 5 element matchers, the interpolation MagJS uses.
 
-[Continue]()
+[Continue](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-selectors.md)
