@@ -66,6 +66,7 @@ The above gets interpolated to the following HTML.
 ```
 
 <hr>
+
 ## Exercise: Selectors
 
 Try to match the markup of the box contents. I recommend referring to the HTML tab and/or inspecting the DOM.
@@ -85,10 +86,11 @@ Try to match the markup of the box contents. I recommend referring to the HTML t
 [Try it on JSBin]()
 
 <hr>
+
 **NEXT ARTICLE**
 
 **Components**
 
-Components are the building blocks of React. Master them and see a new side of web development.
+Components are the building blocks of MagJS. Master them and see a new side of web development.
 
 [Continue]()
