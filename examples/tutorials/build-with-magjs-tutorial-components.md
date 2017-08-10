@@ -16,7 +16,8 @@ Returns the Components instance with access to internal methods such as `getProp
 `var component = mag('container', {controller, view}); component()`
 Note: `mag()` does not affect the original template instead it returns a live clone of the Element.
 
-3. `mag()` can also be used with a function that has no state "stateless components": `mag('root, (props)({div: "Hello!"}));`
+3. `mag()` can also be used with a function that has no state "stateless components":
+`mag('root, (props)=>({div: "Hello!"}));`
 Note: do not use IDs with stateless components since the ID will not be unique. You can use a live Node, a string className or tagName.
 It does not use the rAF and re-renders completely if props have changed when called.
 
