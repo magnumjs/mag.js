@@ -175,7 +175,7 @@ You can build top-down or bottom-up.
 That is, you can either start with building the components higher up in the hierarchy (i.e. starting with FilterableProductTable) or with the ones lower in it (ProductRow).
 In simpler examples, it's usually easier to go top-down, and on larger projects, it's easier to go bottom-up and write tests as you build.
 
-## A Brief Interlude: Props vs State#
+## A Brief Interlude: Props vs State
 
 There are two types of "model" data in MagJS: props and state. It's important to understand the distinction between the two; skim the official MagJS [docs](https://github.com/magnumjs/mag.js#state-scope) if you aren't sure what the difference is.
 
