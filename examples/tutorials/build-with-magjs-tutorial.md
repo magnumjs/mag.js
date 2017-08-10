@@ -27,3 +27,6 @@ Learn MagJS quickly with this interactive tutorial.
 - Stateless Functional Components
 - Component Lifecycle
 - Interfacing with the actual DOM
+
+
+[Inspired by React](http://buildwithreact.com/tutorial)
