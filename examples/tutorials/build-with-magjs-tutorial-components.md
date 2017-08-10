@@ -49,10 +49,10 @@ When a component is rendered, it can access its "props" using the props argument
 In the code above, the Message component uses props.message.
 
 ```js
-  view: function(state, props) {
-    state.div = props.message;
-  }
-  ```
+view: function(state, props) {
+  state.div = props.message;
+}
+```
  
 <hr>
   
