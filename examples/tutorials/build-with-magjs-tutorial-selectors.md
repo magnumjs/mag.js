@@ -31,6 +31,7 @@ Selectors can also be customized via hookins for example `_className` comes in A
 *Now with the facts out of the way:*
 
 <hr>
+
 ## Selector Examples
 
 ```js
@@ -43,7 +44,7 @@ var gameScores = {
   player2: 5
 };
 
-state.DashboardUnit = Scoreboard({className:"results, scores=gameScores});
+state.DashboardUnit = Scoreboard({className: "results", scores: gameScores});
 ```
 
 The above gets interpolated to the following HTML.
