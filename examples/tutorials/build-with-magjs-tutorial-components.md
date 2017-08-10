@@ -72,7 +72,7 @@ view: function(state, props){
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/goqagujolo/edit?js,output) - [View Solution](http://jsbin.com/xuviroxazu/edit?js,output)
+[Try it on JSBin](http://jsbin.com/goqagujolo/edit?js,output) - [View Solution](http://jsbin.com/nolozidoci/edit?js,output)
 
 If that was easy, experiment a little.
 Try creating another component that renders your VacancySign component and rendering that to the body instead.
