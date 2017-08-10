@@ -94,4 +94,4 @@ Try to match the markup of the box contents. I recommend referring to the HTML t
 
 Components are the building blocks of MagJS. Master them and see a new side of web development.
 
-[Continue]()
+[Continue](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-components.md)
