@@ -65,4 +65,54 @@ state.clicks = state.clicks + 1
 
 When a component's state changes, `view` is called with the new state and the UI is updated to the new output. This is the heart of magJS. We'll take a closer look in the next article.
 
+```js
+var Board = mag("BoardComp", (props) => {
+  var className = "board";
+  if (props.selected) {
+    className += " selected";
+  }
+  return {
+    div: {
+      _class: className,
+      _text: props.index + 1
+    }
+  }
+});
 
+var BoardSwitcher = mag("BoardSwitcher", {
+  view: function(state, props) {
+
+    var boards = []
+
+    for (var i = 0; i < props.numBoards; i++) {
+      var isSelected = i === 0;
+      boards.push(Board({
+        index: i,
+        selected: isSelected,
+        key: i
+      }));
+    }
+
+    state.boards = boards;
+  }
+}, {
+  numBoards: 3 // default props
+});
+
+mag(
+  document.querySelector("#container5"),
+  BoardSwitcher
+)();
+```
+[Try it on JSBin](http://jsbin.com/voyokacife/edit?js,output) - [View Solution](http://jsbin.com/tavelonuje/edit?js,output)
+
+Components, props, and state form the core of MagJS. You're ready to build with MagJS!
+<hr>
+
+**NEXT ARTICLE**
+
+**Under the hood**
+
+To finish the core lessons, we'll take a look under the hood to understand how React works.
+
+[Continue]()
