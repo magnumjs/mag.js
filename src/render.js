@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.3
+MagJS v0.27.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -21,10 +21,13 @@ License: MIT
 
       if (index && !isNaN(Number(index))) {
         parentElement = found[index];
-      } else if (found && found.length && index) {
+      } else if (found && found.length && index && i + 2 < parts.length) {
         parentElement = mag.fill.find(found[0], index);
       } else if (found && found.length) {
         parentElement = found
+        if (i + 2 == parts.length) {
+          break;
+        }
       }
     }
     return Array.isArray(parentElement) ? parentElement[0] : parentElement;
@@ -47,7 +50,6 @@ License: MIT
         index = !isNaN(last) ? last : 0;
       found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
     }
-
 
     return syncUIWatcher(found, obj, k, parentElement);
   }
@@ -131,6 +133,7 @@ License: MIT
     // if k =='_value' use parent
     if (~['_value', '_checked', '_text'].indexOf(k)) k = i.split('.').pop();
 
+
     // only for user input fields
     var found = mag.fill.find(element, k);
     var founder = isInput(found);
@@ -175,8 +178,8 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (mag.utils.isObject(value) && !mag.utils.isHTMLEle(value)) {
-          if (mag.utils.isEmpty(value)) {
+        if (typeof value === 'object' && !mag.utils.isHTMLEle(value)) {
+          if (mag.utils.isObject(value) && mag.utils.isEmpty(value)) {
             value._value = ''
           }
           // recurse
