@@ -66,4 +66,4 @@ mag(
 
 We'll learn about the other half of what makes MagJS components special.
 
-[Continue]()
+[Continue](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-state.md)
