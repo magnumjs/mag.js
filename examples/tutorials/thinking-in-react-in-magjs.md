@@ -322,7 +322,7 @@ var FilterableProductTableCtrl = {
   }
 };
 ```
-[Try it on JSBin](http://jsbin.com/medewutuqu/edit?js,output)
+[Try it on JSBin](http://jsbin.com/medewutuqu/edit?js,output) - [Statefull SearchBar](http://jsbin.com/fepumiziru/edit?js,output)
 
 So far, we've built an app that renders correctly as a function of props and state flowing down the hierarchy. Now it's time to support data flowing the other way: the form components deep in the hierarchy need to update the state in `FilterableProductTable`.
 
