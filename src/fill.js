@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.3
+MagJS v0.27.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -260,7 +260,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPathTo(elements[i])
-
         if (data && typeof data === "object") {
           elements[i][MAGNUM] = elements[i][MAGNUM] || {}
 
@@ -302,7 +301,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     if ((!val.id && !node.childNodes[0]) || (val.id && !mag.doc.getElementById(val.id)) || (node.firstChild && !node.firstChild.isEqualNode(val))) {
-
       // take children and add to properties
       var index = mag.utils.items.getItem(val.id);
       if (~index && node.hasChildNodes()) {
@@ -312,6 +310,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           'childof': pindex
         };
         mag.mod.getProps(index).children = clone;
+      } else if (node.hasChildNodes() && val[MAGNUM] && val[MAGNUM].scid) {
+        var clone = node.cloneNode(1);
+        clone[MAGNUM] = {
+          'childof': val[MAGNUM].scid
+        };
+        mag._cprops[val[MAGNUM].scid] = clone;
       }
       //remove
       while (node.lastChild) {
@@ -323,10 +327,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
         var pvindex = mag.utils.items.getItem(fill.id);
         var cid = val[MAGNUM]['childof'];
-
         //subscribe once to the parent to notify the child of changes to the state
         //only once
-        if (!inSharedIsolate(pvindex, cid)) {
+        if (~pvindex && !inSharedIsolate(pvindex, cid)) {
           mag.utils.onLCEvent('willupdate', val[MAGNUM]['childof'], function() {
             mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
           });
@@ -422,7 +425,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     var val = data(tagIndex)
-
     if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
