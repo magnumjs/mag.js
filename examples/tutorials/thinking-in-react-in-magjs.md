@@ -208,8 +208,56 @@ So finally, our state is:
 # Step 4: Identify Where Your State Should Live
 
 ```js
+var  SearchBar = mag('SearchBar', (props) =>({
+  input: props.filterText,
+  label: {input: {_checked: props.inStockOnly}}
+}))
 
+var  ProductTable = mag('ProductTable', ({products, filterText, inStockOnly})=>{
+  
+  var lastCategory = null, rows=[];
+    if (products) {
+
+      products.forEach(function(product, i) {
+        
+        if (product.name.indexOf(filterText) === -1 || (!product.stocked && inStockOnly)) {
+        return;
+        }
+        
+        if (product.category !== lastCategory) {
+          rows.push(ProductCategoryRow({
+            category: product.category,
+            key: product.category + i
+          }));
+        }
+        rows.push(ProductRow({
+          product: product,
+          key: product.name
+        }));
+        lastCategory = product.category;
+      });
+    }
+  
+  return {rows};
+});
+
+var  FilterableProductTable = mag('FilterableProductTable',{controller: function(props){
+  this.filterText= ''
+  this.inStockOnly= false
+  
+  this.SearchBar = SearchBar({
+    filterText: this.filterText,
+    inStockOnly: this.inStockOnly
+  })
+  
+  this.ProductTable =  ProductTable({
+    products: props.products,
+    filterText: this.filterText,
+    inStockOnly: this.inStockOnly
+  })
+}});
 ```
+[Try it on JSBin](http://jsbin.com/facosihuki/edit?js,output)
 
 OK, so we've identified what the minimal set of app state is. Next, we need to identify which component mutates, or owns, this state.
 
