@@ -138,7 +138,7 @@ var ProductRow  = mag('ProductRow', (props)=>{
 
     var price = props.product.price;
   return {name, price};
-})
+}, {product: {}}) //Default property or else undefined error on 1st "dry" run
 
 var  FilterableProductTable = mag('FilterableProductTable',({products})=>({
   SearchBar: SearchBar(),
@@ -160,7 +160,7 @@ var container = mag('container', FilterableProductTable);
 
 container({products: PRODUCTS});
 ```
-[Try it on JSBin](http://jsbin.com/jihugusumo/edit?js,output)
+[Try it on JSBin](http://jsbin.com/zemedosaro/edit?js,output)
 
 Now that you have your component hierarchy, it's time to implement your app. 
 The easiest way is to build a version that takes your data model and renders the UI but has no interactivity. 
@@ -257,7 +257,7 @@ var  FilterableProductTable = mag('FilterableProductTable',{controller: function
   })
 }});
 ```
-[Try it on JSBin](http://jsbin.com/facosihuki/edit?js,output)
+[Try it on JSBin](http://jsbin.com/kipagociva/edit?js,output)
 
 OK, so we've identified what the minimal set of app state is. Next, we need to identify which component mutates, or owns, this state.
 
@@ -322,7 +322,7 @@ var FilterableProductTableCtrl = {
   }
 };
 ```
-[Try it on JSBin](http://jsbin.com/medewutuqu/edit?js,output) - [Statefull SearchBar](http://jsbin.com/fepumiziru/edit?js,output)
+[Try it on JSBin](http://jsbin.com/gosuyuhibe/edit?js,output) - [Statefull SearchBar](http://jsbin.com/pojajegisu/edit?js,output)
 
 So far, we've built an app that renders correctly as a function of props and state flowing down the hierarchy. Now it's time to support data flowing the other way: the form components deep in the hierarchy need to update the state in `FilterableProductTable`.
 
