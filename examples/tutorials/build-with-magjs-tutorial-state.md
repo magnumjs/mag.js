@@ -52,9 +52,11 @@ controller: function() {
 ```
 
 **THIS.STATE**
+
 To access a component's `state`, use `this` in the `controller` and `state` in the `view`, just like how we use `props`.
 
 **THIS.SETSTATE**
+
 To update a component's state, call `state` with an object map of keys to updated values. Keys that are not provided are not affected.
 
 ```js
