@@ -81,6 +81,7 @@ Then try doing it in the 3 different components variations mentioned above.
 <hr>
 
 **NEXT ARTICLE**
+
 **Events**
 
 What fun is a static page? Add events to make it interactive and all sorts of other buzzy adjectives!
