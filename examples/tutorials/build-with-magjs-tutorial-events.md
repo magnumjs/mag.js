@@ -61,6 +61,7 @@ mag(
 <hr>
 
 **NEXT ARTICLE**
+
 **State**
 
 We'll learn about the other half of what makes MagJS components special.
