@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.3
+MagJS v0.27.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -8,7 +8,8 @@ License: MIT
 
   'use strict';
 
-  var KEY = 'KEY';
+  var KEY = 'KEY',
+    inc = 0;
   var selectors = ['#' + KEY, '.' + KEY, KEY];
   var findInSelectors = function(node, key) {
     var found;
@@ -37,47 +38,51 @@ License: MIT
     return selector;
   }
 
-  var runFun = function(idOrNode, mod) {
+  var runFun = function(idOrNode, mod, dprops) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
       cache = [],
       last;
-    return function(props) {
+    var a = function(props) {
+
       var node = idOrNode
-      if (props) {
-        var key = props.key;
-        if (key && !clones[key]) {
-          node = clones[key] = clone.cloneNode(1);
-        } else if (key && clones[key]) {
-          node = clones[key];
-        }
+        // retrieve props & merge
+      props = mag.utils.extend(dprops, props || {});
+      var key = props.key;
+      if (key && !clones[key]) {
+        node = clones[key] = clone.cloneNode(1);
+      } else if (key && clones[key]) {
+        node = clones[key];
       }
-      if (!last || !props || last != JSON.stringify(props)) {
+
+      node[mag.MAGNUM] = node[mag.MAGNUM] || {};
+      node[mag.MAGNUM].scid = a.id;
+
+      if (mag._cprops[a.id]) {
+        props.children = mag._cprops[a.id];
+      }
+      if (!last || last != JSON.stringify(props)) {
         last = JSON.stringify(props);
         var cached;
+
         if (last in cache) {
           cached = cache[last];
         } else {
           cached = cache[last] = mod(props);
         }
-        //parse template clone and return html with original func and new props
-        //next tick?
-        //return promise?
-        // if (~mag.mod.runningViewInstance) {
-        //   mag.utils.scheduleFlush(function() {
-        //     mag.fill.run(node, cached);
-        //   })
-        // } else {
         mag.fill.run(node, cached);
-        // }
       }
       return node;
     }
+    a.id = ++inc;
+    mag._cprops[a.id];
+    return a;
   }
 
   global.mag = function(idOrNode, mod, props) {
     idOrNode = find(idOrNode)
     mod = find(mod)
+    props = props || {}
 
     if (mag.utils.isHTMLEle(mod) && mag.utils.isHTMLEle(idOrNode)) {
       //attach to node once
@@ -88,14 +93,17 @@ License: MIT
     } else
     //If mod is a function?
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
-      return runFun(idOrNode, mod);
+      // fake run with no output
+      runFun(idOrNode.cloneNode(1), mod, props)()
+      return runFun(idOrNode, mod, props);
     } else {
-      return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props || {});
+      return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props);
     }
   }
 
   mag.MAGNUM = '__magnum__';
   mag.rafBounceIds = [];
+  mag._cprops = [];
   // set document
 
   mag.doc = document;
