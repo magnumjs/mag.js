@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.3
+MagJS v0.27.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -115,6 +115,18 @@ License: MIT
 
   utils.merge = function() {
     return Object.assign.apply({}, arguments);
+  }
+
+  utils.extend = function(target, source, deep) {
+    //if the sources are undefined then don't add to target even if exists
+    for (var k in source) {
+      if (source[k] === undefined) {
+        delete source[k];
+      } else if (deep && utils.isObject(source[k])) {
+        return utils.extend(target[k], source[k])
+      }
+    }
+    return utils.merge(target, source)
   }
 
   var a = {
