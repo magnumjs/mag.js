@@ -283,8 +283,46 @@ You can start seeing how your application will behave: set `filterText` to `"bal
 # Step 5: Add Inverse Data Flow
 
 ```js
+var SearchBar = mag('SearchBar', (props) =>({
+  input: {
+    _value: props.filterText,
+    _onInput: (e)=>props.onFilterTextInput(e.target.value)
+  },
+  label: {input: {
+    _checked: props.inStockOnly,
+    _onClick: (e)=>props.onInStockInput(e.target.checked)
+  }}
+}))
 
+var FilterableProductTableCtrl = {
+  handleFilterTextInput: function(filterText){
+    this.filterText = filterText;
+  },
+  handleInStockInput: function(inStockOnly){
+    this.inStockOnly = inStockOnly;
+  },
+  controller: function(props){
+    this.filterText= ''
+    this.inStockOnly= false
+  
+    this.SearchBar = SearchBar({
+      filterText: this.filterText,
+      inStockOnly: this.inStockOnly,
+      onFilterTextInput: FilterableProductTableCtrl.handleFilterTextInput.bind(this),
+      onInStockInput: FilterableProductTableCtrl.handleInStockInput.bind(this)
+    })
+  
+  },
+  view: function(state, props){
+    state.ProductTable =  ProductTable({
+      products: props.products,
+      filterText: state.filterText,
+      inStockOnly: state.inStockOnly
+    })
+  }
+};
 ```
+[Try it on JSBin](http://jsbin.com/medewutuqu/edit?js,output)
 
 So far, we've built an app that renders correctly as a function of props and state flowing down the hierarchy. Now it's time to support data flowing the other way: the form components deep in the hierarchy need to update the state in `FilterableProductTable`.
 
