@@ -141,7 +141,7 @@ But, in MagJS you can use any case, it doesn't matter.
 Our click event handler chooses a random message and updates the component’s state by calling:
 
 ```js
-this.message:randomMessage;
+this.message = randomMessage;
 ```
 
 The setState function is a way to inform MagJS about a data change.
