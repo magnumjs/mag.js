@@ -122,7 +122,7 @@ var WelcomeComp = mag('body', App);
 //Run:
 WelcomeComp();
 ```
-[Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output) - [Child parent templates](http://jsbin.com/zuziwiqato/edit?html,output)
+[Example](http://jsbin.com/tuyimabogi/edit?html,output) - [With template](http://jsbin.com/bekadoyuki/edit?html,output) - [Reusable cloning](http://jsbin.com/zoyadivaku/edit?html,output) - [Child parent templates](http://jsbin.com/zuziwiqato/edit?html,output) - [Simple Syntax](http://jsbin.com/kayidapiwu/edit?html,output)
 
 **Notes**
 
