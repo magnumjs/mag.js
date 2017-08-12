@@ -165,13 +165,13 @@ This is done as follows:
 
 ```js
 mag(
- document.body,
- RandomMessage
-)();
+ RandomMessage(),
+ document.body
+)
 ```
 
 That’s it! Each time you click on the button you will see a different message (in so far as a new number is selected).
-[Try it on JSBin](http://jsbin.com/mikociqugo/edit?html,output)
+[Try it on JSBin](http://jsbin.com/dogoqabizo/edit?html,output)
 
 [Further Reading](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
