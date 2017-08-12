@@ -41,10 +41,8 @@ License: MIT
   var runFun = function(idOrNode, mod, dprops) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
-      cache = [],
       last;
     var a = function(props) {
-
       var node = idOrNode
         // retrieve props & merge
       props = mag.utils.extend(dprops, props || {});
@@ -64,19 +62,11 @@ License: MIT
       }
       if (!last || last != JSON.stringify(props)) {
         last = JSON.stringify(props);
-        var cached;
-
-        if (last in cache) {
-          cached = cache[last];
-        } else {
-          cached = cache[last] = mod(props);
-        }
-        mag.fill.run(node, cached);
+        mag.fill.run(node, mod(props));
       }
       return node;
     }
     a.id = ++inc;
-    mag._cprops[a.id];
     return a;
   }
 
