@@ -151,4 +151,4 @@ WelcomeComp();
 - [Fadein FadeOut](http://jsbin.com/sogecujeta/edit?html,output)
 
 *Composition*
- - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output)
+ - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output) - [Component List Composition](http://jsbin.com/ledujezige/edit?js,output)
