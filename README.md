@@ -125,7 +125,7 @@ mag.module("hello", {
 ```
 
 ## Boilerplates
-[Blank](http://jsbin.com/vahocudogu/edit?html,output) - [Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/gijubaqozi/edit?html,js,output)
+[Blank](http://jsbin.com/kitiropazi/edit?html,output) - [Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/gijubaqozi/edit?html,js,output)
 
 ## Examples
 
