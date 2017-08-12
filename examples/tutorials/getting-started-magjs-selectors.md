@@ -91,7 +91,7 @@ Inside the component you never write to this.props.
 
 ## Introducing State and Events
 
-In React each component is encapsulated and maintains its own state (if stateful). A stateful component can store a value in its state and pass it to its child components via props. This ensures that whenever a component’s state changes, the props also change. As a result the child components that depend on these props re-render themselves automatically.
+In MagJS each component is encapsulated and maintains its own state (if stateful). A stateful component can store a value in its state and pass it to its child components via props. This ensures that whenever a component’s state changes, the props also change. As a result the child components that depend on these props re-render themselves automatically.
 
 To reinforce this concept let’s modify our previous snippet so that a random message is displayed when a button is clicked. For this we will have two components:
 
@@ -121,7 +121,7 @@ var RandomMessage = mag("RandomMessage",{
 ```
 
 Our component RandomMessage maintains a message property in its state.
-Every React component has a getInitialState function which sets the initial state of the component.
+Every MagJS component has a `controller` function which sets the initial state of the component.
 In our case we initialize the message property to the value Hello, Universe.
 
 Next, we need to display a button which, when clicked, updates the message property with a new value.
