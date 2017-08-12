@@ -115,8 +115,8 @@ And so on:
 
 ```javascript
 state.main = {li: [
-	{h1: {_class: "title"}, _text: "My first app"},
-	{button: "A button"}
+  {h1: {_class: "title"}, _text: "My first app"},
+  {button: "A button"}
 ]}
 ```
 [Example](http://jsbin.com/retafokuko/edit?html,output)
@@ -153,10 +153,10 @@ A Mag.JS component is just an object with a `view` function. Here's the code abo
 
 ```javascript
 var Hello = {
-	view: function(state) {
-		state.main = [
-			{h1: {_class: "title", _text: "My first app"}},
-			{button: "A button"}
+  view: function(state) {
+    state.main = [
+		  {h1: {_class: "title", _text: "My first app"}},
+		  {button: "A button"}
 		]
 	}
 }
@@ -172,8 +172,8 @@ As you would expect, doing so results in this markup:
 
 ```html
 <main>
-	<h1 class="title">My first app</h1>
-	<button>A button</button>
+  <h1 class="title">My first app</h1>
+  <button>A button</button>
 </main>
 ```
 
@@ -231,8 +231,8 @@ Let's add a splash page that appears before our click counter. First we create a
 
 ```javascript
 var Splash = {
-	view: function(state) {
-		state.a = {_href: "#!/hello", _text: "Enter!"}
+  view: function(state) {
+	  state.a = {_href: "#!/hello", _text: "Enter!"}
 	}
 }
 ```
