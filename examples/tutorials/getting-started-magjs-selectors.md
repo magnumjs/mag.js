@@ -19,18 +19,20 @@ Open the link and add the following:
 <script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
   
-var Greeting = mag("Greeting", ()=>{
- return "Hello, Universe"
-});
+var Greeting = mag("Greeting", () =>
+  {
+    return "Hello, Universe"
+  }
+)
 
 mag(
  document.body,
- Greeting
-)();
+ Greeting()
+)
 
 </script>
 ```
-[Try it on JSBin](http://jsbin.com/nojitogore/edit?html,output)
+[Try it on JSBin](http://jsbin.com/joqicejibe/edit?html,output)
 
 Let’s have a look at what’s going on.
 
