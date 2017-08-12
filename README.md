@@ -150,7 +150,7 @@ mag.module("hello", {
 
 [Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output) - [Interaction with state](http://jsbin.com/lukowekoye/edit?html,output)
 
-[Simple Todos](http://jsbin.com/dizapinodo/edit?html,output)
+[Simple Todos](http://jsbin.com/dizapinodo/edit?html,output) - [Stateless counter](http://jsbin.com/nitakoruve/edit?html,output)
 
 *App State*
 
