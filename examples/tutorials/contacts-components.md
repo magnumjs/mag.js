@@ -1,8 +1,8 @@
-##Application architecture with components
+## Application architecture with components
 
 Components are versatile tools to organize code and can be used in a variety of ways.
 
-###Want to skip all this and just see the source?
+### Want to skip all this and just see the source?
 [JSBIn example](http://jsbin.com/luhipixipe/edit)
 
 First we have our html that we will be using:
@@ -30,7 +30,7 @@ First we have our html that we will be using:
 </div>
 ```
 
-##Model/services
+## Model/services
 
 Now let's create a simple model entity which we'll use in our simple application, to illustrate different usage patterns for components:
 
@@ -52,11 +52,11 @@ Contact.save = function(data) {
 
 Here, we've defined a class called Contact. A contact has an id, a name and an email. There are two static methods: list for retrieving a list of contacts, and save to save a single contact. These methods assume that the AJAX responses return contacts in JSON format, containing the same fields as the class.
 
-##Aggregation of responsibility
+## Aggregation of responsibility
 
 One way of organizing components is to use component parameter lists to send data downstream, and to define events to bubble data back upstream to a centralized module who is responsible for interfacing with the model layer.
 
-##Container component
+## Container component
 
 This is the parent component, it houses all inner components.
 
@@ -85,7 +85,7 @@ var ContactsWidget = {
 }
 ```
 
-##Form module
+## Form module
 This is our first inner component, the contact form.
 
 The ContactForm component is, as its name suggests, a form that allows us to edit the fields of a Contact entity. It exposes an event called onsave which is fired when the Save button is pressed on the form. In addition, it stores the unsaved contact entity internally within the component (this.contact = mag.prop(props.contact || new Contact())).
@@ -124,7 +124,7 @@ var ContactForm = {
   }
 }
 ```
-##List module
+## List module
 
 This is our second inner componenet and sibling to the contact form.
 
