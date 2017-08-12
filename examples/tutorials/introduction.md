@@ -288,11 +288,11 @@ Let's replace the event handler in the component to call the `increment` functio
 ```javascript
 var Hello = {
   view: function(state) {
-	  state.main = {
-		  h1: {_class: "title", _text: "My first app"},
-		  button: {_onclick: increment, _text: count + " clicks"},
-		}
-	}
+    state.main = {
+      h1: {_class: "title", _text: "My first app"},
+      button: {_onclick: increment, _text: count + " clicks"},
+    }
+  }
 }
 ```
 [Example](http://jsbin.com/pahukirido/edit?html,output) - [With state](http://jsbin.com/jokanaweze/edit?html,output)
