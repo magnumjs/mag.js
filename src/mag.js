@@ -54,12 +54,13 @@ License: MIT
       } else if (key && clones[key]) {
         node = clones[key];
       }
+      var ckey = props.key ? props.key + a.id : a.id;
 
       node[mag.MAGNUM] = node[mag.MAGNUM] || {};
-      node[mag.MAGNUM].scid = a.id;
+      node[mag.MAGNUM].scid = ckey;
 
-      if (mag._cprops[a.id]) {
-        props.children = mag._cprops[a.id];
+      if (mag._cprops[ckey]) {
+        props.children = mag._cprops[ckey];
       }
       if (!last || last != JSON.stringify(props)) {
         last = JSON.stringify(props);
