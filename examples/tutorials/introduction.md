@@ -104,8 +104,8 @@ If you want to have multiple elements:
 
 ```javascript
 state.li = [
-	{h1: { _class: "title", _text: "My first app"}},
-	{button: "A button"}
+  {h1: { _class: "title", _text: "My first app"}},
+  {button: "A button"}
 ]
 ```
 Any array of items will automatically create the same amount for the matching selectors.
@@ -155,7 +155,7 @@ A Mag.JS component is just an object with a `view` function. Here's the code abo
 var Hello = {
   view: function(state) {
     state.main = [
-		  {h1: {_class: "title", _text: "My first app"}},
+      {h1: {_class: "title", _text: "My first app"}},
 		  {button: "A button"}
 		]
 	}
@@ -232,7 +232,7 @@ Let's add a splash page that appears before our click counter. First we create a
 ```javascript
 var Splash = {
   view: function(state) {
-	  state.a = {_href: "#!/hello", _text: "Enter!"}
+    state.a = {_href: "#!/hello", _text: "Enter!"}
 	}
 }
 ```
@@ -268,11 +268,11 @@ First we create a function that calls `mag.request`. The `url` specifies an endp
 ```javascript
 var count = 0
 var increment = function() {
-	mag.request({
-		method: "PUT",
-		url: "http://rem-rest-api.herokuapp.com/api/tutorial/1",
-		data: {count: count + 1},
-		withCredentials: true,
+  mag.request({
+	  method: "PUT",
+	  url: "http://rem-rest-api.herokuapp.com/api/tutorial/1",
+	  data: {count: count + 1},
+	  withCredentials: true,
 	})
 	.then(function(data) {
 		count = parseInt(data.count)
@@ -286,10 +286,10 @@ Let's replace the event handler in the component to call the `increment` functio
 
 ```javascript
 var Hello = {
-	view: function(state) {
-		state.main = {
-			h1: {_class: "title", _text: "My first app"},
-			button: {_onclick: increment, _text: count + " clicks"},
+  view: function(state) {
+	  state.main = {
+		  h1: {_class: "title", _text: "My first app"},
+		  button: {_onclick: increment, _text: count + " clicks"},
 		}
 	}
 }
