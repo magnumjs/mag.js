@@ -310,7 +310,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           'childof': pindex
         };
         mag.mod.getProps(index).children = clone;
-      } else if (node.hasChildNodes() && val[MAGNUM] && val[MAGNUM].scid) {
+      } else if (val[MAGNUM] && val[MAGNUM].scid) {
         var clone = node.cloneNode(1);
         clone[MAGNUM] = {
           'childof': val[MAGNUM].scid
