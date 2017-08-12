@@ -156,9 +156,9 @@ var Hello = {
   view: function(state) {
     state.main = [
       {h1: {_class: "title", _text: "My first app"}},
-		  {button: "A button"}
-		]
-	}
+      {button: "A button"}
+    ]
+  }
 }
 ```
 
@@ -233,7 +233,7 @@ Let's add a splash page that appears before our click counter. First we create a
 var Splash = {
   view: function(state) {
     state.a = {_href: "#!/hello", _text: "Enter!"}
-	}
+  }
 }
 ```
 
@@ -269,14 +269,15 @@ First we create a function that calls `mag.request`. The `url` specifies an endp
 var count = 0
 var increment = function() {
   mag.request({
-	  method: "PUT",
-	  url: "http://rem-rest-api.herokuapp.com/api/tutorial/1",
-	  data: {count: count + 1},
-	  withCredentials: true,
-	})
-	.then(function(data) {
-		count = parseInt(data.count)
-	})
+    method: "PUT",
+    url: "http://rem-rest-api.herokuapp.com/api/tutorial/1",
+    data: {count: count + 1},
+    withCredentials: true,
+    })
+    .then(function(data) {
+      count = parseInt(data.count)
+    }
+  )
 }
 ```
 
