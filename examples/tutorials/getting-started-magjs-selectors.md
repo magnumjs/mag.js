@@ -77,7 +77,7 @@ setInterval(function() {
   
 }, 2000);
 ```
-[Try it on JSBin](http://jsbin.com/heyagocole/edit?html,output)
+[Try it on JSBin](http://jsbin.com/padafirido/edit?html,output)
 
 The above code chooses a random message from an array and re-renders our component every two seconds. 
 The chosen message is passed as a property called message. 
