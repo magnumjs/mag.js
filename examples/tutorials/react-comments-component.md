@@ -15,7 +15,7 @@ It'll also have a few neat features:
 
 ## Want to skip all this and just see the source?
 
-[JSBin](http://jsbin.com/totuxamale/edit?js,output)
+[JSBin](http://jsbin.com/totuxamale/edit?js,output) **UPDATED:** [New version with Video Tutorial!](https://www.youtube.com/watch?v=DuDCZRuApXI)
 
 ## Getting started
 
