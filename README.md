@@ -155,7 +155,7 @@ mag.module("hello", {
 
 *App State*
 
-[Shared across modules](http://jsbin.com/fomosanavu/edit?js,output)
+[Shared across modules](http://jsbin.com/fomosanavu/edit?js,output) - [Synchronous state](http://jsbin.com/qeqebubuge/edit?console,output)
 
 *Forms*
 
