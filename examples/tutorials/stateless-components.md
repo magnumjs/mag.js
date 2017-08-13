@@ -130,15 +130,14 @@ WelcomeComp();
 - IDs should be unique and they are not manipulated in any way similarly to statefull components/modules.
 - You must also pass a unique `key` in props when creating unique clones.
 
-[List of nested stateless templates](http://jsbin.com/zaqabaludo/edit?html,output) - [Stateless within statefull](http://jsbin.com/vubojilaqi/edit?html,output) - [Dynamic List](http://jsbin.com/fudataguso/edit?html,output)
-
-**Further Reading**
-
-* [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
-* [Component children](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
-* [More Articles](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
-
 **Examples**
+
+*Lists*
+
+- [List of nested stateless templates](http://jsbin.com/zaqabaludo/edit?html,output)
+- [Stateless within statefull](http://jsbin.com/vubojilaqi/edit?html,output)
+- [Dynamic List](http://jsbin.com/fudataguso/edit?html,output)
+
 
 *State interaction*
 
@@ -154,3 +153,10 @@ WelcomeComp();
 
 *Composition*
  - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output) - [Component List Composition](http://jsbin.com/ledujezige/edit?js,output) - [Loading Spinner](http://jsbin.com/yipopogibu/edit?js,output)
+
+<hr>
+**Further Reading**
+
+* [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+* [Component children](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
+* [More Articles](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
