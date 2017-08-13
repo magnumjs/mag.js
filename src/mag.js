@@ -41,18 +41,26 @@ License: MIT
   var runFun = function(idOrNode, mod, dprops) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
-      last;
+      cache = [],
+      copyOfDefProps = [];
+
     var a = function(props) {
       var node = idOrNode
-        // retrieve props & merge
-      props = mag.utils.extend(dprops, props || {});
+      props = props || {}
       var key = props.key + a.id;
+      var ckey = props.key ? props.key + a.id : a.id;
+
+      if (!copyOfDefProps[ckey]) {
+        copyOfDefProps[ckey] = mag.utils.copy(dprops)
+      }
+
+      // retrieve props & merge
+      props = mag.utils.extend(copyOfDefProps[ckey], props);
       if (key && !clones[key]) {
         node = clones[key] = clone.cloneNode(1);
       } else if (key && clones[key]) {
         node = clones[key];
       }
-      var ckey = props.key ? props.key + a.id : a.id;
 
       node[mag.MAGNUM] = node[mag.MAGNUM] || {};
       node[mag.MAGNUM].scid = ckey;
@@ -60,9 +68,10 @@ License: MIT
       if (mag._cprops[ckey]) {
         props.children = mag._cprops[ckey];
       }
-      if (!last || last != JSON.stringify(props)) {
-        last = JSON.stringify(props);
-        mag.fill.run(node, mod(props));
+      var now = mod(props);
+      if (now != cache[ckey]) {
+        cache[ckey] = now;
+        mag.fill.run(node, now);
       }
       return node;
     }
