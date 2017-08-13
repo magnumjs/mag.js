@@ -130,6 +130,14 @@ WelcomeComp();
 - IDs should be unique and they are not manipulated in any way similarly to statefull components/modules.
 - You must also pass a unique `key` in props when creating unique clones.
 
+**Further Reading**
+
+* [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+* [Component children](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
+* [More Articles](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
+
+<hr>
+
 **Examples**
 
 *Lists*
@@ -156,11 +164,3 @@ WelcomeComp();
  - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output)
  - [Component List Composition](http://jsbin.com/ledujezige/edit?js,output)
  - [Loading Spinner](http://jsbin.com/yipopogibu/edit?js,output)
-
-<hr>
-
-**Further Reading**
-
-* [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
-* [Component children](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
-* [More Articles](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
