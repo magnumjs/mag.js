@@ -134,7 +134,9 @@ WelcomeComp();
 
 **Further Reading**
 
-[Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+* [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+* [Component children](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
+* [More Articles](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
 **Examples**
 
