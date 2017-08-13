@@ -46,7 +46,7 @@ License: MIT
       var node = idOrNode
         // retrieve props & merge
       props = mag.utils.extend(dprops, props || {});
-      var key = props.key;
+      var key = props.key + a.id;
       if (key && !clones[key]) {
         node = clones[key] = clone.cloneNode(1);
       } else if (key && clones[key]) {
