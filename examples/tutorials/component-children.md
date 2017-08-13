@@ -62,3 +62,24 @@ mag.module("app", {
 ```
 
 [Try it on JSBin](http://jsbin.com/powinofune/edit?js,output)
+
+## Stateless Component Children
+
+You might be wondeirng what about stateless components, the ones defined by a function `mag(Node, Function)`, don't they get any children?
+
+```js
+//Component:
+const Text = mag("TextComp", (props) => ({
+  p: props.greet,
+  child: props.children
+}))
+   
+
+//Parent:
+const App = mag("App", (props) => ({
+  TextName: Text({greet: "ME", key: 1}),
+  TextStatus: Text({greet: "YOU", key: 2})
+}))
+```
+
+[Try it on JSBin](http://jsbin.com/dekicebiwo/edit?html,js,output)
