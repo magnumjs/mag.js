@@ -152,9 +152,13 @@ WelcomeComp();
 - [Fadein FadeOut](http://jsbin.com/sogecujeta/edit?html,output)
 
 *Composition*
- - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output) - [Component List Composition](http://jsbin.com/ledujezige/edit?js,output) - [Loading Spinner](http://jsbin.com/yipopogibu/edit?js,output)
+
+ - [Composable nested](http://jsbin.com/gisacucogu/edit?js,output)
+ - [Component List Composition](http://jsbin.com/ledujezige/edit?js,output)
+ - [Loading Spinner](http://jsbin.com/yipopogibu/edit?js,output)
 
 <hr>
+
 **Further Reading**
 
 * [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
