@@ -130,6 +130,8 @@ WelcomeComp();
 - IDs should be unique and they are not manipulated in any way similarly to statefull components/modules.
 - You must also pass a unique `key` in props when creating unique clones.
 
+<hr>
+
 **Further Reading**
 
 * [Compositional inheritance tutorial](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
