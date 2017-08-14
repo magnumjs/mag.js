@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.4
+MagJS v0.27.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -601,12 +601,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       var id = getPathId(xpath)
       var nodee = mag.doc.getElementById(id)
-
+      var instanceId = mag.utils.items.getItem(id);
       // What if ret is a promise?
-      var ret = fun.call(node, e, tagIndex, node, parent)
+      var ret = fun.call(mag.mod.getMod(instanceId), e, tagIndex, node, parent)
       if (id && nodee) {
         var redraw = function() {
-          mag.redraw(nodee, mag.utils.items.getItem(id), 1)
+          mag.redraw(nodee, instanceId, 1)
         }
         if (ret && ret.then) {
           //Node outdated?
