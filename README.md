@@ -99,7 +99,7 @@ Just define the default value of the selector to bind.
 
 ### Hello world!
 
-[JSBin](http://jsbin.com/ticalamuse/edit?js,output) - [Ternary](http://jsbin.com/xixifilehu/edit?js,output) - [Controller](http://jsbin.com/mozeyikozo/edit?js,output) - [Handler](http://jsbin.com/sumuvoyoma/edit?js,output) - [Merge props](http://jsbin.com/jiguwavote/edit?js,output) - [Subscribe](http://jsbin.com/xejupidoni/edit?js,output) - [Proxy](http://jsbin.com/howasicuba/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output)
+[JSBin](http://jsbin.com/rasewupabu/edit?js,output) - [Ternary](http://jsbin.com/xixifilehu/edit?js,output) - [Controller](http://jsbin.com/mozeyikozo/edit?js,output) - [Handler](http://jsbin.com/sumuvoyoma/edit?js,output) - [Merge props](http://jsbin.com/jiguwavote/edit?js,output) - [Subscribe](http://jsbin.com/xejupidoni/edit?js,output) - [Proxy](http://jsbin.com/howasicuba/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output)
 
 Initial html
 ```html
@@ -116,8 +116,8 @@ Module:
 mag.module("hello", {
   view: function(state) {
     state.input = {
-      _oninput: function() {
-        state.name = this.value
+      _oninput: function(e) {
+        state.name = e.target.value
       }
     }
   }
@@ -451,9 +451,12 @@ var component = {
     this.didupdate = function (Element, currentProps, instanceId) {
   },
   view: function (state, props, Element) {
+   this.state, this.props, this.element
   }
 }
 ```
+`this` in the `view` has access to the 3 main properties of `this.state`, `this.props` and `this.element`
+All `_on` events context is `this`
 
 #### mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties)
 
