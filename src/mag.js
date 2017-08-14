@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.4
+MagJS v0.27.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -167,11 +167,11 @@ License: MIT
     // clear cache if exists
     if (!props.retain) mag.mod.clear(idInstance)
 
-    // get unique instance ID's module
-    mag.mod.submodule(id, idInstance, mod, props)
-
     // NODE
     var node = getNode(id)
+
+    // get unique instance ID's module
+    mag.mod.submodule(id, idInstance, mod, props)
 
     //WATCH
     observer(idInstance, id)
