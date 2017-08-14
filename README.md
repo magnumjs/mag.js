@@ -448,7 +448,7 @@ The controller function has access to the original props as well as all life cyc
 ```javascript
 var component = {
   controller: function (props) {
-    this.didupdate = function (Element, currentProps, instanceId) {
+    this.didupdate = function (Element, currentProps, instanceId) {}
   },
   view: function (state, props, Element) {
    this.state, this.props, this.element
