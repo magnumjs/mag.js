@@ -1,5 +1,5 @@
 /*
-MagJS v0.26.7
+MagJS v0.27.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -49,6 +49,9 @@ License: MIT
   mod.getFrameId = function(index) {
     return modules[index][4];
   }
+  mod.getMod = function(index){
+    return modules[index][5]
+  }
   mod.submodule = function(id, index, module, props) {
     if (modules[index]) {
       // new call to existing
@@ -62,13 +65,19 @@ License: MIT
       // reinitialize the controller ?
       return modules[index]
     }
-    modules[index] = [0, 0, 0, 0, 0]
+    modules[index] = [0, 0, 0, 0, 0, 0]
     mod.setProps(index, props);
     var controller = function(context) {
-        return (module.controller || function() {}).call(context, mod.getProps(index)) || context
+        module.props=mod.getProps(index)
+        module.state = context;
+        module.element=mag.getNode(id);
+        return (module.controller || function() {}).call(context, module.props) || context
       },
       view = function(index, state, ele) {
-        module.view && module.view.call(module, state, mod.getProps(index), ele)
+        module.element = ele;
+        module.state = state;
+        module.props=mod.getProps(index)
+        module.view && module.view.call(module, state, module.props, ele)
       }.bind({}, index),
       output = {
         controller: controller,
@@ -77,6 +86,7 @@ License: MIT
     modules[index][0] = output.view;
     modules[index][3] = id;
     modules[index][1] = getController(output.controller, index, id);
+    modules[index][5] = module;
     // register the module
     return modules[index]
   }
@@ -215,11 +225,10 @@ License: MIT
 
 
   function getController(ctrl, index, id) {
-    var controller;
 
     mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
 
-    controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
+    var controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
 
     return controller;
   }
