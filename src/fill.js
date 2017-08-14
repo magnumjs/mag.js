@@ -602,8 +602,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var id = getPathId(xpath)
       var nodee = mag.doc.getElementById(id)
       var instanceId = mag.utils.items.getItem(id);
+
       // What if ret is a promise?
-      var ret = fun.call(mag.mod.getMod(instanceId), e, tagIndex, node, parent)
+      var ret = fun.call(~instanceId ? mag.mod.getMod(instanceId) : nodee, e, tagIndex, node, parent)
       if (id && nodee) {
         var redraw = function() {
           mag.redraw(nodee, instanceId, 1)
