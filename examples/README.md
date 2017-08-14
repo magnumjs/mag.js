@@ -3,7 +3,7 @@
 *Complete Application*
 
 [Application structure, nested components, web services, animation, promises...](https://embed.plnkr.co/N4aFQdnjUeKjCELOErKl/) - 
-[Multiple Modules APp](https://embed.plnkr.co/D7HEtJYqTdGmF4hIwL2W/)
+[Multiple Modules App](https://embed.plnkr.co/D7HEtJYqTdGmF4hIwL2W/)
 
 *Templating*
 
