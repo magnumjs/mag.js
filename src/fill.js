@@ -626,12 +626,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   //attach unique event to a handler if not already set
   //get all  matching events if any
-  fill._de = function(targetNode, uid, eventName, events, event) {
+  fill._de = function(targetNode, eventName, event) {
     var node = fill.parentNode;
     if (node) {
-      if (events[uid]) {
-        node.removeEventListener(eventName, events[uid]);
-      }
       var bound = (e) => {
         var el = e.target;
         do {
@@ -640,23 +637,34 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           return;
         } while ((el = el.parentNode));
       }
+      node.removeEventListener(eventName, bound);
       node.addEventListener(eventName, bound);
-      events[uid] = bound;
     }
   }
 
 
   //Dynamic listeners without event delegation
-  fill._ae = function(node, uid, eventName, events, event) {
-    if (events[uid]) {
-      node.removeEventListener(eventName, events[uid]);
-    }
+  fill._ae = function(node, eventName, event) {
+    node.removeEventListener(eventName, event);
     node.addEventListener(eventName, event);
-    events[uid] = event;
   }
 
   var unBubble = ['load', 'unload', 'blur', 'focus'];
 
+  function makeEvent(event, attrName, node, parentKey) {
+    var eventName = attrName.substr(2).toLowerCase();
+    var callName = '_de';
+    if (~unBubble.indexOf(eventName)) {
+      callName = '_ae';
+    }
+    var events = node[MAGNUM].events = node[MAGNUM].events || []
+    var uid = eventName + (parentKey ? parentKey.split(')').pop() : '') + node[MAGNUM].uid;
+
+    if (!events[uid] || (events[uid] && '' + events[uid] != '' + event)) {
+      events[uid] = event;
+      fill[callName](node, eventName, createEventCall(node, event, attrName))
+    }
+  }
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes, p, parentKey) {
     var tagIndex = getPathIndex(p);
@@ -672,16 +680,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // events
       if (attrName.indexOf('on') == 0) {
-        var eventName = attrName.substr(2).toLowerCase();
-        var callName = '_de';
-        if (~unBubble.indexOf(eventName)) {
-          callName = '_ae';
-        }
-        var events = node[MAGNUM].events = node[MAGNUM].events || []
-        var uid = eventName + parentKey + node[MAGNUM].uid;
-        fill[callName](node, uid, eventName, events, createEventCall(node, attributes[attrName], attrName))
-
-        // node[attrName.toLowerCase()] = createEventCall(node, attributes[attrName], attrName)
+        makeEvent(attributes[attrName], attrName, node, parentKey)
+          // node[attrName.toLowerCase()] = createEventCall(node, attributes[attrName], attrName)
 
       } else {
 
