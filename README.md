@@ -7,7 +7,7 @@
 
 ## Features
  
-* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & <7KB Gzip!
+* Changes to state are immediately reflected in the dom by their element matchers. <a href="#performance">Super crazy fast</a> & 8KB Gzip!
 * Valid HTML templates - No virtual/shadow dom or new templating language!
 * Semantic data binding - Use normal HTML as a template and a related module (plain JS object) as instructions for transpiling/interpolations.
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
