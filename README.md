@@ -13,7 +13,7 @@
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * Collection rendering - No need for hand-written loops. Write templates as a part of the HTML, in plain HTML
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
-* Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
+* Native delegated events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 * Built-in observables on existing data structures like objects, arrays for state and props reactivity
 
 ## [Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
@@ -716,6 +716,10 @@ any prefix underscore will be an attribute except for _on that will be for event
 state.h1 = { _onclick: function() { state.h1='clicked!' } } 
 ```
 
+* Events are delegated to the parent module Node.
+* Events are bound to the module instance `this`.
+* Events receive arguments in this order f(event, index, node, data)
+
 #### Lists
 
 Dealing with lists are simple and intuitive, including nested lists.
@@ -1022,6 +1026,6 @@ mag({templateUrl: 'template.html', view: ()});
 [JSPerf v0.15.1](http://jsperf.com/angular-vs-knockout-vs-ember/700)
 <a href="http://jsperf.com/angular-vs-knockout-vs-ember/700"><img src="https://cloud.githubusercontent.com/assets/5196767/9866345/60295bf4-5b2f-11e5-8c51-a73e47c7ac2c.png"/></a>
 
-###Inspired By & cloned from
+### Inspired By & cloned from
 
 [Mithril.js](http://lhorie.github.io/mithril/), [Fill.js](https://github.com/profit-strategies/fill),  [React.js](https://facebook.github.io/react/), [Angular.js](https://angularjs.org/), [Fastdom](https://github.com/wilsonpage/fastdom)
