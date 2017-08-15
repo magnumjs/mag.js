@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.5
+MagJS v0.27.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -117,7 +117,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     //id("mathdemo3")		
     return p && ~p.indexOf('id(') && p.split('id("')[1].split('")')[0]
   }
-
 
   // this is the entry point for this module, to fill the dom with data
   fill.run = function(nodeList, data, key) {
@@ -274,8 +273,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           }
           elements[i][MAGNUM].xpath = p;
         }
-
-        fillNode(elements[i], data, p)
+        fillNode(elements[i], data, p, key)
       }
 
     }
@@ -410,7 +408,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         if (_isArray(value)) {
           elements = matchingElements(node, '$' + key);
         }
-
         fill.run(elements, value, p + '/' + key);
       }
     }
@@ -448,7 +445,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   }
 
-  function fillNode(node, data, p) {
+  function fillNode(node, data, p, key) {
     var attributes;
     var attrValue;
 
@@ -483,7 +480,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
     // fill in all the attributes
     if (attributes) {
-      fillAttributes(node, attributes, p)
+      fillAttributes(node, attributes, p, key)
     }
 
     // look for non-attribute keys and recurse into those elements
@@ -583,14 +580,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return nodeList;
   }
 
-  function createEventCall(node, attributes, attrName) {
+  function createEventCall(node, fun, attrName) {
 
     var eventCall = function(fun, node, e) {
 
       var dataParent = findParentChild(node),
         path = dataParent && getPathTo2(dataParent),
         parentIndex = getPathIndex(path),
-        xpath = getPathTo(node, 1),
+        xpath = getPathTo3(node),
         tagIndex = getPathIndex(xpath),
         parent = {
           path: path,
@@ -622,13 +619,45 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
 
       return ret
-    }.bind({}, attributes[attrName], node)
+    }.bind({}, fun, node)
 
     return eventCall;
   }
 
+  //attach unique event to a handler if not already set
+  //get all  matching events if any
+  function delegateToParent(targetNode, xpath, eventName, event) {
+    var uid = eventName + xpath + targetNode[MAGNUM].uid;
+    var node = fill.parentNode;
+    if (node) {
+      var events = node[MAGNUM].events = node[MAGNUM].events || []
+      if (events[uid]) {
+        node.removeEventListener(eventName, events[uid], false);
+      }
+      var bound = (e) => {
+        e.stopPropagation();
+        if (e.target == targetNode) {
+          event(e);
+        }
+      }
+      node.addEventListener(eventName, bound, false);
+      events[uid] = bound;
+    }
+  }
+
+
+  //Dynamic listeners without event delegation
+  // function attachEvent(node, xpath, eventName, event) {
+  //   var events = node[MAGNUM].events = node[MAGNUM].events || []
+  //   if (events[uid]) {
+  //     node.removeEventListener(eventName, events[uid], false);
+  //   }
+  //   node.addEventListener(eventName, event, false);
+  //   events[uid] = event;
+  // }
+
   // fill in the attributes on an element (setting text and html first)
-  function fillAttributes(node, attributes, p) {
+  function fillAttributes(node, attributes, p, parentKey) {
     var tagIndex = getPathIndex(p);
 
     cached[getUid(node)] = cached[getUid(node)] || [];
@@ -642,8 +671,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // events
       if (attrName.indexOf('on') == 0) {
-
-        node[attrName.toLowerCase()] = createEventCall(node, attributes, attrName)
+        delegateToParent(node, parentKey, attrName.substr(2).toLowerCase(), createEventCall(node, attributes[attrName], attrName))
+          // node[attrName.toLowerCase()] = createEventCall(node, attributes[attrName], attrName)
 
       } else {
 
@@ -886,13 +915,17 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     );
   }
 
+  fill.parentNode;
   fill.removeNode = removeNode;
   fill.configs = configs
   fill.find = matchingElements
-  fill.setId = function(id) {
+  fill.setId = (id) => {
     fill.id = id
   }
-  fill.clearCache = function(id) {
+  fill.setParent = (node) => {
+    fill.parentNode = node;
+  }
+  fill.clearCache = (id) => {
     if (dataCache[id]) delete dataCache[id]
   }
 
