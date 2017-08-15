@@ -626,35 +626,36 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   //attach unique event to a handler if not already set
   //get all  matching events if any
-  function delegateToParent(targetNode, xpath, eventName, event) {
-    var uid = eventName + xpath + targetNode[MAGNUM].uid;
+  fill._de = function(targetNode, uid, eventName, events, event) {
     var node = fill.parentNode;
     if (node) {
-      var events = node[MAGNUM].events = node[MAGNUM].events || []
       if (events[uid]) {
-        node.removeEventListener(eventName, events[uid], false);
+        node.removeEventListener(eventName, events[uid]);
       }
       var bound = (e) => {
-        e.stopPropagation();
-        if (e.target == targetNode) {
-          event(e);
-        }
+        var el = e.target;
+        do {
+          if (el != targetNode) continue;
+          event(e)
+          return;
+        } while ((el = el.parentNode));
       }
-      node.addEventListener(eventName, bound, false);
+      node.addEventListener(eventName, bound);
       events[uid] = bound;
     }
   }
 
 
   //Dynamic listeners without event delegation
-  // function attachEvent(node, xpath, eventName, event) {
-  //   var events = node[MAGNUM].events = node[MAGNUM].events || []
-  //   if (events[uid]) {
-  //     node.removeEventListener(eventName, events[uid], false);
-  //   }
-  //   node.addEventListener(eventName, event, false);
-  //   events[uid] = event;
-  // }
+  fill._ae = function(node, uid, eventName, events, event) {
+    if (events[uid]) {
+      node.removeEventListener(eventName, events[uid]);
+    }
+    node.addEventListener(eventName, event);
+    events[uid] = event;
+  }
+
+  var unBubble = ['load', 'unload', 'blur', 'focus'];
 
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes, p, parentKey) {
@@ -671,8 +672,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // events
       if (attrName.indexOf('on') == 0) {
-        delegateToParent(node, parentKey, attrName.substr(2).toLowerCase(), createEventCall(node, attributes[attrName], attrName))
-          // node[attrName.toLowerCase()] = createEventCall(node, attributes[attrName], attrName)
+        var eventName = attrName.substr(2).toLowerCase();
+        var callName = '_de';
+        if (~unBubble.indexOf(eventName)) {
+          callName = '_ae';
+        }
+        var events = node[MAGNUM].events = node[MAGNUM].events || []
+        var uid = eventName + parentKey + node[MAGNUM].uid;
+        fill[callName](node, uid, eventName, events, createEventCall(node, attributes[attrName], attrName))
+
+        // node[attrName.toLowerCase()] = createEventCall(node, attributes[attrName], attrName)
 
       } else {
 
