@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.5
+MagJS v0.27.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -71,7 +71,9 @@ License: MIT
       var now = mod(props);
       if (now != cache[ckey]) {
         cache[ckey] = now;
+        mag.fill.setParent(node);
         mag.fill.run(node, now);
+        mag.fill.setParent(0);
       }
       return node;
     }
@@ -518,9 +520,11 @@ License: MIT
       // var active = mag.doc.activeElement
 
       //START DOM
+      mag.fill.setParent(node)
       mag.fill.setId(node.id);
       mag.fill.run(node, state);
       mag.fill.setId(0);
+      mag.fill.setParent(0)
 
       // END DOM
 
