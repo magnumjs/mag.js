@@ -55,7 +55,9 @@ License: MIT
       }
 
       // retrieve props & merge
-      props = mag.utils.extend(copyOfDefProps[ckey], props);
+      if (typeof props == 'object') {
+        props = mag.utils.extend(copyOfDefProps[ckey], props);
+      }
       if (key && !clones[key]) {
         node = clones[key] = clone.cloneNode(1);
       } else if (key && clones[key]) {
@@ -94,7 +96,9 @@ License: MIT
     //If mod is a function?
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
       // fake run with no output
-      runFun(idOrNode.cloneNode(1), mod, props)()
+      try {
+        runFun(idOrNode.cloneNode(1), mod, props)()
+      }catch(e){}
       return runFun(idOrNode, mod, props);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props);
