@@ -349,9 +349,9 @@ Lists should have their own container and they are the template for all iteratin
 
 [Example code](https://github.com/magnumjs/mag.js/blob/master/README.md#examples)
 
-
 [Advanced examples v0.2](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
+<!--
 ## Implement automatic 2 way bindings
 
 [Binding Example](http://jsbin.com/dicezageja/edit)
@@ -373,3 +373,4 @@ On view load it is simply re running the bind method which then sets the default
 
 If would be nicer if it can be set in the controller
 If it listened to any change and set it directly to that change. This is how v0.2 works!
+-->
