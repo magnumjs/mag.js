@@ -13,7 +13,7 @@
 * Module has a constructor, called once and a viewer called on every change to the state of that module.
 * Collection rendering - No need for hand-written loops. Write templates as a part of the HTML, in plain HTML
 * View logic in JavaScript - No crippled micro-template language, just plain JavaScript functions
-* Native delegated events & attributes, full life cycle events control, Hookin to modify and create custom attributes
+* Native events & attributes, full life cycle events control, Hookin to modify and create custom attributes
 * Built-in observables on existing data structures like objects, arrays for state and props reactivity
 
 ## [Introduction](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/introduction.md) - [Getting started](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started.md) ::: <a href="#examples">Examples</a> - <a href="#tutorials">Tutorials</a> - <a href="#simple-api">Api</a> - <a href="#jasmine-specs">Tests</a> - <a href="#performance">Performance</a>
@@ -715,9 +715,8 @@ any prefix underscore will be an attribute except for _on that will be for event
 ```javascript
 state.h1 = { _onclick: function() { state.h1='clicked!' } } 
 ```
-
-* Events are delegated to the parent module Node.
 * Events are bound to the module instance `this`.
+* `this` has `this.props`, `this.state` and `this.element`
 * Events receive arguments in this order f(event, index, node, data)
 
 #### Lists
