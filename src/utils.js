@@ -92,7 +92,7 @@ License: MIT
     utils.runningEventInstance = index;
     var props = mag.mod.getProps(index);
     if (controller && controller[eventName]) {
-      isPrevented = controller[eventName].call(controller, node, props, index, extra)
+      isPrevented = controller[eventName].call(mag.mod.getMod(index), node, props, index, extra)
       if (once) controller[eventName] = 0
     }
 
