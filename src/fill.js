@@ -580,7 +580,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return nodeList;
   }
 
-  function createEventCall(node, fun, attrName) {
+  function createEventCall(node, fun) {
 
     var eventCall = function(fun, node, e) {
 
@@ -624,45 +624,22 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     return eventCall;
   }
 
-  //attach unique event to a handler if not already set
-  //get all  matching events if any
-  fill._de = function(targetNode, eventName, event) {
-    var node = fill.parentNode;
-    if (node) {
-      var bound = (e) => {
-        var el = e.target;
-        do {
-          if (el != targetNode) continue;
-          event(e)
-          return;
-        } while ((el = el.parentNode));
-      }
-      node.removeEventListener(eventName, bound);
-      node.addEventListener(eventName, bound);
-    }
-  }
-
 
   //Dynamic listeners without event delegation
-  fill._ae = function(node, eventName, event) {
+  function attachEvent(node, eventName, event) {
     node.removeEventListener(eventName, event);
     node.addEventListener(eventName, event);
   }
 
-  var unBubble = ['load', 'unload', 'blur', 'focus'];
 
   function makeEvent(event, attrName, node, parentKey) {
     var eventName = attrName.substr(2).toLowerCase();
-    var callName = '_de';
-    if (~unBubble.indexOf(eventName)) {
-      callName = '_ae';
-    }
     var events = node[MAGNUM].events = node[MAGNUM].events || []
     var uid = eventName + (parentKey ? parentKey.split(')').pop() : '') + node[MAGNUM].uid;
 
     if (!events[uid] || (events[uid] && '' + events[uid] != '' + event)) {
       events[uid] = event;
-      fill[callName](node, eventName, createEventCall(node, event, attrName))
+      attachEvent(node, eventName, createEventCall(node, event))
     }
   }
   // fill in the attributes on an element (setting text and html first)
@@ -924,15 +901,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     );
   }
 
-  fill.parentNode;
   fill.removeNode = removeNode;
   fill.configs = configs
   fill.find = matchingElements
   fill.setId = (id) => {
     fill.id = id
-  }
-  fill.setParent = (node) => {
-    fill.parentNode = node;
   }
   fill.clearCache = (id) => {
     if (dataCache[id]) delete dataCache[id]
