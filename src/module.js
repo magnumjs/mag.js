@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.5
+MagJS v0.27.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -49,10 +49,11 @@ License: MIT
   mod.getFrameId = function(index) {
     return modules[index][4];
   }
-  mod.getMod = function(index){
+  mod.getMod = function(index) {
     return modules[index][5]
   }
   mod.submodule = function(id, index, module, props) {
+    module = mag.utils.copy(module)
     if (modules[index]) {
       // new call to existing
       // update props, merge with existing if same key
@@ -68,15 +69,15 @@ License: MIT
     modules[index] = [0, 0, 0, 0, 0, 0]
     mod.setProps(index, props);
     var controller = function(context) {
-        module.props=mod.getProps(index)
+        module.props = mod.getProps(index)
         module.state = context;
-        module.element=mag.getNode(id);
+        module.element = mag.getNode(id);
         return (module.controller || function() {}).call(context, module.props) || context
       },
       view = function(index, state, ele) {
         module.element = ele;
         module.state = state;
-        module.props=mod.getProps(index)
+        module.props = mod.getProps(index)
         module.view && module.view.call(module, state, module.props, ele)
       }.bind({}, index),
       output = {
