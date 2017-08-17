@@ -187,7 +187,7 @@ mag.module('root', {
 
 ## Alternate
 
-Here is an alternative way for component inertiance composition and specialization with props.children:
+Here is an alternative way for component inheritance composition and specialization with props.children:
 
 ```html
 <div id="root">
