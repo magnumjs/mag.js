@@ -632,7 +632,7 @@ state.myELementMatcher = [{
 ```
 
 
-[JSBin example](http://jsbin.com/vamoguqiho/edit?html,output)
+[JSBin example](http://jsbin.com/mumebujoyi/edit?html,output)
 
 **Control redrawing flow**
 
