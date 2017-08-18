@@ -42,7 +42,7 @@ var ParentComponent = mag("ParentComponent", {
   view: function(state) {
     state.div = ChildComponent()
   }
-});
+})
 
 var ChildComponent = mag("ChildComponent", {
   view: function(state, props) {
@@ -51,12 +51,12 @@ var ChildComponent = mag("ChildComponent", {
 })
 
 mag(
-  document.getElementById('container'),
+  document.getElementById("container"),
   ParentComponent
-)();
+)()
 ```
 
-[Try it on JSBin](http://jsbin.com/gozoxitiwu/edit) - [View Solution](http://jsbin.com/nowakayari/edit?js,output)
+[Try it on JSBin](http://jsbin.com/godehupamo/edit) - [View Solution](http://jsbin.com/mizesenopa/edit?js,output)
 
 <hr>
 
