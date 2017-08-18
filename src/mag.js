@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.6
+MagJS v0.27.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -38,17 +38,23 @@ License: MIT
     return selector;
   }
 
+  function funReplacer(key, value) {
+    return typeof value == 'function' ? '' + value : value;
+  }
+
   var runFun = function(idOrNode, mod, dprops) {
     var clones = [],
       clone = idOrNode.cloneNode(1),
       cache = [],
+      last = [],
       copyOfDefProps = [];
 
     var a = function(props) {
       var node = idOrNode
       props = props || {}
-      var key = props.key + a.id;
-      var ckey = props.key ? props.key + a.id : a.id;
+      var key;
+      if (props.key) key = props.key + '-' + a.id;
+      var ckey = props.key ? props.key + '-' + a.id : a.id;
 
       if (!copyOfDefProps[ckey]) {
         copyOfDefProps[ckey] = mag.utils.copy(dprops)
@@ -67,14 +73,16 @@ License: MIT
       node[mag.MAGNUM] = node[mag.MAGNUM] || {};
       node[mag.MAGNUM].scid = ckey;
 
-      if (mag._cprops[ckey]) {
+      if (mag._cprops[ckey] && typeof props == 'object') {
         props.children = mag._cprops[ckey];
       }
-      var now = mod(props);
-      if (now != cache[ckey]) {
-        cache[ckey] = now;
+      var now;
+      if (last[ckey] != JSON.stringify(props, funReplacer)) {
+        now = mod(props);
+        last[ckey] = JSON.stringify(props, funReplacer)
         mag.fill.run(node, now);
       }
+
       return node;
     }
     a.id = ++inc;
@@ -98,7 +106,7 @@ License: MIT
       // fake run with no output
       try {
         runFun(idOrNode.cloneNode(1), mod, props)()
-      }catch(e){}
+      } catch (e) {}
       return runFun(idOrNode, mod, props);
     } else {
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props);
