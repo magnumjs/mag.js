@@ -9,7 +9,7 @@ Requires: MagJS (core) Addons: Ajax , Router
 
   'use strict';
 
-  //Create wrapper for function call to mag with over riding default props	
+  //Create wrapper for function call to mag() with over riding default props	
   mag.create = function(id, module, dprops) {
     var mod = mag(id, module, dprops);
     return props2 => index => {
@@ -18,6 +18,13 @@ Requires: MagJS (core) Addons: Ajax , Router
         props2.key = index
       }
       return mod(props2)
+    }
+  }
+  
+    //Create wrapper for function call to mag.module with over riding default props	
+  mag.creator = function(id, module, dprops) {
+    return function(props) {
+      return mag.module(id, module, mag.merge(mag.copy(dprops) || {}, mag.copy(props) || {}))
     }
   }
 
