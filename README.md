@@ -209,6 +209,8 @@ mag.module("hello", {
 
 [List of Lists of items](https://embed.plnkr.co/VQkt0edRAy8AdIVUjvj8/)
 
+[Loading and using external data](https://codepen.io/anon/pen/WEMzdZ?editors=0010)
+
 *Modals*
 
 [Tab component](http://jsbin.com/ziqivuceyu/edit?js,output) - [Take2](http://jsbin.com/yigijapexu/edit?js,output)
