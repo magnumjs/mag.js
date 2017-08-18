@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.6
+MagJS v0.27.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -259,20 +259,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPathTo(elements[i])
-        if (data && typeof data === "object") {
-          elements[i][MAGNUM] = elements[i][MAGNUM] || {}
-
-          if (data[MAGNUM_KEY] !== undefined) {
-            elements[i][MAGNUM].isChildOfArray = true
-
-            // if (mag.utils.isHTMLEle(data)) {
-            elements[i][MAGNUM].dataPass = data[MAGNUM]
-              //} else {
-              // elements[i][MAGNUM].dataPass = data
-              //}
-          }
-          elements[i][MAGNUM].xpath = p;
-        }
+        elements[i][MAGNUM].xpath = p;
         fillNode(elements[i], data, p, key)
       }
 
@@ -309,7 +296,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         };
         mag.mod.getProps(index).children = clone;
       } else if (val[MAGNUM] && val[MAGNUM].scid) {
-        var clone = node.cloneNode(1);
+        clone = node.cloneNode(1);
         clone[MAGNUM] = {
           'childof': val[MAGNUM].scid
         };
@@ -319,6 +306,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       while (node.lastChild) {
         node.removeChild(node.lastChild)
       }
+
+      //TODO: Call configs when adding?
 
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
@@ -426,21 +415,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // remove childs first
       addToNode(node, val);
 
-      node[MAGNUM] = node[MAGNUM] || {}
-      node[MAGNUM].isChildOfArray = true
-      node[MAGNUM].dataPass = {
-        index: tagIndex
-      }
       data.draw && data.draw();
       return;
-    } else {
-
-      // TODO: is this a valid use case?
-
-      var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
-      var obj = {}
-      obj[type] = val
-      return fillNode(node, obj, p)
     }
 
   }
@@ -591,7 +567,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         tagIndex = getPathIndex(xpath),
         parent = {
           path: path,
-          data: ((dataParent || {})[MAGNUM] || []).dataPass,
           node: dataParent,
           index: parentIndex
         }
