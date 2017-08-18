@@ -228,7 +228,8 @@ d.resolve({
       }
     }
     client.send(data);
-
+// abort option
+    deferred.promise.abort = ()=>client.abort()
     return deferred.promise
   }
   mag.request.queue = {}
