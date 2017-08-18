@@ -147,6 +147,8 @@ mag.module("hello", {
 
 [Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output) - [Communication](http://jsbin.com/gocotigece/edit?html,output) - [TagName](http://jsbin.com/deyoxohino/edit?html,output) - [Multiple](http://jsbin.com/zogopuximi/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
 
+[Toggle Button](https://codepen.io/anon/pen/brLGEq?editors=0010)
+
 *Stateless*
 
 [Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output) - [Interaction with state](http://jsbin.com/lukowekoye/edit?html,output)
