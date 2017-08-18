@@ -4,7 +4,7 @@ Let's address the elephant in the room first. You will be writing selectors with
 
 Selectors are simply your description of what should be interpolated in a plain JavaScript Object. 
 
-- In the `controller` it is the `this` Object or the Object returned `{}`
+- In the `controller` it is the `this` Object.
 - In the `view` it is the `state` Object, the first argument.
 - In stateless components it is the returned Object `{}`
 
@@ -22,7 +22,7 @@ Selectors can also be greedy `$` selected: `state.$input={_value: "Name?"}`
 
 Selectors can also have attributes denoted by the  leading underscore `_`: `state.input = {_disabled: true}`
 
-Selector events are just attributes that start with and `_on` such as `_onClick`: `state.h1 = {_onClick()=>alert('Hi')}`
+Selector events are just attributes that start with an `_on` such as `_onClick`: `state.h1 = {_onClick()=>alert('Hi')}`
 
 Special selectors `_html` and `_text` allows you to use one selector for multiples values such as `state.h1 = {_text:"", _class:""}`
 
