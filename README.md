@@ -429,7 +429,7 @@ It receives 4 arguments:
 ### Simple API
 
 
-#### mag.module (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties )
+#### mag.module (String domElementID|Element Node, Object ModuleDefinition, Optional Object DefaultProperties )
 This is the core function to attach a object of instructions to a dom element, when called it is executed.
 
 ModuleDefinition is the instructions it can have a controller and a view function.
@@ -460,7 +460,7 @@ var component = {
 `this` in the `view` has access to the 3 main properties of `this.state`, `this.props` and `this.element`
 All `_on` events context is `this`
 
-#### mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object Properties)
+#### mag (String domElementID|Element Node, Object ModuleDefinition, Optional Object DefaultProperties)
 
 This is a shortcut method to the internal makeClone function returned by `mag.module`
 
@@ -566,7 +566,7 @@ Wraps around `mag.module` to return a reference instance you can call later.
 The reference function can also over write the defaults given in create usually it will only over write the props
 
 ```javascript
-var myComponent = mag.create('mydomId', {view:noop}) // not executed
+var myComponent = mag.create('mydomId', {}) // not executed
 
 var instance = myComponent({props:[]}) // executed 
 //add a props.key for a unique component instance or else each call reuses existing.
