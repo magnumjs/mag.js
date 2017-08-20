@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.6
+MagJS v0.27.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -52,12 +52,27 @@ License: MIT
   mod.getMod = function(index) {
     return modules[index][5]
   }
+
+
+  var bindMethods = (obj, context) => {
+    context = context || obj;
+
+    for (var key in obj) {
+      var val = obj[key];
+
+      if (typeof val === 'function' && !~['controller','view'].indexOf(key)) {
+        obj[key] = val.bind(context);
+      }
+    }
+
+    return obj;
+  }
+
   mod.submodule = function(id, index, module, props) {
-    module = mag.utils.copy(module)
     if (modules[index]) {
       // new call to existing
       // update props, merge with existing if same key
-      if (props.key && props.key === mod.getProps(index).key) {
+      if (props.key && props.key == mod.getProps(index).key) {
         mod.setProps(index, mag.utils.copy(mag.utils.merge(mod.getProps(index), props)));
       } else {
         mod.setProps(index, props);
@@ -66,6 +81,10 @@ License: MIT
       // reinitialize the controller ?
       return modules[index]
     }
+
+    module = mag.utils.copy(module)
+    bindMethods(module, module)
+
     modules[index] = [0, 0, 0, 0, 0, 0]
     mod.setProps(index, props);
     var controller = function(context) {
