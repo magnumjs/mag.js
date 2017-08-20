@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.7
+MagJS v0.27.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -410,13 +410,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       tagIndex = +key.split(MAGNUM)[1]
     }
 
-    var val = data(tagIndex)
+    var val = data(tagIndex, p)
     if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
 
       data.draw && data.draw();
-      return;
     }
 
   }
