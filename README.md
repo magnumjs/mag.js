@@ -187,7 +187,7 @@ mag.module("hello", {
 
 [Lifecycle Disable & re-render](http://jsbin.com/toyubivuho/edit?js,output)
 
-[Parent Eventing](http://jsbin.com/mireyonija/edit?js,output) - [Node switching](https://jsbin.com/goheyakiro/edit?js,output)
+[Parent Eventing](http://jsbin.com/mireyonija/edit?js,output) - [Node switching](https://jsbin.com/goheyakiro/edit?js,output) - [Event handler in Child](http://jsbin.com/maqihifeje/edit?js,output)
 
 [Count](http://jsbin.com/semilohoja/edit?js,output) - [Dynamic reusable counter component](http://jsbin.com/kisicoroya/edit?html,output) - [With shared state](http://jsbin.com/devehifote/edit?html,output)
 
