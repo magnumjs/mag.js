@@ -13,7 +13,7 @@ Requires: MagJS (core) Addons: Ajax , Router
   mag.creater = function(id, module, dprops) {
     var mod = mag(id, module, dprops);
     return props2 => index => {
-      if (!props2 || props2 && !props2.key && index) {
+      if (!props2 || props2 && !props2.key && ~index) {
         props2 = props2 || {}
         props2.key = index
       }
