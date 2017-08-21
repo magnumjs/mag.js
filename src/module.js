@@ -226,16 +226,16 @@ License: MIT
 
     if (change.type == 'get' && type != 'props' && !~mag.fill.ignorekeys.indexOf(change.name.toString()) && typeof change.oldValue == 'undefined') {
 
-      var rootNode = mag.doc.getElementById(mod.getId(index));
+      var rootNode = mag.getNode(mod.getId(index));
 
       //Get parent correct parent not just root!?
-
       if (change.path && change.path[0] == '/') var fnode = findParentNodeWithPath(rootNode, change.path)
 
       // if greedy pass all elements
       if (fnode && change.path.split('/').pop()[0] != '$') {
         fnode = fnode[0]
       }
+
       var res = findMissing(change, fnode ? fnode : rootNode);
 
       if (res!=null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
