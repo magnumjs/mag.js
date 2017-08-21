@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.8
+MagJS v0.27.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -60,7 +60,7 @@ License: MIT
     for (var key in obj) {
       var val = obj[key];
 
-      if (typeof val === 'function' && !~['controller','view'].indexOf(key)) {
+      if (typeof val == 'function' && !~['controller', 'view'].indexOf(key)) {
         obj[key] = val.bind(context);
       }
     }
@@ -187,6 +187,23 @@ License: MIT
       else {
         return tmp[0] && typeof tmp[0]._value != 'undefined' ? tmp[0]._value : tmp[0] && tmp[0]._text ? tmp[0]._text : tmp[0]
       }
+    } else if (prop[0] == '_') {
+      var attr = prop.substr(1);
+
+      if (element.length) {
+        var tmp = [];
+        for (var k in element) {
+          var ele = element[k]
+          var has = ele[attr];
+          if (typeof has == 'undefined') has = ele.getAttribute(attr)
+          tmp.push(has)
+        }
+        return tmp;
+      } else {
+        var has = element[attr];
+        if (typeof has == 'undefined') has = element.getAttribute(attr)
+        return has;
+      }
     }
   }
 
@@ -198,7 +215,7 @@ License: MIT
       if (prop) {
         var a = mag.fill.find(snode, prop);
         if (a.length) {
-          snode = a[0];
+          snode = a;
         }
       }
     }
@@ -215,9 +232,13 @@ License: MIT
 
       if (change.path && change.path[0] == '/') var fnode = findParentNodeWithPath(rootNode, change.path)
 
+      // if greedy pass all elements
+      if (fnode && change.path.split('/').pop()[0] != '$') {
+        fnode = fnode[0]
+      }
       var res = findMissing(change, fnode ? fnode : rootNode);
 
-      if (typeof res != 'undefined' && typeof res == 'object' && change.object) {
+      if (res!=null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
       if (typeof res != 'undefined') {
