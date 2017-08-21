@@ -10,21 +10,30 @@ Requires: MagJS (core) Addons: Ajax , Router
   'use strict';
 
   //Create wrapper for function call to mag() with over riding default props	
-  mag.creater = function(id, module, dprops) {
-    var mod = mag(id, module, dprops);
-    return props2 => index => {
-      if (!props2 || props2 && !props2.key && ~index) {
-        props2 = props2 || {}
-        props2.key = index
-      }
-      return mod(props2)
+  var funRet = mod =>  props => (index, p) => {
+      props = props || {}
+      props.key = p;
+      return mod(props)
     }
-  }
-  
-    //Create wrapper for function call to mag.module with over riding default props	
-  mag.create = function(id, module, dprops) {
-    return function(props) {
-      return mag.module(id, module, mag.merge(mag.copy(dprops) || {}, mag.copy(props) || {}))
+
+  //wrapper to generate keys
+  mag.create = function(idOrNode, moduleDefinition, defaultProps){
+
+    if(typeof moduleDefinition =='function'){
+      var mod = mag(idOrNode, moduleDefinition, defaultProps)
+      return funRet(mod)
+    } else 
+
+    if(typeof idOrNode == 'function'){
+      // mag
+      return funRet(idOrNode)
+    } else {
+        // mag.module 
+         //Create wrapper for function call to mag.module with over riding default props	
+
+      //      return mag.module(id, module, mag.merge(mag.copy(dprops) || {}, mag.copy(props) || {}))
+
+        return props => mag.module(idOrNode, moduleDefinition, {...defaultProps, ...props}) 
     }
   }
 
