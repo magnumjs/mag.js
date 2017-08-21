@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.4
+MagJS v0.27.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -130,8 +130,11 @@ License: MIT
 
   var attacher = function(i, k, obj, element) {
     var oval = obj[k];
+    
     // if k =='_value' use parent
-    if (~['_value', '_checked', '_text'].indexOf(k)) k = i.split('.').pop();
+    if (~['_value', '_checked', '_text'].indexOf(k) && isNaN(i)){
+      k = i.split('.').pop();
+    } 
 
 
     // only for user input fields
