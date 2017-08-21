@@ -470,23 +470,25 @@ module library creation with single global namespace / package names
     zoom: 1
   }
 
-  mag.hookin('attributes', 'style', function(data) {
+mag.hookin('attributes', 'style', function(data) {
 
-    //convert from object
+  //convert from object
     if (typeof data.value === 'object') {
       // get current styles not overwrite existing?
-      var ostyle = data.node.getAttribute('style') || '';
+      //var ostyle = data.node.getAttribute('style') || '';
 
       // make sure not already in styles
       var nstyle = ''
       forEach(data.value, function(key, value) {
-        nstyle += camelDash(key) + ':' + (!isNaN(value) && !(key in unitlessProps) ? (value + "px") : value) + ';';
+        if(value!=null){
+         nstyle += camelDash(key) + ':' + (!isNaN(value) && !(key in unitlessProps) ? (value + "px") : value) + ';';
+        }
       });
 
-      if (ostyle && ~ostyle.indexOf(nstyle)) data.value = ostyle;
-      else data.value = ostyle + nstyle;
+	    data.value =  nstyle;      
     }
   });
+
 
   // _className plugin example
   mag.hookin('attributes', 'className', function(data) {
