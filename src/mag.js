@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.7
+MagJS v0.27.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -89,10 +89,10 @@ License: MIT
     return a;
   }
 
-  global.mag = function(idOrNode, mod, props) {
+  global.mag = function(idOrNode, mod, dprops) {
     idOrNode = find(idOrNode)
     mod = find(mod)
-    props = props || {}
+    dprops = dprops || {}
 
     if (mag.utils.isHTMLEle(mod) && mag.utils.isHTMLEle(idOrNode)) {
       //attach to node once
@@ -105,11 +105,12 @@ License: MIT
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
       // fake run with no output
       try {
-        runFun(idOrNode.cloneNode(1), mod, props)()
+        runFun(idOrNode.cloneNode(1), mod, dprops)()
       } catch (e) {}
-      return runFun(idOrNode, mod, props);
+
+      return runFun(idOrNode, mod, dprops)
     } else {
-      return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, props);
+      return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, dprops);
     }
   }
 
@@ -356,6 +357,8 @@ License: MIT
 
   var run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
+        id = mag._isNode(cloner);
+
     didloader(ids, cloner)
 
     if (mag.mod.exists(ids)) {
@@ -600,7 +603,7 @@ License: MIT
   var didloader = function(idInstance, node) {
     // only if attached
     var id = mag.utils.items.getItemVal(idInstance)
-    if (getNode(id)) {
+    if (getNode(id) && mag.mod.exists(idInstance)) {
       return mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
     }
   }
