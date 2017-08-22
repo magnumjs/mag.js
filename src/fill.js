@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.8
+MagJS v0.27.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -416,6 +416,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       addToNode(node, val);
 
       data.draw && data.draw();
+    } else {
+
+      // TODO: is this a valid use case?
+
+      var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
+      var obj = {}
+      obj[type] = val
+      return fillNode(node, obj, p)
     }
 
   }
@@ -600,7 +608,17 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   //Dynamic listeners without event delegation
-  function attachEvent(node, eventName, event) {
+  //Dynamic listeners without event delegation
+  function attachEvent(node, eventName) {
+    function event(e) {
+      var handlers = node[MAGNUM]['eventHandlers'][eventName];
+      //get all uniue node specific events and run them
+      for (var path in handlers) {
+        var fun = handlers[path];
+        var hand = createEventCall(node, fun)
+        hand(e)
+      }
+    }
     node.removeEventListener(eventName, event);
     node.addEventListener(eventName, event);
   }
@@ -608,12 +626,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function makeEvent(event, attrName, node, parentKey) {
     var eventName = attrName.substr(2).toLowerCase();
+    var uid = (parentKey ? parentKey.split(')').pop() : '') + '-' + node[MAGNUM].uid;
     var events = node[MAGNUM].events = node[MAGNUM].events || []
-    var uid = eventName + (parentKey ? parentKey.split(')').pop() : '') + node[MAGNUM].uid;
+    var eventHandlers = node[MAGNUM].eventHandlers = node[MAGNUM].eventHandlers || []
+    eventHandlers[eventName] = eventHandlers[eventName] || []
+    eventHandlers[eventName][uid] = event;
 
-    if (!events[uid] || (events[uid] && '' + events[uid] != '' + event)) {
-      events[uid] = event;
-      attachEvent(node, eventName, createEventCall(node, event))
+    if (!events[eventName]) {
+      events[eventName] = 1
+      attachEvent(node, eventName)
     }
   }
   // fill in the attributes on an element (setting text and html first)
