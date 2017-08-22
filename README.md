@@ -256,7 +256,7 @@ mag.module("hello", {
 
 [Volunteer form application](http://embed.plnkr.co/lgms6KqkMWBTk2fTcwVb/)
 
-[StopWatch](http://jsbin.com/fuqupoqaju/edit?html,output)
+[StopWatch](http://jsbin.com/mefuvebaca/edit?html,output)
 
 [Shopping Cart](https://embed.plnkr.co/NQ9U8cmo304vfPIy4iHs/)
 
