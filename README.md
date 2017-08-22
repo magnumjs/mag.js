@@ -264,7 +264,7 @@ mag.module("hello", {
 
 [REM API - User list](https://embed.plnkr.co/Ci0CNC1121nEqqQpwVEH/)
 
-[Simple Application](https://embed.plnkr.co/OVRbv4bH3GmGxvBRuZWd/) - [Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/simple-application.md)
+[Simple Application](https://embed.plnkr.co/Wzcsnk710X3k3gUKaFpJ/) - [Tutorial](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/simple-application.md)
 
 ### React 2 Mag
 [Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Affix](http://jsbin.com/yiwafonene/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
