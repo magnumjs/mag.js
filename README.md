@@ -269,7 +269,7 @@ mag.module("hello", {
 ### React 2 Mag
 [Getting started with React example](http://jsbin.com/xatixeraza/edit?js,output) - [Affix](http://jsbin.com/yiwafonene/edit?html,output) - [Controller default](http://jsbin.com/hujuwefoko/edit?js,output)
 
-[Navigation menu](http://jsbin.com/fajobahaja/edit?js,output)
+[Navigation menu](http://jsbin.com/fajobahaja/edit?js,output) - [As Component](http://jsbin.com/qonetujalo/edit?js,output)
 
 [Timer](http://jsbin.com/jiwosereri/edit?html,output) - [Timer components](http://jsbin.com/zaqawiredi/edit?html,output)
 
