@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.9
+MagJS v0.28.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -259,6 +259,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPathTo(elements[i])
+         if (data && typeof data === "object") {
+
+            elements[i][MAGNUM].isChildOfArray = true
+
+            if (!mag.utils.isHTMLEle(data)) {
+              elements[i][MAGNUM].dataPass = data
+            }
+
+        }
         elements[i][MAGNUM].xpath = p;
         fillNode(elements[i], data, p, key)
       }
@@ -275,8 +284,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       return findParentChild(node.parentNode)
     }
   }
-
-  var sharedIsolates = [];
 
   function addToNode(node, val, clear) {
 
@@ -312,18 +319,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
 
-        var pvindex = mag.utils.items.getItem(fill.id);
         var cid = val[MAGNUM]['childof'];
-        //subscribe once to the parent to notify the child of changes to the state
-        //only once
-        if (~pvindex && !inSharedIsolate(pvindex, cid)) {
-          mag.utils.onLCEvent('willupdate', val[MAGNUM]['childof'], function() {
-            mag.utils.merge(mag.mod.getState(pvindex), mag.mod.getState(cid));
-          });
-          sharedIsolates.push(pvindex + ',' + cid);
-          sharedIsolates.push(cid + ',' + pvindex);
-        }
 
+        var pfillId = fill.id
+        fill.setId(mag.getNode(mag.getId(cid)))
+        fill.run(node, mag.mod.getState(cid))
+        fill.setId(pfillId)
       } else {
         node.appendChild(val);
       }
@@ -394,9 +395,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           value = data2.value
         }
 
-        if (_isArray(value)) {
-          elements = matchingElements(node, '$' + key);
-        }
+        //TODO: what's this use case??
+        // if (_isArray(value)) {
+        //   elements = matchingElements(node, '$' + key);
+        // }
+
         fill.run(elements, value, p + '/' + key);
       }
     }
@@ -414,6 +417,12 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
+
+      node[MAGNUM] = node[MAGNUM] || {}
+      node[MAGNUM].isChildOfArray = true
+      node[MAGNUM].dataPass = {
+        index: tagIndex
+      }
 
       data.draw && data.draw();
     } else {
@@ -575,6 +584,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         parent = {
           path: path,
           node: dataParent,
+          data: ((dataParent || {})[MAGNUM] || []).dataPass,
           index: parentIndex
         }
 
@@ -608,7 +618,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
 
   //Dynamic listeners without event delegation
-  //Dynamic listeners without event delegation
   function attachEvent(node, eventName) {
     function event(e) {
       var handlers = node[MAGNUM]['eventHandlers'][eventName];
@@ -616,7 +625,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       for (var path in handlers) {
         var fun = handlers[path];
         var hand = createEventCall(node, fun)
-        hand(e)
+        var ret = hand(e)
+        if (ret === false) e.preventDefault();
       }
     }
     node.removeEventListener(eventName, event);
@@ -852,13 +862,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   }
 
-  function inSharedIsolate(index, pindex) {
-    return ~sharedIsolates.indexOf(index + ',' + pindex);
-  }
 
   function isInIsolate(node) {
-    // if in sharedIsolate ignore
-    if (fill.id && node.id && node.id != fill.id && mag.utils.items.isItem(node.id) && !inSharedIsolate(mag.utils.items.getItem(fill.id), mag.utils.items.getItem(node.id))) {
+    if (
+      fill.id && (
+        (mag.utils.isHTMLEle(fill.id) && node[MAGNUM] && node[MAGNUM].scid) //Stateless
+        || (node.id && node.id != fill.id && mag.utils.items.isItem(node.id))
+        )
+    ) {
       return 0;
     } else {
       return 1;
