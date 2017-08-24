@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.9
+MagJS v0.28.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -20,7 +20,7 @@ License: MIT
   }
 
   mod.getState = function(index) {
-    return modules[index][1]
+    return modules[index] && modules[index][1]
   }
   mod.setState = function(index, state) {
     modules[index][1] = state
@@ -41,7 +41,7 @@ License: MIT
     return modules[index] && modules[index][3]
   }
   mod.exists = function(index) {
-    return typeof modules[index] != 'undefined' ? true : false
+    return typeof modules[index] != 'undefined'
   }
   mod.setFrameId = function(index, fid) {
     modules[index][4] = fid;
@@ -115,7 +115,7 @@ License: MIT
 
   function findMissing(change, element) {
     var prop = change.name;
-    if (typeof change.object[change.name] == 'undefined' && prop[0] !== '_') {
+    if (typeof change.object[change.name] == 'undefined' && prop[0] != '_') {
       // prop might be hierarchical?
       // getparent Object property chain?
 
