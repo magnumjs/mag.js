@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.9
+MagJS v0.28.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -132,7 +132,7 @@ License: MIT
     var oval = obj[k];
     
     // if k =='_value' use parent
-    if (~['_value', '_checked', '_text'].indexOf(k) && isNaN(i)){
+    if (~['_value', '_checked', '_text'].indexOf(k) && typeof i == 'string'){
       k = i.split('.').pop();
     } 
 
