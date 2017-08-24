@@ -259,14 +259,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPathTo(elements[i])
-         if (data && typeof data === "object") {
+        if (data && typeof data === "object") {
 
-            elements[i][MAGNUM].isChildOfArray = true
+          elements[i][MAGNUM].isChildOfArray = true
 
-            if (!mag.utils.isHTMLEle(data)) {
-              elements[i][MAGNUM].dataPass = data
-            }
-
+          if (!mag.utils.isHTMLEle(data)) {
+            elements[i][MAGNUM].dataPass = data
+          }
         }
         elements[i][MAGNUM].xpath = p;
         fillNode(elements[i], data, p, key)
@@ -319,18 +318,31 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
 
+        // var pvindex = mag.utils.items.getItem(fill.id);
         var cid = val[MAGNUM]['childof'];
 
-        var pfillId = fill.id
-        fill.setId(mag.getNode(mag.getId(cid)))
-        fill.run(node, mag.mod.getState(cid))
-        fill.setId(pfillId)
+        microDraw(node, cid)
+
+        //subscribe once to the parent to notify the child of changes to the state
+        //only once
+        mag.utils.onLCEvent('willupdate', cid, function() {
+          microDraw(node, cid)
+        });
+
       } else {
         node.appendChild(val);
       }
     }
   }
 
+
+  function microDraw(node, cid) {
+    var pfillId = fill.id
+    var isItem = mag.utils.items.isItem(cid)
+    fill.setId(isItem ? mag.getId(cid) : mag.getNode(mag.getId(cid)))
+    fill.run(node, mag.mod.getState(cid))
+    fill.setId(pfillId)
+  }
 
 
 
@@ -868,7 +880,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       fill.id && (
         (mag.utils.isHTMLEle(fill.id) && node[MAGNUM] && node[MAGNUM].scid) //Stateless
         || (node.id && node.id != fill.id && mag.utils.items.isItem(node.id))
-        )
+      )
     ) {
       return 0;
     } else {
