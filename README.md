@@ -507,7 +507,7 @@ Note: There are subtle differences between `mag()` and `mag.module.`
 
 There are 8 life cycle events: willload, willgetprops, didload, willupdate, didupdate, isupdate, onbeforeunload, onunload
 
-They each get the same 3 parameters, their context is the controller no need to bind to `this`:
+They each get the same 3 parameters, their context is the Object no need to bind to `this`:
 
 - Element is the original module definition ID element
 - newProps is the active state of the props, since the controller is only called once, the original props parameter contains  the original default values.
@@ -526,6 +526,21 @@ this.willgetprops = function(node, currentProps, instanceId, nextProps) {
   }
 }
 ```
+
+Optionally, all life cycle methods can also be Object methods
+```js
+var Component = {
+  willload: function() {
+    mag.merge(this.state, this.props)
+    this.state.input = {
+      _oninput: () => {
+        this.state.name = this.state.hello ? ' ' + this.state.hello + '!' : '?'
+      }
+    }
+  }
+}
+```
+[Example](http://jsbin.com/rabafibuni/edit?js,output)
 
 ## Reflection
 
