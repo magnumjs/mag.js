@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.6
+MagJS v0.28.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -87,12 +87,18 @@ License: MIT
       return handlers[eventer].splice(size - 1, 1)
     }
   }
+
   utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
     var isPrevented;
     utils.runningEventInstance = index;
     var props = mag.mod.getProps(index);
+    var instance = mag.mod.getMod(index);
+    if (instance[eventName]) {
+      isPrevented = instance[eventName].call(instance, node, props, index, extra)
+      if (once) instance[eventName] = 0
+    } else
     if (controller && controller[eventName]) {
-      isPrevented = controller[eventName].call(mag.mod.getMod(index), node, props, index, extra)
+      isPrevented = controller[eventName].call(instance, node, props, index, extra)
       if (once) controller[eventName] = 0
     }
 
