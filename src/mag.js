@@ -1,5 +1,5 @@
 /*
-MagJS v0.27.9
+MagJS v0.28.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -47,9 +47,11 @@ License: MIT
       clone = idOrNode.cloneNode(1),
       cache = [],
       last = [],
+      runId,
       copyOfDefProps = [];
 
     var a = function(props) {
+
       var node = idOrNode
       props = props || {}
       var key;
@@ -57,7 +59,7 @@ License: MIT
       var ckey = props.key ? props.key + '-' + a.id : a.id;
 
       if (!copyOfDefProps[ckey]) {
-        copyOfDefProps[ckey] = mag.utils.copy(dprops)
+        copyOfDefProps[ckey] = typeof dprops == 'object' ? mag.utils.copy(dprops) : dprops
       }
 
       // retrieve props & merge
@@ -70,17 +72,29 @@ License: MIT
         node = clones[key];
       }
 
-      node[mag.MAGNUM] = node[mag.MAGNUM] || {};
-      node[mag.MAGNUM].scid = ckey;
+      //Block recursivity      
+      if (runId && runId == node[MAGNUM].scid) {
+        throw Error('MagJS Error - recursive call:' + runId)
+      }
+
+
+      node[MAGNUM] = node[MAGNUM] || {};
+
 
       if (mag._cprops[ckey] && typeof props == 'object') {
         props.children = mag._cprops[ckey];
       }
+
+
       var now;
       if (last[ckey] != JSON.stringify(props, funReplacer)) {
         now = mod(props);
+        runId = node[MAGNUM].scid = ckey;
         last[ckey] = JSON.stringify(props, funReplacer)
+        mag.fill.setId(node)
         mag.fill.run(node, now);
+        mag.fill.setId(0)
+        runId = 0
       }
 
       return node;
@@ -96,7 +110,7 @@ License: MIT
 
     if (mag.utils.isHTMLEle(mod) && mag.utils.isHTMLEle(idOrNode)) {
       //attach to node once
-      if (!mod[mag.MAGNUM]) {
+      if (!mod[MAGNUM]) {
         //Add to scheduleFlush, nextTick?
         mag.fill.run(mod, idOrNode);
       }
@@ -113,8 +127,8 @@ License: MIT
       return makeClone(-1, getNode(mag._isNode(idOrNode)), mod, dprops);
     }
   }
-
-  mag.MAGNUM = '__magnum__';
+  var MAGNUM = '__magnum__'
+  mag.MAGNUM = MAGNUM
   mag.rafBounceIds = [];
   mag._cprops = [];
   // set document
@@ -256,7 +270,7 @@ License: MIT
 
 
       if (mag.mod.runningViewInstance == idInstance) {
-        throw Error('Mag.JS - recursive call: ' + idInstance)
+        throw Error('Mag.JS - recursive call:' + idInstance)
       }
 
       // check for existing frame id then clear it if exists
@@ -357,7 +371,7 @@ License: MIT
 
   var run = function(cloner, id, props2, mod, clear) {
     var ids = mag.utils.items.getItem(id);
-        id = mag._isNode(cloner);
+    id = mag._isNode(cloner);
 
     didloader(ids, cloner)
 
