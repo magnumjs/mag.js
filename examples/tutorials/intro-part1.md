@@ -293,9 +293,9 @@ When we give Contacts to mag.module, MagJS initializes the controller with the k
 
 MagJS is a wonderful, lightweight framework that doesn't try to abstract over JavaScript-the-language. Because it uses functional JavaScript constructs, we can refactor our views and controllers in ways that are framework-agnostic, allowing us to construct the right architecture for our application.
 
-In part 2, we will implement both the Total and Coupon components. Until next time!
+[In part 2](https://github.com/magnumjs/mag.js/edit/master/examples/tutorials/intro-part2.md), we will implement both the Total and Coupon components. Until next time!
 
-Further Reading
+[Further Reading](https://github.com/magnumjs/mag.js/edit/master/examples/tutorials/README.md)
 
 [Getting Started with Mag.js](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
