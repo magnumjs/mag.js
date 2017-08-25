@@ -87,14 +87,11 @@ Just define the default value of the selector to bind.
 
 * [Intro Guide](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial.md)
 * [Guide quick example (1st component)](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
-* [Thinking in React in MagJS](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/thinking-in-react-in-magjs.md)
 * [Getting started with  MagJS and Selectors](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started-magjs-selectors.md)
-* [Compositional Inheritance](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/compositional-inheritance.md)
+* [Thinking in React in MagJS](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/thinking-in-react-in-magjs.md)
 * [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
-* [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
-* [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 * [Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)
-* [Composable components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
+* [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 * [More Tutorials..](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
 
