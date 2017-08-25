@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.2
+MagJS v0.28.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,19 +11,27 @@ License: MIT
 
   var utils = {};
 
-  utils.isObject = function(obj) {
+  utils.isObject = (obj) => {
     //For Safari
     return Object.prototype.toString.call(obj).substr(-7) == 'Object]';
   }
 
-  utils.isEmpty = function(obj) {
+  function funReplacer(key, value) {
+    return typeof value == 'function' ? '' + value : value;
+  }
+
+  utils.toJsonString = (obj) => {
+    return JSON.stringify(obj, funReplacer)
+  }
+
+  utils.isEmpty = (obj) => {
     for (var k in obj) {
       if (obj.hasOwnProperty(k)) return 0;
     }
     return 1;
   }
 
-  utils.isHTMLEle = function(item) {
+  utils.isHTMLEle = (item) => {
     return item && item.nodeType === 1;
   }
 
