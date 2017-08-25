@@ -93,7 +93,7 @@ Just define the default value of the selector to bind.
 * [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
 * [Contacts Components from Mithril](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/contacts-components.md)
 * [Video Instructions](https://www.youtube.com/watch?v=OIXfxZ3DSC8&list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
-- [Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)
+* [Stateless Components](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/stateless-components.md)
 * [Composable components](//github.com/magnumjs/mag.js/blob/master/examples/components/README.md)
 * [More Tutorials..](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
