@@ -12,7 +12,7 @@ mag.module(node, component)
 Not having them exist already in the DOM allow for greater flexibility
 but generally only used when nexessary since will delay render vs already attached nodes will always be faster.
 
-##Example HoC with Dynamic unattached Node
+## Example HoC with Dynamic unattached Node
 
 Pseudo code, full example follows below
 
