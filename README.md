@@ -178,7 +178,7 @@ mag.module("hello", {
 
 [Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component w/CSS Transitions](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
 
-[Hello world (proxy w/Config)](http://jsbin.com/livavofubo/edit?js,output) - [Without controller](http://jsbin.com/favuburowu/edit) - [Without config or controller](http://jsbin.com/havihakuku/edit?js,output) - [Take2](http://jsbin.com/zifadowoza/edit?js,output)
+[Hello world (proxy w/Config)](http://jsbin.com/rasawehafo/edit?js,output) - [Without controller](http://jsbin.com/supihopabu/edit) - [Without config or controller](http://jsbin.com/lijolubuci/edit?js,output) - [Take2](http://jsbin.com/wudusixezo/edit?js,output)
 
 
 *Events*
