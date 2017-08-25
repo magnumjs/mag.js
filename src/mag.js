@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.1
+MagJS v0.28.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -36,10 +36,6 @@ License: MIT
       if (found) return found;
     }
     return selector;
-  }
-
-  function funReplacer(key, value) {
-    return typeof value == 'function' ? '' + value : value;
   }
 
   var runFun = function(idOrNode, mod, dprops) {
@@ -87,10 +83,10 @@ License: MIT
 
 
       var now;
-      if (last[ckey] != JSON.stringify(props, funReplacer)) {
+      if (last[ckey] != mag.utils.toJsonString(props)) {
         now = mod(props);
         runId = node[MAGNUM].scid = ckey;
-        last[ckey] = JSON.stringify(props, funReplacer)
+        last[ckey] = mag.utils.toJsonString(props)
         mag.fill.setId(node)
         mag.fill.run(node, now);
         mag.fill.setId(0)
@@ -354,7 +350,7 @@ License: MIT
 
       var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
 
-      if (JSON.stringify(current) !== JSON.stringify(prevState[ids])) {
+      if (mag.utils.toJsonString(current) != mag.utils.toJsonString(prevState[ids])) {
         for (var handle of handlers[ids]) {
           handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
         }
@@ -405,7 +401,7 @@ License: MIT
       }
 
       // prevent recursion?
-      var id = node.id + (props2.key ? '.' + props2.key : '') + '.' + (index || 0);
+      var id = node.id + (props2.key ? '.' + props2.key + '.' : '') + (index || '');
 
       //TODO: add key when props key not used?
       if (cloners[id] && !props2.key && !~a._id) {
