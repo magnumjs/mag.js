@@ -20,7 +20,7 @@ License: MIT
   }
 
   mod.getState = function(index) {
-    return modules[index] && modules[index][1]
+    return modules[index][1]
   }
   mod.setState = function(index, state) {
     modules[index][1] = state
@@ -29,7 +29,7 @@ License: MIT
     return modules[index][0]
   }
   mod.getProps = function(index) {
-    return modules[index][2] && modules[index][2]
+    return modules[index][2]
   }
   mod.setProps = function(index, props) {
     return modules[index][2] = props
