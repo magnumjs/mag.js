@@ -126,7 +126,7 @@ mag.module("hello", {
 
 ## Boilerplates
 [Blank JSBin](http://jsbin.com/lumayuvuxo/edit?html,output) - [Blank CodePen](https://codepen.io/anon/pen/oeEdEZ?editors=0010) - 
-[Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xaquqivifa/edit?html,output) - [CodePen Addons (Simple Modal)](https://codepen.io/anon/pen/ZJxNrW?editors=0010) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/gijubaqozi/edit?html,js,output)
+[Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xawibowoxo/edit?html,output) - [CodePen Addons (Simple Modal)](https://codepen.io/anon/pen/ZJxNrW?editors=0010) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/gijubaqozi/edit?html,js,output)
 
 ## Examples
 
@@ -174,7 +174,7 @@ mag.module("hello", {
 
 [Form & list - model - comps - boilerplate](http://embed.plnkr.co/w3BSEEp0w5iWzM7B7QIw/)
 
-[Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/vafovoguka/edit?html,js,output) - [Nested components](http://jsbin.com/turoweqadu/edit?js,output)
+[Simple messaging component example](http://jsbin.com/biharowaba/edit?js,output) - [Video tutorial](https://www.youtube.com/watch?v=WLSNbSOk1CY) - [Take 2, w/Reusable child component](http://jsbin.com/vafovoguka/edit?html,js,output) - [Nested components](http://jsbin.com/vozulivitu/edit?js,output)
 
 [Hello world with passFail reusable component](http://jsbin.com/moziseporo/edit?js,output) - [Modal component w/CSS Transitions](https://embed.plnkr.co/xK4TMqIuFeVjGso9KeV5/)
 
