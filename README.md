@@ -153,6 +153,8 @@ mag.module("hello", {
 
 [Simple Todos](http://jsbin.com/dizapinodo/edit?html,output) - [Stateless counter](http://jsbin.com/nitakoruve/edit?html,output)
 
+[Icons as Components](https://codepen.io/anon/pen/OjoNdQ?editors=0010)
+
 *App State*
 
 [Shared across modules](http://jsbin.com/fomosanavu/edit?js,output) - [Synchronous state](http://jsbin.com/kiyopowefe/edit?console,output)
