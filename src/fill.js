@@ -426,7 +426,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       tagIndex = +key.split(MAGNUM)[1]
     }
 
-    var val = data(tagIndex, p)
+    var val = data(++tagIndex, p)
     if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
