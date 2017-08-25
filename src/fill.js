@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.1
+MagJS v0.28.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -26,7 +26,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     templates = {};
 
 
-  // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
     return Array.isArray(obj)
   }
@@ -259,7 +258,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPathTo(elements[i])
-        if (data && typeof data === "object") {
+
+        if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY)) {
 
           elements[i][MAGNUM].isChildOfArray = true
 
@@ -318,14 +318,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
         node.innerHTML = val.innerHTML;
 
-        // var pvindex = mag.utils.items.getItem(fill.id);
         var cid = val[MAGNUM]['childof'];
 
         microDraw(node, cid)
 
         //subscribe once to the parent to notify the child of changes to the state
-        //only once
-        mag.utils.onLCEvent('willupdate', cid, function() {
+        //only once?
+        mag.utils.onLCEvent('willupdate', cid, () => {
           microDraw(node, cid)
         });
 
@@ -339,7 +338,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function microDraw(node, cid) {
     var pfillId = fill.id
     var isItem = mag.utils.items.isItem(cid)
-    fill.setId(isItem ? mag.getId(cid) : mag.getNode(mag.getId(cid)))
+    fill.setId(isItem ? mag.mod.getId(cid) : mag.getNode(mag.mod.getId(cid)))
     fill.run(node, mag.mod.getState(cid))
     fill.setId(pfillId)
   }
