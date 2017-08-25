@@ -11,6 +11,9 @@ List of MagJS Tutorials:
 - [MagJS version of James Longs' "why react is awesome"](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 - [Dave's Guide - converted to MagJS](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/daves-guide.html)
 - [Mithril Simple Application in MagJS](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/simple-application.md)
+- [Introduction Tutorial Part1](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part1.md)
+- [Introduction Tutorial Part2](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/intro-part2.md)
+- [mag-komposer - Compose MagJS Containers](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/mag-komposer.md)
 
 
 Have an idea for a new article or a suggestion to convert a different article to MagJS such as react, angular or Mithril?
