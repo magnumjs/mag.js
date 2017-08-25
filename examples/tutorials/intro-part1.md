@@ -295,8 +295,10 @@ MagJS is a wonderful, lightweight framework that doesn't try to abstract over Ja
 
 [In part 2](https://github.com/magnumjs/mag.js/master/examples/tutorials/intro-part2.md), we will implement both the Total and Coupon components. Until next time!
 
-[Further Reading](https://github.com/magnumjs/mag.js/master/examples/tutorials/README.md)
+<hr>
 
-[Getting Started with Mag.js](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
+* [Getting started with  MagJS and Selectors](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started-magjs-selectors.md)
 
-Differences from other MVC frameworks
+* [Advanced Examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
+
+* [Further Reading](https://github.com/magnumjs/mag.js/master/examples/tutorials/README.md)
