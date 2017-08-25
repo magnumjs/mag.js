@@ -320,13 +320,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
         var cid = val[MAGNUM]['childof'];
 
-        microDraw(node, cid)
-
-        //subscribe once to the parent to notify the child of changes to the state
-        //only once?
-        mag.utils.onLCEvent('willupdate', cid, () => {
+        //Not stateless
+        if (!mag._cprops[cid]) {
           microDraw(node, cid)
-        });
+
+          //subscribe once to the parent to notify the child of changes to the state
+          //only once?
+          mag.utils.onLCEvent('willupdate', cid, () => {
+            microDraw(node, cid)
+          });
+        }
 
       } else {
         node.appendChild(val);
@@ -337,8 +340,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function microDraw(node, cid) {
     var pfillId = fill.id
-    var isItem = mag.utils.items.isItem(cid)
-    fill.setId(isItem ? mag.mod.getId(cid) : mag.getNode(mag.mod.getId(cid)))
+    fill.setId(mag.mod.getId(cid))
     fill.run(node, mag.mod.getState(cid))
     fill.setId(pfillId)
   }
