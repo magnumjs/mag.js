@@ -126,7 +126,7 @@ mag.module("hello", {
 
 ## Boilerplates
 [Blank JSBin](http://jsbin.com/lumayuvuxo/edit?html,output) - [Blank CodePen](https://codepen.io/anon/pen/oeEdEZ?editors=0010) - 
-[Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xawibowoxo/edit?html,output) - [CodePen Addons (Simple Modal)](https://codepen.io/anon/pen/ZJxNrW?editors=0010) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/nonotipiqa/edit?html,js,output)
+[Event Module](http://jsbin.com/hivesozebu/edit?js,output) - [JSbin Addons](http://jsbin.com/xawibowoxo/edit?html,output) - [CodePen Addons (Simple Modal)](https://codepen.io/anon/pen/ZJxNrW?editors=0010) - [Plunker](http://embed.plnkr.co/wr8iYxoyWKcBcA4IbIW9/) -  [Plunker Namespace](http://embed.plnkr.co/HlQyXMG9DqXDdngqKZtI/) - [Plunker Templating](https://embed.plnkr.co/aloqG4YKgyJXCtJyWS5C/) - [Stateless](http://jsbin.com/gotehejebi/edit?html,js,output)
 
 ## Examples
 
