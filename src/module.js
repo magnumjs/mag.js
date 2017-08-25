@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.1
+MagJS v0.28.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -29,7 +29,7 @@ License: MIT
     return modules[index][0]
   }
   mod.getProps = function(index) {
-    return modules[index][2]
+    return modules[index][2] && modules[index][2]
   }
   mod.setProps = function(index, props) {
     return modules[index][2] = props
@@ -77,7 +77,6 @@ License: MIT
       } else {
         mod.setProps(index, props);
       }
-
       // reinitialize the controller ?
       return modules[index]
     }
@@ -275,7 +274,7 @@ License: MIT
   }
 
   mod.iscached = function(key) {
-    var data = JSON.stringify(mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key)));
+    var data = mag.utils.toJsonString(mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key)));
     if (key in mod.cache && mod.cache[key] == data) {
       return true
     }
