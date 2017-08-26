@@ -8,11 +8,10 @@ Requires: MagJS (core) Addons: Ajax , Router
 (function(mag, window, document, undefined) {
 
   'use strict';
-  var inc=0;
   //Create wrapper for function call to mag() with over riding default props	
   var funRet = mod =>  props => (index, p) => {
       props = props || {}
-      props.key = props.key || ++inc
+      props.key = props.key || p
       return mod(props)
     }
 
