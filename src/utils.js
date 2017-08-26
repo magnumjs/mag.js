@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.3
+MagJS v0.28.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -11,29 +11,41 @@ License: MIT
 
   var utils = {};
 
-  utils.isObject = (obj) => {
-    //For Safari
-    return Object.prototype.toString.call(obj).substr(-7) == 'Object]';
+
+  //UTILITY
+  utils.copy = obj => Object.assign({}, obj)
+
+  utils.merge = function() {
+    return Object.assign.apply({}, arguments);
   }
 
-  function funReplacer(key, value) {
-    return typeof value == 'function' ? '' + value : value;
-  }
-
-  utils.toJsonString = (obj) => {
-    return JSON.stringify(obj, funReplacer)
-  }
-
-  utils.isEmpty = (obj) => {
-    for (var k in obj) {
-      if (obj.hasOwnProperty(k)) return 0;
+  utils.extend = function(target, source, deep) {
+    //if the sources are undefined then don't add to target even if exists
+    for (var k in source) {
+      if (source[k] === undefined) {
+        delete source[k];
+      } else if (deep && utils.isObject(source[k])) {
+        return utils.extend(target[k], source[k])
+      }
     }
-    return 1;
+    return utils.merge(target, source)
   }
 
-  utils.isHTMLEle = (item) => {
-    return item && item.nodeType === 1;
+  //For Safari
+  utils.isObject = obj => Object.prototype.toString.call(obj).substr(-7) == 'Object]'
+
+  var funReplacer = (key, value) => typeof value == 'function' ? '' + value : value
+
+  utils.toJsonString = obj => JSON.stringify(obj, funReplacer)
+
+  utils.isEmpty = obj => {
+    for (var k in obj) {
+      if (obj.hasOwnProperty(k)) return 0
+    }
+    return 1
   }
+
+  utils.isHTMLEle = (item) => item && item.nodeType === 1
 
   utils.callHook = function(hookins, key, name, i, data, before) {
     if (hookins[name][i].key == key) {
@@ -53,7 +65,7 @@ License: MIT
     }
   }
 
-
+  //rAF:
   var queue = [],
     scheduled = [];
 
@@ -85,6 +97,7 @@ License: MIT
     })
   }
 
+  //Events:
   var handlers = []
   utils.onLCEvent = function(eventName, index, handler) {
     var eventer = eventName + '-' + index;
@@ -101,13 +114,11 @@ License: MIT
     utils.runningEventInstance = index;
     var props = mag.mod.getProps(index);
     var instance = mag.mod.getMod(index);
-    if (instance[eventName]) {
-      isPrevented = instance[eventName].call(instance, node, props, index, extra)
-      if (once) instance[eventName] = 0
-    } else
-    if (controller && controller[eventName]) {
-      isPrevented = controller[eventName].call(instance, node, props, index, extra)
-      if (once) controller[eventName] = 0
+
+    var obj = instance[eventName] ? instance : controller[eventName] && controller;
+    if(obj){
+      isPrevented = obj[eventName].call(instance, node, props, index, extra)
+      if (once) obj[eventName] = 0
     }
 
     // on Handlers
@@ -122,53 +133,21 @@ License: MIT
     if (isPrevented === false) return true;
   }
 
-  //UTILITY
-  utils.copy = function(o) {
-    return Object.assign({}, o);
-  }
-
-  utils.merge = function() {
-    return Object.assign.apply({}, arguments);
-  }
-
-  utils.extend = function(target, source, deep) {
-    //if the sources are undefined then don't add to target even if exists
-    for (var k in source) {
-      if (source[k] === undefined) {
-        delete source[k];
-      } else if (deep && utils.isObject(source[k])) {
-        return utils.extend(target[k], source[k])
-      }
-    }
-    return utils.merge(target, source)
-  }
-
+  //Collection:
   var a = {
     i: [],
-    isItem: function(id) {
-      return ~a.i.indexOf(id)
-    },
-    setItem: function(id) {
-      a.i[a.i.length] = id
-    },
-    getItem: function(id) {
-      return a.i.indexOf(id)
-    },
-    getItemVal: function(index) {
-      return a.i[index]
-    },
-    removeItem: function(id) {
-      a.i.splice(a.i.indexOf(id), 1)
-    }
+    isItem: id => ~a.i.indexOf(id),
+    setItem: id => a.i[a.i.length] = id,
+    getItem: id => a.i.indexOf(id),
+    getItemVal: index => a.i[index],
+    removeItem: id => a.i.splice(a.i.indexOf(id), 1)
   }
 
   utils.items = a
 
-  utils.getItemInstanceIdAll = function() {
-    return a.i
-  }
+  utils.getItemInstanceIdAll = () => a.i
 
-  utils.getItemInstanceId = function(id) {
+  utils.getItemInstanceId = id => {
     if (a.isItem(id)) {
       return a.getItem(id)
     } else {
