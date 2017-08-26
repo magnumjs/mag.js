@@ -298,7 +298,7 @@ mag.module("hello", {
 
 [Image app with AJAX](http://embed.plnkr.co/fQzaidtY4GvsKH2k2Dtq/)
 
-[Employee Directory with tiny Router](http://embed.plnkr.co/VJq2DEflPX7VKQHba6Oa/) - [Take2](http://embed.plnkr.co/FtkDDQwSuH8LPhxP5JPF/)
+[Employee Directory with tiny Router](http://embed.plnkr.co/VJq2DEflPX7VKQHba6Oa/) - [Take2](http://embed.plnkr.co/FtkDDQwSuH8LPhxP5JPF/) - [Latest](https://embed.plnkr.co/85gjoGFLKFz02VVCbECt/)
 
 [News feed with undo state](http://embed.plnkr.co/XdMHLiZPxlTwk1mFMjjV/)
 
