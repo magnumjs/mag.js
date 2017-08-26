@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.3
+MagJS v0.28.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -70,8 +70,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function getPathTo2(element) {
-    if (element.id && fill.id === element.id)
-      return 'id("' + element.id + '")';
+    if ((element.id && fill.id === element.id) || fill.id === element)
+      return 'id("' + (element.id || element.tagName) + '")';
     if (element === mag.doc.body)
       return element.tagName;
 
@@ -110,6 +110,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var s = p && parseInt(p.split('[').pop().slice(0, -1))
     if (!s) return 0
     return parseInt(s) - 1
+  }
+
+  function getFullPathIndex(p) {
+    // return p.match(/[^[\]]+(?=])/g).join('.')
+    var words = []
+    p.replace(/\[(.+?)\]/g, function($0, $1) {
+      words.push($1)
+    })
+    return words;
   }
 
   function getPathId(p) {
@@ -420,13 +429,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var functionHandler = function(data, node, tagIndex, p) {
 
-    var par = findParentChild(node.parentNode),
-      key = par && par.getAttribute('key');
-    if (par && key) {
-      tagIndex = +key.split(MAGNUM)[1]
+
+    if (typeof fill.id != 'string' && !fill.id.id) {
+      p = getPathTo2(node.parentNode) + p
     }
 
-    var val = data(++tagIndex, p)
+    tagIndex = getFullPathIndex(p);
+
+    var val = data(tagIndex.join('.'), p)
     if (val && mag.utils.isHTMLEle(val)) {
       // remove childs first
       addToNode(node, val);
@@ -442,10 +452,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       // TODO: is this a valid use case?
 
-      var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
-      var obj = {}
-      obj[type] = val
-      return fillNode(node, obj, p)
+      // var type = /<[a-z][\s\S]*>/i.test(val) ? '_html' : '_text'
+      // var obj = {}
+      // obj[type] = val
+      return fillNode(node, val, p)
     }
 
   }
