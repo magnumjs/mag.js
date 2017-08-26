@@ -540,7 +540,7 @@ var Component = {
   }
 }
 ```
-[Example](http://jsbin.com/rabafibuni/edit?js,output)
+[Try it on JSBin](http://jsbin.com/rabafibuni/edit?js,output) - [With Props Update](http://jsbin.com/yinaxicixu/edit?js,output)
 
 ## Reflection
 
