@@ -155,6 +155,8 @@ mag.module("hello", {
 
 [Icons as Components](https://codepen.io/anon/pen/OjoNdQ?editors=0010)
 
+[Recursive Error](https://codepen.io/anon/pen/KvxoBK?editors=0011)
+
 *App State*
 
 [Shared across modules](http://jsbin.com/fomosanavu/edit?js,output) - [Synchronous state](http://jsbin.com/kiyopowefe/edit?console,output)
