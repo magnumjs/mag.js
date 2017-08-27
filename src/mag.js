@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.4
+MagJS v0.28.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -404,13 +404,20 @@ License: MIT
         index = 0;
       }
 
+      if (ids < 0) {
+        index = 1
+      }
+
+
       // prevent recursion?
       var id = node.id + (props2.key ? '.' + props2.key + '.' : '') + (index || '');
 
+
       //TODO: add key when props key not used?
-      if (cloners[id] && !props2.key && !~a._id) {
-        id += ++inc;
-      }
+      // if (cloners[id] && !props2.key && !~a._id) {
+      //   id += ++inc;
+      // }
+
 
       var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
       cloner.id = id;
