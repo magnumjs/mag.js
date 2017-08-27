@@ -109,15 +109,15 @@ var RandomMessage = mag("RandomMessage",{
   controller: function() {
     return { message: 'Hello, Universe' };
   },
-  onClick: function() {
+  clickHandler: function() {
     var messages = ['Hello, World', 'Hello, Planet', 'Hello, Universe'];
     var randomMessage = messages[Math.floor((Math.random() * 3))];
 
-    this.message=randomMessage;
+    this.state.message=randomMessage;
   },
   view: function(state, props) {
     state.MessageView =MessageView({message: state.message })
-    state.input = {_onClick: this.onClick.bind(state) }  
+    state.input = {_onClick: this.clickHandler }  
   }
 });
 ```
@@ -131,22 +131,22 @@ The following is the markup returned by our component:
 
 ```js
 state.MessageView = MessageView ({message: state.message})
-state.input = { _onClick: this.onClick.bind(state) }  
+state.input = { _onClick: this.clickHandler }  
 ```
 
 As you can see, this component renders a second component, MessageView, and an input button.
 Do note that message property of the component’s state is passed to the child component as an prop.
-Our component also handles the button’s click event by attaching an event listener, this.onClick. 
+Our component also handles the button’s click event by attaching an event listener, this.clickHandler. 
 Pay attention to camel casing here. In HTML the event names are written in lowercase i.e. onclick. 
 But, in MagJS you can use any case, it doesn't matter.
 
 Our click event handler chooses a random message and updates the component’s state by calling:
 
 ```js
-this.message = randomMessage;
+this.state.message = randomMessage;
 ```
 
-The setState function is a way to inform MagJS about a data change.
+The state object is a way to inform MagJS about a data change.
 This method updates the current state of the component and re-renders it.
 As a result the passed props are also recomputed and the child components which depend on these props also re-render themselves.
 
@@ -154,7 +154,7 @@ As a result the passed props are also recomputed and the child components which 
 ### MessageView
 
 ```js
-var MessageView = mag("MessageViewComp", (props)=>{
+var MessageView = mag("MessageViewComp", (props) => {
     return {p: props.message }
 });
 ```
@@ -173,7 +173,7 @@ mag(
 ```
 
 That’s it! Each time you click on the button you will see a different message (in so far as a new number is selected).
-[Try it on JSBin](http://jsbin.com/dogoqabizo/edit?html,output)
+[Try it on JSBin](http://jsbin.com/sanocosigo/edit?html,output)
 
 [Further Reading](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/README.md)
 
