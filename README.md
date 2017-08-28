@@ -153,7 +153,7 @@ mag.module("hello", {
 
 [Simple Todos](http://jsbin.com/dizapinodo/edit?html,output) - [Stateless counter](http://jsbin.com/nitakoruve/edit?html,output)
 
-[Icons as Components](https://codepen.io/anon/pen/OjoNdQ?editors=0010) - [Deep Nesting](https://codepen.io/anon/pen/GvXdLJ?editors=0010)
+[Icons as Components](https://codepen.io/anon/pen/OjoNdQ?editors=0010) - [Deep Nesting (keys, children, create)](https://codepen.io/anon/pen/GvXdLJ?editors=0010)
 
 [Recursive Error](https://codepen.io/anon/pen/KvxoBK?editors=0011)
 
