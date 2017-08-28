@@ -109,7 +109,7 @@ state.li = [
 ]
 ```
 Any array of items will automatically create the same amount for the matching selectors.
-[Example](http://jsbin.com/ruvogaloka/edit?html,output)
+[Example](http://jsbin.com/suhopewita/edit?html,output)
 
 And so on:
 
