@@ -26,7 +26,7 @@ Selector events are just attributes that start with an `_on` such as `_onClick`:
 
 Special selectors `_html` and `_text` allows you to use one selector for multiples values such as `state.h1 = {_text:"", _class:""}`
 
-Selectors can also be customized via hookins for example `_className` comes in Addons.
+Selectors can also be customized via hookins for example `_className` comes in [Addons](https://github.com/magnumjs/mag.js/blob/master/src/addons/README.md).
 
 *Now with the facts out of the way:*
 
