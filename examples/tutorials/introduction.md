@@ -121,7 +121,7 @@ state.main = {li: [
 ```
 [Example](http://jsbin.com/retafokuko/edit?html,output)
 
-Note: If you prefer external templates you can do that too, [it's possible via an extension](https://github.com/magnumjs/mag.js/tree/master/src/extends).
+Note: If you prefer external templates you can do that too, [it's possible via an extension](https://github.com/magnumjs/mag.js/blob/master/src/extends/README.md).
 
 ```javascript
 //Syntax via mag.template extends
