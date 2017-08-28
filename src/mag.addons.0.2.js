@@ -11,7 +11,7 @@ Requires: MagJS (core) Addons: Ajax , Router
   //Create wrapper for function call to mag() with over riding default props	
   var funRet = mod =>  props => (index, p) => {
       props = props || {}
-      props.key = p
+      props.key = props.key ? index + '.' + props.key : index 
       return mod(props)
     }
 
