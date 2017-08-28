@@ -210,7 +210,8 @@ var Hello = {
 
 mag.module(root, Hello)
 ```
-[With state](http://jsbin.com/peluxitibi/edit?html,output)
+[With state](http://jsbin.com/peluxitibi/edit?html,output) - 
+[with child proxy](http://jsbin.com/gavuzaraji/edit?html,output)
 
 We defined an `onclick` event on the button, which increments a variable `count` (which was declared at the top). We are now also rendering the value of that variable in the button label.
 
