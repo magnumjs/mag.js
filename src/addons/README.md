@@ -16,6 +16,8 @@ Core addons include:
 *Independent Extensions*
 * mag.request
 * mag.route
+* mag.template
+* mag.html2dom
 
 *UI Specific*
 * mag.toMenu
