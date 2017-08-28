@@ -37,7 +37,8 @@ Create a new component using `mag.module`.
 Components have one requirement; they must implement view, a function that tells the component what to... view.
 I honestly couldn't think of another word.
 
-[Try it on JSBin](http://jsbin.com/sogumihade/edit?js,output) - [Without instance](http://jsbin.com/gadebucaje/edit?js,output) - [Stateless](http://jsbin.com/qagegoyeba/edit?js,output)
+[Try it on JSBin](http://jsbin.com/sogumihade/edit?js,output) - [props function](http://jsbin.com/talabuduva/edit?js,output) - 
+[Without instance](http://jsbin.com/gadebucaje/edit?js,output) - [Stateless](http://jsbin.com/qagegoyeba/edit?js,output)
 
 ## Props
 
