@@ -98,7 +98,7 @@ The `state` Object can be used to describe any HTML structure you want. So if yo
 state.h1 = { _class: "title", _text: "My first app" }
 ```
 A leading underscore denotes a property/attribute. The `_text` and `_html` are used as expected.
-[Example](http://jsbin.com/sezoquyafe/edit?html,output)
+[Example](http://jsbin.com/kipezarepe/edit?html,output)
 
 If you want to have multiple elements:
 
