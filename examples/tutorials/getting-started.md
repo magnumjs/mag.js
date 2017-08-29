@@ -329,7 +329,7 @@ mag.module('todos', {controller: todo.controller,view: todo.view});
 </script>
 ```
 
-[Todo JSBin example](http://jsbin.com/tujipehuba/edit?html,output) - [JSBin Example v0.20](http://jsbin.com/tevacavijo/edit?html,output) - [Latest](http://jsbin.com/baqaweyece/edit?js,output)
+[Todo JSBin example](http://jsbin.com/tujipehuba/edit?html,output) - [JSBin Example v0.20](http://jsbin.com/tevacavijo/edit?html,output) - [Latest](http://jsbin.com/baqaweyece/edit?js,output) - [Try it on CodePen](https://codepen.io/anon/pen/dzQMdx?editors=0010)
 
 We are binding our list to the class list in the OL - more about lists [here](//github.com/magnumjs/mag.js#lists):
 
