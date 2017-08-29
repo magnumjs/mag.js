@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.3
+MagJS v0.28.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -240,7 +240,7 @@ License: MIT
       if (res!=null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
-      if (typeof res != 'undefined') {
+      if (res!=null && typeof res != 'undefined') {
         mod.cached[index] = 0;
         return res;
       }
