@@ -742,7 +742,7 @@ state.h1 = { _onclick: function() { state.h1='clicked!' } }
 
 #### Lists
 
-Dealing with lists are simple and intuitive, including nested lists.
+Dealing with lists are simple and intuitive, including nested lists with dynamic user based values.
 
 The first list element is used as the template for all new items on the list
 For example:
@@ -842,7 +842,101 @@ Will render
   </li>
 </ul>
 ```
-[JsBin Example](http://jsbin.com/coyemiwupu/edit?html,output)
+[Try it on JSBin](http://jsbin.com/coyemiwupu/edit?html,output)
+
+
+**Data binding List with user input
+
+This is the power and intuitive nature of MagJS.
+This is what allows for effortless an rapid html template prototyping.
+
+With a minimal amount of code and a single row html template we can create a dynamic data table list that automatically stays up to date with dynamic values such as user input.
+
+We start with our pure HTML template:
+
+```html
+<div id="tickets">
+    <h2>How many tickets?</h2>
+    <table>
+      <tbody>
+        <tr class="ticketTypeRow">
+          <th class="ticketType">
+            Senior
+          </th>
+          <td class="numberofTickets">
+            <input name="quantity" type="number" min="0" maxlength="2" size="1">
+          </td>
+          <td class="timesX">x</td>
+          <td>$ <span class="pricePerTicket"></span>
+          </td>
+          <td class="equals">= $</td>
+          <td class="rowTotal">
+            <input name="total" type="text" style="border:0px" class="sub" size="8" readonly="readonly" tabindex="-1" value="0.00">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+```
+
+Next we have our JavaScript data list:
+
+```js
+var defaultProps = {
+  ticketTypeRow: [{
+    quantity: 0,
+    ticketType: 'senior',
+    total: 0.00,
+    pricePerTicket: 5.99
+  }, {
+    quantity: 0,
+    ticketType: 'adult',
+    total: 0.00,
+    pricePerTicket: 5.99
+  }, {
+    quantity: 0,
+    ticketType: 'child',
+    total: 0.00,
+    pricePerTicket: 3.99
+  }]
+}
+``
+
+Where this data comes from or how it is loaded does not effect MagJS in any way. It can async, iframe, web service, push, io sockets etc...
+
+Normally we would mutate the data in some way through the native Array.map function to return a new Array that i bound by MagJS to our HTML template. In this example we are showing how that is not necessary.
+
+Next we create our module. 
+
+```js
+var Tickets = {}
+
+Tickets.controller = function(props) {
+  // merge the props with the module's state/html
+  mag.utils.merge(this, props);
+}
+
+Tickets.view = function(state, props) {
+
+  state.$quantity = {
+    _oninput: function(event, index, node, data) {
+      state.ticketTypeRow[data.index].total = state.ticketTypeRow[data.index].quantity * state.ticketTypeRow[data.index].pricePerTicket
+    }
+  }
+}
+```
+
+As you can see we are not changing the props data array instead we are merging it directly into our state selectors.
+
+Lastly we will now load the module for MagJS to do the DOM bindings:
+
+```js
+mag.module("tickets", Tickets, defaultProps)
+```
+
+Try it on JSBIN:
+[Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output)
+
   
 #### Attributes
 _html, _text, _on[EVENT], _config->context.onunload
