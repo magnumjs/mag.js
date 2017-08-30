@@ -33,7 +33,7 @@
 
 [Limit number of characters in fields](http://jsbin.com/sabefizuxi/edit?html,js,output)
 
-[Movie ticket quantity selection](http://jsbin.com/ciyucapazi/edit?html,output)
+[Movie ticket quantity selection](http://jsbin.com/moxepehuce/edit?js,output)
 
 *Components*
 
