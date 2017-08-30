@@ -935,7 +935,7 @@ mag.module("tickets", Tickets, defaultProps)
 ```
 
 Try it on JSBin:
-[Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output)
+[Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output) - [Nested math input](http://jsbin.com/nogupefuga/edit?js,output)
 
   
 #### Attributes
