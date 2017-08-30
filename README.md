@@ -845,12 +845,12 @@ Will render
 [Try it on JSBin](http://jsbin.com/coyemiwupu/edit?html,output)
 
 
-**Data binding List with user input
+**Data binding List with user input**
 
 This is the power and intuitive nature of MagJS.
-This is what allows for effortless an rapid html template prototyping.
+This is what allows for effortless and rapid HTML template prototyping.
 
-With a minimal amount of code and a single row html template we can create a dynamic data table list that automatically stays up to date with dynamic values such as user input.
+With a minimal amount of code and a single row HTML template we can create a dynamic data table list that automatically stays up to date with dynamic values such as user input.
 
 We start with our pure HTML template:
 
@@ -902,11 +902,11 @@ var defaultProps = {
 }
 ``
 
-Where this data comes from or how it is loaded does not effect MagJS in any way. It can async, iframe, web service, push, io sockets etc...
+Where this data comes from or how it is loaded does not effect MagJS in any way. It can be async, iframe, web service, push, io sockets etc...
 
-Normally we would mutate the data in some way through the native Array.map function to return a new Array that i bound by MagJS to our HTML template. In this example we are showing how that is not necessary.
+Normally we would mutate the data in some way through the native Array.map function to return a new Array that is bound by MagJS to our HTML template. In this example we are showing how that is not necessary.
 
-Next we create our module. 
+Next, we create our module. 
 
 ```js
 var Tickets = {}
@@ -919,7 +919,7 @@ Tickets.controller = function(props) {
 Tickets.view = function(state, props) {
 
   state.$quantity = {
-    _oninput: function(event, index, node, data) {
+    _onInput: function(event, index, node, data) {
       state.ticketTypeRow[data.index].total = state.ticketTypeRow[data.index].quantity * state.ticketTypeRow[data.index].pricePerTicket
     }
   }
@@ -934,7 +934,7 @@ Lastly we will now load the module for MagJS to do the DOM bindings:
 mag.module("tickets", Tickets, defaultProps)
 ```
 
-Try it on JSBIN:
+Try it on JSBin:
 [Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output)
 
   
