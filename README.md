@@ -871,7 +871,7 @@ We start with our pure HTML template:
           </td>
           <td class="equals">= $</td>
           <td class="rowTotal">
-            <input name="total" type="text" style="border:0px" class="sub" size="8" readonly="readonly" tabindex="-1" value="0.00">
+            <input name="total" size="8" readonly="readonly" tabindex="-1" value="0.00">
           </td>
         </tr>
       </tbody>
@@ -920,7 +920,8 @@ Tickets.view = function(state, props) {
 
   state.$quantity = {
     _onInput: function(event, index, node, data) {
-      state.ticketTypeRow[data.index].total = state.ticketTypeRow[data.index].quantity * state.ticketTypeRow[data.index].pricePerTicket
+      var total = state.ticketTypeRow[data.index].quantity * state.ticketTypeRow[data.index].pricePerTicket
+      state.ticketTypeRow[data.index].total = total
     }
   }
 }
@@ -935,7 +936,7 @@ mag.module("tickets", Tickets, defaultProps)
 ```
 
 Try it on JSBin:
-[Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output) - [Nested math input](http://jsbin.com/fuyijuleci/edit?js,output)
+[Movie ticket quantity selection](http://jsbin.com/wohovemaqa/edit?js,output) - [Nested math input](http://jsbin.com/nabaqawato/edit?js,output)
 
   
 #### Attributes
