@@ -900,7 +900,7 @@ var defaultProps = {
     pricePerTicket: 3.99
   }]
 }
-``
+```
 
 Where this data comes from or how it is loaded does not effect MagJS in any way. It can be async, iframe, web service, push, io sockets etc...
 
