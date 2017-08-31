@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.4
+MagJS v0.28.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -53,8 +53,19 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
   function findClosestId(node) {
-    if (node.id) return node
+    if (node.id && mag.utils.items.isItem(node.id)) return node
     if (node.parentNode) return findClosestId(node.parentNode)
+  }
+
+  function getPathTo4(node, scid) {
+    //TODO: stateless parents? scid?
+    if (node[MAGNUM] && node[MAGNUM].scid && !node[MAGNUM].pscid) {
+      scid = node;
+      //stateless parent
+    } else if (scid) {
+      return scid
+    }
+    if (node.parentNode) return getPathTo4(node.parentNode, scid)
   }
 
   function getPathTo3(element) {
@@ -63,9 +74,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       ix = element.parentNode && [].indexOf.call(element.parentNode.children, element);
 
     if (par) {
-      str += 'id("' + par.id + '")';
+      str += 'id("' + (par.id || par.tagName) + '")';
     }
     str += '/' + element.tagName + '[' + (ix + 1) + ']';
+
     return str;
   }
 
@@ -598,11 +610,20 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function createEventCall(node, fun) {
 
     var eventCall = function(fun, node, e) {
+      var xpath = getPathTo3(node);
+      var id = getPathId(xpath)
+      
+      if (!id) {
+        id = getPathTo4(node);
+      }
+      
+      var pfillId = fill.id;
+      fill.setId(id)
 
       var dataParent = findParentChild(node),
         path = dataParent && getPathTo2(dataParent),
         parentIndex = getPathIndex(path),
-        xpath = getPathTo3(node),
+        xpath = xpath,
         tagIndex = getPathIndex(xpath),
         parent = {
           path: path,
@@ -610,8 +631,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           data: ((dataParent || {})[MAGNUM] || []).dataPass,
           index: parentIndex
         }
-
-      var id = getPathId(xpath)
+      fill.setId(pfillId)
       var nodee = mag.doc.getElementById(id)
       var instanceId = mag.utils.items.getItem(id);
 
