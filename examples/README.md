@@ -59,6 +59,8 @@
 
 [Redux simple Todo](http://embed.plnkr.co/Og6OJL3buC8qYdoNLe8J/) - [Redux Todos](http://embed.plnkr.co/7uDNiWdmqdTsqZywOxWt/)
 
+[Mini-redux Modal Conductor](https://embed.plnkr.co/1yXPuZoxD36f2dcF67qh/)
+
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
 
 [Mag HTML Imports](http://embed.plnkr.co/2Yq1DJ6Ej4a8EjIHzJsQ/) - [Alternate html import call](http://embed.plnkr.co/CjL2eGQOD5SDaIqkY022/) - [Versatile options for HTML import](http://embed.plnkr.co/RkIZQMgD3RNS36YtixA6/)
