@@ -6,9 +6,9 @@
   example: http://jsbin.com/vonudoxabu/edit?js,console
   example2 : http://jsbin.com/wepulufeki/edit?js,console
   example3 : http://jsbin.com/kokeqikebo/edit?js,console
-  MagJS Implementation basic : http://embed.plnkr.co/hpeKxjnnT2BxGeZtcuRP/
-  MagJS Impl detailed : http://embed.plnkr.co/ngRhKORczy09F8bKyWc7/
-  MagJS Impl detailed w/middleware : http://embed.plnkr.co/yRdpOiIXHVlEPsjjlclh/
+  MagJS Implementation basic : http://embed.plnkr.co/UTRdwIXcwBPwuaRyHQnw/
+  MagJS Impl detailed : http://embed.plnkr.co/hr4GqhfQLVkSr8uzVfMh/
+  MagJS Impl detailed w/middleware : http://embed.plnkr.co/ZLEGlNkkMlPLkuRpkWrR/
   */
 
   'use strict';
