@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.5
+MagJS v0.28.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -82,13 +82,17 @@ License: MIT
       }
 
 
-      var now;
+      var now
       if (last[ckey] != mag.utils.toJsonString(props)) {
         try {
           now = mod(props);
           runId = node[MAGNUM].scid = ckey;
           last[ckey] = mag.utils.toJsonString(props)
           var pfillId = mag.fill.id
+          //TODO: find parent
+          if(pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid){
+            node[MAGNUM].pscid = pfillId[MAGNUM].scid
+          }
           mag.fill.setId(node)
           mag.fill.run(node, now);
         } finally {
@@ -414,9 +418,9 @@ License: MIT
 
 
       //TODO: add key when props key not used?
-      // if (cloners[id] && !props2.key && !~a._id) {
-      //   id += ++inc;
-      // }
+      if (cloners[id] && !props2.key && !~a._id) {
+        id += ++inc;
+      }
 
 
       var cloner = cloners[id] = cloners[id] || node.cloneNode(1);
