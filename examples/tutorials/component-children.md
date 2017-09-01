@@ -88,7 +88,7 @@ const App = mag("App", (props) => ({
 
 What about effecting the state of the children from the original parent?
 
-Firs the parent:
+First the parent:
 
 ```js
 var CommentList = mag('CommentList', {
