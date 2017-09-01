@@ -65,7 +65,7 @@ mag.module("app", {
 
 ## Stateless Component Children
 
-You might be wondeirng what about stateless components, the ones defined by a function `mag(Node, Function)`, don't they get any children?
+You might be wondering what about stateless components, the ones defined by a function `mag(Node, Function)`, don't they get any children?
 
 ```js
 //Component:
@@ -83,3 +83,38 @@ const App = mag("App", (props) => ({
 ```
 
 [Try it on JSBin](http://jsbin.com/dekicebiwo/edit?html,js,output)
+
+##Statefull Component Children
+
+What about effecting the state of the children from the original parent?
+
+Firs the parent:
+
+```js
+var CommentList = mag('CommentList', {
+  controller: function() {
+    this.$button = {
+      _onClick: (e) => {
+        e.target.classList.toggle("toggle")
+      }
+    }
+  },
+  view: function(state, props) {
+    state.commentList = props.data.map(item => Comment(item))
+  }
+})
+```
+
+Now the Children:
+
+```js
+var Comment = mag.create('Comment', {
+  view: function(state, props) {
+    state.commentAuthor = props.author
+    state.span = props.text
+    state.children = props.children
+  }
+})
+```
+
+[Try it on JSBin](http://jsbin.com/kamabumevo/edit?js,output)
