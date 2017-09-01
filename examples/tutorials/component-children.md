@@ -82,7 +82,7 @@ const App = mag("App", (props) => ({
 }))
 ```
 
-[Try it on JSBin](http://jsbin.com/dekicebiwo/edit?html,js,output)
+[Try it on JSBin](http://jsbin.com/dekicebiwo/edit?html,js,output) - [Without keys (mag.create)](http://jsbin.com/yolewexabo/edit?js,output)
 
 ## Statefull Component Children
 
