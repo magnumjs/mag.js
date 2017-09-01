@@ -84,7 +84,7 @@ const App = mag("App", (props) => ({
 
 [Try it on JSBin](http://jsbin.com/dekicebiwo/edit?html,js,output)
 
-##Statefull Component Children
+## Statefull Component Children
 
 What about effecting the state of the children from the original parent?
 
