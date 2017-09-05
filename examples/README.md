@@ -59,7 +59,7 @@
 
 [Redux simple Todo](http://embed.plnkr.co/Og6OJL3buC8qYdoNLe8J/) - [Redux Todos](http://embed.plnkr.co/7uDNiWdmqdTsqZywOxWt/)
 
-[Mini-redux Modal Conductor](https://embed.plnkr.co/1yXPuZoxD36f2dcF67qh/)
+[Mini-redux Modal Conductor](https://embed.plnkr.co/1yXPuZoxD36f2dcF67qh/) - [With mag.template](https://embed.plnkr.co/vbbC9ToRIw1YLl7gwmPD/)
 
 [Mag Redux remote data source](http://embed.plnkr.co/qGE7cMapvUTiVAwChzPj/)
 
