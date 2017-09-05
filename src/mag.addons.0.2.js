@@ -9,27 +9,34 @@ Requires: MagJS (core) Addons: Ajax , Router
 
   'use strict';
   //Create wrapper for function call to mag() with over riding default props	
-  var funRet = mod =>  props => (index, p) => {
-      props = props || {}
-      props.key = props.key ? index + '.' + props.key : index 
-      return mod(props)
-    }
+  var funRet = mod => props => (index, p) => {
+    props = props || {}
+    props.key = props.key ? index + '.' + props.key : index
+    return mod(props)
+  }
 
   //wrapper to generate keys
-  mag.create = function(idOrNode, moduleDefinition, defaultProps){
+  mag.create = function(idOrNode, moduleDefinition, defaultProps) {
 
-    if(typeof moduleDefinition =='function'){
+    if (typeof moduleDefinition == 'function') {
       var mod = mag(idOrNode, moduleDefinition, defaultProps)
       return funRet(mod)
-    } else 
+    } else
 
-    if(typeof idOrNode == 'function'){
+    if (typeof idOrNode == 'function') {
       // mag
       return funRet(idOrNode)
     } else {
-        // mag.module 
-         //Create wrapper for function call to mag.module with over riding default props	
-        return props => mag.module(idOrNode, moduleDefinition, mag.merge(mag.copy(defaultProps) || {}, mag.copy(props) || {})) 
+      // mag.module 
+      //Create wrapper for function call to mag.module with over riding default props
+
+      return (id2, props2) => {
+        if (typeof id2 !== 'string' && !mag.utils.isHTMLEle(id2)) {
+          props2 = id2
+          id2 = 0
+        }
+        return mag.module(id2 || idOrNode, moduleDefinition, mag.merge(mag.copy(defaultProps) || {}, mag.copy(props2) || {}))
+      }
     }
   }
 
