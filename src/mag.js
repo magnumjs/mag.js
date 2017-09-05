@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.6
+MagJS v0.28.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -408,7 +408,7 @@ License: MIT
         index = 0;
       }
 
-      if (ids < 0) {
+      if (ids < 0 && !index) {
         index = 1
       }
 
