@@ -5,6 +5,8 @@ Components are versatile tools to organize code and can be used in a variety of 
 ### Want to skip all this and just see the source?
 [JSBIn example](http://jsbin.com/luhipixipe/edit)
 
+**UPDATED:** This tutorial is of an older version here is a [working example in the latest version](http://jsbin.com/rojehuzihi/edit?js,output)
+
 First we have our html that we will be using:
 
 ```html
