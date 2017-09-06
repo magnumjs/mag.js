@@ -1,3 +1,10 @@
+/*
+Author: Michael Glazer
+Homepage: https://github.com/magnumjs/mag.js
+License MIT
+(c) 2017
+*/
+
 var createStore = function(intialState, reducer) {
   var currentState = intialState;
   var currentReducer = reducer;
