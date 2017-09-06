@@ -78,7 +78,7 @@ var Component = {
 }
 ```
 Just define the default value of the selector to bind.
-- [Example](http://jsbin.com/xofinojedo/edit?js,output) - [Checkbox](http://jsbin.com/mabawamuge/edit?js,output) - [Concatenate](http://jsbin.com/qezanufoje/edit?js,output)
+- [Example](http://jsbin.com/xofinojedo/edit?js,output) - [Checkbox](http://jsbin.com/mabawamuge/edit?js,output)
 - [Greedy selector](http://jsbin.com/fejagatuha/edit?js,output) 
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
@@ -228,6 +228,8 @@ mag.module("hello", {
 [Todos](http://jsbin.com/mijixinuxu/edit?js,output) [Take2](http://jsbin.com/pexigilofo/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output) - [v0.24](http://jsbin.com/votisiwire/edit?html,output)
 
 *Todos*
+
+[Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
 [Todo Proxy](http://jsbin.com/jotapujeho/edit?js,output)
 
