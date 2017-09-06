@@ -163,6 +163,10 @@ mag.module("hello", {
 
 *Forms*
 
+[Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
+
+[Dynamic Radio Group](http://jsbin.com/tiwovujari/edit)
+
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
 [Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/mosagojopa/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/nogupefuga/edit?js,output)
 
@@ -228,8 +232,6 @@ mag.module("hello", {
 [Todos](http://jsbin.com/mijixinuxu/edit?js,output) [Take2](http://jsbin.com/pexigilofo/edit?js,output) - [Take3](http://jsbin.com/yutedisesa/edit?html,js,output) - [Simple v0.2](http://jsbin.com/cehukabesi/edit?js,output) - [Simple v0.2 component](http://jsbin.com/tumupipede/edit?js,output), [Take2](http://jsbin.com/detehosene/edit?js,output) - [v0.24](http://jsbin.com/votisiwire/edit?html,output)
 
 *Todos*
-
-[Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
 [Todo Proxy](http://jsbin.com/jotapujeho/edit?js,output)
 
