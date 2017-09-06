@@ -165,7 +165,7 @@ mag.module("hello", {
 
 [Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
-[Dynamic Radio Group](http://jsbin.com/coqigipaco/edit) - [Pre-selected](http://jsbin.com/bilerucugu/edit?js,output)
+[Dynamic Radio Group](http://jsbin.com/coqigipaco/edit) - [Pre-selected](http://jsbin.com/piyoruqido/edit?js,output)
 
 [Basic Math: addition](http://jsbin.com/hejujixumi/edit?html,js,output) - 
 [Basic Math: addition (no auto binding)](http://jsbin.com/cenuvozofa/edit?html,js,output) -  [Take 3](http://jsbin.com/dajewaqule/edit?js,output) - [Take 4](http://jsbin.com/gabumocijo/edit?html,js,output) - [V0.12 auto wiring](http://jsbin.com/mosagojopa/edit?html,js,output) - [Video tutorial](http://youtu.be/OIXfxZ3DSC8) - [Nested data auto wiring](http://jsbin.com/nogupefuga/edit?js,output)
