@@ -9,6 +9,8 @@
 
 [Invoice table form](https://codepen.io/anon/pen/gxGzMZ?editors=0010)
 
+[Tabbed Component of Components](https://embed.plnkr.co/yprKr4yWC8wRPaQx1PUI/)
+
 *Templating*
 
 [Product search - filter example](http://jsbin.com/decahikihu/edit?html,js,output)
