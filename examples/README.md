@@ -11,7 +11,7 @@
 
 [Tabbed Component of Components](https://embed.plnkr.co/yprKr4yWC8wRPaQx1PUI/)
 
-[Drag & Drop](http://jsbin.com/mudusidige/edit?js,output) - [Mobile/touch support](http://jsbin.com/gicogimuho/edit?js,output) -  [Mobile/Touch polyfill](http://jsbin.com/juxubavefa/edit?js,output)
+[Drag & Drop](http://jsbin.com/mudusidige/edit?js,output) - [Mobile/touch support](http://jsbin.com/jerelilelu/edit?js,output) -  [Mobile/Touch polyfill](http://jsbin.com/koqahaboko/edit?js,output)
 
 *Templating*
 
