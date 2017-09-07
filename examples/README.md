@@ -11,6 +11,8 @@
 
 [Tabbed Component of Components](https://embed.plnkr.co/yprKr4yWC8wRPaQx1PUI/)
 
+[Drag & Drop](http://jsbin.com/mudusidige/edit?js,output)
+
 *Templating*
 
 [Product search - filter example](http://jsbin.com/decahikihu/edit?html,js,output)
