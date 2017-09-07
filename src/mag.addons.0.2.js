@@ -342,10 +342,12 @@ will show and hide all ''.loader' elements in transition
   }
 
 
-  // TODO: change to mag.find
   // find a MagJS element Matcher
   mag.find = function(parentRootId, selector) {
-    var parent = document.getElementById(parentRootId);
+	  var parent = parentRootId
+	  if(typeof parentRootId == 'string'){
+     		parent = mag.getNode(parentRootId);
+	  } 
     return mag.fill.find(parent, selector)
   }
 
