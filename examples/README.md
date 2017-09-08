@@ -15,27 +15,27 @@
 
 *Templating*
 
-[Product search - filter example](http://jsbin.com/decahikihu/edit?html,js,output)
+[Product search - filter example](http://jsbin.com/decahikihu/edit?js,output)
 
-[Show/Hide component example](http://jsbin.com/bipiyivudi/edit?html,js,output)
+[Show/Hide component example](http://jsbin.com/bipiyivudi/edit?js,output)
 
 [Disable field AddOn](http://jsbin.com/hidimomezu/edit?js,output) - [As Existing Object](http://jsbin.com/ziritohiqi/edit?js,output)
 
-[Birthday countdown](http://jsbin.com/zipamoziya/edit?html,js,output)
+[Birthday countdown](http://jsbin.com/zipamoziya/edit?js,output) - [Latest](http://jsbin.com/ruvewiwawe/edit?js,output)
 
-[Inner Modules swapping](http://jsbin.com/batajoqiya/edit?html,js,output) - [Take2](http://jsbin.com/gicugisuha/edit?html,js,output)
+[Inner Modules swapping](http://jsbin.com/batajoqiya/edit?js,output) - [Take2](http://jsbin.com/gicugisuha/edit?js,output)
 
 [Rot13 encoder app](http://embed.plnkr.co/pgex5sa3czk3TsPbjqP2/preview)
 
-[TabList](http://jsbin.com/woqiriheqi/edit?html,js,output)
+[TabList](http://jsbin.com/woqiriheqi/edit?js,output)
 
-[Form select menu and table](http://jsbin.com/bokiqebezo/edit?html,js,output)
+[Form select menu and table](http://jsbin.com/bokiqebezo/edit?js,output)
 
-[Form field validation](http://jsbin.com/kohomupuhu/edit?html,js,output)
+[Form field validation](http://jsbin.com/kohomupuhu/edit?js,output)
 
 [Field length limit onload](http://jsbin.com/yuromoviko/edit?html,output) - [v0.23](http://jsbin.com/deyabakiso/edit?html,output)
 
-[Limit number of characters in fields](http://jsbin.com/sabefizuxi/edit?html,js,output)
+[Limit number of characters in fields](http://jsbin.com/sabefizuxi/edit?js,output)
 
 [Movie ticket quantity selection](http://jsbin.com/moxepehuce/edit?js,output)
 
