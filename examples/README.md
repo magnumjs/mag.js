@@ -13,7 +13,7 @@
 
 [Drag & Drop](http://jsbin.com/barasiziyo/edit?js,output) - [Mobile/touch support](http://jsbin.com/nonujufaxo/edit?js,output) -  [Mobile/Touch shim](http://jsbin.com/koqahaboko/edit?js,output) - [Take2](http://jsbin.com/mudunahisi/edit?js,output)
 
-[Drag drop reorder list](http://jsbin.com/qukojokuco/edit?js,output)
+[Drag drop reorder list](http://jsbin.com/fedejafena/1/edit?js,output)
 
 *Templating*
 
