@@ -21,7 +21,7 @@
 
 [Disable field AddOn](http://jsbin.com/hidimomezu/edit?js,output) - [As Existing Object](http://jsbin.com/ziritohiqi/edit?js,output)
 
-[Birthday countdown](http://jsbin.com/zipamoziya/edit?js,output) - [Latest](http://jsbin.com/ruvewiwawe/edit?js,output)
+[Birthday countdown](http://jsbin.com/zipamoziya/edit?js,output) - [Latest](http://jsbin.com/sozazezire/edit?js,output)
 
 [Inner Modules swapping](http://jsbin.com/batajoqiya/edit?js,output) - [Take2](http://jsbin.com/gicugisuha/edit?js,output)
 
