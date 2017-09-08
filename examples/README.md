@@ -5,13 +5,15 @@
 [Application structure, nested components, web services, animation, promises...](https://embed.plnkr.co/lawb4eZtZCb7Lz21Jqqz/) - 
 [Multiple Modules App](https://embed.plnkr.co/D7HEtJYqTdGmF4hIwL2W/)
 
-*Tables & Forms*
+*Tables, Lists & Forms*
 
 [Invoice table form](https://codepen.io/anon/pen/gxGzMZ?editors=0010)
 
 [Tabbed Component of Components](https://embed.plnkr.co/yprKr4yWC8wRPaQx1PUI/)
 
 [Drag & Drop](http://jsbin.com/barasiziyo/edit?js,output) - [Mobile/touch support](http://jsbin.com/nonujufaxo/edit?js,output) -  [Mobile/Touch shim](http://jsbin.com/koqahaboko/edit?js,output) - [Take2](http://jsbin.com/mudunahisi/edit?js,output)
+
+[Drag drop reorder list](http://jsbin.com/qukojokuco/edit?js,output)
 
 *Templating*
 
