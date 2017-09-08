@@ -35,7 +35,7 @@
 
 [Field length limit onload](http://jsbin.com/yuromoviko/edit?html,output) - [v0.23](http://jsbin.com/deyabakiso/edit?html,output)
 
-[Limit number of characters in fields](http://jsbin.com/sabefizuxi/edit?js,output)
+[Limit number of characters in fields](http://jsbin.com/sabefizuxi/edit?js,output) - [Latest](http://jsbin.com/wijagesuzu/edit?js,output)
 
 [Movie ticket quantity selection](http://jsbin.com/moxepehuce/edit?js,output)
 
