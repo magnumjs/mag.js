@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.5
+MagJS v0.28.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -34,8 +34,9 @@ License: MIT
   mod.setProps = function(index, props) {
     return modules[index][2] = props
   }
-  mod.remove = function(index) {
-    modules.splice(index, 1)
+  mod.remove = function(key) {
+    //remove mod completely
+    if (modules[key]) modules[key] = 0
   }
   mod.getId = function(index) {
     return modules[index] && modules[index][3]
@@ -279,11 +280,6 @@ License: MIT
       return true
     }
     mod.cache[key] = data;
-  }
-
-  mod.remove = function(key) {
-    //remove mod completely
-    if (modules[key]) modules[key] = 0
   }
 
   mod.clear = function(key) {
