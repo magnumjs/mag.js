@@ -104,6 +104,7 @@ License: MIT
       return node;
     }
     a.id = ++inc;
+    a.clone = clone;
     return a;
   }
 
