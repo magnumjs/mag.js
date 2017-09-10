@@ -163,7 +163,7 @@ mag.module("hello", {
 
 *Forms*
 
-[Select menu](http://jsbin.com/zubihuqavu/edit?js,output)
+[Select menu](http://jsbin.com/bepevufiju/edit?js,output)
 
 [Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
