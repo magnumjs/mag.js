@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.6
+MagJS v0.28.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -612,11 +612,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var eventCall = function(fun, node, e) {
       var xpath = getPathTo3(node);
       var id = getPathId(xpath)
-      
+
       if (!id) {
         id = getPathTo4(node);
       }
-      
+
       var pfillId = fill.id;
       fill.setId(id)
 
@@ -761,9 +761,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           // remove property too or just attribute?
           node.removeAttribute(attrName)
         } else {
+          if (attrName == 'value' && node.multiple && node.selectedOptions && Array.isArray(attributes[attrName])) {
+            //TODO: case multiple select
+            node.value = attributes[attrName]
 
+            attributes[attrName].forEach(function(v) {
+              Array.from(node.options).find(c => c.value == v).selected = true;
+            })
+          }
           // separate property vs attribute?
-          if (attrName in node) {
+          else if (attrName in node) {
             if (attrName == 'style') node[attrName].cssText = attributes[attrName]
             else node[attrName] = attributes[attrName];
           } else {
@@ -834,6 +841,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
 
     if (node.nodeName === 'SELECT' && val) {
+      //TODO: array of things for "multiple" select
       node.value = val;
     }
 
