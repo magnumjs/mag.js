@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.8
+MagJS v0.28.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -165,8 +165,10 @@ License: MIT
                 }
               }
             } else {
+              var vals = item.multiple && [].map.call(item.selectedOptions, x => x.value)
+
               i = {
-                _value: item.value
+                _value: vals || item.value
               };
             }
           }
@@ -238,10 +240,10 @@ License: MIT
 
       var res = findMissing(change, fnode ? fnode : rootNode);
 
-      if (res!=null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
+      if (res != null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
-      if (res!=null && typeof res != 'undefined') {
+      if (res != null && typeof res != 'undefined') {
         mod.cached[index] = 0;
         return res;
       }
