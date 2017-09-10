@@ -9,6 +9,7 @@ License: MIT
   'use strict';
 
   var prop = {},
+    _VALUE = '_value',
     MAGNUM = mag.MAGNUM;
 
 
@@ -91,17 +92,17 @@ License: MIT
           this[MAGNUM].dirty = 1
         }
 
-
-        var vals = [].map.call(founder.selectedOptions, x => x.value)
-
+        if (founder.selectedOptions) {
+          var vals = [].map.call(founder.selectedOptions, x => x.value)
+        }
         if (check) {
-          if ('_checked' in obj || '_value' in obj) {
+          if ('_checked' in obj || _VALUE in obj) {
             obj['_checked'] = this.checked;
           } else if (this.checked) {
             obj[k] = this.value;
           }
-        } else if (obj._value !== undefined) {
-          obj._value = vals || this.value;
+        } else if (obj[_VALUE] !== undefined) {
+          obj[_VALUE] = vals || this.value;
         } else if (obj._text !== undefined) {
           obj._text = vals || this.value;
         }
@@ -133,11 +134,11 @@ License: MIT
 
   var attacher = function(i, k, obj, element) {
     var oval = obj[k];
-    
-    // if k =='_value' use parent
-    if (~['_value', '_checked', '_text'].indexOf(k) && typeof i == 'string'){
+
+    // if k =='VALUE' use parent
+    if (~[_VALUE, '_checked', '_text'].indexOf(k) && typeof i == 'string') {
       k = i.split('.').pop();
-    } 
+    }
 
 
     // only for user input fields
@@ -184,9 +185,9 @@ License: MIT
       if (args.hasOwnProperty(k)) {
         var value = args[k]
 
-        if (typeof value === 'object' && !mag.utils.isHTMLEle(value)) {
+        if (k != _VALUE && typeof value === 'object' && !mag.utils.isHTMLEle(value)) {
           if (mag.utils.isObject(value) && mag.utils.isEmpty(value)) {
-            value._value = ''
+            value[_VALUE] = ''
           }
           // recurse
           attachToArgs(i + '.' + k, value, element);
