@@ -165,6 +165,8 @@ mag.module("hello", {
 
 [Select menu](http://jsbin.com/bepevufiju/edit?js,output) - [Linked menus](http://jsbin.com/diwutumexe/edit?js,output)
 
+[Multiple Radio selection](http://jsbin.com/purozumise/edit?html,js,output)
+
 [Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
 [Dynamic Radio Group](http://jsbin.com/coqigipaco/edit) - [Pre-selected](http://jsbin.com/piyoruqido/edit?js,output) - [Static group](https://codepen.io/anon/pen/brygKV?editors=0010) - [MagJS Radio Button / Pads](https://codepen.io/anon/pen/LjojQP?editors=0010)
