@@ -165,7 +165,7 @@ mag.module("hello", {
 
 [Select menu](http://jsbin.com/bepevufiju/edit?js,output) - [Linked menus](http://jsbin.com/diwutumexe/edit?js,output)
 
-[Multiple Radio selection](http://jsbin.com/pegokexiya/edit?html,js,output) - [Multiple Select Menu](http://jsbin.com/pirameconi/edit?js,output)
+[Multiple Radio selection](http://jsbin.com/pegokexiya/edit?html,js,output) - [Multiple Select Menu](http://jsbin.com/lifomafovi/edit?js,output)
 
 [Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
