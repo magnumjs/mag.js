@@ -79,7 +79,7 @@ var Component = {
 ```
 Just define the default value of the selector to bind.
 - [Input](http://jsbin.com/jukeditofu/edit?js,output) - [Checkbox](http://jsbin.com/mabawamuge/edit?js,output) - [Radio](http://jsbin.com/jikopenoho/edit?js,output) - [Select](http://jsbin.com/mepadanuso/edit?js,output) - [Multiple](http://jsbin.com/fisutemane/edit?js,output)
-- [Greedy selector](http://jsbin.com/fejagatuha/edit?js,output) 
+- [Greedy selector](http://jsbin.com/lelunegoqi/edit?js,output) 
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
 
