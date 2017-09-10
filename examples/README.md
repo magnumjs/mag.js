@@ -61,6 +61,8 @@
 
 *Advanced*
 
+[es6 Module](http://embed.plnkr.co/5loSAI1TgMq08oPwSKSi/)
+
 [Redux simple](http://embed.plnkr.co/FEPbjd8OOUjINI07TwcY/) - [Redux Simple w/Mag reduxConnect](http://embed.plnkr.co/OZwx103Z9EFjtm5GCyfP/) - [ActionCreator map](http://embed.plnkr.co/woxRWVYqN4kAhEPl6DXR/)
 
 [Redux simple Todo](http://embed.plnkr.co/Og6OJL3buC8qYdoNLe8J/) - [Redux Todos](http://embed.plnkr.co/7uDNiWdmqdTsqZywOxWt/)
