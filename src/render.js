@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.1
+MagJS v0.28.9
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -91,6 +91,9 @@ License: MIT
           this[MAGNUM].dirty = 1
         }
 
+
+        var vals = [].map.call(founder.selectedOptions, x => x.value)
+
         if (check) {
           if ('_checked' in obj || '_value' in obj) {
             obj['_checked'] = this.checked;
@@ -98,9 +101,9 @@ License: MIT
             obj[k] = this.value;
           }
         } else if (obj._value !== undefined) {
-          obj._value = this.value;
+          obj._value = vals || this.value;
         } else if (obj._text !== undefined) {
-          obj._text = this.value;
+          obj._text = vals || this.value;
         }
         mag.redraw(parent, mag.utils.items.getItem(parent.id));
 
