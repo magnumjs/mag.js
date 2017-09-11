@@ -82,6 +82,7 @@ Just define the default value of the selector to bind.
 - [Greedy selector](http://jsbin.com/tatanedose/edit?js,output) 
 - [Multiple fields](http://jsbin.com/vixupukefo/edit?js,output) 
 - [Hookin attribute](http://jsbin.com/gosusitara/edit?html,output)
+- [Delete Element](http://jsbin.com/fikamayoki/edit?js,output) - [Remove & Reattach](http://jsbin.com/coguxeyuna/edit?js,output)
 
 ## Tutorials
 
