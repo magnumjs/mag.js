@@ -110,9 +110,10 @@ License: MIT
 
       }.bind(founder, parentElement, obj, k);
 
-      founder.addEventListener("click", onit, false);
-      founder.addEventListener("input", onit, false);
-      founder.addEventListener("focus", onit, false);
+      founder.addEventListener("click", onit);
+      founder.addEventListener("input", onit);
+      founder.addEventListener("change", onit);
+      founder.addEventListener("focus", onit);
 
       founder[MAGNUM].eventOnFocus = 1;
     }
