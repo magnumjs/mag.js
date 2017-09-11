@@ -169,7 +169,7 @@ mag.module("hello", {
 
 [Transform Input - Concatenate](http://jsbin.com/qezanufoje/edit?js,output) - [To Upper Case](http://jsbin.com/huruditosu/edit?js,output)
 
-[Slider](http://jsbin.com/qejijurumu/edit?js,output) - [Textarea](http://jsbin.com/retojulani/edit?js,output)
+[Slider](http://jsbin.com/qejijurumu/edit?js,output) - [Textarea](http://jsbin.com/retojulani/edit?js,output) - [Remove elements temporarily](http://jsbin.com/gozunesuhi/edit?js,output)
 
 [Dynamic Radio Group](http://jsbin.com/coqigipaco/edit) - [Pre-selected](http://jsbin.com/piyoruqido/edit?js,output) - [Static group](https://codepen.io/anon/pen/brygKV?editors=0010) - [MagJS Radio Button / Pads](https://codepen.io/anon/pen/LjojQP?editors=0010)
 
