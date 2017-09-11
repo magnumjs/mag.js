@@ -160,7 +160,7 @@ WelcomeComp();
 - [Pure rendering](http://jsbin.com/simikupayu/edit?html,output) 
 - [Toggle button deeply nested](https://codepen.io/anon/pen/XaeWYd?editors=1010)
 - [Async nested components](http://jsbin.com/becucovasa/edit?html,output)
-- [Fadein FadeOut](http://jsbin.com/sogecujeta/edit?html,output)
+- [Fadein FadeOut](http://jsbin.com/tuzenusaka/edit?html,output)
 
 *Composition*
 
