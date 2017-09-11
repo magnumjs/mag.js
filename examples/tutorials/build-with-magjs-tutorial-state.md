@@ -27,7 +27,7 @@ mag(
   CowClicker
 )();
 ```
-[Try it on JSBin](http://jsbin.com/lumapofufo/edit?js,output) - [without bind] (http://jsbin.com/juwozogufu/edit?js,output)
+[Try it on JSBin](http://jsbin.com/lumapofufo/edit?js,output) - [without bind](http://jsbin.com/juwozogufu/edit?js,output)
 
 
 ## API
