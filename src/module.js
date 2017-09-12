@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.9
+MagJS v0.29.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -29,7 +29,7 @@ License: MIT
     return modules[index][0]
   }
   mod.getProps = function(index) {
-    return modules[index][2]
+    return modules[index] && modules[index][2]
   }
   mod.setProps = function(index, props) {
     return modules[index][2] = props
@@ -240,10 +240,10 @@ License: MIT
 
       var res = findMissing(change, fnode ? fnode : rootNode);
 
-      if (res != null && typeof res != 'undefined' && typeof res == 'object' && change.object) {
+      if (res !== null && typeof res == 'object' && change.object) {
         mag.utils.merge(res, change.object[change.name]);
       }
-      if (res != null && typeof res != 'undefined') {
+      if (res) {
         mod.cached[index] = 0;
         return res;
       }
@@ -269,15 +269,15 @@ License: MIT
 
   function getController(ctrl, index, id) {
 
-    mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
+    //mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
 
-    var controller = new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
+    return new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
 
-    return controller;
   }
 
   mod.iscached = function(key) {
-    var data = mag.utils.toJsonString(mag.utils.merge(mag.utils.copy(mod.getProps(key)), mod.getState(key)));
+    //TODO: shallow equals
+    var data = mag.utils.toJsonString([mod.getProps(key), mod.getState(key)])
     if (key in mod.cache && mod.cache[key] == data) {
       return true
     }
