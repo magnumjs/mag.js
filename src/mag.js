@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.7
+MagJS v0.29.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -81,7 +81,8 @@ License: MIT
         props.children = mag._cprops[ckey];
       }
 
-
+      a.props = props
+      a.key = key
       var now
       if (last[ckey] != mag.utils.toJsonString(props)) {
         try {
@@ -104,7 +105,8 @@ License: MIT
       return node;
     }
     a.id = ++inc;
-    a.clone = clone;
+    a.element = clone;
+
     return a;
   }
 
@@ -357,7 +359,7 @@ License: MIT
     // call handler on each new change to state or props
     mag.utils.onLCEvent('didupdate', ids, function(state, props) {
 
-      var current = mag.utils.merge(mag.utils.copy(props), mag.utils.copy(state));
+      var current = [mag.utils.copy(props), mag.utils.copy(state)]
 
       if (mag.utils.toJsonString(current) != mag.utils.toJsonString(prevState[ids])) {
         for (var handle of handlers[ids]) {
@@ -378,6 +380,8 @@ License: MIT
     var ids = mag.utils.items.getItem(id);
     id = mag._isNode(cloner);
 
+    var prev = mag.utils.toJsonString(mag.mod.getProps(ids))
+
     didloader(ids, cloner)
 
     if (mag.mod.exists(ids)) {
@@ -386,6 +390,11 @@ License: MIT
 
     mag.mod.submodule(cloner.id, ids, mod, props2);
 
+
+    //attach props to the clone
+    if(prev!=mag.utils.toJsonString(mag.mod.getProps(ids))){
+      clear=1
+    }
 
     observer(ids, cloner.id)
 
@@ -430,7 +439,7 @@ License: MIT
       if (mag.utils.items.isItem(id)) {
         // call redraw on 
         // get unique instance ID's module
-        run(cloner, id, props2, mod, 1);
+        run(cloner, id, props2, mod)
         return cloner;
       }
 
@@ -449,7 +458,7 @@ License: MIT
       }
 
       // get unique instance ID's module
-      run(cloner, id, props2, mod, 1)
+      run(cloner, id, props2, mod)
       return cloner;
 
     }.bind({}, idInstance, node, mod, props)
