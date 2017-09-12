@@ -55,13 +55,13 @@ var ListComponent = mag('ListComponent', {
 
 
 mag.module("app", {
-  controller: function(props) {
-    this.ListComponentInst = ListComponent();
+  view: function(state) {
+    state.ListComponentInst = ListComponent();
   }
 });
 ```
 
-[Try it on JSBin](http://jsbin.com/powinofune/edit?js,output)
+[Try it on JSBin](http://jsbin.com/gukasomuxo/edit?js,output)
 
 ## Stateless Component Children
 
