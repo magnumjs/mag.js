@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.9
+MagJS v0.29.1
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -848,10 +848,29 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
 
-  function setHtml(node, html) {
+   function setHtml(node, html) {
+
+    var out = '';
+    if (Array.isArray(html)) {
+      
+      for (var k in html) {
+        if(isCached(html[k], html[k].outerHTML)) continue;
+        if(node.children[k]) node.replaceChild(html[k], node.children[k])
+        else node.appendChild(html[k])
+      }
+      
+      return;
+    } else if (mag.utils.isHTMLEle(html)) {
+      out = html.outerHTML
+      if(isCached(node, out)) return;
+      node.appendChild(html)
+      return
+    }
+
     if (!node || html == null || isCached(node, html)) return;
-    node.innerHTML = mag.utils.isHTMLEle(html) ? html.innerHTML : html
-  };
+
+    node.innerHTML = html
+  }
 
 
   //===========================================================================
