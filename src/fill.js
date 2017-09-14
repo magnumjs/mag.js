@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.1
+MagJS v0.29.2
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -77,7 +77,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       str += 'id("' + (par.id || par.tagName) + '")';
     }
     str += '/' + element.tagName + '[' + (ix + 1) + ']';
-
     return str;
   }
 
@@ -186,6 +185,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       }
 
+      var fragment = mag.doc.createDocumentFragment();
+
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
@@ -196,9 +197,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
 
         elements.push(node)
-        if (parent) parent.appendChild(node)
+        if (parent) fragment.appendChild(node)
       }
-      // loop thru to make sure no undefined keys
+      parent.appendChild(fragment)
+        // loop thru to make sure no undefined keys
 
       var keys = data.map(function(i) {
         return i && i[MAGNUM_KEY]
@@ -275,10 +277,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       // create element specific xpath string
       if (dataIsArray) {
         if (elements[i]) {
-          fill.run(elements[i], data[i])
+          fill.run(elements[i], data[i], i)
         }
       } else {
-        var p = getPathTo(elements[i])
+        var p = getPath(elements[i], (i + 1), key)
 
         if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY)) {
 
@@ -295,6 +297,14 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
+  function getPath(node, i, key) {
+    var uid = getUid(node)
+    var num = +key === +key ? i + key : i
+    var name = (typeof fill.id == 'object' ? fill.id.tagName : fill.id);
+    var extr = typeof key == 'string' ? key.split(name)[1] : ''
+    var p = name + extr + '/' + node.tagName + '[' + num + ']'
+    return p;
+  }
 
   function findParentChild(node) {
     if (node && node[MAGNUM] && node[MAGNUM].isChildOfArray) {
@@ -442,7 +452,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   var functionHandler = function(data, node, tagIndex, p) {
 
 
-    if (typeof fill.id != 'string' && !fill.id.id) {
+    if (typeof fill.id == 'object') {
       p = getPathTo2(node.parentNode) + p
     }
 
@@ -679,7 +689,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function makeEvent(event, attrName, node, parentKey) {
     var eventName = attrName.substr(2).toLowerCase();
-    var uid = (parentKey ? parentKey.split(')').pop() : '') + '-' + node[MAGNUM].uid;
+
+    var uid = (typeof parentKey == 'string' ? parentKey.split('/')[0] : '') + '-' + node[MAGNUM].uid;
     var events = node[MAGNUM].events = node[MAGNUM].events || []
     var eventHandlers = node[MAGNUM].eventHandlers = node[MAGNUM].eventHandlers || []
     eventHandlers[eventName] = eventHandlers[eventName] || []
@@ -848,21 +859,21 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   }
 
 
-   function setHtml(node, html) {
+  function setHtml(node, html) {
 
     var out = '';
     if (Array.isArray(html)) {
-      
+
       for (var k in html) {
-        if(isCached(html[k], html[k].outerHTML)) continue;
-        if(node.children[k]) node.replaceChild(html[k], node.children[k])
+        if (isCached(html[k], html[k].outerHTML)) continue;
+        if (node.children[k]) node.replaceChild(html[k], node.children[k])
         else node.appendChild(html[k])
       }
-      
+
       return;
     } else if (mag.utils.isHTMLEle(html)) {
       out = html.outerHTML
-      if(isCached(node, out)) return;
+      if (isCached(node, out)) return;
       node.appendChild(html)
       return
     }
@@ -976,7 +987,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       element.getAttribute('data-bind') === key
     );
   }
-
   fill.removeNode = removeNode;
   fill.configs = configs
   fill.find = matchingElements
