@@ -1130,7 +1130,7 @@ mag({templateUrl: 'template.html', view: ()});
 
 [Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/)
 
-[JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo) - [Latest](http://jsbin.com/wulajemuro/edit?output) - [Optimized](http://jsbin.com/suxijorivo/edit?output) - [Componentized](http://jsbin.com/zozufawila/edit?output)
+[JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo) - [Latest](http://jsbin.com/wulajemuro/edit?output) - [Optimized](http://jsbin.com/suxijorivo/edit?output) - [Componentized](https://embed.plnkr.co/9YqziG2OiF73cPbIYFfa/)
 
 [Dbmon Repaint rate](http://mathieuancelin.github.io/js-repaint-perfs/magjs/) - [v0.23](http://embed.plnkr.co/4wi2bXj2WxeUe27yoXOS/) -  [Latest](https://embed.plnkr.co/axjFPUXLqzATXFCMAtT5/)
 
