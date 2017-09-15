@@ -70,13 +70,14 @@ License: MIT
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-      if (mag.rafBounce || mag.rafBounceIds[id]) {
+     if (mag.rafBounce || mag.rafBounceIds[id] && fun) {
         if(scheduled[id]){
           prev[id]()
           cancelAnimationFrame(scheduled[id]);
         }
         prev[id] = resolve
         scheduled[id]=requestAnimationFrame(start => {
+          scheduled[id]=0
           fun();
           resolve();
         })
