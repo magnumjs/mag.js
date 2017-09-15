@@ -84,14 +84,14 @@ License: MIT
       a.props = props
       a.key = key
       var now
-      if (last[ckey] != mag.utils.toJsonString(props)) {
+      if (last[ckey] != mag.utils.toJson(props)) {
         try {
           now = mod(props);
           runId = node[MAGNUM].scid = ckey;
-          last[ckey] = mag.utils.toJsonString(props)
+          last[ckey] = mag.utils.toJson(props)
           var pfillId = mag.fill.id
-          //TODO: find parent
-          if(pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid){
+            //TODO: find parent
+          if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
             node[MAGNUM].pscid = pfillId[MAGNUM].scid
           }
           mag.fill.setId(node)
@@ -284,20 +284,12 @@ License: MIT
       //ENQUEUE
       //debounce
 
-      // cancelAnimationFrame(timers[idInstance]);
-      // return new Promise(function(resolve) {
-      //   timers[idInstance] = requestAnimationFrame(function() {
-      //     fun();
-      //     resolve();
-      //   });
-      // })
-
-
+      // console.time(node.id)
       //returns promise
       return mag.utils.scheduleFlush(idInstance, makeRedrawFun(node, idInstance, force))
-
-      //save frame id with the instance 
-      // then if instance already has frame id create new discard old or just retain old
+        // .then(() => console.timeEnd(node.id))
+        //save frame id with the instance 
+        // then if instance already has frame id create new discard old or just retain old
     }
   }
 
@@ -361,7 +353,7 @@ License: MIT
 
       var current = [mag.utils.copy(props), mag.utils.copy(state)]
 
-      if (mag.utils.toJsonString(current) != mag.utils.toJsonString(prevState[ids])) {
+      if (mag.utils.toJson(current) != mag.utils.toJson(prevState[ids])) {
         for (var handle of handlers[ids]) {
           handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
         }
@@ -380,7 +372,7 @@ License: MIT
     var ids = mag.utils.items.getItem(id);
     id = mag._isNode(cloner);
 
-    var prev = mag.utils.toJsonString(mag.mod.getProps(ids))
+    var prev = mag.utils.toJson(mag.mod.getProps(ids))
 
     didloader(ids, cloner)
 
@@ -392,8 +384,8 @@ License: MIT
 
 
     //attach props to the clone
-    if(prev!=mag.utils.toJsonString(mag.mod.getProps(ids))){
-      clear=1
+    if (prev != mag.utils.toJson(mag.mod.getProps(ids))) {
+      clear = 1
     }
 
     observer(ids, cloner.id)
