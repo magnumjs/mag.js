@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.2
+MagJS v0.29.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -39,14 +39,23 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function getPathTo(element, clear) {
     //add UID if does not exists
-    var uid = getUid(element, clear)
-    if (xpathCache[uid]) return xpathCache[uid]
-    else return xpathCache[uid] = getPathTo3(element)
+    var uid = getUid(element)
+    if (xpathCache[uid] && !clear) return xpathCache[uid]
+    else return xpathCache[uid] = getPathTo2(element)
   }
 
-  function isCached(element, data, clear) {
+
+  function getChildrenIndex(node) {
+    var i = 1;
+    while (node = node.previousElementSibling) {
+      ++i;
+    }
+    return i;
+  }
+
+  function isCached(element, data) {
     //add UID if does not exist
-    var uid = getUid(element, clear)
+    var uid = getUid(element)
     dataCache[fill.id] = dataCache[fill.id] || []
     if (dataCache[fill.id][uid] && dataCache[fill.id][uid] == data) return 1
     else dataCache[fill.id][uid] = data
@@ -71,16 +80,16 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function getPathTo3(element) {
     var str = '',
       par = findClosestId(element),
-      ix = element.parentNode && [].indexOf.call(element.parentNode.children, element);
+      ix = getChildrenIndex(element);
 
     if (par) {
       str += 'id("' + (par.id || par.tagName) + '")';
     }
-    str += '/' + element.tagName + '[' + (ix + 1) + ']';
+    str += '/' + element.tagName + '[' + ix + ']';
     return str;
   }
 
-  function getPathTo2(element) {
+  function getPathTo2(element, cached) {
     if ((element.id && fill.id === element.id) || fill.id === element)
       return 'id("' + (element.id || element.tagName) + '")';
     if (element === mag.doc.body)
@@ -89,7 +98,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     var ix = 0;
     if (!element.parentNode) return
     var siblings = element.parentNode.childNodes;
-    for (var i = 0; i < siblings.length; i++) {
+    for (var i = 0, size = siblings.length; i < size; i++) {
       var sibling = siblings[i];
       if (sibling === element)
         return getPathTo2(element.parentNode) + (element.tagName ? '/' + element.tagName + '[' + (ix + 1) + ']' : '');
@@ -188,6 +197,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var fragment = mag.doc.createDocumentFragment();
 
       //Adding
+      var ii=0;
       while (elements.length < data.length) {
         if (templates[key]) {
           parent.insertAdjacentHTML("beforeend", templates[key].node)
@@ -195,9 +205,11 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         } else {
           node = elements[0].cloneNode(1)
         }
+        
+        getPath(node, ++ii, key)
 
         elements.push(node)
-        if (parent) fragment.appendChild(node)
+        fragment.appendChild(node)
       }
       parent.appendChild(fragment)
         // loop thru to make sure no undefined keys
@@ -281,33 +293,37 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         }
       } else {
         var p = getPath(elements[i], (i + 1), key)
+          // var p = getPathTo(elements[i])
 
-        if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY)) {
+        if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY)
+        && !mag.utils.isHTMLEle(data)) {
 
-          elements[i][MAGNUM].isChildOfArray = true
-
-          if (!mag.utils.isHTMLEle(data)) {
+            elements[i][MAGNUM].isItem = true
             elements[i][MAGNUM].dataPass = data
-          }
         }
-        elements[i][MAGNUM].xpath = p;
         fillNode(elements[i], data, p, key)
       }
 
     }
   }
+  var fhCache = [];
 
   function getPath(node, i, key) {
     var uid = getUid(node)
+    if (xpathCache[uid]) return xpathCache[uid]
+    if (fhCache[uid]) return fhCache[uid]
+
+    // var idx = getChildrenIndex(node)
     var num = +key === +key ? i + key : i
     var name = (typeof fill.id == 'object' ? fill.id.tagName : fill.id);
-    var extr = typeof key == 'string' ? key.split(name)[1] : ''
-    var p = name + extr + '/' + node.tagName + '[' + num + ']'
-    return p;
+    var extr = typeof key == 'string' ? key.split(')')[1] +'/': '/'
+    var p = 'id("'+name + '")' + extr + node.tagName + '[' + num + ']'
+
+    return fhCache[uid] =node[MAGNUM].xpath = p;
   }
 
   function findParentChild(node) {
-    if (node && node[MAGNUM] && node[MAGNUM].isChildOfArray) {
+    if (node && node[MAGNUM] && node[MAGNUM].isItem) {
       return node
     } else if (node.parentNode) {
       // continue to walk up parent tree 
@@ -315,10 +331,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
-  function addToNode(node, val, clear) {
+  function addToNode(node, val) {
 
     //TODO: finer grain diffing, attach once
-    if (isCached(node, val.outerHTML, clear)) {
+    if (isCached(node, val.outerHTML)) {
       return;
     }
 
@@ -449,12 +465,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
+
   var functionHandler = function(data, node, tagIndex, p) {
-
-
-    if (typeof fill.id == 'object') {
-      p = getPathTo2(node.parentNode) + p
-    }
+    p = getPathTo(node)
 
     tagIndex = getFullPathIndex(p);
 
@@ -464,7 +477,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       addToNode(node, val);
 
       node[MAGNUM] = node[MAGNUM] || {}
-      node[MAGNUM].isChildOfArray = true
+      node[MAGNUM].isItem = true
       node[MAGNUM].dataPass = {
         index: tagIndex
       }
@@ -620,6 +633,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function createEventCall(node, fun) {
 
     var eventCall = function(fun, node, e) {
+      
+      //TODO: why not cache xpath?
       var xpath = getPathTo3(node);
       var id = getPathId(xpath)
 
@@ -722,8 +737,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       } else {
 
         if (attrName == 'config') {
-
-          var p = getPathTo2(node),
+          //TODO: Why not cache xpath?
+          var p = getPathTo(node),
             tagIndex = getPathIndex(p);
 
           // have we been here before?
