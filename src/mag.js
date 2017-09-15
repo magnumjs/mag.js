@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.1
+MagJS v0.29.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
