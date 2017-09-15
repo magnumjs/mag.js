@@ -197,7 +197,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       var fragment = mag.doc.createDocumentFragment();
 
       //Adding
-      var ii=0;
+      var ii = 0;
       while (elements.length < data.length) {
         if (templates[key]) {
           parent.insertAdjacentHTML("beforeend", templates[key].node)
@@ -205,7 +205,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         } else {
           node = elements[0].cloneNode(1)
         }
-        
+
         getPath(node, ++ii, key)
 
         elements.push(node)
@@ -295,11 +295,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         var p = getPath(elements[i], (i + 1), key)
           // var p = getPathTo(elements[i])
 
-        if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY)
-        && !mag.utils.isHTMLEle(data)) {
+        if (data && typeof data == "object" && data.hasOwnProperty(MAGNUM_KEY) && !mag.utils.isHTMLEle(data)) {
 
-            elements[i][MAGNUM].isItem = true
-            elements[i][MAGNUM].dataPass = data
+          elements[i][MAGNUM].isItem = true
+          elements[i][MAGNUM].dataPass = data
         }
         fillNode(elements[i], data, p, key)
       }
@@ -316,10 +315,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     // var idx = getChildrenIndex(node)
     var num = +key === +key ? i + key : i
     var name = (typeof fill.id == 'object' ? fill.id.tagName : fill.id);
-    var extr = typeof key == 'string' ? key.split(')')[1] +'/': '/'
-    var p = 'id("'+name + '")' + extr + node.tagName + '[' + num + ']'
+    var extr = typeof key == 'string' ? key.split(')')[1] + '/' : '/'
+    var p = 'id("' + name + '")' + extr + node.tagName + '[' + num + ']'
 
-    return fhCache[uid] =node[MAGNUM].xpath = p;
+    return fhCache[uid] = node[MAGNUM].xpath = p;
   }
 
   function findParentChild(node) {
@@ -633,7 +632,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
   function createEventCall(node, fun) {
 
     var eventCall = function(fun, node, e) {
-      
+
       //TODO: why not cache xpath?
       var xpath = getPathTo3(node);
       var id = getPathId(xpath)
@@ -876,7 +875,6 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   function setHtml(node, html) {
 
-    var out = '';
     if (Array.isArray(html)) {
 
       for (var k in html) {
@@ -887,8 +885,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       return;
     } else if (mag.utils.isHTMLEle(html)) {
-      out = html.outerHTML
-      if (isCached(node, out)) return;
+      if (isCached(node, html.outerHTML)) return;
       node.appendChild(html)
       return
     }
