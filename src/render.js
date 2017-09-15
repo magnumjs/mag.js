@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.9
+MagJS v0.29.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -93,7 +93,7 @@ License: MIT
         }
 
         if (founder.selectedOptions) {
-          var vals = [].map.call(founder.selectedOptions, x => x.value)
+          var vals = Array.prototype.map.call(founder.selectedOptions, x => x.value)
         }
         if (check) {
           if ('_checked' in obj || _VALUE in obj) {
