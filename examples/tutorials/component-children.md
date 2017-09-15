@@ -15,13 +15,13 @@ var MyDiv = mag('MyDiv', {
 
 
 mag.module("app", {
-  controller: function(props) {
-    this.MyDivInstance = MyDiv();
+  view: function(state) {
+    state.MyDivInstance = MyDiv()
   }
-});
+})
 ```
 
-[Try it on JSBin](http://jsbin.com/nuyubevuwi/edit?js,output)
+[Try it on JSBin](http://jsbin.com/ronecowegu/edit?js,output)
 
 ## props.children
 
