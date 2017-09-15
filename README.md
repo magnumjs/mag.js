@@ -138,7 +138,7 @@ mag.module("hello", {
 
 [Component Composition containment](http://jsbin.com/hidixegetu/edit?js,output) - [Component composition specialization](http://jsbin.com/botihemitu/edit?js,output)
 
-[props.children accessor](http://jsbin.com/nitewoxose/edit?js,output) - [Access static children of placeholder from inner module](http://jsbin.com/hakikerusi/edit?js,output) - [Specialization with props.children](http://jsbin.com/sefugaroni/edit?js,output) - [Shared state](http://jsbin.com/jixinexohu/edit?js,output)
+[props.children accessor](http://jsbin.com/gehiqogogo/edit?js,output) - [Access static children of placeholder from inner module](http://jsbin.com/hakikerusi/edit?js,output) - [Specialization with props.children](http://jsbin.com/sefugaroni/edit?js,output) - [Shared state](http://jsbin.com/jixinexohu/edit?js,output)
 
 [Reusable Tooltip Component](http://jsbin.com/fewutudise/edit?js,output) - [Controller only](http://jsbin.com/gebezelehu/edit?js,output)
 
