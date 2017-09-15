@@ -1,5 +1,5 @@
 /*
-MagJS v0.28.4
+MagJS v0.29.3
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -10,7 +10,6 @@ License: MIT
   'use strict';
 
   var utils = {};
-
 
   //UTILITY
   utils.copy = obj => Object.assign({}, obj)
@@ -36,7 +35,7 @@ License: MIT
 
   var funReplacer = (key, value) => typeof value == 'function' ? '' + value : value
 
-  utils.toJsonString = obj => JSON.stringify(obj, funReplacer)
+  utils.toJson = obj => JSON.stringify(obj, funReplacer)
 
   utils.isEmpty = obj => {
     for (var k in obj) {
@@ -67,28 +66,38 @@ License: MIT
 
   //rAF:
   var queue = [],
-    scheduled = [];
+    scheduler, scheduled=[], prev=[];
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
       if (mag.rafBounce || mag.rafBounceIds[id]) {
-        cancelAnimationFrame(scheduled[id]);
-        scheduled[id] = requestAnimationFrame(function() {
+        if(scheduled[id]){
+          prev[id]()
+          cancelAnimationFrame(scheduled[id]);
+        }
+        prev[id] = resolve
+        scheduled[id]=requestAnimationFrame(start => {
           fun();
           resolve();
-          scheduled[id] = 0;
         })
       } else {
         // queue[id] = queue[id] || [];
-        queue.push(fun);
-        if (!scheduled[id]) {
-          scheduled[id] = requestAnimationFrame(function() {
-            scheduled[id] = 0;
-            var task;
-            while (task = queue.shift()) task();
-            resolve();
-            //WHY? If the batch errored we may still have tasks queued
-            // if (queue[id].length) utils.scheduleFlush(id);
+        //*
+        if (fun) queue.push(fun);
+        if (!scheduler && queue.length) {
+          scheduler = requestAnimationFrame(start => {
+            scheduler = 0;
+            while (queue.length) {
+              if (performance.now() - start > 16.6) break;
+              queue.shift()()
+            }
+            if (!queue.length) {
+              resolve();
+            } else {
+              //If the batch errored we may still have tasks queued
+              utils.scheduleFlush(id)
+                .then(() => resolve())
+            }
           })
         } else {
           resolve()
@@ -116,7 +125,7 @@ License: MIT
     var instance = mag.mod.getMod(index);
 
     var obj = instance[eventName] ? instance : controller[eventName] && controller;
-    if(obj){
+    if (obj) {
       isPrevented = obj[eventName].call(instance, node, props, index, extra)
       if (once) obj[eventName] = 0
     }
