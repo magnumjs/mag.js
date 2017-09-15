@@ -41,7 +41,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     //add UID if does not exists
     var uid = getUid(element)
     if (xpathCache[uid] && !clear) return xpathCache[uid]
-    else return xpathCache[uid] = getPathTo2(element)
+    return xpathCache[uid] = getPathTo2(element)
   }
 
 
@@ -1002,6 +1002,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       element.getAttribute('data-bind') === key
     );
   }
+  // fill.getPathTo = getPathTo
   fill.removeNode = removeNode;
   fill.configs = configs
   fill.find = matchingElements
