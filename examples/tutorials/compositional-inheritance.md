@@ -95,7 +95,7 @@ var App = {
 mag.module('root', App)
 ```
 
-[Try it on JSBin](http://jsbin.com/tifodopebi/edit?js,output) - [Minimal](http://jsbin.com/soguwifisi/edit?js)
+[Try it on JSBin](http://jsbin.com/tifodopebi/edit?js,output) - [Minimal](http://jsbin.com/soguwifisi/edit?js,output)
 
 MagJS components like `Contacts` and `Chat` are just Function objects, so you can pass them as props like any other data.
 
