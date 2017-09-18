@@ -345,13 +345,13 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         var clone = node.cloneNode(1);
         clone[MAGNUM] = {
           'childof': pindex
-        };
-        mag.mod.getProps(index).children = clone;
+        }
+        mag.mod.getProps(index).children(clone)
       } else if (val[MAGNUM] && val[MAGNUM].scid) {
         clone = node.cloneNode(1);
         clone[MAGNUM] = {
           'childof': val[MAGNUM].scid
-        };
+        }
         mag._cprops[val[MAGNUM].scid] = clone;
       }
 
