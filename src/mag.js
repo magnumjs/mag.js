@@ -350,11 +350,17 @@ License: MIT
 
     // call handler on each new change to state or props
     mag.utils.onLCEvent('didupdate', ids, function(state, props) {
-      
-      for (var handle of handlers[ids]) {
-        handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids] && JSON.parse(prevState[ids]));
+
+
+      var current = mag.utils.toJson([props, state])
+
+      if (current != prevState[ids]) {
+
+        for (var handle of handlers[ids]) {
+          handle(state, props, getNode(mag.mod.getId(ids)), JSON.parse(prevState[ids] || '[]'));
+        }
       }
-      prevState[ids] = JSON.stringify([props, state]);
+      prevState[ids] = current;
     });
     //return `dispose` function to remove handler
     return function() {
