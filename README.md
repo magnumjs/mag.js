@@ -148,6 +148,10 @@ mag.module("hello", {
 
 [Toggle Button](https://codepen.io/anon/pen/brLGEq?editors=0010) - [Custom Component](https://codepen.io/anon/pen/qPBBab?editors=0010) - [Counter Component](https://codepen.io/anon/pen/YrzzLx?editors=0010)
 
+*Async*
+
+[Using fetch to render json data](https://codepen.io/anon/pen/yzebXL?editors=0010)
+
 *Stateless*
 
 [Timer](https://embed.plnkr.co/uM3oUrbP1KddLzuzkro0/) - [Counter](http://jsbin.com/gadidokare/edit?js,output) - [Interaction with state](http://jsbin.com/lukowekoye/edit?html,output)
