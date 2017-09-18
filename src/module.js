@@ -69,9 +69,9 @@ License: MIT
     return obj;
   }
 
-function freeze(obj){
-  return Object.freeze(mag.utils.copy(obj))
-}
+  function freeze(obj) {
+    return Object.freeze(mag.utils.copy(obj))
+  }
 
   mod.submodule = function(id, index, module, props) {
     if (modules[index]) {
@@ -90,6 +90,13 @@ function freeze(obj){
     bindMethods(module, module)
 
     modules[index] = [0, 0, 0, 0, 0, 0]
+    if (!props.children) {
+      props.children = (setGet) => {
+        var store
+        if (setGet) store = setGet
+        return () => store
+      }
+    }
     mod.setProps(index, props);
     var controller = function(context) {
         module.props = freeze(mod.getProps(index))
