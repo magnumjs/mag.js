@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.3
+MagJS v0.29.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -69,6 +69,10 @@ License: MIT
     return obj;
   }
 
+function freeze(obj){
+  return Object.freeze(mag.utils.copy(obj))
+}
+
   mod.submodule = function(id, index, module, props) {
     if (modules[index]) {
       // new call to existing
@@ -88,7 +92,7 @@ License: MIT
     modules[index] = [0, 0, 0, 0, 0, 0]
     mod.setProps(index, props);
     var controller = function(context) {
-        module.props = mod.getProps(index)
+        module.props = freeze(mod.getProps(index))
         module.state = context;
         module.element = mag.getNode(id);
         return (module.controller || function() {}).call(context, module.props) || context
@@ -96,7 +100,7 @@ License: MIT
       view = function(index, state, ele) {
         module.element = ele;
         module.state = state;
-        module.props = mod.getProps(index)
+        module.props = freeze(mod.getProps(index))
         module.view && module.view.call(module, state, module.props, ele)
       }.bind({}, index),
       output = {
