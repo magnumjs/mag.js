@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.3
+MagJS v0.29.4
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -350,15 +350,11 @@ License: MIT
 
     // call handler on each new change to state or props
     mag.utils.onLCEvent('didupdate', ids, function(state, props) {
-
-      var current = [mag.utils.copy(props), mag.utils.copy(state)]
-
-      if (mag.utils.toJson(current) != mag.utils.toJson(prevState[ids])) {
-        for (var handle of handlers[ids]) {
-          handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids]);
-        }
-        prevState[ids] = current;
+      
+      for (var handle of handlers[ids]) {
+        handle(state, props, getNode(mag.mod.getId(ids)), prevState[ids] && JSON.parse(prevState[ids]));
       }
+      prevState[ids] = JSON.stringify([props, state]);
     });
     //return `dispose` function to remove handler
     return function() {
