@@ -346,7 +346,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
         clone[MAGNUM] = {
           'childof': pindex
         }
-        mag.mod.getProps(index).children(clone)
+        mag.mod.getProps(index).children = clone;
       } else if (val[MAGNUM] && val[MAGNUM].scid) {
         clone = node.cloneNode(1);
         clone[MAGNUM] = {
