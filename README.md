@@ -321,7 +321,7 @@ mag.module("hello", {
 
 ### Angular 2 Mag
 
-[Todos](http://jsbin.com/fecicuviwa/edit?html,js,output)
+[Todos](http://jsbin.com/fecicuviwa/edit?output)
 
 [Order form](http://jsbin.com/ziguzidayi/edit?js,output)
 
