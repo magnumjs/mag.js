@@ -514,7 +514,7 @@ Note: There are subtle differences between `mag()` and `mag.module.`
 
 - *Skips `mag.module` setup*
   - The major difference is that the normal setup in `mag.module` is not run on the template node. Therefore, the `instance` does not exist until it is called.
-  - This means there is no pre-loading and caching in the UI and that it only runs on the template clone not the template itself. [Example with mag](http://jsbin.com/xagefoqaxo/edit?html,js,output) - [Example with mag.module](http://jsbin.com/zacuraniru/edit?html,js,output)
+  - This means there is no pre-loading and caching in the UI and that it only runs on the template clone not the template itself. [Example with mag](http://jsbin.com/xagefoqaxo/edit?html,js,output) - [Example with mag.module](http://jsbin.com/tukodebaci/edit?html,js,output)
 - *Each call to `mag()` with the same ID/Node reuses it by default*
  - `mag()` defaults to a reference and does not create unique keys for you automatically. [Example](http://jsbin.com/bomevigave/edit?js,output)
  - In order to reuse one instance uniquely you must pass a key via props. [Example](http://jsbin.com/pesuqacobe/edit?js,output) or use `mag.create` from the AddOns.
