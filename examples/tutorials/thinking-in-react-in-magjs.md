@@ -160,7 +160,7 @@ var container = mag('container', FilterableProductTable);
 
 container({products: PRODUCTS});
 ```
-[Try it on JSBin](http://jsbin.com/zemedosaro/edit?js,output)
+[Try it on JSBin](http://jsbin.com/luciwebatu/edit?js,output)
 
 Now that you have your component hierarchy, it's time to implement your app. 
 The easiest way is to build a version that takes your data model and renders the UI but has no interactivity. 
