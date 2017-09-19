@@ -138,7 +138,7 @@ var ProductRow  = mag('ProductRow', (props)=>{
 
     var price = props.product.price;
   return {name, price};
-}, {product: {}}) //Default property or else undefined error on 1st "dry" run
+})
 
 var  FilterableProductTable = mag('FilterableProductTable',({products})=>({
   SearchBar: SearchBar(),
