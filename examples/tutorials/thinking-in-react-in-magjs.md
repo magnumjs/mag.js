@@ -257,7 +257,7 @@ var  FilterableProductTable = mag('FilterableProductTable',{controller: function
   })
 }});
 ```
-[Try it on JSBin](http://jsbin.com/vevakoliba/edit?js,output)
+[Try it on JSBin](http://jsbin.com/bucagivoqo/edit?js,output)
 
 OK, so we've identified what the minimal set of app state is. Next, we need to identify which component mutates, or owns, this state.
 
