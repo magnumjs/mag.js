@@ -150,6 +150,8 @@ mag.module("hello", {
 
 *Async*
 
+[Native promise](https://codepen.io/anon/pen/QqEWry?editors=0010)
+
 [Using fetch to render json data](https://codepen.io/anon/pen/yzebXL?editors=0010)
 
 *Stateless*
