@@ -66,7 +66,7 @@ mag.module(document.body, {
 });
 ```
 Controllers are only called once vs views which are re-run on every change to the state.
-[Example](http://jsbin.com/foduyagimi/edit?js,output) - [Prevent initial placeholder flicker](http://jsbin.com/xezuwiyuke/edit?js,output)
+[Example](http://jsbin.com/foduyagimi/edit?js,output) - [Prevent initial placeholder flicker](http://jsbin.com/xezuwiyuke/edit?js,output) - [By rAF](http://jsbin.com/tumovazeyo/edit?output)
 
 ### Two way binding
 
