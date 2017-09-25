@@ -705,9 +705,11 @@ If you call `mag.begin(id)` for the same instance ID twice you must call `mag.en
 
 This is typically not necessary especially since MagJS runs updates to the module state very efficiently via the rAF (requestAnimationFrame)
 
-#### rAF  `mag.rafBounce` AND `instance.rafBounce()`
+#### rAF  `mag.rafRate`, `mag.rafBounce` AND `instance.rafBounce()`
 
 Option to select the requestAnimationFrame rendering strategy.
+
+There is an optional global `mag` integer (defaults to 16) `mag.rafRate` this will effect the `utils.scheduleFlush` rAF refresh rate.
 
 There is an optional global `mag` boolean (defaults to false) `mag.rafBounce` this will effect the `utils.scheduleFlush`
 
