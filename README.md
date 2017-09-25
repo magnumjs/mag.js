@@ -142,7 +142,7 @@ mag.module("hello", {
 
 [Reusable Tooltip Component](http://jsbin.com/fewutudise/edit?js,output) - [Controller only](http://jsbin.com/gebezelehu/edit?js,output)
 
-[Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/gukonuhovi/edit?html,output)
+[Simple Wrapped component - HoC](http://jsbin.com/huxifucilu/edit?html,output) - [Reusable Container - HoC](http://jsbin.com/cilohalova/edit?html,output)
 
 [Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output) - [Communication](http://jsbin.com/gocotigece/edit?html,output) - [TagName](http://jsbin.com/deyoxohino/edit?html,output) - [Multiple](http://jsbin.com/zogopuximi/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
 
