@@ -91,8 +91,8 @@ License: MIT
   }
 
   function processTaskList(resolve, taskStartTime, id) {
-    var taskFinishTime;
-    scheduler = 0
+    var taskFinishTime, rate = mag.rafRate || 16;
+      scheduler = 0;
 
     do {
       // Assume the next task is pushed onto a stack.
@@ -103,7 +103,7 @@ License: MIT
 
       // Go again if there’s enough time to do the next task.
       taskFinishTime = performance.now();
-    } while (queue.length && taskFinishTime - taskStartTime < 16);
+    } while (queue.length && taskFinishTime - taskStartTime < rate);
 
     if (queue.length) {
       utils.scheduleFlush(id).then(resolve)
