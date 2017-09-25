@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.4
+MagJS v0.29.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -86,13 +86,6 @@ License: MIT
     bindMethods(module, module)
 
     modules[index] = [0, 0, 0, 0, 0, 0]
-    if (!props.children) {
-      props.children = (setGet) => {
-        var store
-        if (setGet) store = setGet
-        return () => store
-      }
-    }
     mod.setProps(index, props);
     var controller = function(context) {
         module.props = mod.getProps(index)
