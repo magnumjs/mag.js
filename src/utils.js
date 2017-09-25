@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.5
+MagJS v0.29.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -84,15 +84,21 @@ License: MIT
           resolve();
         })
       } else {
-        if (fun) queue.push(fun);
+        if(fun) queue.push(fun);
         if (!scheduler) scheduler = requestAnimationFrame(start => processTaskList(resolve, start, id));
       }
     })
   }
 
+  function checkRate(finish, start){
+    if(mag.rafRate){
+      return finish - start < mag.rafRate
+    }
+    return true;
+  }
+
   function processTaskList(resolve, taskStartTime, id) {
-    var taskFinishTime, rate = mag.rafRate || 16;
-      scheduler = 0;
+    var taskFinishTime;
 
     do {
       // Assume the next task is pushed onto a stack.
@@ -103,7 +109,8 @@ License: MIT
 
       // Go again if there’s enough time to do the next task.
       taskFinishTime = performance.now();
-    } while (queue.length && taskFinishTime - taskStartTime < rate);
+    } while (queue.length && checkRate(taskFinishTime, taskStartTime));
+    scheduler = 0;
 
     if (queue.length) {
       utils.scheduleFlush(id).then(resolve)
