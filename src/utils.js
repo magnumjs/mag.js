@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.3
+MagJS v0.29.5
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -66,46 +66,52 @@ License: MIT
 
   //rAF:
   var queue = [],
-    scheduler, scheduled=[], prev=[];
+    scheduled = [],
+    prev = [];
 
   utils.scheduleFlush = function(id, fun) {
     return new Promise(function(resolve) {
-     if (mag.rafBounce || mag.rafBounceIds[id] && fun) {
-        if(scheduled[id]){
+      if (mag.rafBounce || mag.rafBounceIds[id] && fun) {
+        if (scheduled[id]) {
           prev[id]()
           cancelAnimationFrame(scheduled[id]);
         }
         prev[id] = resolve
-        scheduled[id]=requestAnimationFrame(start => {
-          scheduled[id]=0
+        scheduled[id] = requestAnimationFrame(start => {
+          scheduled[id] = 0
           fun();
           resolve();
         })
       } else {
-        // queue[id] = queue[id] || [];
-        //*
         if (fun) queue.push(fun);
-        if (!scheduler && queue.length) {
-          scheduler = requestAnimationFrame(start => {
-            scheduler = 0;
-            while (queue.length) {
-              if (performance.now() - start > 16.6) break;
-              queue.shift()()
-            }
-            if (!queue.length) {
-              resolve();
-            } else {
-              //If the batch errored we may still have tasks queued
-              utils.scheduleFlush(id)
-                .then(() => resolve())
-            }
-          })
-        } else {
-          resolve()
-        }
+        requestAnimationFrame(start=>processTaskList(resolve, start, id));
       }
     })
   }
+
+  function processTaskList(resolve, taskStartTime, id) {
+    var taskFinishTime;
+
+    do {
+      // Assume the next task is pushed onto a stack.
+      var nextTask = queue.shift();
+
+      // Process nextTask.
+      if(nextTask)nextTask()
+
+      // Go again if there’s enough time to do the next task.
+      taskFinishTime = window.performance.now();
+    } while (queue.length && taskFinishTime - taskStartTime < 16 );
+
+    if (queue.length){
+       utils.scheduleFlush(id)
+                .then(() => resolve())
+    } else {
+      resolve()
+    }
+
+  }
+
 
   //Events:
   var handlers = []
