@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.4
+MagJS v0.29.6
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -347,6 +347,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           'childof': pindex
         }
         mag.mod.getProps(index).children = clone;
+        //redraw?
+        mag.redraw(val, index)
       } else if (val[MAGNUM] && val[MAGNUM].scid) {
         clone = node.cloneNode(1);
         clone[MAGNUM] = {
@@ -356,7 +358,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       }
 
       //remove, replace?
+      //Remove children, call UNLOADERS?
       while (node.lastChild) {
+        removeNodeModule(node.lastChild)
         node.removeChild(node.lastChild)
       }
 
@@ -384,6 +388,18 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
   }
 
+  function removeNodeModule(node) {
+    //inner mods too?
+    var instanceId = mag.utils.items.getItem(node.id)
+    if (node.children) {
+      for (var i = 0; i < node.children.length; i++) {
+        removeNodeModule(node.children[i])
+      }
+    }
+    if (~instanceId) {
+      mag.utils.callLCEvent('onunload', mag.mod.getState(instanceId), node, instanceId)
+    }
+  }
 
   function microDraw(node, cid) {
     var pfillId = fill.id
