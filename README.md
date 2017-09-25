@@ -709,9 +709,9 @@ This is typically not necessary especially since MagJS runs updates to the modul
 
 Option to select the requestAnimationFrame rendering strategy.
 
-There is an optional global `mag` integer (defaults to 16) `mag.rafRate` this will effect the `utils.scheduleFlush` rAF refresh rate.
+There is an optional global `mag` integer (defaults to undefined) `mag.rafRate` this will effect the `utils.scheduleFlush` rAF refresh rate.
 
-There is an optional global `mag` boolean (defaults to false) `mag.rafBounce` this will effect the `utils.scheduleFlush`
+There is an optional global `mag` boolean (defaults to undefined) `mag.rafBounce` this will effect the `utils.scheduleFlush`
 
 If set to `true` performance/speed in rendering is enhanced but there can be a loss of smoothness in the dom painting such as jerky rendering.
 
@@ -1138,7 +1138,7 @@ mag({templateUrl: 'template.html', view: ()});
 ### Performance
 [JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/sononayaro/edit?output) - [Latest](http://jsbin.com/tilujedala/edit?js,output) - [Toggle rAF (Throttle vs Debounce)](http://jsbin.com/valejuyata/edit?output)
 
-[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/)
+[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/) - [Throttle rAF rate](https://embed.plnkr.co/oRDUCHjuCFSYwL9yeimg/)
 
 [JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo) - [Latest](http://jsbin.com/wulajemuro/edit?output) - [Optimized](http://jsbin.com/suxijorivo/edit?output) - [Componentized](https://embed.plnkr.co/8pFwdnzmEf7IGIlTL1ab/)
 
