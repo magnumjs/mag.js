@@ -67,6 +67,7 @@ License: MIT
   //rAF:
   var queue = [],
     scheduled = [],
+    scheduler,
     prev = [];
 
   utils.scheduleFlush = function(id, fun) {
@@ -84,28 +85,28 @@ License: MIT
         })
       } else {
         if (fun) queue.push(fun);
-        requestAnimationFrame(start=>processTaskList(resolve, start, id));
+        if (!scheduler) scheduler = requestAnimationFrame(start => processTaskList(resolve, start, id));
       }
     })
   }
 
   function processTaskList(resolve, taskStartTime, id) {
     var taskFinishTime;
+    scheduler = 0
 
     do {
       // Assume the next task is pushed onto a stack.
       var nextTask = queue.shift();
 
       // Process nextTask.
-      if(nextTask)nextTask()
+      if (nextTask) nextTask()
 
       // Go again if there’s enough time to do the next task.
-      taskFinishTime = window.performance.now();
-    } while (queue.length && taskFinishTime - taskStartTime < 16 );
+      taskFinishTime = performance.now();
+    } while (queue.length && taskFinishTime - taskStartTime < 16);
 
-    if (queue.length){
-       utils.scheduleFlush(id)
-                .then(() => resolve())
+    if (queue.length) {
+      utils.scheduleFlush(id).then(resolve)
     } else {
       resolve()
     }
