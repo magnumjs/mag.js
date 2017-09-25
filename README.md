@@ -1138,7 +1138,7 @@ mag({templateUrl: 'template.html', view: ()});
 ### Performance
 [JSBin - dynamic re-rendering](http://jsbin.com/momuxogicu/edit?output) - [v0.20.7](http://jsbin.com/jayodatiqa/edit?output) - [v0.21.3](http://jsbin.com/sopumorire/edit?output) - [v0.22](http://jsbin.com/sononayaro/edit?output) - [Latest](http://jsbin.com/tilujedala/edit?js,output) - [Toggle rAF (Throttle vs Debounce)](http://jsbin.com/valejuyata/edit?output)
 
-[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/) - [Throttle rAF rate](https://embed.plnkr.co/oRDUCHjuCFSYwL9yeimg/)
+[Occlusion culling](http://embed.plnkr.co/gA8SbzIb6hDPmBjYDeYb/preview) - [v0.22](http://embed.plnkr.co/OX88w963dxC6jCZLELoD/) - [Latest](https://embed.plnkr.co/89kobTyz9jqT5LHtl6VF/) - [Throttle rAF rate](https://embed.plnkr.co/oRDUCHjuCFSYwL9yeimg/) - [Deboun ce](https://embed.plnkr.co/F4b3exUGNKDeURikojqA/)
 
 [JSBin - reversing 1000s of rows](http://jsbin.com/lubimetope/edit?js,output) - [v0.22](http://output.jsbin.com/qacawokejo) - [Latest](http://jsbin.com/wulajemuro/edit?output) - [Optimized](http://jsbin.com/suxijorivo/edit?output) - [Componentized](https://embed.plnkr.co/8pFwdnzmEf7IGIlTL1ab/)
 
