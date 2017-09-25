@@ -69,7 +69,7 @@ mag.module('root', {
 ```
 
 
-[Try it on JSBin](http://jsbin.com/qekigixebu/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output) - [Prevent initial load flicker](http://jsbin.com/loturohedi/edit?js,output)
+[Try it on JSBin](http://jsbin.com/qekigixebu/edit?js,output) - [Alternate #1](http://jsbin.com/nohenemake/edit?js,output) - [Alternate #2](http://jsbin.com/yojokupiwo/edit?js,output) - [With props.children](http://jsbin.com/muxomobape/edit?js,output) - [Prevent initial load flicker](http://jsbin.com/wurahiropi/edit?js,output)
 
 
 While this is less common, sometimes you might need multiple "holes" in a component. In such cases you may come up with your own convention instead of using children:
