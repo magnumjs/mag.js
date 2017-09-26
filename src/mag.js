@@ -278,7 +278,7 @@ License: MIT
       if (mag.mod.runningViewInstance == idInstance) {
         throw Error('Mag.JS - recursive call:' + idInstance)
       }
-
+    
       // check for existing frame id then clear it if exists
       //ENQUEUE
       //debounce
@@ -350,15 +350,13 @@ License: MIT
     // call handler on each new change to state or props
     mag.utils.onLCEvent('didupdate', ids, function(state, props) {
 
-
       var current = mag.utils.toJson([props, state])
 
-      if (current != prevState[ids]) {
-
-        for (var handle of handlers[ids]) {
-          handle(state, props, getNode(mag.mod.getId(ids)), JSON.parse(prevState[ids] || '[]'));
-        }
+      // if (current != prevState[ids]) {}
+      for (var handle of handlers[ids]) {
+        handle(state, props, getNode(mag.mod.getId(ids)), JSON.parse(prevState[ids] || '[]'));
       }
+
       prevState[ids] = current;
     });
     //return `dispose` function to remove handler
