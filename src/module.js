@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.6
+MagJS v0.29.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -42,7 +42,7 @@ License: MIT
     return modules[index] && modules[index][3]
   }
   mod.exists = function(index) {
-    return typeof modules[index] != 'undefined'
+    return typeof modules[index] == 'object'
   }
   mod.setFrameId = function(index, fid) {
     modules[index][4] = fid;
@@ -299,7 +299,9 @@ License: MIT
       mod.cached[index] = 1
     }
     try {
-      mod.getView(index)(mod.getState(index), node)
+      if (mod.exists(index)) {
+        mod.getView(index)(mod.getState(index), node)
+      }
     } finally {
       mod.runningViewInstance = -1;
     }
