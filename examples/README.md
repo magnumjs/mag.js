@@ -53,7 +53,7 @@
 
 [Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/) - [Latest](http://jsfiddle.net/uht0Lkto/)
 
-[Login/Logout Modular w/router](http://embed.plnkr.co/HiAdOHLW65x1Lf1zwmeP/)
+[Login/Logout Modular w/router](http://embed.plnkr.co/HiAdOHLW65x1Lf1zwmeP/) - [Latest](https://embed.plnkr.co/fcpkoMCXOWaQQdtRArww/)
 
 [Async & remote json data auto-loading w/caching & initialValues](http://jsbin.com/bagudupego/edit?js,output)
 
