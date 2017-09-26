@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.4
+MagJS v0.29.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -274,7 +274,6 @@ License: MIT
       if (force) mag.fill.configs.splice(0, mag.fill.configs.length)
 
       if (force) mag.mod.clear(idInstance)
-
 
       if (mag.mod.runningViewInstance == idInstance) {
         throw Error('Mag.JS - recursive call:' + idInstance)
@@ -636,6 +635,16 @@ License: MIT
     if (getNode(id) && mag.mod.exists(idInstance)) {
       return mag.utils.callLCEvent('didload', mag.mod.getState(idInstance), node, idInstance, 1)
     }
+  }
+
+  mag._find = function(element, key) {
+    var pfillId = mag.fill.id
+    mag.fill.setId(element)
+      // only for user input fields
+    var found = mag.fill.find(element, key)
+    mag.fill.setId(pfillId)
+
+    return found
   }
 
   mag.getNode = getNode
