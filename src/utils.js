@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.6
+MagJS v0.29.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -84,14 +84,14 @@ License: MIT
           resolve();
         })
       } else {
-        if(fun) queue.push(fun);
+        if (fun) queue.push(fun);
         if (!scheduler) scheduler = requestAnimationFrame(start => processTaskList(resolve, start, id));
       }
     })
   }
 
-  function checkRate(finish, start){
-    if(mag.rafRate){
+  function checkRate(finish, start) {
+    if (mag.rafRate) {
       return finish - start < mag.rafRate
     }
     return true;
@@ -139,19 +139,18 @@ License: MIT
     var props = mag.mod.getProps(index);
     var instance = mag.mod.getMod(index);
 
-    var obj = instance[eventName] ? instance : controller[eventName] && controller;
-    if (obj) {
-      isPrevented = obj[eventName].call(instance, node, props, index, extra)
-      if (once) obj[eventName] = 0
-    }
+    var event = instance && instance[eventName] || controller && controller[eventName];
+    if (event && !event.called) {
+      isPrevented = event.call(instance, node, props, index, extra)
+      if (once) event.called = 1
 
-    // on Handlers
-    var eventer = eventName + '-' + index;
-    if (handlers[eventer]) {
-      for (var handle of handlers[eventer]) {
-        handle(controller, props);
+      // on Handlers
+      var eventer = eventName + '-' + index;
+      if (handlers[eventer]) {
+        for (var handle of handlers[eventer]) {
+          handle(controller, props);
+        }
       }
-      if (once) handlers[eventer] = 0
     }
     utils.runningEventInstance = -1;
     if (isPrevented === false) return true;
