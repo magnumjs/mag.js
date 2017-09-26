@@ -51,7 +51,7 @@
 
 [Detach & reattach elements](http://jsbin.com/qutenapama/edit?js,output)
 
-[Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/)
+[Login/logout module with undo state](http://jsfiddle.net/8tfLokg0/) - [Latest](http://jsfiddle.net/uht0Lkto/)
 
 [Login/Logout Modular w/router](http://embed.plnkr.co/HiAdOHLW65x1Lf1zwmeP/)
 
