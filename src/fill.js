@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.6
+MagJS v0.29.7
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -117,6 +117,8 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       delete cached[p + '-config'];
       delete fill.configs[p];
     }
+
+    removeNodeModule(node)
 
     //TODO: remove cache of all children too		
     node.parentNode && node.parentNode.removeChild(node);
@@ -360,8 +362,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       //remove, replace?
       //Remove children, call UNLOADERS?
       while (node.lastChild) {
-        removeNodeModule(node.lastChild)
-        node.removeChild(node.lastChild)
+        // removeNodeModule(node.lastChild)
+        // node.removeChild(node.lastChild)
+        removeNode(node.lastChild)
       }
 
       //TODO: Call configs when adding?
@@ -398,6 +401,9 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     }
     if (~instanceId) {
       mag.utils.callLCEvent('onunload', mag.mod.getState(instanceId), node, instanceId)
+      mag.mod.clear(instanceId)
+      mag.mod.remove(instanceId)
+      mag.fill.clearCache(mag.mod.getId(instanceId))
     }
   }
 
