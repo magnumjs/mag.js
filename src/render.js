@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.3
+MagJS v0.29.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -18,12 +18,12 @@ License: MIT
     for (var i = 1; i < parts.length; i++) {
       var key = parts[i];
       var index = parts[i + 1];
-      var found = mag.fill.find(Array.isArray(parentElement) ? parentElement[0] : parentElement, key);
+      var found = mag._find(Array.isArray(parentElement) ? parentElement[0] : parentElement, key);
 
       if (index && !isNaN(Number(index))) {
         parentElement = found[index];
       } else if (found && found.length && index && i + 2 < parts.length) {
-        parentElement = mag.fill.find(found[0], index);
+        parentElement = mag._find(found[0], index);
       } else if (found && found.length) {
         parentElement = found
         if (i + 2 == parts.length) {
@@ -43,13 +43,13 @@ License: MIT
     if (parts.length >= 3) {
       // recurse
       parentElement = getParent(parts, parentElement)
-      found = mag.fill.find(parentElement, k);
+      found = mag._find(parentElement, k);
 
     } else {
 
       var last = parseInt(parts.pop()),
         index = !isNaN(last) ? last : 0;
-      found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
+      found = mag._find(parentElement[index] ? parentElement[index] : parentElement, k);
     }
 
     return syncUIWatcher(found, obj, k, parentElement);
@@ -141,9 +141,8 @@ License: MIT
       k = i.split('.').pop();
     }
 
-
     // only for user input fields
-    var found = mag.fill.find(element, k);
+    var found = mag._find(element, k);
     var founder = isInput(found);
 
     if (typeof oval !== 'function' && founder) {
