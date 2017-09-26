@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.7
+MagJS v0.29.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -143,15 +143,16 @@ License: MIT
     if (event && !event.called) {
       isPrevented = event.call(instance, node, props, index, extra)
       if (once) event.called = 1
+    }
 
-      // on Handlers
-      var eventer = eventName + '-' + index;
-      if (handlers[eventer]) {
-        for (var handle of handlers[eventer]) {
-          handle(controller, props);
-        }
+    // on Handlers
+    var eventer = eventName + '-' + index;
+    if (handlers[eventer]) {
+      for (var handle of handlers[eventer]) {
+        handle(controller, props);
       }
     }
+
     utils.runningEventInstance = -1;
     if (isPrevented === false) return true;
   }
