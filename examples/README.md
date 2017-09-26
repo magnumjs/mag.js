@@ -17,7 +17,7 @@
 
 *Dom*
 
-[Communication](http://jsbin.com/luzozokodo/edit?html,output) - [TagName](http://jsbin.com/resuxuheza/edit?html,output) - [Multiple](http://jsbin.com/divoqinoya/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
+[Communication](http://jsbin.com/luzozokodo/edit?html,output) - [TagName](http://jsbin.com/resuxuheza/edit?html,output) - [Multiple](http://jsbin.com/divoqinoya/edit?html,output) - [Subscribe](http://jsbin.com/holehupofo/edit?html,output)
 
 *Templating*
 
