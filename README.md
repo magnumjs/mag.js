@@ -144,7 +144,7 @@ mag.module("hello", {
 
 [Simple Wrapped component(HoC)](http://jsbin.com/puwivumele/edit?html,output) - [Reusable Container(HoC)](http://jsbin.com/meyoxupedo/edit?html,output) - [Switch and Remove Comps](http://jsbin.com/vohofamabu/edit?html,output)
 
-[Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output) - [Communication](http://jsbin.com/gocotigece/edit?html,output) - [TagName](http://jsbin.com/deyoxohino/edit?html,output) - [Multiple](http://jsbin.com/zogopuximi/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
+[Simple tabbed content](http://jsbin.com/zewuvaraqe/edit?html,output) - [Initialization](http://jsbin.com/sevaqipavo/edit?js,output)
 
 [Toggle Button](https://codepen.io/anon/pen/brLGEq?editors=0010) - [Custom Component](https://codepen.io/anon/pen/qPBBab?editors=0010) - [Counter Component](https://codepen.io/anon/pen/YrzzLx?editors=0010)
 
