@@ -43,7 +43,7 @@
 
 *Components*
 
-[Component with alternate children](http://jsbin.com/gibufajobe/edit?js,output) - [Parent Child Components](http://jsbin.com/datolofuye/edit?js,output) - [Sortable List of Components](http://jsbin.com/mobisihuma/edit?js,output)
+[Component with alternate children](http://jsbin.com/pubaroyuwe/edit?js,output) - [Parent Child Components](http://jsbin.com/datolofuye/edit?js,output) - [Sortable List of Components](http://jsbin.com/mobisihuma/edit?js,output)
 
 [Dynamic node with css selector generation](http://jsbin.com/wuwalinefo/edit?js,output)
 
