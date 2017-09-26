@@ -15,17 +15,17 @@
 
 [Drag drop swap list](http://jsbin.com/fedejafena/edit?js,output) - [Take 2](http://jsbin.com/mukiqiteqa/edit?js,output) - [Take 3](http://jsbin.com/kuvohixamo/edit?js,output) - [Reorder](http://jsbin.com/dasaqaluvi/edit?js,output)
 
+*Dom*
+
+[Communication](http://jsbin.com/gocotigece/edit?html,output) - [TagName](http://jsbin.com/deyoxohino/edit?html,output) - [Multiple](http://jsbin.com/zogopuximi/edit?html,output) - [Subscribe](http://jsbin.com/qetalesiwu/edit?html,output)
+
 *Templating*
 
 [Product search - filter example](http://jsbin.com/decahikihu/edit?js,output)
 
-[Show/Hide component example](http://jsbin.com/bipiyivudi/edit?js,output)
-
 [Disable field AddOn](http://jsbin.com/hidimomezu/edit?js,output) - [As Existing Object](http://jsbin.com/ziritohiqi/edit?js,output)
 
 [Birthday countdown](http://jsbin.com/zipamoziya/edit?js,output) - [Latest](http://jsbin.com/sozazezire/edit?js,output)
-
-[Inner Modules swapping](http://jsbin.com/batajoqiya/edit?js,output) - [Take2](http://jsbin.com/gicugisuha/edit?js,output)
 
 [Rot13 encoder app](http://embed.plnkr.co/pgex5sa3czk3TsPbjqP2/preview)
 
@@ -42,6 +42,10 @@
 [Movie ticket quantity selection](http://jsbin.com/moxepehuce/edit?js,output)
 
 *Components*
+
+[Show/Hide component example](http://jsbin.com/bipiyivudi/edit?js,output)
+
+[Inner Modules swapping](http://jsbin.com/batajoqiya/edit?js,output) - [Take2](http://jsbin.com/gicugisuha/edit?js,output)
 
 [Component with alternate children](http://jsbin.com/pubaroyuwe/edit?js,output) - [Parent Child Components](http://jsbin.com/datolofuye/edit?js,output) - [Sortable List of Components](http://jsbin.com/mobisihuma/edit?js,output)
 
