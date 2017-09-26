@@ -1,5 +1,5 @@
 /*
-MagJS v0.29.7
+MagJS v0.29.8
 http://github.com/magnumjs/mag.js
 (c) Michael Glazer
 License: MIT
@@ -119,8 +119,9 @@ License: MIT
       // prop might be hierarchical?
       // getparent Object property chain?
 
+
       // get value of property from DOM
-      var a = mag.fill.find(element, prop),
+      var a = mag._find(element, prop),
         greedy = prop[0] === '$',
         // can be an array, object or string
         // for each
@@ -215,7 +216,7 @@ License: MIT
 
     for (var prop of parts) {
       if (prop) {
-        var a = mag.fill.find(snode, prop);
+        var a = mag._find(snode, prop);
         if (a.length) {
           snode = a;
         }
