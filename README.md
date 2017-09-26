@@ -98,7 +98,7 @@ Just define the default value of the selector to bind.
 
 ### Hello world!
 
-[JSBin](http://jsbin.com/rasewupabu/edit?js,output) - [Ternary](http://jsbin.com/xixifilehu/edit?js,output) - [Controller](http://jsbin.com/miseqojuqo/edit?js,output) - [Handler](http://jsbin.com/helibowuda/edit?js,output) - [Merge props](http://jsbin.com/jiguwavote/edit?js,output) - [Subscribe](http://jsbin.com/xejupidoni/edit?js,output) - [Proxy](http://jsbin.com/sujuhogoje/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output) - [Component prop](http://jsbin.com/feyihegoho/edit?js,output) - [Parent Child Controller Comps](http://jsbin.com/wacafirato/edit?js,output) - [Componentized](http://jsbin.com/deqoxequfu/edit?js,output) - [Dynamic templates](http://jsbin.com/mebasukisu/edit?output)
+[JSBin](http://jsbin.com/rasewupabu/edit?js,output) - [Ternary](http://jsbin.com/jekizosere/edit?js,output) - [Controller](http://jsbin.com/miseqojuqo/edit?js,output) - [Handler]((http://jsbin.com/helibowuda/edit?js,output) - [Merge props](http://jsbin.com/jiguwavote/edit?js,output) - [Subscribe](http://jsbin.com/xejupidoni/edit?js,output) - [Proxy](http://jsbin.com/sujuhogoje/edit?js,output) - [No view only controller](http://jsbin.com/sozupogucu/edit?js,output) - [Component prop](http://jsbin.com/feyihegoho/edit?js,output) - [Parent Child Controller Comps](http://jsbin.com/wacafirato/edit?js,output) - [Componentized](http://jsbin.com/deqoxequfu/edit?js,output) - [Dynamic templates](http://jsbin.com/mebasukisu/edit?output)
 
 Initial html
 ```html
