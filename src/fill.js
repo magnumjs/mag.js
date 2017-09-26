@@ -124,7 +124,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
     node.parentNode && node.parentNode.removeChild(node);
 
     //remove 'view' cache due to dom change ? recursion
-    mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
+    // mag.mod.cached[mag.utils.items.getItem(fill.id)] = 0;
 
   }
   // TODO: get index from getPathTo function		
@@ -437,8 +437,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       } else if (node[MAGNUM].detached && node[MAGNUM].detached[key]) {
 
-        reattachChildren(node, key)
-
+        reattachChildren(node, key, value.nodeType)
         node[MAGNUM].detached[key] = 0
 
       }
@@ -561,13 +560,15 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   var childCache = []
 
-  function reattachChildren(node, key) {
+  function reattachChildren(node, key, removeOnly) {
     var matches = matchingElements(node, key)
     matches.forEach(function(item) {
       var uid = getUid(item)
       if (uid in childCache) {
-        for (var index in childCache[uid]) {
-          item.appendChild(childCache[uid][index])
+        if (!removeOnly) {
+          for (var index in childCache[uid]) {
+            item.appendChild(childCache[uid][index])
+          }
         }
         delete childCache[uid];
       }
@@ -602,7 +603,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
           onremove();
         })
       } else {
-        if (instanceID) mag.utils.callLCEvent('onunload', mag.mod.getState(instanceID), node, instanceID);
+        if (instanceID) mag.utils.callLCEvent('onunload', mag.mod.getState(instanceID), node, instanceID, 1);
         onremove();
       }
     }
