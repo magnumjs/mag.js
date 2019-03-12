@@ -24,7 +24,7 @@ Learn MagJS quickly with this interactive tutorial.
 
 - [Component Children](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/component-children.md)
 - Form Elements
-- Stateless Functional Components
+- [Stateless Functional Components](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial-stateless-functional-components.md)
 - Component Lifecycle
 - Interfacing with the actual DOM
 
