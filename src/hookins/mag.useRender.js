@@ -1,4 +1,5 @@
-// Example: https://codepen.io/anon/pen/YMKzQv?editors=1010
+// Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
+// Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
 
 (function(mag){
   
