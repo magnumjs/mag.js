@@ -1,3 +1,5 @@
+// Example: https://codepen.io/anon/pen/YMKzQv?editors=1010
+
 (function(mag){
   
 
