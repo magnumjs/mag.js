@@ -1,6 +1,12 @@
-// http://blog.arkency.com/2014/10/react-dot-js-and-dynamic-children-why-the-keys-are-important/
-
+// http://embed.plnkr.co/Gjuycl4GdTj2TJijmpjq/
 /*
+
+index.html
+app-init.js
+TabList.js
+CountriesComponent.js
+style.css
+
 .hide {
   display:none;
 }
@@ -43,68 +49,12 @@
   */
   
   
-var TabList = {}
-
-TabList.controller = function(props) {
-  this.active = props.active || 0
-}
-
-TabList.view = function(state, props) {
-  state.list = {
-    a: props.items.map(function(item, i) {
-      return {
-        _className: {
-          "excited": i == state.active,
-          "neutral": i != state.active
-        },
-        _href: "#",
-        _text: item,
-        _onclick: function(a, event) {
-          state.active = a
-          props.clickHandler(item, a, event);
-        }.bind(state, i)
-      }
-    })
-  }
-}
+  // app-init.js
 
 
-var CountriesComponent = {}
 
+// initialize mag module reference
 
-CountriesComponent.controller = function(props) {
-
-  this['active-country'] = 0
-  this['active-city'] = 0
-
-  this.currentCountry = props.countries[0]
-
-  this.handleClick = function(type, item, index, event) {
-    if (type == 'country') this.currentCountry = item
-    this['active-' + type] = index
-    event.preventDefault();
-  }.bind(this)
-
-}
-
-CountriesComponent.view = function(state, props) {
-
-  state.countryList = mag.module("TabList", TabList, {
-    key: "countryList",
-    active: state['active-country'],
-    items: props.countries,
-    clickHandler: state.handleClick.bind(state, 'country')
-  }, true)
-
-
-  state.cityList = mag.module("TabList", TabList, {
-    key: state.currentCountry,
-    active: state['active-city'],
-    items: props.citiesPerCountry[state['active-country']],
-    clickHandler: state.handleClick.bind(state, 'city')
-  }, true)
-
-}
 
 var citiesPerCountry = [
   ['New York', 'Detroit'],
@@ -118,4 +68,98 @@ var props = {
   countries: countries
 }
 
-mag.module("reactExampleGoesHere", CountriesComponent, props)
+ mag.mods.demo.CountriesComponent("reactExampleGoesHere", props)
+ 
+ 
+ // countriescomponent.js
+
+
+(function(namespace) {
+
+  var props = {}
+
+  var CountriesComponent = {}
+
+
+  CountriesComponent.controller = function(props) {
+
+    this['active-country'] = 0
+    this['active-city'] = 0
+
+    this.currentCountry = props.countries[0]
+
+    this.handleClick = function(type, item, index, event) {
+      if (type == 'country') this.currentCountry = item
+      
+      this['active-' + type] = index
+      
+      event.preventDefault();
+    }.bind(this)
+
+  }
+
+  CountriesComponent.view = function(state, props) {
+
+    state.countryList = mag.mods.demo.TabList({
+      key: "countryList",
+      active: state['active-country'],
+      items: props.countries,
+      clickHandler: state.handleClick.bind(state, 'country')
+    }, true)
+
+
+    state.cityList = mag.mods.demo.TabList({
+      key: state.currentCountry,
+      active: state['active-city'],
+      items: props.citiesPerCountry[state['active-country']],
+      clickHandler: state.handleClick.bind(state, 'city')
+    }, true)
+
+  }
+
+  namespace.CountriesComponent = mag.comp('', CountriesComponent, props);
+
+})(mag.namespace('mods.demo'));
+
+// TabList.js
+
+(function(namespace) {
+
+
+  // default props to be over ridden
+  var props = {
+    active: 0
+  }
+
+
+  var TabList = {}
+
+  TabList.controller = function(props) {
+    this.active = props.active || 0
+  }
+
+  TabList.view = function(state, props) {
+
+    state.list = {
+      a: props.items.map(function(item, i) {
+        return {
+          _className: {
+            "excited": i == state.active,
+            "neutral": i != state.active
+          },
+          _href: "#",
+          _text: item,
+          _onclick: function(a, event) {
+            state.active = a
+            props.clickHandler(item, a, event);
+          }.bind(state, i)
+        }
+      })
+    }
+  }
+
+
+
+  namespace.TabList = mag.comp('TabList', TabList, props);
+
+})(mag.namespace('mods.demo'));

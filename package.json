@@ -1,0 +1,45 @@
+{
+  "name": "mag.js",
+  "version": "1.0.0",
+  "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
+  "main": "mag-latest.min.js",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magnumjs/mag.js.git"
+  },
+  "keywords": [
+    "javascript-library",
+    "magjs",
+    "javascript",
+    "framework",
+    "templating",
+    "prototyping",
+    "dom-element",
+    "mag",
+    "dom-manipulation",
+    "dom-binding",
+    "user-interface",
+    "html",
+    "web",
+    "modular",
+    "component",
+    "reactive",
+    "observable",
+    "stateless",
+    "state-management",
+    "dom"
+  ],
+  "author": "https://github.com/magnumjs/mag.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/magnumjs/mag.js/issues"
+  },
+  "homepage": "https://github.com/magnumjs/mag.js#readme"
+}
