@@ -1,8 +1,6 @@
-//Example: http://jsbin.com/rilenacalu/3/edit?js,output
+//Example: http://jsbin.com/cubatuboki/edit?js,output
 
 (function(mag) {
-
-  mag.MAGNUM = '__magnum__'
 
   mag.hookin('attributes', 'bind', function(data) {
     //Been here already?
