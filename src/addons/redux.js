@@ -1,5 +1,4 @@
 (function(window) {
-
   /*
   from: https://github.com/rackt/redux v3.0.3
   converted to plain es5 syntax
@@ -107,11 +106,17 @@
      */
     function dispatch(action) {
       if (!isPlainObject(action)) {
-        throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+        throw new Error(
+          'Actions must be plain objects. ' +
+            'Use custom middleware for async actions.'
+        );
       }
 
       if (typeof action.type === 'undefined') {
-        throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+        throw new Error(
+          'Actions may not have an undefined "type" property. ' +
+            'Have you misspelled a constant?'
+        );
       }
 
       if (isDispatching) {
@@ -163,8 +168,6 @@
     };
   }
 
-
-
   /**
    * Composes single-argument functions from right to left.
    *
@@ -173,9 +176,12 @@
    * left. For example, compose(f, g, h) is identical to arg => f(g(h(arg))).
    */
 
-
   function compose() {
-    for (var _len = arguments.length, funcs = Array(_len), _key = 0; _key < _len; _key++) {
+    for (
+      var _len = arguments.length, funcs = Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
       funcs[_key] = arguments[_key];
     }
 
@@ -185,7 +191,6 @@
       }, arg);
     };
   }
-
 
   var fnToString = function fnToString(fn) {
     return Function.prototype.toString.call(fn);
@@ -201,7 +206,10 @@
       return false;
     }
 
-    var proto = typeof obj.constructor === 'function' ? Object.getPrototypeOf(obj) : Object.prototype;
+    var proto =
+      typeof obj.constructor === 'function'
+        ? Object.getPrototypeOf(obj)
+        : Object.prototype;
 
     if (proto === null) {
       return true;
@@ -209,10 +217,12 @@
 
     var constructor = proto.constructor;
 
-    return typeof constructor === 'function' && constructor instanceof constructor && fnToString(constructor) === fnToString(Object);
+    return (
+      typeof constructor === 'function' &&
+      constructor instanceof constructor &&
+      fnToString(constructor) === fnToString(Object)
+    );
   }
-
-
 
   function mapValues(obj, fn) {
     return Object.keys(obj).reduce(function(result, key) {
@@ -221,18 +231,19 @@
     }, {});
   }
 
-  var _extends = Object.assign || function(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
+  var _extends =
+    Object.assign ||
+    function(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
         }
       }
-    }
-    return target;
-  };
-
+      return target;
+    };
 
   function pick(obj, fn) {
     return Object.keys(obj).reduce(function(result, key) {
@@ -261,7 +272,11 @@
    */
 
   function applyMiddleware() {
-    for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
+    for (
+      var _len = arguments.length, middlewares = Array(_len), _key = 0;
+      _key < _len;
+      _key++
+    ) {
       middlewares[_key] = arguments[_key];
     }
 
@@ -288,8 +303,6 @@
       };
     };
   }
-
-
 
   function bindActionCreator(actionCreator, dispatch) {
     return function() {
@@ -324,9 +337,18 @@
       return bindActionCreator(actionCreators, dispatch);
     }
 
-    if (typeof actionCreators !== 'object' || actionCreators === null || actionCreators === undefined) {
+    if (
+      typeof actionCreators !== 'object' ||
+      actionCreators === null ||
+      actionCreators === undefined
+    ) {
       // eslint-disable-line no-eq-null
-      throw new Error('bindActionCreators expected an object or a function, instead received ' + (actionCreators === null ? 'null' : typeof actionCreators) + '. ' + 'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?');
+      throw new Error(
+        'bindActionCreators expected an object or a function, instead received ' +
+          (actionCreators === null ? 'null' : typeof actionCreators) +
+          '. ' +
+          'Did you write "import ActionCreators from" instead of "import * as ActionCreators from"?'
+      );
     }
 
     return mapValues(actionCreators, function(actionCreator) {
@@ -334,26 +356,50 @@
     });
   }
 
-
   /* eslint-disable no-console */
 
   function getUndefinedStateErrorMessage(key, action) {
     var actionType = action && action.type;
-    var actionName = actionType && '"' + actionType.toString() + '"' || 'an action';
+    var actionName =
+      (actionType && '"' + actionType.toString() + '"') || 'an action';
 
-    return 'Reducer "' + key + '" returned undefined handling ' + actionName + '. ' + 'To ignore an action, you must explicitly return the previous state.';
+    return (
+      'Reducer "' +
+      key +
+      '" returned undefined handling ' +
+      actionName +
+      '. ' +
+      'To ignore an action, you must explicitly return the previous state.'
+    );
   }
 
-  function getUnexpectedStateKeyWarningMessage(inputState, outputState, action) {
+  function getUnexpectedStateKeyWarningMessage(
+    inputState,
+    outputState,
+    action
+  ) {
     var reducerKeys = Object.keys(outputState);
-    var argumentName = action && action.type === ActionTypes.INIT ? 'initialState argument passed to createStore' : 'previous state received by the reducer';
+    var argumentName =
+      action && action.type === ActionTypes.INIT
+        ? 'initialState argument passed to createStore'
+        : 'previous state received by the reducer';
 
     if (reducerKeys.length === 0) {
-      return 'Store does not have a valid reducer. Make sure the argument passed ' + 'to combineReducers is an object whose values are reducers.';
+      return (
+        'Store does not have a valid reducer. Make sure the argument passed ' +
+        'to combineReducers is an object whose values are reducers.'
+      );
     }
 
     if (!isPlainObject(inputState)) {
-      return 'The ' + argumentName + ' has unexpected type of "' + ({}).toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] + '". Expected argument to be an object with the following ' + ('keys: "' + reducerKeys.join('", "') + '"');
+      return (
+        'The ' +
+        argumentName +
+        ' has unexpected type of "' +
+        {}.toString.call(inputState).match(/\s([a-z|A-Z]+)/)[1] +
+        '". Expected argument to be an object with the following ' +
+        ('keys: "' + reducerKeys.join('", "') + '"')
+      );
     }
 
     var unexpectedKeys = Object.keys(inputState).filter(function(key) {
@@ -361,7 +407,18 @@
     });
 
     if (unexpectedKeys.length > 0) {
-      return 'Unexpected ' + (unexpectedKeys.length > 1 ? 'keys' : 'key') + ' ' + ('"' + unexpectedKeys.join('", "') + '" found in ' + argumentName + '. ') + 'Expected to find one of the known reducer keys instead: ' + ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.');
+      return (
+        'Unexpected ' +
+        (unexpectedKeys.length > 1 ? 'keys' : 'key') +
+        ' ' +
+        ('"' +
+          unexpectedKeys.join('", "') +
+          '" found in ' +
+          argumentName +
+          '. ') +
+        'Expected to find one of the known reducer keys instead: ' +
+        ('"' + reducerKeys.join('", "') + '". Unexpected keys will be ignored.')
+      );
     }
   }
 
@@ -373,14 +430,40 @@
       });
 
       if (typeof initialState === 'undefined') {
-        throw new Error('Reducer "' + key + '" returned undefined during initialization. ' + 'If the state passed to the reducer is undefined, you must ' + 'explicitly return the initial state. The initial state may ' + 'not be undefined.');
+        throw new Error(
+          'Reducer "' +
+            key +
+            '" returned undefined during initialization. ' +
+            'If the state passed to the reducer is undefined, you must ' +
+            'explicitly return the initial state. The initial state may ' +
+            'not be undefined.'
+        );
       }
 
-      var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
-      if (typeof reducer(undefined, {
+      var type =
+        '@@redux/PROBE_UNKNOWN_ACTION_' +
+        Math.random()
+          .toString(36)
+          .substring(7)
+          .split('')
+          .join('.');
+      if (
+        typeof reducer(undefined, {
           type: type
-        }) === 'undefined') {
-        throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+        }) === 'undefined'
+      ) {
+        throw new Error(
+          'Reducer "' +
+            key +
+            '" returned undefined when probed with a random type. ' +
+            ("Don't try to handle " +
+              ActionTypes.INIT +
+              ' or other actions in "redux/*" ') +
+            'namespace. They are considered private. Instead, you must return the ' +
+            'current state for any unknown actions, unless it is undefined, ' +
+            'in which case you must return the initial state, regardless of the ' +
+            'action type. The initial state may not be undefined.'
+        );
       }
     });
   }
@@ -438,7 +521,11 @@
       });
 
       if (true) {
-        var warningMessage = getUnexpectedStateKeyWarningMessage(state, finalState, action);
+        var warningMessage = getUnexpectedStateKeyWarningMessage(
+          state,
+          finalState,
+          action
+        );
         if (warningMessage) {
           console.error(warningMessage);
         }
@@ -448,19 +535,13 @@
     };
   }
 
-
-
-
   window.Redux = {
-    createStore:createStore,
-    combineReducers:combineReducers,
-    bindActionCreators:bindActionCreators,
-    applyMiddleware:applyMiddleware,
-    compose:compose
+    createStore: createStore,
+    combineReducers: combineReducers,
+    bindActionCreators: bindActionCreators,
+    applyMiddleware: applyMiddleware,
+    compose: compose
   };
-
-
-
 })(window);
 
 /*

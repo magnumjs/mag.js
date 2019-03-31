@@ -42,47 +42,40 @@ mag.module('app', {
 
 */
 
-mag.transitions = function(props){
-
+mag.transitions = function(props) {
   var transitionName = props.transitionName;
   var children = props.children;
-  
+
   //animation sequences
-  
+
   var animate = {
-    enter : function(node, begin, end){
-    
-    },
-    leave: function(node, begin, end){
-    
-    }
+    enter: function(node, begin, end) {},
+    leave: function(node, begin, end) {}
   };
-  
+
   //HoC
-  
+
   var mod = {
-    controller: function(){
-    
-      this.willgetprops= function(e, node){
+    controller: function() {
+      this.willgetprops = function(e, node) {
         // if children visible add animation 'enter' mode
         //else 'leave' mode
-      }
+      };
     },
-    view: function(state, props){
+    view: function(state, props) {
       // wrap children
       state.div = props.isVisible ? children(props) : null;
     }
   };
-  
+
   //vDOM
-  
+
   var ele = document.createElement('div');
   var clone = ele.cloneNode();
   clone.className = 'container';
   ele.appendChild(clone);
-  
+
   var par = mag.create(ele, mod);
 
   return par;
 };
-

@@ -15,9 +15,7 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2017
 */
 
-;
 (function(mag, document) {
-
   'use strict';
 
   var nodeCache = [];
@@ -25,16 +23,15 @@ Homepage: https://github.com/magnumjs/mag.js
   //Allow for by TagName?
   //wrapper for mag.module for tagNames - returns multiple instances
   mag.register = function(tagName, mod, props) {
-
     //Are we in a parent run?
 
     // mag.mod.runningViewInstance
 
-    var cacheId = tagName + (mag.mod.runningViewInstance ? mag.mod.runningViewInstance : 0);
+    var cacheId =
+      tagName + (mag.mod.runningViewInstance ? mag.mod.runningViewInstance : 0);
 
     //Check if in cache?
     if (nodeCache[cacheId]) {
-
       //console.log('cached', cacheId, nodeCache[cacheId]);
     }
 

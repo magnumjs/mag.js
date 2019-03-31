@@ -1,8 +1,6 @@
-import mag from '../main'
+import mag from '../main';
 // Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
 // Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
-
-
 
 function isObject(value) {
   const type = typeof value;
@@ -13,23 +11,24 @@ const stateMap = {};
 
 const copy = val => (isObject(val) ? Object.assign({}, val) : val);
 
-
 const clone = function(obj) {
-    var temp = function temporary() { return obj.apply(obj, arguments); };
-    for(var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            temp[key] = obj[key];
-        }
+  var temp = function temporary() {
+    return obj.apply(obj, arguments);
+  };
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      temp[key] = obj[key];
     }
-    return temp;
+  }
+  return temp;
 };
 
-const useState = function(initialValue){
-  const r = clone(mag._current)
+const useState = function(initialValue) {
+  const r = clone(mag._current);
   const name = r.key || r.id;
-  const oprops = r.props
-  const render = r
-  const ele = r.element
+  const oprops = r.props;
+  const render = r;
+  const ele = r.element;
   let state = stateMap[name];
 
   if (!state) {
@@ -46,7 +45,7 @@ const useState = function(initialValue){
         } else {
           state.value = value;
         }
-        state.render({...oprops,_newProps: value});
+        state.render({...oprops, _newProps: value});
       }
     };
 
@@ -56,14 +55,14 @@ const useState = function(initialValue){
       render,
       value: copy(initialValue)
     };
-    stateMap[name] = state;  
-    }
+    stateMap[name] = state;
+  }
 
   //TODO: remove on unmounting for functional comps?
   // new MutationObserver(()=>if(e[0].removedNodes){}).observe(ele)
   return [state.value, state.setValue];
-}
+};
 
-mag.useState = useState
+mag.useState = useState;
 
-export default mag
+export default mag;

@@ -5,39 +5,40 @@
  * 3. async data loading, loading icon and reloading icon
  */
 
-//Example: http://jsbin.com/kocodalaqu/edit?html,js,output 
+//Example: http://jsbin.com/kocodalaqu/edit?html,js,output
 
 //Example1 with large data set: http://jsbin.com/muxisecaxa/edit?html,js,output
 
-//Example2: http://jsbin.com/ponowimeri/edit?html,js,output 
+//Example2: http://jsbin.com/ponowimeri/edit?html,js,output
 
 /* MagJS Example - mag.cloak */
 
 mag.cloak = function(id, key) {
-
   var classHide = mag.cloak.classHideName || 'cloak';
 
   var cloak = function(node, index) {
-
     // should be already hidden at this point before code is run on page load class="cloak|hide"
 
-    mag.utils.onLCEvent('willupdate', index, function(vnode) {
-      //Check self
-      if (vnode.classList.contains(classHide)) {
-        vnode.classList.remove(classHide)
-      }
-      //class based for all sub nodes
-      var nodes = vnode.getElementsByClassName(classHide);
-      if (nodes.length) {
-        for (var i = 0; i < nodes.length; i++) {
-          var item = nodes[i];
-          item.classList.remove(classHide);
+    mag.utils.onLCEvent(
+      'willupdate',
+      index,
+      function(vnode) {
+        //Check self
+        if (vnode.classList.contains(classHide)) {
+          vnode.classList.remove(classHide);
         }
-      }
-      //TODO: Remove handler only run once onload?
-      //remove();
-    }.bind(null, node));
-
+        //class based for all sub nodes
+        var nodes = vnode.getElementsByClassName(classHide);
+        if (nodes.length) {
+          for (var i = 0; i < nodes.length; i++) {
+            var item = nodes[i];
+            item.classList.remove(classHide);
+          }
+        }
+        //TODO: Remove handler only run once onload?
+        //remove();
+      }.bind(null, node)
+    );
   };
 
   var cloaker = function(id) {
@@ -60,7 +61,7 @@ mag.cloak = function(id, key) {
 
   if (id) {
     // only one
-    cloaker(id)
+    cloaker(id);
   } else {
     // loop through all mag module instances
     mag.utils.items.i.forEach(function(val, index) {
@@ -69,4 +70,4 @@ mag.cloak = function(id, key) {
       cloak(node, index);
     });
   }
-}
+};

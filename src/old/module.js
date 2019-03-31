@@ -1,9 +1,5 @@
-;
 (function(mag) {
-
   'use strict';
-
-
 
   var mod = {
     modules: [],
@@ -11,8 +7,7 @@
     deferreds: [],
     controllers: [],
     elements: []
-  }
-
+  };
 
   mod.getController = function(index, module) {
     //var controller
@@ -62,11 +57,11 @@
 
     // get if exists
     if (this.controllers[index]) {
-      return this.controllers[index]
+      return this.controllers[index];
     }
 
-    return new module.controller
-  }
+    return new module.controller();
+  };
 
   // function deepFreeze(o) {
   //   var prop, propKey;
@@ -89,42 +84,45 @@
     // difference is that that can't be changed within those functions - does that matter?
     //deepFreeze(args)
 
-
     // TODO: Enforce single call to controllers?
 
     var controller = function() {
-        return (module.controller || function() {}).apply(this, args) || this
+        return (module.controller || function() {}).apply(this, args) || this;
       },
       view = function(ctrl, ele) {
         // container element available to sub components
         //TODO: removed until valid use case
         //module.view._nodeId = ele.id
 
-
-        if (arguments.length > 1) var nargs = args.concat([].slice.call(arguments, 1))
-        module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl])
-
+        if (arguments.length > 1)
+          var nargs = args.concat([].slice.call(arguments, 1));
+        module.view.apply(module, nargs ? [ctrl].concat(nargs) : [ctrl]);
       },
       output = {
         controller: controller,
         view: view
-      }
-      // why do we need these?
+      };
+    // why do we need these?
 
     //controller.$original = module.controller
     //view.$original = module.view
-    controller.$$args = args
-    return output
-  }
+    controller.$$args = args;
+    return output;
+  };
 
   mod.getArgs = function(i) {
-    var args = mod.modules[i] && mod.modules[i].controller && mod.modules[i].controller.$$args ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args) : [mod.controllers[i]]
-      // args that contaian circular references will throw an exception up the chain
+    var args =
+      mod.modules[i] &&
+      mod.modules[i].controller &&
+      mod.modules[i].controller.$$args
+        ? [mod.controllers[i]].concat(mod.modules[i].controller.$$args)
+        : [mod.controllers[i]];
+    // args that contaian circular references will throw an exception up the chain
 
     attachToArgs(i, args[0], this.elements[i]);
 
-    return args
-  }
+    return args;
+  };
 
   var getParent = function(parts, parentElement) {
     for (var i = 1; i < parts.length; i += 2) {
@@ -137,42 +135,43 @@
     return parentElement;
   };
   var getElement = function(obj, k, i, parentElement) {
-
     // search within _key if there
     var parts = i.toString().split('.'),
       found;
 
     if (parts.length >= 3) {
       // recurse
-      parentElement = getParent(parts, parentElement)
+      parentElement = getParent(parts, parentElement);
       found = mag.fill.find(parentElement, k);
-
     } else {
-
       var last = parseInt(parts.pop()),
         index = !isNaN(last) ? last : 0;
-      found = mag.fill.find(parentElement[index] ? parentElement[index] : parentElement, k);
+      found = mag.fill.find(
+        parentElement[index] ? parentElement[index] : parentElement,
+        k
+      );
     }
     // first user input field
     var founder = isInput(found);
     if (founder && !founder.eventOnFocus) {
-
       var onfocus = function() {
         if (!this.classList.contains('mag-dirty')) {
           this.classList.add('mag-dirty');
         }
-      }
+      };
 
-      founder.addEventListener("focus", onfocus, false);
+      founder.addEventListener('focus', onfocus, false);
       founder.eventOnFocus = true;
     }
     return founder;
-  }
+  };
 
   function isInput(items) {
-
     for (var k in items) {
-      if (items[k] && ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1) {
+      if (
+        items[k] &&
+        ['INPUT', 'SELECT', 'TEXTAREA'].indexOf(items[k].tagName) !== -1
+      ) {
         return items[k];
       }
     }
@@ -187,7 +186,6 @@
     var found = mag.fill.find(element, k);
     var founder = isInput(found);
     if (typeof oval !== 'function' && founder) {
-
       var founderCall = getElement.bind({}, obj, k, i, element);
       founderCall();
       Object.defineProperty(obj, k, {
@@ -196,7 +194,12 @@
           var founder = founderCall();
 
           // set on focus listener once
-          if (founder && founder.value !== 'undefined' && founder.classList.contains('mag-dirty') && founder.value !== oval) {
+          if (
+            founder &&
+            founder.value !== 'undefined' &&
+            founder.classList.contains('mag-dirty') &&
+            founder.value !== oval
+          ) {
             oval = founder.value;
             return founder.value;
           }
@@ -205,7 +208,12 @@
         set: function(newValue) {
           var founder = founderCall();
 
-          if (founder && founder.value !== 'undefined' && founder.value !== newValue && newValue !== oval) {
+          if (
+            founder &&
+            founder.value !== 'undefined' &&
+            founder.value !== newValue &&
+            newValue !== oval
+          ) {
             founder.value = newValue;
             oval = newValue;
           }
@@ -215,47 +223,60 @@
   };
 
   function attachToArgs(i, args, element) {
-
     // for each property set accessor property
 
-    // get notification when accessed 
+    // get notification when accessed
 
     // call fill to get and assign
 
     //if (!added[i]) added[i] = [];
     for (var k in args) {
+      var value = args[k];
 
-      var value = args[k]
+      if (
+        Array.isArray(value) &&
+        value[0] &&
+        !value[0].__$$i &&
+        typeof value[0].then !== 'undefined' &&
+        typeof value[0].type != 'fun'
+      ) {
+        value[0].__$$i = 1;
 
-      if (Array.isArray(value) && value[0] && !value[0].__$$i && typeof value[0].then !== 'undefined' && typeof value[0].type != 'fun') {
-        value[0].__$$i = 1
+        Promise.all(value).then(
+          function(args, k, val) {
+            if (val) {
+              value[0].__$$i == 0;
+              args[k] = val;
 
-        Promise.all(value).then(function(args, k, val) {
-          if (val) {
-            value[0].__$$i == 0
-            args[k] = val
-
-            mag.redraw()
-          }
-        }.bind(this, args, k))
-
-      } else
-
-      if (typeof value === 'object' && (!value || typeof value.then === 'undefined')) {
+              mag.redraw();
+            }
+          }.bind(this, args, k)
+        );
+      } else if (
+        typeof value === 'object' &&
+        (!value || typeof value.then === 'undefined')
+      ) {
         // recurse
         attachToArgs(i + '.' + k, value, element);
       } else {
-        if (value && !Array.isArray(value) && !value.__$$i && typeof value.then !== 'undefined' && typeof value.type != 'fun') {
-          value.__$$i = 1
-            // promise
-          value.then(function(args, k, val) {
-            if (val) {
-              args[k].__$$i = 0
-              args[k] = val
-              mag.redraw()
-            }
-          }.bind(this, args, k))
-
+        if (
+          value &&
+          !Array.isArray(value) &&
+          !value.__$$i &&
+          typeof value.then !== 'undefined' &&
+          typeof value.type != 'fun'
+        ) {
+          value.__$$i = 1;
+          // promise
+          value.then(
+            function(args, k, val) {
+              if (val) {
+                args[k].__$$i = 0;
+                args[k] = val;
+                mag.redraw();
+              }
+            }.bind(this, args, k)
+          );
         }
 
         //if (!added[i][k]) {
@@ -266,8 +287,5 @@
     }
   }
 
-
-
-  mag.mod = mod
-
-})(window.mag || {})
+  mag.mod = mod;
+})(window.mag || {});

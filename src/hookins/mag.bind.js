@@ -1,15 +1,15 @@
 //Example: http://jsbin.com/cubatuboki/edit?js,output
 
 (function(mag) {
-
   mag.hookin('attributes', 'bind', function(data) {
     //Been here already?
-    if (data.node[mag.MAGNUM].events && 'input-bind' in data.node[mag.MAGNUM].events) {
+    if (
+      data.node[mag.MAGNUM].events &&
+      'input-bind' in data.node[mag.MAGNUM].events
+    ) {
       //remove attribute from html
-      data.value = null
-
+      data.value = null;
     } else {
-
       //add
       data.node[mag.MAGNUM].events = data.node[mag.MAGNUM].events || [];
       data.node[mag.MAGNUM].events['input-bind'] = 1;
@@ -24,15 +24,12 @@
         //       var node = mag.find(moduleID, key);
 
         //       console.log(moduleID, key, e.target.value, node);
-
       }.bind({}, mag.fill.id, data.value);
 
       data.node.addEventListener('input', fun, false);
 
       //remove attribute from html
-      data.value = null
+      data.value = null;
     }
-
   });
-
-}(mag));
+})(mag);

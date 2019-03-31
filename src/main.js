@@ -1,3 +1,3 @@
-const mag = require("./fill")
+const mag = require('./fill');
 
-module.exports = mag.default
+module.exports = mag.default;

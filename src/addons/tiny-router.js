@@ -25,10 +25,7 @@ mag.route.start();
 // call urls with mag.route.load('employees/1234')
 */
 
-
-
 mag.route = (function(window) {
-
   'use strict';
 
   var routes = [],
@@ -48,12 +45,11 @@ mag.route = (function(window) {
       var paths = parseUrl('#' + lastUrl);
       var found = getHandler(routes, paths.parts);
       if (found && found.route.onexit) {
-        if(found.route.onexit.apply({}, [route])) return;
+        if (found.route.onexit.apply({}, [route])) return;
       }
     }
     window.location.hash = route;
   }
-
 
   function parseUrl(url) {
     var path = url.substr(1),
@@ -61,7 +57,7 @@ mag.route = (function(window) {
     return {
       path: path || '',
       parts: parts
-    }
+    };
   }
 
   function start(e) {
@@ -109,7 +105,6 @@ mag.route = (function(window) {
     }
   }
 
-
   window.onhashchange = start;
 
   return {
@@ -117,5 +112,4 @@ mag.route = (function(window) {
     load: load,
     start: start
   };
-
-}(window));
+})(window);

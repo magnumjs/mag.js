@@ -8,22 +8,19 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2016
 */
 
-;
 (function(mag, document) {
-
   'use strict';
 
   mag.importer = function(url, eleSelector) {
-
     function checkIfIncluded(file, node) {
-      var links = node.getElementsByTagName("link");
+      var links = node.getElementsByTagName('link');
       for (var i = 0; i < links.length; i++) {
         if (links[i].href.substr(-file.length) == file) {
           return true;
         }
       }
 
-      var scripts = node.getElementsByTagName("script");
+      var scripts = node.getElementsByTagName('script');
       for (var i = 0; i < scripts.length; i++) {
         if (scripts[i].src.substr(-file.length) == file) {
           return true;
@@ -34,8 +31,8 @@ Homepage: https://github.com/magnumjs/mag.js
     }
 
     function getId(id) {
-      if (typeof mag.importer.ids[id] !=='undefined') {
-        return id + (++mag.importer.ids[id]);
+      if (typeof mag.importer.ids[id] !== 'undefined') {
+        return id + ++mag.importer.ids[id];
       } else {
         return id + (mag.importer.ids[id] = 0);
       }
@@ -45,12 +42,14 @@ Homepage: https://github.com/magnumjs/mag.js
       var scripts = node.getElementsByTagName(type);
       // multiple promises
       var promises = [];
-      var names = {}
+      var names = {};
       for (var i = 0; i < scripts.length; i++) {
         // and doesn't already exist
-        var url = type == 'script' ? scripts[i].attributes.src.value : scripts[i].attributes.href.value;
-        if (url != "") {
-
+        var url =
+          type == 'script'
+            ? scripts[i].attributes.src.value
+            : scripts[i].attributes.href.value;
+        if (url != '') {
           if (checkIfIncluded(url, node)) {
             promises.push(mag.importer.namedPromises[url].promise);
             continue;
@@ -62,21 +61,22 @@ Homepage: https://github.com/magnumjs/mag.js
           } else continue;
 
           var tag = document.createElement(type);
-          tag[(type == 'script' ? 'src' : 'href')] = url;
+          tag[type == 'script' ? 'src' : 'href'] = url;
           if (type == 'link') tag.rel = 'stylesheet';
 
           tag.onload = function() {
             deferred.resolve(1);
-          }
+          };
 
-          document.getElementsByTagName("head")[0].appendChild(tag);
+          document.getElementsByTagName('head')[0].appendChild(tag);
           promises.push(deferred.promise);
         }
       }
       return promises;
     }
 
-    return mag.request({
+    return mag
+      .request({
         url: url,
         cache: true
       })
@@ -96,12 +96,12 @@ Homepage: https://github.com/magnumjs/mag.js
           // multiple invocations
           if (eleSelector) {
             var node = document.querySelector(eleSelector);
-            newNode.children[0].id = eleSelector
+            newNode.children[0].id = eleSelector;
             node.appendChild(newNode.children[0]);
             deferred.resolve(eleSelector);
           } else {
             // track incoming ids and increment
-            newNode.children[0].id = getId(newNode.children[0].id)
+            newNode.children[0].id = getId(newNode.children[0].id);
             deferred.resolve({
               _html: newNode.children[0].outerHTML,
               id: newNode.children[0].id
@@ -113,5 +113,4 @@ Homepage: https://github.com/magnumjs/mag.js
   };
   mag.importer.ids = {};
   mag.importer.namedPromises = {};
-
 })(mag, document);

@@ -11,25 +11,25 @@ var createStore = function(intialState, reducer) {
   var listeners = [];
 
   function subscribe(listener) {
-    listeners.push(listener)
+    listeners.push(listener);
 
     return function unsubscribe() {
-      var index = listeners.indexOf(listener)
-      listeners.splice(index, 1)
-    }
+      var index = listeners.indexOf(listener);
+      listeners.splice(index, 1);
+    };
   }
 
   function dispatch(action) {
-    currentState = currentReducer(currentState, action)
-    listeners.forEach(listener => listener(action, currentState))
+    currentState = currentReducer(currentState, action);
+    listeners.forEach(listener => listener(action, currentState));
   }
-  
+
   //Init:
-  dispatch({})
+  dispatch({});
 
   return {
     subscribe,
     dispatch,
     getState: () => currentState
-  }
-}
+  };
+};

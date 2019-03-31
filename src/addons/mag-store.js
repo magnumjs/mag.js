@@ -9,32 +9,33 @@ Homepage: https://github.com/magnumjs/mag.js
 */
 
 mag.store = function(id, mod, props) {
-
   if (typeof id === 'object') {
     props = id;
   }
 
-  props = props || {}
+  props = props || {};
   options = props.store || {};
 
-  var storageType = window[options.storageType || 'sessionStorage']
-  var initialState = options.cache
+  var storageType = window[options.storageType || 'sessionStorage'];
+  var initialState = options.cache;
   var expires = options.expires || 3000;
   var loop = options.loop || false;
   // http://jsonblob.com/api/jsonBlob/
-  var res = 'https://api.myjson.com/bins/'
+  var res = 'https://api.myjson.com/bins/';
   var resource = options.resource || res; // jsonblod OR myjson
-  var SOURCE_URL = options.url || options.collection && resource + options.collection || res + id;
+  var SOURCE_URL =
+    options.url ||
+    (options.collection && resource + options.collection) ||
+    res + id;
   var listeners = [];
   var saving = false;
 
   if (loop) {
     setInterval(function() {
       if (!saving) {
-        synchRemote()
-          .then(function() {
-            if (!saving) notify(getCache());
-          })
+        synchRemote().then(function() {
+          if (!saving) notify(getCache());
+        });
       }
     }, expires);
   }
@@ -43,70 +44,75 @@ mag.store = function(id, mod, props) {
     listeners.forEach(function(callback) {
       callback(state);
     });
-  }
+  };
 
   var merge = function(local, remote) {
     //Loop remote:
-    var ndata = []
+    var ndata = [];
     remote.forEach(function(ritem) {
-
-      var lfound = local && local.find(function(litem) {
-        return litem._id === ritem._id
-      })
+      var lfound =
+        local &&
+        local.find(function(litem) {
+          return litem._id === ritem._id;
+        });
       if (lfound && lfound._time > ritem._time) {
-        ndata.push(lfound)
+        ndata.push(lfound);
       } else {
         ndata.push(ritem);
       }
-    })
+    });
     return ndata;
   };
 
   var synchRemote = function() {
     var cacheCopy = getCache();
-    return mag.request({
-      url: SOURCE_URL
-    }).then(function(rdata) {
-      if (JSON.stringify(rdata) !== JSON.stringify(cacheCopy)) {
-        // merge
-        var ndata = merge(cacheCopy, rdata);
-        setCache(ndata)
-      }
-      return ndata || rdata;
-    });
-  }
-
+    return mag
+      .request({
+        url: SOURCE_URL
+      })
+      .then(function(rdata) {
+        if (JSON.stringify(rdata) !== JSON.stringify(cacheCopy)) {
+          // merge
+          var ndata = merge(cacheCopy, rdata);
+          setCache(ndata);
+        }
+        return ndata || rdata;
+      });
+  };
 
   var saveData = function(ndata) {
-
     var cacheCopy = getCache();
     // get remote latest
-    return mag.request({
-      url: SOURCE_URL
-    }).then(function(rdata) {
-      if (JSON.stringify(rdata) !== JSON.stringify(cacheCopy)) {
-        // merge
-        ndata = merge(ndata, rdata);
-      }
-
-      //Reset caches:
-      setCache(ndata);
-
-      return mag.request({
-        url: SOURCE_URL,
-        method: 'put',
-        data: JSON.stringify(ndata),
-        headers: [{
-          "Content-Type": "application/json; charset=utf-8"
-        }]
-      }).then(function(data) {
-        saving = false;
-        return data;
+    return mag
+      .request({
+        url: SOURCE_URL
       })
-    });
+      .then(function(rdata) {
+        if (JSON.stringify(rdata) !== JSON.stringify(cacheCopy)) {
+          // merge
+          ndata = merge(ndata, rdata);
+        }
 
-  }
+        //Reset caches:
+        setCache(ndata);
 
+        return mag
+          .request({
+            url: SOURCE_URL,
+            method: 'put',
+            data: JSON.stringify(ndata),
+            headers: [
+              {
+                'Content-Type': 'application/json; charset=utf-8'
+              }
+            ]
+          })
+          .then(function(data) {
+            saving = false;
+            return data;
+          });
+      });
+  };
 
   var timer2;
   var getData = function() {
@@ -114,21 +120,20 @@ mag.store = function(id, mod, props) {
 
     clearTimeout(timer2);
     timer2 = setTimeout(function() {
-      synchRemote()
-        .then(function() {
-          def.resolve(getCache())
-        })
+      synchRemote().then(function() {
+        def.resolve(getCache());
+      });
     });
 
     return def.promise;
-  }
+  };
 
   //Privates :
   var cache;
 
   function setCache(data) {
     cache = data;
-    storageType.setItem(SOURCE_URL, JSON.stringify(data))
+    storageType.setItem(SOURCE_URL, JSON.stringify(data));
     return mag.copy(data);
   }
 
@@ -151,14 +156,15 @@ mag.store = function(id, mod, props) {
           if (query[prop] === item[prop]) ret = true;
         }
         return ret;
-      })
-    })
-
+      });
+    });
   };
 
   var genId = function() {
-    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  }
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
   var addNew = function(ndata) {
     var data = mag.copy(cache);
 
@@ -169,7 +175,7 @@ mag.store = function(id, mod, props) {
     data.push(ndata);
 
     return save(data);
-  }
+  };
 
   var deleteBy = function(query) {
     var data = getCache();
@@ -193,14 +199,16 @@ mag.store = function(id, mod, props) {
     if (!~foundIndex) throw Error('mag.store - index not found');
     //Merge:
     for (var prop in data[foundIndex]) {
-      if (typeof change[prop] !== 'undefined') data[foundIndex][prop] = change[prop];
+      if (typeof change[prop] !== 'undefined')
+        data[foundIndex][prop] = change[prop];
     }
     data[foundIndex]._time = Date.now();
 
     return save(data);
   };
 
-  var timer, delay = expires;
+  var timer,
+    delay = expires;
   var lastState;
 
   var check = function() {
@@ -208,9 +216,9 @@ mag.store = function(id, mod, props) {
       // save to remote url
       saveData(lastState).then(function() {
         notify(getCache());
-      })
+      });
     }
-  }
+  };
   var save = function(data) {
     saving = true;
     // debounce changes -- check for diffs
@@ -220,8 +228,8 @@ mag.store = function(id, mod, props) {
       check();
     }, delay);
 
-    return lastState = data;
-  }
+    return (lastState = data);
+  };
 
   var createNew = function(initialData) {
     saving = true;
@@ -235,24 +243,27 @@ mag.store = function(id, mod, props) {
       //  {"uri":"https://api.myjson.com/bins/:id"}
       var id = responseData.uri.split('/').pop();
       return id;
-    }
+    };
 
-    return mag.request({
-      url: SOURCE_URL,
-      method: 'post',
-      data: JSON.stringify(initialData),
-      headers: [{
-        "Content-Type": "application/json; charset=utf-8"
-      }]
-    }).then(function(data, headers) {
-      saving = false;
+    return mag
+      .request({
+        url: SOURCE_URL,
+        method: 'post',
+        data: JSON.stringify(initialData),
+        headers: [
+          {
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        ]
+      })
+      .then(function(data, headers) {
+        saving = false;
 
-      var newId = getCreateId(data, headers);
+        var newId = getCreateId(data, headers);
 
-      return newId;
-    })
-
-  }
+        return newId;
+      });
+  };
 
   var api = {
     subscribe: function(cb) {
@@ -269,9 +280,9 @@ mag.store = function(id, mod, props) {
     update: update,
     insert: addNew,
     reset: function() {
-      return setCache(null)
+      return setCache(null);
     }
-  }
+  };
 
   if (id && mod) {
     var app;
@@ -290,4 +301,4 @@ mag.store = function(id, mod, props) {
   } else {
     return api;
   }
-}
+};

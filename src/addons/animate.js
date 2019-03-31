@@ -4,67 +4,55 @@ Mag.JS Animate v0.1
 https://github.com/magnumjs/mag.js
 */
 
-var mag = mag || {}
+var mag = mag || {};
 
-mag.anime = {}
+mag.anime = {};
 
-mag.anime.fadeIn =function ( elem, ms )
-{
-  if( ! elem )
-    return;
+mag.anime.fadeIn = function(elem, ms) {
+  if (!elem) return;
 
   elem.style.opacity = 0;
-  elem.style.filter = "alpha(opacity=0)";
-  elem.style.display = "inline-block";
-  elem.style.visibility = "visible";
+  elem.style.filter = 'alpha(opacity=0)';
+  elem.style.display = 'inline-block';
+  elem.style.visibility = 'visible';
 
-  if( ms )
-  {
+  if (ms) {
     var opacity = 0;
-    var timer = setInterval( function() {
+    var timer = setInterval(function() {
       opacity += 50 / ms;
-      if( opacity >= 1 )
-      {
+      if (opacity >= 1) {
         clearInterval(timer);
         opacity = 1;
       }
       elem.style.opacity = opacity;
-      elem.style.filter = "alpha(opacity=" + opacity * 100 + ")";
-    }, 50 );
-  }
-  else
-  {
+      elem.style.filter = 'alpha(opacity=' + opacity * 100 + ')';
+    }, 50);
+  } else {
     elem.style.opacity = 1;
-    elem.style.filter = "alpha(opacity=1)";
+    elem.style.filter = 'alpha(opacity=1)';
   }
-}
+};
 
-mag.anime.fadeOut =function( elem, ms )
-{
-  if( ! elem )
-    return;
+mag.anime.fadeOut = function(elem, ms) {
+  if (!elem) return;
 
-  if( ms )
-  {
+  if (ms) {
     var opacity = 1;
-    var timer = setInterval( function() {
+    var timer = setInterval(function() {
       opacity -= 50 / ms;
-      if( opacity <= 0 )
-      {
+      if (opacity <= 0) {
         clearInterval(timer);
         opacity = 0;
-        elem.style.display = "none";
-        elem.style.visibility = "hidden";
+        elem.style.display = 'none';
+        elem.style.visibility = 'hidden';
       }
       elem.style.opacity = opacity;
-      elem.style.filter = "alpha(opacity=" + opacity * 100 + ")";
-    }, 50 );
-  }
-  else
-  {
+      elem.style.filter = 'alpha(opacity=' + opacity * 100 + ')';
+    }, 50);
+  } else {
     elem.style.opacity = 0;
-    elem.style.filter = "alpha(opacity=0)";
-    elem.style.display = "none";
-    elem.style.visibility = "hidden";
+    elem.style.filter = 'alpha(opacity=0)';
+    elem.style.display = 'none';
+    elem.style.visibility = 'hidden';
   }
-}
+};

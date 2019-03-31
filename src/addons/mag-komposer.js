@@ -16,24 +16,28 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
     var lnode = document.createElement('div');
     lnode.appendChild(lnode.cloneNode());
 
-    loadingComp = loadingComp || mag.create(lnode, {
-      view: function(state) {
-        state.div = 'Loading...';
-      }
-    });
+    loadingComp =
+      loadingComp ||
+      mag.create(lnode, {
+        view: function(state) {
+          state.div = 'Loading...';
+        }
+      });
 
     //Default error component can be over ridden:
     var enode = document.createElement('div');
     enode.appendChild(enode.cloneNode());
 
-    errorComp = errorComp || mag.create(enode, {
-      view: function(state, props) {
-        state.div = {
-          _text: props.message,
-          _style: 'color:red',
-        };
-      }
-    });
+    errorComp =
+      errorComp ||
+      mag.create(enode, {
+        view: function(state, props) {
+          state.div = {
+            _text: props.message,
+            _style: 'color:red'
+          };
+        }
+      });
 
     var cleaners = [],
       errors = [],
@@ -42,30 +46,29 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
       //why is this here, onunload?
       if (cleaners[props.key]) cleaners[props.key]();
 
-      cleaners[props.key] = handlerFunc(props, function(key, ids, nprops) {
+      cleaners[props.key] = handlerFunc(
+        props,
+        function(key, ids, nprops) {
+          loading[key] = false;
+          var cp = mag.mod.getProps(ids);
 
-        loading[key] = false;
-        var cp = mag.mod.getProps(ids);
+          if (nprops instanceof Error) {
+            errors[key] = true;
+            error = {};
+            Object.getOwnPropertyNames(nprops).forEach(function(skey) {
+              error[skey] = nprops[skey];
+            });
+            mag.mod.setProps(ids, mag.merge(cp, error));
+          } else {
+            mag.mod.setProps(ids, mag.merge(cp, nprops));
+          }
 
-        if (nprops instanceof Error) {
-          errors[key] = true;
-          error = {};
-          Object.getOwnPropertyNames(nprops).forEach(function(skey) {
-            error[skey] = nprops[skey];
-          });
-          mag.mod.setProps(ids, mag.merge(cp, error))
-
-        } else {
-          mag.mod.setProps(ids, mag.merge(cp, nprops))
-        }
-        
-
-        var rnode = mag.getNode(mag.getId(ids));
-        if (rnode) {
-          mag.redraw(rnode, ids);
-        }
-
-      }.bind({}, props.key, instanceID));
+          var rnode = mag.getNode(mag.getId(ids));
+          if (rnode) {
+            mag.redraw(rnode, ids);
+          }
+        }.bind({}, props.key, instanceID)
+      );
     };
 
     var hoc = {
@@ -78,7 +81,7 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
         };
 
         this.willgetprops = function(node, cprops, instanceId) {
-          _subscribe(cprops, instanceId)
+          _subscribe(cprops, instanceId);
         };
       },
       view: function(state, props) {
@@ -98,8 +101,8 @@ mag.komposer = function(handlerFunc, loadingComp, errorComp) {
 
     // virtual node
     var node = document.createElement('div');
-    node.appendChild(node.cloneNode())
+    node.appendChild(node.cloneNode());
 
     return mag.create(node, hoc);
-  }
+  };
 };

@@ -1,6 +1,4 @@
-;
 (function(mag, configs, document, undefined) {
-
   'use strict';
 
   var ELEMENT_NODE = 1,
@@ -8,56 +6,72 @@
     MAGNUM = '__magnum__',
     FUNCTION = 'function',
     UNDEFINED = 'undefined',
-    MAGNUM_KEY = '_key'
-    //, count = [];
-
+    MAGNUM_KEY = '_key';
+  //, count = [];
 
   // helper method to detect arrays -- silly javascript
   function _isArray(obj) {
-    return Object.prototype.toString.call(obj) === '[object Array]'
+    return Object.prototype.toString.call(obj) === '[object Array]';
   }
 
-
   function getPathTo(element) {
-    if (element.id !== '')
-      return 'id("' + element.id + '")';
-    if (element === document.body)
-      return element.tagName;
+    if (element.id !== '') return 'id("' + element.id + '")';
+    if (element === document.body) return element.tagName;
 
     var ix = 0;
-    if (!element.parentNode) return
+    if (!element.parentNode) return;
     var siblings = element.parentNode.childNodes;
     for (var i = 0; i < siblings.length; i++) {
       var sibling = siblings[i];
       if (sibling === element)
-        return getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
-      if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
-        ix++;
+        return (
+          getPathTo(element.parentNode) +
+          '/' +
+          element.tagName +
+          '[' +
+          (ix + 1) +
+          ']'
+        );
+      if (sibling.nodeType === 1 && sibling.tagName === element.tagName) ix++;
     }
   }
 
   function removeNode(node) {
     // console.log('read inside removeNode')
-    var p = getPathTo(node)
-      // remove cache of all children too
+    var p = getPathTo(node);
+    // remove cache of all children too
 
-    node.parentNode.removeChild(node)
-      // call config unload if any ?
+    node.parentNode.removeChild(node);
+    // call config unload if any ?
 
     //console.log(p, cached[p])
-    if (cached[p + '-config'] && cached[p + '-config'].configContext && typeof cached[p + '-config'].configContext.onunload === FUNCTION) {
+    if (
+      cached[p + '-config'] &&
+      cached[p + '-config'].configContext &&
+      typeof cached[p + '-config'].configContext.onunload === FUNCTION
+    ) {
       // what arg to send ?
-      cached[p + '-config'].configContext.onunload(cached[p + '-config'].configContext, node, p)
+      cached[p + '-config'].configContext.onunload(
+        cached[p + '-config'].configContext,
+        node,
+        p
+      );
     }
   }
 
   // TODO: get index from getPathTo function
   function getPathIndex(p) {
+    var s =
+      p &&
+      parseInt(
+        p
+          .split('[')
+          .pop()
+          .slice(0, -1)
+      );
 
-    var s = p && parseInt(p.split('[').pop().slice(0, -1))
-
-    if (!s) return 0
-    return parseInt(s) - 1
+    if (!s) return 0;
+    return parseInt(s) - 1;
   }
 
   // function getPathId(p) {
@@ -65,22 +79,21 @@
   //   return p && p.split('id("')[1].split('")')[0]
   // }
   var templates = {},
-    gkeys = {} // What about nested Lists, which guid?
-    //firstRun = false;
+    gkeys = {}; // What about nested Lists, which guid?
+  //firstRun = false;
 
   // this is the entry point for this module, to fill the dom with data
   function fill(nodeList, data, key) {
-    var node, parent, dataIsArray
-
-
+    var node, parent, dataIsArray;
 
     // there is nothing to do if there is nothing to fill
-    if (!nodeList) return
+    if (!nodeList) return;
 
     // remove all child nodes if there is no data
-    if (data == null) data = {
-      _text: ''
-    }
+    if (data == null)
+      data = {
+        _text: ''
+      };
 
     // CACHE
     // DIFF
@@ -88,242 +101,241 @@
     // KEYS for indentification
 
     // nodeList updates as the dom changes, so freeze it in an array
-    var elements = nodeListToArray(nodeList)
+    var elements = nodeListToArray(nodeList);
 
-    dataIsArray = _isArray(data)
-
+    dataIsArray = _isArray(data);
 
     // match the number of nodes to the number of data elements
     if (dataIsArray) {
-      gkeys[key] = gkeys[key] || 0
+      gkeys[key] = gkeys[key] || 0;
 
       if (templates[key] && elements.length === 0) {
-        templates[key].parent.insertAdjacentHTML("beforeend", templates[key].node);
-        elements = nodeListToArray(templates[key].parent.children)
+        templates[key].parent.insertAdjacentHTML(
+          'beforeend',
+          templates[key].node
+        );
+        elements = nodeListToArray(templates[key].parent.children);
       }
 
       if (elements.length === 0) {
-        gkeys[key] = 0
-          // should never reach here
-          // cannot fill empty nodeList with an array of data
-        return
+        gkeys[key] = 0;
+        // should never reach here
+        // cannot fill empty nodeList with an array of data
+        return;
       }
       // clone the first node if more nodes are needed
-      parent = elements[0].parentNode
+      parent = elements[0].parentNode;
 
       if (!templates[key]) {
         templates[key] = {
           node: elements[0].cloneNode(true).outerHTML,
           parent: parent
-        }
+        };
       }
 
       //Adding
       while (elements.length < data.length) {
         if (templates[key]) {
-          parent.insertAdjacentHTML("beforeend", templates[key].node)
-          node = parent.lastChild
+          parent.insertAdjacentHTML('beforeend', templates[key].node);
+          node = parent.lastChild;
         } else {
-          node = elements[0].cloneNode(true)
+          node = elements[0].cloneNode(true);
         }
 
-        elements.push(node)
-        if (parent) parent.appendChild(node)
+        elements.push(node);
+        if (parent) parent.appendChild(node);
       }
       // loop thru to make sure no undefined keys
 
-
-
       var ekeys = elements.map(function(i) {
-        return i.__key
-      })
+        return i.__key;
+      });
 
       var keys = data.map(function(i) {
-        return i[MAGNUM_KEY]
-      })
+        return i[MAGNUM_KEY];
+      });
 
       //count[0] = [getPathId(key),data.length]
       // add keys if equal
       if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
-
-
         // changes data can cause recursion!
 
         var data = data.map(function(d, i) {
-
-            if (typeof d === 'object') {
-              if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
-                d[MAGNUM_KEY] = elements[i].__key
-                return d
-              }
-              if (typeof d[MAGNUM_KEY] === UNDEFINED) {
-                d[MAGNUM_KEY] = MAGNUM + i
-                  //d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
-              }
-              //console.log(d[MAGNUM_KEY], i)
-              elements[i].__key = d[MAGNUM_KEY]
+          if (typeof d === 'object') {
+            if (elements[i].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = elements[i].__key;
+              return d;
             }
+            if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+              d[MAGNUM_KEY] = MAGNUM + i;
+              //d[MAGNUM_KEY] = MAGNUM + gkeys[key]++
+            }
+            //console.log(d[MAGNUM_KEY], i)
+            elements[i].__key = d[MAGNUM_KEY];
+          }
 
-            return d
-          })
-          //console.log(key, data)
+          return d;
+        });
+        //console.log(key, data)
       }
       if (elements.length > data.length) {
         if (data.length === 0 || typeof data[0] !== 'object') {
-
           while (elements.length > data.length) {
-            node = elements.pop()
-            parent = node.parentNode
+            node = elements.pop();
+            parent = node.parentNode;
             if (parent) {
-              removeNode(node)
+              removeNode(node);
             }
           }
-
-
         } else {
           // more elements than data
           // remove elements that don't have matching data keys
 
-          var found = []
-            // get all data keys
+          var found = [];
+          // get all data keys
           var m = data.map(function(i) {
-              return i[MAGNUM_KEY]
-            })
-            //console.log('m keys', m)
+            return i[MAGNUM_KEY];
+          });
+          //console.log('m keys', m)
           var k = elements.map(function(i) {
-              return i.__key
-            })
-            //console.log('e keys', k)
+            return i.__key;
+          });
+          //console.log('e keys', k)
 
           var elements = elements.filter(function(ele, i) {
-            if (m.indexOf(ele.__key) === -1 || found.indexOf(ele.__key) !== -1) {
-              found.push(ele.__key)
-              removeNode(ele)
-              return false
+            if (
+              m.indexOf(ele.__key) === -1 ||
+              found.indexOf(ele.__key) !== -1
+            ) {
+              found.push(ele.__key);
+              removeNode(ele);
+              return false;
             }
-            found.push(ele.__key)
-            return true
-          })
-
+            found.push(ele.__key);
+            return true;
+          });
         }
       }
-
     }
 
     // now fill each node with the data
     for (var i = 0; i < elements.length; i++) {
-      var p = getPathTo(elements[i])
+      var p = getPathTo(elements[i]);
       if (dataIsArray) {
         if (elements[i]) {
-
-
-          fill(elements[i], data[i])
-
+          fill(elements[i], data[i]);
         }
       } else {
         //TODO: is this a child of an array?
-        if (data && typeof data === "object" && Object.keys(data).indexOf(MAGNUM_KEY) !== -1) {
-          elements[i][MAGNUM] = elements[i][MAGNUM] || {}
-            //console.log(data, i)
-          elements[i][MAGNUM].isChildOfArray = true
-          elements[i][MAGNUM].dataPass = data
+        if (
+          data &&
+          typeof data === 'object' &&
+          Object.keys(data).indexOf(MAGNUM_KEY) !== -1
+        ) {
+          elements[i][MAGNUM] = elements[i][MAGNUM] || {};
+          //console.log(data, i)
+          elements[i][MAGNUM].isChildOfArray = true;
+          elements[i][MAGNUM].dataPass = data;
         }
 
-        fillNode(elements[i], data)
+        fillNode(elements[i], data);
       }
-
     }
-    return nodeList
+    return nodeList;
   }
 
   function findParentChild(node) {
-    if (node.parentNode && node.parentNode[MAGNUM] && node.parentNode[MAGNUM].isChildOfArray) {
-      return node.parentNode
+    if (
+      node.parentNode &&
+      node.parentNode[MAGNUM] &&
+      node.parentNode[MAGNUM].isChildOfArray
+    ) {
+      return node.parentNode;
     } else if (node.parentNode) {
-      // continue to walk up parent tree 
-      return findParentChild(node.parentNode)
+      // continue to walk up parent tree
+      return findParentChild(node.parentNode);
     }
   }
 
   function fillNode(node, data) {
-    var attributes,
-      attrValue,
-      element,
-      elements
+    var attributes, attrValue, element, elements;
 
     // ignore functions
     if (typeof data === FUNCTION && typeof data()._html !== FUNCTION) {
-      return
+      return;
     }
 
-    if (typeof data !== 'object' && typeof data === FUNCTION && typeof data()._html === FUNCTION) return fillNode(node, {
-      _html: data()._html
-    })
-
+    if (
+      typeof data !== 'object' &&
+      typeof data === FUNCTION &&
+      typeof data()._html === FUNCTION
+    )
+      return fillNode(node, {
+        _html: data()._html
+      });
 
     // if the value is a simple property wrap it in the attributes hash
-    if (typeof data !== 'object') return fillNode(node, {
-      _text: data
-    })
+    if (typeof data !== 'object')
+      return fillNode(node, {
+        _text: data
+      });
 
     // find all the attributes
     for (var key in data) {
-      var value = data[key]
+      var value = data[key];
 
       // null values are treated like empty strings
       if (value === undefined) {
-        value = ''
+        value = '';
       } else if (value === null && ['onunload'].indexOf(key) === -1) {
         // TODO: delete case
-        // special case delete all children if equal to null type  
-        var matches = matchingElements(node, key)
+        // special case delete all children if equal to null type
+        var matches = matchingElements(node, key);
         matches.forEach(function(item) {
-          removeNode(item)
-        })
+          removeNode(item);
+        });
       }
 
       //TODO: prepend attributes ? double underscore ??
 
       // anything that starts with an underscore is an attribute
       if (key[0] === '_') {
-
-        attributes = attributes || {}
+        attributes = attributes || {};
         attributes[key.substr(1)] = value;
-
       }
     }
 
-    var p = getPathTo(node)
+    var p = getPathTo(node);
 
     // fill in all the attributes
     if (attributes) {
-
-
-
-
-      fillAttributes(node, attributes)
-
+      fillAttributes(node, attributes);
     }
 
     var index = 0,
-      ignorekeys = ['willupdate', 'didupdate', 'didload', 'willload', 'isupdate']
-      // look for non-attribute keys and recurse into those elements
+      ignorekeys = [
+        'willupdate',
+        'didupdate',
+        'didload',
+        'willload',
+        'isupdate'
+      ];
+    // look for non-attribute keys and recurse into those elements
     for (var key in data) {
-
       // ignore certain system keys
-      if (ignorekeys.indexOf(key) !== -1) continue
+      if (ignorekeys.indexOf(key) !== -1) continue;
 
-      var value = data[key]
+      var value = data[key];
 
       // only attributes start with an underscore
       if (key[0] !== '_') {
         elements = matchingElements(node, key);
 
-        // function 
+        // function
         if (typeof value === FUNCTION && value.type == 'fun') {
           // try {
 
-          value = value()
+          value = value();
 
           // } catch (e) {}
         }
@@ -336,11 +348,10 @@
 
         fill(elements, value, p + '/' + key);
 
-        index++
+        index++;
       }
     }
   }
-
 
   // freeze the NodeList into a real Array so it can't update as DOM changes
   function nodeListToArray(nodeList) {
@@ -370,8 +381,7 @@
   // fill in the attributes on an element (setting text and html first)
   function fillAttributes(node, attributes) {
     var p = getPathTo(node),
-      tagIndex = getPathIndex(p)
-
+      tagIndex = getPathIndex(p);
 
     // attach to topId so can be removed later
 
@@ -379,15 +389,12 @@
 
     // set the rest of the attributes
     for (var attrName in attributes) {
-
       // skip text and html, they've already been set
-      if (attrName === 'text' || attrName === 'html') continue
+      if (attrName === 'text' || attrName === 'html') continue;
 
       // events
       if (attrName.indexOf('on') == 0) {
-
         var eventCall = function(fun, node, e) {
-
           var dataParent = findParentChild(node),
             path = dataParent && getPathTo(dataParent),
             parentIndex = getPathIndex(path),
@@ -398,44 +405,43 @@
               data: ((dataParent || {})[MAGNUM] || []).dataPass,
               node: dataParent,
               index: parentIndex
-            }
-          var ret = fun.call(node, e, tagIndex, node, parent)
-            // what ret is a promise
-            //if(ret.then && ret.then == FUNCTION)
-          mag.redraw()
-          return ret
-        }.bind({}, attributes[attrName], node)
+            };
+          var ret = fun.call(node, e, tagIndex, node, parent);
+          // what ret is a promise
+          //if(ret.then && ret.then == FUNCTION)
+          mag.redraw();
+          return ret;
+        }.bind({}, attributes[attrName], node);
 
-        node[attrName] = eventCall
-
-
+        node[attrName] = eventCall;
       } else {
-
         if (attrName == 'config') {
           // have we been here before?
           // does the element already exist in cache
           // useful to know if this is newly added
-          var isNew = true
+          var isNew = true;
 
           if (!cached[p + '-config']) {
-            cached[p + '-config'] = {}
+            cached[p + '-config'] = {};
           } else {
-            isNew = false
+            isNew = false;
           }
 
-          var context = cached[p + '-config'].configContext = cached[p + '-config'].configContext || {}
-
+          var context = (cached[p + '-config'].configContext =
+            cached[p + '-config'].configContext || {});
 
           // console.log(p)
           // bind
           var callback = function(data, args) {
             return function() {
-              return data.apply(data, args)
-            }
-          }
+              return data.apply(data, args);
+            };
+          };
 
-          configs.push(callback(attributes[attrName], [node, isNew, context, tagIndex]))
-          continue
+          configs.push(
+            callback(attributes[attrName], [node, isNew, context, tagIndex])
+          );
+          continue;
         }
 
         // hookins
@@ -443,27 +449,25 @@
           key: attrName,
           value: attributes[attrName],
           node: node
-        }
-        mag.hook('attributes', attrName, data)
-          // change
+        };
+        mag.hook('attributes', attrName, data);
+        // change
         if (data.change) {
-          attrName = data.key
-          attributes[attrName] = data.value
+          attrName = data.key;
+          attributes[attrName] = data.value;
         }
 
         //if (cache) continue
         if (attributes[attrName] === null) {
-          node.removeAttribute(attrName)
+          node.removeAttribute(attrName);
         } else {
-          node.setAttribute(attrName, attributes[attrName].toString())
+          node.setAttribute(attrName, attributes[attrName].toString());
         }
-
       }
     }
 
-
     // set html after setting text because html overrides text
-    setText(node, attributes.text)
+    setText(node, attributes.text);
 
     // get parent
 
@@ -471,19 +475,16 @@
 
     //if(p && pId)console.log('PARENT',p, pId)
 
-
     // setHtml(node, attributes.html, tagIndex, p && getPathId(p))
-    setHtml(node, attributes.html, tagIndex)
-
-
+    setHtml(node, attributes.html, tagIndex);
   }
 
   function setText(node, text, xpath) {
-    var child, children
+    var child, children;
 
     // make sure that we have a node and text to insert
     if (!node || text == null) {
-      return
+      return;
     }
     // cache all of the child nodes
     if (!children) {
@@ -491,7 +492,7 @@
       for (var i = 0; i < node.childNodes.length; i += 1) {
         child = node.childNodes[i];
         if (child.nodeType === ELEMENT_NODE) {
-          children.push(child)
+          children.push(child);
         }
       }
     }
@@ -499,7 +500,7 @@
     // remove all of the children
     //WHY?
     while (node.firstChild) {
-      node.removeChild(node.firstChild)
+      node.removeChild(node.firstChild);
     }
 
     // SELECT|INPUT|TEXTAREA
@@ -516,7 +517,6 @@
     for (var i = 0; i < children.length; i += 1) {
       node.appendChild(children[i]);
     }
-
 
     if (node.nodeName === 'SELECT') {
       node.value = text.toString();
@@ -546,27 +546,27 @@
       //count[html.id] = [index + 1, pId]
       // console.log('PID',  html.id, pId, index)
       // check if already has
-      html.id = MAGNUM + html.id.split(MAGNUM).pop() + (!endsWith(html.id, index) ? index : '')
-
+      html.id =
+        MAGNUM +
+        html.id.split(MAGNUM).pop() +
+        (!endsWith(html.id, index) ? index : '');
     }
   }
 
-  var tree
+  var tree;
 
   function setChildNode(parent, child, tagIndex) {
-
-    addCloneId(child, tagIndex)
+    addCloneId(child, tagIndex);
 
     // var sp1 = document.createElement("span")
     // parent.appendChild(sp1)
     // parent.replaceChild(child, sp1);
 
-    if (parent.firstChild) parent.replaceChild(child, parent.firstChild)
-    else parent.appendChild(child)
+    if (parent.firstChild) parent.replaceChild(child, parent.firstChild);
+    else parent.appendChild(child);
   }
 
   function setHtml(node, html, tagIndex) {
-
     if (!node || html == null) return;
 
     // var display = node.style.display || 'block';
@@ -579,11 +579,8 @@
 
     if (typeof html === FUNCTION && html().nodeType === 1) {
       setChildNode(node, html(), tagIndex);
-
     } else if (html.nodeType === 1) {
-
       setChildNode(node, html, tagIndex);
-
     } else {
       node.innerHTML = html;
     }
@@ -592,8 +589,7 @@
 
     // CAN'T do below since it will append on every new call
     // node.insertAdjacentHTML("afterbegin", html)
-  };
-
+  }
 
   //===========================================================================
   // TODO: Decide if the caching of element matching should be reintroduced.
@@ -603,23 +599,21 @@
   // when someone is running performance benchmarks.
   //===========================================================================
 
-
   // find all of the matching elements (breadth-first)
 
   function matchingElements(node, key, nested) {
-    var elements = childElements(node)
-    var matches = []
-    var keyName = key
+    var elements = childElements(node);
+    var matches = [];
+    var keyName = key;
 
     // is this cache necessary good useful?
     // are we losing some dynamism?
 
-
-    var globalSearch = key[0] === '$'
+    var globalSearch = key[0] === '$';
 
     if (keyName[0] === '$') {
       // bust cache
-      keyName = keyName.substr(1)
+      keyName = keyName.substr(1);
     }
 
     // search all child elements for a match
@@ -633,8 +627,8 @@
     if (!matches.length || globalSearch) {
       for (var i = 0; i < elements.length; i++) {
         // NOTE: pass in a flag to prevent recursive calls from logging
-        matches = matches.concat(matchingElements(elements[i], key, true))
-        if (matches.length && !globalSearch) break
+        matches = matches.concat(matchingElements(elements[i], key, true));
+        if (matches.length && !globalSearch) break;
       }
     }
 
@@ -645,34 +639,32 @@
         key: key,
         value: matches,
         node: node
-      }
-      mag.hook('elementMatcher', key, data)
-        //hookin change
+      };
+      mag.hook('elementMatcher', key, data);
+      //hookin change
       if (data.change) {
         //console.log('change to elementMatcher key - ' + key, data)
         // TODO: return a custom element for unmatched one ?
-        matches = data.value
+        matches = data.value;
       }
     }
-    return matches
-
+    return matches;
   }
-
 
   // return just the child nodes that are elements
   function childElements(node) {
-    var elements = []
+    var elements = [];
     if (node) {
-      var children = node.childNodes
+      var children = node.childNodes;
       if (children) {
         for (var i = 0; i < children.length; i += 1) {
           if (children[i].nodeType === ELEMENT_NODE) {
-            elements.push(children[i])
+            elements.push(children[i]);
           }
         }
       }
     }
-    return elements
+    return elements;
   }
 
   // match elements on tag, id, name, class name, data-bind, etc.
@@ -696,37 +688,33 @@
   }
 
   function elementToObject(el, o) {
-
     var o = {
       tag: el.tagName
     };
-    o['children'] = []
+    o['children'] = [];
     if (el.firstChild || el.children[0]) {
-      var item = el.firstChild || el.childNodes[0]
-      var val = item.nodeValue || item.value || item.innerText
-      if (val) val = val.replace(/\u00a0/g, "x").trim()
-      if (val) o['children'].push(val)
+      var item = el.firstChild || el.childNodes[0];
+      var val = item.nodeValue || item.value || item.innerText;
+      if (val) val = val.replace(/\u00a0/g, 'x').trim();
+      if (val) o['children'].push(val);
     }
 
     var i = 0;
-    o['attrs'] = {}
+    o['attrs'] = {};
     for (i; i < el.attributes.length; i++) {
       o['attrs'][el.attributes[i].name] = el.attributes[i].value;
     }
 
     var children = el.children;
     if (children.length) {
-
       i = 0;
       for (i; i < children.length; i++) {
         var child = children[i];
-        o.children.push(elementToObject(child, o.children))
+        o.children.push(elementToObject(child, o.children));
       }
     }
     return o;
   }
-
-
 
   mag.fill = {
     fill: fill,
@@ -737,7 +725,6 @@
     // clear: clear,
     // unclear: unclear,
     configs: configs
-  }
-  window.mag = mag
-
-}(window.mag || {}, [], document))
+  };
+  window.mag = mag;
+})(window.mag || {}, [], document);

@@ -20,9 +20,7 @@ Homepage: https://github.com/magnumjs/mag.js
 (c) 2017
 */
 
-;
 (function(mag, document) {
-
   'use strict';
   var attached = [];
 
@@ -33,13 +31,12 @@ Homepage: https://github.com/magnumjs/mag.js
   };
 
   mag.template = function(url, component, props) {
-
-    return mag.request({
+    return mag
+      .request({
         url: url,
         cache: true
       })
       .then(function(data) {
-
         //get html as node
         var template = document.createElement('template');
         template.innerHTML = data;
@@ -52,19 +49,19 @@ Homepage: https://github.com/magnumjs/mag.js
 
         var parentInstance = mag.mod.runningViewInstance;
 
-        instance.subscribe(function(parentInst, nid) {
-
-          //only once
-          if (!attached[nid]) {
-            var parentNode = getParentNode(parentInst);
-            //Attach to parent instance if available
-            (parentNode || mag.doc.body).appendChild(newNode);
-            attached[nid] = 1;
-          }
-        }.bind(null, parentInstance, id))
+        instance.subscribe(
+          function(parentInst, nid) {
+            //only once
+            if (!attached[nid]) {
+              var parentNode = getParentNode(parentInst);
+              //Attach to parent instance if available
+              (parentNode || mag.doc.body).appendChild(newNode);
+              attached[nid] = 1;
+            }
+          }.bind(null, parentInstance, id)
+        );
 
         return instance;
       });
   };
-
 })(mag, document);

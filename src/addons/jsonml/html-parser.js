@@ -10,7 +10,6 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
 */
 
 (function(global) {
-
   var tagStart = '<';
   var tagEnd = '>';
 
@@ -18,13 +17,36 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
   var commentEnd = '-->';
 
   var voidTags = [
-    "!doctype", "area", "base", "br", "col", "command",
-    "embed", "hr", "img", "input", "keygen", "link",
-    "meta", "param", "source", "track", "wbr"
+    '!doctype',
+    'area',
+    'base',
+    'br',
+    'col',
+    'command',
+    'embed',
+    'hr',
+    'img',
+    'input',
+    'keygen',
+    'link',
+    'meta',
+    'param',
+    'source',
+    'track',
+    'wbr'
   ];
   var closingTags = [
-    "colgroup", "dd", "dt", "li", "options", "p",
-    "td", "tfoot", "th", "thead", "tr"
+    'colgroup',
+    'dd',
+    'dt',
+    'li',
+    'options',
+    'p',
+    'td',
+    'tfoot',
+    'th',
+    'thead',
+    'tr'
   ];
   var childlessTags = ['style', 'script', 'template'];
 
@@ -44,23 +66,29 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
       var nextTag = str.indexOf(tagStart);
       if (!~nextTag) {
         // only text left
-        nodes.push(Node('Text', {
-          content: str
-        }));
-        str = "";
+        nodes.push(
+          Node('Text', {
+            content: str
+          })
+        );
+        str = '';
       } else if (nextTag) {
         // text before tag
-        nodes.push(Node('Text', {
-          content: str.slice(0, nextTag)
-        }));
+        nodes.push(
+          Node('Text', {
+            content: str.slice(0, nextTag)
+          })
+        );
         str = str.slice(nextTag);
       } else {
         if (startsWithCommentStart(str)) {
           // comment
           var end = str.indexOf(commentEnd);
-          nodes.push(Node('Comment', {
-            content: str.slice(commentStart.length, end)
-          }));
+          nodes.push(
+            Node('Comment', {
+              content: str.slice(commentStart.length, end)
+            })
+          );
           str = str.slice(end + commentEnd.length);
         } else if (str.charAt(nextTag + 1) !== '/') {
           // open tag
@@ -76,8 +104,10 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
         } else {
           // close tag
           var endTagEnd = str.indexOf(tagEnd);
-          var tagName = str.slice(2, endTagEnd)
-            .trim().split(' ')[0];
+          var tagName = str
+            .slice(2, endTagEnd)
+            .trim()
+            .split(' ')[0];
           str = str.slice(endTagEnd + 1);
           var loc = stack.lastIndexOf(tagName);
           if (~loc) {
@@ -102,7 +132,10 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
     var tagName = str.slice(1, tagNameEnd);
     var lowTagName = tagName.toLowerCase();
 
-    if (stack[stack.length - 1] === tagName && ~closingTags.indexOf(lowTagName)) {
+    if (
+      stack[stack.length - 1] === tagName &&
+      ~closingTags.indexOf(lowTagName)
+    ) {
       return {
         stack: stack.slice(0, -1)
       };
@@ -144,26 +177,28 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
   function parseAttrs(str) {
     var results = tagPairs(str.trim());
     var str = results.str;
-    var attributes = results.kvs.map(function(pair) {
-      var kv = splitHead(pair.trim(), '=');
-      kv[1] = kv[1] ? unquote(kv[1]) : kv[0];
-      return kv;
-    }).reduce(function(attrs, kv) {
-      var property = kv[0];
-      var value = kv[1];
-      if (property === 'class') {
-        attrs.className = value.split(' ');
-      } else if (property === 'style') {
-        attrs.style = parseStyle(value);
-      } else if (startsWithDataDash(property)) {
-        attrs.dataset = attrs.dataset || {};
-        var key = camelCase(property.slice(5));
-        attrs.dataset[key] = castValue(value);
-      } else {
-        attrs[camelCase(property)] = castValue(value);
-      }
-      return attrs;
-    }, {});
+    var attributes = results.kvs
+      .map(function(pair) {
+        var kv = splitHead(pair.trim(), '=');
+        kv[1] = kv[1] ? unquote(kv[1]) : kv[0];
+        return kv;
+      })
+      .reduce(function(attrs, kv) {
+        var property = kv[0];
+        var value = kv[1];
+        if (property === 'class') {
+          attrs.className = value.split(' ');
+        } else if (property === 'style') {
+          attrs.style = parseStyle(value);
+        } else if (startsWithDataDash(property)) {
+          attrs.dataset = attrs.dataset || {};
+          var key = camelCase(property.slice(5));
+          attrs.dataset[key] = castValue(value);
+        } else {
+          attrs[camelCase(property)] = castValue(value);
+        }
+        return attrs;
+      }, {});
     return {
       str: str,
       attributes: attributes
@@ -229,19 +264,23 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
   function unquote(str) {
     var car = str.charAt(0);
     var end = str.length - 1;
-    if (car === '"' || car === "'" && car === str.charAt(end)) {
+    if (car === '"' || (car === "'" && car === str.charAt(end))) {
       return str.slice(1, end);
     }
     return str;
   }
 
   function parseStyle(str) {
-    return str.trim().split(';').map(function(statement) {
-      return statement.trim().split(':');
-    }).reduce(function(styles, kv) {
-      if (kv[1]) styles[camelCase(kv[0].trim())] = castValue(kv[1].trim());
-      return styles;
-    }, {});
+    return str
+      .trim()
+      .split(';')
+      .map(function(statement) {
+        return statement.trim().split(':');
+      })
+      .reduce(function(styles, kv) {
+        if (kv[1]) styles[camelCase(kv[0].trim())] = castValue(kv[1].trim());
+        return styles;
+      }, {});
   }
 
   function camelCase(str) {
@@ -262,13 +301,12 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
       s.charAt(0) === '<' &&
       s.charAt(1) === '!' &&
       s.charAt(2) === '-' &&
-      s.charAt(3) === '-');
+      s.charAt(3) === '-'
+    );
   }
 
   function startsWithSelfClose(s) {
-    return (
-      s.charAt(0) === '/' &&
-      s.charAt(1) === '>');
+    return s.charAt(0) === '/' && s.charAt(1) === '>';
   }
 
   function startsWithDataDash(s) {
@@ -277,7 +315,8 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
       s.charAt(1) === 'a' &&
       s.charAt(2) === 't' &&
       s.charAt(3) === 'a' &&
-      s.charAt(4) === '-');
+      s.charAt(4) === '-'
+    );
   }
 
   var himalaya = {
@@ -288,10 +327,9 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
     parseStyle: parseStyle
   };
 
-
   var toJsonml = function(obj) {
     //tagName, attributes, children
-    var a = []
+    var a = [];
     for (var i in obj) {
       var item = obj[i];
       var tag = item.tagName;
@@ -305,28 +343,22 @@ Example: jsonml.fromHtml (htmlString) -> JSONML
       if (type == 'text' && attrsSize > 0) a[2] = item.content;
       if (childs && childs.length > 0) {
         for (var k in childs) {
-          var sitem = childs[k]
+          var sitem = childs[k];
           if (!sitem.tagName) {
             a[a.length] = sitem.content;
           } else {
             a[a.length] = toJsonml([childs[k]]);
           }
         }
-
       }
-
     }
 
     return a;
-  }
-
+  };
 
   jsonml = global.jsonml || {};
 
   jsonml.fromHtml = function(htmlString) {
-
     return toJsonml(parse(htmlString));
-
   };
-
 })(window);

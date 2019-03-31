@@ -8,16 +8,18 @@
  * @author Wilson Page <wilsonpage@me.com>
  */
 
-;(function(fastdom){
-
+(function(fastdom) {
   'use strict';
 
   // Normalize rAF
-  var raf = window.requestAnimationFrame
-    || window.webkitRequestAnimationFrame
-    || window.mozRequestAnimationFrame
-    || window.msRequestAnimationFrame
-    || function(cb) { return window.setTimeout(cb, 1000 / 60); };
+  var raf =
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function(cb) {
+      return window.setTimeout(cb, 1000 / 60);
+    };
 
   /**
    * Creates a fresh
@@ -93,9 +95,8 @@
     // 1. We are 'writing'
     // 2. We are 'reading'
     // 3. A frame is already scheduled.
-    var doesntNeedFrame = mode === 'writing'
-      || mode === 'reading'
-      || this.batch.scheduled;
+    var doesntNeedFrame =
+      mode === 'writing' || mode === 'reading' || this.batch.scheduled;
 
     // If a frame isn't needed, return
     if (doesntNeedFrame) return id;
@@ -147,7 +148,6 @@
    * @public
    */
   FastDom.prototype.clear = function(id) {
-
     // Defer jobs are cleared differently
     if (typeof id === 'function') {
       return this.clearFrame(id);
@@ -224,7 +224,7 @@
   FastDom.prototype.flush = function(list) {
     var id;
 
-    while (id = list.shift()) {
+    while ((id = list.shift())) {
       this.run(this.batch.hash[id]);
     }
   };
@@ -243,17 +243,17 @@
   FastDom.prototype.runBatch = function() {
     // try {
 
-      // Set the mode to 'reading',
-      // then empty all read jobs
-      this.batch.mode = 'reading';
-      this.flush(this.batch.read);
+    // Set the mode to 'reading',
+    // then empty all read jobs
+    this.batch.mode = 'reading';
+    this.flush(this.batch.read);
 
-      // Set the mode to 'writing'
-      // then empty all write jobs
-      this.batch.mode = 'writing';
-      this.flush(this.batch.write);
+    // Set the mode to 'writing'
+    // then empty all write jobs
+    this.batch.mode = 'writing';
+    this.flush(this.batch.write);
 
-      this.batch.mode = null;
+    this.batch.mode = null;
 
     // } catch (e) {
     //   this.runBatch();
@@ -273,12 +273,12 @@
    */
   FastDom.prototype.add = function(type, fn, ctx) {
     var id = this.uniqueId();
-    return this.batch.hash[id] = {
+    return (this.batch.hash[id] = {
       id: id,
       fn: fn,
       ctx: ctx,
       type: type
-    };
+    });
   };
 
   /**
@@ -304,7 +304,7 @@
    * @param  {Object} job
    * @private
    */
-  FastDom.prototype.run = function(job){
+  FastDom.prototype.run = function(job) {
     var ctx = job.ctx || this;
     var fn = job.fn;
 
@@ -323,8 +323,8 @@
     // errors that throw inside
     // callbacks, and run the
     // handler instead.
-    //try { 
-      fn.call(ctx);
+    //try {
+    fn.call(ctx);
     // } catch (e) {
     //   this.onError(e);
     // }
@@ -350,8 +350,8 @@
       if (!self.frames.length) {
         self.looping = false;
 
-      // Otherwise, schedule the
-      // next frame
+        // Otherwise, schedule the
+        // next frame
       } else {
         raf(frame);
       }
@@ -378,7 +378,6 @@
    * @private
    */
   FastDom.prototype.schedule = function(index, fn) {
-
     // Make sure this slot
     // hasn't already been
     // taken. If it has, try
@@ -394,7 +393,7 @@
 
     // Insert this function into
     // the frames queue and return
-    return this.frames[index] = fn;
+    return (this.frames[index] = fn);
   };
 
   // We only ever want there to be
@@ -405,7 +404,5 @@
    * Expose 'fastdom'
    */
 
-
-    window['fastdom'] = fastdom;
-
+  window['fastdom'] = fastdom;
 })(window.fastdom);
