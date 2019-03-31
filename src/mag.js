@@ -27,7 +27,7 @@ const html2dom = html => {
 var find = function(selector) {
   if (typeof selector == 'string') {
     //if HTMLstring convert to HTML NODE
-    if (selector[0] == '<') {
+    if (selector.trim()[0] == '<') {
       var found = html2dom(selector);
       if (found) return found;
     }

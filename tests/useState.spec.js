@@ -1,4 +1,5 @@
-import mag from "../src/hookins/mag.useState"
+import mag from '../src/main'
+import useState from "../src/hookins/mag.useState"
 
 document.body.innerHTML = `
 <app>
@@ -24,7 +25,7 @@ Click me
 
 
 const Toggle = mag("toggle", props => {
-    const [get, set] = mag.useState(false)
+    const [get, set] = useState(false)
 
     return {
         button: {

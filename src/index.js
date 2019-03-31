@@ -1,10 +1,10 @@
-// import mag from './main'
+import mag from './main'
 // import magAddons from './mag.addons.0.2'
-import mag from './hookins/mag.useState';
+import useState from './hookins/mag.useState';
 
 //define instance
 const Counter = mag('counter', props => {
-  const [count, setCount] = mag.useState(0);
+  const [count, setCount] = useState(0);
 
   return {
     count,

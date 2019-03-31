@@ -41,7 +41,7 @@ const mainConfig = merge(baseConfig, {
   }}, prodBaseConfig)
 
 const useStateConfig = merge(baseConfig, {
-  entry: './config/build.js',
+  entry: './config/build-use-state.js',
   output: {
       library: 'mag',
       filename: 'mag.use-state.min.js',
@@ -50,9 +50,22 @@ const useStateConfig = merge(baseConfig, {
       publicPath: '/',
       // libraryTarget: 'umd',
       // umdNamedDefine: true
+  }
+  }, prodBaseConfig)
+
+const useStateConfig2 = merge(baseConfig, {
+    entry: './config/build-use-state.js',
+  output: {
+      library: 'useState',
+      filename: 'use-state.min.js',
+      chunkFilename: '[name].[id].chunk.js',
+      path: path.join(__dirname, '../dist'),
+      publicPath: '/',
+      // libraryTarget: 'umd',
+      // umdNamedDefine: true
   },
   externals: {
-      mag: 'mag'
+      '../main': 'mag'
   },
   }, prodBaseConfig)
 
@@ -60,5 +73,7 @@ const useStateConfig = merge(baseConfig, {
 
 // Return Array of Configurations
 module.exports = [
-    mainConfig, useStateConfig,
+    mainConfig,
+    useStateConfig,
+    useStateConfig2
 ];
