@@ -41,7 +41,7 @@ const mainConfig = merge(baseConfig, {
   }}, prodBaseConfig)
 
 const useStateConfig = merge(baseConfig, {
-  entry: './src/hookins/mag.useState.js',
+  entry: './config/build.js',
   output: {
       library: 'mag',
       filename: 'mag.use-state.min.js',

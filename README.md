@@ -6,7 +6,9 @@
 
 ### browser install
 
-`<script src="https://unpkg.com/mag.js"></script>`
+`<script src="//unpkg.com/mag.js"></script>`
+
+`<script src="//unpkg.com/mag.js/dist/mag.use-state.min.js"></script>`
 
 ### Intuitive JS 2 HTML Templating Component Library
 
@@ -51,6 +53,6 @@ App({counters})
 
 [Try it out](https://codepen.io/anon/pen/vMBKvv?editors=1010)
 
-[Without useState](https://jsbin.com/nojuxihucu/edit?html,output)
+[Without useState](https://jsbin.com/ricuzituva/edit?html,output)
 
 [Old readme](README-old.md)
