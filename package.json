@@ -1,6 +1,6 @@
 {
   "name": "mag.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
   "main": "src/main.js",
   "unpkg": "dist/mag.min.js",
