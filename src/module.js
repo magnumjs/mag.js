@@ -1,15 +1,6 @@
-/*
-MagJS v0.29.8
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-(function(mag) {
+import mag from "./mag-proxy"
 
-  'use strict';
-
-
-  var modules = [],
+var modules = [],
     MAGNUM = mag.MAGNUM,
     controllers = []
 
@@ -312,5 +303,4 @@ License: MIT
 
   mag.mod = mod;
 
-
-}(mag));
+  export default mag

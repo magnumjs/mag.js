@@ -1,12 +1,7 @@
-/*
-MagJS v0.26.7
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-(function(mag, global) {
+import mag from "./mag"
 
-  var pathSeparator = '/';
+
+var pathSeparator = '/';
   function proxyAssign(obj, cb, type, path) {
     var proxies = new WeakSet();
 
@@ -88,4 +83,4 @@ License: MIT
     return proxyAssign(obj, cb, type, path || pathSeparator)
   }
 
-}(mag, window || global || this));
+export default mag

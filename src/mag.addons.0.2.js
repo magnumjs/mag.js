@@ -1,13 +1,5 @@
-/*
-Mag.JS AddOns v0.23.9
-(c) Michael Glazer 2017
-https://github.com/magnumjs/mag.js
-Requires: MagJS (core) Addons: Ajax , Router
-*/
-;
-(function(mag, window, document, undefined) {
+import mag from "../src/main"
 
-  'use strict';
   //Create wrapper for function call to mag() with over riding default props	
   var funRet = mod => props => (index, p) => {
     props = props || {}
@@ -599,4 +591,4 @@ mag.hookin('attributes', 'style', function(data) {
     }
   }
 
-})(mag, window || global || this, document);
+export default mag

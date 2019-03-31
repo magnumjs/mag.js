@@ -1,13 +1,6 @@
-/*
-MagJS v0.29.7
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-Originally ported from: https://github.com/profit-strategies/fill/blob/master/src/fill.js
-*/
+import mag from "./utils"
 
-(function(mag, configs, undefined) {
-
+var configs= []
   'use strict';
 
 
@@ -442,9 +435,10 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
       }
       // anything that starts with an underscore is an attribute
-      if (key[0] === '_' && key[1] !== '_') {
+      if ((key[0] === '_' && key[1] !== '_') || key.substr(0,2) == 'on') {
         attributes = attributes || {}
-        attributes[key.substr(1)] = value;
+        if(key.substr(0,2) == 'on'){attributes[key] = value;}
+        else {attributes[key.substr(1)] = value;}
       }
     }
     return attributes;
@@ -460,7 +454,7 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
       if (~fill.ignorekeys.indexOf(key)) continue;
 
       // only attributes start with an underscore
-      if (key[0] !== '_') {
+      if (key[0] !== '_' && key.substr(0,2) != 'on') {
         elements = matchingElements(node, key);
 
 
@@ -1039,4 +1033,4 @@ Originally ported from: https://github.com/profit-strategies/fill/blob/master/sr
 
   mag.fill = fill;
 
-}(mag, []));
+export default mag

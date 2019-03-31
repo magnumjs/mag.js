@@ -1,8 +1,8 @@
+import mag from '../main'
 // Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
 // Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
 
-(function(mag){
-  
+
 
 function isObject(value) {
   const type = typeof value;
@@ -14,8 +14,20 @@ const stateMap = {};
 const copy = val => (isObject(val) ? Object.assign({}, val) : val);
 
 
-const useRender = function(initialValue, r){
-  const name = r.id;
+const clone = function(obj) {
+    var temp = function temporary() { return obj.apply(obj, arguments); };
+    for(var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            temp[key] = obj[key];
+        }
+    }
+    return temp;
+};
+
+const useState = function(initialValue){
+  const r = clone(mag._current)
+  const name = r.key || r.id;
+  const oprops = r.props
   const render = r
   const ele = r.element
   let state = stateMap[name];
@@ -34,7 +46,7 @@ const useRender = function(initialValue, r){
         } else {
           state.value = value;
         }
-        state.render({_newProps: value});
+        state.render({...oprops,_newProps: value});
       }
     };
 
@@ -52,6 +64,6 @@ const useRender = function(initialValue, r){
   return [state.value, state.setValue];
 }
 
-mag.useRender = useRender
+mag.useState = useState
 
-}(mag))
+export default mag

@@ -1,3 +1,5 @@
+import mag from "../src/main"
+
 var view = {
   controller: function(p) {
     this.p = [1, 2]
@@ -29,7 +31,6 @@ describe("MagJS - module", function() {
 
   beforeEach(function() {
     affix("div#test h2+p>b")
-
   })
 
   it("is defined", function() {

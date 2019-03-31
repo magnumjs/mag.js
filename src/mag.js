@@ -1,12 +1,4 @@
-/*
-MagJS v0.29.8
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-(function(global, document, undefined) {
 
-  'use strict';
 
   var KEY = 'KEY',
     inc = 0;
@@ -28,8 +20,19 @@ License: MIT
     return parentNode;
   }
 
+  const html2dom = html => {
+    let template = mag.doc.createElement('template');
+    template.innerHTML = html;
+    return template.content.children[0]
+  }
+
   var find = function(selector) {
     if (typeof selector == 'string') {
+      //if HTMLstring convert to HTML NODE
+        if(selector[0] == '<'){
+          var found = html2dom(selector)
+            if(found) return found
+        }
       var parentNode = getParent(~mag.mod.runningViewInstance || mag.utils.runningEventInstance)
         //5 Element Matchers
       var found = findInSelectors(parentNode || mag.doc, selector)
@@ -51,8 +54,8 @@ License: MIT
       var node = idOrNode
       props = props || {}
       var key;
-      if (props.key) key = props.key + '-' + a.id;
-      var ckey = props.key ? props.key + '-' + a.id : a.id;
+      if (props.key!==undefined) key = props.key + '-' + a.id;
+      var ckey = props.key!==undefined? props.key + '-' + a.id : a.id;
 
       if (!copyOfDefProps[ckey]) {
         copyOfDefProps[ckey] = typeof dprops == 'object' ? mag.utils.copy(dprops) : dprops
@@ -82,10 +85,12 @@ License: MIT
       }
 
       a.props = props
-      a.key = key
+      a.key = ckey
       var now
       if (last[ckey] != mag.utils.toJson(props)) {
         try {
+          var _current = mag._current
+          mag._current = a
           now = mod(props);
           runId = node[MAGNUM].scid = ckey;
           last[ckey] = mag.utils.toJson(props)
@@ -99,6 +104,7 @@ License: MIT
         } finally {
           mag.fill.setId(pfillId)
           runId = 0
+          mag._current = _current
         }
       }
 
@@ -110,7 +116,7 @@ License: MIT
     return a;
   }
 
-  global.mag = function(idOrNode, mod, dprops) {
+  const mag = function(idOrNode, mod, dprops) {
     idOrNode = find(idOrNode)
     mod = find(mod)
     dprops = dprops || {}
@@ -125,9 +131,9 @@ License: MIT
     //If mod is a function?
     if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
       // fake run with no output
-      try {
-        runFun(idOrNode.cloneNode(1), mod, dprops)()
-      } catch (e) {}
+      // try {
+      //   runFun(idOrNode.cloneNode(1), mod, dprops)()
+      // } catch (e) {}
 
       return runFun(idOrNode, mod, dprops)
     } else {
@@ -536,7 +542,7 @@ License: MIT
 
       // verify idInstance
       if (!isValidId(node.id, idInstance) || !node) {
-        return
+        return;
       }
 
       var state = mag.mod.getState(idInstance)
@@ -647,4 +653,4 @@ License: MIT
 
   mag.getNode = getNode
 
-})(window || global || this, document);
+export default mag

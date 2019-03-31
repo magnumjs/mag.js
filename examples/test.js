@@ -1,3 +1,13 @@
+import mag from "../src/mag.addons.0.2"
+
+import './template'
+
+
+test("is defined", function() {
+    expect(mag).toBeDefined();
+});
+
+
 mag.module("mathdemo", {
   controller: function() {
 
@@ -73,7 +83,7 @@ mathdemo3.view = function(state, props) {
 
   state.$input = {
     _config: function() {
-      mag.addons.merge(props, state);
+      mag.utils.merge(props, state);
     },
     _oninput: function(event, index, node, container) {
 
@@ -103,7 +113,7 @@ mag.module("mathdemo3", mathdemo3, props);
 var mathdemo4 = {};
 
 mathdemo4.controller = function(props) {
-  mag.addons.merge(props, this);
+  mag.utils.merge(props, this);
 }
 mathdemo4.view = function(state, props) {
 
@@ -632,7 +642,7 @@ var shoes = {
   controller: function(props) {
     this.searchText = mag.prop(props.searchText)
     this.searching = this.searchText
-    mag.addons.copy(props.shoes, this.shoes = [])
+    mag.utils.copy(props.shoes, this.shoes = [])
 
     this.clickee = function(e, index, node, data) {
       return console.log(e, index, node, data)

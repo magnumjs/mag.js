@@ -1,13 +1,4 @@
-/*
-MagJS v0.29.8
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-
-(function(mag) {
-
-  'use strict';
+import mag from "./render"
 
   var utils = {};
 
@@ -183,4 +174,4 @@ License: MIT
 
   mag.utils = utils
 
-}(mag));
+export default mag

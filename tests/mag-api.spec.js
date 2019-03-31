@@ -1,4 +1,4 @@
-
+import mag from "../src/main"
 // specs code
 describe("MagJS", function() {
 
@@ -11,8 +11,10 @@ describe("MagJS", function() {
         expect(mag.module).toBeDefined();
         expect(mag.hookin).toBeDefined();
         expect(mag.redraw).toBeDefined();
-        expect(mag.prop).toBeDefined();
-        expect(mag.withProp).toBeDefined();
+
+        //Addons
+        // expect(mag.prop).toBeDefined();
+        // expect(mag.withProp).toBeDefined();
 
   })
 

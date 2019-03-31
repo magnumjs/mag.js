@@ -1,14 +1,7 @@
-/*
-MagJS v0.29.8
-http://github.com/magnumjs/mag.js
-(c) Michael Glazer
-License: MIT
-*/
-(function(mag, global) {
+import mag from "./module"
 
-  'use strict';
 
-  var prop = {},
+var prop = {},
     _VALUE = '_value',
     MAGNUM = mag.MAGNUM;
 
@@ -201,4 +194,4 @@ License: MIT
   prop.attachToArgs = attachToArgs
   mag.props = prop
 
-}(mag));
+export default mag;
