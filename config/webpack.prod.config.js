@@ -14,7 +14,10 @@ var banner = process.env.npm_package_name + ' - ' + process.env.npm_package_vers
 const prodBaseConfig = {
     mode: 'production',
     optimization: {
+        minimize: true,
+        providedExports: true,
         usedExports: true,
+        sideEffects: false,
     },
     performance: {
         hints: 'warning',

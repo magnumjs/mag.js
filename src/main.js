@@ -1,3 +1,3 @@
-import mag from "./fill"
+const mag = require("./fill")
 
-export default mag
+module.exports = mag.default

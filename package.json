@@ -4,6 +4,7 @@
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
   "main": "src/main.js",
   "unpkg": "dist/mag.min.js",
+  "sideEffects": false,
   "directories": {
     "example": "examples",
     "test": "tests"

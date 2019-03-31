@@ -2,6 +2,12 @@
 
 ## Modular Application Glue
 
+`npm install mag.js`
+
+### browser install
+
+`<script src="https://unpkg.com/mag.js"></script>`
+
 ### Intuitive JS 2 HTML Templating Component Library
 
 ```html
