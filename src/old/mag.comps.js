@@ -272,14 +272,14 @@ mag.comps.messaging.Message = {
     
 */
 
-(function(package) {
+(function(pack) {
   var popup = {
     view: function(state, props) {
       state['popup-header'] = props.title;
       state['popup-body'] = props.content;
     }
   };
-  package.popup = mag.comp('popup', popup);
+  pack.popup = mag.comp('popup', popup);
 })(mag.namespace('comps'));
 
 /*** MagJS - COMP - POPUP ***/
