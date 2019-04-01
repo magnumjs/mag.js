@@ -41,7 +41,7 @@ const mainConfig = merge(baseConfig, {
   }}, prodBaseConfig)
 
 const useStateConfig = merge(baseConfig, {
-  entry: './config/build-use-state.js',
+  entry: './config/build-with-use-state.js',
   output: {
       library: 'mag',
       filename: 'mag.use-state.min.js',

@@ -25,7 +25,7 @@ Click me
 
 
 const Toggle = mag("toggle", props => {
-    const [get, set] = useState(false)
+    const [get, set] = mag.useState(false)
 
     return {
         button: {

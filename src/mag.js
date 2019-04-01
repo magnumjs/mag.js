@@ -129,9 +129,9 @@ const mag = function(idOrNode, mod, dprops) {
   //If mod is a function?
   else if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
     // fake run with no output
-    // try {
-    //   runFun(idOrNode.cloneNode(1), mod, dprops)()
-    // } catch (e) {}
+    try {
+      runFun(idOrNode.cloneNode(1), mod, dprops)()
+    } catch (e) {}
 
     return runFun(idOrNode, mod, dprops);
   } else {
