@@ -8,8 +8,7 @@ const CleanPluginConfig = new CleanWebpackPlugin();
 
 var banner = process.env.npm_package_name + ' - ' + process.env.npm_package_version + ' | ' +
     '(c)' + new Date().getFullYear() + '  ' + process.env.npm_package_author_name + ' | ' +
-    process.env.npm_package_license + ' | ' +
-    process.env.npm_package_homepage;
+    process.env.npm_package_license;
 
 const prodBaseConfig = {
     mode: 'production',

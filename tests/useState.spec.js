@@ -52,7 +52,7 @@ const Counter = mag("counter", props => {
 
 
 const App = mag("app2", props =>({
-    counters: props.counters.map((name, id) => Counter({name, key: id}))
+    counters: props.counters.map((name, key) => Counter({name, key}))
 }))
 
 
