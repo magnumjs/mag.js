@@ -57,7 +57,7 @@
     "state-management",
     "dom"
   ],
-  "author": "https://github.com/magnumjs/mag.js",
+  "author": "https://github.com/magnumjs",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/magnumjs/mag.js/issues"

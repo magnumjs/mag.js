@@ -1,4 +1,4 @@
-import mag from './main'
+import mag from './main';
 // import magAddons from './mag.addons.0.2'
 import {useState} from './hookins/mag.useState';
 

@@ -65,4 +65,4 @@ const useState = function(initialValue) {
 
 mag.useState = useState;
 
-export {mag, useState}
+export {mag, useState};
