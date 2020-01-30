@@ -1043,8 +1043,8 @@ function matchingElements(node, key, nested) {
 function isInIsolate(node) {
   if (
     fill.id &&
-    ((mag.utils.isHTMLEle(fill.id) && node[MAGNUM] && node[MAGNUM].scid) || //Stateless
-      (node.id && node.id != fill.id && mag.utils.items.isItem(node.id)))
+    //((mag.utils.isHTMLEle(fill.id) && node[MAGNUM] && node[MAGNUM].scid) || //Stateless
+      (node.id && node.id != fill.id && mag.utils.items.isItem(node.id))
   ) {
     return 0;
   } else {

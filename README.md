@@ -57,4 +57,6 @@ App({counters})
 
 [codesandbox template](https://codesandbox.io/s/883vqwy840)
 
+[videos with latest examples](https://www.youtube.com/playlist?list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
+
 [Old readme](README-old.md)
