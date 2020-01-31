@@ -14,6 +14,9 @@
     "lib",
     "!dist/index.html"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "babel src -d lib && webpack --config config/webpack.prod.config",
     "prepublishOnly": "webpack --config config/webpack.prod.config",
