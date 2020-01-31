@@ -9,7 +9,7 @@ const CounterHTML = `
     Click me
   </button>
 </div>
-`
+`;
 
 //Define instance:
 const Counter = mag(CounterHTML, props => {
@@ -20,15 +20,13 @@ const Counter = mag(CounterHTML, props => {
     button: {
       onClick: e => setCount(count + 1)
     }
-  }
-})
+  };
+});
 
 //Run instance
 
-const App = mag(
-    'root',
-    props =>
-        props.counters.map((name, key) => Counter({name, key}))
-)
+const App = mag('root', props =>
+  props.counters.map((name, key) => Counter({name, key}))
+);
 
-App({counters: ['first', 'second']})
+App({counters: ['first', 'second']});
