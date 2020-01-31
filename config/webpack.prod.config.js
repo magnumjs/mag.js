@@ -52,6 +52,19 @@ const useStateConfig = merge(baseConfig, {
   }
   }, prodBaseConfig)
 
+const useStateUseEffectConfig = merge(baseConfig, {
+  entry: './config/build-with-use-state-use-effect.js',
+  output: {
+      library: 'mag',
+      filename: 'mag.use-state-use-effect.min.js',
+      chunkFilename: '[name].[id].chunk.js',
+      path: path.join(__dirname, '../dist'),
+      publicPath: '/',
+      // libraryTarget: 'umd',
+      // umdNamedDefine: true
+  }
+  }, prodBaseConfig)
+
 const useStateConfig2 = merge(baseConfig, {
     entry: './config/build-use-state.js',
   output: {
@@ -74,5 +87,6 @@ const useStateConfig2 = merge(baseConfig, {
 module.exports = [
     mainConfig,
     useStateConfig,
+    useStateUseEffectConfig,
     useStateConfig2
 ];

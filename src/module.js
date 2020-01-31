@@ -42,7 +42,7 @@ mod.getFrameId = function(index) {
   return modules[index][4];
 };
 mod.getMod = function(index) {
-  return modules[index][5];
+  return modules[index] && modules[index][5];
 };
 
 var bindMethods = (obj, context) => {

@@ -41,7 +41,7 @@ var find = function(selector) {
   return selector;
 };
 
-var runFun = function(idOrNode, mod, dprops) {
+var runFun = function(idOrNode, mod, dprops, fake) {
   var clones = [],
     clone = idOrNode.cloneNode(1),
     cache = [],
@@ -84,27 +84,29 @@ var runFun = function(idOrNode, mod, dprops) {
 
     a.props = props;
     a.key = ckey;
+    a.fake = fake;
     var now;
-    if (last[ckey] != mag.utils.toJson(props)) {
-      try {
-        var _current = mag._current;
-        mag._current = a;
-        now = mod(props);
-        runId = node[MAGNUM].scid = ckey;
-        last[ckey] = mag.utils.toJson(props);
-        var pfillId = mag.fill.id;
-        //TODO: find parent
-        if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
-          node[MAGNUM].pscid = pfillId[MAGNUM].scid;
-        }
-        mag.fill.setId(node);
-        mag.fill.run(node, now);
-      } finally {
-        mag.fill.setId(pfillId);
-        runId = 0;
-        mag._current = _current;
+    //if (last[ckey] != mag.utils.toJson(props)) {
+    try {
+      var _current = mag._current;
+      mag._current = a;
+      now = mod(props);
+      runId = node[MAGNUM].scid = ckey;
+      last[ckey] = mag.utils.toJson(props);
+      var pfillId = mag.fill.id;
+      //TODO: find parent
+      if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
+        node[MAGNUM].pscid = pfillId[MAGNUM].scid;
       }
+      mag.fill.setId(node);
+      mag.fill.run(node, now);
+    } finally {
+      mag.utils.callLCEvent('didupdate', props, node, runId);
+      mag.fill.setId(pfillId);
+      runId = 0;
+      mag._current = _current;
     }
+    // }
 
     return node;
   };
@@ -130,7 +132,7 @@ const mag = function(idOrNode, mod, dprops) {
   else if (typeof mod == 'function' && mag.utils.isHTMLEle(idOrNode)) {
     // fake run with no output
     try {
-      runFun(idOrNode.cloneNode(1), mod, dprops)();
+      runFun(idOrNode.cloneNode(1), mod, dprops, true)();
     } catch (e) {}
 
     return runFun(idOrNode, mod, dprops);

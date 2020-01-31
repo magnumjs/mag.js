@@ -1,27 +1,9 @@
 import mag from '../main';
+import {clone, copy, isObject} from './common';
 // Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
 // Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
 
-function isObject(value) {
-  const type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
-}
-
 const stateMap = {};
-
-const copy = val => (isObject(val) ? Object.assign({}, val) : val);
-
-const clone = function(obj) {
-  var temp = function temporary() {
-    return obj.apply(obj, arguments);
-  };
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      temp[key] = obj[key];
-    }
-  }
-  return temp;
-};
 
 const useState = function(initialValue) {
   const r = clone(mag._current);
@@ -59,7 +41,9 @@ const useState = function(initialValue) {
   }
 
   //TODO: remove on unmounting for functional comps?
-  // new MutationObserver(()=>if(e[0].removedNodes){}).observe(ele)
+  // new MutationObserver(e=>if(e[0].removedNodes.length){
+  // callback()
+  // }).observe(ele)
   return [state.value, state.setValue];
 };
 

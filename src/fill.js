@@ -623,8 +623,11 @@ function removeChildren(node, key) {
     if (node.id && mag.utils.items.isItem(node.id)) {
       instanceID = mag.utils.items.getItem(node.id);
     }
-    // chek if onbeforeunload exists
-    if (instanceID && mag.mod.getState(instanceID).onbeforeunload) {
+    if (!instanceID && node[MAGNUM].scid) {
+      mag.utils.callLCEvent('onunload', {}, node, node[MAGNUM].scid);
+    }
+    // check if onbeforeunload exists
+    else if (instanceID && mag.mod.getState(instanceID).onbeforeunload) {
       expected++;
       //call first
       //TODO: call children nodes with hooks too
@@ -1044,7 +1047,7 @@ function isInIsolate(node) {
   if (
     fill.id &&
     //((mag.utils.isHTMLEle(fill.id) && node[MAGNUM] && node[MAGNUM].scid) || //Stateless
-      (node.id && node.id != fill.id && mag.utils.items.isItem(node.id))
+    (node.id && node.id != fill.id && mag.utils.items.isItem(node.id))
   ) {
     return 0;
   } else {
