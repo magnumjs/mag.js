@@ -123,10 +123,11 @@ var handlers = [];
 utils.onLCEvent = function(eventName, index, handler) {
   var eventer = eventName + '-' + index;
   handlers[eventer] = handlers[eventer] || [];
-  var size = handlers[eventer].push(handler);
+  handlers[eventer].push(handler);
   //Remove self:
   return function() {
-    return handlers[eventer].splice(size - 1, 1);
+      const index = handlers[eventer].indexOf(handler);
+      return handlers[eventer].splice(index, 1);
   };
 };
 
@@ -146,7 +147,8 @@ utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
   // on Handlers
   var eventer = eventName + '-' + index;
   if (handlers[eventer]) {
-    for (var handle of handlers[eventer]) {
+    const handlersCopy = handlers[eventer].slice()
+    for (var handle of handlersCopy) {
       handle(controller, props);
     }
   }

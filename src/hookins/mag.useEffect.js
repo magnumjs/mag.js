@@ -19,7 +19,6 @@ const useEffect = function(func, arr) {
   if (!r.fake) {
     //next tick
 
-    const destroy = mag.utils.onLCEvent('didupdate', name, () => {
       if (!state) {
         // initial call:
         const callback = typeof func == 'function' && func();
@@ -39,7 +38,6 @@ const useEffect = function(func, arr) {
             state.callback();
           }
           delete stateMap[name];
-          destroy();
           destroyer();
         });
       } else if (state && !arr) {
@@ -49,7 +47,7 @@ const useEffect = function(func, arr) {
         state.value = arr.slice();
         typeof func == 'function' && func();
       }
-    });
+
   }
 };
 

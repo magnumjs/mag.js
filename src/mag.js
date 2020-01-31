@@ -101,7 +101,6 @@ var runFun = function(idOrNode, mod, dprops, fake) {
       mag.fill.setId(node);
       mag.fill.run(node, now);
     } finally {
-      mag.utils.callLCEvent('didupdate', props, node, runId);
       mag.fill.setId(pfillId);
       runId = 0;
       mag._current = _current;

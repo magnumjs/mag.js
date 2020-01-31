@@ -27,7 +27,7 @@ const useState = function(initialValue) {
         } else {
           state.value = value;
         }
-        state.render({...oprops, _newProps: value});
+        state.render({...oprops});
       }
     };
 
@@ -38,12 +38,15 @@ const useState = function(initialValue) {
       value: copy(initialValue)
     };
     stateMap[name] = state;
+
+      const destroy = mag.utils.onLCEvent('onunload', name, () => {
+          delete stateMap[name];
+         destroy();
+      });
   }
 
-  //TODO: remove on unmounting for functional comps?
-  // new MutationObserver(e=>if(e[0].removedNodes.length){
-  // callback()
-  // }).observe(ele)
+
+
   return [state.value, state.setValue];
 };
 

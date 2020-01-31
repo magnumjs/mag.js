@@ -30,3 +30,45 @@ const App = mag('root', props =>
 );
 
 App({counters: ['first', 'second']});
+
+
+const func = ()=>{
+    console.log("onload")
+
+    return () => {
+        console.log("on remove")
+    }
+}
+
+
+
+const Naver = mag(`<div>The count is: <count/></div>`, props => {
+
+    console.log("render")
+    const [count, setCount] = mag.useState(0)
+
+    mag.useEffect(() => {
+      console.log("onload")
+        const intervalId = setInterval(() => {
+            //let's pass a function instead
+            //the argument is the current state
+            setCount(count => count + 1)
+        }, 1000)
+        return () => {
+            console.log("destory")
+            clearInterval(intervalId)
+        }
+    }, [])
+
+    return {count}
+})
+
+const TimerApp = mag(`<div><button>Remove</button><put></put></div>`, ({remove}) => {
+    return {put: remove?null:Naver(), button: {onclick: e => {
+        TimerApp({remove: !remove})
+    }}}
+})
+
+mag(TimerApp(), 'timer')
+
+
