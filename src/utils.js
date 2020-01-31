@@ -126,8 +126,8 @@ utils.onLCEvent = function(eventName, index, handler) {
   handlers[eventer].push(handler);
   //Remove self:
   return function() {
-      const index = handlers[eventer].indexOf(handler);
-      return handlers[eventer].splice(index, 1);
+    const index = handlers[eventer].indexOf(handler);
+    return handlers[eventer].splice(index, 1);
   };
 };
 
@@ -147,9 +147,9 @@ utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
   // on Handlers
   var eventer = eventName + '-' + index;
   if (handlers[eventer]) {
-    const handlersCopy = handlers[eventer].slice()
+    const handlersCopy = handlers[eventer].slice();
     for (var handle of handlersCopy) {
-      handle(controller, props);
+      handle(controller, props, node);
     }
   }
 

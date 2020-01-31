@@ -50,6 +50,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
     copyOfDefProps = [];
 
   var a = function(props) {
+
     var node = idOrNode;
     props = props || {};
     var key;
@@ -65,16 +66,22 @@ var runFun = function(idOrNode, mod, dprops, fake) {
     if (typeof props == 'object') {
       props = mag.utils.extend(copyOfDefProps[ckey], props);
     }
+
     if (key && !clones[key]) {
       node = clones[key] = clone.cloneNode(1);
     } else if (key && clones[key]) {
       node = clones[key];
     }
 
+    // if(typeof a !== undefined && props && props.key && a.key && a.key != ckey) {
+    //     mag.utils.callLCEvent('onunload', props, node, a.key);
+    // }
+
     //Block recursivity
     if (runId && runId == node[MAGNUM].scid) {
       throw Error('MagJS Error - recursive call:' + runId);
     }
+
 
     node[MAGNUM] = node[MAGNUM] || {};
 
@@ -86,7 +93,6 @@ var runFun = function(idOrNode, mod, dprops, fake) {
     a.key = ckey;
     a.fake = fake;
     var now;
-    //if (last[ckey] != mag.utils.toJson(props)) {
     try {
       var _current = mag._current;
       mag._current = a;
@@ -101,6 +107,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
       mag.fill.setId(node);
       mag.fill.run(node, now);
     } finally {
+      mag.utils.callLCEvent('didupdate', props, node, ckey);
       mag.fill.setId(pfillId);
       runId = 0;
       mag._current = _current;

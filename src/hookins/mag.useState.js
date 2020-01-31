@@ -39,13 +39,11 @@ const useState = function(initialValue) {
     };
     stateMap[name] = state;
 
-      const destroy = mag.utils.onLCEvent('onunload', name, () => {
-          delete stateMap[name];
-         destroy();
-      });
+    // const destroy = mag.utils.onLCEvent('onunload', name, () => {
+    //   delete stateMap[name];
+    //   destroy();
+    // });
   }
-
-
 
   return [state.value, state.setValue];
 };

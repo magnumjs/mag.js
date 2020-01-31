@@ -25,34 +25,28 @@ const Counter = mag(CounterHTML, props => {
 
 //Run instance
 
-const App = mag('root', props =>
+const CounterApp = mag('counters', props =>
   props.counters.map((name, key) => Counter({name, key}))
 );
 
-App({counters: ['first', 'second']});
+CounterApp({counters: ['first', 'second']});
 
-
-const func = ()=>{
-    console.log("onload")
-
-    return () => {
-        console.log("on remove")
-    }
-}
-
-
-
-const Naver = mag(`<div>The count is: <count/></div>`, props => {
-
-    console.log("render")
+const TimerHTML = `
+<div><key></key>The count is: <count/></div>
+`
+const Timer = mag(TimerHTML, props => {
     const [count, setCount] = mag.useState(0)
+    console.log("render", count, props)
 
     mag.useEffect(() => {
-      console.log("onload")
         const intervalId = setInterval(() => {
             //let's pass a function instead
             //the argument is the current state
-            setCount(count => count + 1)
+            setCount(count => {
+                console.log("inter", count, props)
+
+                return count + 1
+            })
         }, 1000)
         return () => {
             console.log("destory")
@@ -60,15 +54,72 @@ const Naver = mag(`<div>The count is: <count/></div>`, props => {
         }
     }, [])
 
-    return {count}
+    return {count, key: props.key}
 })
 
-const TimerApp = mag(`<div><button>Remove</button><put></put></div>`, ({remove}) => {
-    return {put: remove?null:Naver(), button: {onclick: e => {
-        TimerApp({remove: !remove})
-    }}}
-})
+const Reset = mag(`<button>Reset Code</button>`, () => ({onclick: e=>{
+    App({reset: 1})
+}}))
 
-mag(TimerApp(), 'timer')
+mag(Reset(), "reset")
+
+let inc = 0;
+const TimerFactory = reset => reset?Timer({key: ++inc}): Timer()
+
+//Define:
+const App = mag(
+    'root',
+    props => ({put: TimerFactory(props.reset)})
+)
+
+//Mount:
+App()
 
 
+
+
+
+
+const func = () => {
+  console.log('onload');
+
+  return () => {
+    console.log('on remove');
+  };
+};
+
+const Naver = mag(`<div>The count is: <count/></div>`, props => {
+  console.log('render');
+  const [count, setCount] = mag.useState(0);
+
+  mag.useEffect(() => {
+    console.log('onload');
+    const intervalId = setInterval(() => {
+      //let's pass a function instead
+      //the argument is the current state
+      setCount(count => count + 1);
+    }, 1000);
+    return () => {
+      console.log('destory');
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return {count};
+});
+
+const TimerApp = mag(
+  `<div><button>Remove</button><put></put></div>`,
+  ({remove}) => {
+    return {
+      put: remove ? null : Naver(),
+      button: {
+        onclick: e => {
+          TimerApp({remove: !remove});
+        }
+      }
+    };
+  }
+);
+
+mag(TimerApp(), 'timer');
