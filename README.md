@@ -2,7 +2,11 @@
 
 ## Modular Application Glue
 
-`npm install mag.js`
+`npm i mag.js`
+
+`npm test`
+`npm start`
+`npm run build`
 
 ### browser install
 
@@ -10,50 +14,55 @@
 
 `<script src="//unpkg.com/mag.js/dist/mag.use-state.min.js"></script>`
 
+`<script src="//unpkg.com/mag.js/dist/mag.use-state-use-effect.min.js"></script>`
+
 ### Intuitive JS 2 HTML Templating Component Library
 
 ```html
+const CounterHTML = `
 <div class="counter">
   <p>You clicked <count></count> times</p>
   <button>
     Click me
   </button>
 </div>
+`
 ```
 
 
 ```js
-const Counter = mag("counter", props => {
-  const [count, setCount] = mag.useState(0)
+const Counter = mag(CounterHTML, props => {
+    
+  const [count, setCount] = mag.useState(0);
+
   return {
     count,
     button: {
-      onClick: () => setCount(count + 1)
+      onClick: e => setCount(count + 1)
     }
   }
 })
 ```
 
 ```html
-<app>
-    <counters></counters>
-</app>
+<div id="root"></div>
 ```
 
 ```js
-const App = mag("app", props => ({
-  counters: props.counters.map((name, key) => Counter({name, key}))
-}))
+const App = mag(
+    'root',
+    props =>
+        props.counters.map((name, key) => Counter({name, key}))
+)
 ```
 
 ```js
-const counters = ['first', 'second']
-App({counters})
+App({counters: ['first', 'second']})
 ```
 
-[Try it out](https://codepen.io/anon/pen/vMBKvv?editors=1010)
+[Try it out](https://codepen.io/magnumjs/pen/MWYMErB?editors=0010)
 
-[Without useState](https://jsbin.com/feconimace/edit?html,output)
+[Without useState](https://jsbin.com/hosuyezabi/edit?html,output)
 
 [codesandbox template](https://codesandbox.io/s/883vqwy840)
 

@@ -1,27 +1,34 @@
 import mag from './main';
-// import magAddons from './mag.addons.0.2'
+import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
-//define instance
-const Counter = mag('counter', props => {
+const CounterHTML = `
+<div class="counter">
+  <p>You clicked <count></count> times</p>
+  <button>
+    Click me
+  </button>
+</div>
+`
+
+//Define instance:
+const Counter = mag(CounterHTML, props => {
   const [count, setCount] = useState(0);
 
   return {
     count,
     button: {
-      onClick: () => setCount(count + 1)
+      onClick: e => setCount(count + 1)
     }
-  };
-});
+  }
+})
 
-// Run instance
-// Counter()
+//Run instance
 
-const App = mag('app', props => ({
-  // counter1: Counter(),
-  // counter2: Counter()
-  counters: props.counters.map((name, key) => Counter({name, key}))
-}));
+const App = mag(
+    'root',
+    props =>
+        props.counters.map((name, key) => Counter({name, key}))
+)
 
-const counters = ['first', 'second'];
-App({counters});
+App({counters: ['first', 'second']})

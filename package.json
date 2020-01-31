@@ -99,5 +99,6 @@
     "hooks": {
       "pre-push": "npm run verify"
     }
-  }
+  },
+  "dependencies": {}
 }
