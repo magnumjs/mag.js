@@ -123,3 +123,43 @@ const TimerApp = mag(
 );
 
 mag(TimerApp(), 'timer');
+
+
+const ResetTimerHTML = `
+<div>Resetter: The count is: <count/></div>
+`
+const ResetTimerComp = mag(ResetTimerHTML, props => {
+    const [count, setCount] = mag.useState(0)
+    console.log("render", count)
+
+    mag.useEffect(() => {
+        const intervalId = setInterval(() => {
+            //let's pass a function instead
+            //the argument is the current state
+            setCount(count => count + 1)
+        }, 1000)
+        return () => {
+            console.log("destory")
+            setCount(0)
+            clearInterval(intervalId)
+        }
+    }, [])
+
+    return {count}
+})
+
+const ResetTimer = mag(`<button>Reset Code</button>`, () => ({onclick: e=>{
+    ResetApp({reset: 1})
+    ResetApp({reset: 0})
+}}))
+
+mag(ResetTimer(), "reset2")
+
+//Define:
+const ResetApp = mag(
+    'resetapp',
+    props => ({timer: props.reset?null:ResetTimerComp()})
+)
+
+//Mount:
+ResetApp()

@@ -8,6 +8,12 @@ document.body.innerHTML = `
       </button>
     </div>
   </app>
+      
+  
+<div id="togglep">
+<button>TOGGLER
+</button>
+</div>
   
   
   
@@ -30,6 +36,17 @@ const Toggle = mag("toggle", props => {
     return {
         button: {
             _onClick: ()=>set(!get),
+            _text: get ? "ON" : "OFF"
+        }
+    };
+});
+
+const TogglePrevious = mag("togglep", props => {
+    const [get, set] = mag.useState(true)
+
+    return {
+        button: {
+            _onClick: () =>set(get => !get),
             _text: get ? "ON" : "OFF"
         }
     };
@@ -58,10 +75,19 @@ const App = mag("app2", props =>({
 
 test("Toggle useRender", ()=>{
     Toggle()
-    expect(document.querySelector("button")).toBeDefined()
-    expect(document.querySelector("button").textContent).toEqual("OFF")
-    document.querySelector("button").click()
-    expect(document.querySelector("button").textContent).toEqual("ON")
+    expect(document.querySelector("#toggle button")).toBeDefined()
+    expect(document.querySelector("#toggle button").textContent).toEqual("OFF")
+    document.querySelector("#toggle button").click()
+    expect(document.querySelector("#toggle button").textContent).toEqual("ON")
+})
+
+
+test("TogglePrevious useRender", ()=>{
+    TogglePrevious()
+    expect(document.querySelector("#togglep button")).toBeDefined()
+    expect(document.querySelector("#togglep button").textContent).toEqual("ON")
+    document.querySelector("#togglep button").click()
+    expect(document.querySelector("#togglep button").textContent).toEqual("OFF")
 })
 
 test("Counter useRender", ()=>{

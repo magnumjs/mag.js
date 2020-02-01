@@ -15,12 +15,10 @@ const useState = function(initialValue) {
 
   if (!state) {
     const setValue = pvalue => {
-      let temp;
+      let temp, value = copy(pvalue);
       if (typeof pvalue == 'function') {
-        temp = pvalue(state.value);
+        value = copy(pvalue(state.value));
       }
-      let value = copy(temp ? temp : pvalue);
-
       if (value !== state.value) {
         if (isObject(value)) {
           state.value = {...state.value, ...value};
