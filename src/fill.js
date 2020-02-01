@@ -178,10 +178,17 @@ fill.run = function(nodeList, data, key) {
   if (!nodeList) return;
 
   // remove all child nodes if there is no data
-  if (data == null)
-    data = {
-      _text: ''
-    };
+  if (data === null && key) {
+      removeChildren(nodeList, key);
+  } else if(data === null && !key) {
+
+      nodeList[MAGNUM].detached = 1;
+       return removeChildren(nodeList);
+  } else
+  if (nodeList[MAGNUM] && nodeList[MAGNUM].detached && !key) {
+      nodeList[MAGNUM].detached = 0;
+      reattachChildren(nodeList);
+  }
 
   // CACHE
   // DIFF
@@ -431,6 +438,8 @@ function removeNodeModule(node) {
     mag.mod.clear(instanceId);
     mag.mod.remove(instanceId);
     mag.fill.clearCache(mag.mod.getId(instanceId));
+  } else if (node[MAGNUM] && node[MAGNUM].scid) {
+      mag.utils.callLCEvent('onunload', {}, node, node[MAGNUM].scid);
   }
 }
 
@@ -592,7 +601,13 @@ function fillNode(node, data, p, key) {
 var childCache = [];
 
 function reattachChildren(node, key, removeOnly) {
-  var matches = matchingElements(node, key);
+  let matches;
+  if(key) {
+      matches = matchingElements(node, key);
+  } else {
+      matches = nodeListToArray(node.childNodes.length?node.childNodes:node)
+  }
+
   matches.forEach(function(item) {
     var uid = getUid(item);
     if (uid in childCache) {
@@ -623,7 +638,7 @@ function removeChildren(node, key) {
     if (node.id && mag.utils.items.isItem(node.id)) {
       instanceID = mag.utils.items.getItem(node.id);
     }
-    if (!instanceID && node[MAGNUM].scid) {
+    if (!instanceID && node[MAGNUM] && node[MAGNUM].scid) {
       mag.utils.callLCEvent('onunload', {}, node, node[MAGNUM].scid);
     }
     // check if onbeforeunload exists
@@ -660,12 +675,15 @@ function removeChildren(node, key) {
       onremove();
     }
   };
-
-  var matches = matchingElements(node, key);
-
+    let matches;
+if(key) {
+     matches = matchingElements(node, key);
+} else {
+  matches = nodeListToArray(node)
+}
   matches.forEach(function(item) {
     var uid = getUid(item);
-    if (item.children.length) childCache[uid] = nodeListToArray(item.children);
+    if (item.childNodes.length) childCache[uid] = nodeListToArray(item.childNodes);
 
     var called = 0;
     // check child cache for unloaders
