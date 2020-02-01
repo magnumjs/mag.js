@@ -73,9 +73,9 @@ var runFun = function(idOrNode, mod, dprops, fake) {
       node = clones[key];
     }
 
-    // if(typeof a !== undefined && props && props.key && a.key && a.key != ckey) {
-    //     mag.utils.callLCEvent('onunload', props, node, a.key);
-    // }
+    if(typeof a !== undefined && props && props.key && a.key && a.key != ckey) {
+        mag.utils.callLCEvent('onunload', props, node, a.key);
+    }
 
     //Block recursivity
     if (runId && runId == node[MAGNUM].scid) {

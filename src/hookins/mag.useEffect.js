@@ -1,11 +1,8 @@
 import mag from '../main';
-import {clone} from './common';
+import {clone, arrayAreEqual} from './common';
 
 const stateMap = {};
 
-const arrayAreEqual = (array1, array2) =>
-  array1.length === array2.length &&
-  array1.every((value, index) => value === array2[index]);
 
 const checkExist = (name, ele, arr, stateMap, func) => {
     const checkExistID = setInterval(function () {
@@ -16,36 +13,49 @@ const checkExist = (name, ele, arr, stateMap, func) => {
     }, 10);
 }
 
+const async = func => {
+  return new Promise(resolve=>{
+    requestAnimationFrame(()=>{
+        const res = typeof func == 'function' && func();
+        resolve(res)
+    })
+  })
+}
+
 const exec = (arr, stateMap, name, func) => {
     let state = stateMap[name];
 
     if (!state) {
         // initial call:
-        const callback = typeof func == 'function' && func();
+        // const callback = typeof func == 'function' && func();
 
         state = {
             name,
             func,
-            callback,
             value: arr && arr.slice()
         };
 
         stateMap[name] = state;
 
+        async(func)
+            .then(callback => state.callback = callback)
+
         const destroyer = mag.utils.onLCEvent('onunload', name, () => {
-            if (state.callback && typeof state.callback == 'function') {
-                state.callback();
-            }
+            typeof state.callback == 'function' && state.callback();
             delete stateMap[name];
             destroyer();
         });
     } else if (state && !arr) {
         // call on every re-render
-        typeof func == 'function' && func();
+        //first call destroy
+        typeof state.callback == 'function' && state.callback();
+        async(func)
+            .then(callback => state.callback = callback)
     } else if (state && !arrayAreEqual(arr, state.value)) {
         state.value = arr.slice();
-        typeof func == 'function' && func();
-    }
+        typeof state.callback == 'function' && state.callback();
+        async(func)
+            .then(callback => state.callback = callback)    }
 }
 
 const useEffect = function(func, arr) {

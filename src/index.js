@@ -49,7 +49,7 @@ const Timer = mag(TimerHTML, props => {
             })
         }, 1000)
         return () => {
-            console.log("destory")
+            console.log("destory RESETER")
             clearInterval(intervalId)
         }
     }, [])
@@ -89,8 +89,8 @@ const func = () => {
 };
 
 const Naver = mag(`<div>The count is: <count/></div>`, props => {
-  console.log('render');
   const [count, setCount] = mag.useState(0);
+    console.log('render NAVER', count);
 
   mag.useEffect(() => {
     console.log('onload');
@@ -100,7 +100,7 @@ const Naver = mag(`<div>The count is: <count/></div>`, props => {
       setCount(count => count + 1);
     }, 1000);
     return () => {
-      console.log('destory');
+      console.log('destory NAVER');
       clearInterval(intervalId);
     };
   }, []);
