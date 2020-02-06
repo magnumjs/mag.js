@@ -1,5 +1,6 @@
-import mag from '../main';
+import mag from '../core/mag';
 import {clone, arrayAreEqual} from './common';
+import {onLCEvent} from "../core/utils/events"
 
 const stateMap = {};
 
@@ -29,7 +30,7 @@ const exec = (arr, stateMap, name, func) => {
 
         stateMap[name] = state;
 
-        const destroyer = mag.utils.onLCEvent('onunload', name, () => {
+        const destroyer = onLCEvent('onunload', name, () => {
             if (state.callback && typeof state.callback == 'function') {
                 state.callback();
             }
@@ -59,7 +60,7 @@ const useLayoutEffect = function(func, arr) {
     if (!r.fake) {
         //next tick
 
-        const destroy = mag.utils.onLCEvent('didupdate', name, (...args) => {
+        const destroy = onLCEvent('didupdate', name, (...args) => {
 
             if(mag.doc.body.contains(args[2])) {
                 exec(arr, stateMap, name, func)

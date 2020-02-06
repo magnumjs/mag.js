@@ -8,13 +8,15 @@
 `npm start`
 `npm run build`
 
-### browser install
+### Browser install
 
-`<script src="//unpkg.com/mag.js"></script>`
+*Both state and stateless Components with or without Hooks (useState and useEffect)*
+`<script src="//unpkg.com/mag.js"></script>` 
+`<script src="//unpkg.com/mag.js/dist/mag.hooks.min.js"></script>`
 
-`<script src="//unpkg.com/mag.js/dist/mag.use-state.min.js"></script>`
-
-`<script src="//unpkg.com/mag.js/dist/mag.use-state-use-effect.min.js"></script>`
+*Only stateless Components with or without useState and useEffect Hooks*
+`<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
+`<script src="//unpkg.com/mag.js/dist/mag-stateless.hooks.min.js"></script>`
 
 ### Intuitive JS 2 HTML Templating Component Library
 
@@ -60,12 +62,14 @@ const App = mag(
 App({counters: ['first', 'second']})
 ```
 
-[Try it out](https://codepen.io/magnumjs/pen/MWYMErB?editors=0010)
+[Try it out!](https://codepen.io/magnumjs/pen/MWYMErB?editors=0010)
 
 [Without useState](https://jsbin.com/hosuyezabi/edit?html,output)
 
-[codesandbox template](https://codesandbox.io/s/883vqwy840)
+[CodePen Examples](https://codepen.io/magnumjs)
 
-[videos with latest examples](https://www.youtube.com/playlist?list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
+[Codesandbox template](https://codesandbox.io/s/883vqwy840)
 
+[Video examples](https://www.youtube.com/playlist?list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
+--
 [Old readme](README-old.md)

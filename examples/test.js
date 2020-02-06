@@ -1,4 +1,6 @@
 import mag from "../src/mag.addons.0.2"
+import {hookin} from "../src/core/hook"
+import {merge, copy} from "../src/core/utils/common"
 
 import './template'
 
@@ -83,7 +85,7 @@ mathdemo3.view = function(state, props) {
 
   state.$input = {
     _config: function() {
-      mag.utils.merge(props, state);
+      merge(props, state);
     },
     _oninput: function(event, index, node, container) {
 
@@ -113,7 +115,7 @@ mag.module("mathdemo3", mathdemo3, props);
 var mathdemo4 = {};
 
 mathdemo4.controller = function(props) {
-  mag.utils.merge(props, this);
+  merge(props, this);
 }
 mathdemo4.view = function(state, props) {
 
@@ -642,7 +644,7 @@ var shoes = {
   controller: function(props) {
     this.searchText = mag.prop(props.searchText)
     this.searching = this.searchText
-    mag.utils.copy(props.shoes, this.shoes = [])
+    copy(props.shoes, this.shoes = [])
 
     this.clickee = function(e, index, node, data) {
       return console.log(e, index, node, data)
@@ -678,7 +680,7 @@ var props = {
   }]
 }
 
-mag.hookin('elementMatcher', 'test', function(data) {
+hookin('elementMatcher', 'test', function(data) {
   // console.log('HOOKIN', data)
 })
 
@@ -793,15 +795,15 @@ mag.module("count", {
 })
 
 
+//
+// function merge(o1, o2) {
+//   for (var i in o2) {
+//     o1[i] = o2[i];
+//   }
+//   return o1;
+// }
 
-function merge(o1, o2) {
-  for (var i in o2) {
-    o1[i] = o2[i];
-  }
-  return o1;
-}
-
-mag.hookin('attributes', 'className', function(data) {
+hookin('attributes', 'className', function(data) {
   data.value = data.node.classList + ' ' + data.value
   data.key = 'class'
 })

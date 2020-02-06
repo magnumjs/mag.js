@@ -39,11 +39,36 @@ const mainConfig = merge(baseConfig, {
       // umdNamedDefine: true
   }}, prodBaseConfig)
 
-const useStateConfig = merge(baseConfig, {
-  entry: './config/build-with-use-state.js',
+const mainWithHooksConfig = merge(baseConfig, {
+    entry: './config/build-with-hooks.js',
   output: {
       library: 'mag',
-      filename: 'mag.use-state.min.js',
+      filename: 'mag.hooks.min.js',
+      chunkFilename: '[name].[id].chunk.js',
+      path: path.join(__dirname, '../dist'),
+      publicPath: '/',
+      // libraryTarget: 'umd',
+      // umdNamedDefine: true
+  }}, prodBaseConfig)
+
+const statelessConfig = merge(baseConfig, {
+  entry: './src/core/mag-stateless.js',
+  output: {
+      library: 'mag',
+      filename: 'mag-stateless.min.js',
+      chunkFilename: '[name].[id].chunk.js',
+      path: path.join(__dirname, '../dist'),
+      publicPath: '/',
+      // libraryTarget: 'umd',
+      // umdNamedDefine: true
+  }}, prodBaseConfig)
+
+
+const statelessWithHooksConfig = merge(baseConfig, {
+  entry: './config/build-stateless-with-hooks.js',
+  output: {
+      library: 'mag',
+      filename: 'mag-stateless.hooks.min.js',
       chunkFilename: '[name].[id].chunk.js',
       path: path.join(__dirname, '../dist'),
       publicPath: '/',
@@ -51,42 +76,12 @@ const useStateConfig = merge(baseConfig, {
       // umdNamedDefine: true
   }
   }, prodBaseConfig)
-
-const useStateUseEffectConfig = merge(baseConfig, {
-  entry: './config/build-with-use-state-use-effect.js',
-  output: {
-      library: 'mag',
-      filename: 'mag.use-state-use-effect.min.js',
-      chunkFilename: '[name].[id].chunk.js',
-      path: path.join(__dirname, '../dist'),
-      publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
-  }
-  }, prodBaseConfig)
-
-const useStateConfig2 = merge(baseConfig, {
-    entry: './config/build-use-state.js',
-  output: {
-      library: 'useState',
-      filename: 'use-state.min.js',
-      chunkFilename: '[name].[id].chunk.js',
-      path: path.join(__dirname, '../dist'),
-      publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
-  },
-  externals: {
-      '../main': 'mag'
-  },
-  }, prodBaseConfig)
-
 
 
 // Return Array of Configurations
 module.exports = [
     mainConfig,
-    useStateConfig,
-    useStateUseEffectConfig,
-    useStateConfig2
+    mainWithHooksConfig,
+    statelessConfig,
+    statelessWithHooksConfig,
 ];

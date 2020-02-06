@@ -1,4 +1,5 @@
-import mag from './mag';
+import {isObject} from "./core/utils/common"
+import {MAGNUM, ignorekeys} from './core/constants';
 
 var pathSeparator = '/';
 function proxyAssign(obj, cb, type, path) {
@@ -20,21 +21,21 @@ function proxyAssign(obj, cb, type, path) {
         retval !== null &&
         typeof retval !== 'function' &&
         !Array.isArray(retval) &&
-        mag.utils.isObject(retval) &&
+        isObject(retval) &&
         !retval.then &&
         !retval.draw
       ) {
         if (!isProxy(retval)) {
           proxies.add(retval);
-          return mag.proxy(retval, cb, type, path + pathSeparator + name);
+          return proxy(retval, cb, type, path + pathSeparator + name);
         }
       } else if (
         !(name in proxy) &&
-        !~mag.fill.ignorekeys.indexOf(name.toString()) &&
+        !~ignorekeys.indexOf(name.toString()) &&
         !type &&
         name[0] != '_'
       ) {
-        retval = mag.proxy({}, cb, type, path + pathSeparator + name);
+        retval = proxy({}, cb, type, path + pathSeparator + name);
       }
 
       var val = cb({
@@ -46,7 +47,7 @@ function proxyAssign(obj, cb, type, path) {
       });
       if (typeof val != 'undefined') {
         //special case where node is found but no children or value given
-        retval = val == mag.MAGNUM ? undefined : val;
+        retval = val == MAGNUM ? undefined : val;
       }
 
       return retval;
@@ -77,7 +78,7 @@ function proxyAssign(obj, cb, type, path) {
   });
 }
 
-mag.proxy = function(obj, cb, type, path) {
+const proxy = function(obj, cb, type, path) {
   //TODO: too expensive maybe on small objects?
 
   for (var k in obj) {
@@ -91,13 +92,13 @@ mag.proxy = function(obj, cb, type, path) {
       typeof k != 'symbol' &&
       stype != 'symbol' &&
       stype != 'function' &&
-      mag.utils.isObject(obj[k])
+      isObject(obj[k])
     ) {
-      obj[k] = mag.proxy(obj[k], cb, type, path + pathSeparator + k);
+      obj[k] = proxy(obj[k], cb, type, path + pathSeparator + k);
     }
   }
 
   return proxyAssign(obj, cb, type, path || pathSeparator);
 };
 
-export default mag;
+export default proxy;

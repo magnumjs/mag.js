@@ -1,64 +1,8 @@
-import mag from './render';
+import {getMod, getProps} from "./module"
+import {rafBounceIds, rafBounce, rafRate} from './core/constants'
 
-var utils = {};
-
-//UTILITY
-utils.copy = obj => Object.assign({}, obj);
-
-utils.merge = function() {
-  return Object.assign.apply({}, arguments);
-};
-
-utils.extend = function(target, source, deep) {
-  //if the sources are undefined then don't add to target even if exists
-  for (var k in source) {
-    if (source[k] === undefined) {
-      delete source[k];
-    } else if (deep && utils.isObject(source[k])) {
-      return utils.extend(target[k], source[k]);
-    }
-  }
-  return utils.merge(target, source);
-};
-
-//For Safari
-utils.isObject = obj =>
-  Object.prototype.toString.call(obj).substr(-7) == 'Object]';
-
-var funReplacer = (key, value) =>
-  typeof value == 'function' ? '' + value : value;
-
-utils.toJson = obj => JSON.stringify(obj, funReplacer);
-
-utils.isEmpty = obj => {
-  for (var k in obj) {
-    if (obj.hasOwnProperty(k)) return 0;
-  }
-  return 1;
-};
-
-utils.isHTMLEle = item => item && item.nodeType === 1;
-
-utils.callHook = function(hookins, key, name, i, data, before) {
-  if (hookins[name][i].key == key) {
-    before = {
-      v: data.value,
-      k: data.key
-    };
-    data.change = false;
-    hookins[name][i].handler.call(hookins[name][i].context, data);
-    //if any change
-    if (
-      before !==
-      {
-        v: data.value,
-        k: data.key
-      }
-    ) {
-      data.change = true;
-    }
-  }
-};
+const utils = {};
+let runningEventInstance
 
 //rAF:
 var queue = [],
@@ -66,9 +10,9 @@ var queue = [],
   scheduler,
   prev = [];
 
-utils.scheduleFlush = function(id, fun) {
+const scheduleFlush = function(id, fun) {
   return new Promise(function(resolve) {
-    if (mag.rafBounce || (mag.rafBounceIds[id] && fun)) {
+    if (rafBounce || (rafBounceIds[id] && fun)) {
       if (scheduled[id]) {
         prev[id]();
         cancelAnimationFrame(scheduled[id]);
@@ -90,8 +34,8 @@ utils.scheduleFlush = function(id, fun) {
 };
 
 function checkRate(finish, start) {
-  if (mag.rafRate) {
-    return finish - start < mag.rafRate;
+  if (rafRate) {
+    return finish - start < rafRate;
   }
   return true;
 }
@@ -112,74 +56,43 @@ function processTaskList(resolve, taskStartTime, id) {
   } while (queue.length && checkRate(taskFinishTime, taskStartTime));
 
   if (queue.length) {
-    utils.scheduleFlush(id).then(resolve);
+    scheduleFlush(id).then(resolve);
   } else {
     resolve();
   }
 }
 
-//Events:
-var handlers = [];
-utils.onLCEvent = function(eventName, index, handler) {
-  var eventer = eventName + '-' + index;
-  handlers[eventer] = handlers[eventer] || [];
-  handlers[eventer].push(handler);
-  //Remove self:
-  return function() {
-    const index = handlers[eventer].indexOf(handler);
-    return handlers[eventer].splice(index, 1);
-  };
-};
-
-utils.callLCEvent = function(eventName, controller, node, index, once, extra) {
-  var isPrevented;
-  utils.runningEventInstance = index;
-  var props = mag.mod.getProps(index);
-  var instance = mag.mod.getMod(index);
-
-  var event =
-    (instance && instance[eventName]) || (controller && controller[eventName]);
-  if (event && !event.called) {
-    isPrevented = event.call(instance, node, props, index, extra);
-    if (once) event.called = 1;
-  }
-
-  // on Handlers
-  var eventer = eventName + '-' + index;
-  if (handlers[eventer]) {
-    const handlersCopy = handlers[eventer].slice();
-    for (var handle of handlersCopy) {
-      handle(controller, props, node);
-    }
-  }
-
-  utils.runningEventInstance = -1;
-  if (isPrevented === false) return true;
-};
-
 //Collection:
-var a = {
+var items = {
   i: [],
-  isItem: id => ~a.i.indexOf(id),
-  setItem: id => (a.i[a.i.length] = id),
-  getItem: id => a.i.indexOf(id),
-  getItemVal: index => a.i[index],
-  removeItem: id => a.i.splice(a.i.indexOf(id), 1)
+  isItem: id => ~items.i.indexOf(id),
+  setItem: id => (items.i[items.i.length] = id),
+  getItem: id => items.i.indexOf(id),
+  getItemVal: index => items.i[index],
+  removeItem: id => items.i.splice(items.i.indexOf(id), 1)
 };
 
-utils.items = a;
+utils.items = items;
 
-utils.getItemInstanceIdAll = () => a.i;
+utils.getItemInstanceIdAll = () => items.i;
 
-utils.getItemInstanceId = id => {
-  if (a.isItem(id)) {
-    return a.getItem(id);
+const getItemInstanceId = id => {
+  if (items.isItem(id)) {
+    return items.getItem(id);
   } else {
-    a.setItem(id);
-    return a.getItem(id);
+      items.setItem(id);
+    return items.getItem(id);
   }
 };
 
-mag.utils = utils;
 
-export default mag;
+
+export default utils;
+
+
+export {
+    getItemInstanceId,
+    scheduleFlush,
+    runningEventInstance,
+    items
+}

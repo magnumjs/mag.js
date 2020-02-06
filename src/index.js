@@ -2,6 +2,21 @@ import mag from './main';
 import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
+
+mag.module("mod",{
+    view: function(state){
+        state.h1 = 123
+    }
+})
+
+const Mod = mag(`<div><h2></h2></div>`, {
+    view: function(state, props){
+        state.h2 = 'MIKE'
+    }
+})
+
+mag(Mod({name: "mike"}), 'mod2')
+
 const CounterHTML = `
 <div class="counter">
   <p>You clicked <count></count> times</p>
@@ -137,7 +152,7 @@ const ResetTimerComp = mag(ResetTimerHTML, props => {
             //let's pass a function instead
             //the argument is the current state
             setCount(count => count + 1)
-        }, 1000)
+        }, 5000)
         return () => {
             console.log("destory")
             setCount(0)

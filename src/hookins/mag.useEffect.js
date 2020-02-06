@@ -1,5 +1,6 @@
-import mag from '../main';
-import {clone, arrayAreEqual} from './common';
+import mag from '../core/mag';
+import {clone, arrayAreEqual} from '../core/utils/common';
+import {onLCEvent} from "../core/utils/events"
 
 const stateMap = {};
 
@@ -40,7 +41,7 @@ const exec = (arr, stateMap, name, func) => {
         async(func)
             .then(callback => state.callback = callback)
 
-        const destroyer = mag.utils.onLCEvent('onunload', name, () => {
+        const destroyer = onLCEvent('onunload', name, () => {
             typeof state.callback == 'function' && state.callback();
             delete stateMap[name];
             destroyer();
@@ -70,7 +71,7 @@ const useEffect = function(func, arr) {
   if (!r.fake) {
     //next tick
 
-      const destroy = mag.utils.onLCEvent('didupdate', name, (...args) => {
+      const destroy = onLCEvent('didupdate', name, (...args) => {
 
           if(mag.doc.body.contains(args[2])) {
             exec(arr, stateMap, name, func)

@@ -1,10 +1,10 @@
 {
   "name": "mag.js",
+  "sideEffects": false,
   "version": "1.2.6",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
   "main": "lib/main.js",
   "unpkg": "dist/mag.min.js",
-  "sideEffects": false,
   "directories": {
     "example": "examples",
     "test": "tests"
@@ -70,6 +70,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.1.0",

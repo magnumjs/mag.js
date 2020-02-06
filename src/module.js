@@ -1,16 +1,22 @@
-import mag from './mag-proxy';
+import proxy from './mag-proxy';
+import {MAGNUM, ignorekeys} from './core/constants';
+import {merge, copy, toJson} from "./core/utils/common"
+import {items} from "./utils"
+import getNode from "./core/dom/getNode"
+import attachToArgs from "./render"
 
 var modules = [],
-  MAGNUM = mag.MAGNUM,
   controllers = [];
 
 var mod = {
   runningViewInstance: -1,
-  innerMods: [],
   cache: []
 };
 
-mod.getState = function(index) {
+let runningViewInstance = mod.runningViewInstance
+const innerMods = mod.innerMods = []
+
+const getState = mod.getState = function(index) {
   return modules[index][1];
 };
 mod.setState = function(index, state) {
@@ -19,29 +25,29 @@ mod.setState = function(index, state) {
 mod.getView = function(index) {
   return modules[index][0];
 };
-mod.getProps = function(index) {
+const getProps = mod.getProps = function(index) {
   return modules[index] && modules[index][2];
 };
 mod.setProps = function(index, props) {
   return (modules[index][2] = props);
 };
-mod.remove = function(key) {
+const remove = mod.remove = function(key) {
   //remove mod completely
   if (modules[key]) modules[key] = 0;
 };
-mod.getId = function(index) {
+const getModId = mod.getId = function(index) {
   return modules[index] && modules[index][3];
 };
-mod.exists = function(index) {
+const exists = mod.exists = function(index) {
   return typeof modules[index] == 'object';
 };
-mod.setFrameId = function(index, fid) {
+const setFrameId = mod.setFrameId = function(index, fid) {
   modules[index][4] = fid;
 };
 mod.getFrameId = function(index) {
   return modules[index][4];
 };
-mod.getMod = function(index) {
+const getMod = mod.getMod = function(index) {
   return modules[index] && modules[index][5];
 };
 
@@ -59,14 +65,14 @@ var bindMethods = (obj, context) => {
   return obj;
 };
 
-mod.submodule = function(id, index, module, props) {
+const submodule = function(id, index, module, props) {
   if (modules[index]) {
     // new call to existing
     // update props, merge with existing if same key
     if (props.key && props.key == mod.getProps(index).key) {
       mod.setProps(
         index,
-        mag.utils.copy(mag.utils.merge(mod.getProps(index), props))
+        copy(merge(mod.getProps(index), props))
       );
     } else {
       mod.setProps(index, props);
@@ -75,7 +81,7 @@ mod.submodule = function(id, index, module, props) {
     return modules[index];
   }
 
-  module = mag.utils.copy(module);
+  module = copy(module);
   bindMethods(module, module);
 
   modules[index] = [0, 0, 0, 0, 0, 0];
@@ -83,7 +89,7 @@ mod.submodule = function(id, index, module, props) {
   var controller = function(context) {
       module.props = mod.getProps(index);
       module.state = context;
-      module.element = mag.getNode(id);
+      module.element = getNode(id);
       return (
         (module.controller || function() {}).call(context, module.props) ||
         context
@@ -234,10 +240,10 @@ var handler = function(type, index, change) {
   if (
     change.type == 'get' &&
     type != 'props' &&
-    !~mag.fill.ignorekeys.indexOf(change.name.toString()) &&
+    !~ignorekeys.indexOf(change.name.toString()) &&
     typeof change.oldValue == 'undefined'
   ) {
-    var rootNode = mag.getNode(mod.getId(index));
+    var rootNode = getNode(mod.getId(index));
 
     //Get parent correct parent not just root!?
     if (change.path && change.path[0] == '/')
@@ -251,7 +257,7 @@ var handler = function(type, index, change) {
     var res = findMissing(change, fnode ? fnode : rootNode);
 
     if (res !== null && typeof res == 'object' && change.object) {
-      mag.utils.merge(res, change.object[change.name]);
+      merge(res, change.object[change.name]);
     }
     if (res) {
       mod.cached[index] = 0;
@@ -280,32 +286,32 @@ var handler = function(type, index, change) {
 };
 
 function getController(ctrl, index, id) {
-  //mod.setProps(index, mag.proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
+  //mod.setProps(index, proxy(mod.getProps(index), handler.bind({}, 'props', index), 'prop'));
 
-  return new ctrl(mag.proxy({}, handler.bind({}, 'state', index)));
+  return new ctrl(proxy({}, handler.bind({}, 'state', index)));
 }
 
-mod.iscached = function(key) {
+const iscached = mod.iscached = function(key) {
   //TODO: shallow equals
-  var data = mag.utils.toJson([mod.getProps(key), mod.getState(key)]);
+  var data = toJson([mod.getProps(key), mod.getState(key)]);
   if (key in mod.cache && mod.cache[key] == data) {
     return true;
   }
   mod.cache[key] = data;
 };
 
-mod.clear = function(key) {
+const clear = mod.clear = function(key) {
   if (~key && mod.cache[key]) {
     mod.cache.splice(key, 1);
   }
 };
 
 mod.cached = [];
-mod.callView = function(node, index) {
+const callView = function(node, index) {
   //TODO: ASYNC, promises .. ?
   mod.runningViewInstance = index;
   if (!mod.cached[index]) {
-    mag.props.attachToArgs(index, mod.getState(index), node);
+    attachToArgs(index, mod.getState(index), node);
     mod.cached[index] = 1;
   }
   try {
@@ -317,6 +323,29 @@ mod.callView = function(node, index) {
   }
 };
 
-mag.mod = mod;
+const isValidId = function(nodeId, idInstance) {
+    // verify idInstance
+    if (idInstance < 0 || idInstance != items.getItem(nodeId)) {
+        // if original id is a match
+        if (nodeId == getModId(idInstance)) return true;
+        return false;
+    }
+    return true;
+};
 
-export default mag;
+export {
+    isValidId,
+    callView,
+    iscached,
+    setFrameId,
+    runningViewInstance,
+    exists,
+    getProps,
+    getMod,
+    clear,
+    submodule,
+    remove,
+    getModId,
+    getState,
+    innerMods
+}

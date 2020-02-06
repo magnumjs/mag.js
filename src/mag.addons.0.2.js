@@ -1,4 +1,6 @@
-import mag from '../src/main';
+import mag from './main';
+import {hookin} from "./core/hook"
+import utils from "./utils"
 
 //Create wrapper for function call to mag() with over riding default props
 var funRet = mod => props => (index, p) => {
@@ -20,7 +22,7 @@ mag.create = function(idOrNode, moduleDefinition, defaultProps) {
     //Create wrapper for function call to mag.module with over riding default props
 
     return (id2, props2) => {
-      if (typeof id2 !== 'string' && !mag.utils.isHTMLEle(id2)) {
+      if (typeof id2 !== 'string' && !utils.isHTMLEle(id2)) {
         props2 = id2;
         id2 = 0;
       }
@@ -56,7 +58,7 @@ mag.html2dom = function(htmlString) {
 };
 
 mag.getTags = function(tagName) {
-  var parentID = mag.utils.items.getItemVal(mag.mod.runningViewInstance);
+  var parentID = utils.items.getItemVal(mag.mod.runningViewInstance);
   var parentNode = mag.getNode(parentID);
   var nodes = (parentNode || mag.doc).getElementsByTagName(tagName);
 
@@ -79,13 +81,13 @@ mag.tag = function(tagName, module, props, type) {
 };
 
 //UTILITY
-// mag.utils.copy - now in core
-// mag.utils.merge - now in core
+// utils.copy - now in core
+// utils.merge - now in core
 
 // helper
 mag.noop = function() {};
-mag.copy = mag.utils.copy;
-mag.merge = mag.utils.merge;
+mag.copy = utils.copy;
+mag.merge = utils.merge;
 
 mag.isEmpty = function(x) {
   // undefined, '', null, 0, empty array
@@ -443,7 +445,7 @@ function forEach(obj, fn) {
   }
 }
 
-mag.hookin('attributes', 'key', function(data) {
+hookin('attributes', 'key', function(data) {
   // remove system key from being added to attributes in html
   data.value = null;
 });
@@ -463,7 +465,7 @@ var unitlessProps = {
   zoom: 1
 };
 
-mag.hookin('attributes', 'style', function(data) {
+hookin('attributes', 'style', function(data) {
   //convert from object
   if (typeof data.value === 'object') {
     // get current styles not overwrite existing?
@@ -486,7 +488,7 @@ mag.hookin('attributes', 'style', function(data) {
 });
 
 // _className plugin example
-mag.hookin('attributes', 'className', function(data) {
+hookin('attributes', 'className', function(data) {
   data.key = 'class';
 
   var newClass = data.value;
@@ -528,7 +530,7 @@ mag.hookin('attributes', 'className', function(data) {
 
 var queue = [];
 //Values hookin:
-mag.hookin('values', '*', function(data) {
+hookin('values', '*', function(data) {
   var dtype = typeof data.value;
 
   if (data.value == null) {
@@ -545,7 +547,7 @@ mag.hookin('values', '*', function(data) {
       data.value.then(
         function(fillId, dataKey, newData) {
           if (fillId) {
-            var mid = mag.utils.items.getItem(fillId);
+            var mid = utils.items.getItem(fillId);
 
             if (~mid) {
               mag.mod.getState(mid)[dataKey] = newData;
@@ -566,7 +568,7 @@ mag.hookin('values', '*', function(data) {
 
 //GetId helper method
 mag.getId = function(instanceId) {
-  return mag.utils.items.getItemVal(instanceId);
+  return utils.items.getItemVal(instanceId);
 };
 
 mag.prop = function(store) {

@@ -22,12 +22,12 @@ describe("MagJS comp return values with empty node", function () {
         App()
         expect(document.getElementById('root').innerHTML).toEqual("")
     })
-    xit("with array", function () {
+    it("with array", function () {
         const App = mag('root', () =>{
             return []
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("")
+        expect(document.getElementById('root')).toBeNull()
     })
 
     it("with null", function () {
@@ -184,12 +184,12 @@ describe("MagJS comp return values with single child node", function () {
         App()
         expect(document.getElementById('root').innerHTML).toEqual("<div></div>")
     })
-    xit("with array", function () {
+    it("with array", function () {
         const App = mag('root', () =>{
             return []
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual(true)
+        expect(document.getElementById('root')).toBeNull()
     })
 
     it("with null", function () {

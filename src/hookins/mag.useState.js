@@ -1,5 +1,5 @@
-import mag from '../main';
-import {clone, copy, isObject} from './common';
+import mag from '../core/mag';
+import {clone, copy, isObject} from '../core/utils/common';
 // Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
 // Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
 

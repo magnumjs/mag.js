@@ -1,15 +1,18 @@
-import mag from './module';
+import {MAGNUM} from './core/constants'
+import redraw from "./core/draw/redraw"
+import {isHTMLEle, isObject, isEmpty} from "./core/utils/common"
+import {items} from "./utils"
+import fillFind from "./core/dom/fillFind"
 
 var prop = {},
-  _VALUE = '_value',
-  MAGNUM = mag.MAGNUM;
+  _VALUE = '_value'
 
 //TODO: make recursive and clean!
 var getParent = function(parts, parentElement) {
   for (var i = 1; i < parts.length; i++) {
     var key = parts[i];
     var index = parts[i + 1];
-    var found = mag._find(
+    var found = fillFind(
       Array.isArray(parentElement) ? parentElement[0] : parentElement,
       key
     );
@@ -17,7 +20,7 @@ var getParent = function(parts, parentElement) {
     if (index && !isNaN(Number(index))) {
       parentElement = found[index];
     } else if (found && found.length && index && i + 2 < parts.length) {
-      parentElement = mag._find(found[0], index);
+      parentElement = fillFind(found[0], index);
     } else if (found && found.length) {
       parentElement = found;
       if (i + 2 == parts.length) {
@@ -36,11 +39,11 @@ var getElement = function(obj, k, i, parentElement) {
   if (parts.length >= 3) {
     // recurse
     parentElement = getParent(parts, parentElement);
-    found = mag._find(parentElement, k);
+    found = fillFind(parentElement, k);
   } else {
     var last = parseInt(parts.pop()),
       index = !isNaN(last) ? last : 0;
-    found = mag._find(
+    found = fillFind(
       parentElement[index] ? parentElement[index] : parentElement,
       k
     );
@@ -98,7 +101,7 @@ function addEvent(founder, obj, k, parentElement) {
       } else if (obj._text !== undefined) {
         obj._text = vals || this.value;
       }
-      mag.redraw(parent, mag.utils.items.getItem(parent.id));
+      redraw(parent, items.getItem(parent.id));
     }.bind(founder, parentElement, obj, k);
 
     founder.addEventListener('click', onit);
@@ -132,7 +135,7 @@ var attacher = function(i, k, obj, element) {
   }
 
   // only for user input fields
-  var found = mag._find(element, k);
+  var found = fillFind(element, k);
   var founder = isInput(found);
 
   if (typeof oval !== 'function' && founder) {
@@ -152,7 +155,7 @@ var attacher = function(i, k, obj, element) {
           founder.value !== oval
         ) {
           oval = founder.value;
-          mag.redraw(element, i, 1);
+          redraw(element, i, 1);
 
           return founder.value;
         }
@@ -175,7 +178,7 @@ var attacher = function(i, k, obj, element) {
   }
 };
 
-var attachToArgs = function(i, args, element) {
+const attachToArgs = function(i, args, element) {
   for (var k in args) {
     if (args.hasOwnProperty(k)) {
       var value = args[k];
@@ -183,9 +186,9 @@ var attachToArgs = function(i, args, element) {
       if (
         k != _VALUE &&
         typeof value === 'object' &&
-        !mag.utils.isHTMLEle(value)
+        !isHTMLEle(value)
       ) {
-        if (mag.utils.isObject(value) && mag.utils.isEmpty(value)) {
+        if (isObject(value) && isEmpty(value)) {
           value[_VALUE] = '';
         }
         // recurse
@@ -197,7 +200,5 @@ var attachToArgs = function(i, args, element) {
   }
 };
 
-prop.attachToArgs = attachToArgs;
-mag.props = prop;
 
-export default mag;
+export default attachToArgs;

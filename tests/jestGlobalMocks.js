@@ -9,7 +9,14 @@ const storageMock = () => {
         clear: () => storage = {},
     };
 };
+jest.useFakeTimers();
 
+const cancelAnimationFrameMock = () => id => clearTimeout(id)
+const requestAnimationFrameMock = ()=> cb => setTimeout(cb, 1000 / 60)
+
+
+Object.defineProperty(window, 'cancelAnimationFrame', { value: cancelAnimationFrameMock() });
+Object.defineProperty(window, 'requestAnimationFrame', { value: requestAnimationFrameMock() });
 Object.defineProperty(window, 'localStorage', { value: storageMock() });
 Object.defineProperty(window, 'sessionStorage', { value: storageMock() });
 Object.defineProperty(window, 'MutationObserver', { value: MutationObserver });
