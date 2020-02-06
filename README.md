@@ -11,11 +11,15 @@
 ### Browser install
 
 *Both state and stateless Components with or without Hooks (useState and useEffect)*
+
 `<script src="//unpkg.com/mag.js"></script>` 
+
 `<script src="//unpkg.com/mag.js/dist/mag.hooks.min.js"></script>`
 
 *Only stateless Components with or without useState and useEffect Hooks*
+
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
+
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.hooks.min.js"></script>`
 
 ### Intuitive JS 2 HTML Templating Component Library

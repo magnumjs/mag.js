@@ -52,7 +52,7 @@ const mainWithHooksConfig = merge(baseConfig, {
   }}, prodBaseConfig)
 
 const statelessConfig = merge(baseConfig, {
-  entry: './src/core/mag-stateless.js',
+    entry: './config/build-stateless.js',
   output: {
       library: 'mag',
       filename: 'mag-stateless.min.js',
