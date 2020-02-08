@@ -238,8 +238,7 @@ export function setHtml(node, html) {
         }
 
         return;
-    } else if (isHTMLEle(html) && !isCached(node, html.outerHTML)) {
-
+    } else if (isHTMLEle(html) && !isCached(node, html)) {
 
         if (html[MAGNUM] && html[MAGNUM].scid && !_cprops[html[MAGNUM].scid]) {
 

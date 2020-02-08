@@ -4,6 +4,67 @@ import {useState} from './hookins/mag.useState';
 
 
 
+const FancyBorder = mag(
+    `<div>
+      <f-children />
+    </div>`,
+    props => {
+    return {
+        _class: "FancyBorder FancyBorder-"+ props.color,
+        "f-children": props.children
+    }
+})
+
+const Dialog = mag(
+    `<FancyBorder>
+      <h1 class="Dialog-title"></h1>
+      <p class="Dialog-message"></p>
+      <d-children></d-children>
+    </FancyBorder>`,
+    props => {
+    return {
+        _html: FancyBorder({color: "blue"}),
+        "d-children": props.children,
+        "Dialog-title": props.title,
+        "Dialog-message": props.message,
+    }
+})
+
+const SignUpDialog = mag(
+    `<Dialog open>
+    <input />
+    <button>
+    Sign Me Up!
+    </button>
+  </Dialog>`,
+    ({login =''}) => {
+
+    const handleChange = e => {
+        SignUpDialog({login: e.target.value});
+    }
+
+    const handleSignUp = () =>{
+        alert(`Welcome aboard, ${login}!`);
+    }
+
+    return {
+        _html : Dialog({
+            title:"Mars Exploration Program",
+            message:"How should we refer to you?"
+        }),
+        input:{onChange: handleChange},
+        button: {onClick: handleSignUp}
+    }
+})
+
+mag(
+    SignUpDialog(),
+    document.getElementById('diag-root3')
+)
+
+
+
+
 const FancyBorder1=mag(
     `<div class="fancy">
 <fchildren></fchildren>
