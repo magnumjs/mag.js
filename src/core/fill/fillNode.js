@@ -1,3 +1,4 @@
+import {MAGNUM} from '../constants'
 import {isHTMLEle} from "../utils/common"
 import {getPathTo, getFullPathIndex, getPathIndex, getId, getMod} from "./common"
 import addToNode from "./addToNode"

@@ -1,6 +1,4 @@
 import {getItems, getId, getHook} from "./common"
-import {isHTMLEle} from "../utils/common"
-import {MAGNUM, _cprops} from '../constants'
 
 
 const hook = getHook()
