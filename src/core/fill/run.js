@@ -41,7 +41,7 @@ const run = function(nodeList, data, key) {
                 'beforeend',
                 templates[key].node
             );
-            elements = nodeListToArray(templates[key].parent.children);
+            elements = nodeListToArray(templates[key].parent.childNodes);
         }
 
         if (!elements.length) {

@@ -1,4 +1,6 @@
 import {getItems, getId, getHook} from "./common"
+import {isHTMLEle} from "../utils/common"
+import {MAGNUM, _cprops} from '../constants'
 
 
 const hook = getHook()
@@ -61,12 +63,13 @@ export function matchingElements(node, key, nested) {
 }
 
 
-
-
 function isInIsolate(node) {
-    if (
+
+
+        if (
         getId() &&
-        //((isHTMLEle(getId()) && node[MAGNUM] && node[MAGNUM].scid) || //Stateless
+        // ((isHTMLEle(getId()) && node[MAGNUM] && node[MAGNUM].scid
+        //     && node[MAGNUM].scid != getId()[MAGNUM].scid) || //Stateless
         (node.id && node.id != getId() && items && items.isItem(node.id))
     ) {
         return 0;

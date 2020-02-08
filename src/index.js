@@ -3,6 +3,115 @@ import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
 
+
+const FancyBorder1=mag(
+    `<div class="fancy">
+<fchildren></fchildren>
+</div>`,
+    ({children: fchildren})=>({fchildren})
+)
+const Dialog1=mag(`
+<div>
+<FancyBorder>
+<div>
+<h2 class="title"></h2>
+<children></children>
+</div>
+</FancyBorder>
+</div>
+`,
+    props=>({
+        FancyBorder:FancyBorder1(),
+        title: props.title,
+        children:props.children
+    })
+)
+
+const SignupDialog1=mag(`
+<div>
+<div class="dialog">
+<div>
+<span>hello.. <name></name>
+</span>
+<br>
+<input placeholder="your name" />
+</div>
+</div>
+</div>
+`,
+    props=>{
+        return{
+            dialog: Dialog1({title: props.name}),
+            name:props.name,
+            input: {
+                _value: props.name,
+                oninput: e => SignupDialog1({
+                    name: e.target.value
+                })
+            }}
+    }
+)
+
+//Define:
+const App1 = mag(
+    'diag-root1',
+    props => SignupDialog1()
+)
+//Run:
+App1()
+
+
+const FancyBorder2=mag(
+    `<div class="fancy" style="padding:20px;border: solid 10px blue;">
+<childs></childs>
+</div>`,
+    ({children})=>({childs: children})
+)
+const Dialog2=mag(`
+<FancyBorder>
+TOP
+<children></children>
+<h2 class="title"></h2>
+BOT
+</FancyBorder>
+`,
+    props=>({
+       _html: FancyBorder2(),
+        title: props.title,
+        children:props.children
+    })
+)
+
+const SignupDialog2=mag(`
+<div class="dialog">
+hello.. <name></name>
+<br>
+<input placeholder="your name" />
+</div>
+`,
+    props=>{
+        return{
+            _html: Dialog2({title: props.name}),
+            name:props.name,
+            input: {
+                _value: props.name,
+                oninput: e => SignupDialog2({
+                    name: e.target.value
+                })
+            }}
+    }
+)
+
+//Define:
+const App2 = mag(
+    'diag-root2',
+    props => SignupDialog2()
+)
+//Run:
+App2()
+
+
+
 mag.module("mod",{
     view: function(state){
         state.h1 = 123

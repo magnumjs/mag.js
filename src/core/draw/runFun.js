@@ -1,8 +1,8 @@
 import mag from "../mag-stateless"
-import {MAGNUM} from '../constants';
+import {MAGNUM, _cprops} from '../constants';
 import {getId, setId, run} from "../../fill-stateless"
 import {callLCEvent} from "../utils/events"
-import {copy, extend, toJson} from "../utils/common"
+import {copy, extend} from "../utils/common"
 
 let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {
@@ -50,7 +50,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         node[MAGNUM] = node[MAGNUM] || {};
 
         if (mag._cprops[ckey] && typeof props == 'object') {
-            props.children = mag._cprops[ckey];
+            props.children = _cprops[ckey];
         }
 
         a.props = props;

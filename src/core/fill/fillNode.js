@@ -1,5 +1,5 @@
 import {isHTMLEle} from "../utils/common"
-import {getPathTo, getFullPathIndex, getMicroDraw, getPathIndex, getId, getMod} from "./common"
+import {getPathTo, getFullPathIndex, getPathIndex, getId, getMod} from "./common"
 import addToNode from "./addToNode"
 import findAllAttributes from "./findAllAttributes"
 import fillAttributes from "./fillAttributes"

@@ -1,4 +1,4 @@
-import {MAGNUM, doc} from '../constants'
+import {MAGNUM, doc, _cprops} from '../constants'
 import getNode from "../dom/getNode"
 import {isArray, isHTMLEle} from "../utils/common"
 
@@ -213,11 +213,19 @@ export function findParentChild(node) {
 }
 
 export function replaceNode(node, replace, k) {
+
+
     if (
         !replace ||
         (node.childNodes[k] && node.childNodes[k].isEqualNode(replace))
     )
         return;
+
+    const children = nodeListToArray(node.childNodes)
+    for (let i = 0, size=children.length; i < size; i++) {
+        if(children[i]) node.removeChild(children[i]);
+    }
+
     if (node.childNodes[k]) node.replaceChild(replace, node.childNodes[k]);
     else node.appendChild(replace);
 }
@@ -230,7 +238,18 @@ export function setHtml(node, html) {
         }
 
         return;
-    } else if (isHTMLEle(html)) {
+    } else if (isHTMLEle(html) && !isCached(node, html.outerHTML)) {
+
+
+        if (html[MAGNUM] && html[MAGNUM].scid && !_cprops[html[MAGNUM].scid]) {
+
+            const clone = node.cloneNode(1);
+            clone[MAGNUM] = {
+                childof: html[MAGNUM].scid
+            };
+            _cprops[html[MAGNUM].scid] = clone;
+        }
+
         replaceNode(node, html, 0);
         return;
     }

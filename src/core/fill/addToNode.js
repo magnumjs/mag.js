@@ -34,7 +34,7 @@ export default function addToNode(node, val) {
             }
             //redraw?
             magRedraw(val, index)
-        } else if (val[MAGNUM] && val[MAGNUM].scid) {
+        } else if (val[MAGNUM] && val[MAGNUM].scid  && !_cprops[val[MAGNUM].scid]) {
             clone = node.cloneNode(1);
             clone[MAGNUM] = {
                 childof: val[MAGNUM].scid
