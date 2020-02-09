@@ -1,16 +1,8 @@
 import {doc} from "../constants"
-import html2dom from "./html2dom"
+import {html} from "./html2dom"
 import findInSelectors from "./findInSelectors"
 import {isString} from "../utils/common"
 
-
-export function html (data)
-{
-    if (isString(data) && data.trim()[0] == '<') {
-        return html2dom(data)
-    }
-
-}
 
 const find = function(selector) {
 

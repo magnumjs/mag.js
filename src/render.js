@@ -1,6 +1,6 @@
 import {MAGNUM} from './core/constants'
 import redraw from "./core/draw/redraw"
-import {isHTMLEle, isObject, isEmpty} from "./core/utils/common"
+import {isHTMLEle, isObject, isEmpty, isString, isArray} from "./core/utils/common"
 import {items} from "./utils"
 import fillFind from "./core/dom/fillFind"
 
@@ -13,7 +13,7 @@ var getParent = function(parts, parentElement) {
     var key = parts[i];
     var index = parts[i + 1];
     var found = fillFind(
-      Array.isArray(parentElement) ? parentElement[0] : parentElement,
+      isArray(parentElement) ? parentElement[0] : parentElement,
       key
     );
 
@@ -28,7 +28,7 @@ var getParent = function(parts, parentElement) {
       }
     }
   }
-  return Array.isArray(parentElement) ? parentElement[0] : parentElement;
+  return isArray(parentElement) ? parentElement[0] : parentElement;
 };
 
 var getElement = function(obj, k, i, parentElement) {
@@ -130,7 +130,7 @@ var attacher = function(i, k, obj, element) {
   var oval = obj[k];
 
   // if k =='VALUE' use parent
-  if (~[_VALUE, '_checked', '_text'].indexOf(k) && typeof i == 'string') {
+  if (~[_VALUE, '_checked', '_text'].indexOf(k) && isString(i)) {
     k = i.split('.').pop();
   }
 

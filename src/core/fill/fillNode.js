@@ -5,7 +5,7 @@ import addToNode from "./addToNode"
 import findAllAttributes from "./findAllAttributes"
 import fillAttributes from "./fillAttributes"
 import findNonAttributes from "./findNonAttributes"
-import {html} from "../dom/find-stateless"
+import {html} from "../dom/html2dom"
 
 const mods = getMod()
 

@@ -1,4 +1,4 @@
-import {isObject} from "./core/utils/common"
+import {isObject, isArray} from "./core/utils/common"
 import {MAGNUM, ignorekeys} from './core/constants';
 
 var pathSeparator = '/';
@@ -20,7 +20,7 @@ function proxyAssign(obj, cb, type, path) {
         typeof retval !== 'symbol' &&
         retval !== null &&
         typeof retval !== 'function' &&
-        !Array.isArray(retval) &&
+        !isArray(retval) &&
         isObject(retval) &&
         !retval.then &&
         !retval.draw
@@ -83,7 +83,7 @@ const proxy = function(obj, cb, type, path) {
 
   for (var k in obj) {
     var stype = typeof obj[k];
-    if (Array.isArray(obj[k]) && obj[k].length < 101) {
+    if (isArray(obj[k]) && obj[k].length < 101) {
       // assign
       obj[k] = proxyAssign(obj[k], cb);
     } else if (

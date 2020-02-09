@@ -1,6 +1,6 @@
 import {MAGNUM, doc, _cprops} from '../constants'
 import getNode from "../dom/getNode"
-import {isArray, isHTMLEle} from "../utils/common"
+import {isArray, isHTMLEle, isString} from "../utils/common"
 
 export const configs = [];
 export const cached = []
@@ -197,7 +197,7 @@ export function getPath(node, i, key) {
     // var idx = getChildrenIndex(node)
     var num = +key === +key ? i + key : i;
     var name = typeof getId() == 'object' ? getId().tagName : getId();
-    var extr = typeof key == 'string' ? key.split(')')[1] + '/' : '/';
+    var extr = isString(key) ? key.split(')')[1] + '/' : '/';
     var p = 'id("' + name + '")' + extr + node.tagName + '[' + num + ']';
 
     return (fhCache[uid] = node[MAGNUM].xpath = p);

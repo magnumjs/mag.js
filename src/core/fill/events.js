@@ -1,4 +1,5 @@
 import {MAGNUM, doc} from '../constants'
+import {isString} from "../utils/common"
 import {
     getPathTo3, getPathId,
     getPathTo4, getId,
@@ -91,7 +92,7 @@ export function makeEvent(event, attrName, node, parentKey) {
     var eventName = attrName.substr(2).toLowerCase();
 
     var uid =
-        (typeof parentKey == 'string' ? parentKey.split('/')[0] : '') +
+        (isString(parentKey) ? parentKey.split('/')[0] : '') +
         '-' +
         node[MAGNUM].uid;
     var events = (node[MAGNUM].events = node[MAGNUM].events || []);
