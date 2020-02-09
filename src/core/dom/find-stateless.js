@@ -5,15 +5,19 @@ import findInSelectors from "./findInSelectors"
 
 const find = function(selector) {
     if (typeof selector == 'string') {
+        let found;
+
         //if HTMLstring convert to HTML NODE
         if (selector.trim()[0] == '<') {
-            var found = html2dom(selector);
+            found = html2dom(selector);
             if (found) return found;
         }
 
 
         //5 Element Matchers
-        var found = findInSelectors(doc, selector);
+        try{
+            found = findInSelectors(doc, selector);
+        } catch(e) {}
         if (found) return found;
     }
     return selector;

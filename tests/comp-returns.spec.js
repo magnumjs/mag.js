@@ -6,6 +6,14 @@ describe("MagJS comp return values with empty node", function () {
         document.body.innerHTML = "<div id='root'></div>"
     })
 
+    it("with html", function () {
+        const App = mag('root', () =>{
+            return "<h1>HI</h1>"
+        })
+        App()
+        expect(document.getElementById('root').innerHTML).toEqual("<h1>HI</h1>")
+    })
+
     it("with string", function () {
         const App = mag('root', () =>{
             return "HI"

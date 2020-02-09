@@ -24,6 +24,8 @@ const run = function(nodeList, data, key) {
         reattachChildren(nodeList);
     }
 
+
+
     // CACHE
     // DIFF
     // CHANGE? then modify only the changes
