@@ -1,23 +1,29 @@
 import {doc} from "../constants"
 import html2dom from "./html2dom"
 import findInSelectors from "./findInSelectors"
+import {isString} from "../utils/common"
 
+
+export function html (data)
+{
+    if (isString(data) && data.trim()[0] == '<') {
+        return html2dom(data)
+    }
+
+}
 
 const find = function(selector) {
-    if (typeof selector == 'string') {
+
+    if (isString(selector)) {
         let found;
 
         //if HTMLstring convert to HTML NODE
-        if (selector.trim()[0] == '<') {
-            found = html2dom(selector);
-            if (found) return found;
-        }
-
+        found = html(selector);
+        if (found) return found;
 
         //5 Element Matchers
-        try{
-            found = findInSelectors(doc, selector);
-        } catch(e) {}
+        //TODO: search within Node of Component?
+        found = findInSelectors(doc, selector);
         if (found) return found;
     }
     return selector;

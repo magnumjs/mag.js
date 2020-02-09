@@ -3,6 +3,9 @@ export const isObject =  value => {
   return value != null && (type == 'object' || type == 'function')
 }
 
+
+export const isString = data => typeof data == 'string'
+
 export const copy = val => (isObject(val) ? Object.assign({}, val) : val)
 
 export const clone = obj => {

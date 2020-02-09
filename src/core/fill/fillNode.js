@@ -5,7 +5,7 @@ import addToNode from "./addToNode"
 import findAllAttributes from "./findAllAttributes"
 import fillAttributes from "./fillAttributes"
 import findNonAttributes from "./findNonAttributes"
-import find from "../dom/find-stateless"
+import {html} from "../dom/find-stateless"
 
 const mods = getMod()
 
@@ -46,9 +46,10 @@ export default function fillNode(node, data, p, key) {
 
     var tagIndex = getPathIndex(p);
 
-    //find-stateless
-
-    data = find(data)
+    const found = html(data);
+    if(found){
+        data=found
+    }
 
     if (data && isHTMLEle(data)) {
         addToNode(node, data);
