@@ -9,7 +9,7 @@ const microDraw = getMicroDraw()
 
 export default function addToNode(node, val) {
     //TODO: finer grain diffing, attach once
-    if (isCached(node, val)) {
+    if (isCached(node, val.outerHTML)) {
         return;
     }
 

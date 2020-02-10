@@ -3,6 +3,58 @@ import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
 
+const WarningBanner = mag(
+    `<div class="warning">
+      Warning!
+    </div>`,
+    props => {
+        if (!props.warn) {
+            return null;
+        }
+
+        return []
+    })
+
+const Page = mag(
+    `<div>
+      <WarningBanner></WarningBanner>
+      <button></button>
+   </div>`,
+    props => {
+
+        const [state, setState] = mag.useState({showWarning: true})
+
+        const handleToggleClick = () => {
+            setState(prevState => ({
+                showWarning: !prevState.showWarning
+            }))
+        }
+
+        return {
+            WarningBanner: WarningBanner({warn: state.showWarning}),
+            button: {
+                _text: state.showWarning ? 'Hide' : 'Show',
+                onClick: handleToggleClick
+            }
+        }
+    })
+
+mag(
+    Page(),
+    document.getElementById('warn')
+)
+
+
+window.Apper = mag(`<span>HI <test/></span>`, props=>(props))
+
+const test=123
+const ele = mag.dom`<div>
+    <Apper test=${test} key=1></Apper>
+    <Apper test=${test} key=2></Apper>
+  </div>`
+
+mag(ele, 'apper')
+
 
 const FancyBorder = mag(
     `<div>
@@ -348,3 +400,4 @@ const ResetApp = mag(
 
 //Mount:
 ResetApp()
+
