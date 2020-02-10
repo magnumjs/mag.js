@@ -30,6 +30,7 @@ function generateNodes (doc, ...partials) {
                     const name = part.split('/')[0].split(' ')[0]
                     funcs.push({name})
                 }
+                //TODO: add quotes to attributes missing them?
             })
         }
         if (isArray(partial)) {
@@ -37,7 +38,12 @@ function generateNodes (doc, ...partials) {
         } else if (isObject(partial) && isHTMLEle(partial)) {
             const id = generateId()
             placeholders.push({ id, node: partial })
-            return carry.concat(`<${partial.nodeName} id="${id}"></${partial.nodeName}>`)
+            if(~carry[0].indexOf('=')){ //ATTR
+                return carry.concat(`"${id}"`)
+            } else {
+                return carry.concat(`<${partial.nodeName} id="${id}"></${partial.nodeName}>`)
+            }
+
         } else if (partial && typeof partial.item == "function" && typeof partial.length == "number") {
             return carry.concat(Array.prototype.reduce.call(partial, reducer, []))
         } else {
@@ -51,13 +57,19 @@ function generateNodes (doc, ...partials) {
     template.innerHTML = html
     let container = template.content
 
+    const attrNodes = {}
     // Replace placeholders with real Nodes
     placeholders.forEach(({ id, node }) => {
         const placeholder = container.querySelector(`${node.nodeName}#${id}`)
-        placeholder.parentNode.replaceChild(node, placeholder)
+        if(placeholder) {
+            placeholder.parentNode.replaceChild(node, placeholder)
+        } else {
+            attrNodes[id] = node
+        }
     })
 
     funcs.forEach(item => {
+
         const nodes = container.querySelectorAll(item.name)
 
         if(nodes) {
@@ -65,8 +77,9 @@ function generateNodes (doc, ...partials) {
                 const attrs = {}
                 for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
                     const attrib = itemNode.attributes[i];
+                    //TODO: attributes that are Nodes?
 
-                    attrs[attrib.name] = attrib.value
+                    attrs[attrib.name] = attrNodes[attrib.value] ?attrNodes[attrib.value] : attrib.value
                 }
                 var func = getFunc(item.name)
                 if (func) {
@@ -115,6 +128,7 @@ function taggedTemplateHandler (doc, strings, ...values) {
 }
 
 var _self
+var sdoc
 
 function dom(strings, ...values){
     _self = global || this || window
