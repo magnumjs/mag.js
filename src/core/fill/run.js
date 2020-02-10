@@ -1,7 +1,7 @@
 import {MAGNUM, doc} from '../../core/constants'
 import {removeChildren, reattachChildren} from "./showHide"
-import {nodeListToArray, templates, getPath, MAGNUM_KEY, removeNode, getRemoveNodeModule, UNDEFINED} from "./common"
-import {isArray, isHTMLEle} from "../utils/common"
+import {nodeListToArray, templates, getPath, MAGNUM_KEY, removeNode} from "./common"
+import {isArray, isHTMLEle, isUndefined, isObject} from "../utils/common"
 import fillNode from "./fillNode"
 
 // this is the entry point for this module, to fill the dom with data
@@ -90,13 +90,13 @@ const run = function(nodeList, data, key) {
         if (elements.length == data.length || keys.indexOf(undefined) !== -1) {
             // changes data can cause recursion!
             data = data.map(function(d, i) {
-                if (typeof d === 'object') {
+                if (isObject(d)) {
                     elements[i][MAGNUM] = elements[i][MAGNUM] || {};
-                    if (elements[i][MAGNUM].__key && typeof d[MAGNUM_KEY] === UNDEFINED) {
+                    if (elements[i][MAGNUM].__key && isUndefined(d[MAGNUM_KEY])) {
                         d[MAGNUM_KEY] = elements[i][MAGNUM].__key;
                         return d;
                     }
-                    if (typeof d[MAGNUM_KEY] === UNDEFINED) {
+                    if (isUndefined(d[MAGNUM_KEY])) {
                         d[MAGNUM_KEY] = MAGNUM + i;
                     }
                     elements[i][MAGNUM].__key = d[MAGNUM_KEY];
@@ -106,7 +106,7 @@ const run = function(nodeList, data, key) {
             });
         }
         if (elements.length > data.length) {
-            if (data.length === 0 || typeof data[0] !== 'object') {
+            if (data.length === 0 || !isObject(data[0])) {
                 while (elements.length > data.length) {
                     node = elements.pop();
                     parent = node.parentNode;
@@ -126,7 +126,7 @@ const run = function(nodeList, data, key) {
 
                 elements = elements.filter(function(ele, i) {
                     var remove;
-                    if (typeof ele[MAGNUM] == UNDEFINED) {
+                    if (isUndefined(ele[MAGNUM])) {
                         remove = 1;
                     } else if (
                         !~m.indexOf(ele[MAGNUM].__key) ||
@@ -159,7 +159,7 @@ const run = function(nodeList, data, key) {
 
             if (
                 data &&
-                typeof data == 'object' &&
+                isObject(data) &&
                 data.hasOwnProperty(MAGNUM_KEY) &&
                 !isHTMLEle(data)
             ) {

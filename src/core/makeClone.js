@@ -1,6 +1,6 @@
 import mag from "./mag"
 import {getProps, getState} from "../module"
-import {isHTMLEle, merge, copy} from "./utils/common"
+import {isObject, merge, copy} from "./utils/common"
 import {getItemInstanceId, items} from "../utils"
 import run from "./draw/run"
 import {rafBounceIds} from './constants';
@@ -13,7 +13,7 @@ const makeClone = function(idInstance, node, module, props) {
     clones[idInstance] = clones[idInstance] || [];
     var a = function(ids, node, module, props2, index) {
         //TODO: what is this use case? if no index?
-        if (typeof index == 'object') {
+        if (isObject(index)) {
             props2 = merge(copy(props2), index);
             index = 0;
         }

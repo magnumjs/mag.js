@@ -1,4 +1,4 @@
-import {isObject, isArray} from "./core/utils/common"
+import {isObject, isArray, isFunction, isUndefined} from "./core/utils/common"
 import {MAGNUM, ignorekeys} from './core/constants';
 
 var pathSeparator = '/';
@@ -16,10 +16,10 @@ function proxyAssign(obj, cb, type, path) {
 
       //check for sub objects
       if (
-        typeof retval === 'object' &&
+        isObject(retval) &&
         typeof retval !== 'symbol' &&
         retval !== null &&
-        typeof retval !== 'function' &&
+        !isFunction(retval) &&
         !isArray(retval) &&
         isObject(retval) &&
         !retval.then &&
@@ -45,7 +45,7 @@ function proxyAssign(obj, cb, type, path) {
         path: path,
         oldValue: Reflect.get(proxy, name, receiver)
       });
-      if (typeof val != 'undefined') {
+      if (!isUndefined(val)) {
         //special case where node is found but no children or value given
         retval = val == MAGNUM ? undefined : val;
       }
@@ -87,11 +87,11 @@ const proxy = function(obj, cb, type, path) {
       // assign
       obj[k] = proxyAssign(obj[k], cb);
     } else if (
-      stype == 'object' &&
+      isObject(stype) &&
       obj[k] !== null &&
       typeof k != 'symbol' &&
       stype != 'symbol' &&
-      stype != 'function' &&
+      !isFunction(stype) &&
       isObject(obj[k])
     ) {
       obj[k] = proxy(obj[k], cb, type, path + pathSeparator + k);

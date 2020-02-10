@@ -1,5 +1,5 @@
 import mag from '../core/mag';
-import {clone, copy, isObject} from '../core/utils/common';
+import {clone, copy, isObject, isFunction} from '../core/utils/common';
 // Functional Toggle State: https://codepen.io/anon/pen/YMKzQv?editors=1010
 // Functional Counter: https://codepen.io/anon/pen/wZwKqb?editors=1010
 
@@ -16,7 +16,7 @@ const useState = function(initialValue) {
   if (!state) {
     const setValue = pvalue => {
       let temp, value = copy(pvalue);
-      if (typeof pvalue == 'function') {
+      if (isFunction(pvalue)) {
         value = copy(pvalue(state.value));
       }
       if (value !== state.value) {

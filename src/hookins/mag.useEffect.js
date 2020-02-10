@@ -1,5 +1,5 @@
 import mag from '../core/mag';
-import {clone, arrayAreEqual} from '../core/utils/common';
+import {clone, arrayAreEqual,isFunction} from '../core/utils/common';
 import {onLCEvent} from "../core/utils/events"
 
 const stateMap = {};
@@ -17,7 +17,7 @@ const checkExist = (name, ele, arr, stateMap, func) => {
 const async = func => {
   return new Promise(resolve=>{
     requestAnimationFrame(()=>{
-        const res = typeof func == 'function' && func();
+        const res = isFunction(func) && func();
         resolve(res)
     })
   })
@@ -42,19 +42,19 @@ const exec = (arr, stateMap, name, func) => {
             .then(callback => state.callback = callback)
 
         const destroyer = onLCEvent('onunload', name, () => {
-            typeof state.callback == 'function' && state.callback();
+            isFunction(state.callback) && state.callback();
             delete stateMap[name];
             destroyer();
         });
     } else if (state && !arr) {
         // call on every re-render
         //first call destroy
-        typeof state.callback == 'function' && state.callback();
+        isFunction(state.callback) && state.callback();
         async(func)
             .then(callback => state.callback = callback)
     } else if (state && !arrayAreEqual(arr, state.value)) {
         state.value = arr.slice();
-        typeof state.callback == 'function' && state.callback();
+        isFunction(state.callback) && state.callback();
         async(func)
             .then(callback => state.callback = callback)    }
 }

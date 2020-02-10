@@ -8,7 +8,7 @@ import {
 } from "./module"
 import {removeNode, cached, clearCache} from "./fill"
 import {callLCEvent, onLCEvent} from "./core/utils/events"
-import {copy, toJson} from "./core/utils/common"
+import {copy, toJson, isUndefined} from "./core/utils/common"
 import {items, getItemInstanceId} from "./utils"
 import makeClone from "./core/makeClone"
 import isNode from "./core/dom/isNode"
@@ -21,7 +21,7 @@ mag.hookin = hookin
 mag.redraw = redraw
 
 mag.begin = function(id) {
-    if (typeof pendingRequests[id] == 'undefined') {
+    if (isUndefined(pendingRequests[id])) {
         pendingRequests[id] = 1;
     } else {
         pendingRequests[id]++;

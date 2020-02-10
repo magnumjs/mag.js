@@ -48,7 +48,7 @@ mag(
 window.Apper = mag(`<span>HI <test/></span>`, props=>(props))
 
 const test=123
-const ele = mag.dom`<div>
+const ele = mag`<div>
     <Apper test=${test} key=1></Apper>
     <Apper test=${test} key=2></Apper>
   </div>`

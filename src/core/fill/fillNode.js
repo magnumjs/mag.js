@@ -1,5 +1,5 @@
 import {MAGNUM} from '../constants'
-import {isHTMLEle} from "../utils/common"
+import {isHTMLEle, isFunction, isObject} from "../utils/common"
 import {getPathTo, getFullPathIndex, getPathIndex, getId, getMod} from "./common"
 import addToNode from "./addToNode"
 import findAllAttributes from "./findAllAttributes"
@@ -56,13 +56,13 @@ export default function fillNode(node, data, p, key) {
         return;
     }
 
-    if (typeof data === 'function') {
+    if (isFunction(data)) {
         // ignore functions
         return functionHandler(data, node, tagIndex, p);
     }
 
     // if the value is a simple property wrap it in the attributes hash
-    if (typeof data !== 'object')
+    if (!isObject(data))
         return fillNode(
             node,
             {

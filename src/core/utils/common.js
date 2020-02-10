@@ -1,10 +1,14 @@
+var FUNCTION = 'function'
 export const isObject =  value => {
   const type = typeof value;
-  return value != null && (type == 'object' || type == 'function')
+  return value != null && (type == 'object' || type == FUNCTION)
 }
 
+export const isUndefined = data => typeof data == 'undefined'
 
 export const isString = data => typeof data == 'string'
+
+export const isFunction = data => typeof data == FUNCTION
 
 export const copy = val => (isObject(val) ? Object.assign({}, val) : val)
 
@@ -33,7 +37,7 @@ export const merge = function() {
 export const extend = function(target, source, deep) {
     //if the sources are undefined then don't add to target even if exists
     for (var k in source) {
-        if (source[k] === undefined) {
+        if (isUndefined(source[k])) {
             delete source[k];
         } else if (deep && isObject(source[k])) {
             return extend(target[k], source[k]);
@@ -46,7 +50,7 @@ export const extend = function(target, source, deep) {
 export const isHTMLEle = item => item && item.nodeType === 1;
 
 const funReplacer = (key, value) =>
-    typeof value == 'function' ? '' + value : value;
+    isFunction(value) ? '' + value : value;
 
 export const toJson = obj => JSON.stringify(obj, funReplacer);
 

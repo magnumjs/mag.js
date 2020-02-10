@@ -2,7 +2,7 @@ import mag from "../mag-stateless"
 import {MAGNUM, _cprops} from '../constants';
 import {getId, setId, run} from "../../fill-stateless"
 import {callLCEvent} from "../utils/events"
-import {copy, extend} from "../utils/common"
+import {copy, extend, isObject, isUndefined} from "../utils/common"
 
 let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {
@@ -18,16 +18,16 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         var node = idOrNode;
         props = props || {};
         var key;
-        if (props.key !== undefined) key = props.key + '-' + a.id;
-        var ckey = props.key !== undefined ? props.key + '-' + a.id : a.id;
+        if (!isUndefined(props.key)) key = props.key + '-' + a.id;
+        var ckey = !isUndefined(props.key) ? props.key + '-' + a.id : a.id;
 
         if (!copyOfDefProps[ckey]) {
             copyOfDefProps[ckey] =
-                typeof dprops == 'object' ? copy(dprops) : dprops;
+                isObject(dprops) ? copy(dprops) : dprops;
         }
 
         // retrieve props & merge
-        if (typeof props == 'object') {
+        if (isObject(props)) {
             props = extend(copyOfDefProps[ckey], props);
         }
 
@@ -37,7 +37,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
             node = clones[key];
         }
 
-        if(typeof a !== undefined && props && props.key && a.key && a.key != ckey) {
+        if(!isUndefined(a) && props && props.key && a.key && a.key != ckey) {
             callLCEvent('onunload', props, node, a.key);
         }
 
@@ -49,7 +49,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
 
         node[MAGNUM] = node[MAGNUM] || {};
 
-        if (mag._cprops[ckey] && typeof props == 'object') {
+        if (mag._cprops[ckey] && isObject(props)) {
             props.children = _cprops[ckey];
         }
 

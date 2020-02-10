@@ -1,5 +1,10 @@
 import {doc} from '../constants';
-import {isString, isObject, isArray, isHTMLEle} from "../utils/common"
+import {isString, isObject, isArray, isHTMLEle, isFunction} from "../utils/common"
+import mag from "../mag"
+
+/*
+Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
+ */
 
 let counter = 0
 function generateId () {
@@ -63,8 +68,9 @@ function generateNodes (doc, ...partials) {
 
                     attrs[attrib.name] = attrib.value
                 }
-                if (typeof _self[item.name] == 'function') {
-                    const newNode = _self[item.name](attrs)
+                var func = getFunc(item.name)
+                if (func) {
+                    const newNode = func(attrs)
 
                     itemNode.parentNode.replaceChild(newNode, itemNode)
                 }
@@ -94,6 +100,10 @@ function generateNodes (doc, ...partials) {
     return container
 }
 
+var getFunc = name => {
+    if(_self[name] && isFunction(_self[name])) return _self[name]
+    if(mag[name] && isFunction(mag[name])) return mag[name]
+}
 
 function taggedTemplateHandler (doc, strings, ...values) {
     // Create an array that puts the values back in their place

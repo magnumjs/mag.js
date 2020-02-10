@@ -1,11 +1,9 @@
 import {MAGNUM, doc, _cprops} from '../constants'
 import getNode from "../dom/getNode"
-import {isArray, isHTMLEle, isString} from "../utils/common"
+import {isArray, isHTMLEle, isString, isFunction, isObject} from "../utils/common"
 
 export const configs = [];
 export const cached = []
-export const FUNCTION = 'function'
-export const UNDEFINED = 'undefined'
 export const MAGNUM_KEY = '_key'
 export const xpathCache = []
 export const dataCache = []
@@ -133,7 +131,7 @@ export function removeNode(node) {
         node &&
         cached[p + '-config'] &&
         cached[p + '-config'].configContext &&
-        typeof cached[p + '-config'].configContext.onunload === FUNCTION
+        isFunction(cached[p + '-config'].configContext.onunload)
     ) {
         // what arg to send ?
         cached[p + '-config'].configContext.onunload(
@@ -196,7 +194,7 @@ export function getPath(node, i, key) {
 
     // var idx = getChildrenIndex(node)
     var num = +key === +key ? i + key : i;
-    var name = typeof getId() == 'object' ? getId().tagName : getId();
+    var name = isObject(getId()) ? getId().tagName : getId();
     var extr = isString(key) ? key.split(')')[1] + '/' : '/';
     var p = 'id("' + name + '")' + extr + node.tagName + '[' + num + ']';
 

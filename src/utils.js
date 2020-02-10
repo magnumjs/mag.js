@@ -1,4 +1,3 @@
-import {getMod, getProps} from "./module"
 import {rafBounceIds, rafBounce, rafRate} from './core/constants'
 
 const utils = {};

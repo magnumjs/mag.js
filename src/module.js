@@ -1,6 +1,6 @@
 import proxy from './mag-proxy';
 import {MAGNUM, ignorekeys} from './core/constants';
-import {merge, copy, toJson} from "./core/utils/common"
+import {merge, copy, toJson, isFunction, isUndefined, isObject} from "./core/utils/common"
 import {items} from "./utils"
 import getNode from "./core/dom/getNode"
 import attachToArgs from "./render"
@@ -36,10 +36,10 @@ const remove = mod.remove = function(key) {
   if (modules[key]) modules[key] = 0;
 };
 const getModId = mod.getId = function(index) {
-  return modules[index] && modules[index][3];
+  return modules[index] && modules[index][3]
 };
 const exists = mod.exists = function(index) {
-  return typeof modules[index] == 'object';
+  return isObject(modules[index])
 };
 const setFrameId = mod.setFrameId = function(index, fid) {
   modules[index][4] = fid;
@@ -57,7 +57,7 @@ var bindMethods = (obj, context) => {
   for (var key in obj) {
     var val = obj[key];
 
-    if (typeof val == 'function' && !~['controller', 'view'].indexOf(key)) {
+    if (isFunction(val) && !~['controller', 'view'].indexOf(key)) {
       obj[key] = val.bind(context);
     }
   }
@@ -117,7 +117,7 @@ var timers = [];
 
 function findMissing(change, element) {
   var prop = change.name;
-  if (typeof change.object[change.name] == 'undefined' && prop[0] != '_') {
+  if (isUndefined(change.object[change.name]) && prop[0] != '_') {
     // prop might be hierarchical?
     // getparent Object property chain?
 
@@ -175,8 +175,8 @@ function findMissing(change, element) {
           }
         }
       } else if (
-        typeof change.oldValue == 'undefined' &&
-        typeof change.object[change.name] == 'undefined' &&
+          isUndefined(change.oldValue) &&
+          isUndefined(change.object[change.name]) &&
         item &&
         !~['submit', 'button'].indexOf(item.type) &&
         item.childNodes.length == 1 &&
@@ -195,7 +195,7 @@ function findMissing(change, element) {
     if (tmp.length === 0) return;
     else if (greedy) return tmp;
     else {
-      return tmp[0] && typeof tmp[0]._value != 'undefined'
+      return tmp[0] && !isUndefined (tmp[0]._value)
         ? tmp[0]._value
         : tmp[0] && tmp[0]._text
         ? tmp[0]._text
@@ -209,13 +209,13 @@ function findMissing(change, element) {
       for (var k in element) {
         var ele = element[k];
         var has = ele[attr];
-        if (typeof has == 'undefined') has = ele.getAttribute(attr);
+        if (isUndefined(has)) has = ele.getAttribute(attr);
         tmp.push(has);
       }
       return tmp;
     } else {
       var has = element[attr];
-      if (typeof has == 'undefined') has = element.getAttribute(attr);
+      if (isUndefined(has)) has = element.getAttribute(attr);
       return has;
     }
   }
@@ -241,7 +241,7 @@ var handler = function(type, index, change) {
     change.type == 'get' &&
     type != 'props' &&
     !~ignorekeys.indexOf(change.name.toString()) &&
-    typeof change.oldValue == 'undefined'
+    isUndefined(change.oldValue)
   ) {
     var rootNode = getNode(mod.getId(index));
 
@@ -256,7 +256,7 @@ var handler = function(type, index, change) {
 
     var res = findMissing(change, fnode ? fnode : rootNode);
 
-    if (res !== null && typeof res == 'object' && change.object) {
+    if (res !== null && isObject(res) && change.object) {
       merge(res, change.object[change.name]);
     }
     if (res) {
@@ -268,7 +268,7 @@ var handler = function(type, index, change) {
     type != 'props' &&
     change.object[change.name] &&
     change.object[change.name].draw &&
-    typeof change.object[change.name].draw == 'function'
+    isFunction(change.object[change.name].draw)
   ) {
     // setting a state prop to a module
 
@@ -278,7 +278,7 @@ var handler = function(type, index, change) {
 
   // call setup handler
   var fun = mod.getFrameId(index);
-  if (typeof fun == 'function' && change.type == 'set') {
+  if (isFunction(fun) && change.type == 'set') {
     //debounce
     cancelAnimationFrame(timers[index]);
     timers[index] = requestAnimationFrame(fun);

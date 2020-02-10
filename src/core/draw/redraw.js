@@ -1,4 +1,5 @@
 import {items, scheduleFlush} from "../../utils"
+import {isUndefined} from "../utils/common"
 import {isValidId, clear, runningViewInstance} from "../../module"
 import {configs} from "../fill/common"
 import makeRedrawFun from "./makeRedrawFun"
@@ -9,7 +10,7 @@ const pendingRequests = [];
 // var timers = [];
 const redraw = function(node, idInstance, force) {
     if (!pendingRequests[idInstance]) {
-        if (!node || typeof idInstance == 'undefined') {
+        if (!node || isUndefined(idInstance)) {
             throw Error(
                 'Mag.JS - Id or node invalid: ' + items.getItemVal(idInstance)
             );

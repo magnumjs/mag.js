@@ -1,6 +1,6 @@
 import {MAGNUM} from './core/constants'
 import redraw from "./core/draw/redraw"
-import {isHTMLEle, isObject, isEmpty, isString, isArray} from "./core/utils/common"
+import {isHTMLEle, isObject, isEmpty, isString, isArray, isUndefined, isFunction} from "./core/utils/common"
 import {items} from "./utils"
 import fillFind from "./core/dom/fillFind"
 
@@ -96,9 +96,9 @@ function addEvent(founder, obj, k, parentElement) {
         } else if (this.checked) {
           obj[k] = this.value;
         }
-      } else if (obj[_VALUE] !== undefined) {
+      } else if (!isUndefined(obj[_VALUE])) {
         obj[_VALUE] = vals || this.value;
-      } else if (obj._text !== undefined) {
+      } else if (!isUndefined(obj._text)) {
         obj._text = vals || this.value;
       }
       redraw(parent, items.getItem(parent.id));
@@ -138,7 +138,7 @@ var attacher = function(i, k, obj, element) {
   var found = fillFind(element, k);
   var founder = isInput(found);
 
-  if (typeof oval !== 'function' && founder) {
+  if (!isFunction(oval) && founder) {
     var founderCall = getElement.bind({}, obj, k, i, element);
     founderCall();
 
@@ -150,7 +150,7 @@ var attacher = function(i, k, obj, element) {
         // set on focus listener once
         if (
           founder &&
-          founder.value !== 'undefined' &&
+          !isUndefined(founder.value) &&
           (founder[MAGNUM] && founder[MAGNUM].dirty) &&
           founder.value !== oval
         ) {
@@ -166,7 +166,7 @@ var attacher = function(i, k, obj, element) {
 
         if (
           founder &&
-          founder.value !== 'undefined' &&
+          !isUndefined(founder.value) &&
           founder.value !== newValue &&
           newValue !== oval
         ) {
@@ -185,7 +185,7 @@ const attachToArgs = function(i, args, element) {
 
       if (
         k != _VALUE &&
-        typeof value === 'object' &&
+        isObject(value) &&
         !isHTMLEle(value)
       ) {
         if (isObject(value) && isEmpty(value)) {

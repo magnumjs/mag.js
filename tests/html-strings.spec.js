@@ -1,9 +1,9 @@
-import mag from "../src/main"
+import mag from '../src/core/mag-stateless'
 
 describe("MagJS template literals", function () {
 
     beforeEach(() => {
-        document.body.innerHTML = "<div id='root1'></div><div id='root2'></div>"
+        document.body.innerHTML = "<div id='root'></div>"
     })
 
 
@@ -24,13 +24,13 @@ describe("MagJS template literals", function () {
         })
 
         mag(
-            mag.dom`
+            mag`
             <b>HI
             <App key=1></App>
             <App key=2></App>
             </b>
-        `,
-            'root1'
+            `,
+            'root'
         )
 
         expect(document.body.querySelectorAll("count").length).toEqual(2)
@@ -59,15 +59,16 @@ describe("MagJS template literals", function () {
         })
 
         mag(
-            mag.dom`
+            mag`
             <b>HI
             ${App2({key: 1})}
             ${App2({key: 2})}
             </b>
-        `,
-            'root2'
+            `,
+            'root'
         )
 
+        // expect(document.body.innerHTML).toEqual("")
         expect(document.body.querySelector("count").textContent).toEqual("0")
 
         document.querySelector("h1").click()
