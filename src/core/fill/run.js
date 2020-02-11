@@ -5,7 +5,7 @@ import {isArray, isHTMLEle, isUndefined, isObject} from "../utils/common"
 import fillNode from "./fillNode"
 
 // this is the entry point for this module, to fill the dom with data
-const run = function(nodeList, data, key) {
+export default function run(nodeList, data, key) {
     var node, dataIsArray;
 
     // there is nothing to do if there is nothing to fill
@@ -170,5 +170,3 @@ const run = function(nodeList, data, key) {
         }
     }
 }
-
-export default run
