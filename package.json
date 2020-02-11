@@ -3,7 +3,7 @@
   "sideEffects": false,
   "version": "1.6.3",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
-  "main": "lib/main.js",
+  "main": "dist/mag.min.js",
   "unpkg": "dist/mag.min.js",
   "directories": {
     "example": "examples",
@@ -18,7 +18,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "babel src -d lib && webpack --config config/webpack.prod.config",
+    "build": "webpack --config config/webpack.prod.config",
     "prepublishOnly": "webpack --config config/webpack.prod.config",
     "start": "webpack-dev-server --config config/webpack.dev.config.js",
     "prepare": "npm run build",
