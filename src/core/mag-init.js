@@ -1,15 +1,9 @@
 import runFun from "./draw/runFun"
 import {MAGNUM} from './constants';
 import {isHTMLEle, isFunction} from "./utils/common"
-import dom from "./dom/tagged-dom"
-import mag from "./mag"
 
-mag.dom = dom
 
 export default function(idOrNode, mod, dprops, run, find, lastCall) {
-    if(idOrNode.raw) {
-        return dom.apply(this, arguments)
-    }
     idOrNode = find(idOrNode);
     mod = find(mod);
     dprops = dprops || {};
