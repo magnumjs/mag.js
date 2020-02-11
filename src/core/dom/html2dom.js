@@ -6,7 +6,7 @@ const html2dom = html => {
     template.innerHTML = html
     //TODO: how about childNodes?
     // return template.content.childNodes
-    return template.content.children[0]
+    return template.content
 }
 
 
@@ -14,7 +14,7 @@ const html2dom = html => {
 export function html (data)
 {
     if (isString(data) && data.trim()[0] == '<') {
-        return html2dom(data)
+        return html2dom(data).children[0]
     }
 }
 

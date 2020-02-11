@@ -1,6 +1,7 @@
 import {doc} from '../constants';
 import {isString, isObject, isArray, isHTMLEle, isFunction} from "../utils/common"
 import mag from "../mag"
+import html2dom from "./html2dom"
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
@@ -10,6 +11,45 @@ let counter = 0
 function generateId () {
     counter++
     return `p-${counter}-${Date.now()}`
+}
+
+function applyFuncs(funcs, container, attrNodes) {
+    funcs.forEach(item => {
+
+        const nodes = container.querySelectorAll(item.name)
+
+        if (nodes) {
+            nodes.forEach(itemNode => {
+                const attrs = {}
+                for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
+                    const attrib = itemNode.attributes[i];
+                    //TODO: attributes that are Nodes?
+
+                    attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : attrib.value
+                }
+                var func = getFunc(item.name)
+                if (func) {
+                    const newNode = func(attrs)
+
+                    itemNode.parentNode.replaceChild(newNode, itemNode)
+                }
+            })
+        }
+    })
+}
+
+function applyAttrs(placeholders, container) {
+    const attrNodes = {}
+    // Replace placeholders with real Nodes
+    placeholders.forEach(({id, node}) => {
+        const placeholder = container.querySelector(`${node.nodeName}#${id}`)
+        if (placeholder) {
+            placeholder.parentNode.replaceChild(node, placeholder)
+        } else {
+            attrNodes[id] = node
+        }
+    })
+    return attrNodes;
 }
 
 function generateNodes (doc, ...partials) {
@@ -53,43 +93,9 @@ function generateNodes (doc, ...partials) {
     const html = partials.reduce(reducer, []).join('').replace(/^\s*</, "<").replace(/>\s*$/, ">")
 
     // Wrap in temporary container node
-    let template = doc.createElement('template')
-    template.innerHTML = html
-    let container = template.content
-
-    const attrNodes = {}
-    // Replace placeholders with real Nodes
-    placeholders.forEach(({ id, node }) => {
-        const placeholder = container.querySelector(`${node.nodeName}#${id}`)
-        if(placeholder) {
-            placeholder.parentNode.replaceChild(node, placeholder)
-        } else {
-            attrNodes[id] = node
-        }
-    })
-
-    funcs.forEach(item => {
-
-        const nodes = container.querySelectorAll(item.name)
-
-        if(nodes) {
-            nodes.forEach(itemNode => {
-                const attrs = {}
-                for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
-                    const attrib = itemNode.attributes[i];
-                    //TODO: attributes that are Nodes?
-
-                    attrs[attrib.name] = attrNodes[attrib.value] ?attrNodes[attrib.value] : attrib.value
-                }
-                var func = getFunc(item.name)
-                if (func) {
-                    const newNode = func(attrs)
-
-                    itemNode.parentNode.replaceChild(newNode, itemNode)
-                }
-            })
-        }
-    })
+    let container = html2dom(html)
+    const attrNodes = applyAttrs(placeholders, container);
+    applyFuncs(funcs, container, attrNodes);
 
     let shouldBeFragment = false
     for (var i = 0; i < partials.length; i++) {
