@@ -11,7 +11,7 @@ const mag = function(idOrNode, mod, dprops) {
 mag._handler = ()=>{}
 
 //TODO: necessary?
-mag.dom = dom
+// mag.dom = dom
 mag.rafBounceIds = rafBounceIds
 mag._cprops = _cprops
 

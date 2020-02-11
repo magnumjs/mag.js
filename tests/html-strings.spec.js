@@ -77,7 +77,7 @@ describe("MagJS template literals", function () {
 
 
 
-    it("tagged template literal variables 3 comps mag.dom", () => {
+    it("tagged template literal variables 2 comps dom", () => {
 
         const App2 = mag(`<h1> <count/></h1>`, props => {
 
@@ -93,17 +93,16 @@ describe("MagJS template literals", function () {
         })
 
         mag(
-            mag.dom`
+            mag`
             <b>HI
             ${App2({key: 1})}
             ${App2({key: 2})}
-            ${App2({key: 3})}
             </b>
             `,
             'root'
         )
 
-        expect(document.querySelectorAll('h1').length).toEqual(3)
+        expect(document.querySelectorAll('h1').length).toEqual(2)
         expect(document.body.querySelector("count").textContent).toEqual("0")
 
         document.querySelector("h1").click()
@@ -111,7 +110,7 @@ describe("MagJS template literals", function () {
         expect(document.body.querySelector("count").textContent).toEqual("1")
     })
 
-    it.only("tagged template literal variables with mag", () => {
+    it("tagged template literal variables with mag", () => {
 
         const App2 = mag(`<h1> <count/></h1>`, props => {
 

@@ -102,6 +102,12 @@ describe("MagJS comp return null handling", function () {
         expect(document.getElementById('root').innerHTML).toEqual("")
     })
 
+    it("single child node and no return", function () {
+        const App = mag('<h1>TEST</h1>', () => ({}))
+        mag(App(),'root')
+        expect(document.getElementById('root').innerHTML).toEqual("<h1>TEST</h1>")
+    })
+
     it("single child node show hide", function () {
         const App = mag('root', props => {
             return props.show ? "HI": null
