@@ -1,4 +1,4 @@
-import mag from "../src/main"
+import mag from "../src/mag"
 
 
 const Things = mag(`<i>Stuff - <tag></tag></i>`, props => {

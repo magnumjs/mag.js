@@ -1,4 +1,4 @@
-import mag from "../src/main"
+import mag from "../src/mag"
 
 // specs code
 describe("MagJS comp return values with empty node", function () {

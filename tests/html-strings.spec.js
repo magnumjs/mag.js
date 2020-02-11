@@ -1,4 +1,4 @@
-import mag from '../src/main'
+import mag from '../src/mag'
 
 describe("MagJS template literals", function () {
 

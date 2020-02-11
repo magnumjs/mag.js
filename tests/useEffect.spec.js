@@ -1,5 +1,5 @@
 import "./jestGlobalMocks"
-import mag from '../src/main'
+import mag from '../src/mag'
 import {useEffect} from "../src/hookins/mag.useEffect"
 
 

@@ -1,4 +1,4 @@
-import Mag from "../src/main"
+import Mag from "../src/mag"
 
 
 document.body.innerHTML =  "<div id='root'></div>"

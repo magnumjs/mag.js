@@ -1,4 +1,4 @@
-import mag from "../src/main"
+import mag from "../src/mag"
 
 var view = {
   controller: function(p) {

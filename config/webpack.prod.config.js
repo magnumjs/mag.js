@@ -6,6 +6,10 @@ const baseConfig = require('./webpack.base.config');
 
 const CleanPluginConfig = new CleanWebpackPlugin();
 
+const definer = new webpack.DefinePlugin({
+    __VERSION__: JSON.stringify(require('../package.json').version)
+});
+
 var banner = process.env.npm_package_name + ' - ' + process.env.npm_package_version + ' | ' +
     '(c)' + new Date().getFullYear() + '  ' + process.env.npm_package_author_name + ' | ' +
     process.env.npm_package_license;
@@ -24,7 +28,7 @@ const prodBaseConfig = {
         maxAssetSize: 300000
     },
     devtool: false,
-    plugins: [CleanPluginConfig,new webpack.BannerPlugin(banner)]
+    plugins: [CleanPluginConfig,new webpack.BannerPlugin(banner),definer]
 }
 
 const mainConfig = merge(baseConfig, {
@@ -35,8 +39,8 @@ const mainConfig = merge(baseConfig, {
       chunkFilename: '[name].[id].chunk.js',
       path: path.join(__dirname, '../dist'),
       publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
+      libraryTarget: 'umd',
+      umdNamedDefine: true
   }}, prodBaseConfig)
 
 const mainWithHooksConfig = merge(baseConfig, {
@@ -47,8 +51,8 @@ const mainWithHooksConfig = merge(baseConfig, {
       chunkFilename: '[name].[id].chunk.js',
       path: path.join(__dirname, '../dist'),
       publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
+      libraryTarget: 'umd',
+      umdNamedDefine: true
   }}, prodBaseConfig)
 
 const statelessConfig = merge(baseConfig, {
@@ -59,8 +63,8 @@ const statelessConfig = merge(baseConfig, {
       chunkFilename: '[name].[id].chunk.js',
       path: path.join(__dirname, '../dist'),
       publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
+      libraryTarget: 'umd',
+      umdNamedDefine: true
   }}, prodBaseConfig)
 
 
@@ -72,8 +76,8 @@ const statelessWithHooksConfig = merge(baseConfig, {
       chunkFilename: '[name].[id].chunk.js',
       path: path.join(__dirname, '../dist'),
       publicPath: '/',
-      // libraryTarget: 'umd',
-      // umdNamedDefine: true
+      libraryTarget: 'umd',
+      umdNamedDefine: true
   }
   }, prodBaseConfig)
 

@@ -1,4 +1,4 @@
-import mag from './main';
+import mag from './mag';
 import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 

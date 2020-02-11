@@ -1,4 +1,4 @@
-import mag from "../src/main"
+import mag from "../src/mag"
 import "../src/hookins/mag.useState"
 
 test("show and hide sub comp", () => {

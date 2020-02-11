@@ -3,7 +3,7 @@
   "sideEffects": false,
   "version": "1.6.4",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
-  "main": "dist/mag.min.js",
+  "main": "dist/mag-stateless.hooks.min.js",
   "unpkg": "dist/mag.min.js",
   "directories": {
     "example": "examples",

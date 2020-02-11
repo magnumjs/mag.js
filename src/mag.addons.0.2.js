@@ -1,4 +1,4 @@
-import mag from './main';
+import mag from './mag';
 import {hookin} from "./core/hook"
 import utils from "./utils"
 
