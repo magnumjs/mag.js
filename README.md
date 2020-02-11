@@ -54,14 +54,21 @@ Mag(
 
 ### Browser install
 
-*Both state and stateless Components with or without Hooks (useState and useEffect)*
+*Default includes **ONLY** Stateless Components **WITH** Hooks (useState and useEffect)*
 
 `<script src="//unpkg.com/mag.js"></script>` 
 
+### Alternate browser options
+
+*State and Stateless Components **WITHOUT** Hooks*
+
+`<script src="//unpkg.com/mag.js/dist/mag.min.js"></script>`
+
+*State and Stateless Components **WITH** Hooks*
+
 `<script src="//unpkg.com/mag.js/dist/mag.hooks.min.js"></script>`
 
-*Only stateless Components with or without useState and useEffect Hooks*
+*Only stateless Components **WITHOUT** useState and useEffect Hooks*
 
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
 
-`<script src="//unpkg.com/mag.js/dist/mag-stateless.hooks.min.js"></script>`
