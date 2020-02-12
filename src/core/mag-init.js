@@ -1,14 +1,13 @@
 import runFun from "./draw/runFun"
 import {MAGNUM} from './constants';
-import {isHTMLEle, isFunction} from "./utils/common"
-
+import {isHTMLEle, isFunction, isFragment} from "./utils/common"
 
 export default function(idOrNode, mod, dprops, run, find, lastCall) {
     idOrNode = find(idOrNode);
     mod = find(mod);
     dprops = dprops || {};
 
-    if (isHTMLEle(mod) && isHTMLEle(idOrNode)) {
+    if (isHTMLEle(mod) && (isHTMLEle(idOrNode) || isFragment(idOrNode))) {
         //attach to node once
         if (!mod[MAGNUM]) {
             //Add to scheduleFlush, nextTick?
@@ -16,7 +15,7 @@ export default function(idOrNode, mod, dprops, run, find, lastCall) {
         }
     }
     //If mod is a function?
-    else if (isFunction(mod) && isHTMLEle(idOrNode)) {
+    else if (isFunction(mod) && (isHTMLEle(idOrNode) || isFragment(idOrNode))) {
         // fake run with no output
         try {
             runFun(idOrNode.cloneNode(1), mod, dprops, true)();

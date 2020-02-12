@@ -14,6 +14,14 @@ describe("MagJS comp return values with empty node", function () {
         expect(document.getElementById('root').innerHTML).toEqual("<h1>HI</h1>")
     })
 
+    it("with html fragment", function () {
+        const App = mag('root', () =>{
+            return "<h1>HI</h1><p>TEST</p>"
+        })
+        App()
+        expect(document.getElementById('root').innerHTML).toEqual("<h1>HI</h1><p>TEST</p>")
+    })
+
     it("with string", function () {
         const App = mag('root', () =>{
             return "HI"

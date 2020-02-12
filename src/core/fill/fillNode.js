@@ -1,5 +1,5 @@
 import {MAGNUM} from '../constants'
-import {isHTMLEle, isFunction, isObject} from "../utils/common"
+import {isHTMLEle, isFunction, isObject, isFragment} from "../utils/common"
 import {getPathTo, getFullPathIndex, getPathIndex, getId, getMod} from "./common"
 import addToNode from "./addToNode"
 import findAllAttributes from "./findAllAttributes"
@@ -15,7 +15,7 @@ const functionHandler = function(data, node, tagIndex, p) {
     tagIndex = getFullPathIndex(p);
 
     var val = data(tagIndex.join('.'), p);
-    if (val && isHTMLEle(val)) {
+    if (val && isHTMLEle(val) || isFragment(val)) {
         // remove childs first
         addToNode(node, val);
 
@@ -51,7 +51,7 @@ export default function fillNode(node, data, p, key) {
         data=found
     }
 
-    if (data && isHTMLEle(data)) {
+    if (data && isHTMLEle(data) || isFragment(data)) {
         addToNode(node, data);
         return;
     }

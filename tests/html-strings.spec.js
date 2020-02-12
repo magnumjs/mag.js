@@ -6,6 +6,31 @@ describe("MagJS template literals", function () {
         document.body.innerHTML = "<div id='root'></div>"
     })
 
+    it("can take children with no root parent", () => {
+
+        var App = mag`<li>one</li><li>two</li>`
+
+        expect(typeof App).toEqual("object")
+        expect(App.childElementCount).toEqual(2)
+        expect(App.nodeType).toEqual(11)
+        expect(App.childNodes.length).toEqual(2)
+    })
+
+    it("can take children with no root parent or func", () => {
+
+        const App = mag`<li>one</li><li>two</li>`
+
+        mag(App, "root")
+        expect(document.querySelectorAll("li").length).toEqual(2)
+    })
+
+    it("can take children with no root parent", () => {
+
+        const App = mag(`<li>one</li><li>two</li>`, ()=>({}))
+
+        mag(App(), "root")
+        expect(document.querySelectorAll("li").length).toEqual(2)
+    })
 
     it("has template string with an attribute", ()=>{
         global.App = mag(

@@ -46,19 +46,20 @@ export const extend = function(target, source, deep) {
     return merge(target, source);
 }
 
+export const isFragment = node => node && node.nodeType == 11
 
-export const isHTMLEle = item => item && item.nodeType === 1;
+export const isHTMLEle = item => item && item.nodeType === 1
 
 const funReplacer = (key, value) =>
     isFunction(value) ? '' + value : value;
 
-export const toJson = obj => JSON.stringify(obj, funReplacer);
+export const toJson = obj => JSON.stringify(obj, funReplacer)
 
 export const isEmpty = obj => {
     for (var k in obj) {
-        if (obj.hasOwnProperty(k)) return 0;
+        if (obj.hasOwnProperty(k)) return 0
     }
-    return 1;
+    return 1
 }
 
 export const isArray = obj =>
