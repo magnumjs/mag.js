@@ -123,7 +123,7 @@ describe("MagJS comp return null handling", function () {
         App()
         expect(document.getElementById('root').innerHTML).toEqual("")
         App({show: true})
-        expect(document.getElementById('root').innerHTML).toEqual("<div>HI</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("HI")
         App({show: false})
         expect(document.getElementById('root').innerHTML).toEqual("")
     })
@@ -195,7 +195,7 @@ describe("MagJS comp return values with single child node", function () {
             return "HI"
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div>HI</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("HI")
     })
 
 
@@ -227,7 +227,7 @@ describe("MagJS comp return values with single child node", function () {
             return undefined
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div></div>")
+        expect(document.getElementById('root').innerHTML).toEqual("")
     })
 
 
@@ -236,7 +236,7 @@ describe("MagJS comp return values with single child node", function () {
             return 1
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div>1</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("1")
     })
 
     it("with 0 number", function () {
@@ -244,7 +244,7 @@ describe("MagJS comp return values with single child node", function () {
             return 0
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div>0</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("0")
     })
 
     it("with false boolean", function () {
@@ -252,7 +252,7 @@ describe("MagJS comp return values with single child node", function () {
             return false
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div>false</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("false")
     })
 
     it("with true boolean", function () {
@@ -260,7 +260,7 @@ describe("MagJS comp return values with single child node", function () {
             return true
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div>true</div>")
+        expect(document.getElementById('root').innerHTML).toEqual("true")
     })
 
 })

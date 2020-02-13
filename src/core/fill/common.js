@@ -71,9 +71,13 @@ export function getChildrenIndex(node) {
 export function isCached(element, data) {
     //add UID if does not exist
     var uid = getUid(element);
-    dataCache[getId()] = dataCache[getId()] || [];
-    if (dataCache[getId()][uid] && dataCache[getId()][uid] == data) return 1;
-    else dataCache[getId()][uid] = data;
+    var nodeId=getId()
+    if(isHTMLEle(nodeId) && nodeId[MAGNUM].scid){
+        nodeId = nodeId[MAGNUM].scid
+    }
+    dataCache[nodeId] = dataCache[nodeId] || [];
+    if (dataCache[nodeId][uid] && dataCache[nodeId][uid] == data) return 1;
+    else dataCache[nodeId][uid] = data;
 }
 
 export function findClosestId(node) {
@@ -325,12 +329,12 @@ export function setText(node, text) {
             //if(~start) node.setSelectionRange(start, end);
         }
     } else if (node.nodeName !== 'SELECT') {
-        // create a new text node and stuff in the value
-        if (node.firstChild) {
-            node.firstChild.textContent = val;
-        } else {
-            node.appendChild(node.ownerDocument.createTextNode(val));
+        //remove all children first
+        while (node.lastChild) {
+            removeNode(node.lastChild);
         }
+        // create a new text node and stuff in the value
+        node.appendChild(node.ownerDocument.createTextNode(val))
     }
 
     if (node.nodeName === 'SELECT' && val) {
