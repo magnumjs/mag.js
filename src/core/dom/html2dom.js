@@ -28,7 +28,7 @@ export function html (data)
 
         if(trimmed[0] == '<') {
 
-            var dom = html2dom(removeSelfClosingTags(trimmed))
+            var dom = html2dom(trimmed)
             if (dom.childNodes.length == 1)
                 return dom.childNodes[0]
             else {
