@@ -10,6 +10,7 @@ test("sub comp re-rendering with out fragment return string", () => {
     var App = mag(
         '<div><h1>B</h1><h2>CLICKER</h2></div>',
         function(props){
+
             return {
                 h1: props.hide?"YO":Sub(),
                 h2: { onclick: e => App({hide: !props.hide})}
@@ -20,7 +21,7 @@ test("sub comp re-rendering with out fragment return string", () => {
 
     expect(document.querySelector('h1 i').textContent).toEqual("tester")
     document.querySelector('h2').click()
-    expect(document.querySelector('h1').textContent).toEqual("YO")
+    expect(document.querySelector('h1').innerHTML).toEqual("YO")
     document.querySelector('h2').click()
     expect(document.querySelector('h1 i').textContent).toEqual("tester")
 })

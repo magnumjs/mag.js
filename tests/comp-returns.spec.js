@@ -187,7 +187,7 @@ describe("MagJS comp return null handling", function () {
 
 describe("MagJS comp return values with single child node", function () {
     beforeEach(() => {
-        document.body.innerHTML = "<div id='root'><div></div></div>"
+        document.body.innerHTML = "<div id='root'></div>"
     })
 
     it("with string", function () {
@@ -204,7 +204,7 @@ describe("MagJS comp return values with single child node", function () {
             return {}
         })
         App()
-        expect(document.getElementById('root').innerHTML).toEqual("<div></div>")
+        expect(document.getElementById('root').innerHTML).toEqual("")
     })
     it("with array", function () {
         const App = mag('root', () =>{

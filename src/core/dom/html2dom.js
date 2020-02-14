@@ -10,18 +10,34 @@ const html2dom = html => {
     return template.content
 }
 
-
+function removeSelfClosingTags(xml) {
+    var split = xml.split("/>");
+    var newXml = "";
+    for (var i = 0; i < split.length - 1;i++) {
+        var edsplit = split[i].split("<");
+        newXml += split[i] + "></" + edsplit[edsplit.length - 1].split(" ")[0] + ">";
+    }
+    return newXml + split[split.length-1];
+}
 
 export function html (data)
 {
-    if (isString(data) && data.trim()[0] == '<') {
-        var dom= html2dom(data.trim())
-        if(dom.childNodes.length == 1) return dom.childNodes[0]
-        else {
-            var nodes=  nodeListToArray(dom.childNodes)
-            var fragment = doc.createDocumentFragment();
-            nodes.forEach(item=>fragment.appendChild(item))
-            return fragment
+    if (isString(data)){
+
+        var trimmed = data.trim()
+
+        if(trimmed[0] == '<') {
+
+            var dom = html2dom(removeSelfClosingTags(trimmed))
+            if (dom.childNodes.length == 1)
+                return dom.childNodes[0]
+            else {
+                var nodes = Array.from(dom.childNodes)
+                // var fragment = doc.createDocumentFragment();
+                var fragment = doc.createElement('fragment');
+                nodes.forEach(item => fragment.appendChild(item))
+                return fragment
+            }
         }
     }
 }

@@ -16,10 +16,10 @@ const WarningBanner = mag(
     })
 
 const Page = mag(
-    `<div>
+    `
       <WarningBanner></WarningBanner>
       <button></button>
-   </div>`,
+   `,
     props => {
 
         const [state, setState] = mag.useState({showWarning: true})
@@ -267,6 +267,7 @@ const CounterApp = mag('counters', props =>
 );
 
 CounterApp({counters: ['first', 'second']});
+
 
 const TimerHTML = `
 <div><key></key>The count is: <count/></div>

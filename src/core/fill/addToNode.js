@@ -1,5 +1,6 @@
-import {isCached, getItems, getDraw, getMod, removeNode, getMicroDraw} from "./common"
+import {isCached, getItems, getDraw, getMod, removeNode, getMicroDraw, nodeListToArray} from "./common"
 import {onLCEvent} from "../utils/events"
+import {isFragment} from "../utils/common"
 import {MAGNUM, _cprops, doc} from '../constants'
 
 const items = getItems()
@@ -7,9 +8,11 @@ const magRedraw = getDraw()
 const mods = getMod()
 const microDraw = getMicroDraw()
 
-export default function addToNode(node, val) {
+export default function addToNode(node, val, onlyAdd) {
+
     //TODO: finer grain diffing, attach once
-    if (isCached(node, val.outerHTML)) {
+    if (val.outerHTML && isCached(node, val.outerHTML)
+    ) {
         return;
     }
 
@@ -44,10 +47,12 @@ export default function addToNode(node, val) {
 
         //remove, replace?
         //Remove children, call UNLOADERS?
-        while (node.lastChild) {
-            // removeNodeModule(node.lastChild)
-            // node.removeChild(node.lastChild)
-            removeNode(node.lastChild);
+        if(!onlyAdd){
+            while (node.lastChild) {
+                // removeNodeModule(node.lastChild)
+                // node.removeChild(node.lastChild)
+                removeNode(node.lastChild);
+            }
         }
 
         //TODO: Call configs when adding?
@@ -68,7 +73,17 @@ export default function addToNode(node, val) {
                 });
             }
         } else {
-            node.appendChild(val);
+            // if(val[MAGNUM].parent && !isFragment(val)){
+            //     var childs = nodeListToArray(val[MAGNUM].parent.childNodes)
+            //     childs.forEach((item,key)=>addToNode(node, item, 1))
+            //     return
+            // } else
+            // if(isFragment(val) && val[MAGNUM]){
+            //     val[MAGNUM].parent = node
+            // }
+
+                node.appendChild(val)
+
         }
     }
 }

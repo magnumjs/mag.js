@@ -1,8 +1,9 @@
 import {MAGNUM, doc} from '../../core/constants'
 import {removeChildren, reattachChildren} from "./showHide"
 import {nodeListToArray, templates, getPath, MAGNUM_KEY, removeNode} from "./common"
-import {isArray, isHTMLEle, isUndefined, isObject} from "../utils/common"
+import {isArray, isHTMLEle, isUndefined, isObject, isFragment} from "../utils/common"
 import fillNode from "./fillNode"
+import addToNode from "./addToNode"
 
 // this is the entry point for this module, to fill the dom with data
 export default function run(nodeList, data, key) {
@@ -15,7 +16,6 @@ export default function run(nodeList, data, key) {
     if (data === null && key) {
         removeChildren(nodeList, key);
     } else if(data === null && !key) {
-
         nodeList[MAGNUM].detached = 1;
         return removeChildren(nodeList);
     } else
@@ -24,15 +24,32 @@ export default function run(nodeList, data, key) {
         reattachChildren(nodeList);
     }
 
-
-
     // CACHE
     // DIFF
     // CHANGE? then modify only the changes
     // KEYS for indentification
 
     // nodeList updates as the dom changes, so freeze it in an array
+    // var elements = nodeListToArray(isFragment(nodeList) && nodeList.childNodes.length?nodeList.childNodes:nodeList);
     var elements = nodeListToArray(nodeList);
+
+
+    //data at root that is not an object Map or a string or NULL
+    if(!key && isArray(data) && data.length  && data[0].nodeType && isFragment(elements[0].parentNode)){
+        //loop through all items and attach to Node
+        data.forEach((item,key)=>{
+            if(isHTMLEle(item)){
+                addToNode(elements[0], item, 1)
+            } else {
+                if(!elements[key]) {
+                     // addToNode(elements[0], elements[0].firstChild.cloneNode(1), 1)
+                }
+                run(elements[key], item, key + 1)
+            }
+        })
+        return;
+    }
+
 
     dataIsArray = isArray(data);
 
@@ -59,16 +76,21 @@ export default function run(nodeList, data, key) {
             templates[key] = {
                 node: elements[0].cloneNode(1).outerHTML,
                 parent: parent
-            };
+            }
         }
 
         var fragment = doc.createDocumentFragment();
 
+
         //Adding
         var ii = 0;
         while (elements.length < data.length) {
-            if (templates[key]) {
-                parent.insertAdjacentHTML('beforeend', templates[key].node);
+            if (templates[key] && parent && parent.insertAdjacentHTML) {
+                // if(isFragment(parent)){
+                //     parent.firstChild.insertAdjacentHTML('afterend', templates[key].node);
+                // }else {
+                    parent.insertAdjacentHTML('beforeend', templates[key].node);
+                // }
                 node = parent.lastChild;
             } else {
                 node = elements[0].cloneNode(1);
@@ -79,7 +101,13 @@ export default function run(nodeList, data, key) {
             elements.push(node);
             fragment.appendChild(node);
         }
-        parent.appendChild(fragment);
+        // if(isFragment(parent)){
+        //     elements.forEach(item=>parent.appendChild(item))
+        // } else
+        if (parent) {
+            parent.appendChild(fragment)
+        }
+
         // loop thru to make sure no undefined keys
 
         var keys = data.map(function(i) {

@@ -1,6 +1,6 @@
 import {MAGNUM, doc, _cprops} from '../constants'
 import getNode from "../dom/getNode"
-import {isArray, isHTMLEle, isString, isFunction, isObject} from "../utils/common"
+import {isArray, isHTMLEle, isString, isFunction, isObject, isFragment} from "../utils/common"
 
 export const configs = [];
 export const cached = []
@@ -72,10 +72,12 @@ export function isCached(element, data) {
     //add UID if does not exist
     var uid = getUid(element);
     var nodeId=getId()
-    if(isHTMLEle(nodeId) && nodeId[MAGNUM].scid){
+    if(isHTMLEle(nodeId)){
         nodeId = nodeId[MAGNUM].scid
     }
     dataCache[nodeId] = dataCache[nodeId] || [];
+    // console.log(dataCache[nodeId][uid] == data, data, element)
+
     if (dataCache[nodeId][uid] && dataCache[nodeId][uid] == data) return 1;
     else dataCache[nodeId][uid] = data;
 }
@@ -240,7 +242,7 @@ export function setHtml(node, html) {
         }
 
         return;
-    } else if (isHTMLEle(html) && !isCached(node, html)) {
+    } else if (isHTMLEle(html) || isFragment(html) && !isCached(node, html)) {
 
         if (html[MAGNUM] && html[MAGNUM].scid && !_cprops[html[MAGNUM].scid]) {
 
@@ -289,7 +291,10 @@ function nodeListToArray(nodeList) {
 
 export function setText(node, text) {
     // make sure that we have a node and text to insert
-    if (!node || text == null || isCached(node, text)) {
+    if (!node || text == null
+        //TODO: Fix
+        || isCached(node, text)
+    ) {
         return;
     }
 
@@ -304,7 +309,12 @@ export function setText(node, text) {
             // search getId() for name
             //TODO: should be only within parent node in DATA path NOT root ID
             if (node.name) {
-                var items = getNode(getId())
+                //GET container:
+                var parent
+                if(isHTMLEle(getId())) {parent = getId() }
+                else parent = getNode(getId())
+
+                var items = parent
                     .querySelectorAll('[name=' + node.name + ']');
                 if (items.length > 1) {
                     // select item with matching value
@@ -329,16 +339,50 @@ export function setText(node, text) {
             //if(~start) node.setSelectionRange(start, end);
         }
     } else if (node.nodeName !== 'SELECT') {
-        //remove all children first
-        while (node.lastChild) {
-            removeNode(node.lastChild);
+        const nodes = nodeListToArray(node.childNodes)
+
+        var isAtRoot = isAtRootOfComp(node)
+
+        if(!isRootFragment(node)) {
+            nodes.forEach(item => {
+                if (item.nodeType != 3 || isAtRoot) {
+                    removeNode(item)
+                }
+            })
         }
+
+
+        if (node.firstChild) {
+            node.firstChild.textContent = val;
+        } else {
+            node.appendChild(node.ownerDocument.createTextNode(val));
+        }
+        //remove all children first?
+        // while (node.lastChild) {
+        //     removeNode(node.lastChild);
+        // }
+
+
         // create a new text node and stuff in the value
-        node.appendChild(node.ownerDocument.createTextNode(val))
-    }
+        // node.appendChild(node.ownerDocument.createTextNode(val))
+     }
 
     if (node.nodeName === 'SELECT' && val) {
         //TODO: array of things for "multiple" select
         node.value = val;
     }
+}
+
+
+const isRootFragment = node => {
+    //Compare to active Comp?
+    //getId() if isHTMLEle get scid to compare
+    const MAGGER = node[MAGNUM]
+    if(MAGGER && MAGGER.scid && node.tagName == 'FRAGMENT'){
+        return 1
+    }
+}
+const isAtRootOfComp = node=>{
+    var parent = node.parentNode
+    return parent && parent[MAGNUM] && parent[MAGNUM].scid
 }

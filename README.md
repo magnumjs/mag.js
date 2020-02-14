@@ -2,10 +2,6 @@
 
 `npm i mag.js`
 
-`npm test`
-`npm start`
-`npm run build`
-
 ### *Super fast* & Simple Intuitive JS2HTML Templating Component Library
 
 ```js
@@ -41,7 +37,7 @@ Mag(
 )
 ```
 
-**[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/MWYMErB?editors=0010)**
+**[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
 
 
 [CodePen Examples](https://codepen.io/magnumjs)

@@ -5,11 +5,12 @@ import {
     removeNode,
     getCheckForMod
 } from "./common"
+import {MAGNUM} from "../constants"
 
+const childCache = {};
 
 const checkForMod = getCheckForMod()
 
-const childCache = [];
 
 export function reattachChildren(node, key, removeOnly) {
     let matches;
@@ -19,8 +20,18 @@ export function reattachChildren(node, key, removeOnly) {
         matches = nodeListToArray(node.childNodes.length?node.childNodes:node)
     }
 
+    // if(matches.length == 1 && matches[0][MAGNUM] && matches[0][MAGNUM].detachedUids){
+    //     matches[0][MAGNUM].detachedUids.forEach(uid=>{
+    //         console.log(childCache[uid], uid)
+    //         matches[0].appendChild(childCache[uid][0])
+    //         delete childCache[uid];
+    //
+    //     })
+    // }
+
     matches.forEach(function(item) {
         var uid = getUid(item);
+
         if (uid in childCache) {
             if (!removeOnly) {
                 for (var index in childCache[uid]) {
@@ -50,9 +61,18 @@ export function removeChildren(node, key) {
     } else {
         matches = nodeListToArray(node)
     }
-    matches.forEach(function(item) {
+
+    // node[MAGNUM] = node[MAGNUM] || {}
+    //
+    // node[MAGNUM].detachedUids =[]
+
+        matches.forEach(function(item) {
         var uid = getUid(item);
         if (item.childNodes.length) childCache[uid] = nodeListToArray(item.childNodes);
+        // else {
+        //     childCache[uid] = nodeListToArray(item);
+        //     node[MAGNUM].detachedUids.push(uid)
+        // }
 
         var called = 0;
         // check child cache for unloaders

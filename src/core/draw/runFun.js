@@ -2,7 +2,7 @@ import mag from "../mag-stateless"
 import {MAGNUM, _cprops} from '../constants';
 import {getId, setId, run} from "../../fill-stateless"
 import {callLCEvent} from "../utils/events"
-import {copy, extend, isObject, isUndefined} from "../utils/common"
+import {copy, extend, isObject, isUndefined, isFragment} from "../utils/common"
 
 let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {
@@ -36,6 +36,12 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         } else if (key && clones[key]) {
             node = clones[key];
         }
+        // else if(isFragment(node) && node[MAGNUM] && node[MAGNUM].parent){
+        //     //get current children and place in fragment
+        //     const vals = node[MAGNUM]
+        //     node = node[MAGNUM].parent
+        //     node[MAGNUM] = vals
+        // }
 
         if(!isUndefined(a) && props && props.key && a.key && a.key != ckey) {
             callLCEvent('onunload', props, node, a.key);
@@ -72,6 +78,24 @@ var runFun = function(idOrNode, mod, dprops, fake) {
             setId(node);
             run(node, now);
         } finally {
+            //replace fragment html
+            var frag= node.querySelector('fragment')
+            //FASTER?
+            if(frag && !fake) frag.replaceWith(...frag.childNodes)
+
+            // if(frag && !fake){
+            //     const vals = frag[MAGNUM] || {}
+            //
+            //     var cnodes= Array.from(frag.childNodes)
+            //    cnodes.forEach((item, key)=>{
+            //
+            //         //add key increment each if no key
+            //        item[MAGNUM] = item[MAGNUM] || vals// use merge?
+            //        item[MAGNUM].scid = vals.scid || ckey + "-"+key
+            //        frag.parentNode.appendChild(item)
+            //    })
+            //     frag.remove()
+            // }
             callLCEvent('didupdate', props, node, ckey);
             setId(pfillId);
             runId = 0;

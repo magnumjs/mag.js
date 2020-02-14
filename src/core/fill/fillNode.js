@@ -39,10 +39,6 @@ const functionHandler = function(data, node, tagIndex, p) {
 export default function fillNode(node, data, p, key) {
     const innerMods = mods && mods.innerMods
     var attributes;
-    var attrValue;
-
-    var element;
-    var elements;
 
     var tagIndex = getPathIndex(p);
 
