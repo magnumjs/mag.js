@@ -4,7 +4,7 @@ import {nodeListToArray} from "../fill/common"
 
 const html2dom = html => {
     let template = doc.createElement('template')
-    template.innerHTML = html
+    template.innerHTML = removeSelfClosingTags(html)
     //TODO: how about childNodes?
     // return template.content.childNodes
     return template.content
