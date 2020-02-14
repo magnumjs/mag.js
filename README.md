@@ -11,7 +11,7 @@ import Mag from "mag.js"
 var Counter = Mag(`
   <div class="counter">
     <p>
-     You clicked <count></count> times
+     You clicked <count /> times
     </p>
     <button>
       Click me
