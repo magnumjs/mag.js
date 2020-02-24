@@ -24,7 +24,7 @@ function applyFuncs(funcs, container, attrNodes) {
                 for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
                     const attrib = itemNode.attributes[i];
                     //TODO: attributes that are Nodes?
-
+                    //children?
                     attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : attrib.value
                 }
                 var func = getFunc(item.name)
@@ -67,7 +67,7 @@ function generateNodes (doc, ...partials) {
             parts.forEach(part=>{
                 const first = part[0]
                 if(first && first == first.toUpperCase() && first != first.toLowerCase()){
-                    const name = part.split('/')[0].split(' ')[0]
+                    const name = part.split('/')[0].split(' ')[0].replace('>','')
                     funcs.push({name})
                 }
                 //TODO: add quotes to attributes missing them?

@@ -54,7 +54,8 @@ var runFun = function(idOrNode, mod, dprops, fake) {
 
 
         node[MAGNUM] = node[MAGNUM] || {};
-
+        //TODO: copy props to NODE? for children
+        // node[MAGNUM].props = copy(props);
         if (mag._cprops[ckey] && isObject(props)) {
             props.children = _cprops[ckey];
         }

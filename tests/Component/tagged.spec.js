@@ -7,6 +7,23 @@ beforeEach(() => {
 })
 
 
+test("basic whole tag", () => {
+
+    mag.Router =mag(
+        `<div/>`,
+        props => {
+            return {}
+
+        })
+
+    var App = mag`<Router></Router>`
+
+    mag(App, "root")
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<div></div>")
+
+})
+
 test("invalid open html tag", () => {
 
 
