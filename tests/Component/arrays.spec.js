@@ -119,6 +119,30 @@ test("return array no mapping sub comp", () => {
     expect(document.querySelector('#root').innerHTML).toEqual("<ol><li>1</li></ol>")
 })
 
+test("return array no mapping sub comp as arrays", () => {
+
+
+    var Sub = mag(`<li></li>`,({key})=>key)
+
+    var App = mag(`<ol />`, ()=>[Sub({key: 1}), Sub({key: 2})])
+
+    mag(App(), "root")
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<ol><li>1</li><li>2</li></ol>")
+})
+
+test("return array no mapping sub comp as arrays with same values", () => {
+
+
+    var Sub = mag(`<li></li>`,()=>1)
+
+    var App = mag(`<ol />`, ()=>[Sub({key: 1}), Sub({key: 2})])
+
+    mag(App(), "root")
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<ol><li>1</li><li>1</li></ol>")
+})
+
 test("return array no mapping sub comp", () => {
 
 

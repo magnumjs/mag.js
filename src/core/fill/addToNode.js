@@ -8,23 +8,37 @@ const magRedraw = getDraw()
 const mods = getMod()
 const microDraw = getMicroDraw()
 
+const isNotInNode = (node, val) => {
+    if(val[MAGNUM].scid && node[MAGNUM].children && !~node[MAGNUM].children.indexOf(val[MAGNUM].scid)){
+        return true
+    }
+}
+
 export default function addToNode(node, val, onlyAdd) {
 
     //TODO: finer grain diffing, attach once
-    if (val.outerHTML && isCached(node, val.outerHTML)
-    ) {
+    if (val.outerHTML && isCached(node, val.outerHTML, val[MAGNUM]?val[MAGNUM].scid:"")) {
         return;
     }
 
     if (
         (!val.id && !node.childNodes[0]) ||
         (val.id && !doc.getElementById(val.id)) ||
-        (node.firstChild && !node.firstChild.isEqualNode(val))
+        (node.firstChild && !node.firstChild.isEqualNode(val)
+        || isNotInNode(node, val))
     ) {
+
+
+        if (val[MAGNUM] && val[MAGNUM].scid) {
+            node[MAGNUM].children = node[MAGNUM].children || []
+            if (!~node[MAGNUM].children.indexOf(val[MAGNUM].scid)) {
+                node[MAGNUM].children.push(val[MAGNUM].scid)
+            }
+        }
         // take children and add to properties
         let index
-        if(items) {
-          index=  items.getItem(val.id);
+        if (items) {
+            index = items.getItem(val.id);
         }
         if (items && ~index && node.hasChildNodes()) {
             var pindex = items.getItem(getId());
@@ -32,12 +46,12 @@ export default function addToNode(node, val, onlyAdd) {
             clone[MAGNUM] = {
                 childof: pindex
             };
-            if(mods && mods.getProps) {
+            if (mods && mods.getProps) {
                 mods.getProps(index).children = clone;
             }
             //redraw?
             magRedraw(val, index)
-        } else if (val[MAGNUM] && val[MAGNUM].scid  && !_cprops[val[MAGNUM].scid]) {
+        } else if (val[MAGNUM] && val[MAGNUM].scid && !_cprops[val[MAGNUM].scid]) {
             clone = node.cloneNode(1);
             clone[MAGNUM] = {
                 childof: val[MAGNUM].scid
@@ -47,7 +61,7 @@ export default function addToNode(node, val, onlyAdd) {
 
         //remove, replace?
         //Remove children, call UNLOADERS?
-        if(!onlyAdd){
+        if (!onlyAdd) {
             while (node.lastChild) {
                 // removeNodeModule(node.lastChild)
                 // node.removeChild(node.lastChild)
@@ -82,7 +96,7 @@ export default function addToNode(node, val, onlyAdd) {
             //     val[MAGNUM].parent = node
             // }
 
-                node.appendChild(val)
+            node.appendChild(val)
 
         }
     }

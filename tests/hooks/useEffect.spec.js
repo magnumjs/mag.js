@@ -1,6 +1,6 @@
-import "./jestGlobalMocks"
-import mag from '../src/mag'
-import {useEffect} from "../src/hookins/mag.useEffect"
+import "../jestGlobalMocks"
+import mag from '../../src/mag'
+import {useEffect} from "../../src/hookins/mag.useEffect"
 
 
 const func = ()=>{

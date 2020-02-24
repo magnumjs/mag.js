@@ -50,7 +50,7 @@ Mag(
 
 ### Browser install
 
-*Default includes **ONLY** Stateless Components **WITH** Hooks (useState and useEffect)*
+*Default includes **ONLY** Stateless Components **WITH** Hooks (useState, useEffect, useContext)*
 
 `<script src="//unpkg.com/mag.js"></script>` 
 
@@ -64,7 +64,7 @@ Mag(
 
 `<script src="//unpkg.com/mag.js/dist/mag.hooks.min.js"></script>`
 
-*Only stateless Components **WITHOUT** useState and useEffect Hooks*
+*Only stateless Components **WITHOUT** useState, useEffect, useContext Hooks*
 
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
 

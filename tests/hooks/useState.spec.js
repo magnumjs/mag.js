@@ -1,5 +1,5 @@
-import mag from '../src/core/mag-stateless'
-import "../src/hookins/mag.useState"
+import mag from '../../src/core/mag-stateless'
+import "../../src/hookins/mag.useState"
 
 document.body.innerHTML = `
 <app>

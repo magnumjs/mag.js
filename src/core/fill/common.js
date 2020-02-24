@@ -68,15 +68,21 @@ export function getChildrenIndex(node) {
     return i;
 }
 
-export function isCached(element, data) {
-    //add UID if does not exist
-    var uid = getUid(element);
+const getCurrentID = () => {
     var nodeId=getId()
     if(isHTMLEle(nodeId)){
         nodeId = nodeId[MAGNUM].scid
     }
+    return nodeId
+}
+
+
+export function isCached(element, data, dataID) {
+    //add UID if does not exist
+    var uid = getUid(element);
+    if(dataID) uid = dataID+uid
+    var nodeId = getCurrentID()
     dataCache[nodeId] = dataCache[nodeId] || [];
-    // console.log(dataCache[nodeId][uid] == data, data, element)
 
     if (dataCache[nodeId][uid] && dataCache[nodeId][uid] == data) return 1;
     else dataCache[nodeId][uid] = data;
@@ -152,6 +158,13 @@ export function removeNode(node) {
 
     if(removeNodeModule){
         removeNodeModule(node)
+    }
+
+    if(node.parentNode[MAGNUM] && node.parentNode[MAGNUM].children && node[MAGNUM]){
+        var index = node.parentNode[MAGNUM].children.indexOf(node[MAGNUM].scid);
+        node.parentNode[MAGNUM].children.splice(index, 1)
+
+        clearCache(getCurrentID())
     }
 
     //TODO: remove cache of all children too
