@@ -3,6 +3,41 @@ import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
 
+
+
+const Things = mag(`<i>Stuff - <tag></tag></i>`, props => {
+    return {tag: props.tag}
+})
+
+const Nav = mag(
+    `<nav><ul><li>Home</li><li>Dash</li></ul><children></children><p><active></active></p></nav>`,
+    ({handler, active, children}) => {
+
+        return {
+            children,
+            active,
+            $li: {onClick: e=> {
+                handler(e.target.textContent)
+            }}
+        }
+    })
+
+const App3 = mag(
+    `<div><h1>Hi</h1><div><things></things></div></div>`,
+    ({active="home"}) =>{
+
+        return {
+            things: Things({tag: active}),
+            div: Nav({active, handler: active => {
+                App3({active})
+            }})
+        }
+    })
+
+mag(App3(), "root3")
+
+
+
 const WarningBanner = mag(
     `<div class="warning">
       Warning!

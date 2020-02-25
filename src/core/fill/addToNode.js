@@ -9,7 +9,8 @@ const mods = getMod()
 const microDraw = getMicroDraw()
 
 const isNotInNode = (node, val) => {
-    if(val[MAGNUM].scid && node[MAGNUM].children && !~node[MAGNUM].children.indexOf(val[MAGNUM].scid)){
+    if(val[MAGNUM].scid && !node[MAGNUM].children ||
+        val[MAGNUM].scid && node[MAGNUM].children && !~node[MAGNUM].children.indexOf(val[MAGNUM].scid)){
         return true
     }
 }
@@ -25,16 +26,10 @@ export default function addToNode(node, val, onlyAdd) {
         (!val.id && !node.childNodes[0]) ||
         (val.id && !doc.getElementById(val.id)) ||
         (node.firstChild && !node.firstChild.isEqualNode(val)
-        || isNotInNode(node, val))
+            || isNotInNode(node, val))
     ) {
 
 
-        if (val[MAGNUM] && val[MAGNUM].scid) {
-            node[MAGNUM].children = node[MAGNUM].children || []
-            if (!~node[MAGNUM].children.indexOf(val[MAGNUM].scid)) {
-                node[MAGNUM].children.push(val[MAGNUM].scid)
-            }
-        }
         // take children and add to properties
         let index
         if (items) {
@@ -69,6 +64,13 @@ export default function addToNode(node, val, onlyAdd) {
             }
         }
 
+
+        if (val[MAGNUM] && val[MAGNUM].scid) {
+            node[MAGNUM].children = node[MAGNUM].children || []
+            if (isNotInNode(node, val)) {
+                node[MAGNUM].children.push(val[MAGNUM].scid)
+            }
+        }
         //TODO: Call configs when adding?
 
         if (val[MAGNUM] && val[MAGNUM]['childof'] !== undefined) {
