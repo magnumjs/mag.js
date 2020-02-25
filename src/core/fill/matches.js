@@ -1,5 +1,6 @@
 import {getItems, getId, getHook} from "./common"
-
+import {isHTMLEle} from "../utils/common"
+import {MAGNUM} from "../constants"
 
 const hook = getHook()
 const items = getItems()
@@ -69,6 +70,7 @@ function isInIsolate(node) {
         // ((isHTMLEle(getId()) && node[MAGNUM] && node[MAGNUM].scid
         //     && node[MAGNUM].scid != getId()[MAGNUM].scid) || //Stateless
         (node.id && node.id != getId() && items && items.isItem(node.id))
+        // )
     ) {
         return 0;
     } else {

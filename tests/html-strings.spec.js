@@ -66,6 +66,67 @@ describe("MagJS template literals", function () {
         expect(document.querySelector('#root b i span').textContent).toEqual(date)
     })
 
+    it("has template string with an sub comp as attribute and child", ()=>{
+        mag.Home = mag('<p/>', () => "HOME")
+        global.Bolder = mag(
+            `<b></b>`,
+            function(props){
+                return mag`<div>Hello, world! ${props.date}</div> ${props.children[0]}`
+            })
+
+
+        const date = "2/10/2020, 2:24:38 PM"
+        const Dater = mag(`<i>Date: <span></span></i>`, props=>(props))
+
+        mag(
+            mag`<Bolder date=${Dater({span: date})} format="test"><Home/> ${mag.Home()}</Bolder>`,
+            document.getElementById('root')
+        )
+        expect(document.querySelector('#root b div').innerHTML).toEqual(`Hello, world! <i>Date: <span>${date}</span></i>`)
+        expect(document.querySelector('#root b i span').textContent).toEqual(date)
+        expect(document.querySelector('#root b p').innerHTML).toEqual("HOME")
+    })
+
+    it("has template string with an string as attribute and child", ()=>{
+        mag.Home = mag('<p/>', () => "HOME")
+        global.Bolder = mag(
+            `<b></b>`,
+            function(props){
+                return mag`<div>Hello, world! ${props.date}</div> ${props.children[0]}`
+            })
+
+
+        const date = "2/10/2020, 2:24:38 PM"
+        const Dater = mag(`<i>Date: <span></span></i>`, props=>(props))
+
+        mag(
+            mag`<Bolder date=${date}><Home/></Bolder>`,
+            document.getElementById('root')
+        )
+        expect(document.querySelector('#root b div').innerHTML).toEqual(`Hello, world! 2/10/2020,`)
+        expect(document.querySelector('#root b p').innerHTML).toEqual("HOME")
+    })
+
+    it("has template string with an string as attribute and child node", ()=>{
+        mag.Home = mag('<p/>', () => "HOME")
+        global.Bolder = mag(
+            `<b></b>`,
+            function(props){
+                return mag`<div>Hello, world! ${props.date}</div> ${props.children[0]}`
+            })
+
+
+        const date = "2/10/2020, 2:24:38 PM"
+        const Dater = mag(`<i>Date: <span></span></i>`, props=>(props))
+
+        mag(
+            mag`<Bolder date=${date}>${mag.Home()}</Bolder>`,
+            document.getElementById('root')
+        )
+        expect(document.querySelector('#root b div').innerHTML).toEqual(`Hello, world! 2/10/2020,`)
+        expect(document.querySelector('#root b p').innerHTML).toEqual("HOME")
+    })
+
     it("tagged template literal inline", () => {
 
 

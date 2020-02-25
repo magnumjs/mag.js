@@ -35,10 +35,10 @@ export default function run(nodeList, data, key) {
 
 
     //data at root that is not an object Map or a string or NULL
-    if(!key && isArray(data) && data.length  && data[0].nodeType && isFragment(elements[0].parentNode)){
+    if(!key && isArray(data) && data.length  && data[0] && data[0].nodeType && isFragment(elements[0].parentNode)){
         //loop through all items and attach to Node
         data.forEach((item,key)=>{
-            if(isHTMLEle(item)){
+            if(item.nodeType){
                 addToNode(elements[0], item, 1)
             } else {
                 if(!elements[key]) {

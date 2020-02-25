@@ -1,4 +1,4 @@
-import {doc} from '../constants';
+import {doc, MAGNUM} from '../constants';
 import {isString, isObject, isArray, isHTMLEle, isFunction} from "../utils/common"
 import mag from "../mag"
 import html2dom from "./html2dom"
@@ -13,6 +13,38 @@ function generateId () {
     return `p-${counter}-${Date.now()}`
 }
 
+function addChildrenAttrs(itemNode, attrNodes){
+
+    if(!itemNode.innerHTML) return {}
+
+
+    //loop thru to add props
+    const frags =  html2dom(itemNode.innerHTML)
+
+    const arr = Array.from(frags.childNodes)
+    arr.forEach((item, index)=>{
+        if(itemNode.childNodes[index][MAGNUM]) {
+            arr[index].props = itemNode.childNodes[index][MAGNUM].props
+        } else {
+            arr[index].props = {}
+            getAttrs(itemNode.childNodes[index], arr[index].props, attrNodes)
+        }
+    })
+    return {children: arr}
+
+}
+
+function getAttrs(itemNode, attrs, attrNodes) {
+    if(itemNode.attributes) {
+        for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
+            const attrib = itemNode.attributes[i];
+            //TODO: attributes that are Nodes?
+            //children?
+            attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : attrib.value
+        }
+    }
+}
+
 function applyFuncs(funcs, container, attrNodes) {
     funcs.forEach(item => {
 
@@ -20,13 +52,9 @@ function applyFuncs(funcs, container, attrNodes) {
 
         if (nodes) {
             nodes.forEach(itemNode => {
-                const attrs = {}
-                for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
-                    const attrib = itemNode.attributes[i];
-                    //TODO: attributes that are Nodes?
-                    //children?
-                    attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : attrib.value
-                }
+
+                const attrs = addChildrenAttrs(itemNode, attrNodes)
+                getAttrs(itemNode, attrs, attrNodes);
                 var func = getFunc(item.name)
                 if (func) {
                     const newNode = func(attrs)
@@ -38,11 +66,23 @@ function applyFuncs(funcs, container, attrNodes) {
     })
 }
 
+function getElementsByText(noder, str, tag = '*') {
+    return Array.from(noder.querySelectorAll(tag))
+        .find(el => el.textContent === str);
+}
+
 function applyAttrs(placeholders, container) {
     const attrNodes = {}
     // Replace placeholders with real Nodes
     placeholders.forEach(({id, node}) => {
-        const placeholder = container.querySelector(`${node.nodeName}#${id}`)
+        let placeholder = container.querySelector(`${node.nodeName}#${id}`)
+        if(!placeholder){
+            var temp = getElementsByText(container, `"${id}"`)
+            if(temp) {
+                temp.replaceChild(node, temp.childNodes[0])
+                return attrNodes
+            }
+        }
         if (placeholder) {
             placeholder.parentNode.replaceChild(node, placeholder)
         } else {
@@ -75,10 +115,10 @@ function generateNodes (doc, ...partials) {
         }
         if (isArray(partial)) {
             carry.concat(partial)
-        } else if (isObject(partial) && isHTMLEle(partial)) {
+        } else if (isObject(partial) && partial instanceof Node) {
             const id = generateId()
             placeholders.push({ id, node: partial })
-            if(~carry[0].indexOf('=')){ //ATTR
+            if(~carry[0].indexOf('=') && !carry[1]){ //ATTR
                 return carry.concat(`"${id}"`)
             } else {
                 return carry.concat(`<${partial.nodeName} id="${id}"></${partial.nodeName}>`)
