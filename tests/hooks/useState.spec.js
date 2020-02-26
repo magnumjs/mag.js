@@ -30,50 +30,21 @@ Click me
 `
 
 
-const Toggle = mag("toggle", props => {
-    const [get, set] = mag.useState(false)
-
-    return {
-        button: {
-            _onClick: ()=>set(!get),
-            _text: get ? "ON" : "OFF"
-        }
-    };
-});
-
-const TogglePrevious = mag("togglep", props => {
-    const [get, set] = mag.useState(true)
-
-    return {
-        button: {
-            _onClick: () =>set(get => !get),
-            _text: get ? "ON" : "OFF"
-        }
-    };
-});
-
-
-//define instance
-const Counter = mag("counter", props => {
-    const [count, setCount] = mag.useState(0)
-
-    return {
-        count,
-        button: {
-            _onClick: ()=>setCount(count + 1)
-        }
-    };
-});
-// Run instance
-//Counter({key: 1})
-
-
-const App = mag("app2", props =>({
-    counters: props.counters.map((name, key) => Counter({name, key}))
-}))
 
 
 test("Toggle useRender", ()=>{
+
+    const Toggle = mag("toggle", props => {
+        const [get, set] = mag.useState(false)
+
+        return {
+            button: {
+                _onClick: ()=>set(!get),
+                _text: get ? "ON" : "OFF"
+            }
+        };
+    });
+
     Toggle()
     expect(document.querySelector("#toggle button")).toBeDefined()
     expect(document.querySelector("#toggle button").textContent).toEqual("OFF")
@@ -83,6 +54,17 @@ test("Toggle useRender", ()=>{
 
 
 test("TogglePrevious useRender", ()=>{
+
+    const TogglePrevious = mag("togglep", props => {
+        const [get, set] = mag.useState(true)
+
+        return {
+            button: {
+                _onClick: () =>set(get => !get),
+                _text: get ? "ON" : "OFF"
+            }
+        };
+    });
     TogglePrevious()
     expect(document.querySelector("#togglep button")).toBeDefined()
     expect(document.querySelector("#togglep button").textContent).toEqual("ON")
@@ -92,6 +74,27 @@ test("TogglePrevious useRender", ()=>{
 
 test("Counter useRender", ()=>{
 
+
+
+
+//define instance
+    const Counter = mag("counter", props => {
+        const [count, setCount] = mag.useState(0)
+
+        return {
+            count,
+            button: {
+                _onClick: ()=>setCount(count + 1)
+            }
+        };
+    });
+// Run instance
+//Counter({key: 1})
+
+
+    const App = mag("app2", props =>({
+        counters: props.counters.map((name, key) => Counter({name, key}))
+    }))
     const counters = ['first', 'second']
     App({counters})
     expect(document.querySelectorAll("counters")).toBeDefined()

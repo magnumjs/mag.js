@@ -12,6 +12,7 @@ const useState = function(initialValue) {
   const render = r;
   const ele = r.element;
   let state = stateMap[name];
+
     if (!r.fake) {
 
         if (!state) {

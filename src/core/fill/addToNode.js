@@ -9,8 +9,10 @@ const mods = getMod()
 const microDraw = getMicroDraw()
 
 const isNotInNode = (node, val) => {
-    if(val[MAGNUM].scid && !node[MAGNUM].children ||
-        val[MAGNUM].scid && node[MAGNUM].children && !~node[MAGNUM].children.indexOf(val[MAGNUM].scid)){
+    var magVals = val[MAGNUM]
+    var magNVals = node[MAGNUM]
+    if(magVals && magVals.scid && !magNVals.children ||
+        magVals && magVals.scid && magNVals.children && !~magNVals.children.indexOf(magVals.scid)){
         return true
     }
 }

@@ -17,26 +17,21 @@ document.body.innerHTML = `
 <div></div>
 </div>
 `
-
-
-const Hello = mag('hello', props => {
-    return {
-        div: {
-            _html: props.children
-        }
-    }
 })
 
-AppLoop = mag("app", props => ({
-    thing: props.items.map((name, key) => Hello({name, key}))
-}))
 
- AppSingle = mag("app", props => ({
-    thing: Hello()
-}))
-})
 
 test("props.children single", ()=>{
+    const Hello = mag('hello', props => {
+        return {
+            div: {
+                _html: props.children
+            }
+        }
+    })
+    AppSingle = mag("app", props => ({
+        thing: Hello()
+    }))
     AppSingle()
     expect(document.querySelector("thing")).toBeDefined()
     expect(document.querySelectorAll("#app > thing").length).toEqual(1)
@@ -45,6 +40,16 @@ test("props.children single", ()=>{
 })
 
 test("props.children loop", ()=>{
+    const Hello = mag('hello', props => {
+        return {
+            div: {
+                _html: props.children
+            }
+        }
+    })
+    AppLoop = mag("app", props => ({
+        thing: props.items.map((name, key) => Hello({name, key}))
+    }))
     AppLoop({items: ["first", "second"]})
     expect(document.querySelector("thing")).toBeDefined()
     expect(document.querySelectorAll("#app thing").length).toEqual(2)

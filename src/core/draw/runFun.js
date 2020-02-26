@@ -1,5 +1,5 @@
 import mag from "../mag-stateless"
-import {MAGNUM, _cprops} from '../constants';
+import {MAGNUM, _cprops, doc} from '../constants';
 import {getId, setId, run} from "../../fill-stateless"
 import {callLCEvent} from "../utils/events"
 import {copy, extend, isObject, isUndefined, isFragment} from "../utils/common"
@@ -13,10 +13,24 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         runId,
         copyOfDefProps = [];
 
+
     var a = function(props) {
 
         var node = idOrNode;
         props = props || {};
+
+        //Auto-generate keys when not defined:
+        if(!fake && !props.key
+            && a.props && !a.props.key
+        ){
+            if(!a.key) {
+                props.key = ++inc
+            }
+            else if(copyOfDefProps[a.key]) {
+                props.key = copyOfDefProps[a.key].key
+            }
+        }
+
         var key;
         if (!isUndefined(props.key)) key = props.key + '-' + a.id;
         var ckey = !isUndefined(props.key) ? props.key + '-' + a.id : a.id;
@@ -36,12 +50,6 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         } else if (key && clones[key]) {
             node = clones[key];
         }
-        // else if(isFragment(node) && node[MAGNUM] && node[MAGNUM].parent){
-        //     //get current children and place in fragment
-        //     const vals = node[MAGNUM]
-        //     node = node[MAGNUM].parent
-        //     node[MAGNUM] = vals
-        // }
 
         if(!isUndefined(a) && props && props.key && a.key && a.key != ckey) {
             callLCEvent('onunload', props, node, a.key);
@@ -70,7 +78,6 @@ var runFun = function(idOrNode, mod, dprops, fake) {
             now = mod(props);
             runId = node[MAGNUM].scid = ckey;
             //NEED? previous props?
-            // last[ckey] = toJson(props);
             var pfillId = getId();
             //TODO: find parent
             if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
@@ -84,25 +91,12 @@ var runFun = function(idOrNode, mod, dprops, fake) {
             //FASTER?
             if(frag && !fake) frag.replaceWith(...frag.childNodes)
 
-            // if(frag && !fake){
-            //     const vals = frag[MAGNUM] || {}
-            //
-            //     var cnodes= Array.from(frag.childNodes)
-            //    cnodes.forEach((item, key)=>{
-            //
-            //         //add key increment each if no key
-            //        item[MAGNUM] = item[MAGNUM] || vals// use merge?
-            //        item[MAGNUM].scid = vals.scid || ckey + "-"+key
-            //        frag.parentNode.appendChild(item)
-            //    })
-            //     frag.remove()
-            // }
+
             callLCEvent('didupdate', props, node, ckey);
             setId(pfillId);
             runId = 0;
             mag._current = _current;
         }
-        // }
 
         return node;
     };

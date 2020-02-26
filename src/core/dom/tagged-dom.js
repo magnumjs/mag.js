@@ -57,6 +57,9 @@ function applyFuncs(funcs, container, attrNodes) {
                 getAttrs(itemNode, attrs, attrNodes);
                 var func = getFunc(item.name)
                 if (func) {
+                    if(!attrs.key && func.props && !func.props.key){
+                        attrs.key = ++counter
+                    }
                     const newNode = func(attrs)
 
                     itemNode.parentNode.replaceChild(newNode, itemNode)
