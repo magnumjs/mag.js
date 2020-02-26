@@ -20,7 +20,7 @@ test("basic whole tag", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div></div>")
 
 })
 

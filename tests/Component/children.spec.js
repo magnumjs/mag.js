@@ -20,7 +20,7 @@ test("tagged closed static attrs", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div></div>")
 
 })
 
@@ -38,7 +38,7 @@ test("tagged open static attrs", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div></div>")
 
 })
 
@@ -56,7 +56,7 @@ test("tagged open static attrs with single child text", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div>Inside</div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div>Inside</div>")
 
 })
 test("tagged open static attrs with single child element", () => {
@@ -73,7 +73,7 @@ test("tagged open static attrs with single child element", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><b>Inside</b></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><b>Inside</b></div>")
 
 })
 
@@ -91,7 +91,7 @@ test("tagged static children", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><b>NAME</b></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><b>NAME</b></div>")
 
 })
 
@@ -112,7 +112,7 @@ test("tagged dynamic child without attr", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p></div>")
 
 })
 
@@ -133,7 +133,7 @@ test("tagged dynamic child with attr", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY123</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY123</p></div>")
 
 })
 
@@ -153,7 +153,7 @@ test("tagged dynamic children tags", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY</p><p>ABOUTEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p><p>ABOUTEY</p></div>")
 
 })
 
@@ -173,7 +173,7 @@ test("tagged dynamic children tags switch", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p></div>")
 
 })
 
@@ -193,7 +193,7 @@ test("tagged dynamic children nodes", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY</p><p>ABOUTEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p><p>ABOUTEY</p></div>")
 
 })
 
@@ -213,7 +213,7 @@ test("tagged dynamic children with parrent attr", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root').innerHTML).toEqual("<div><p>HOMEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p></div>")
 
 })
 

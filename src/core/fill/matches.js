@@ -66,12 +66,13 @@ function isInIsolate(node) {
 
 
         if (
-        getId() &&
+        // getId() &&
         // ((isHTMLEle(getId()) && node[MAGNUM] && node[MAGNUM].scid
         //     && node[MAGNUM].scid != getId()[MAGNUM].scid) || //Stateless
         (node.id && node.id != getId() && items && items.isItem(node.id))
         // )
     ) {
+            console.log(node[MAGNUM], getId()[MAGNUM])
         return 0;
     } else {
         return 1;

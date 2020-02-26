@@ -12,8 +12,8 @@ describe("MagJS template literals", function () {
 
         expect(typeof App).toEqual("object")
         expect(App.childElementCount).toEqual(2)
-        expect(App.nodeType).toEqual(11)
-        expect(App.childNodes.length).toEqual(2)
+        expect(App.nodeType).toEqual(1)
+        expect(App.childNodes.length).toEqual(4)
     })
 
     it("can take children with no root parent or func", () => {

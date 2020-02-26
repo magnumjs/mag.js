@@ -133,7 +133,10 @@ function generateNodes (doc, ...partials) {
     const html = partials.reduce(reducer, []).join('').replace(/^\s*</, "<").replace(/>\s*$/, ">")
 
     // Wrap in temporary container node
-    let container = html2dom(html)
+    let container = html2dom(`<fragment>
+${html}
+</fragment>`)
+
     const attrNodes = applyAttrs(placeholders, container);
     applyFuncs(funcs, container, attrNodes);
 
@@ -156,7 +159,7 @@ function generateNodes (doc, ...partials) {
     } else {
         return container
     }
-    return container
+
 }
 
 var getFunc = name => {
