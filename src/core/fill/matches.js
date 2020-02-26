@@ -72,7 +72,7 @@ function isInIsolate(node) {
         (node.id && node.id != getId() && items && items.isItem(node.id))
         // )
     ) {
-            console.log(node[MAGNUM], getId()[MAGNUM])
+            // console.log(node[MAGNUM], getId()[MAGNUM])
         return 0;
     } else {
         return 1;
