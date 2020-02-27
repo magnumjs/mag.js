@@ -57,7 +57,8 @@ function applyFuncs(funcs, container, attrNodes) {
                 getAttrs(itemNode, attrs, attrNodes);
                 var func = getFunc(item.name)
                 if (func) {
-                    if(!attrs.key && func.props && !func.props.key){
+                    //TODO: Auto add keys to unique instances?
+                    if(!attrs.key && func.props){
                         attrs.key = ++counter
                     }
                     const newNode = func(attrs)

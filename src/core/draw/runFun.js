@@ -19,17 +19,7 @@ var runFun = function(idOrNode, mod, dprops, fake) {
         var node = idOrNode;
         props = props || {};
 
-        //Auto-generate keys when not defined:
-        if(!fake && !props.key
-            && a.props && !a.props.key
-        ){
-            if(!a.key) {
-                props.key = ++inc
-            }
-            else if(copyOfDefProps[a.key]) {
-                props.key = copyOfDefProps[a.key].key
-            }
-        }
+        //TODO: Auto-generate keys when not defined?
 
         var key;
         if (!isUndefined(props.key)) key = props.key + '-' + a.id;
