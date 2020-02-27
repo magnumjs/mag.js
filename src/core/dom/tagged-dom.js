@@ -138,7 +138,7 @@ function generateNodes (doc, ...partials) {
 
     // Wrap in temporary container node
     let container = html2dom(`<fragment>
-${html}
+${html.replace(/\>[\r\n ]+\</g, "><")}
 </fragment>`)
 
     const attrNodes = applyAttrs(placeholders, container);

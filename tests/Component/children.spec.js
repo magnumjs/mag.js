@@ -177,6 +177,29 @@ test("tagged dynamic children tags switch", () => {
 
 })
 
+test("tagged dynamic children tags switch newlines", () => {
+
+    mag.Home = mag(`<p/>`, ()=>"HOMEY")
+    mag.About = mag(`<p/>`, ()=>"ABOUTEY")
+
+    mag.Router =mag(
+        `<div/>`,
+        props =>
+            props.children.map(child =>
+                child.props.path == props.default && child)
+        )
+
+    var App = mag`<Router default="/">
+<Home path="/"/>
+<About path="/about" />
+</Router>`
+
+    mag(App, "root")
+
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p></div>")
+
+})
+
 test("tagged dynamic children nodes", () => {
 
     mag.Home = mag(`<p/>`, ()=>"HOMEY")

@@ -98,7 +98,7 @@ test("tagged key triple", () => {
     })
 
     mag(mag`<App/><App /> <App/>`, "root")
-    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<p>test</p><p>test</p> <p>test</p>")
+    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<p>test</p><p>test</p><p>test</p>")
 })
 
 
@@ -110,9 +110,9 @@ test("tagged key triple - re render", () => {
 
     var Apper = mag("root", () => mag`<App/><App /> <App/>`)
     Apper()
-    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test</p><p>test</p> <p>test</p>")
+    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test</p><p>test</p><p>test</p>")
     Apper()
-    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test</p><p>test</p> <p>test</p>")
+    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test</p><p>test</p><p>test</p>")
 })
 
 
@@ -123,9 +123,9 @@ test("tagged key triple - re render var", () => {
 
     var Apper = mag("root", props => mag`<App num=${props.num}/><App num=${props.num}></App> <App num=${props.num}  />`)
     Apper({num: 1})
-    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test1</p><p>test1</p> <p>test1</p>")
+    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test1</p><p>test1</p><p>test1</p>")
     Apper({num: 2})
-    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test2</p><p>test2</p> <p>test2</p>")
+    expect(document.querySelector('#root').innerHTML.trim()).toEqual("<p>test2</p><p>test2</p><p>test2</p>")
 })
 
 
