@@ -13,6 +13,10 @@ function generateId () {
     return `p-${counter}-${Date.now()}`
 }
 
+function capitalizeFirstLetter(string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
+
 function addChildrenAttrs(itemNode, attrNodes){
 
     if(!itemNode.innerHTML) return {}
@@ -23,6 +27,9 @@ function addChildrenAttrs(itemNode, attrNodes){
 
     const arr = Array.from(frags.childNodes)
     arr.forEach((item, index)=>{
+        if(item.tagName) {
+            arr[index].func = getFunc(capitalizeFirstLetter(item.tagName.toLowerCase()))
+        }
         if(itemNode.childNodes[index][MAGNUM]) {
             arr[index].props = itemNode.childNodes[index][MAGNUM].props
         } else {
