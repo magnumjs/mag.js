@@ -11,7 +11,7 @@ const microDraw = getMicroDraw()
 const isNotInNode = (node, val) => {
     var magVals = val[MAGNUM]
     var magNVals = node[MAGNUM]
-    if(magVals && magVals.scid && !magNVals.children ||
+    if(!magVals || magVals.scid && !magNVals.children ||
         magVals && magVals.scid && magNVals.children && !~magNVals.children.indexOf(magVals.scid)){
         return true
     }
@@ -19,8 +19,13 @@ const isNotInNode = (node, val) => {
 
 export default function addToNode(node, val, onlyAdd) {
 
+    var extra
+    if(val[MAGNUM] && !node[MAGNUM].children){
+        extra =  val[MAGNUM].scid
+    }
+
     //TODO: finer grain diffing, attach once
-    if (val.outerHTML && isCached(node, val.outerHTML, val[MAGNUM]?val[MAGNUM].scid:"")) {
+    if (val.outerHTML && isCached(node, val.outerHTML, extra)) {
         return;
     }
 
