@@ -31,7 +31,7 @@ test("router", ()=>{
 
             return props.children.find(child =>
                 child.props.path == routerVals.current)
-                .func()
+
 
         })
 

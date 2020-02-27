@@ -19,6 +19,12 @@ const isNotInNode = (node, val) => {
 
 export default function addToNode(node, val, onlyAdd) {
 
+
+
+    if(val.func){
+        val = val.func(val.props)
+    }
+
     var extra
     if(val[MAGNUM] && !node[MAGNUM].children){
         extra =  val[MAGNUM].scid
