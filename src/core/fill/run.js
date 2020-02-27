@@ -38,7 +38,7 @@ export default function run(nodeList, data, key) {
     if(!key && isArray(data) && data.length  && data[0] && data[0].nodeType && isFragment(elements[0].parentNode)){
         //loop through all items and attach to Node
         data.forEach((item,key)=>{
-            if(item.nodeType){
+            if(item && item.nodeType){
                 addToNode(elements[0], item, 1)
             } else {
                 if(!elements[key]) {
