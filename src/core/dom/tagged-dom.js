@@ -189,10 +189,16 @@ ${html.replace(/\>[\r\n ]+\</g, "><")}
 
 }
 
-var getFunc = name => {
+var getByName = name => {
     //TODO: case insensitivity, sub like window.todos.CompName
     if(_self[name] && isFunction(_self[name])) return _self[name]
     if(mag[name] && isFunction(mag[name])) return mag[name]
+}
+var getFunc = name => {
+    var func = getByName(name)
+    if(func) return func
+    //check lowercase
+    return getByName(name.toLowerCase())
 }
 
 function taggedTemplateHandler (doc, strings, ...values) {

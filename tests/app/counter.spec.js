@@ -7,6 +7,14 @@ beforeEach(() => {
 })
 
 
+test("tagged names case insensitive", () => {
+
+    mag.sub = mag('<b>', ()=>[])
+
+    mag(mag`<SuB/>`, "root")
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b></b>\n</fragment>")
+})
 
 test("counter function pass as attribute", ()=>{
     mag.Counter=mag('<num/><button>couch me',
