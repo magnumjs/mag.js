@@ -1,5 +1,5 @@
 import {doc, MAGNUM} from '../constants';
-import {isString, isObject, isArray, isHTMLEle, isFunction} from "../utils/common"
+import {isString, isObject, isArray, isFunction} from "../utils/common"
 import mag from "../mag"
 import html2dom from "./html2dom"
 
@@ -21,6 +21,7 @@ function addChildrenAttrs(itemNode, attrNodes){
 
     if(!itemNode.innerHTML) return {}
 
+    //Child as function?
 
     //loop thru to add props
     const frags =  html2dom(itemNode.innerHTML)
@@ -62,14 +63,15 @@ function applyFuncs(funcs, container, attrNodes) {
 
                 const attrs = addChildrenAttrs(itemNode, attrNodes)
                 getAttrs(itemNode, attrs, attrNodes);
+
                 var func = getFunc(item.name)
+
                 if (func) {
                     //TODO: Auto add keys to unique instances?
                     if(!attrs.key && func.props){
                         attrs.key = ++counter
                     }
                     const newNode = func(attrs)
-
                     itemNode.parentNode.replaceChild(newNode, itemNode)
                 }
             })
@@ -85,19 +87,23 @@ function getElementsByText(noder, str, tag = '*') {
 function applyAttrs(placeholders, container) {
     const attrNodes = {}
     // Replace placeholders with real Nodes
-    placeholders.forEach(({id, node}) => {
-        let placeholder = container.querySelector(`${node.nodeName}#${id}`)
-        if(!placeholder){
-            var temp = getElementsByText(container, `"${id}"`)
-            if(temp) {
-                temp.replaceChild(node, temp.childNodes[0])
-                return attrNodes
-            }
-        }
-        if (placeholder) {
-            placeholder.parentNode.replaceChild(node, placeholder)
+    placeholders.forEach(({id, func, node}) => {
+        if(func){
+            attrNodes[id] = func
         } else {
-            attrNodes[id] = node
+            let placeholder = container.querySelector(`${node.nodeName}#${id}`)
+            if (!placeholder) {
+                var temp = getElementsByText(container, `"${id}"`)
+                if (temp) {
+                    temp.replaceChild(node, temp.childNodes[0])
+                    return attrNodes
+                }
+            }
+            if (placeholder) {
+                placeholder.parentNode.replaceChild(node, placeholder)
+            } else {
+                attrNodes[id] = node
+            }
         }
     })
     return attrNodes;
@@ -124,18 +130,28 @@ function generateNodes (doc, ...partials) {
                 //TODO: add quotes to attributes missing them?
             })
         }
-        if (isArray(partial)) {
-            carry.concat(partial)
-        } else if (isObject(partial) && partial instanceof Node) {
+
+            if (isObject(partial) && partial instanceof Node) {
             const id = generateId()
-            placeholders.push({ id, node: partial })
-            if(~carry[0].indexOf('=') && !carry[1]){ //ATTR
+            placeholders.push({id, node: partial})
+            if (~carry[0].indexOf('=') && !carry[1]) { //ATTR
                 return carry.concat(`"${id}"`)
             } else {
                 return carry.concat(`<${partial.nodeName} id="${id}"></${partial.nodeName}>`)
             }
 
-        } else if (partial && typeof partial.item == "function" && typeof partial.length == "number") {
+        } else if(isObject(partial)) {
+
+                if (~carry[0].indexOf('=')) {
+                    const id = generateId()
+                    placeholders.push({id, func: partial})
+                    return carry.concat(`"${id}"`)
+                } else {
+
+                }
+
+        } else
+            if (partial && isFunction(partial.item) && typeof partial.length == "number") {
             return carry.concat(Array.prototype.reduce.call(partial, reducer, []))
         } else {
             return carry.concat(partial)
@@ -174,6 +190,7 @@ ${html.replace(/\>[\r\n ]+\</g, "><")}
 }
 
 var getFunc = name => {
+    //TODO: case insensitivity, sub like window.todos.CompName
     if(_self[name] && isFunction(_self[name])) return _self[name]
     if(mag[name] && isFunction(mag[name])) return mag[name]
 }
