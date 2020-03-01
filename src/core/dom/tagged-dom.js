@@ -21,6 +21,13 @@ function addChildrenAttrs(itemNode, attrNodes){
 
     if(!itemNode.innerHTML) return {}
 
+    if(attrNodes[itemNode.innerHTML]){
+        const val = attrNodes[itemNode.innerHTML]
+        itemNode.innerHTML = ""
+        return {children: val}
+    }
+
+
     //Child as function?
 
     //loop thru to add props
@@ -87,13 +94,16 @@ function getElementsByText(noder, str, tag = '*') {
 function applyAttrs(placeholders, container) {
     const attrNodes = {}
     // Replace placeholders with real Nodes
-    placeholders.forEach(({id, func, node}) => {
-        if(func){
-            attrNodes[id] = func
-        } else {
+    placeholders.forEach(({id, node}) => {
+        // if(func){
+        //     attrNodes[id] = func
+        // } else {
             let placeholder = container.querySelector(`${node.nodeName}#${id}`)
             if (!placeholder) {
                 var temp = getElementsByText(container, `"${id}"`)
+                if(isFunction(node)){
+                    attrNodes[id] = node
+                } else
                 if (temp) {
                     temp.replaceChild(node, temp.childNodes[0])
                     return attrNodes
@@ -104,7 +114,7 @@ function applyAttrs(placeholders, container) {
             } else {
                 attrNodes[id] = node
             }
-        }
+        // }
     })
     return attrNodes;
 }
@@ -142,12 +152,12 @@ function generateNodes (doc, ...partials) {
 
         } else if(isObject(partial)) {
 
+                const id = generateId()
+                placeholders.push({id, node: partial})
                 if (~carry[0].indexOf('=')) {
-                    const id = generateId()
-                    placeholders.push({id, func: partial})
                     return carry.concat(`"${id}"`)
                 } else {
-
+                    return carry.concat(id)
                 }
 
         } else

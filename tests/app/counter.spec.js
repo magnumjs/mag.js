@@ -7,6 +7,28 @@ beforeEach(() => {
 })
 
 
+test("child as func", ()=>{
+
+
+    mag.Sub = mag('<b>', props => {
+        return props.children("test")
+    })
+
+
+    mag(
+        mag`
+    <Sub>${(name) => `
+            <div>${name}</div>
+            `}</Sub>
+    `,
+        'root'
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b><div>test</div></b>\n</fragment>")
+})
+
+
+
 test("tagged names case insensitive", () => {
 
     mag.sub = mag('<b>', ()=>[])
