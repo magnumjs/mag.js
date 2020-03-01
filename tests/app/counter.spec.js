@@ -7,6 +7,43 @@ beforeEach(() => {
 })
 
 
+
+test("render props", ()=>{
+
+    mag.Foo = ({ render: View }) => {
+        mag.View = View
+        return mag`<View name="foo" />`
+    };
+
+    const Hello = ({ name }) => {
+        return `<div>hello from ${name}</div>`
+    };
+
+
+    mag(
+        mag`<Foo render=${Hello} />`,
+        'root'
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<fragment>\n<fragment>\n<div>hello from foo</div>\n</fragment>\n</fragment>\n</fragment>")
+
+})
+
+test("child as func returns string of html", () =>{
+    mag.Foo = ({ children }) => {
+        return children('foo')
+    };
+
+    var handler = name => `<div>hello from ${name}</div>`
+
+    mag(
+        mag`<Foo>${handler}</Foo>`,
+        'root'
+    )
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<fragment>\n<div>hello from foo</div>\n</fragment>\n</fragment>")
+
+})
+
 test("child as func", ()=>{
 
 

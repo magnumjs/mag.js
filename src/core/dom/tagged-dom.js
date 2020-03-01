@@ -1,7 +1,7 @@
 import {doc, MAGNUM} from '../constants';
 import {isString, isObject, isArray, isFunction} from "../utils/common"
 import mag from "../mag"
-import html2dom from "./html2dom"
+import html2dom, {html as convertToHtml} from "./html2dom"
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
@@ -78,7 +78,12 @@ function applyFuncs(funcs, container, attrNodes) {
                     if(!attrs.key && func.props){
                         attrs.key = ++counter
                     }
-                    const newNode = func(attrs)
+                    let newNode = func(attrs)
+
+                    if(!(newNode instanceof Node)){
+                        newNode = dom`${newNode}`
+                    }
+
                     itemNode.parentNode.replaceChild(newNode, itemNode)
                 }
             })
