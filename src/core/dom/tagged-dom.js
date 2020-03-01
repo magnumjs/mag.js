@@ -18,11 +18,11 @@ function capitalizeFirstLetter(string) {
 }
 
 function addChildrenAttrs(itemNode, attrNodes){
+    var inner = itemNode.innerHTML.trim()
+    if(!inner) return {}
 
-    if(!itemNode.innerHTML) return {}
-
-    if(attrNodes[itemNode.innerHTML]){
-        const val = attrNodes[itemNode.innerHTML]
+    if(attrNodes[inner]){
+        const val = attrNodes[inner]
         itemNode.innerHTML = ""
         return {children: val}
     }

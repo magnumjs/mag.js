@@ -10,8 +10,11 @@ beforeEach(() => {
 
 test("render props", ()=>{
 
-    mag.Foo = ({ render: View }) => {
-        mag.View = View
+    mag.Foo = (props) => {
+
+
+        ({ render: mag.View } = props)
+
         return mag`<View name="foo" />`
     };
 
@@ -56,7 +59,8 @@ test("child as func", ()=>{
         mag`
     <Sub>${(name) => `
             <div>${name}</div>
-            `}</Sub>
+            `}
+    </Sub>
     `,
         'root'
     )
