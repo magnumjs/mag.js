@@ -42,7 +42,7 @@ Mag(
 
 [CodePen Examples](https://codepen.io/magnumjs)
 
-[Codesandbox template](https://codesandbox.io/s/883vqwy840)
+[Codesandbox template](https://codesandbox.io/s/magjs-template-q4114)
 
 [Video examples](https://www.youtube.com/playlist?list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
 --
