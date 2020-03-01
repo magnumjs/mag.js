@@ -68,6 +68,28 @@ test("child as func", ()=>{
     expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b><div>test</div></b>\n</fragment>")
 })
 
+test("child as func white space", ()=>{
+
+
+    mag.Sub = mag('<b>', props => {
+        return props.children("test")
+    })
+
+
+    mag(
+        mag`
+    <Sub>
+        ${(name) => `
+            <div>${name}</div>
+            `}
+    </Sub>
+    `,
+        'root'
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b><div>test</div></b>\n</fragment>")
+})
+
 
 
 test("tagged names case insensitive", () => {
@@ -78,6 +100,7 @@ test("tagged names case insensitive", () => {
 
     expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b></b>\n</fragment>")
 })
+
 
 test("counter function pass as attribute", ()=>{
     mag.Counter=mag('<num/><button>couch me',

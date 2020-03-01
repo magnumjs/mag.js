@@ -139,7 +139,7 @@ function generateNodes (doc, ...partials) {
             parts.forEach(part=>{
                 const first = part[0]
                 if(first && first == first.toUpperCase() && first != first.toLowerCase()){
-                    const name = part.split('/')[0].split(' ')[0].replace('>','')
+                    const name = part.split('/')[0].split(' ')[0].replace('>','').trim()
                     funcs.push({name})
                 }
                 //TODO: add quotes to attributes missing them?
