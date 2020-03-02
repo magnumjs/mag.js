@@ -13,11 +13,10 @@ function generateId () {
     return `p-${counter}-${Date.now()}`
 }
 
-function capitalizeFirstLetter(string) {
-    return string[0].toUpperCase() + string.slice(1);
-}
+const getNameByTag = (tag, a) => a.find(item=>item.name.toLowerCase() === tag.toLowerCase())
 
-function addChildrenAttrs(itemNode, attrNodes){
+
+function addChildrenAttrs(itemNode, attrNodes, funcs){
     var inner = itemNode.innerHTML.trim()
     if(!inner) return {}
 
@@ -36,7 +35,9 @@ function addChildrenAttrs(itemNode, attrNodes){
     const arr = Array.from(frags.childNodes)
     arr.forEach((item, index)=>{
         if(item.tagName) {
-            arr[index].func = getFunc(capitalizeFirstLetter(item.tagName.toLowerCase()))
+
+            var tag = getNameByTag(item.tagName, funcs)
+            arr[index].func = getFunc(tag?tag.name:item.tagName)
         }
         if(itemNode.childNodes[index][MAGNUM]) {
             arr[index].props = itemNode.childNodes[index][MAGNUM].props
@@ -73,7 +74,7 @@ function applyFuncs(funcs, container, attrNodes) {
         if (nodes) {
             nodes.forEach(itemNode => {
 
-                const attrs = addChildrenAttrs(itemNode, attrNodes)
+                const attrs = addChildrenAttrs(itemNode, attrNodes, funcs)
                 getAttrs(itemNode, attrs, attrNodes);
 
                 var func = getFunc(item.name)
@@ -146,6 +147,7 @@ function generateNodes (doc, ...partials) {
                 if(first && first == first.toUpperCase() && first != first.toLowerCase()){
                     const name = part.split('/')[0].split(' ')[0].replace('>','').trim()
                     funcs.push({name})
+                    // partial = partial.replace("<"+name,`<${name} displayName="${name}"`)
                 }
                 //TODO: add quotes to attributes missing them?
             })
@@ -164,7 +166,7 @@ function generateNodes (doc, ...partials) {
 
                 const id = generateId()
                 placeholders.push({id, node: partial})
-                if (~carry[0].indexOf('=')) {
+                if (~carry.slice(-1).indexOf('=')) {
                     return carry.concat(`"${id}"`)
                 } else {
                     return carry.concat(id)
@@ -174,7 +176,7 @@ function generateNodes (doc, ...partials) {
             if (partial && isFunction(partial.item) && typeof partial.length == "number") {
             return carry.concat(Array.prototype.reduce.call(partial, reducer, []))
         } else {
-            return carry.concat(partial)
+                return carry.concat(partial)
         }
     }
     const html = partials.reduce(reducer, []).join('').replace(/^\s*</, "<").replace(/>\s*$/, ">")
@@ -212,8 +214,8 @@ ${html.replace(/\>[\r\n ]+\</g, "><")}
 var loopNames = name => {
     if(~name.indexOf('.')){
         var found
-        var names = name.split('.')
-        names.forEach(namer=> {
+        name.split('.')
+        .forEach(namer=> {
             found = found?found[namer]:getFuncByName(namer)
         })
         if(found) return found
@@ -249,7 +251,6 @@ function taggedTemplateHandler (doc, strings, ...values) {
 }
 
 var _self
-var sdoc
 
 function dom(strings, ...values){
     _self = global || this || window

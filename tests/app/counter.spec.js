@@ -7,6 +7,58 @@ beforeEach(() => {
 })
 
 
+
+test("camel case", ()=>{
+    mag.AppCase = mag('<p>', ()=>{})
+
+    mag(mag`<AppCase/>`, "root")
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p></p>\n</fragment>")
+
+})
+
+test("camel case sub", ()=>{
+    mag.AppCase = mag('<p>', ()=>{})
+    mag.AppCase.SubCase = mag('<b>', ()=>{})
+
+    mag(mag`<AppCase.SubCase/>`, "root")
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b></b>\n</fragment>")
+
+})
+
+test("camel case sub child", ()=>{
+    mag.AppCase = mag('<p><children/>', props=>props)
+    mag.AppCase.SubCase = mag('<b>', ()=>{})
+
+    mag(mag`<AppCase><AppCase.SubCase></AppCase.SubCase></AppCase>`, "root")
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p><children><b></b></children></p>\n</fragment>")
+
+})
+
+test("inner child sub comps", ()=>{
+    mag.App = mag(
+        `<h1>im in a <type/> component now!</h1>`,
+        props => {
+            // javascript stuff goes here
+
+            return {type: props.type}
+        })
+
+    mag.App.Sub = mag('<b><children/>', props=>props)
+    mag.App.Sub.InnerChild = mag('<i>', ()=>"I'm tiny ...")
+
+    mag(
+        mag`
+    <App type=fancy/>
+    <App.Sub><App.Sub.InnerChild/></App.Sub>
+    <App/>
+  `,
+        document.getElementById('root')
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<h1>im in a <type>fancy</type> component now!</h1><b><children><i>I'm tiny ...</i></children></b><h1>im in a <type></type> component now!</h1>\n</fragment>")
+
+})
+
 test("tagged func with sub prop", ()=>{
     mag.App = {}
     mag.App.Sub = mag('<p><num1></num1><num2/><num3 >', props=>props)
@@ -82,7 +134,7 @@ test("child as func returns string of html", () =>{
     var handler = name => `<div>hello from ${name}</div>`
 
     mag(
-        mag`<Foo>${handler}</Foo>`,
+        mag`<Foo attr="test">${handler}</Foo>`,
         'root'
     )
     expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<fragment>\n<div>hello from foo</div>\n</fragment>\n</fragment>")

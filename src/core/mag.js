@@ -18,7 +18,7 @@ mag._cprops = _cprops
 // set document
 mag.doc = doc;
 
-
+global.Mag = mag
 export {_cprops, rafBounceIds, doc}
 
 export default mag;
