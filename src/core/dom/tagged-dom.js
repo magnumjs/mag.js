@@ -49,13 +49,18 @@ function addChildrenAttrs(itemNode, attrNodes){
 
 }
 
+const convertToNum = str => {
+    if(!!str.trim() && !isNaN(str)) return +str;
+    return str
+}
+
 function getAttrs(itemNode, attrs, attrNodes) {
     if(itemNode.attributes) {
         for (var i = 0, size = itemNode.attributes.length; i < size; i++) {
             const attrib = itemNode.attributes[i];
             //TODO: attributes that are Nodes?
             //children?
-            attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : attrib.value
+            attrs[attrib.name] = attrNodes[attrib.value] ? attrNodes[attrib.value] : convertToNum(attrib.value)
         }
     }
 }
@@ -63,7 +68,7 @@ function getAttrs(itemNode, attrs, attrNodes) {
 function applyFuncs(funcs, container, attrNodes) {
     funcs.forEach(item => {
 
-        const nodes = container.querySelectorAll(item.name)
+        const nodes = container.querySelectorAll(item.name.replace('.','\\.'))
 
         if (nodes) {
             nodes.forEach(itemNode => {
@@ -204,12 +209,30 @@ ${html.replace(/\>[\r\n ]+\</g, "><")}
 
 }
 
+var loopNames = name => {
+    if(~name.indexOf('.')){
+        var found
+        var names = name.split('.')
+        names.forEach(namer=> {
+            found = found?found[namer]:getFuncByName(namer)
+        })
+        if(found) return found
+    }
+    return getFuncByName(name)
+}
+
+var getFunc = name => {
+    var func = loopNames(name)
+    if(func) return func
+    //TODO: throw error?
+}
+
 var getByName = name => {
     //TODO: case insensitivity, sub like window.todos.CompName
-    if(_self[name] && isFunction(_self[name])) return _self[name]
-    if(mag[name] && isFunction(mag[name])) return mag[name]
+    if(_self[name] && isObject(_self[name])) return _self[name]
+    if(mag[name] && isObject(mag[name])) return mag[name]
 }
-var getFunc = name => {
+var getFuncByName = name => {
     var func = getByName(name)
     if(func) return func
     //check lowercase

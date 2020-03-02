@@ -7,6 +7,48 @@ beforeEach(() => {
 })
 
 
+test("tagged func with sub prop", ()=>{
+    mag.App = {}
+    mag.App.Sub = mag('<p><num1></num1><num2/><num3 >', props=>props)
+    mag(
+        mag`<App.Sub num1=${1} num2=2  num3="33.23"/>`,
+        'root'
+    )
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p><num1>1</num1><num2>2</num2><num3>33.23</num3></p>\n</fragment>")
+})
+
+test("tagged func with sub prop child", ()=>{
+    mag.Test = mag('<b>', ()=>{})
+    mag.Test.SubCut = mag('<i>', ()=>{})
+    mag.App = {}
+    mag.App.Sub = mag('<p><children/><num1></num1><num2/><num3 >', props=>props)
+    mag(
+        mag`<App.Sub num1=${1} num2=2  num3="33.23"><Test.SubCut/></App.Sub>`,
+        'root'
+    )
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p><children><i></i></children><num1>1</num1><num2>2</num2><num3>33.23</num3></p>\n</fragment>")
+})
+
+test("tagged func with sub prop", ()=>{
+    mag.App = mag('<p>', ()=>{})
+    mag.App.Sub = mag('<p><num1></num1><num2/><num3 >', props=>props)
+    mag(
+        mag`<App.Sub num1=${1} num2=2  num3="33.23"/>`,
+        'root'
+    )
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p><num1>1</num1><num2>2</num2><num3>33.23</num3></p>\n</fragment>")
+})
+
+test("tagged number attr", ()=>{
+
+    mag.App = mag('<p><num1></num1><num2/><num3 >', props=>props)
+    mag(
+        mag`<App num1=${1} num2=2  num3="33.23"/>`,
+        'root'
+    )
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<p><num1>1</num1><num2>2</num2><num3>33.23</num3></p>\n</fragment>")
+})
+
 
 test("render props", ()=>{
 
@@ -108,7 +150,7 @@ test("counter function pass as attribute", ()=>{
 
         return {
             num,
-            onclick:e=> handler(++num)
+            onclick:e=> handler(num+ 1)
         }
     })
 
