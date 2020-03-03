@@ -236,7 +236,7 @@ test("tagged dynamic children with parrent attr", () => {
 
     mag(App, "root")
 
-    expect(document.querySelector('#root fragment').innerHTML.trim()).toEqual("<div><p>HOMEY</p></div>")
+    expect(document.querySelector('#root fragment').innerHTML).toEqual("\n<div><p>HOMEY</p></div>\n")
 
 })
 

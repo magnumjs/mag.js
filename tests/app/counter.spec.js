@@ -59,6 +59,105 @@ test("inner child sub comps", ()=>{
 
 })
 
+test("inner child sub comps", ()=>{
+    mag.App = mag(
+        `<h1>im in a <type/> component now!</h1><children/>`,
+        props => {
+            // javascript stuff goes here
+
+            return {...props}
+        })
+
+    mag.App.Sub = mag('<b><children/>', props=>props)
+    mag.App.Sub.InnerChild = mag('<i>', ()=>"I'm tiny ...")
+
+    mag(
+        mag`<App.Sub>Tester</App.Sub>`,
+        document.getElementById('root')
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<b><children>Tester</children></b>\n</fragment>")
+
+})
+
+test("inner child sub comps", ()=>{
+    mag.App = mag(
+        `<h1>im in a <type/> component now!</h1><children/>`,
+        props => {
+            // javascript stuff goes here
+
+            return {...props}
+        })
+
+    mag.App.Sub = mag('<b><children/>', props=>props)
+    mag.App.Sub.InnerChild = mag('<i>', ()=>"I'm tiny ...")
+
+    mag(
+        mag`
+<App>
+<App.Sub>Tester</App.Sub>
+</App>`,
+        document.getElementById('root')
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<fragment><h1>im in a <type></type> component now!</h1><children><b><children>Tester</children></b></children></fragment>\n</fragment>")
+
+})
+
+test("inner child sub comps", ()=>{
+    mag.App = mag(
+        `<h1>im in a <type/> component now!</h1><children/>`,
+        props => {
+            // javascript stuff goes here
+
+            return {...props}
+        })
+
+    mag.App.Sub = mag('<b><children/>', props=>props)
+    mag.App.Sub.InnerChild = mag('<i>', ()=>"I'm tiny ...")
+
+    mag(
+        mag`
+<App>
+<App.Sub>
+<App.Sub.InnerChild />
+</App.Sub>
+</App>`,
+        document.getElementById('root')
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual("<fragment>\n<fragment><h1>im in a <type></type> component now!</h1><children><b><children><i>I'm tiny ...</i></children></b></children></fragment>\n</fragment>")
+
+})
+
+test("inner child sub comps children", ()=>{
+    mag.App = mag(
+        `<h1>I'm in a <type/> component now!</h1><children/>`,
+        props => {
+            // javascript stuff goes here
+            return {...props}
+        })
+
+    mag.App.Sub = mag('<b>', ({children})=> children)
+    mag.App.Sub.InnerChild = mag('<i>', ()=>"I'm inside ...")
+
+    mag(
+        mag`
+          <App>
+            <App.Sub>
+              <App.Sub.InnerChild/>
+            </App.Sub>
+          </App>
+        `,
+        document.getElementById('root')
+    )
+
+    expect(document.querySelector('#root').innerHTML).toEqual(`<fragment>
+<fragment><h1>I'm in a <type></type> component now!</h1><children><b><i>I'm inside ...</i></b></children></fragment>
+</fragment>`)
+
+})
+
 test("tagged func with sub prop", ()=>{
     mag.App = {}
     mag.App.Sub = mag('<p><num1></num1><num2/><num3 >', props=>props)

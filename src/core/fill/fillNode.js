@@ -47,7 +47,7 @@ export default function fillNode(node, data, p, key) {
         data=found
     }
 
-    if (data && isHTMLEle(data) || isFragment(data)) {
+    if (data && data.nodeType) {
         addToNode(node, data);
         return;
     }

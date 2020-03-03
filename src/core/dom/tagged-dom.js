@@ -1,7 +1,7 @@
 import {doc, MAGNUM} from '../constants';
-import {isString, isObject, isArray, isFunction} from "../utils/common"
+import {isString, isObject, isFunction} from "../utils/common"
 import mag from "../mag"
-import html2dom, {html as convertToHtml} from "./html2dom"
+import html2dom from "./html2dom"
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
@@ -34,15 +34,17 @@ function addChildrenAttrs(itemNode, attrNodes, funcs){
 
     const arr = Array.from(frags.childNodes)
     arr.forEach((item, index)=>{
-        if(item.tagName) {
+        arr[index].props = {}
 
+        if(item.tagName) {
+            arr[index].props = addChildrenAttrs(itemNode.childNodes[index], attrNodes, funcs)
             var tag = getNameByTag(item.tagName, funcs)
             arr[index].func = getFunc(tag?tag.name:item.tagName)
         }
         if(itemNode.childNodes[index][MAGNUM]) {
             arr[index].props = itemNode.childNodes[index][MAGNUM].props
         } else {
-            arr[index].props = {}
+            // arr[index].props = {}
             getAttrs(itemNode.childNodes[index], arr[index].props, attrNodes)
         }
     })
@@ -69,7 +71,7 @@ function getAttrs(itemNode, attrs, attrNodes) {
 function applyFuncs(funcs, container, attrNodes) {
     funcs.forEach(item => {
 
-        const nodes = container.querySelectorAll(item.name.replace('.','\\.'))
+        const nodes = container.querySelectorAll(item.name.replace(/\./g,'\\.'))
 
         if (nodes) {
             nodes.forEach(itemNode => {
@@ -106,26 +108,23 @@ function applyAttrs(placeholders, container) {
     const attrNodes = {}
     // Replace placeholders with real Nodes
     placeholders.forEach(({id, node}) => {
-        // if(func){
-        //     attrNodes[id] = func
-        // } else {
-            let placeholder = container.querySelector(`${node.nodeName}#${id}`)
-            if (!placeholder) {
-                var temp = getElementsByText(container, `"${id}"`)
-                if(isFunction(node)){
-                    attrNodes[id] = node
-                } else
-                if (temp) {
-                    temp.replaceChild(node, temp.childNodes[0])
-                    return attrNodes
-                }
-            }
-            if (placeholder) {
-                placeholder.parentNode.replaceChild(node, placeholder)
-            } else {
+
+        let placeholder = container.querySelector(`${node.nodeName}#${id}`)
+        if (!placeholder) {
+            var temp = getElementsByText(container, `"${id}"`)
+            if(isFunction(node)){
                 attrNodes[id] = node
+            } else
+            if (temp) {
+                temp.replaceChild(node, temp.childNodes[0])
+                return attrNodes
             }
-        // }
+        }
+        if (placeholder) {
+            placeholder.parentNode.replaceChild(node, placeholder)
+        } else {
+            attrNodes[id] = node
+        }
     })
     return attrNodes;
 }
@@ -145,15 +144,14 @@ function generateNodes (doc, ...partials) {
             parts.forEach(part=>{
                 const first = part[0]
                 if(first && first == first.toUpperCase() && first != first.toLowerCase()){
-                    const name = part.split('/')[0].split(' ')[0].replace('>','').trim()
+                    const name = part.split('>')[0].split(' ')[0].replace(/>|\//,'').trim()
                     funcs.push({name})
-                    // partial = partial.replace("<"+name,`<${name} displayName="${name}"`)
                 }
                 //TODO: add quotes to attributes missing them?
             })
         }
 
-            if (isObject(partial) && partial instanceof Node) {
+        if (isObject(partial) && partial instanceof Node) {
             const id = generateId()
             placeholders.push({id, node: partial})
             if (~carry[0].indexOf('=') && !carry[1]) { //ATTR
@@ -164,27 +162,25 @@ function generateNodes (doc, ...partials) {
 
         } else if(isObject(partial)) {
 
-                const id = generateId()
-                placeholders.push({id, node: partial})
-                if (~carry.slice(-1).indexOf('=')) {
-                    return carry.concat(`"${id}"`)
-                } else {
-                    return carry.concat(id)
-                }
+            const id = generateId()
+            placeholders.push({id, node: partial})
+            if (~carry.slice(-1).indexOf('=')) {
+                return carry.concat(`"${id}"`)
+            } else {
+                return carry.concat(id)
+            }
 
         } else
-            if (partial && isFunction(partial.item) && typeof partial.length == "number") {
+        if (partial && isFunction(partial.item) && typeof partial.length == "number") {
             return carry.concat(Array.prototype.reduce.call(partial, reducer, []))
         } else {
-                return carry.concat(partial)
+            return carry.concat(partial)
         }
     }
     const html = partials.reduce(reducer, []).join('').replace(/^\s*</, "<").replace(/>\s*$/, ">")
 
     // Wrap in temporary container node
-    let container = html2dom(`<fragment>
-${html.replace(/\>[\r\n ]+\</g, "><")}
-</fragment>`)
+    let container = html2dom(`<fragment>\n${html.replace(/\>[\r\n ]+\</g, "><")}\n</fragment>`)
 
     const attrNodes = applyAttrs(placeholders, container);
     applyFuncs(funcs, container, attrNodes);
@@ -215,9 +211,9 @@ var loopNames = name => {
     if(~name.indexOf('.')){
         var found
         name.split('.')
-        .forEach(namer=> {
-            found = found?found[namer]:getFuncByName(namer)
-        })
+            .forEach(namer=> {
+                found = found?found[namer]:getFuncByName(namer)
+            })
         if(found) return found
     }
     return getFuncByName(name)
