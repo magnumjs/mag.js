@@ -1,9 +1,16 @@
 import proxy from './mag-proxy';
 import {MAGNUM, ignorekeys} from './core/constants';
-import {merge, copy, toJson, isFunction, isUndefined, isObject} from "./core/utils/common"
-import {items} from "./utils"
-import getNode from "./core/dom/getNode"
-import attachToArgs from "./render"
+import {
+  merge,
+  copy,
+  toJson,
+  isFunction,
+  isUndefined,
+  isObject
+} from './core/utils/common';
+import {items} from './utils';
+import getNode from './core/dom/getNode';
+import attachToArgs from './render';
 
 var modules = [],
   controllers = [];
@@ -13,43 +20,43 @@ var mod = {
   cache: []
 };
 
-let runningViewInstance = mod.runningViewInstance
-const innerMods = mod.innerMods = []
+let runningViewInstance = mod.runningViewInstance;
+const innerMods = (mod.innerMods = []);
 
-const getState = mod.getState = function(index) {
+const getState = (mod.getState = function(index) {
   return modules[index][1];
-};
+});
 mod.setState = function(index, state) {
   modules[index][1] = state;
 };
 mod.getView = function(index) {
   return modules[index][0];
 };
-const getProps = mod.getProps = function(index) {
+const getProps = (mod.getProps = function(index) {
   return modules[index] && modules[index][2];
-};
+});
 mod.setProps = function(index, props) {
   return (modules[index][2] = props);
 };
-const remove = mod.remove = function(key) {
+const remove = (mod.remove = function(key) {
   //remove mod completely
   if (modules[key]) modules[key] = 0;
-};
-const getModId = mod.getId = function(index) {
-  return modules[index] && modules[index][3]
-};
-const exists = mod.exists = function(index) {
-  return isObject(modules[index])
-};
-const setFrameId = mod.setFrameId = function(index, fid) {
+});
+const getModId = (mod.getId = function(index) {
+  return modules[index] && modules[index][3];
+});
+const exists = (mod.exists = function(index) {
+  return isObject(modules[index]);
+});
+const setFrameId = (mod.setFrameId = function(index, fid) {
   modules[index][4] = fid;
-};
+});
 mod.getFrameId = function(index) {
   return modules[index][4];
 };
-const getMod = mod.getMod = function(index) {
+const getMod = (mod.getMod = function(index) {
   return modules[index] && modules[index][5];
-};
+});
 
 var bindMethods = (obj, context) => {
   context = context || obj;
@@ -70,10 +77,7 @@ const submodule = function(id, index, module, props) {
     // new call to existing
     // update props, merge with existing if same key
     if (props.key && props.key == mod.getProps(index).key) {
-      mod.setProps(
-        index,
-        copy(merge(mod.getProps(index), props))
-      );
+      mod.setProps(index, copy(merge(mod.getProps(index), props)));
     } else {
       mod.setProps(index, props);
     }
@@ -175,8 +179,8 @@ function findMissing(change, element) {
           }
         }
       } else if (
-          isUndefined(change.oldValue) &&
-          isUndefined(change.object[change.name]) &&
+        isUndefined(change.oldValue) &&
+        isUndefined(change.object[change.name]) &&
         item &&
         !~['submit', 'button'].indexOf(item.type) &&
         item.childNodes.length == 1 &&
@@ -195,7 +199,7 @@ function findMissing(change, element) {
     if (tmp.length === 0) return;
     else if (greedy) return tmp;
     else {
-      return tmp[0] && !isUndefined (tmp[0]._value)
+      return tmp[0] && !isUndefined(tmp[0]._value)
         ? tmp[0]._value
         : tmp[0] && tmp[0]._text
         ? tmp[0]._text
@@ -291,20 +295,20 @@ function getController(ctrl, index, id) {
   return new ctrl(proxy({}, handler.bind({}, 'state', index)));
 }
 
-const iscached = mod.iscached = function(key) {
+const iscached = (mod.iscached = function(key) {
   //TODO: shallow equals
   var data = toJson([mod.getProps(key), mod.getState(key)]);
   if (key in mod.cache && mod.cache[key] == data) {
     return true;
   }
   mod.cache[key] = data;
-};
+});
 
-const clear = mod.clear = function(key) {
+const clear = (mod.clear = function(key) {
   if (~key && mod.cache[key]) {
     mod.cache.splice(key, 1);
   }
-};
+});
 
 mod.cached = [];
 const callView = function(node, index) {
@@ -324,28 +328,28 @@ const callView = function(node, index) {
 };
 
 const isValidId = function(nodeId, idInstance) {
-    // verify idInstance
-    if (idInstance < 0 || idInstance != items.getItem(nodeId)) {
-        // if original id is a match
-        if (nodeId == getModId(idInstance)) return true;
-        return false;
-    }
-    return true;
+  // verify idInstance
+  if (idInstance < 0 || idInstance != items.getItem(nodeId)) {
+    // if original id is a match
+    if (nodeId == getModId(idInstance)) return true;
+    return false;
+  }
+  return true;
 };
 
 export {
-    isValidId,
-    callView,
-    iscached,
-    setFrameId,
-    runningViewInstance,
-    exists,
-    getProps,
-    getMod,
-    clear,
-    submodule,
-    remove,
-    getModId,
-    getState,
-    innerMods
-}
+  isValidId,
+  callView,
+  iscached,
+  setFrameId,
+  runningViewInstance,
+  exists,
+  getProps,
+  getMod,
+  clear,
+  submodule,
+  remove,
+  getModId,
+  getState,
+  innerMods
+};

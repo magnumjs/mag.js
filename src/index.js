@@ -2,163 +2,156 @@ import mag from './mag';
 import {useEffect} from './hookins/mag.useEffect';
 import {useState} from './hookins/mag.useState';
 
-
-
-
 const Things = mag(`<i>Stuff - <tag></tag></i>`, props => {
-    return {tag: props.tag}
-})
+  return {tag: props.tag};
+});
 
 const Nav = mag(
-    `<nav><ul><li>Home</li><li>Dash</li></ul><children></children><p><active></active></p></nav>`,
-    ({handler, active, children}) => {
-
-        return {
-            children,
-            active,
-            $li: {onClick: e=> {
-                handler(e.target.textContent)
-            }}
+  `<nav><ul><li>Home</li><li>Dash</li></ul><children></children><p><active></active></p></nav>`,
+  ({handler, active, children}) => {
+    return {
+      children,
+      active,
+      $li: {
+        onClick: e => {
+          handler(e.target.textContent);
         }
-    })
+      }
+    };
+  }
+);
 
 const App3 = mag(
-    `<div><h1>Hi</h1><div><things></things></div></div>`,
-    ({active="home"}) =>{
-
-        return {
-            things: Things({tag: active}),
-            div: Nav({active, handler: active => {
-                App3({active})
-            }})
+  `<div><h1>Hi</h1><div><things></things></div></div>`,
+  ({active = 'home'}) => {
+    return {
+      things: Things({tag: active}),
+      div: Nav({
+        active,
+        handler: active => {
+          App3({active});
         }
-    })
+      })
+    };
+  }
+);
 
-mag(App3(), "root3")
-
-
+mag(App3(), 'root3');
 
 const WarningBanner = mag(
-    `<div class="warning">
+  `<div class="warning">
       Warning!
     </div>`,
-    props => {
-        if (!props.warn) {
-            return null;
-        }
+  props => {
+    if (!props.warn) {
+      return null;
+    }
 
-        return []
-    })
+    return [];
+  }
+);
 
 const Page = mag(
-    `
+  `
       <WarningBanner></WarningBanner>
       <button></button>
    `,
-    props => {
+  props => {
+    const [state, setState] = mag.useState({showWarning: true});
 
-        const [state, setState] = mag.useState({showWarning: true})
+    const handleToggleClick = () => {
+      setState(prevState => ({
+        showWarning: !prevState.showWarning
+      }));
+    };
 
-        const handleToggleClick = () => {
-            setState(prevState => ({
-                showWarning: !prevState.showWarning
-            }))
-        }
+    return {
+      WarningBanner: WarningBanner({warn: state.showWarning}),
+      button: {
+        _text: state.showWarning ? 'Hide' : 'Show',
+        onClick: handleToggleClick
+      }
+    };
+  }
+);
 
-        return {
-            WarningBanner: WarningBanner({warn: state.showWarning}),
-            button: {
-                _text: state.showWarning ? 'Hide' : 'Show',
-                onClick: handleToggleClick
-            }
-        }
-    })
+mag(Page(), document.getElementById('warn'));
 
-mag(
-    Page(),
-    document.getElementById('warn')
-)
+window.Apper = mag(`<span>HI <test/></span>`, props => props);
 
-
-window.Apper = mag(`<span>HI <test/></span>`, props=>(props))
-
-const test=123
+const test = 123;
 const ele = mag`<div>
     <Apper test=${test}></Apper>
     <Apper test=${test}></Apper>
-  </div>`
+  </div>`;
 
-mag(ele, 'apper')
-
+mag(ele, 'apper');
 
 const FancyBorder = mag(
-    `<div>
+  `<div>
       <f-children />
     </div>`,
-    props => {
+  props => {
     return {
-        _class: "FancyBorder FancyBorder-"+ props.color,
-        "f-children": props.children
-    }
-})
+      _class: 'FancyBorder FancyBorder-' + props.color,
+      'f-children': props.children
+    };
+  }
+);
 
 const Dialog = mag(
-    `<FancyBorder>
+  `<FancyBorder>
       <h1 class="Dialog-title"></h1>
       <p class="Dialog-message"></p>
       <d-children></d-children>
     </FancyBorder>`,
-    props => {
+  props => {
     return {
-        _html: FancyBorder({color: "blue"}),
-        "d-children": props.children,
-        "Dialog-title": props.title,
-        "Dialog-message": props.message,
-    }
-})
+      _html: FancyBorder({color: 'blue'}),
+      'd-children': props.children,
+      'Dialog-title': props.title,
+      'Dialog-message': props.message
+    };
+  }
+);
 
 const SignUpDialog = mag(
-    `<Dialog open>
+  `<Dialog open>
     <input />
     <button>
     Sign Me Up!
     </button>
   </Dialog>`,
-    ({login =''}) => {
-
+  ({login = ''}) => {
     const handleChange = e => {
-        SignUpDialog({login: e.target.value});
-    }
+      SignUpDialog({login: e.target.value});
+    };
 
-    const handleSignUp = () =>{
-        alert(`Welcome aboard, ${login}!`);
-    }
+    const handleSignUp = () => {
+      alert(`Welcome aboard, ${login}!`);
+    };
 
     return {
-        _html : Dialog({
-            title:"Mars Exploration Program",
-            message:"How should we refer to you?"
-        }),
-        input:{onChange: handleChange},
-        button: {onClick: handleSignUp}
-    }
-})
+      _html: Dialog({
+        title: 'Mars Exploration Program',
+        message: 'How should we refer to you?'
+      }),
+      input: {onChange: handleChange},
+      button: {onClick: handleSignUp}
+    };
+  }
+);
 
-mag(
-    SignUpDialog(),
-    document.getElementById('diag-root3')
-)
+mag(SignUpDialog(), document.getElementById('diag-root3'));
 
-
-
-
-const FancyBorder1=mag(
-    `<div class="fancy">
+const FancyBorder1 = mag(
+  `<div class="fancy">
 <fchildren></fchildren>
 </div>`,
-    ({children: fchildren})=>({fchildren})
-)
-const Dialog1=mag(`
+  ({children: fchildren}) => ({fchildren})
+);
+const Dialog1 = mag(
+  `
 <div>
 <FancyBorder>
 <div>
@@ -168,14 +161,15 @@ const Dialog1=mag(`
 </FancyBorder>
 </div>
 `,
-    props=>({
-        FancyBorder:FancyBorder1(),
-        title: props.title,
-        children:props.children
-    })
-)
+  props => ({
+    FancyBorder: FancyBorder1(),
+    title: props.title,
+    children: props.children
+  })
+);
 
-const SignupDialog1=mag(`
+const SignupDialog1 = mag(
+  `
 <div>
 <div class="dialog">
 <div>
@@ -187,35 +181,34 @@ const SignupDialog1=mag(`
 </div>
 </div>
 `,
-    props=>{
-        return{
-            dialog: Dialog1({title: props.name}),
-            name:props.name,
-            input: {
-                _value: props.name,
-                oninput: e => SignupDialog1({
-                    name: e.target.value
-                })
-            }}
-    }
-)
+  props => {
+    return {
+      dialog: Dialog1({title: props.name}),
+      name: props.name,
+      input: {
+        _value: props.name,
+        oninput: e =>
+          SignupDialog1({
+            name: e.target.value
+          })
+      }
+    };
+  }
+);
 
 //Define:
-const App1 = mag(
-    'diag-root1',
-    props => SignupDialog1()
-)
+const App1 = mag('diag-root1', props => SignupDialog1());
 //Run:
-App1()
+App1();
 
-
-const FancyBorder2=mag(
-    `<div class="fancy" style="padding:20px;border: solid 10px blue;">
+const FancyBorder2 = mag(
+  `<div class="fancy" style="padding:20px;border: solid 10px blue;">
 <childs></childs>
 </div>`,
-    ({children})=>({childs: children})
-)
-const Dialog2=mag(`
+  ({children}) => ({childs: children})
+);
+const Dialog2 = mag(
+  `
 <FancyBorder>
 TOP
 <children></children>
@@ -223,56 +216,54 @@ TOP
 BOT
 </FancyBorder>
 `,
-    props=>({
-       _html: FancyBorder2(),
-        title: props.title,
-        children:props.children
-    })
-)
+  props => ({
+    _html: FancyBorder2(),
+    title: props.title,
+    children: props.children
+  })
+);
 
-const SignupDialog2=mag(`
+const SignupDialog2 = mag(
+  `
 <div class="dialog">
 hello.. <name></name>
 <br>
 <input placeholder="your name" />
 </div>
 `,
-    props=>{
-        return{
-            _html: Dialog2({title: props.name}),
-            name:props.name,
-            input: {
-                _value: props.name,
-                oninput: e => SignupDialog2({
-                    name: e.target.value
-                })
-            }}
-    }
-)
+  props => {
+    return {
+      _html: Dialog2({title: props.name}),
+      name: props.name,
+      input: {
+        _value: props.name,
+        oninput: e =>
+          SignupDialog2({
+            name: e.target.value
+          })
+      }
+    };
+  }
+);
 
 //Define:
-const App2 = mag(
-    'diag-root2',
-    props => SignupDialog2()
-)
+const App2 = mag('diag-root2', props => SignupDialog2());
 //Run:
-App2()
+App2();
 
-
-
-mag.module("mod",{
-    view: function(state){
-        state.h1 = 123
-    }
-})
+mag.module('mod', {
+  view: function(state) {
+    state.h1 = 123;
+  }
+});
 
 const Mod = mag(`<div><h2></h2></div>`, {
-    view: function(state, props){
-        state.h2 = 'MIKE'
-    }
-})
+  view: function(state, props) {
+    state.h2 = 'MIKE';
+  }
+});
 
-mag(Mod({name: "mike"}), 'mod2')
+mag(Mod({name: 'mike'}), 'mod2');
 
 const CounterHTML = `
 <div class="counter">
@@ -303,55 +294,48 @@ const CounterApp = mag('counters', props =>
 
 CounterApp({counters: ['first', 'second']});
 
-
 const TimerHTML = `
 <div><key></key>The count is: <count/></div>
-`
+`;
 const Timer = mag(TimerHTML, props => {
-    const [count, setCount] = mag.useState(0)
-    console.log("render", count, props)
+  const [count, setCount] = mag.useState(0);
+  console.log('render', count, props);
 
-    mag.useEffect(() => {
-        const intervalId = setInterval(() => {
-            //let's pass a function instead
-            //the argument is the current state
-            setCount(count => {
-                console.log("inter", count, props)
+  mag.useEffect(() => {
+    const intervalId = setInterval(() => {
+      //let's pass a function instead
+      //the argument is the current state
+      setCount(count => {
+        console.log('inter', count, props);
 
-                return count + 1
-            })
-        }, 1000)
-        return () => {
-            console.log("destory RESETER")
-            clearInterval(intervalId)
-        }
-    }, [])
+        return count + 1;
+      });
+    }, 1000);
+    return () => {
+      console.log('destory RESETER');
+      clearInterval(intervalId);
+    };
+  }, []);
 
-    return {count, key: props.key}
-})
+  return {count, key: props.key};
+});
 
-const Reset = mag(`<button>Reset Code</button>`, () => ({onclick: e=>{
-    App({reset: 1})
-}}))
+const Reset = mag(`<button>Reset Code</button>`, () => ({
+  onclick: e => {
+    App({reset: 1});
+  }
+}));
 
-mag(Reset(), "reset")
+mag(Reset(), 'reset');
 
 let inc = 0;
-const TimerFactory = reset => reset?Timer({key: ++inc}): Timer()
+const TimerFactory = reset => (reset ? Timer({key: ++inc}) : Timer());
 
 //Define:
-const App = mag(
-    'root',
-    props => ({put: TimerFactory(props.reset)})
-)
+const App = mag('root', props => ({put: TimerFactory(props.reset)}));
 
 //Mount:
-App()
-
-
-
-
-
+App();
 
 const func = () => {
   console.log('onload');
@@ -363,7 +347,7 @@ const func = () => {
 
 const Naver = mag(`<div>The count is: <count/></div>`, props => {
   const [count, setCount] = mag.useState(0);
-    console.log('render NAVER', count);
+  console.log('render NAVER', count);
 
   mag.useEffect(() => {
     console.log('onload');
@@ -397,43 +381,42 @@ const TimerApp = mag(
 
 mag(TimerApp(), 'timer');
 
-
 const ResetTimerHTML = `
 <div>Resetter: The count is: <count/></div>
-`
+`;
 const ResetTimerComp = mag(ResetTimerHTML, props => {
-    const [count, setCount] = mag.useState(0)
-    console.log("render", count)
+  const [count, setCount] = mag.useState(0);
+  console.log('render', count);
 
-    mag.useEffect(() => {
-        const intervalId = setInterval(() => {
-            //let's pass a function instead
-            //the argument is the current state
-            setCount(count => count + 1)
-        }, 5000)
-        return () => {
-            console.log("destory")
-            setCount(0)
-            clearInterval(intervalId)
-        }
-    }, [])
+  mag.useEffect(() => {
+    const intervalId = setInterval(() => {
+      //let's pass a function instead
+      //the argument is the current state
+      setCount(count => count + 1);
+    }, 5000);
+    return () => {
+      console.log('destory');
+      setCount(0);
+      clearInterval(intervalId);
+    };
+  }, []);
 
-    return {count}
-})
+  return {count};
+});
 
-const ResetTimer = mag(`<button>Reset Code</button>`, () => ({onclick: e=>{
-    ResetApp({reset: 1})
-    ResetApp({reset: 0})
-}}))
+const ResetTimer = mag(`<button>Reset Code</button>`, () => ({
+  onclick: e => {
+    ResetApp({reset: 1});
+    ResetApp({reset: 0});
+  }
+}));
 
-mag(ResetTimer(), "reset2")
+mag(ResetTimer(), 'reset2');
 
 //Define:
-const ResetApp = mag(
-    'resetapp',
-    props => ({timer: props.reset?null:ResetTimerComp()})
-)
+const ResetApp = mag('resetapp', props => ({
+  timer: props.reset ? null : ResetTimerComp()
+}));
 
 //Mount:
-ResetApp()
-
+ResetApp();

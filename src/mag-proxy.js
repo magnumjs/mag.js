@@ -1,4 +1,4 @@
-import {isObject, isArray, isFunction, isUndefined} from "./core/utils/common"
+import {isObject, isArray, isFunction, isUndefined} from './core/utils/common';
 import {MAGNUM, ignorekeys} from './core/constants';
 
 var pathSeparator = '/';
