@@ -38,6 +38,7 @@ Mag(
 ```
 
 **[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
+**[Updated demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
 
 
 [CodePen Examples](https://codepen.io/magnumjs)
@@ -68,3 +69,89 @@ Mag(
 
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
 
+### API
+
+```js
+Mag ( Node | HtmlString, Function | Node | HtmlString, [DefaultProps])
+
+returns [Function]
+```
+
+## Examples
+
+Render to Live Node no return Function:
+
+```js
+Mag(
+  "<h1>Hello!</h1>",
+  document.getElementById("root")
+)
+```
+
+Attaches to Live Node with return Function to render:
+```js
+const App = Mag(
+    document.body,
+    (props) =>
+      `<h1>${props.name}!</h1>`
+)
+//Renders:
+App({name: "Mike"})
+```
+
+Attaches to HtmlString
+```js
+const Welcome = Mag(
+  "<h1>",
+  ({name}) => {
+    return `Hello, ${name}!`
+  }
+)
+//Renders Node:
+Welcome({name: "Michael"})
+```
+
+Attach Component to live Node
+```js
+Mag(
+  Welcome({name: "Michael"}),
+  document.getElementById("root")
+)
+```
+
+
+Attach Component to another Component
+
+```js
+//Container: 
+const Container = Mag(
+  "<div>", 
+  (props) => {
+    return {
+      _class: "container " + props.classNames + props.count
+    }
+})
+
+//Component:
+var Counter = Mag(
+  Container({ classNames: "extra" }),
+  ({ count }) => {
+  const handler = () => {
+    Counter({ count: count + 1 })
+    Container({ count: count + 1 })
+  };
+
+  return Mag`
+   <p>
+      You clicked 
+      ${count} times
+    </p>
+    <button onClick=${handler}>Click me</button>`
+})
+
+//Render:
+Mag(
+  Counter({ count: 0 }),
+  document.getElementById("root")
+)
+```
