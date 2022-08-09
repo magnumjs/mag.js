@@ -1,11 +1,19 @@
-import {MAGNUM} from './core/constants'
-import redraw from "./core/draw/redraw"
-import {isHTMLEle, isObject, isEmpty, isString, isArray, isUndefined, isFunction} from "./core/utils/common"
-import {items} from "./utils"
-import fillFind from "./core/dom/fillFind"
+import {MAGNUM} from './core/constants';
+import redraw from './core/draw/redraw';
+import {
+  isHTMLEle,
+  isObject,
+  isEmpty,
+  isString,
+  isArray,
+  isUndefined,
+  isFunction
+} from './core/utils/common';
+import {items} from './utils';
+import fillFind from './core/dom/fillFind';
 
 var prop = {},
-  _VALUE = '_value'
+  _VALUE = '_value';
 
 //TODO: make recursive and clean!
 var getParent = function(parts, parentElement) {
@@ -183,11 +191,7 @@ const attachToArgs = function(i, args, element) {
     if (args.hasOwnProperty(k)) {
       var value = args[k];
 
-      if (
-        k != _VALUE &&
-        isObject(value) &&
-        !isHTMLEle(value)
-      ) {
+      if (k != _VALUE && isObject(value) && !isHTMLEle(value)) {
         if (isObject(value) && isEmpty(value)) {
           value[_VALUE] = '';
         }
@@ -199,6 +203,5 @@ const attachToArgs = function(i, args, element) {
     }
   }
 };
-
 
 export default attachToArgs;

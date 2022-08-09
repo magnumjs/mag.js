@@ -1,100 +1,94 @@
-import mag from "../mag-stateless"
+import mag from '../mag-stateless';
 import {MAGNUM, _cprops, doc} from '../constants';
-import {getId, setId, run} from "../../fill-stateless"
-import {callLCEvent} from "../utils/events"
-import {copy, extend, isObject, isUndefined, isFragment} from "../utils/common"
+import {getId, setId, run} from '../../fill-stateless';
+import {callLCEvent} from '../utils/events';
+import {copy, extend, isObject, isUndefined, isFragment} from '../utils/common';
 
 let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {
-    var clones = [],
-        clone = idOrNode.cloneNode(1),
-        cache = [],
-        //last = [],
-        runId,
-        copyOfDefProps = [];
+  var clones = [],
+    clone = idOrNode.cloneNode(1),
+    cache = [],
+    //last = [],
+    runId,
+    copyOfDefProps = [];
 
+  var a = function(props) {
+    var node = idOrNode;
+    props = props || {};
 
-    var a = function(props) {
+    //TODO: Auto-generate keys when not defined?
 
-        var node = idOrNode;
-        props = props || {};
+    var key;
+    if (!isUndefined(props.key)) key = props.key + '-' + a.id;
+    var ckey = !isUndefined(props.key) ? props.key + '-' + a.id : a.id;
 
-        //TODO: Auto-generate keys when not defined?
+    if (!copyOfDefProps[ckey]) {
+      copyOfDefProps[ckey] = isObject(dprops) ? copy(dprops) : dprops;
+    }
 
-        var key;
-        if (!isUndefined(props.key)) key = props.key + '-' + a.id;
-        var ckey = !isUndefined(props.key) ? props.key + '-' + a.id : a.id;
+    // retrieve props & merge
+    if (isObject(props)) {
+      props = extend(copyOfDefProps[ckey], props);
+    }
 
-        if (!copyOfDefProps[ckey]) {
-            copyOfDefProps[ckey] =
-                isObject(dprops) ? copy(dprops) : dprops;
-        }
+    if (key && !clones[key]) {
+      node = clones[key] = clone.cloneNode(1);
+    } else if (key && clones[key]) {
+      node = clones[key];
+    }
 
-        // retrieve props & merge
-        if (isObject(props)) {
-            props = extend(copyOfDefProps[ckey], props);
-        }
+    if (!isUndefined(a) && props && props.key && a.key && a.key != ckey) {
+      callLCEvent('onunload', props, node, a.key);
+    }
 
-        if (key && !clones[key]) {
-            node = clones[key] = clone.cloneNode(1);
-        } else if (key && clones[key]) {
-            node = clones[key];
-        }
+    //Block recursivity
+    if (runId && runId == node[MAGNUM].scid) {
+      throw Error('MagJS Error - recursive call:' + runId);
+    }
 
-        if(!isUndefined(a) && props && props.key && a.key && a.key != ckey) {
-            callLCEvent('onunload', props, node, a.key);
-        }
+    node[MAGNUM] = node[MAGNUM] || {};
+    //TODO: copy props to NODE? for children
+    node[MAGNUM].props = copy(props);
+    if (mag._cprops[ckey] && isObject(props)) {
+      props.children = _cprops[ckey];
+    }
 
-        //Block recursivity
-        if (runId && runId == node[MAGNUM].scid) {
-            throw Error('MagJS Error - recursive call:' + runId);
-        }
+    a.props = props;
+    a.key = ckey;
+    a.fake = fake;
+    var now;
+    try {
+      var _current = mag._current;
+      mag._current = a;
+      now = mod(props);
+      runId = node[MAGNUM].scid = ckey;
+      //NEED? previous props?
+      var pfillId = getId();
+      //TODO: find parent
+      if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
+        node[MAGNUM].pscid = pfillId[MAGNUM].scid;
+      }
+      setId(node);
+      run(node, now);
+    } finally {
+      //replace fragment html
+      var frag = node.querySelector('fragment');
+      //FASTER?
+      if (frag && !fake) frag.replaceWith(...frag.childNodes);
 
+      callLCEvent('didupdate', props, node, ckey);
+      setId(pfillId);
+      runId = 0;
+      mag._current = _current;
+    }
 
-        node[MAGNUM] = node[MAGNUM] || {};
-        //TODO: copy props to NODE? for children
-        node[MAGNUM].props = copy(props);
-        if (mag._cprops[ckey] && isObject(props)) {
-            props.children = _cprops[ckey];
-        }
+    return node;
+  };
+  a.id = ++inc;
+  a.element = clone;
 
-        a.props = props;
-        a.key = ckey;
-        a.fake = fake;
-        var now;
-        try {
-            var _current = mag._current;
-            mag._current = a;
-            now = mod(props);
-            runId = node[MAGNUM].scid = ckey;
-            //NEED? previous props?
-            var pfillId = getId();
-            //TODO: find parent
-            if (pfillId && pfillId[MAGNUM] && pfillId[MAGNUM].scid) {
-                node[MAGNUM].pscid = pfillId[MAGNUM].scid;
-            }
-            setId(node);
-            run(node, now);
-        } finally {
-            //replace fragment html
-            var frag= node.querySelector('fragment')
-            //FASTER?
-            if(frag && !fake) frag.replaceWith(...frag.childNodes)
-
-
-            callLCEvent('didupdate', props, node, ckey);
-            setId(pfillId);
-            runId = 0;
-            mag._current = _current;
-        }
-
-        return node;
-    };
-    a.id = ++inc;
-    a.element = clone;
-
-    return a;
+  return a;
 };
-
 
 export default runFun;

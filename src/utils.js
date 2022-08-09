@@ -1,7 +1,7 @@
-import {rafBounceIds, rafBounce, rafRate} from './core/constants'
+import {rafBounceIds, rafBounce, rafRate} from './core/constants';
 
 const utils = {};
-let runningEventInstance
+let runningEventInstance;
 
 //rAF:
 var queue = [],
@@ -79,19 +79,11 @@ const getItemInstanceId = id => {
   if (items.isItem(id)) {
     return items.getItem(id);
   } else {
-      items.setItem(id);
+    items.setItem(id);
     return items.getItem(id);
   }
 };
 
-
-
 export default utils;
 
-
-export {
-    getItemInstanceId,
-    scheduleFlush,
-    runningEventInstance,
-    items
-}
+export {getItemInstanceId, scheduleFlush, runningEventInstance, items};

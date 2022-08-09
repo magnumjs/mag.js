@@ -1,7 +1,7 @@
 {
   "name": "mag.js",
   "sideEffects": false,
-  "version": "1.9.15",
+  "version": "1.9.16",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
   "main": "dist/mag-stateless.hooks.min.js",
   "unpkg": "dist/mag-stateless.hooks.min.js",
@@ -72,6 +72,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-export-default-from": "^7.8.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.18.9",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "babel-eslint": "^10.0.1",
@@ -100,6 +101,5 @@
     "hooks": {
       "pre-push": "npm run verify"
     }
-  },
-  "dependencies": {}
+  }
 }

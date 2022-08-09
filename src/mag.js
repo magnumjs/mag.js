@@ -1,40 +1,35 @@
-import mag from "./core/mag-state"
-import getNode from "./core/dom/getNode"
-import {
-    getModId,
-    clear,
-    submodule,
-    getState,
-} from "./module"
-import {removeNode, cached, clearCache} from "./fill"
-import {callLCEvent, onLCEvent} from "./core/utils/events"
-import {copy, toJson, isUndefined} from "./core/utils/common"
-import {items, getItemInstanceId} from "./utils"
-import makeClone from "./core/makeClone"
-import isNode from "./core/dom/isNode"
-import redraw, {pendingRequests} from "./core/draw/redraw"
-import {observer, willloader, didloader} from "./core/draw/run"
-import hook, {hookin} from "./core/hook"
+import mag from './core/mag-state';
+import getNode from './core/dom/getNode';
+import {getModId, clear, submodule, getState} from './module';
+import {removeNode, cached, clearCache} from './fill';
+import {callLCEvent, onLCEvent} from './core/utils/events';
+import {copy, toJson, isUndefined} from './core/utils/common';
+import {items, getItemInstanceId} from './utils';
+import makeClone from './core/makeClone';
+import isNode from './core/dom/isNode';
+import redraw, {pendingRequests} from './core/draw/redraw';
+import {observer, willloader, didloader} from './core/draw/run';
+import hook, {hookin} from './core/hook';
 
-mag.hook = hook
-mag.hookin = hookin
-mag.redraw = redraw
+mag.hook = hook;
+mag.hookin = hookin;
+mag.redraw = redraw;
 
 mag.begin = function(id) {
-    if (isUndefined(pendingRequests[id])) {
-        pendingRequests[id] = 1;
-    } else {
-        pendingRequests[id]++;
-    }
+  if (isUndefined(pendingRequests[id])) {
+    pendingRequests[id] = 1;
+  } else {
+    pendingRequests[id]++;
+  }
 };
 
 mag.end = function(id) {
-    if (pendingRequests[id] > 1) pendingRequests[id]--;
-    else {
-        pendingRequests[id] = 0;
-        var nid = items.getItemVal(id);
-        redraw(getNode(nid), id);
-    }
+  if (pendingRequests[id] > 1) pendingRequests[id]--;
+  else {
+    pendingRequests[id] = 0;
+    var nid = items.getItemVal(id);
+    redraw(getNode(nid), id);
+  }
 };
 
 var uniqueInstance = function(id, key) {
@@ -79,7 +74,7 @@ var setup = function(props, idInstance, module, id) {
   var node = getNode(id);
 
   // get unique instance ID's module
-  submodule(id, idInstance, module, props)
+  submodule(id, idInstance, module, props);
 
   //WATCH
   observer(idInstance, id);
@@ -96,9 +91,6 @@ var setup = function(props, idInstance, module, id) {
   return node;
 };
 
-
-
-
 var prevState = [],
   handlers = [];
 
@@ -108,8 +100,7 @@ var destroyerHandler = function(ids, clones, remove) {
     //destroy node
 
     //callback config unloaders etc...
-    if (callLCEvent('onunload', getState(ids), node, ids))
-      return;
+    if (callLCEvent('onunload', getState(ids), node, ids)) return;
     mag.clear(ids);
     // call unloaders
     callUnloaders(ids, node);
@@ -127,16 +118,9 @@ var destroyerHandler = function(ids, clones, remove) {
   if (getState(ids).onbeforeunload) {
     //call first
     //TODO: call children nodes with hooks too
-    callLCEvent(
-      'onbeforeunload',
-      getState(ids),
-      node,
-      ids,
-      0,
-      function() {
-        onremove();
-      }
-    );
+    callLCEvent('onbeforeunload', getState(ids), node, ids, 0, function() {
+      onremove();
+    });
   } else {
     onremove();
   }
@@ -169,8 +153,6 @@ var subscriberHandler = function(ids, handler) {
   };
 };
 
-
-
 mag.clear = function(index) {
   //TODO: Remove from schedule batch?
   // cancelAnimationFrame(timers[index]);
@@ -182,9 +164,6 @@ mag.clear = function(index) {
   // fill data cache
   clearCache(getModId(index));
 };
-
-
-
 
 var addConfigUnloaders = function(id, index) {
   var arr = [];
@@ -219,7 +198,7 @@ var callUnloaders = function(index, node) {
       unloader.controller.onunload = 0;
     }
   }
-}
+};
 
 mag.getNode = getNode;
 

@@ -1,6 +1,6 @@
 import mag from './mag';
-import {hookin} from "./core/hook"
-import utils from "./utils"
+import {hookin} from './core/hook';
+import utils from './utils';
 
 //Create wrapper for function call to mag() with over riding default props
 var funRet = mod => props => (index, p) => {
