@@ -114,8 +114,9 @@ const Node = Mag`
 Mag(Node, document.body)
 ```
 
+*Tag Component*
 ```js
-const Button = Mag(
+var Button = Mag(
   '<button>',
   props => {
     onClick: props.handler
