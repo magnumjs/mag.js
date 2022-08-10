@@ -69,22 +69,64 @@ Mag(
 
 `<script src="//unpkg.com/mag.js/dist/mag-stateless.min.js"></script>`
 
-### API
+# API
+
+## Rendering
 
 ```js
-Mag ( Node | HtmlString, Function | Node | HtmlString, [DefaultProps])
-
-returns [Function]
+Mag (
+  Node | HtmlString,
+  Node | querySelector
+)
 ```
 
-## Examples
+## Componentization
+
+```js
+const Function = Mag (
+  Node | HtmlString | querySelector,
+  Function = [props => ObjectElementMap | HtmlString | Null]
+)
+
+const Node = Function (props)
+```
+
+## Tag
+
+```js
+const Node = Mag`
+  <button onClick="${e=>console.log(e)}">
+    Clicker!
+  </button>`
+
+Mag(Node, document.body)
+```
+
+## Hooks
+
+```js
+//Per component
+const [state, setState] = Mag.useState(initialState);
+
+Mag.useEffect(() => {
+  // on did update
+  return () => {
+    // on unload
+  }
+}, [//optional depedencies])
+
+//Across Components
+const [context, setContext] = Mag.useContext(StringName, [initialContext])
+```
+
+### Rendering Examples
 
 Render to Live Node no return Function:
 
 ```js
 Mag(
   "<h1>Hello!</h1>",
-  document.getElementById("root")
+  document.getElementById("root") | "root"
 )
 ```
 
@@ -154,4 +196,22 @@ Mag(
   Counter({ count: 0 }),
   document.getElementById("root")
 )
+```
+
+
+### Hooks Examples
+
+```js
+const App = Mag(
+  "root",
+  (props) => {
+    const [count, setCount] = Mag.useState(props.count);
+    return {
+      _html: "<button>Counter!</button><h1>Current Count: <count/>",
+      count,
+      button: {onClick: () => setCount(count + 1)}
+    };
+});
+
+App({ count: 0 });
 ```
