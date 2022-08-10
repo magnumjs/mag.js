@@ -102,6 +102,7 @@ const Node = Function (props)
 ```js
 const Node = Mag`<HTMLString>`
 ```
+<hr/>
 
 ```js
 const Node = Mag`
@@ -165,7 +166,7 @@ Mag(
 )
 ```
 
-*Attach to Live Node with return Function to render:**
+*Attach to Live Node with return Function to render:*
 ```js
 const App = Mag(
     document.body,
