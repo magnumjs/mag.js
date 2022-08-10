@@ -71,7 +71,7 @@ Mag(
 
 # API
 
-## Rendering
+## Render
 
 ```js
 //Renders, returns nothing
@@ -81,7 +81,7 @@ Mag (
 )
 ```
 
-## Componentization
+## Component
 
 ```js
 //Define, returns callable Function:
@@ -122,7 +122,8 @@ const Button = Mag(
 )
 
 Mag(
-  Mag`<Button handler=${e=>console.log(e)}>`,
+  Mag`<Button 
+    handler=${e=>console.log(e)}>`,
   "root"
 )
 ```
@@ -131,9 +132,10 @@ Mag(
 
 ```js
 //Per component
-const [state, setState] = Mag.useState(
-  initialState
-);
+const [state, setState] = 
+  Mag.useState(
+    initialState
+)
 
 Mag.useEffect(() => {
   // on didUpdate
@@ -144,9 +146,10 @@ Mag.useEffect(() => {
 )
 
 //Across Components
-const [context, setContext] = Mag.useContext(
-  StringName,
-  [initialContext]
+const [context, setContext] = 
+  Mag.useContext(
+    StringName,
+    initialContext // Optional
 )
 ```
 
@@ -157,7 +160,8 @@ const [context, setContext] = Mag.useContext(
 ```js
 Mag(
   "<h1>Hello!</h1>",
-  document.getElementById("root") | "root"
+  document.getElementById("root")
+   | "root"
 )
 ```
 
@@ -201,7 +205,9 @@ const Container = Mag(
   "<div>", 
   (props) => {
     return {
-      _class: "container " + props.classNames + props.count
+      _class: "container " + 
+        props.classNames + 
+        props.count
     }
 })
 
@@ -219,7 +225,10 @@ var Counter = Mag(
       You clicked 
       ${count} times
     </p>
-    <button onClick=${handler}>Click me</button>`
+    <button 
+      onClick=${handler}>
+      Click me
+    </button>`
 })
 
 //Render:
@@ -236,13 +245,21 @@ Mag(
 const App = Mag(
   "root",
   (props) => {
-    const [count, setCount] = Mag.useState(props.count);
-    return {
-      _html: "<button>Counter!</button><h1>Current Count: <count/>",
-      count,
-      button: {onClick: () => setCount(count + 1)}
-    };
-});
+    const [count, setCount] = 
+      Mag.useState(props.count)
 
-App({ count: 0 });
+    return {
+      _html: `<button>
+        Counter!</button>
+        <h1>Current Count:
+        <count/>`,
+      count,
+      button: {
+        onClick: () 
+        => setCount(count + 1)
+      }
+    }
+})
+
+App({ count: 0 })
 ```
