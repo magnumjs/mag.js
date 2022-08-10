@@ -38,7 +38,7 @@ Mag(
 ```
 
 **[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
-**[Updated demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
+**[Updated CodePen &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
 
 
 [CodePen Examples](https://codepen.io/magnumjs)
@@ -74,6 +74,7 @@ Mag(
 ## Rendering
 
 ```js
+//Renders, returns nothing
 Mag (
   Node | HtmlString,
   Node | querySelector
@@ -83,45 +84,75 @@ Mag (
 ## Componentization
 
 ```js
+//Define, returns callable Function:
 const Function = Mag (
   Node | HtmlString | querySelector,
-  Function = [props => ObjectElementMap | HtmlString | Null]
+  Function = [props =>
+      ObjectElementMap | 
+      HtmlString | 
+      Null
+     ]
 )
-
+//Call with optional Props and Render:
 const Node = Function (props)
 ```
 
 ## Tag
 
 ```js
+const Node = Mag`<HTMLString>`
+```
+
+```js
 const Node = Mag`
-  <button onClick="${e=>console.log(e)}">
+  <button 
+    onClick="${e=>console.log(e)}">
     Clicker!
   </button>`
 
 Mag(Node, document.body)
 ```
 
+```js
+const Button = Mag(
+  '<button>',
+  props => {
+    onClick: props.handler
+  }
+)
+
+Mag(
+  Mag`<Button handler=${e=>console.log(e)}>`,
+  "root"
+)
+```
+
 ## Hooks
 
 ```js
 //Per component
-const [state, setState] = Mag.useState(initialState);
+const [state, setState] = Mag.useState(
+  initialState
+);
 
 Mag.useEffect(() => {
-  // on did update
+  // on didUpdate
   return () => {
-    // on unload
+    // onUnload
   }
-}, [//optional depedencies])
+}, [] //optional depedencies
+)
 
 //Across Components
-const [context, setContext] = Mag.useContext(StringName, [initialContext])
+const [context, setContext] = Mag.useContext(
+  StringName,
+  [initialContext]
+)
 ```
 
 ### Rendering Examples
 
-Render to Live Node no return Function:
+*Render to Live Node no return Function:*
 
 ```js
 Mag(
@@ -130,7 +161,7 @@ Mag(
 )
 ```
 
-Attaches to Live Node with return Function to render:
+*Attach to Live Node with return Function to render:**
 ```js
 const App = Mag(
     document.body,
@@ -141,7 +172,7 @@ const App = Mag(
 App({name: "Mike"})
 ```
 
-Attaches to HtmlString
+*Attach to HtmlString*
 ```js
 const Welcome = Mag(
   "<h1>",
@@ -153,7 +184,7 @@ const Welcome = Mag(
 Welcome({name: "Michael"})
 ```
 
-Attach Component to live Node
+*Attach Component to live Node*
 ```js
 Mag(
   Welcome({name: "Michael"}),
@@ -162,7 +193,7 @@ Mag(
 ```
 
 
-Attach Component to another Component
+*Attach Component to another Component*
 
 ```js
 //Container: 
