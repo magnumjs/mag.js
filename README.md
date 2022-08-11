@@ -178,7 +178,7 @@ const [context, setContext] =
 Mag(
   "<h1>Hello!</h1>",
   document.getElementById("root")
-   | "root"
+   // or just: "root"
 )
 ```
 
