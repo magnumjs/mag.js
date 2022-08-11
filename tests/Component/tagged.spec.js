@@ -7,6 +7,46 @@ beforeEach(() => {
 })
 
 
+test("func no template", () => {
+   
+    const HelloMessage = Mag(props => {
+        return `
+          <div>
+            Hello ${props.name}
+          </div>
+          `
+      })
+      
+      
+      Mag(
+        HelloMessage({name: "Taylor"}),
+       document.getElementById('root')
+      )
+
+      expect(document.querySelector('#root fragment').textContent.trim()).toEqual("Hello Taylor")
+
+})
+
+test ("tag variable", () => {
+
+const HelloMessage = props => {
+        return `
+          <div>
+            Hello ${props.name}
+          </div>
+          `
+      }
+      
+      
+      Mag(
+       mag`<${HelloMessage} name="Taylor" />`,
+       document.getElementById('root')
+      )
+
+      expect(document.querySelector('#root fragment').textContent.trim()).toEqual("Hello Taylor")
+
+})
+
 test("basic whole tag", () => {
 
     mag.Router =mag(
