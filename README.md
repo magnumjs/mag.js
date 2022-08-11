@@ -86,7 +86,7 @@ Mag (
 ```js
 //Define, returns callable Function:
 const Function = Mag (
-  Node | HtmlString | querySelector,
+  [Node | HtmlString | querySelector], // Optional
   Function = [props =>
       ObjectElementMap | 
       HtmlString | 
@@ -95,6 +95,21 @@ const Function = Mag (
 )
 //Call with optional Props and Render:
 const Node = Function (props)
+```
+
+```js
+const HelloMessage = Mag(props => {
+  return `
+    <div>
+      Hello ${props.name}
+    </div>
+    `
+})
+
+Mag(
+ HelloMessage({name: "Taylor"}),
+ document.getElementById('root')
+)
 ```
 
 ## Tag
@@ -240,6 +255,46 @@ Mag(
 )
 ```
 
+*Dynamic Tag Component*
+
+```js
+var HelloMessage = props => {
+  return `
+    <div>
+      Hello ${props.name}
+    </div>
+    `
+}
+
+Mag(
+ mag`<${HelloMessage} name=Taylor>`,
+ document.getElementById('root')
+)
+```
+
+*With Children*
+
+```js
+  const Message = props => {
+    return props.children;
+  };
+
+  const HelloMessage = props => {
+    return mag`
+      <${props.Message}>
+        Hello ${props.name}
+      <//>
+      `;
+  };
+
+  Mag(
+    mag`<${HelloMessage} 
+      name="Taylor" 
+      Message=${Message}
+      >`,
+    document.getElementById('root')
+  )
+  ```
 
 ### Hooks Examples
 
