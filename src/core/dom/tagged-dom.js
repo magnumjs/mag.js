@@ -170,7 +170,7 @@ function applyAttrs(placeholders, container, funcs) {
     if (placeholder && isHTMLEle(node)) {
       placeholder.parentNode.replaceChild(node, placeholder);
     } else if (placeholder && isFunction(node)) {
-      const attr1 = {};
+      const attr1 = {children: placeholder.innerHTML.trim()};
       const att = getAttrs(placeholder, attr1, attrNodes);
       const newNode = node(attr1);
       placeholder.parentNode.replaceChild(dom`${newNode}`, placeholder);
@@ -281,6 +281,14 @@ function generateNodes(doc, ...partials) {
     container.removeChild(child);
     return child;
   } else {
+    // replace fragment html
+    var frags = container.querySelectorAll('fragment');
+    //FASTER?
+    if (frags.length > 1) {
+      // //FASTER?
+      var lastSelect = frags[frags.length - 1];
+      lastSelect.replaceWith(...lastSelect.childNodes);
+    }
     return container;
   }
 }
