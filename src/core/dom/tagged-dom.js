@@ -1,8 +1,9 @@
 import {doc, MAGNUM} from '../constants';
-import {isString, isObject, isFunction} from '../utils/common';
+import {isString, isObject, isFunction, isHTMLEle} from '../utils/common';
 import mag from '../mag';
 import html2dom from './html2dom';
 import {makeEvent} from '../fill/events';
+import isNode from './isNode';
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
@@ -122,6 +123,10 @@ function applyAttrs(placeholders, container, funcs) {
   placeholders.forEach(({id, node, attr}) => {
     let placeholder = container.querySelector(`#${id}`);
     if (!placeholder) {
+      placeholder = container.querySelector(`${id}`);
+    }
+
+    if (!placeholder) {
       var temp = getElementsByText(container, `"${id}"`);
       var temp2 = getElementsByText(container, `${id}`);
 
@@ -162,8 +167,13 @@ function applyAttrs(placeholders, container, funcs) {
         // return attrNodes;
       }
     }
-    if (placeholder) {
+    if (placeholder && isHTMLEle(node)) {
       placeholder.parentNode.replaceChild(node, placeholder);
+    } else if (placeholder && isFunction(node)) {
+      const attr1 = {};
+      const att = getAttrs(placeholder, attr1, attrNodes);
+      const newNode = node(attr1);
+      placeholder.parentNode.replaceChild(dom`${newNode}`, placeholder);
     } else {
       attrNodes[id] = node;
     }
