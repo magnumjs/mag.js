@@ -7,38 +7,32 @@
 ```js
 import Mag from "mag.js"
 
-//Component:
-var Counter = Mag(`
-  <div class="counter">
-    <p>
-     You clicked <count /> times
-    </p>
-    <button>
-      Click me
-    </button>
-  </div>`,
-  function({count=0}) {
+// Define Component:
+const Counter = Mag(
+  function ({ count }) {
 
-  //JavaScript stuff:
-
-  return {
-    count,
-    button: {
-      onClick: e =>
-        Counter({count: count + 1})
-    }
+  const handler = () => {
+    // Call Component with Props and render:
+    Counter({ count: count + 1 });
   }
+
+  return Mag`
+   <p>
+      You clicked 
+      ${count} times
+    </p>
+    <button onClick=${handler}>Click me</button>`
 })
 
-//Render:
+// Render Component with Props:
 Mag(
-  Counter(),
+  Counter({ count: 0 }),
   document.getElementById("root")
 )
 ```
-
-**[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
-**[Updated CodePen &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
+**[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/RwMYdax?editors=0010)**
+**[With Component Template &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
+**[With Component Container CodePen &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
 
 
 [CodePen Examples](https://codepen.io/magnumjs)
