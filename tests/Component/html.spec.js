@@ -7,6 +7,42 @@ beforeEach(() => {
 })
 
 
+test("focus", () =>{
+
+    const Inputer = Mag(
+        function ({ name }) {
+
+            const handler = (e) => {
+          // Call Component with Props and render:
+          Inputer({ name: e.target.value});
+        }
+      
+        return Mag`
+         <p>
+            Your name  
+            ${name} thanks!
+          </p>
+          <input value="${name}" onInput="${handler}" />`
+      })
+      
+      // Render Component with Props:
+      Mag(
+        Inputer(),
+        document.getElementById("root")
+      )
+
+      document.querySelector("#root input").focus()
+      document.querySelector("#root input").value='Mike'
+
+     document.querySelector("#root input").dispatchEvent(new Event('input'))
+
+     expect(document.querySelector("#root input").tagName).toEqual(document.activeElement.tagName)
+      expect(document.querySelector("#root p").textContent).toContain("Mike")
+
+
+
+})
+
 test("invalid open html tag string", () => {
 
 
@@ -20,6 +56,8 @@ test("invalid open html tag string", () => {
 
             const [isLit, setLit] = mag.useState(true)
             const lightedness = isLit ? "lit" : "dark"
+
+            console.log('render', lightedness)
 
             return {
                 _class: "room "+lightedness,
