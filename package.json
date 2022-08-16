@@ -1,7 +1,7 @@
 {
   "name": "mag.js",
   "sideEffects": false,
-  "version": "1.9.19",
+  "version": "1.9.20",
   "description": "Intuitive, tiny, fast, JavaScript 2 HTML component templating library",
   "main": "dist/mag-stateless.hooks.min.js",
   "unpkg": "dist/mag-stateless.hooks.min.js",

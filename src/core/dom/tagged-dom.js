@@ -119,7 +119,7 @@ function getElementsByText(noder, str, tag = '*') {
 function applyAttrs(placeholders, container, funcs) {
   const attrNodes = {};
   // Replace placeholders with real Nodes
-  placeholders.forEach(({id, node, attr}) => {
+  placeholders.forEach(({id, node, attr}, idx) => {
     let placeholder = container.querySelector(`#${id}`);
     if (!placeholder) {
       placeholder = container.querySelector(`${id}`);
@@ -138,6 +138,8 @@ function applyAttrs(placeholders, container, funcs) {
           const starts = getFunc(tag ? tag.name : findNode.tagName);
 
           if (attr.indexOf('on') == 0 && !starts) {
+            findNode[MAGNUM] = findNode[MAGNUM] || {};
+            findNode[MAGNUM].key = findNode.id || findNode.key || idx;
             makeEvent(node, attr, findNode, id);
             findNode.removeAttribute(attr);
           }

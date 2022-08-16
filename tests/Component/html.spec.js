@@ -22,7 +22,7 @@ test("focus", () =>{
             Your name  
             ${name} thanks!
           </p>
-          <input value="${name}" onInput="${handler}" />`
+          <input id="test" value="${name}" onInput="${handler}" />`
       })
       
       // Render Component with Props:

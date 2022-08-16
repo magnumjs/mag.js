@@ -1,5 +1,5 @@
 import mag from '../mag-stateless';
-import {MAGNUM, _cprops} from '../constants';
+import {MAGNUM, _cprops, doc} from '../constants';
 import {getId, setId, run} from '../../fill-stateless';
 import {callLCEvent} from '../utils/events';
 import {copy, extend, isObject, isUndefined} from '../utils/common';
@@ -8,8 +8,6 @@ let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {
   var clones = [],
     clone = idOrNode.cloneNode(1),
-    cache = [],
-    //last = [],
     runId,
     copyOfDefProps = [];
 
@@ -61,6 +59,16 @@ var runFun = function(idOrNode, mod, dprops, fake) {
     try {
       var _current = mag._current;
       mag._current = a;
+      if (!mag._active || doc.activeElement !== mag._active) {
+        mag._active = doc.activeElement;
+      }
+      if (
+        mag._active &&
+        mag._activePosition !== doc.activeElement.selectionStart
+      ) {
+        mag._activePosition = doc.activeElement.selectionStart;
+      }
+
       now = mod(props);
       runId = node[MAGNUM].scid = ckey;
       //NEED? previous props?
@@ -81,6 +89,12 @@ var runFun = function(idOrNode, mod, dprops, fake) {
       setId(pfillId);
       runId = 0;
       mag._current = _current;
+      if (mag._active && doc.activeElement !== mag._active) {
+        mag._active.focus();
+        mag._active.setSelectionRange(mag._activePosition, mag._activePosition);
+        //console.log(mag._active[MAGNUM], node)
+        //search ?
+      }
     }
 
     return node;

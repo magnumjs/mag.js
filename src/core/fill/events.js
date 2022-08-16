@@ -5,6 +5,7 @@ import {
   getPathId,
   getPathTo4,
   getId,
+  getUid,
   getPathTo2,
   setId,
   getItems,
@@ -13,6 +14,7 @@ import {
   getMod,
   getDraw
 } from './common';
+import mag from '../mag';
 
 const magRedraw = getDraw();
 const items = getItems();
@@ -96,10 +98,18 @@ export function makeEvent(event, attrName, node, parentKey) {
 
   node[MAGNUM] = node[MAGNUM] || {};
 
+  if (
+    mag._active[MAGNUM] &&
+    mag._active[MAGNUM].key === node[MAGNUM].key &&
+    node.tagName === mag._active.tagName &&
+    doc.activeElement !== node
+  ) {
+    mag._active = node;
+    //TODO: better ID! === node[MAGNUM]._active = eventName + "-"+ event;
+  }
+
   var uid =
-    (isString(parentKey) ? parentKey.split('/')[0] : '') +
-    '-' +
-    node[MAGNUM].uid;
+    (isString(parentKey) ? parentKey.split('/')[0] : '') + '-' + getUid(node);
   var events = (node[MAGNUM].events = node[MAGNUM].events || []);
   var eventHandlers = (node[MAGNUM].eventHandlers =
     node[MAGNUM].eventHandlers || []);
