@@ -1,8 +1,8 @@
 import mag from '../mag-stateless';
-import {MAGNUM, _cprops, doc} from '../constants';
+import {MAGNUM, _cprops} from '../constants';
 import {getId, setId, run} from '../../fill-stateless';
 import {callLCEvent} from '../utils/events';
-import {copy, extend, isObject, isUndefined, isFragment} from '../utils/common';
+import {copy, extend, isObject, isUndefined} from '../utils/common';
 
 let inc = 0;
 var runFun = function(idOrNode, mod, dprops, fake) {

@@ -3,7 +3,6 @@ import {isString, isObject, isFunction, isHTMLEle} from '../utils/common';
 import mag from '../mag';
 import html2dom from './html2dom';
 import {makeEvent} from '../fill/events';
-import isNode from './isNode';
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js

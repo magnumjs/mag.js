@@ -1,6 +1,5 @@
 import {matchingElements} from './matches';
 import {nodeListToArray, getUid, removeNode, getCheckForMod} from './common';
-import {MAGNUM} from '../constants';
 
 const childCache = {};
 

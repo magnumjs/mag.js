@@ -1,6 +1,5 @@
 import {doc} from '../constants';
 import {isString} from '../utils/common';
-import {nodeListToArray} from '../fill/common';
 
 const html2dom = html => {
   let template = doc.createElement('template');
