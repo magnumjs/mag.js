@@ -4,7 +4,7 @@ import {
   getDraw,
   getMod,
   removeNode,
-  getMicroDraw,
+  getMicroDraw
 } from './common';
 import {onLCEvent} from '../utils/events';
 import {MAGNUM, _cprops, doc} from '../constants';
@@ -77,13 +77,13 @@ export default function addToNode(node, val, onlyAdd) {
     //remove, replace?
     //Remove children, call UNLOADERS?
     if (!onlyAdd) {
-      const activeElement = doc.activeElement
+      const activeElement = doc.activeElement;
       while (node.lastChild) {
         // removeNodeModule(node.lastChild)
         // node.removeChild(node.lastChild)
         removeNode(node.lastChild);
       }
-      activeElement.focus()
+      activeElement.focus();
     }
 
     if (val[MAGNUM] && val[MAGNUM].scid) {
@@ -118,11 +118,10 @@ export default function addToNode(node, val, onlyAdd) {
       // if(isFragment(val) && val[MAGNUM]){
       //     val[MAGNUM].parent = node
       // }
-      const activeElement = doc.activeElement
+      const activeElement = doc.activeElement;
 
       node.appendChild(val);
-      activeElement.focus()
-
+      activeElement.focus();
     }
   }
 }
