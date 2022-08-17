@@ -5,6 +5,54 @@ beforeEach(() => {
   document.body.innerHTML = "<div id='root'></div>";
 });
 
+
+test('tag with two child comp', () => {
+  mag.Message = function(props) {
+    return props.children;
+  };
+  // Define Component:
+  const App = function() {
+    return Mag`<Message>
+    HI
+    There
+    <i>more</i>
+    </Message>`;
+  };
+
+  // Render Component with Props:
+  Mag(App(), document.getElementById('root'));
+
+  expect(document.querySelector('#root').textContent.trim()).toContain("HI");
+  expect(document.querySelector('#root i').textContent).toBe('more');
+});
+
+test('tag with child comp', () => {
+  mag.Message = function(props) {
+    return props.children;
+  };
+  // Define Component:
+  const App = function() {
+    return Mag`<Message>HI</Message>`;
+  };
+
+  // Render Component with Props:
+  Mag(App(), document.getElementById('root'));
+
+  expect(document.querySelector('#root').textContent.trim()).toContain('HI');
+});
+
+test('tag with global func', () => {
+  // Define Component:
+  mag.App = function() {
+    return `<h1>HI</h1>`;
+  };
+
+  // Render Component with Props:
+  Mag(mag`<App/>`, document.getElementById('root'));
+
+  expect(document.querySelector('#root').textContent.trim()).toContain('HI');
+});
+
 test('tag children with func', () => {
   const Message = Mag(props => {
     return props.children;

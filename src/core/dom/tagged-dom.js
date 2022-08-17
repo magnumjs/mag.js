@@ -1,4 +1,4 @@
-import {doc, MAGNUM} from '../constants';
+import {MAGNUM} from '../constants';
 import {isString, isObject, isFunction, isHTMLEle} from '../utils/common';
 import mag from '../mag';
 import html2dom from './html2dom';
@@ -116,8 +116,34 @@ function getElementsByText(noder, str, tag = '*') {
 // function startsWithCapital(word) {
 //   return word && word.charAt(0) === word.charAt(0).toUpperCase();
 // }
+
+function checkFragChildrenforTextNodesIds(container, id, node) {
+  // check top level children for text nodes
+
+  // if (
+  //   container.children.length === 1 &&
+  //   container.children[0].textContent.trim() === id
+  // ) {
+  //   container.replaceChild(node, container.children[0]);
+  //   return
+  // }
+
+  container.childNodes.forEach(child => {
+    if (child.childNodes.length) {
+      checkFragChildrenforTextNodesIds(child, id, node);
+    } else if (
+      child.nodeType === 3 &&
+      child.textContent.includes(id) &&
+      !isFunction(node)
+    ) {
+      child.replaceWith(node);
+    }
+  });
+}
+
 function applyAttrs(placeholders, container, funcs) {
   const attrNodes = {};
+
   // Replace placeholders with real Nodes
   placeholders.forEach(({id, node, attr}, idx) => {
     let placeholder = container.querySelector(`#${id}`);
@@ -176,13 +202,14 @@ function applyAttrs(placeholders, container, funcs) {
       const newNode = node(attr1);
       placeholder.parentNode.replaceChild(dom`${newNode}`, placeholder);
     } else {
+      checkFragChildrenforTextNodesIds(container, id, node);
       attrNodes[id] = node;
     }
   });
   return attrNodes;
 }
 
-function generateNodes(doc, ...partials) {
+function generateNodes(...partials) {
   // Array of placeholder IDs
   const placeholders = [];
   const funcs = [];
@@ -323,7 +350,7 @@ var getFuncByName = name => {
   return getByName(name.toLowerCase());
 };
 
-function taggedTemplateHandler(doc, strings, ...values) {
+function taggedTemplateHandler(strings, ...values) {
   // Create an array that puts the values back in their place
   const arr = strings.reduce((carry, current, index) => {
     return carry.concat(
@@ -332,14 +359,14 @@ function taggedTemplateHandler(doc, strings, ...values) {
     );
   }, []);
 
-  return generateNodes(doc, ...arr);
+  return generateNodes(...arr);
 }
 
 var _self;
 
 function dom(strings, ...values) {
   _self = global || this || window;
-  return taggedTemplateHandler(doc, strings, ...values);
+  return taggedTemplateHandler(strings, ...values);
 }
 
 export default dom;
