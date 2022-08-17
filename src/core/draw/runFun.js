@@ -91,7 +91,11 @@ var runFun = function(idOrNode, mod, dprops, fake) {
       mag._current = _current;
       if (mag._active && doc.activeElement !== mag._active) {
         mag._active.focus();
-        mag._active.setSelectionRange(mag._activePosition, mag._activePosition);
+        if (mag._active.setSelectionRange)
+          mag._active.setSelectionRange(
+            mag._activePosition,
+            mag._activePosition
+          );
         //console.log(mag._active[MAGNUM], node)
         //search ?
       }
