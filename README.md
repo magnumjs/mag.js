@@ -2,29 +2,31 @@
 
 `npm i mag.js`
 
-### *Super fast* & Simple Intuitive JS2HTML Templating Component Library
+### *Super FAST* Simple Intuitive JS2HTML Templating Component Library
 
 ```js
 import Mag from "mag.js"
 
-// Define Component:
+// 1. Define Component:
 const Counter = Mag(
-  function ({ count }) {
+  function (props) {
 
   const handler = () => {
-    // Call Component with Props and render:
-    Counter({ count: count + 1 });
+    // Render Component Event:
+    Counter({ count: props.count + 1 });
   }
-
+  // MagJS Tag Template:
   return Mag`
    <p>
       You clicked 
-      ${count} times
+      ${props.count} times
     </p>
-    <button onClick=${handler}>Click me</button>`
+    <button onClick=${props.handler}>
+      Click me
+    </button>`
 })
 
-// Render Component with Props:
+// 2. Render Component:
 Mag(
   Counter({ count: 0 }),
   document.getElementById("root")
@@ -78,15 +80,17 @@ Mag (
 ## Component
 
 ```js
-//Define, returns callable Function:
+//Define, returns Render Function:
 const Function = Mag (
-  [Node | HtmlString | querySelector], // Optional
+  // Optional
+  [Node | HtmlString | querySelector], 
   Function = [props =>
       ObjectElementMap | 
       HtmlString | 
       Null
      ]
 )
+
 //Call with optional Props and Render:
 const Node = Function (props)
 ```
