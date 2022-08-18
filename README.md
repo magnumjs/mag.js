@@ -21,7 +21,7 @@ const Counter = Mag(
       You clicked 
       ${props.count} times
     </p>
-    <button onClick=${props.handler}>
+    <button onClick=${handler}>
       Click me
     </button>`
 })
