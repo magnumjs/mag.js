@@ -11,10 +11,10 @@ import Mag from "mag.js"
 const Counter = Mag(
   function (props) {
 
-  const handler = () => {
+  const handler = () => 
     // Render Component Event:
     Counter({ count: props.count + 1 });
-  }
+  
   // MagJS Tag Template:
   return Mag`
    <p>
