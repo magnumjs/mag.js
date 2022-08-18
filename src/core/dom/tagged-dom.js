@@ -3,6 +3,7 @@ import {isString, isObject, isFunction, isHTMLEle} from '../utils/common';
 import mag from '../mag';
 import html2dom from './html2dom';
 import {makeEvent} from '../fill/events';
+import {getId, setId, run} from '../../fill-stateless';
 
 /*
 Forked from: https://raw.githubusercontent.com/kapouer/dom-template-strings/master/src/index.js
@@ -91,6 +92,20 @@ function applyFuncs(funcs, container, attrNodes) {
           }
           let newNode = func(attrs);
 
+          if (
+            isObject(newNode) &&
+            !newNode.nodeType &&
+            !(newNode[0] && newNode[0].nodeType)
+          ) {
+            var pfillId = getId();
+            const node = itemNode.cloneNode(1);
+            setId(node);
+            run(node, newNode);
+            setId(pfillId);
+            newNode = dom`${node}`;
+          }
+
+          // if html string
           if (!(newNode instanceof Node)) {
             newNode = dom`${newNode}`;
           }

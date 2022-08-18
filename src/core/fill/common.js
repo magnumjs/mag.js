@@ -255,9 +255,13 @@ export function replaceNode(node, replace, k) {
 
 export function setHtml(node, html) {
   if (isArray(html)) {
-    //Assuming same length?
-    for (var k in html) {
-      replaceNode(node, html[k], k);
+    if (node.children.length > 1) {
+      //Assuming same length?
+      for (var k in html) {
+        replaceNode(node, html[k], k);
+      }
+    } else {
+      node.appendChild(...html);
     }
 
     return;

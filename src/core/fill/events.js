@@ -99,7 +99,7 @@ export function makeEvent(event, attrName, node, parentKey) {
   node[MAGNUM] = node[MAGNUM] || {};
 
   if (
-    mag._active[MAGNUM] &&
+    mag._active && mag._active[MAGNUM] &&
     mag._active[MAGNUM].key === node[MAGNUM].key &&
     node.tagName === mag._active.tagName &&
     doc.activeElement !== node
