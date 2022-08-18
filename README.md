@@ -33,6 +33,7 @@ Mag(
 )
 ```
 **[Try the demo on CodePen &rarr;](https://codepen.io/magnumjs/pen/RwMYdax?editors=0010)**
+**[With useState &rarr;](https://codepen.io/magnumjs/pen/ExEGmXR?editors=0010)**
 **[With Component Template &rarr;](https://codepen.io/magnumjs/pen/QWwVNoa?editors=0010)**
 **[With Component Container &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
 
