@@ -19,6 +19,37 @@ beforeEach(() => {
 `;
 });
 
+test('tag children frag', () => {
+  const template = `
+    <p>
+      You clicked 
+      <count /> times
+    </p>
+    <button>Click me</button>
+  `;
+  //Component:
+  Mag.Counter = Mag(function(props) {
+    return {
+        _html: props.children,
+        count: props.count,
+        button: {
+        onClick: () =>
+          Mag.Counter({count: props.count + 1})
+      }
+    };
+  })
+
+  //Render:
+  Mag(Mag`<Counter count=0>${template}<//>`, document.getElementById('app'));
+
+  expect(document.querySelector('#app').innerHTML).toContain("You clicked");
+  expect(document.querySelector('#app').innerHTML).toContain("0");
+  document.querySelector('#app button').click()
+  expect(document.querySelector('#app').innerHTML).toContain("1");
+
+});
+
+
 test('tag children', () => {
   const template = `<div>
     <p>

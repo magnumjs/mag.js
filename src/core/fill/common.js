@@ -261,7 +261,11 @@ export function setHtml(node, html) {
         replaceNode(node, html[k], k);
       }
     } else {
-      node.appendChild(...html);
+      if (isArray(html)) {
+        html.forEach(item => node.appendChild(item));
+      } else {
+        node.appendChild(html);
+      }
     }
 
     return;
