@@ -2,7 +2,7 @@
 
 `npm i mag.js`
 
-### *Super FAST* Simple Intuitive JS2HTML Templating Component Library
+### *Super FAST* Simple Intuitive Js2Html Templating Component Library
 
 ```js
 import Mag from "mag.js"
@@ -38,8 +38,7 @@ Mag(
 **[With Component Container &rarr;](https://codepen.io/magnumjs/pen/ExEpWVp?editors=0010)**
 
 
-[CodePen Examples](https://codepen.io/magnumjs)
-
+[CodePen Examples](https://codepen.io/magnumjs) - 
 [Codesandbox template](https://codesandbox.io/s/magjs-template-q4114)
 
 [Video examples](https://www.youtube.com/playlist?list=PLtWfKzAMcA-hcOkgjW3onCBM6vBw-PDOf)
