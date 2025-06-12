@@ -12,7 +12,7 @@ Let's create an HTML file to follow along:
 
 ```html
 <body></body>
-<script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
 var root = document.body
 
