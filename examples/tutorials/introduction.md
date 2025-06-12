@@ -21,14 +21,14 @@ While keeping the interaction between the two effortless and fun!
 
 ### Getting started
 
-The easiest way to try out Mag.JS is to include it from rawgit, and follow this tutorial. 
+The easiest way to try out Mag.JS is to include it from raw.githack, and follow this tutorial. 
 It'll cover the majority of the API surface (including routing and XHR) but it'll only take 10 minutes.
 
 Let's create an HTML file to follow along:
 
 ```html
 <body></body>
-<script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
 var root = document.body
 
