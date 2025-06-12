@@ -17,7 +17,7 @@ There is no special templating syntax or special JS way in which to code.
 ## Download
 
 ```html
-<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag.min.js"></script>
 ```
 
 ## A Simple Application
@@ -28,7 +28,7 @@ Getting started is fairly trivial.
 ```html
 <!doctype html>
 <title>Todo app</title>
-<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag.min.js"></script>
 <script>
 //app goes here
 </script>
@@ -231,7 +231,7 @@ Here's the application code in its entirety:
 
 ```javascript
 <!doctype html>
-<script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag.min.js"></script>
 
 <div id="todos">
   <input>
@@ -341,9 +341,9 @@ Lists should have their own container and they are the template for all iteratin
 
 [Introductory section on Lists](//github.com/magnumjs/mag.js/blob/master/README.md#lists)
 
-[Dave's intro guide to Mithril converted to MagJS](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/daves-guide.html)
+[Dave's intro guide to Mithril converted to MagJS](http://raw.githack.com/magnumjs/mag.js/master/examples/tutorials/daves-guide.html)
 
-[James Long Why React is Awesome - converted to MagJS!](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
+[James Long Why React is Awesome - converted to MagJS!](http://raw.githack.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 
 ## Implementation Examples
 
