@@ -25,7 +25,7 @@ For this tutorial, we'll use the latest prebuilt JavaScript file. Open up your f
 <html>
   <head>
     <title>Hello MagJS</title>
-    <script src="//rawgit.com/magnumjs/mag.js/master/mag.min.js"></script>
+    <script src="//raw.githack.com/magnumjs/mag.js/master/mag.min.js"></script>
   </head>
   <body>
     <div id="content"></div>
@@ -464,6 +464,6 @@ var CommentBox = {
 
 You have just built a comment box in a few simple steps. Learn more about why to use MagJS, or dive into the API reference and start hacking! Good luck!
 
-[MagJS version of James Longs' "why react is awesome"](https://rawgit.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
+[MagJS version of James Longs' "why react is awesome"](https://raw.githack.com/magnumjs/mag.js/master/examples/tutorials/james-awesome.html)
 
 [JSBin](http://jsbin.com/totuxamale/edit?js,output)
