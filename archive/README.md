@@ -10,12 +10,12 @@ https://github.com/magnumjs/mag.js/tree/master/new
 
 ####Simple dependency injection - module, service, factory, control, config, directives - DOM modeling
 
-[Jasmine Specs] (https://rawgit.com/magnumjs/mag.js/master/index.html)
+[Jasmine Specs] (https://raw.githack.com/magnumjs/mag.js/master/index.html)
 
 Include the script into your page:
 #### HTML Script TAG
 ```html
-<script type="text/javascript" src="//rawgit.com/magnumjs/mag.js/master/dist/mag.full-0.2.min.js"></script>
+<script type="text/javascript" src="//raw.githack.com/magnumjs/mag.js/master/dist/mag.full-0.2.min.js"></script>
 ```
 
 # Examples
