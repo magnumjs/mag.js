@@ -87,7 +87,7 @@ Just define the default value of the selector to bind.
 ## Tutorials
 
 * [Intro Guide](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/build-with-magjs-tutorial.md)
-* [Guide quick example (1st component)](http://rawgit.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
+* [Guide quick example (1st component)](http://raw.githack.com/magnumjs/mag.js/master/examples/tutorials/guide-quick-example.html)
 * [Getting started with  MagJS and Selectors](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/getting-started-magjs-selectors.md)
 * [Thinking in React in MagJS](https://github.com/magnumjs/mag.js/blob/master/examples/tutorials/thinking-in-react-in-magjs.md)
 * [Comments Components from React](//github.com/magnumjs/mag.js/blob/master/examples/tutorials/react-comments-component.md)
@@ -346,7 +346,7 @@ mag.module("hello", {
 
 [More advanced examples](https://github.com/magnumjs/mag.js/blob/master/examples/README.md)
 
-## [Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
+## [Jasmine Specs](https://raw.githack.com/magnumjs/mag.js/master/tests/specRunner.html)
 
 ### State Scope 
 
@@ -1126,13 +1126,13 @@ mag({templateUrl: 'template.html', view: ()});
 * object observe support for browsers (v0.22 uses native Proxy to observe)
 
 ```html
-<script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe-lite.min.js"></script>
+<script src="//cdn.raw.githack.com/MaxArt2501/object-observe/master/dist/object-observe-lite.min.js"></script>
 ```
 
 * Promise support for IE
 
 ```html
-<!--[if IE]><script src="https://cdn.rawgit.com/jakearchibald/es6-promise/master/dist/es6-promise.min.js"></script><![endif]-->
+<!--[if IE]><script src="https://cdn.raw.githack.com/jakearchibald/es6-promise/master/dist/es6-promise.min.js"></script><![endif]-->
 ```
 
 
