@@ -225,7 +225,7 @@ mag.module("hello", {
 [Country App - JSON/Routing]
 (http://embed.plnkr.co/LnwflR8PD6AvvD0AZwfE/preview)
 
-##[Jasmine Specs](https://rawgit.com/magnumjs/mag.js/master/tests/specRunner.html)
+##[Jasmine Specs](https://raw.githack.com/magnumjs/mag.js/master/tests/specRunner.html)
 
 ###Statefullness
 When redrawing the view method is called.
@@ -666,14 +666,14 @@ Other hookins such as key/node value etc.. Coming soon!
 
 
 ```html
-<script src="//rawgit.com/MaxArt2501/array-observe/master/array-observe.min.js"></script>
-<script src="//cdn.rawgit.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
+<script src="//raw.githack.com/MaxArt2501/array-observe/master/array-observe.min.js"></script>
+<script src="//cdn.raw.githack.com/MaxArt2501/object-observe/master/dist/object-observe.min.js"></script>
 ```
 
 * Promise support for IE
 
 ```html
-<!--[if IE]><script src="https://cdn.rawgit.com/jakearchibald/es6-promise/master/dist/es6-promise.min.js"></script><![endif]-->
+<!--[if IE]><script src="https://cdn.raw.githack.com/jakearchibald/es6-promise/master/dist/es6-promise.min.js"></script><![endif]-->
 ```
 
 
