@@ -41,7 +41,7 @@ var User = {
 Now let's add code to load some data from a server. To communicate with a server, we can use Mag.JS's XHR utility, `mag.request`. First, we include Mag.JS addons on the index.html page:
 
 ```javascript
-<script src="//rawgit.com/magnumjs/mag.js/master/dist/mag.addons.0.22.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/dist/mag.addons.0.22.min.js"></script>
 ```
 
 Next we create a function that will trigger an XHR call. Let's call it `loadList`
