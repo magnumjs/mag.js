@@ -16,7 +16,7 @@ Open the link and add the following:
 <body>
   <Greeting></Greeting>
 </body>
-<script src="//rawgit.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
+<script src="//raw.githack.com/magnumjs/mag.js/master/mag-latest.min.js"></script>
 <script>
   
 var Greeting = mag("Greeting", () =>
